@@ -9,6 +9,7 @@ var msgs = require('./lib/msg-retrieve');
 var admin_alert = require('./lib/admin-alert');
 var populate_menu = require('./lib/populate-menu');
 var get_menu_option = require('./lib/get-menu-option');
+var questions = require('./dat/surveys'); 
 
 // load in extension-specific modules
 var reinit = require('./lib/ext-reinitization');
@@ -25,6 +26,8 @@ const max_digits_for_vid = project.vars.max_digits_for_vid;
 const max_digits_for_sedo_id = project.vars.max_digits_for_sedo_id;
 const timeout_length = project.vars.timeout_length;
 
+var extensionTable =  project.initDataTableById('DT6d616f3e4e82bd9d');
+
 // display welcome message and prompt user to choose their survey (AMA1, AMA2, GUS)
 global.main = function(){
     sayText(msgs('ext_main_splash'));
@@ -38,6 +41,17 @@ global.main = function(){
 // input handler for survey type
 addInputHandler('ext_main_splash', function(input){
     // redirect user based on their input menu selection
+
+    // for testing purpose. Will remove this if when business logic on how to hundle other survey is defined
+    if(input == 4){
+        state.vars.survey_type = 'ext';
+        sayText(msgs('fp_enter_id'));
+        promptDigits('fp_enter_id', {   'submitOnHash' : false,
+                                        'maxDigits'    : max_digits_for_vid,
+                                        'timeout'      : timeout_length 
+                                    });
+
+    }
     var selection = get_menu_option(input, 'ext_splash_menu');
     if(selection === 'ama1' || selection === 'ama2'){
         state.vars.selection = selection;
@@ -66,9 +80,19 @@ addInputHandler('ext_main_splash', function(input){
 addInputHandler('fp_enter_id', function(input){
     // verify village id
     input = input.replace(/\s/g,'');
-    state.vars.survey_type = 'tra';
-    state.vars.step = 1;
     if(check_vid(input)){
+        sayText(msgs('ext_farmer_national_id',{},lang));
+        if(state.vars.survey_type == 'ext'){
+            promptDigits('ext_national_id_handler', {   'submitOnHash' : false,
+            'maxDigits'    : 16,
+            'timeout'      : timeout_length 
+        });
+
+        }
+        else{
+
+        state.vars.survey_type = 'tra';
+        state.vars.step = 1;
         // return user to previous step if they are coming back to the survey
         if(reinit()){
             ask();
@@ -89,6 +113,7 @@ addInputHandler('fp_enter_id', function(input){
             }
         }
     }
+    }
     else{
         sayText(msgs('invalid_input', {}, lang));
         promptDigits('fp_enter_id', {   'submitOnHash' : false,
@@ -96,6 +121,183 @@ addInputHandler('fp_enter_id', function(input){
                                         'timeout'      : timeout_length 
                                     });
     }
+});
+
+// input handler to get farmer national Id for extension
+addInputHandler('ext_national_id_handler',function(input){
+
+    state.vars.current_menu_str = msgs('ext_farmer_national_id',{},lang);
+    state.vars.current_step = 'ext_national_id_handler';
+    nationalId = String(input.replace(/\D/g, ''));
+
+    if(nationalId.length != 16){
+        sayText(msgs('ext_invalid_national_id',{},lang));
+        promptDigits('ext_national_id_handler', {   'submitOnHash' : false,
+        'maxDigits'    : 16,
+        'timeout'      : timeout_length 
+    });
+
+    }
+    else{
+    var cursor = extensionTable.queryRows({'vars' : {'national_id' : input}});
+    if(cursor.hasNext){
+        var row = cursor.next();
+        if(row.vars.row.vars.not_eligible == 1){
+            sayText(msgs('ext_farmerId_used_NE',lang));
+            StopRulles();
+            return null;
+        }
+        else if(row.vars.row.vars.not_eligible == 0){
+            sayText(msgs('ext_farmerId_used_RE',lang));
+            StopRulles();
+            return null;
+        }
+        else{
+            state.vars.nationalId = nationalId;
+            sayText(msgs('ext_farmer_name_1',lang));
+            promptDigits('ext_first_name_handler', {   'submitOnHash' : false,
+            'maxDigits'    : 16,
+            'timeout'      : timeout_length 
+        });
+
+        }
+    }
+    else{
+        sayText(msgs('ext_farmer_name_1',lang));
+        promptDigits('ext_first_name_handler', {   'submitOnHash' : false,
+        'maxDigits'    : 16,
+        'timeout'      : timeout_length 
+    });
+
+    }
+    }
+
+});
+// Input handler to get the farmer's first name
+addInputHandler('ext_first_name_handler',function(input){
+
+    state.vars.current_menu_str = msgs('ext_farmer_name_1',{},lang);
+    state.vars.current_step = 'ext_first_name_handler';
+    if(input == '9999'){
+        sayText(msgs('exiting',lang));
+        StopRulles();
+        return null;
+    }
+    else{
+    state.vars.firstN = input;
+    sayText(msgs('ext_farmer_name_2',lang));
+    promptDigits('ext_last_name_handler', {   'submitOnHash' : false,
+    'maxDigits'    : 16,
+    'timeout'      : timeout_length 
+});
+    }
+
+});
+
+// Input handler to get the farmer's last name
+addInputHandler('ext_last_name_handler',function(input){
+
+    state.vars.current_menu_str = msgs('ext_farmer_name_2',{},lang);
+    state.vars.current_step = 'ext_last_name_handler';
+    if(input == '9999'){
+        sayText(msgs('exiting',lang));
+        StopRulles();
+    }
+    else{
+    state.vars.lastN = input;
+    sayText(msgs('ext_farmer_gender',lang));
+    promptDigits('gender_input_handler', {   'submitOnHash' : false,
+    'maxDigits'    : 16,
+    'timeout'      : timeout_length 
+});
+    }
+
+});
+
+// Input handler to get the farmer's gender
+addInputHandler('gender_input_handler',function(input){
+    
+    state.vars.current_menu_str = msgs('ext_farmer_gender',{},lang);
+    state.vars.current_step = 'gender_input_handler';
+    if(input == '9999'){
+        sayText(msgs('exiting',lang));
+        StopRulles();
+    }
+    else if(input == 1 ){
+    state.vars.gender = input;
+    sayText(msgs('ext_farmer_phone',lang));
+    promptDigits('ext_phone_input_handler', {   'submitOnHash' : false,
+    'maxDigits'    : 16,
+    'timeout'      : timeout_length 
+});
+    }
+    else if(input == 2 ){
+        state.vars.gender = input;
+        sayText(msgs('ext_farmer_phone',lang));
+        promptDigits('ext_phone_input_handler', {   'submitOnHash' : false,'maxDigits'    : 16,'timeout'      : timeout_length });
+        }
+    else{
+        sayText(msgs('invalid_entry',lang));
+        promptDigits('invalid_input', {   'submitOnHash' : false,'maxDigits'    : 10,'timeout'      : timeout_length });
+
+    }
+
+
+});
+
+// Input handler to get the farmer's phone number
+addInputHandler('ext_phone_input_handler',function(input){
+    
+    state.vars.current_menu_str = msgs('ext_farmer_phone',{},lang);
+    state.vars.current_step = 'ext_phone_input_handler';
+    if(input.length === 10 && input.substring(0, 2)=="07"){
+        state.vars.phoneNumber = input;
+        state.vars.qstnNber = 0;
+        state.vars.qtsn = 'ext_farmer_question'+ state.vars.qstnNber;
+        sayText(questions['extension-survey'][state.vars.qtsn]);
+        promptDigits('extension_questions', {   'submitOnHash' : false,'maxDigits'    : 2,'timeout'      : timeout_length });
+    }
+    else{
+        sayText(msgs('invalid_entry',lang));
+        promptDigits('invalid_input', {   'submitOnHash' : false,'maxDigits'    : 1,'timeout'      : timeout_length });
+
+    }
+});
+
+function answerCorrect(input){
+    if(questions['extension-survey'][state.vars.qtsn]['correct'] == input){return true}
+    else{ return false}
+
+}
+//Questions 
+addInputHandler('extension_questions',function(input){
+        
+    if(!answerCorrect(input)){
+        sayText(msgs('ext_farmer_not_eligible',{},lang));
+        var row = extensionTable.queryRows({'vars' : {'national_id' : input}}).next();
+        row.vars.not_eligible = 1;
+        row.save();
+        StopRulles();
+        return null;
+    }
+
+    else if(state.vars.qstnNber < questions['extension-survey']['info']['number_of_questions']){
+        state.vars.qstnNber = state.vars.qstn + 1;
+        state.vars.qtsn = 'ext_farmer_question'+ state.vars.qstnNber;
+        sayText(questions['extension-survey'][state.vars.qtsn]);
+        promptDigits('extension_questions', {   'submitOnHash' : false,'maxDigits'    : 2,'timeout'      : timeout_length });
+    
+    }
+    else{
+        var table = project.initDataTableById('DTe1025290143442b5');
+        var row = table.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'first_name': state.vars.firstN, 'last_name': state.vars.lastN, 'gender' : state.vars.gender, 'phone_number': state.vars.phoneNumber}});
+        row.save();
+        var rowAll = extensionTable.queryRows({'vars' : {'national_id' : input}}).next();
+        rowAll.vars.not_eligible = 0;
+        rowAll.save();
+
+    }
+
 });
 
 // input handler for SEDO ID
@@ -325,3 +527,21 @@ addInputHandler('survey_response', function(input){
         }
     }
 });  
+addInputHandler('invalid_input', function (input) {
+    input = parseInt(input.replace(/\D/g, ''));
+    if (input == 1) { //continue on to previously failed step
+        sayText(state.vars.current_menu_str);
+        promptDigits(state.vars.current_step, { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+        return null;
+    }
+    else if (input == 99) { //exit
+        sayText(msgs('exit', {}, lang));
+        stopRules();
+        return null;
+    }
+    else {
+        sayText(msgs('exit', {}, lang));
+        stopRules();
+        return null;
+    }
+});

@@ -7,9 +7,61 @@ module.exports = {
         "en": "77)Next page",
         "ki": "77)Gukomeza"
     },
+    "ext_farmer_national_id": {
+        "en": "Enter the farmer National ID Number",
+        "ki": "Andika nimero y' irangamuntu y' umuhinzi",
+    },
+    "ext_farmer_national_id_used": {
+        "en": "The National ID Number is already registered",
+        "ki": "Nimero y' irangamuntu y' umuhinzi mwinjije iranditse",
+    },
+    "ext_farmer_name_1": {
+        "en": "Enter the farmer's first name",
+        "ki": "Andika izina ry'ikinyarwanda ry' umuhinzi",
+    },
+    "ext_farmer_name_2": {
+        "en": "Enter the farmer's second name",
+        "ki": "Andika izina ry'irikirisitu ry' umuhinzi",
+    },
+    "exiting": {
+        "en": "Thank you for using the service. Exiting",
+        "ki": "Murakoze gukoresha iyi serivice",
+    },
+    "ext_farmer_gender": {
+        "en": "What gender is the Farmer who will receive the tester pack?\n1) Male\n2) Female",
+        "ki": "Igitsina cy'umuhinzi uzakira inyongeramusaruro z'igerageza\n1) Gabo\n2) Gore"
+    },
+    "ext_farmer_phone": {
+        "en": " What the phone number that the farmer can be reached on?",
+        "ki": " Nimero ya telefone uyu muhinzi yabonekaho?"
+    },
+    "ext_farmer_not_eligible": {
+        "en": "Thank you, this farmer is not eligible",
+        "ki": "Murakoze, uyu muhinzi ntiyujuje ibisabwa"
+    },
+    "ext_farmer_confirmation": {
+        "en": "Thank you, this is registered in tester pack",
+        "ki": "Murakoze, Uyumuhinzi agiye k'urutonde rwabazahabwa inyongera musaruro zigerageza"
+    },
+    "ext_farmerId_used_NE":{
+        "en": "The farmer's Id was used and they are not eligible",
+        "ki": "Nimero y' irangamuntu y' umuhinzi yakoreshejwe, ntago yujuje ibisabwa"
+    },
+    "ext_farmerId_used_RE":{
+        "en": "The farmer's Id was used and they are already registered",
+        "ki": "Nimero y' irangamuntu y' umuhinzi yakoreshejwe, ari kurutonde rwabazahabwa inyongera musaruro zigerageza"
+    },
+    "ext_invalid_national_id":{
+        "en":"The national Id entered is incorect. Please try again",
+        "ki": " Inomero y'irangamuntu mwayanditse nabi. Ongera ongerageze"
+    },
     "crop_type_menu": {
         "en": "Which crop?~B $CropType",
         "ki": "Ikihe gihingwa:~B $CropType"
+    },
+    "invalid_entry" :{
+        "en": "You have entered an incorect input enter 1 to retry or 99 exit",
+        "en": " Mwinjije ibitaribyo, kanda 1 kugirango wongere ugeraze 99 kuvamo",
     },
     "crop_amount_menu": {
         "en": "Quantity of this crop to sell in kg",
