@@ -17,17 +17,17 @@ module.exports =
             "ext_farmer_question3": {
                 "en": "Is selected farmer willing to plant it on somewhere visible to other farmers?\n 1) Yes\n2) No",
                 "ki": "Ese uyu muhinzi wahisemo yemera kuzatera ibigori azahabwa mu karima ahantu abantu benshi bakabona\n1) Yego\n2) Oya?",
-                "correct option" : 1
+                "correct" : 1
             },
             "ext_farmer_question4": {
                 "en": "Would the selected farmer more buy hybrid maize if experience is good?\n 1) Yes\n2) No",
                 "ki": "Ese uyu muhinzi yemera kuzagura imbuto z'ibigori bya iburidi mugihe abonye umusaruro mwiza?\n1) Yego\n2) Oya",
-                "correct option" : 1
+                "correct" : 1
             },
             "ext_farmer_question5": {
                 "en": "Would the selected farmer be willing to share experience with their neighbours?\n 1) Yes\n2) No",
                 "ki": "Ese uyu muhinzi wahisemo yemera kuzasangiza abaturanyi amakuru y'ibizava mukarima kigerageza?\n1) Yego\n2) Oya",
-                "correct option" : 1
+                "correct" : 1
             }
         }
     };
