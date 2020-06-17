@@ -31,7 +31,7 @@ var extensionTable =  project.initDataTableById('DT6d616f3e4e82bd9d');
 // display welcome message and prompt user to choose their survey (AMA1, AMA2, GUS)
 global.main = function(){
     sayText(msgs('ext_main_splash'));
-    var menu = populate_menu('ext_splash_menu', lang);
+    var menu = populate_menu('extension_main_menu', lang);
     sayText(menu, lang);
     promptDigits('ext_main_splash', {   'submitOnHash' : false,
                                         'maxDigits'    : max_digits_for_input,
@@ -42,8 +42,13 @@ global.main = function(){
 addInputHandler('ext_main_splash', function(input){
     // redirect user based on their input menu selection
 
-    // for testing purpose. Will remove this if when business logic on how to hundle other survey is defined
-    if(input == 4){
+    var selection = get_menu_option(input, 'extension_main_menu');
+    if(selection === 'test_pack_reg'){
+        sayText('not available');
+        stopRules();
+        return;
+    }
+    else if(selection === 'tree_program_reg'){
         state.vars.survey_type = 'ext';
         sayText(msgs('fp_enter_id'));
         promptDigits('fp_enter_id', {   'submitOnHash' : false,
@@ -52,14 +57,13 @@ addInputHandler('ext_main_splash', function(input){
                                     });
 
     }
-    var selection = get_menu_option(input, 'ext_splash_menu');
-    if(selection === 'ama1' || selection === 'ama2'){
-        state.vars.selection = selection;
-        sayText(msgs('fp_enter_id'));
-        promptDigits('fp_enter_id', {   'submitOnHash' : false,
-                                        'maxDigits'    : max_digits_for_vid,
-                                        'timeout'      : timeout_length 
-                                    });
+    else if(selection === 'fp_training'){
+        var menu = populate_menu('extension_fp_menu', lang);
+        sayText(menu, lang);
+        promptDigits('ext_main_splash', {   'submitOnHash' : false,
+                                            'maxDigits'    : max_digits_for_input,
+                                            'timeout'      : timeout_length });
+
     }
     else if(selection === 'gus'){
         sayText(msgs('sedo_enter_id'));
@@ -76,13 +80,35 @@ addInputHandler('ext_main_splash', function(input){
     }
 });
 
+// input handler for fp training menu
+addInputHandler('fp_menu_handler', function(input){
+
+    var selection = get_menu_option(input, 'extension_fp_menu');
+    if(selection === 'ama1' || selection === 'ama2'){
+        state.vars.selection = selection;
+        sayText(msgs('fp_enter_id'));
+        promptDigits('fp_enter_id', {   'submitOnHash' : false,
+                                        'maxDigits'    : max_digits_for_vid,
+                                        'timeout'      : timeout_length 
+                                    });
+    }
+    else{
+        sayText(msgs('invalid_input', {}, lang));
+        promptDigits('fp_menu_handler', { 'submitOnHash'   : false, 
+                                            'maxDigits'    : max_digits_for_input,
+                                            'timeout'      : timeout_length});
+
+    }
+
+}),
+
 // input handler for FP's village ID
 addInputHandler('fp_enter_id', function(input){
     // verify village id
     input = input.replace(/\s/g,'');
     if(check_vid(input)){
-        sayText(msgs('ext_farmer_national_id',{},lang));
         if(state.vars.survey_type == 'ext'){
+            sayText(msgs('ext_farmer_national_id',{},lang));
             promptDigits('ext_national_id_handler', {   'submitOnHash' : false,
             'maxDigits'    : 16,
             'timeout'      : timeout_length 
@@ -90,7 +116,7 @@ addInputHandler('fp_enter_id', function(input){
 
         }
         else{
-
+            
         state.vars.survey_type = 'tra';
         state.vars.step = 1;
         // return user to previous step if they are coming back to the survey
@@ -140,7 +166,7 @@ addInputHandler('ext_national_id_handler',function(input){
     }
     else{
     var cursor = extensionTable.queryRows({'vars' : {'national_id' : input}});
-    if(cursor.hasNext){
+    if(cursor.hasNext()){
         var row = cursor.next();
         if(row.vars.row.vars.not_eligible == 1){
             sayText(msgs('ext_farmerId_used_NE',lang));
