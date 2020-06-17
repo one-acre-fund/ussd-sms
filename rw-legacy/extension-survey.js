@@ -32,7 +32,7 @@ var extensionTable =  project.initDataTableById('DT6d616f3e4e82bd9d');
 global.main = function(){
     sayText(msgs('ext_main_splash'));
     var menu = populate_menu('extension_main_menu', lang);
-    sayText(menu, lang);
+    sayText(menu);
     promptDigits('ext_main_splash', {   'submitOnHash' : false,
                                         'maxDigits'    : max_digits_for_input,
                                         'timeout'      : timeout_length });
@@ -59,7 +59,7 @@ addInputHandler('ext_main_splash', function(input){
     }
     else if(selection === 'fp_training'){
         var menu = populate_menu('extension_fp_menu', lang);
-        sayText(menu, lang);
+        sayText(menu);
         promptDigits('ext_main_splash', {   'submitOnHash' : false,
                                             'maxDigits'    : max_digits_for_input,
                                             'timeout'      : timeout_length });
@@ -165,22 +165,22 @@ addInputHandler('ext_national_id_handler',function(input){
 
     }
     else{
-    var cursor = extensionTable.queryRows({'vars' : {'national_id' : input}});
+    var cursor = extensionTable.queryRows({'vars' : {'national_id' : nationalId}});
     if(cursor.hasNext()){
         var row = cursor.next();
-        if(row.vars.row.vars.not_eligible == 1){
-            sayText(msgs('ext_farmerId_used_NE',lang));
-            StopRules();
+        if(row.vars.not_eligible == 1){
+            sayText(msgs('ext_farmerId_used_NE',{},lang));
+            stopRules();
             return null;
         }
-        else if(row.vars.row.vars.not_eligible == 0){
-            sayText(msgs('ext_farmerId_used_RE',lang));
-            StopRules();
+        else if(row.vars.not_eligible == 0){
+            sayText(msgs('ext_farmerId_used_RE',{},lang));
+            stopRules();
             return null;
         }
         else{
             state.vars.nationalId = nationalId;
-            sayText(msgs('ext_farmer_name_1',lang));
+            sayText(msgs('ext_farmer_name_1',{},lang));
             promptDigits('ext_first_name_handler', {   'submitOnHash' : false,
             'maxDigits'    : 16,
             'timeout'      : timeout_length 
@@ -189,7 +189,8 @@ addInputHandler('ext_national_id_handler',function(input){
         }
     }
     else{
-        sayText(msgs('ext_farmer_name_1',lang));
+        state.vars.nationalId = nationalId;
+        sayText(msgs('ext_farmer_name_1',{},lang));
         promptDigits('ext_first_name_handler', {   'submitOnHash' : false,
         'maxDigits'    : 16,
         'timeout'      : timeout_length 
@@ -205,13 +206,13 @@ addInputHandler('ext_first_name_handler',function(input){
     state.vars.current_menu_str = msgs('ext_farmer_name_1',{},lang);
     state.vars.current_step = 'ext_first_name_handler';
     if(input == '9999'){
-        sayText(msgs('exiting',lang));
-        StopRules();
+        sayText(msgs('exiting',{},lang));
+        stopRules();
         return null;
     }
     else{
     state.vars.firstN = input;
-    sayText(msgs('ext_farmer_name_2',lang));
+    sayText(msgs('ext_farmer_name_2',{},lang));
     promptDigits('ext_last_name_handler', {   'submitOnHash' : false,
     'maxDigits'    : 16,
     'timeout'      : timeout_length 
@@ -226,12 +227,12 @@ addInputHandler('ext_last_name_handler',function(input){
     state.vars.current_menu_str = msgs('ext_farmer_name_2',{},lang);
     state.vars.current_step = 'ext_last_name_handler';
     if(input == '9999'){
-        sayText(msgs('exiting',lang));
-        StopRules();
+        sayText(msgs('exiting',{},lang));
+        stopRules();
     }
     else{
     state.vars.lastN = input;
-    sayText(msgs('ext_farmer_gender',lang));
+    sayText(msgs('ext_farmer_gender',{},lang));
     promptDigits('gender_input_handler', {   'submitOnHash' : false,
     'maxDigits'    : 16,
     'timeout'      : timeout_length 
@@ -247,11 +248,11 @@ addInputHandler('gender_input_handler',function(input){
     state.vars.current_step = 'gender_input_handler';
     if(input == '9999'){
         sayText(msgs('exiting',lang));
-        StopRules();
+        stopRules();
     }
     else if(input == 1 ){
     state.vars.gender = input;
-    sayText(msgs('ext_farmer_phone',lang));
+    sayText(msgs('ext_farmer_phone',{},lang));
     promptDigits('ext_phone_input_handler', {   'submitOnHash' : false,
     'maxDigits'    : 16,
     'timeout'      : timeout_length 
@@ -259,11 +260,11 @@ addInputHandler('gender_input_handler',function(input){
     }
     else if(input == 2 ){
         state.vars.gender = input;
-        sayText(msgs('ext_farmer_phone',lang));
+        sayText(msgs('ext_farmer_phone',{},lang));
         promptDigits('ext_phone_input_handler', {   'submitOnHash' : false,'maxDigits'    : 16,'timeout'      : timeout_length });
         }
     else{
-        sayText(msgs('invalid_entry',lang));
+        sayText(msgs('invalid_entry',{},lang));
         promptDigits('invalid_input', {   'submitOnHash' : false,'maxDigits'    : 10,'timeout'      : timeout_length });
 
     }
@@ -278,13 +279,13 @@ addInputHandler('ext_phone_input_handler',function(input){
     state.vars.current_step = 'ext_phone_input_handler';
     if(input.length === 10 && input.substring(0, 2)=="07"){
         state.vars.phoneNumber = input;
-        state.vars.qstnNber = 0;
+        state.vars.qstnNber = 1;
         state.vars.qtsn = 'ext_farmer_question'+ state.vars.qstnNber;
-        sayText(questions['extension-survey'][state.vars.qtsn]);
+        sayText(questions['extension-survey'][state.vars.qtsn][lang]);
         promptDigits('extension_questions', {   'submitOnHash' : false,'maxDigits'    : 2,'timeout'      : timeout_length });
     }
     else{
-        sayText(msgs('invalid_entry',lang));
+        sayText(msgs('invalid_entry',{},lang));
         promptDigits('invalid_input', {   'submitOnHash' : false,'maxDigits'    : 1,'timeout'      : timeout_length });
 
     }
@@ -300,17 +301,16 @@ addInputHandler('extension_questions',function(input){
         
     if(!answerCorrect(input)){
         sayText(msgs('ext_farmer_not_eligible',{},lang));
-        var row = extensionTable.queryRows({'vars' : {'national_id' : input}}).next();
-        row.vars.not_eligible = 1;
+        var row = extensionTable.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'not_eligible': 1}});
         row.save();
-        StopRules();
+        stopRules();
         return null;
     }
 
     else if(state.vars.qstnNber < questions['extension-survey']['info']['number_of_questions']){
         state.vars.qstnNber = state.vars.qstn + 1;
         state.vars.qtsn = 'ext_farmer_question'+ state.vars.qstnNber;
-        sayText(questions['extension-survey'][state.vars.qtsn]);
+        sayText(questions['extension-survey'][state.vars.qtsn][lang]);
         promptDigits('extension_questions', {   'submitOnHash' : false,'maxDigits'    : 2,'timeout'      : timeout_length });
     
     }
@@ -318,8 +318,7 @@ addInputHandler('extension_questions',function(input){
         var table = project.initDataTableById('DTe1025290143442b5');
         var row = table.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'first_name': state.vars.firstN, 'last_name': state.vars.lastN, 'gender' : state.vars.gender, 'phone_number': state.vars.phoneNumber}});
         row.save();
-        var rowAll = extensionTable.queryRows({'vars' : {'national_id' : input}}).next();
-        rowAll.vars.not_eligible = 0;
+        var row = extensionTable.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'not_eligible': 0}});
         rowAll.save();
 
     }
