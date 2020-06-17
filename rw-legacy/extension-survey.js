@@ -116,7 +116,7 @@ addInputHandler('fp_enter_id', function(input){
 
         }
         else{
-            
+
         state.vars.survey_type = 'tra';
         state.vars.step = 1;
         // return user to previous step if they are coming back to the survey
@@ -170,12 +170,12 @@ addInputHandler('ext_national_id_handler',function(input){
         var row = cursor.next();
         if(row.vars.row.vars.not_eligible == 1){
             sayText(msgs('ext_farmerId_used_NE',lang));
-            StopRulles();
+            StopRules();
             return null;
         }
         else if(row.vars.row.vars.not_eligible == 0){
             sayText(msgs('ext_farmerId_used_RE',lang));
-            StopRulles();
+            StopRules();
             return null;
         }
         else{
@@ -206,7 +206,7 @@ addInputHandler('ext_first_name_handler',function(input){
     state.vars.current_step = 'ext_first_name_handler';
     if(input == '9999'){
         sayText(msgs('exiting',lang));
-        StopRulles();
+        StopRules();
         return null;
     }
     else{
@@ -227,7 +227,7 @@ addInputHandler('ext_last_name_handler',function(input){
     state.vars.current_step = 'ext_last_name_handler';
     if(input == '9999'){
         sayText(msgs('exiting',lang));
-        StopRulles();
+        StopRules();
     }
     else{
     state.vars.lastN = input;
@@ -247,7 +247,7 @@ addInputHandler('gender_input_handler',function(input){
     state.vars.current_step = 'gender_input_handler';
     if(input == '9999'){
         sayText(msgs('exiting',lang));
-        StopRulles();
+        StopRules();
     }
     else if(input == 1 ){
     state.vars.gender = input;
@@ -303,7 +303,7 @@ addInputHandler('extension_questions',function(input){
         var row = extensionTable.queryRows({'vars' : {'national_id' : input}}).next();
         row.vars.not_eligible = 1;
         row.save();
-        StopRulles();
+        StopRules();
         return null;
     }
 
