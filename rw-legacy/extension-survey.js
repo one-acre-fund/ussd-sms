@@ -4,6 +4,22 @@
     Status: in progress
 */
 
+
+var defaultEnvironment;
+if(service.active){
+    defaultEnvironment = 'prod'
+}else{
+    defaultEnvironment = 'dev'
+}
+
+var env;
+if(service.vars.env === 'prod' || service.vars.env === 'dev'){
+    env = service.vars.env;
+}else{
+    env = defaultEnvironment;
+}
+
+
 // load in general functions
 var msgs = require('./lib/msg-retrieve');
 var admin_alert = require('./lib/admin-alert');
@@ -18,6 +34,7 @@ var check_vid = require('./lib/ext-vid-verify');
 var check_sedo = require('./lib/ext-sedo-verify');
 var start_survey = require('./lib/ext-survey-start');
 var checkstop = require('./lib/ext-check-stop');
+var srvySessionManager = require('./lib/ext-resume-survey');
 
 // set various constants
 const lang = project.vars.cor_lang;
@@ -25,6 +42,15 @@ const max_digits_for_input = project.vars.max_digits_for_input;
 const max_digits_for_vid = project.vars.max_digits_for_vid;
 const max_digits_for_sedo_id = project.vars.max_digits_for_sedo_id;
 const timeout_length = project.vars.timeout_length;
+
+
+if(env === 'prod'){
+    service.vars.ExtSurveySessions = 'DT643b929207d5f6b9';
+}else{
+    service.vars.ExtSurveySessions = 'DT5c79b0c09ade8d5d';
+}
+const inputHandlers = {};
+
 
 var extensionTable =  project.initDataTableById('DT6d616f3e4e82bd9d');
 
@@ -49,12 +75,15 @@ addInputHandler('ext_main_splash', function(input){
         return;
     }
     else if(selection === 'tree_program_reg'){
-        state.vars.survey_type = 'ext';
-        sayText(msgs('fp_enter_id'));
-        promptDigits('fp_enter_id', {   'submitOnHash' : false,
-                                        'maxDigits'    : max_digits_for_vid,
-                                        'timeout'      : timeout_length 
-                                    });
+        const resumedSession = srvySessionManager.resume(contact.phone_number, inputHandlers);
+        if(!resumedSession){
+            state.vars.survey_type = 'ext';
+            sayText(msgs('fp_enter_id'));
+            promptDigits('fp_enter_id', {   'submitOnHash' : false,
+                                            'maxDigits'    : max_digits_for_vid,
+                                            'timeout'      : timeout_length 
+                                        });
+        }
 
     }
     else if(selection === 'fp_training'){
@@ -102,8 +131,7 @@ addInputHandler('fp_menu_handler', function(input){
 
 }),
 
-// input handler for FP's village ID
-addInputHandler('fp_enter_id', function(input){
+inputHandlers['fp_enter_id'] =  function(input){
     // verify village id
     input = input.replace(/\s/g,'');
     if(check_vid(input)){
@@ -147,10 +175,14 @@ addInputHandler('fp_enter_id', function(input){
                                         'timeout'      : timeout_length 
                                     });
     }
-});
+};
 
-// input handler to get farmer national Id for extension
-addInputHandler('ext_national_id_handler',function(input){
+
+
+// input handler for FP's village ID
+addInputHandler('fp_enter_id', inputHandlers['fp_enter_id']);
+
+inputHandlers['ext_national_id_handler'] = function(input){
 
     state.vars.current_menu_str = msgs('ext_farmer_national_id',{},lang);
     state.vars.current_step = 'ext_national_id_handler';
@@ -179,6 +211,7 @@ addInputHandler('ext_national_id_handler',function(input){
             return null;
         }
         else{
+            srvySessionManager.save(contact.phone_number,state.vars,'ext_national_id_handler',input);
             state.vars.nationalId = nationalId;
             sayText(msgs('ext_farmer_name_1',{},lang));
             promptDigits('ext_first_name_handler', {   'submitOnHash' : false,
@@ -189,6 +222,7 @@ addInputHandler('ext_national_id_handler',function(input){
         }
     }
     else{
+        srvySessionManager.save(contact.phone_number,state.vars,'ext_national_id_handler',input);
         state.vars.nationalId = nationalId;
         sayText(msgs('ext_farmer_name_1',{},lang));
         promptDigits('ext_first_name_handler', {   'submitOnHash' : false,
@@ -199,18 +233,23 @@ addInputHandler('ext_national_id_handler',function(input){
     }
     }
 
-});
-// Input handler to get the farmer's first name
-addInputHandler('ext_first_name_handler',function(input){
+};
+
+// input handler to get farmer national Id for extension
+addInputHandler('ext_national_id_handler', inputHandlers['ext_national_id_handler']);
+
+inputHandlers['ext_first_name_handler'] = function(input){
 
     state.vars.current_menu_str = msgs('ext_farmer_name_1',{},lang);
     state.vars.current_step = 'ext_first_name_handler';
     if(input == '9999'){
         sayText(msgs('exiting',{},lang));
+        srvySessionManager.clear(contact.phone_number);
         stopRules();
         return null;
     }
     else{
+    srvySessionManager.save(contact.phone_number,state.vars,'ext_first_name_handler',input);
     state.vars.firstN = input;
     sayText(msgs('ext_farmer_name_2',{},lang));
     promptDigits('ext_last_name_handler', {   'submitOnHash' : false,
@@ -219,46 +258,55 @@ addInputHandler('ext_first_name_handler',function(input){
 });
     }
 
-});
+};
 
-// Input handler to get the farmer's last name
-addInputHandler('ext_last_name_handler',function(input){
+// Input handler to get the farmer's first name
+addInputHandler('ext_first_name_handler', inputHandlers['ext_first_name_handler']);
+
+inputHandlers['ext_last_name_handler'] = function(input){
 
     state.vars.current_menu_str = msgs('ext_farmer_name_2',{},lang);
     state.vars.current_step = 'ext_last_name_handler';
     if(input == '9999'){
         sayText(msgs('exiting',{},lang));
+        srvySessionManager.clear(contact.phone_number);
         stopRules();
     }
     else{
-    state.vars.lastN = input;
-    sayText(msgs('ext_farmer_gender',{},lang));
-    promptDigits('gender_input_handler', {   'submitOnHash' : false,
-    'maxDigits'    : 16,
-    'timeout'      : timeout_length 
-});
-    }
+        srvySessionManager.save(contact.phone_number,state.vars,'ext_last_name_handler',input);
+        state.vars.lastN = input;
+        sayText(msgs('ext_farmer_gender',{},lang));
+        promptDigits('gender_input_handler', {   'submitOnHash' : false,
+        'maxDigits'    : 16,
+        'timeout'      : timeout_length 
+    });
+        }
 
-});
+};
 
-// Input handler to get the farmer's gender
-addInputHandler('gender_input_handler',function(input){
+// Input handler to get the farmer's last name
+addInputHandler('ext_last_name_handler', inputHandlers['ext_last_name_handler']);
+
+inputHandlers['gender_input_handler'] = function(input){
     
     state.vars.current_menu_str = msgs('ext_farmer_gender',{},lang);
     state.vars.current_step = 'gender_input_handler';
     if(input == '9999'){
-        sayText(msgs('exiting',lang));
+        sayText(msgs('exiting',{},lang));
+        srvySessionManager.clear(contact.phone_number);
         stopRules();
     }
     else if(input == 1 ){
-    state.vars.gender = input;
-    sayText(msgs('ext_farmer_phone',{},lang));
-    promptDigits('ext_phone_input_handler', {   'submitOnHash' : false,
-    'maxDigits'    : 10,
-    'timeout'      : timeout_length 
-});
-    }
+        srvySessionManager.save(contact.phone_number,state.vars,'gender_input_handler',input); 
+        state.vars.gender = input;
+        sayText(msgs('ext_farmer_phone',{},lang));
+        promptDigits('ext_phone_input_handler', {   'submitOnHash' : false,
+        'maxDigits'    : 10,
+        'timeout'      : timeout_length 
+    });
+        }
     else if(input == 2 ){
+        srvySessionManager.save(contact.phone_number,state.vars,'gender_input_handler',input); 
         state.vars.gender = input;
         sayText(msgs('ext_farmer_phone',{},lang));
         promptDigits('ext_phone_input_handler', {   'submitOnHash' : false,'maxDigits'    : 10,'timeout'      : timeout_length });
@@ -270,19 +318,24 @@ addInputHandler('gender_input_handler',function(input){
     }
 
 
-});
+};
 
-// Input handler to get the farmer's phone number
-addInputHandler('ext_phone_input_handler',function(input){
+// Input handler to get the farmer's gender
+addInputHandler('gender_input_handler', inputHandlers['gender_input_handler']);
+
+
+inputHandlers['ext_phone_input_handler']  =  function(input){
     
     state.vars.current_menu_str = msgs('ext_farmer_phone',{},lang);
     state.vars.current_step = 'ext_phone_input_handler';
     if(input == '9999'){
         sayText(msgs('exiting',{},lang));
+        srvySessionManager.clear(contact.phone_number);
         stopRules();
         return null;
     }
     else if(input.length === 10 && input.substring(0, 2)=="07"){
+        srvySessionManager.save(contact.phone_number,state.vars,'ext_phone_input_handler',input); 
         state.vars.phoneNumber = input;
         state.vars.qstnNber = 1;
         state.vars.qtsn = 'ext_farmer_question'+ state.vars.qstnNber;
@@ -294,27 +347,30 @@ addInputHandler('ext_phone_input_handler',function(input){
         promptDigits('invalid_input', {   'submitOnHash' : false,'maxDigits'    : 1,'timeout'      : timeout_length });
 
     }
-});
+};
+
+// Input handler to get the farmer's phone number
+addInputHandler('ext_phone_input_handler', inputHandlers['ext_phone_input_handler']);
 
 function answerCorrect(input){
     if(questions['extension-survey'][state.vars.qtsn]['correct'] == input){return true}
     else{ return false}
 
 }
-//Yes or no questions input handle 
-addInputHandler('extension_questions',function(input){
+
+
+inputHandlers['extension_questions'] = function(input){
 
     state.vars.current_menu_str = questions['extension-survey'][state.vars.qtsn][lang];
     state.vars.current_step = 'extension_questions';
-    input = parseInt(input.replace(/\D/g, '')); 
     if(input == '9999'){
         sayText(msgs('exiting',{},lang));
+        srvySessionManager.clear(contact.phone_number);
         stopRules();
         return null;
     }
     // The input should be 1 or 2 here
     else if(!(input == 1 || input == 2)){
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!'+input);
         sayText(msgs('invalid_entry',{},lang));
         promptDigits('invalid_input', {   'submitOnHash' : false,'maxDigits'    : 1,'timeout'      : timeout_length });
     }
@@ -329,6 +385,7 @@ addInputHandler('extension_questions',function(input){
     }
 
     else if(state.vars.qstnNber < questions['extension-survey']['info']['number_of_questions']){
+        srvySessionManager.save(contact.phone_number,state.vars,'extension_questions',input); 
         state.vars.qstnNber = state.vars.qstnNber + 1;
         state.vars.qtsn = 'ext_farmer_question'+ state.vars.qstnNber;
         sayText(questions['extension-survey'][state.vars.qtsn][lang]);
@@ -342,10 +399,14 @@ addInputHandler('extension_questions',function(input){
         var rowAll = extensionTable.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'not_eligible': 0}});
         rowAll.save();
         sayText(msgs('ext_farmer_confirmation',{},lang));
+        srvySessionManager.clear(contact.phone_number);
         stopRules();
     }
 
-});
+};
+
+//Yes or no questions input handle 
+addInputHandler('extension_questions', inputHandlers['extension_questions']);
 
 // input handler for SEDO ID
 addInputHandler('sedo_enter_id', function(input){
