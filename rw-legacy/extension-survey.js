@@ -319,7 +319,7 @@ addInputHandler('extension_questions',function(input){
         var table = project.initDataTableById('DTe1025290143442b5');
         var row = table.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'first_name': state.vars.firstN, 'last_name': state.vars.lastN, 'gender' : state.vars.gender, 'phone_number': state.vars.phoneNumber}});
         row.save();
-        var row = extensionTable.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'not_eligible': 0}});
+        var rowAll = extensionTable.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'not_eligible': 0}});
         rowAll.save();
 
     }
