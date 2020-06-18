@@ -177,7 +177,7 @@ module.exports = {
     },
     "invalid_entry" :{
         "en": "You have entered an incorect input enter 1 to retry or 99 exit",
-        "en": " Mwinjije ibitaribyo, kanda 1 kugirango wongere ugeraze 99 kuvamo",
+        "ki": " Mwinjije ibitaribyo, kanda 1 kugirango wongere ugeraze 99 kuvamo",
     },
     "crop_amount_menu": {
         "en": "Quantity of this crop to sell in kg",

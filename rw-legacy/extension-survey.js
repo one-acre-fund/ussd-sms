@@ -254,14 +254,14 @@ addInputHandler('gender_input_handler',function(input){
     state.vars.gender = input;
     sayText(msgs('ext_farmer_phone',{},lang));
     promptDigits('ext_phone_input_handler', {   'submitOnHash' : false,
-    'maxDigits'    : 16,
+    'maxDigits'    : 10,
     'timeout'      : timeout_length 
 });
     }
     else if(input == 2 ){
         state.vars.gender = input;
         sayText(msgs('ext_farmer_phone',{},lang));
-        promptDigits('ext_phone_input_handler', {   'submitOnHash' : false,'maxDigits'    : 16,'timeout'      : timeout_length });
+        promptDigits('ext_phone_input_handler', {   'submitOnHash' : false,'maxDigits'    : 10,'timeout'      : timeout_length });
         }
     else{
         sayText(msgs('invalid_entry',{},lang));
@@ -277,7 +277,12 @@ addInputHandler('ext_phone_input_handler',function(input){
     
     state.vars.current_menu_str = msgs('ext_farmer_phone',{},lang);
     state.vars.current_step = 'ext_phone_input_handler';
-    if(input.length === 10 && input.substring(0, 2)=="07"){
+    if(input == '9999'){
+        sayText(msgs('exiting',{},lang));
+        stopRules();
+        return null;
+    }
+    else if(input.length === 10 && input.substring(0, 2)=="07"){
         state.vars.phoneNumber = input;
         state.vars.qstnNber = 1;
         state.vars.qtsn = 'ext_farmer_question'+ state.vars.qstnNber;
@@ -296,10 +301,25 @@ function answerCorrect(input){
     else{ return false}
 
 }
-//Questions 
+//Yes or no questions input handle 
 addInputHandler('extension_questions',function(input){
+
+    state.vars.current_menu_str = questions['extension-survey'][state.vars.qtsn][lang];
+    state.vars.current_step = 'extension_questions';
+    input = parseInt(input.replace(/\D/g, '')); 
+    if(input == '9999'){
+        sayText(msgs('exiting',{},lang));
+        stopRules();
+        return null;
+    }
+    // The input should be 1 or 2 here
+    else if(!(input == 1 || input == 2)){
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!'+input);
+        sayText(msgs('invalid_entry',{},lang));
+        promptDigits('invalid_input', {   'submitOnHash' : false,'maxDigits'    : 1,'timeout'      : timeout_length });
+    }
         
-    if(!answerCorrect(input)){
+    else if(!answerCorrect(input)){
         sayText(msgs('ext_farmer_not_eligible',{},lang));
         var failure_details = 'The farmer is disqualified because of '+ questions['extension-survey'][state.vars.qtsn][lang]+' question';
         var row = extensionTable.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'not_eligible': 1, 'failure_details': failure_details}});
@@ -321,7 +341,8 @@ addInputHandler('extension_questions',function(input){
         row.save();
         var rowAll = extensionTable.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'not_eligible': 0}});
         rowAll.save();
-
+        sayText(msgs('ext_farmer_confirmation',{},lang));
+        stopRules();
     }
 
 });
@@ -555,6 +576,7 @@ addInputHandler('survey_response', function(input){
 });  
 addInputHandler('invalid_input', function (input) {
     input = parseInt(input.replace(/\D/g, ''));
+
     if (input == 1) { //continue on to previously failed step
         sayText(state.vars.current_menu_str);
         promptDigits(state.vars.current_step, { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
