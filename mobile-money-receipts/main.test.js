@@ -1,71 +1,7 @@
-const client = {
-    "GlobalClientId": "f456ff55-2d01-ea21-a42d-505bc2b76563",
-    "AccountNumber": "123456789",
-    "ClientName": "TCHALLA, PRINCE",
-    "FirstName": "PRINCE",
-    "LastName": "TCHALLA",
-    "CreatedDate": "2019-11-12T12:18:00.557",
-    "EnrollmentDate": "2019-11-12T12:18:00.557",
-    "BannedDate": null,
-    "DeceasedDate": null,
-    "EarliestCreatedDate": "2019-11-12T12:18:00.557",
-    "EarliestEnrollmentDate": "2019-11-12T12:18:00.557",
-    "LatestBannedDate": null,
-    "ClientId": 7201,
-    "GroupId": 678,
-    "GroupName": "BIKUWERAKI",
-    "SiteId": 22,
-    "SiteName": "Mafubira Buwekula",
-    "DistrictId": 2800,
-    "DistrictName": "Jinja",
-    "RegionId": 1800,
-    "RegionName": "South East",
-    "CountryId": 800,
-    "CountryName": "Uganda",
-    "AccountHistory": [
-        {
-            "AccountGuid": "f456ff55-2d01-ea21-a42d-505bc2b76563",
-            "ClientId": 7201,
-            "AccountNumber": "123456789",
-            "DistrictId": 2800,
-            "DistrictName": "Jinja",
-            "RegionId": 1800,
-            "RegionName": "South East",
-            "CountryId": 800,
-            "CountryName": "Uganda"
-        }
-    ],
-    "BalanceHistory": [
-        {
-            "AccountGuid": "f456ff55-2d01-ea21-a42d-505bc2b76563",
-            "GroupId": 678,
-            "GroupName": "BIKUWERAKI",
-            "SiteId": 22,
-            "SiteName": "Mafubira Buwekula",
-            "SeasonId": 270,
-            "SeasonName": "2020, Short Rain",
-            "SeasonStart": "2020-08-01T00:00:00",
-            "TotalCredit": 128000.000,
-            "TotalRepayment_IncludingOverpayments": 0.0000,
-            "Balance": 128000.0000,
-            "CurrencyCode": "UGX"
-        },
-        {
-            "AccountGuid": "f456ff55-2d01-ea21-a42d-505bc2b76563",
-            "GroupId": 678,
-            "GroupName": "BIKUWERAKI",
-            "SiteId": 22,
-            "SiteName": "Mafubira Buwekula",
-            "SeasonId": 260,
-            "SeasonName": "2020, Long Rain",
-            "SeasonStart": "2020-03-01T00:00:00",
-            "TotalCredit": 164000.000,
-            "TotalRepayment_IncludingOverpayments": 147000.0000,
-            "Balance": 17000.0000,
-            "CurrencyCode": "UGX"
-        }
-    ]
-};
+// jest.mock('./translations');
+const getTranslation = require('./translations');
+const { client } = require("./test-client-data");
+
 const exampleContact = {
     phone_number: "0794320345",
     vars: {
@@ -81,15 +17,30 @@ const expectedTotalBalance = shortRainsBalance + longRainsbalance;
 describe('Mobile Money receipts', () => {
     beforeAll(() => {
         global.contact = exampleContact;
-        require('./main');
+        global.state = {};
+    });
+    beforeEach(() => {
+        jest.resetModules();
     });
     it('should send a message to the contact number', () => {
+        require('./main');
         expect(sendMessage).toHaveBeenCalledWith(
             expect.objectContaining({ to_number: exampleContact.phone_number })
             );
     });
-    it('should send the correct message', () => {
-        const expectedMessage = `Hello ${client.FirstName}, You have paid OAF ${exampleContact.vars.lastTransactionAmount}. Your Loan Balance is now ${expectedTotalBalance}. For questions, call 0800388889. Thank You!`;
-        expect(sendMessage).toHaveBeenCalledWith(expect.objectContaining({ content: expectedMessage }));
+    describe('Uganda', () => {
+        beforeEach(() => {
+            global.state.vars = 'ug';            
+        });        
+        it('should send the Uganda confirmation message if the country is Uganda', () => {
+            require('./main');
+            const expectedMessage = getTranslation('payment_receipt_ug',{
+                firstName:client.FirstName,
+                lastTransaction:exampleContact.vars.lastTransactionAmount,
+                balance:longRainsbalance
+            },'en')
+            expect(sendMessage).toHaveBeenCalledWith(expect.objectContaining({ content: expectedMessage }));
+            
+        });
     });
 });
