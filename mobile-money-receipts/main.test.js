@@ -12,12 +12,11 @@ const exampleContact = {
 
 const shortRainsBalance = client.BalanceHistory[0].Balance;
 const longRainsbalance = client.BalanceHistory[1].Balance;
-const expectedTotalBalance = shortRainsBalance + longRainsbalance;
 
 describe('Mobile Money receipts', () => {
     beforeAll(() => {
         global.contact = exampleContact;
-        global.state = {};
+        global.state = { vars: {} };
     });
     beforeEach(() => {
         jest.resetModules();
@@ -26,21 +25,21 @@ describe('Mobile Money receipts', () => {
         require('./main');
         expect(sendMessage).toHaveBeenCalledWith(
             expect.objectContaining({ to_number: exampleContact.phone_number })
-            );
+        );
     });
     describe('Uganda', () => {
         beforeEach(() => {
-            global.state.vars = 'ug';            
-        });        
+            global.state.vars.country = 'ug';
+        });
         it('should send the Uganda confirmation message if the country is Uganda', () => {
             require('./main');
-            const expectedMessage = getTranslation('payment_receipt_ug',{
-                firstName:client.FirstName,
-                lastTransaction:exampleContact.vars.lastTransactionAmount,
-                balance:longRainsbalance
-            },'en')
+            const expectedMessage = getTranslation('payment_receipt_ug', {
+                firstName: client.FirstName,
+                lastTransaction: exampleContact.vars.lastTransactionAmount,
+                balance: longRainsbalance
+            }, 'en')
             expect(sendMessage).toHaveBeenCalledWith(expect.objectContaining({ content: expectedMessage }));
-            
+
         });
     });
 });
