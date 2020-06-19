@@ -395,6 +395,7 @@ addInputHandler('cor_menu_select', function (input) {
         }
     } else if(selection == 'view_group_repayment') {
         // group repayments
+        console.log("Reaching +++++++++++++++++++++++")
         sayText(msgs('NATIONAL_ID_last_four_digits', {}, lang));
         promptDigits('enter_last_four_id_digits', {
             'submitOnHash': false,
