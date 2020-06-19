@@ -418,10 +418,40 @@ addInputHandler('enter_last_four_id_digits', function(input){
        Total credit: X
        Total repaid: Y
        Total balance: Z
+        Bosco Nshimiyimana: 20,000 RwF
+        Jeanne Mukarundo: 5,000 RwF
+        Angella Mutamba: -5,000 RwF
     */
-    const mockGroupInfo = "Total Credit: 34,000 Rwf\nTotal repaid: 24,000 Rwf\nTotal balance: 10,000 Rwf";
-    sayText(mockGroupInfo);
+    const mockGroupInfo = "Total Credit: 34,000 RwF\nTotal repaid: 24,000 RwF\nTotal balance: 10,000 RwF\n";
+    const individualBalance = "1) Bosco Nshimiyimana: 20,000 RwF\n2) Jeanne Mukarundo: 5,000 RwF\n3) Angella Mutamba: -5,000 RwF\n";
+    const options = "* Continue\n# Go back";
+    const menu = mockGroupInfo + individualBalance + options;
+    sayText(menu);
+    promptDigits("view_individual_balance_menu", {
+        'submitOnHash': false,
+        'maxDigits': max_digits_for_input,
+        'timeout': timeout_length
+    });
 });
+
+addInputHandler('view_individual_balance_menu', function(input) {
+    if(input == 1) {
+        /*TODO: move them to the next screen of individual members which is like this
+        Name: Bosco Nshimiyimana
+        Credit: F10,000
+        Amount repaid: F8,000
+        Balance: F2,000
+        % Repaid: 80%
+        # Go back
+        */
+       const singlePersonInfo = "Name: Bosco Nshimiyimana\nCredit: 10,000RwF\nAmount repaid: 8,000RwF\nBalance: 2,000RwF\n% Repaid: 80%\n# Go back";
+       sayText(singlePersonInfo)
+       
+    } else if(input == 2) {
+        // take them back to the  initial screen
+        promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+    }
+})
 
 
 addInputHandler('market_access_handler', function (input){
