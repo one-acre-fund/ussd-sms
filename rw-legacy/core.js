@@ -395,7 +395,6 @@ addInputHandler('cor_menu_select', function (input) {
         }
     } else if(selection == 'view_group_repayment') {
         // group repayments
-        console.log("Reaching +++++++++++++++++++++++")
         sayText(msgs('NATIONAL_ID_last_four_digits', {}, lang));
         promptDigits('enter_last_four_id_digits', {
             'submitOnHash': false,
@@ -410,6 +409,19 @@ addInputHandler('cor_menu_select', function (input) {
         promptDigits(selection, { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         return null;
     }
+});
+
+addInputHandler('enter_last_four_id_digits', function(input){
+    /* TODO: validate the id entered and see if it matches the stored userID
+        If error, return with a respective error and give them a chance to repeat
+        if true, fetch the group info in the following form
+       Total credit: X
+       Total repaid: Y
+       Total balance: Z
+    */
+    const mockGroupInfo = `Total Credit: 34,000 Rwf \n
+    Total repaid: 24,000 Rwf\n Total balance: 10,000 Rwf`;
+    sayText(mockGroupInfo);
 });
 
 
