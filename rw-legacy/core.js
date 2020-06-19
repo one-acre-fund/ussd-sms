@@ -117,7 +117,7 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
                 // }
                 if(true){// my custom if
                     state.vars.group_leader = 'yes';
-                    state.vars.groupCodeForGL = row.vars.glus;
+                    state.vars.groupCodeForGL = 1234//row.vars.glus;
                 }
 
                 sayText(msgs('account_number_verified'));    
@@ -147,7 +147,7 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
 
         }
         catch (error) {
-            console.log(error);
+            console.log("error caught", error);
             // admin_alert('Error on USSD test integration : ' + error + '\nAccount number: ' + response, "ERROR, ERROR, ERROR", 'marisa')
             stopRules();
         }
