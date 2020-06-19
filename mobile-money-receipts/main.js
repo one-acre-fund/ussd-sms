@@ -1,4 +1,4 @@
-const getTranslation = require('./translations');
+const getTranslation = require('./translations/index');
 var client = JSON.parse(contact.vars.client);
 var TotalLoanBalance = 0;
 var earliestBalance = 0;
