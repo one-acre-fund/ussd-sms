@@ -15,8 +15,5 @@ var receipt = getTranslation('payment_receipt_ug', {
     lastTransaction: contact.vars.lastTransactionAmount,
     balance: earliestBalance
 }, 'en')
-
-sendMessage({
-    "to_number": contact.phone_number,
-    "content": receipt
-});
+console.log(JSON.stringify(contact));
+sendMessage(contact.phone_number,receipt);

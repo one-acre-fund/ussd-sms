@@ -23,9 +23,7 @@ describe('Mobile Money receipts', () => {
     });
     it('should send a message to the contact number', () => {
         require('./main');
-        expect(sendMessage).toHaveBeenCalledWith(
-            expect.objectContaining({ to_number: exampleContact.phone_number })
-        );
+        expect(sendMessage).toHaveBeenCalledWith(exampleContact.phone_number,expect.any(String));
     });
     describe('Uganda', () => {
         beforeEach(() => {
@@ -38,7 +36,7 @@ describe('Mobile Money receipts', () => {
                 lastTransaction: exampleContact.vars.lastTransactionAmount,
                 balance: longRainsbalance
             }, 'en')
-            expect(sendMessage).toHaveBeenCalledWith(expect.objectContaining({ content: expectedMessage }));
+            expect(sendMessage).toHaveBeenCalledWith(exampleContact.phone_number, expectedMessage);
 
         });
     });
