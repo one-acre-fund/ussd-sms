@@ -419,8 +419,7 @@ addInputHandler('enter_last_four_id_digits', function(input){
        Total repaid: Y
        Total balance: Z
     */
-    const mockGroupInfo = `Total Credit: 34,000 Rwf \n
-    Total repaid: 24,000 Rwf\n Total balance: 10,000 Rwf`;
+    const mockGroupInfo = "Total Credit: 34,000 Rwf\nTotal repaid: 24,000 Rwf\nTotal balance: 10,000 Rwf";
     sayText(mockGroupInfo);
 });
 
