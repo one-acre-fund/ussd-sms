@@ -1,5 +1,3 @@
-const translations = require(".");
-
 const getTranslations = require('./index');
 
 describe('getTranslations', () => {
