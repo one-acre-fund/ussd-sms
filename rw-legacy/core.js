@@ -393,6 +393,14 @@ addInputHandler('cor_menu_select', function (input) {
             sayText(msgs('enr_already_finalized', {}, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         }
+    } else if(selection == 'view_group_repayment') {
+        // group repayments
+        sayText(msgs('NATIONAL_ID_last_four_digits', {}, lang));
+        promptDigits('enter_last_four_id_digits', {
+            'submitOnHash': false,
+            'maxDigits': 4,
+            'timeout': timeout_length
+        })
     }
     else {
         var current_menu = msgs(selection, opts, lang);

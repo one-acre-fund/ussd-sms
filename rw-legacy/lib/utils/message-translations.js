@@ -566,5 +566,9 @@ module.exports = {
     "ENR_NATIONAL_ID_DUPLICATE": {
         "en": "The entered national ID is already in our system. Please register with a different national ID or place an order using your account number",
         "ki": "Inomero y Irangamuntu mwinjije iranditse muri sisiteme yacu. Koresha iyindi numero y Irangamuntu cyangwa utumize ukoresheje nimero ya konti yumuhinzi",
+    },
+    "NATIONAL_ID_last_four_digits": {
+        "en": "Please enter the last four digits of the national ID you registered with",
+        "ki": "Nyaboneka injiza imibare ine ya nyuma ya nomera ndangamuntu wakoresheje wiyandikisha"
     }
 }
