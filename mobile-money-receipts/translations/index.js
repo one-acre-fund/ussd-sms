@@ -13,4 +13,4 @@ const translations = {
   return message;
 };
 
-module.exports = getTranslations
+module.exports = getTranslations;
