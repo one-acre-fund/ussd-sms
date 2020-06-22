@@ -424,19 +424,154 @@ addInputHandler('enter_last_four_id_digits', function(input){
     */
    // veification of id match 
    const lastFourDigitsOfStoredId = 1997; // mock the userId for the purpose of development. will change later once the api call is made.
-   const lastFourIdDigits = input.replace(/D/g, '');
-   if(lastFourIdDigits.length != 4 || lastFourIdDigits != lastFourDigitsOfStoredId) {
+   const lastFourIdDigits = String(input.replace(/D/g, ''));
+   if(lastFourIdDigits.length != 4 || parseInt(lastFourIdDigits) != lastFourDigitsOfStoredId) {
         sayText('wrong id please try again');
         promptDigits('enter_last_four_id_digits', {
             'submitOnHash': false,
             'maxDigits': 4,
             'timeout': timeout_length
         });
+        return null
    }
-    const mockGroupInfo = "Total Credit: 34,000 RwF\nTotal repaid: 24,000 RwF\nTotal balance: 10,000 RwF\n";
-    const individualBalance = "1) Bosco Nshimiyimana: 20,000 RwF\n2) Jeanne Mukarundo: 5,000 RwF\n3) Angella Mutamba: -5,000 RwF\n";
+   // make api call to roster that returns an object similar to the following
+   // this is a mock that will be replaced by the real values from the roster api call.
+   const rosterCallResult = {
+       groupRepayments: {
+           credit: 30000,
+           balance: 20000
+       },
+       members: [
+           {
+               firstName: 'Jeanne',
+               lastName: 'Mukarukundo',
+               credit: 10000,
+               repaid: 7000,
+               balance: 3000,
+               '% Repaid': '70%'
+           },
+           {
+            firstName: 'Bosco',
+            lastName: 'Nshimiyimana',
+            credit: 10000,
+            repaid: 7000,
+            balance: 3000,
+            '% Repaid': '70%'
+        },
+        {
+            firstName: 'Damma',
+            lastName: 'Sibomana',
+            credit: 10000,
+            repaid: 7000,
+            balance: 3000,
+            '% Repaid': '70%'
+        },
+        {
+            firstName: 'Fred',
+            lastName: 'Rufendeke',
+            credit: 10000,
+            repaid: 7000,
+            balance: 3000,
+            '% Repaid': '70%'
+        },
+        {
+            firstName: 'Joana',
+            lastName: 'Nyirimana',
+            credit: 10000,
+            repaid: 7000,
+            balance: 3000,
+            '% Repaid': '70%'
+        },
+        {
+            firstName: 'Clet',
+            lastName: 'Mukama',
+            credit: 10000,
+            repaid: 7000,
+            balance: 3000,
+            '% Repaid': '70%'
+        },
+        {
+            firstName: 'Innocent',
+            lastName: 'Ntambara',
+            credit: 10000,
+            repaid: 7000,
+            balance: 3000,
+            '% Repaid': '70%'
+        },
+        {
+            firstName: 'Mico',
+            lastName: 'The best',
+            credit: 10000,
+            repaid: 7000,
+            balance: 3000,
+            '% Repaid': '70%'
+        },
+        {
+            firstName: 'Christopher',
+            lastName: 'Muneza',
+            credit: 10000,
+            repaid: 7000,
+            balance: 3000,
+            '% Repaid': '70%'
+        },
+        {
+            firstName: 'Platini',
+            lastName: 'Nemeye',
+            credit: 10000,
+            repaid: 7000,
+            balance: 3000,
+            '% Repaid': '70%'
+        },
+        {
+            firstName: 'Joshua',
+            lastName: 'Polly',
+            credit: 10000,
+            repaid: 7000,
+            balance: 3000,
+            '% Repaid': '70%'
+        },
+        {
+            firstName: 'Khadir',
+            lastName: 'Sindano',
+            credit: 10000,
+            repaid: 7000,
+            balance: 3000,
+            '% Repaid': '70%'
+        },
+        {
+            firstName: 'Ukwishaka',
+            lastName: 'Levy',
+            credit: 10000,
+            repaid: 7000,
+            balance: 3000,
+            '% Repaid': '70%'
+        },
+        {
+            firstName: 'Herve',
+            lastName: 'Kamana',
+            credit: 10000,
+            repaid: 7000,
+            balance: 3000,
+            '% Repaid': '70%'
+        },
+        {
+            firstName: 'Colonel',
+            lastName: 'Sentare',
+            credit: 10000,
+            repaid: 7000,
+            balance: 3000,
+            '% Repaid': '70%'
+        },
+       ]
+   }
+   state.vars.group_repayments = rosterCallResult.groupRepayments;
+   state.vars.groupMembers = rosterCallResult.members;
+   let initialScreen = ''
+   Object.keys(state.vars.group_repayments).forEach(function(key) {
+       initialScreen += 'Group ' + key + ': ' + state.vars.group_repayments[key] + 'RwF\n';
+   });
     const options = "* Continue\n# Go back";
-    const menu = mockGroupInfo + individualBalance + options;
+    const menu = initialScreen + options;
     sayText(menu);
     promptDigits("view_individual_balance_menu", {
         'submitOnHash': false,
