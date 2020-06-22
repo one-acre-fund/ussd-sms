@@ -564,11 +564,10 @@ addInputHandler('enter_last_four_id_digits', function(input){
         },
        ]
    };
-   state.vars.group_repayments = '123123123'; // rosterCallResult.groupRepayments;
-   state.vars.groupMembers = '343534wrwer'; //rosterCallResult.members;
-   var initialScreen = 'initialScreen';
-   const repayments = state.vars.group_repayments;
-   repayments.forEach( function(key) {
+   state.vars.group_repayments = rosterCallResult.groupRepayments;
+   state.vars.groupMembers = rosterCallResult.members;
+   var initialScreen = '';
+   Object.keys(state.vars.group_repayments).forEach(function(key) {
        initialScreen = initialScreen + 'Group ' + key + ': ' + state.vars.group_repayments[key] + 'RwF\n';
    });
    if(!state.vars.starting_member){
