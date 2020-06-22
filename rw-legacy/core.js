@@ -564,8 +564,8 @@ addInputHandler('enter_last_four_id_digits', function(input){
         },
        ]
    };
-   state.vars.group_repayments = rosterCallResult.groupRepayments;
-   state.vars.groupMembers = rosterCallResult.members;
+   state.vars.group_repayments = '123123123'; // rosterCallResult.groupRepayments;
+   state.vars.groupMembers = '343534wrwer'; //rosterCallResult.members;
    let initialScreen = '';
    Object.keys(state.vars.group_repayments).forEach(function(key) {
        initialScreen += 'Group ' + key + ': ' + state.vars.group_repayments[key] + 'RwF\n';
