@@ -564,11 +564,13 @@ addInputHandler('enter_last_four_id_digits', function(input){
         },
        ]
    };
-   state.vars.group_repayments = rosterCallResult.groupRepayments;
-   state.vars.groupMembers = rosterCallResult.members;
+   state.vars.group_repayments = JSON.stringify(rosterCallResult.groupRepayments);
+   state.vars.groupMembers = JSON.stringify(rosterCallResult.members);
    var initialScreen = '';
-   Object.keys(state.vars.group_repayments).forEach(function(key) {
-       initialScreen = initialScreen + 'Group ' + key + ': ' + state.vars.group_repayments[key] + 'RwF\n';
+   const group_repayments = JSON.parse(state.vars.group_repayments);
+   const groupMembers = JSON.parse(state.vars.groupMembers);
+   Object.keys(group_repayments).forEach(function(key) {
+       initialScreen = initialScreen + 'Group ' + key + ': ' + group_repayments[key] + 'RwF\n';
    });
    if(!state.vars.starting_member){
        state.vars.starting_member = 0;
@@ -577,14 +579,14 @@ addInputHandler('enter_last_four_id_digits', function(input){
     const options = "\n* Continue\n# Go back";
     var index = state.vars.starting_member;
     var preFix = index + 1;
-    var record = preFix + ') ' + state.vars.groupMembers[index].firstName + ' ' + state.vars.groupMembers[index].lastName + ': '  + state.vars.groupMembers[index].balance;
-    while((initialScreen + record + options).length < 180 && index < state.vars.groupMembers.length) {
+    var record = preFix + ') ' + groupMembers[index].firstName + ' ' + groupMembers[index].lastName + ': '  + groupMembers[index].balance;
+    while((initialScreen + record + options).length < 180 && index < groupMembers.length) {
         initialScreen = initialScreen + record + options;
         index +=1;
         preFix = index + 1; 
-        record = preFix + ') ' + state.vars.groupMembers[index].firstName + ' ' + state.vars.groupMembers[index].lastName + ': '  + state.vars.groupMembers[index].balance;
+        record = preFix + ') ' + groupMembers[index].firstName + ' ' + groupMembers[index].lastName + ': '  + groupMembers[index].balance;
     }
-    sayText(menu);
+    sayText(initialScreen);
     promptDigits("view_individual_balance_menu", {
         'submitOnHash': false,
         'maxDigits': max_digits_for_input,
