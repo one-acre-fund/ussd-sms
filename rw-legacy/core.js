@@ -564,32 +564,52 @@ addInputHandler('enter_last_four_id_digits', function(input){
         },
        ]
    };
-   state.vars.group_repayments = JSON.stringify(rosterCallResult.groupRepayments);
-   state.vars.groupMembers = JSON.stringify(rosterCallResult.members);
-   var initialScreen = '';
-   const group_repayments = JSON.parse(state.vars.group_repayments);
-   const groupMembers = JSON.parse(state.vars.groupMembers);
+   const group_repayments = rosterCallResult.groupRepayments;
+   const group_members = rosterCallResult.group_members;
+//    state.vars.group_repayments = JSON.stringify(rosterCallResult.groupRepayments);
+   state.vars.group_members = JSON.stringify(group_members);
+   var screen = '';
+   const all_screens = [];
+//    const group_repayments = JSON.parse(state.vars.group_repayments);
+//    const groupMembers = JSON.parse(state.vars.groupMembers);
+   const initialScreen = '';
+
    Object.keys(group_repayments).forEach(function(key) {
        initialScreen = initialScreen + 'Group ' + key + ': ' + group_repayments[key] + ' RwF\n';
    });
-   if(!state.vars.starting_member){
-       state.vars.starting_member = 0;
-   };
 
     const options = "* Continue\n# Go back";
     var index = state.vars.starting_member;
     var preFix = index + 1;
-    var record = preFix + ') ' + groupMembers[index].firstName + ' ' + groupMembers[index].lastName + ': '  + groupMembers[index].balance;
-    while((initialScreen + record + options).length < 140 && index < groupMembers.length) {
+    var record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + groupMembers[index].balance;
+    while((initialScreen + record + options).length < 140 && index < group_members.length) {
         initialScreen = initialScreen + record;
         index +=1;
         preFix = index + 1; 
-        record = preFix + ') ' + groupMembers[index].firstName + ' ' + groupMembers[index].lastName + ': '  + groupMembers[index].balance + ' RwF\n';
+        record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + groupMembers[index].balance + ' RwF\n';
     }
-    state.vars.ending_member = index;
-    state.vars.prev_starting_member = 0;
-    const menu = initialScreen + options;
-    sayText(menu);
+    if(preFix < group_members.length) {
+        initialScreen = initialScreen + options
+    } else {
+        initialScreen = initialScreen + '# Go back'
+    }
+
+    all_screens.push(initialScreen);
+
+    for(var i=index; i<group_members.length; i++) {
+        // find a way to manage the options to fit screens relevantly
+        record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + groupMembers[index].balance + ' RwF\n';
+        if((screen + record + options).length < 140) {
+            screen = screen + record
+        } else {
+            screen = screen + options;
+            all_screens.push(screen)
+            screen = ''
+        }
+    }
+    state.vars.all_screens = JSON.stringify(all_screens);
+    state.vars.current_screen = 0;
+    sayText(all_screens[0]);
     promptDigits("view_individual_balance_menu", {
         'submitOnHash': false,
         'maxDigits': max_digits_for_input,
@@ -598,24 +618,11 @@ addInputHandler('enter_last_four_id_digits', function(input){
 });
 
 addInputHandler('view_individual_balance_menu', function(input) {
-    var initialScreen = '';
-    const group_repayments = JSON.parse(state.vars.group_repayments);
-    const groupMembers = JSON.parse(state.vars.groupMembers);
-
+    const all_screens = JSON.parse(state.vars.all_screens);
+    const current_screen = state.vars.current_screen + 1;
+    state.vars.current_screen = current_screen;
     if(input == '*') {
-        const options = "* Continue\n# Go back";
-        var index = state.vars.ending_member + 1;
-        var preFix = index + 1;
-        var record = preFix + ') ' + groupMembers[index].firstName + ' ' + groupMembers[index].lastName + ': '  + groupMembers[index].balance;
-        while((initialScreen + record + options).length < 140 && index < groupMembers.length) {
-            initialScreen = initialScreen + record;
-            index +=1;
-            preFix = index + 1; 
-            record = preFix + ') ' + groupMembers[index].firstName + ' ' + groupMembers[index].lastName + ': '  + groupMembers[index].balance + ' RwF\n';
-        }
-        state.vars.ending_member = index;
-        state.vars.prev_starting_member = state.vars.starting_member;
-        const menu = initialScreen + options;
+        const menu = all_screens[current_screen];
         sayText(menu);
         promptDigits("view_individual_balance_menu", {
             'submitOnHash': false,
