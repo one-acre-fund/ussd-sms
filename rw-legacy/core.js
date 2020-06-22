@@ -570,22 +570,24 @@ addInputHandler('enter_last_four_id_digits', function(input){
    const group_repayments = JSON.parse(state.vars.group_repayments);
    const groupMembers = JSON.parse(state.vars.groupMembers);
    Object.keys(group_repayments).forEach(function(key) {
-       initialScreen = initialScreen + 'Group ' + key + ': ' + group_repayments[key] + 'RwF\n';
+       initialScreen = initialScreen + 'Group ' + key + ': ' + group_repayments[key] + ' RwF\n';
    });
    if(!state.vars.starting_member){
        state.vars.starting_member = 0;
    };
 
-    const options = "\n* Continue\n# Go back";
+    const options = "* Continue\n# Go back";
     var index = state.vars.starting_member;
     var preFix = index + 1;
     var record = preFix + ') ' + groupMembers[index].firstName + ' ' + groupMembers[index].lastName + ': '  + groupMembers[index].balance;
-    while((initialScreen + record + options).length < 180 && index < groupMembers.length) {
+    while((initialScreen + record + options).length < 140 && index < groupMembers.length) {
         initialScreen = initialScreen + record;
         index +=1;
         preFix = index + 1; 
-        record = preFix + ') ' + groupMembers[index].firstName + ' ' + groupMembers[index].lastName + ': '  + groupMembers[index].balance;
+        record = preFix + ') ' + groupMembers[index].firstName + ' ' + groupMembers[index].lastName + ': '  + groupMembers[index].balance + ' RwF\n';
     }
+    state.vars.ending_member = index;
+    state.vars.prev_starting_member = 0;
     const menu = initialScreen + options;
     sayText(menu);
     promptDigits("view_individual_balance_menu", {
@@ -596,6 +598,28 @@ addInputHandler('enter_last_four_id_digits', function(input){
 });
 
 addInputHandler('view_individual_balance_menu', function(input) {
+
+    if(input == '*') {
+        const options = "* Continue\n# Go back";
+        var index = state.vars.ending_member + 1;
+        var preFix = index + 1;
+        var record = preFix + ') ' + groupMembers[index].firstName + ' ' + groupMembers[index].lastName + ': '  + groupMembers[index].balance;
+        while((initialScreen + record + options).length < 140 && index < groupMembers.length) {
+            initialScreen = initialScreen + record;
+            index +=1;
+            preFix = index + 1; 
+            record = preFix + ') ' + groupMembers[index].firstName + ' ' + groupMembers[index].lastName + ': '  + groupMembers[index].balance + ' RwF\n';
+        }
+        state.vars.ending_member = index;
+        state.vars.prev_starting_member = state.vars.starting_member;
+        const menu = initialScreen + options;
+        sayText(menu);
+        promptDigits("view_individual_balance_menu", {
+            'submitOnHash': false,
+            'maxDigits': max_digits_for_input,
+            'timeout': timeout_length
+        });
+    }
     if(input == 1) {
         /*TODO: move them to the next screen of individual members which is like this
         Name: Bosco Nshimiyimana
