@@ -566,7 +566,7 @@ addInputHandler('enter_last_four_id_digits', function(input){
    };
    state.vars.group_repayments = '123123123'; // rosterCallResult.groupRepayments;
    state.vars.groupMembers = '343534wrwer'; //rosterCallResult.members;
-   let initialScreen = 'initialScreen';
+   var initialScreen = 'initialScreen';
    const repayments = state.vars.group_repayments;
    repayments.forEach( function(key) {
        initialScreen = initialScreen + 'Group ' + key + ': ' + state.vars.group_repayments[key] + 'RwF\n';
@@ -576,9 +576,9 @@ addInputHandler('enter_last_four_id_digits', function(input){
    };
 
     const options = "\n* Continue\n# Go back";
-    let index = state.vars.starting_member;
-    let preFix = index + 1;
-    let record = preFix + ') ' + state.vars.groupMembers[index].firstName + ' ' + state.vars.groupMembers[index].lastName + ': '  + state.vars.groupMembers[index].balance;
+    var index = state.vars.starting_member;
+    var preFix = index + 1;
+    var record = preFix + ') ' + state.vars.groupMembers[index].firstName + ' ' + state.vars.groupMembers[index].lastName + ': '  + state.vars.groupMembers[index].balance;
     while((initialScreen + record + options).length < 180 && index < state.vars.groupMembers.length) {
         initialScreen = initialScreen + record + options;
         index +=1;
