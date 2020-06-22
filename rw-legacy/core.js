@@ -581,12 +581,13 @@ addInputHandler('enter_last_four_id_digits', function(input){
     var preFix = index + 1;
     var record = preFix + ') ' + groupMembers[index].firstName + ' ' + groupMembers[index].lastName + ': '  + groupMembers[index].balance;
     while((initialScreen + record + options).length < 180 && index < groupMembers.length) {
-        initialScreen = initialScreen + record + options;
+        initialScreen = initialScreen + record;
         index +=1;
         preFix = index + 1; 
         record = preFix + ') ' + groupMembers[index].firstName + ' ' + groupMembers[index].lastName + ': '  + groupMembers[index].balance;
     }
-    sayText(initialScreen);
+    const menu = initialScreen + options;
+    sayText(menu);
     promptDigits("view_individual_balance_menu", {
         'submitOnHash': false,
         'maxDigits': max_digits_for_input,
