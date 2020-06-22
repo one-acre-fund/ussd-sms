@@ -571,7 +571,7 @@ addInputHandler('enter_last_four_id_digits', function(input){
    var screen = '';
    const all_screens = [];
 //    const group_repayments = JSON.parse(state.vars.group_repayments);
-//    const groupMembers = JSON.parse(state.vars.groupMembers);
+//    const group_members = JSON.parse(state.vars.group_members);
    const initialScreen = '';
 
    Object.keys(group_repayments).forEach(function(key) {
@@ -581,12 +581,12 @@ addInputHandler('enter_last_four_id_digits', function(input){
     const options = "* Continue\n# Go back";
     var index = 0;
     var preFix = index + 1;
-    var record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + groupMembers[index].balance;
+    var record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + group_members[index].balance;
     while((initialScreen + record + options).length < 140 && index < group_members.length) {
         initialScreen = initialScreen + record;
         index +=1;
         preFix = index + 1; 
-        record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + groupMembers[index].balance + ' RwF\n';
+        record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + group_members[index].balance + ' RwF\n';
     }
     if(preFix < group_members.length) {
         initialScreen = initialScreen + options
@@ -598,7 +598,7 @@ addInputHandler('enter_last_four_id_digits', function(input){
 
     for(var i=index; i<group_members.length; i++) {
         // find a way to manage the options to fit screens relevantly
-        record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + groupMembers[index].balance + ' RwF\n';
+        record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + group_members[index].balance + ' RwF\n';
         if((screen + record + options).length < 140) {
             screen = screen + record
         } else {
