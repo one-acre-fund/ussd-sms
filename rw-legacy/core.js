@@ -563,7 +563,7 @@ addInputHandler('enter_last_four_id_digits', function(input){
             '% Repaid': '70%'
         },
        ]
-   }
+   };
    state.vars.group_repayments = rosterCallResult.groupRepayments;
    state.vars.groupMembers = rosterCallResult.members;
    let initialScreen = '';
