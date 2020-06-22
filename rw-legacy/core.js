@@ -598,6 +598,9 @@ addInputHandler('enter_last_four_id_digits', function(input){
 });
 
 addInputHandler('view_individual_balance_menu', function(input) {
+    var initialScreen = '';
+    const group_repayments = JSON.parse(state.vars.group_repayments);
+    const groupMembers = JSON.parse(state.vars.groupMembers);
 
     if(input == '*') {
         const options = "* Continue\n# Go back";
