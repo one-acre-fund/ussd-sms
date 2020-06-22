@@ -422,6 +422,17 @@ addInputHandler('enter_last_four_id_digits', function(input){
         Jeanne Mukarundo: 5,000 RwF
         Angella Mutamba: -5,000 RwF
     */
+   // veification of id match 
+   const lastFourDigitsOfStoredId = 1997; // mock the userId for the purpose of development. will change later once the api call is made.
+   const lastFourIdDigits = input.replace(/D/g, '');
+   if(lastFourIdDigits.length != 4 || lastFourIdDigits != lastFourDigitsOfStoredId) {
+        sayText('wrong id please try again');
+        promptDigits('enter_last_four_id_digits', {
+            'submitOnHash': false,
+            'maxDigits': 4,
+            'timeout': timeout_length
+        });
+   }
     const mockGroupInfo = "Total Credit: 34,000 RwF\nTotal repaid: 24,000 RwF\nTotal balance: 10,000 RwF\n";
     const individualBalance = "1) Bosco Nshimiyimana: 20,000 RwF\n2) Jeanne Mukarundo: 5,000 RwF\n3) Angella Mutamba: -5,000 RwF\n";
     const options = "* Continue\n# Go back";
