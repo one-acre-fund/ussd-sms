@@ -565,7 +565,7 @@ addInputHandler('enter_last_four_id_digits', function(input){
        ]
    };
    const group_repayments = rosterCallResult.groupRepayments;
-   const group_members = rosterCallResult.group_members;
+   const group_members = rosterCallResult.members;
 //    state.vars.group_repayments = JSON.stringify(rosterCallResult.groupRepayments);
    state.vars.group_members = JSON.stringify(group_members);
    var screen = '';
