@@ -579,7 +579,7 @@ addInputHandler('enter_last_four_id_digits', function(input){
    });
 
     const options = "* Continue\n# Go back";
-    var index = state.vars.starting_member;
+    var index = 0;
     var preFix = index + 1;
     var record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + groupMembers[index].balance;
     while((initialScreen + record + options).length < 140 && index < group_members.length) {
