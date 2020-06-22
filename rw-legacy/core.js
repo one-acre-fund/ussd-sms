@@ -566,12 +566,24 @@ addInputHandler('enter_last_four_id_digits', function(input){
    }
    state.vars.group_repayments = rosterCallResult.groupRepayments;
    state.vars.groupMembers = rosterCallResult.members;
-   let initialScreen = ''
+   let initialScreen = '';
    Object.keys(state.vars.group_repayments).forEach(function(key) {
        initialScreen += 'Group ' + key + ': ' + state.vars.group_repayments[key] + 'RwF\n';
    });
-    const options = "* Continue\n# Go back";
-    const menu = initialScreen + options;
+   if(!state.vars.starting_member){
+       state.vars.starting_member = 0;
+   };
+
+    const options = "\n* Continue\n# Go back";
+    let index = state.vars.starting_member;
+    let preFix = index + 1;
+    let record = preFix + ') ' + state.vars.groupMembers[index].firstName + ' ' + state.vars.groupMembers[index].lastName + ': '  + state.vars.groupMembers[index].balance;
+    while((initialScreen + record + options).length < 180 && index < state.vars.groupMembers.length) {
+        initialScreen = initialScreen + record + options;
+        index +=1;
+        preFix = index + 1; 
+        record = preFix + ') ' + state.vars.groupMembers[index].firstName + ' ' + state.vars.groupMembers[index].lastName + ': '  + state.vars.groupMembers[index].balance;
+    }
     sayText(menu);
     promptDigits("view_individual_balance_menu", {
         'submitOnHash': false,
