@@ -649,13 +649,11 @@ addInputHandler('view_individual_balance_menu', function(input) {
             // take them to the main menu
             menu = state.vars.main_menu;
             sayText(menu);
-            promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            promptDigits('backToMain', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         }
-        // promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
     }
     if(input == 1) {
-// wait 
-       
+        // wait 
     } else if(input == 2) {
         // take them back to the  initial screen
     }
