@@ -648,6 +648,7 @@ addInputHandler('view_individual_balance_menu', function(input) {
         } else {
             // take them to the main menu
             menu = state.vars.main_menu;
+            sayText(menu);
             promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         }
         // promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
