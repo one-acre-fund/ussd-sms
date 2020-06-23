@@ -411,12 +411,12 @@ addInputHandler('cor_menu_select', function (input) {
     }
 });
 
-addInputHandler('enter_last_four_id_digits', function(input){
+addInputHandler('enter_last_four_id_digits', function(input) {
    // veification of id match 
    const lastFourDigitsOfStoredId = 1997; // mock the userId for the purpose of development. will change later once the api call is made.
-   const lastFourIdDigits = String(input.replace(/D/g, ''));
-   sayText(lastFourIdDigits, lastFourDigitsOfStoredId, ">>>>>>>>>>>>>>>");
-   if(lastFourIdDigits.length != 4 || parseInt(lastFourIdDigits) != lastFourDigitsOfStoredId) {
+   // const lastFourIdDigits = String(input.replace(/D/g, ''));
+   sayText(">>>>>>>>>>>>", input, ">>>>>>>>>>>>>>>");
+   if(input.length != 4 || parseInt(input) != lastFourDigitsOfStoredId) {
         sayText('wrong id please try again');
         promptDigits('enter_last_four_id_digits', {
             'submitOnHash': false,
