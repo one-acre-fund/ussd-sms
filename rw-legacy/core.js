@@ -593,7 +593,7 @@ addInputHandler('enter_last_four_id_digits', function(input) {
             all_screens.push(screen);
             screen = '';
         }
-        preFix = i + 1;
+        preFix = preFix + 1;
     }
     state.vars.all_screens = JSON.stringify(all_screens);
     state.vars.current_screen = 0;
