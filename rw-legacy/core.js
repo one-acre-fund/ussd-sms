@@ -617,9 +617,9 @@ addInputHandler('view_individual_balance_menu', function(input) {
     const next_screen = state.vars.current_screen;
     const previous_screen = state.vars.previous_screen;
     const members_last_screen = state.vars.members_last_screen;
-
+    var menu = '';
     if(input == '*' && next_screen <= members_last_screen) {
-        const menu = all_screens[next_screen];
+        menu = all_screens[next_screen];
         state.vars.current_screen = next_screen;
         state.vars.next_screen = next_screen + 1;
         state.vars.previous_screen = previous_screen + 1;
@@ -631,7 +631,7 @@ addInputHandler('view_individual_balance_menu', function(input) {
         });
     } else if(input == '#' && previous_screen >= 0) {
         // take them to the main menu
-        const menu = all_screens[previous_screen];
+        menu = all_screens[previous_screen];
         state.vars.current_screen = previous_screen;
         state.vars.next_screen = current_screen;
         state.vars.previous_screen = previous_screen - 1;
