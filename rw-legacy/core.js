@@ -623,6 +623,7 @@ addInputHandler('view_individual_balance_menu', function(input) {
         state.vars.current_screen = next_screen;
         state.vars.next_screen = next_screen + 1;
         state.vars.previous_screen = previous_screen + 1;
+        sayText("reaching2", next_screen, members_last_screen);
         sayText(menu);
         promptDigits("view_individual_balance_menu", {
             'submitOnHash': false,
