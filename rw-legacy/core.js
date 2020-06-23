@@ -601,6 +601,7 @@ addInputHandler('enter_last_four_id_digits', function(input) {
     }
     state.vars.all_screens = JSON.stringify(all_screens);
     state.vars.current_screen = 0;
+    state.vars.next_screen = 1;
     state.vars.members_last_screen = all_screens.length - 1;
     sayText(all_screens[0]);
     promptDigits("view_individual_balance_menu", {
@@ -613,20 +614,34 @@ addInputHandler('enter_last_four_id_digits', function(input) {
 addInputHandler('view_individual_balance_menu', function(input) {
     const all_screens = JSON.parse(state.vars.all_screens);
     const current_screen = state.vars.current_screen;
+    const next_screen = state.vars.current_screen;
+    const previous_screen = state.vars.previous_screen;
     const members_last_screen = state.vars.members_last_screen;
 
-    if(input == '*' && members_last_screen != current_screen + 2) {
-        const menu = all_screens[current_screen + 1];
-        state.vars.current_screen = current_screen; + 1
+    if(input == '*' && next_screen <= members_last_screen) {
+        const menu = all_screens[next_screen];
+        state.vars.current_screen = next_screen;
+        state.vars.next_screen = next_screen + 1;
+        state.vars.previous_screen = previous_screen + 1;
         sayText(menu);
         promptDigits("view_individual_balance_menu", {
             'submitOnHash': false,
             'maxDigits': max_digits_for_input,
             'timeout': timeout_length
         });
-    } else if(input == '#' && (current_screen -1 != 0 || current_screen != 0)) {
+    } else if(input == '#' && previous_screen >= 0) {
         // take them to the main menu
-        promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+        const menu = all_screens[previous_screen];
+        state.vars.current_screen = previous_screen;
+        state.vars.next_screen = current_screen;
+        state.vars.previous_screen = previous_screen - 1;
+        sayText(menu);
+        promptDigits("view_individual_balance_menu", {
+            'submitOnHash': false,
+            'maxDigits': max_digits_for_input,
+            'timeout': timeout_length
+        });
+        // promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
     }
     if(input == 1) {
 // wait 
