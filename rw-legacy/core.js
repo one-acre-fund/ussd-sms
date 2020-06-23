@@ -586,15 +586,15 @@ addInputHandler('enter_last_four_id_digits', function(input) {
     for(var i=index; i<group_members.length; ) {
         // find a way to manage the options to fit screens relevantly
         record = preFix + ') ' + group_members[i].firstName + ' ' + group_members[i].lastName + ': '  + group_members[i].balance + ' RwF\n';
-        if((screen + record + options).length < 140) {
+        if((screen + record + options).length <= 140) {
             screen = screen + record;
+            i = i + 1;
+            preFix = i + 1;
         } else {
             screen = screen + options;
             all_screens.push(screen);
             screen = '';
         }
-        i = i + 1;
-        preFix = i + 1;
     }
     state.vars.all_screens = JSON.stringify(all_screens);
     state.vars.current_screen = 0;
