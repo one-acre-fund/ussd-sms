@@ -597,8 +597,7 @@ addInputHandler('enter_last_four_id_digits', function(input) {
     }
     state.vars.all_screens = JSON.stringify(all_screens);
     state.vars.current_screen = 0;
-    console.log("**********************", all_screens);
-    sayText(initialScreen + "reaching");
+    sayText(all_screens[0]);
     promptDigits("view_individual_balance_menu", {
         'submitOnHash': false,
         'maxDigits': max_digits_for_input,
@@ -620,16 +619,7 @@ addInputHandler('view_individual_balance_menu', function(input) {
         });
     }
     if(input == 1) {
-        /*TODO: move them to the next screen of individual members which is like this
-        Name: Bosco Nshimiyimana
-        Credit: F10,000
-        Amount repaid: F8,000
-        Balance: F2,000
-        % Repaid: 80%
-        # Go back
-        */
-       const singlePersonInfo = "Name: Bosco Nshimiyimana\nCredit: 10,000RwF\nAmount repaid: 8,000RwF\nBalance: 2,000RwF\n% Repaid: 80%\n# Go back";
-       sayText(singlePersonInfo)
+// wait 
        
     } else if(input == 2) {
         // take them back to the  initial screen
