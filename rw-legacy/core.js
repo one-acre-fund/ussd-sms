@@ -576,9 +576,9 @@ addInputHandler('enter_last_four_id_digits', function(input) {
         index = index + 1;
     }
     if(preFix < group_members.length) {
-        initialScreen = initialScreen + options
+        initialScreen = initialScreen + options;
     } else {
-        initialScreen = initialScreen + '# Go back'
+        initialScreen = initialScreen + '# Go back';
     }
 
     all_screens.push(initialScreen);
@@ -587,16 +587,18 @@ addInputHandler('enter_last_four_id_digits', function(input) {
         // find a way to manage the options to fit screens relevantly
         record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + group_members[index].balance + ' RwF\n';
         if((screen + record + options).length < 140) {
-            screen = screen + record
+            screen = screen + record;
         } else {
             screen = screen + options;
-            all_screens.push(screen)
-            screen = ''
+            all_screens.push(screen);
+            screen = '';
         }
+        preFix = preFix + 1;
     }
     state.vars.all_screens = JSON.stringify(all_screens);
     state.vars.current_screen = 0;
-    sayText(initialScreen);
+    console.log("**********************", all_screens);
+    sayText("reaching");
     promptDigits("view_individual_balance_menu", {
         'submitOnHash': false,
         'maxDigits': max_digits_for_input,
