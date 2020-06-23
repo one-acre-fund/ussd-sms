@@ -631,18 +631,22 @@ addInputHandler('view_individual_balance_menu', function(input) {
             'maxDigits': max_digits_for_input,
             'timeout': timeout_length
         });
-    } else if(input == '#' && previous_screen >= 0) {
-        // take them to the main menu
-        menu = all_screens[previous_screen];
-        state.vars.current_screen = previous_screen;
-        state.vars.next_screen = current_screen;
-        state.vars.previous_screen = previous_screen - 1;
-        sayText(menu);
-        promptDigits("view_individual_balance_menu", {
-            'submitOnHash': false,
-            'maxDigits': max_digits_for_input,
-            'timeout': timeout_length
-        });
+    } else if(input == '#') {
+        if(previous_screen >= 0) {
+            menu = all_screens[previous_screen];
+            state.vars.current_screen = previous_screen;
+            state.vars.next_screen = current_screen;
+            state.vars.previous_screen = previous_screen - 1;
+            sayText(menu);
+            promptDigits("view_individual_balance_menu", {
+                'submitOnHash': false,
+                'maxDigits': max_digits_for_input,
+                'timeout': timeout_length
+            });
+        } else {
+            // take them to the main menu
+            promptDigits('backToMain',{'submitOnHash': false, 'maxDigits': 1, 'timeout': timeout_length })
+        }
         // promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
     }
     if(input == 1) {
