@@ -645,7 +645,25 @@ addInputHandler('view_individual_balance_menu', function(input) {
             });
         } else {
             // take them to the main menu
-            promptDigits('backToMain',{'submitOnHash': false, 'maxDigits': 1, 'timeout': timeout_length })
+            var splash = 'core_enr_splash_menu';
+            state.vars.splash = splash;
+            menu = populate_menu(splash, lang);
+            if (typeof (menu) == 'string') {
+                state.vars.current_menu_str = menu;
+                sayText(menu);
+                state.vars.multiple_input_menus = 0;
+                state.vars.input_menu = menu;
+                promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            }
+            else if (typeof (menu) == 'object') {
+                state.vars.input_menu_loc = 0; //watch for off by 1 errors - consider moving this to start at 1
+                state.vars.multiple_input_menus = 1;
+                state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
+                state.vars.current_menu_str = menu[state.vars.input_menu_loc];
+                sayText(menu[state.vars.input_menu_loc]);
+                state.vars.input_menu = JSON.stringify(menu);
+                promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            }
         }
         // promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
     }
