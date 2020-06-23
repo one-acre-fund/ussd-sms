@@ -412,22 +412,11 @@ addInputHandler('cor_menu_select', function (input) {
 });
 
 addInputHandler('enter_last_four_id_digits', function(input){
-    /* TODO: validate the id entered and see if it matches the stored userID
-        If error, return with a respective error and give them a chance to repeat
-        if true, fetch the group info in the following form
-       Total credit: X
-       Total repaid: Y
-       Total balance: Z
-        Bosco Nshimiyimana: 20,000 RwF
-        Jeanne Mukarundo: 5,000 RwF
-        Angella Mutamba: -5,000 RwF
-    */
    // veification of id match 
-   sayText("***************************", input);
    const lastFourDigitsOfStoredId = 1997; // mock the userId for the purpose of development. will change later once the api call is made.
    const lastFourIdDigits = String(input.replace(/D/g, ''));
+   sayText(lastFourIdDigits, lastFourDigitsOfStoredId, ">>>>>>>>>>>>>>>");
    if(lastFourIdDigits.length != 4 || parseInt(lastFourIdDigits) != lastFourDigitsOfStoredId) {
-    sayText("______________________________________");
         sayText('wrong id please try again');
         promptDigits('enter_last_four_id_digits', {
             'submitOnHash': false,
@@ -438,7 +427,6 @@ addInputHandler('enter_last_four_id_digits', function(input){
    }
    // make api call to roster that returns an object similar to the following
    // this is a mock that will be replaced by the real values from the roster api call.
-   sayText("++++++++++++++++++++++++++");
    const rosterCallResult = {
        groupRepayments: {
            credit: 30000,
@@ -569,12 +557,9 @@ addInputHandler('enter_last_four_id_digits', function(input){
    };
    const group_repayments = rosterCallResult.groupRepayments;
    const group_members = rosterCallResult.members;
-//    state.vars.group_repayments = JSON.stringify(rosterCallResult.groupRepayments);
    state.vars.group_members = JSON.stringify(group_members);
    var screen = '';
    const all_screens = [];
-//    const group_repayments = JSON.parse(state.vars.group_repayments);
-//    const group_members = JSON.parse(state.vars.group_members);
    const initialScreen = '';
 
    Object.keys(group_repayments).forEach(function(key) {
