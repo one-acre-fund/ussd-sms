@@ -1,0 +1,29 @@
+{
+  "name": "ussd-sms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --colors",
+    "test:watch": "jest --colors --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/one-acre-fund/ussd-sms.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/one-acre-fund/ussd-sms/issues"
+  },
+  "homepage": "https://github.com/one-acre-fund/ussd-sms#readme",
+  "devDependencies": {
+    "@types/jest": "^26.0.0",
+    "jest": "^26.0.1"
+  },
+  "jest": {
+    "setupFiles": [
+      "./setupTests.js"
+    ]
+  }
+}
