@@ -585,6 +585,9 @@ addInputHandler('enter_last_four_id_digits', function(input) {
 
     for(var i=index; i<group_members.length; ) {
         // find a way to manage the options to fit screens relevantly
+        if(preFix == group_members.length) {
+            options = '# Go back';
+        }
         record = preFix + ') ' + group_members[i].firstName + ' ' + group_members[i].lastName + ': '  + group_members[i].balance + ' RwF\n';
         if((screen + record + options).length <= 140) {
             screen = screen + record;
@@ -598,7 +601,7 @@ addInputHandler('enter_last_four_id_digits', function(input) {
     }
     state.vars.all_screens = JSON.stringify(all_screens);
     state.vars.current_screen = 0;
-    console.log(all_screens);
+    state.vars.members_last_screen = all_screens.length - 1;
     sayText(all_screens[0]);
     promptDigits("view_individual_balance_menu", {
         'submitOnHash': false,
@@ -609,23 +612,27 @@ addInputHandler('enter_last_four_id_digits', function(input) {
 
 addInputHandler('view_individual_balance_menu', function(input) {
     const all_screens = JSON.parse(state.vars.all_screens);
-    const current_screen = state.vars.current_screen + 1;
-    state.vars.current_screen = current_screen;
-    if(input == '*') {
-        const menu = all_screens[current_screen];
+    const current_screen = state.vars.current_screen;
+    const members_last_screen = state.vars.members_last_screen;
+
+    if(input == '*' && members_last_screen != current_screen + 1) {
+        const menu = all_screens[current_screen + 1];
+        state.vars.current_screen = current_screen; + 1
         sayText(menu);
         promptDigits("view_individual_balance_menu", {
             'submitOnHash': false,
             'maxDigits': max_digits_for_input,
             'timeout': timeout_length
         });
+    } else if(input == '#' && (current_screen -1 != 0 || current_screen != 0)) {
+        // take them to the main menu
+        promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
     }
     if(input == 1) {
 // wait 
        
     } else if(input == 2) {
         // take them back to the  initial screen
-        promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
     }
 })
 
