@@ -652,22 +652,13 @@ addInputHandler('view_individual_balance_menu', function(input) {
         }
     } else {
         const group_members = JSON.parse(state.vars.group_members);
-        sayText(state.vars.group_members)
         const current_member = group_members[input -1];
         if(!current_member) {
             // wrong choice.
+            sayText(msgs('invalid_try_again', {}));
+            promptDigits('backToMain');
         } else {
-            // member found
-            /*
-            Name: Bosco Nshimiyimana
-
-            Credit: F10,000
-            Amount repaid: F8,000
-            Balance: F2,000
-            % Repaid: 80%
-            # Go back
-            */
-            menu = "Name: " + current_member.firstName + " " + current_member.lastName + "\nCredit: " + current_member.credit + " Rwf\nBalance: " + current_member.balance + " RwF\n%Repaid: " + current_member['% Repaid'];
+            menu = "Name: " + current_member.firstName + " " + current_member.lastName + "\nCredit: " + current_member.credit + " Rwf\nBalance: " + current_member.balance + " RwF\n%Repaid: " + current_member['% Repaid'] + "\n# Go back";
             sayText(menu);
         }
     }
