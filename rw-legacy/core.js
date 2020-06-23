@@ -558,14 +558,14 @@ addInputHandler('enter_last_four_id_digits', function(input) {
    const group_members = rosterCallResult.members;
    state.vars.group_members = JSON.stringify(group_members);
    var screen = '';
-   const all_screens = [];
-   const initialScreen = '';
+   var all_screens = [];
+   var initialScreen = '';
 
    Object.keys(group_repayments).forEach(function(key) {
        initialScreen = initialScreen + 'Group ' + key + ': ' + group_repayments[key] + ' RwF\n';
    });
 
-    const options = "* Continue\n# Go back";
+    var options = "* Continue\n# Go back";
     var index = 0;
     var preFix = index + 1;
     var record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + group_members[index].balance;
@@ -598,7 +598,7 @@ addInputHandler('enter_last_four_id_digits', function(input) {
     state.vars.all_screens = JSON.stringify(all_screens);
     state.vars.current_screen = 0;
     console.log("**********************", all_screens);
-    sayText("reaching");
+    sayText(initialScreen + "reaching");
     promptDigits("view_individual_balance_menu", {
         'submitOnHash': false,
         'maxDigits': max_digits_for_input,
