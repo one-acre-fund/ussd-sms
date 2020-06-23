@@ -571,9 +571,9 @@ addInputHandler('enter_last_four_id_digits', function(input) {
     var record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + group_members[index].balance;
     while((initialScreen + record + options).length < 140 && index < group_members.length) {
         initialScreen = initialScreen + record;
+        index = index + 1;
         preFix = index + 1; 
         record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + group_members[index].balance + ' RwF\n';
-        index = index + 1;
     }
     if(preFix < group_members.length) {
         initialScreen = initialScreen + options;
