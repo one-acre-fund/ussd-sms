@@ -651,7 +651,8 @@ addInputHandler('view_individual_balance_menu', function(input) {
             promptDigits('backToMain', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         }
     } else {
-        const group_members = state.vars.goup_members;
+        const group_members = JSON.parse(state.vars.group_members);
+        sayText(state.vars.group_members)
         const current_member = group_members[input -1];
         if(!current_member) {
             // wrong choice.
