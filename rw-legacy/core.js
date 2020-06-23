@@ -583,7 +583,7 @@ addInputHandler('enter_last_four_id_digits', function(input) {
 
     all_screens.push(initialScreen);
 
-    for(var i=index; i<group_members.length; i++) {
+    for(var i=index; i<group_members.length; ) {
         // find a way to manage the options to fit screens relevantly
         record = preFix + ') ' + group_members[i].firstName + ' ' + group_members[i].lastName + ': '  + group_members[i].balance + ' RwF\n';
         if((screen + record + options).length < 140) {
@@ -593,10 +593,12 @@ addInputHandler('enter_last_four_id_digits', function(input) {
             all_screens.push(screen);
             screen = '';
         }
-        preFix = preFix + 1;
+        i = i + 1;
+        preFix = i + 1;
     }
     state.vars.all_screens = JSON.stringify(all_screens);
     state.vars.current_screen = 0;
+    console.log(all_screens);
     sayText(all_screens[0]);
     promptDigits("view_individual_balance_menu", {
         'submitOnHash': false,
