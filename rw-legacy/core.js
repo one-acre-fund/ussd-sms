@@ -615,11 +615,10 @@ addInputHandler('enter_last_four_id_digits', function(input) {
 addInputHandler('view_individual_balance_menu', function(input) {
     const all_screens = JSON.parse(state.vars.all_screens);
     const current_screen = state.vars.current_screen;
-    const next_screen = state.vars.current_screen;
+    const next_screen = state.vars.next_screen;
     const previous_screen = state.vars.previous_screen;
     const members_last_screen = state.vars.members_last_screen;
     var menu = '';
-    sayText("reaching ____" + (input == '*' && next_screen <= members_last_screen) + "___" + next_screen + "___" + members_last_screen);
     if(input == '*' && next_screen <= members_last_screen) {
         menu = all_screens[next_screen];
         state.vars.current_screen = next_screen;
