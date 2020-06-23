@@ -602,6 +602,7 @@ addInputHandler('enter_last_four_id_digits', function(input) {
     state.vars.all_screens = JSON.stringify(all_screens);
     state.vars.current_screen = 0;
     state.vars.next_screen = 1;
+    state.vars.previous_screen = -1;
     state.vars.members_last_screen = all_screens.length - 1;
     sayText(all_screens[0]);
     promptDigits("view_individual_balance_menu", {
@@ -618,6 +619,7 @@ addInputHandler('view_individual_balance_menu', function(input) {
     const previous_screen = state.vars.previous_screen;
     const members_last_screen = state.vars.members_last_screen;
     var menu = '';
+    sayText("reaching ____" + (input == '*' && next_screen <= members_last_screen) + "___" + next_screen + "___" + members_last_screen);
     if(input == '*' && next_screen <= members_last_screen) {
         menu = all_screens[next_screen];
         state.vars.current_screen = next_screen;
