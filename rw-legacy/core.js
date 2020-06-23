@@ -414,9 +414,8 @@ addInputHandler('cor_menu_select', function (input) {
 addInputHandler('enter_last_four_id_digits', function(input) {
    // veification of id match 
    const lastFourDigitsOfStoredId = 1997; // mock the userId for the purpose of development. will change later once the api call is made.
-   // const lastFourIdDigits = String(input.replace(/D/g, ''));
-   sayText(">>>>>>>>>>>>", input, ">>>>>>>>>>>>>>>");
-   if(input.length != 4 || parseInt(input) != lastFourDigitsOfStoredId) {
+   const lastFourIdDigits = String(input.replace(/D/g, ''));
+   if(lastFourIdDigits.length != 4 || parseInt(lastFourIdDigits) != lastFourDigitsOfStoredId) {
         sayText('wrong id please try again');
         promptDigits('enter_last_four_id_digits', {
             'submitOnHash': false,
@@ -425,6 +424,7 @@ addInputHandler('enter_last_four_id_digits', function(input) {
         });
         return null
    }
+   sayText("reaching1");
    // make api call to roster that returns an object similar to the following
    // this is a mock that will be replaced by the real values from the roster api call.
    const rosterCallResult = {
@@ -555,6 +555,7 @@ addInputHandler('enter_last_four_id_digits', function(input) {
         },
        ]
    };
+   sayText("reaching2");
    const group_repayments = rosterCallResult.groupRepayments;
    const group_members = rosterCallResult.members;
    state.vars.group_members = JSON.stringify(group_members);
@@ -562,10 +563,11 @@ addInputHandler('enter_last_four_id_digits', function(input) {
    const all_screens = [];
    const initialScreen = '';
 
+   sayText("reaching3");
    Object.keys(group_repayments).forEach(function(key) {
        initialScreen = initialScreen + 'Group ' + key + ': ' + group_repayments[key] + ' RwF\n';
    });
-
+   sayText("reaching4");
     const options = "* Continue\n# Go back";
     var index = 0;
     var preFix = index + 1;
@@ -576,6 +578,7 @@ addInputHandler('enter_last_four_id_digits', function(input) {
         record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + group_members[index].balance + ' RwF\n';
         index = index + 1;
     }
+    sayText("reaching5");
     if(preFix < group_members.length) {
         initialScreen = initialScreen + options
     } else {
@@ -583,7 +586,7 @@ addInputHandler('enter_last_four_id_digits', function(input) {
     }
 
     all_screens.push(initialScreen);
-
+    sayText("reaching6");
     for(var i=index; i<group_members.length; i++) {
         // find a way to manage the options to fit screens relevantly
         record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + group_members[index].balance + ' RwF\n';
@@ -595,6 +598,7 @@ addInputHandler('enter_last_four_id_digits', function(input) {
             screen = ''
         }
     }
+    sayText("reaching7");
     state.vars.all_screens = JSON.stringify(all_screens);
     state.vars.current_screen = 0;
     sayText(all_screens[0]);
