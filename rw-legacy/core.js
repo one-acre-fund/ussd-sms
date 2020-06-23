@@ -650,11 +650,25 @@ addInputHandler('view_individual_balance_menu', function(input) {
             sayText(menu);
             promptDigits('backToMain', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         }
-    }
-    if(input == 1) {
-        // wait 
-    } else if(input == 2) {
-        // take them back to the  initial screen
+    } else {
+        const group_members = state.vars.goup_members;
+        const current_member = goup_members[input];
+        if(!current_member) {
+            // wrong choice.
+        } else {
+            // member found
+            /*
+            Name: Bosco Nshimiyimana
+
+            Credit: F10,000
+            Amount repaid: F8,000
+            Balance: F2,000
+            % Repaid: 80%
+            # Go back
+            */
+            menu = "Name: " + current_member.firstName + " " + current_member.lastName + "\nCredit: " + current_member.credit + " Rwf\nBalance: " + current_member.balance + " RwF\n%Repaid: " + current_member['% Repaid'];
+            sayText(menu);
+        }
     }
 })
 
@@ -761,7 +775,6 @@ addInputHandler('m_market_confirm_handler', function(input){
 });
 
 addInputHandler('backToMain', function(input){
-    sayText(">>>>>>> reaching" + input);
     var splash = 'core_enr_splash_menu';
     state.vars.splash = splash;
     var menu = populate_menu(splash, lang);
