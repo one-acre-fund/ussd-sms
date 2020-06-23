@@ -423,9 +423,11 @@ addInputHandler('enter_last_four_id_digits', function(input){
         Angella Mutamba: -5,000 RwF
     */
    // veification of id match 
+   sayText("***************************", input);
    const lastFourDigitsOfStoredId = 1997; // mock the userId for the purpose of development. will change later once the api call is made.
    const lastFourIdDigits = String(input.replace(/D/g, ''));
    if(lastFourIdDigits.length != 4 || parseInt(lastFourIdDigits) != lastFourDigitsOfStoredId) {
+    sayText("______________________________________");
         sayText('wrong id please try again');
         promptDigits('enter_last_four_id_digits', {
             'submitOnHash': false,
@@ -436,6 +438,7 @@ addInputHandler('enter_last_four_id_digits', function(input){
    }
    // make api call to roster that returns an object similar to the following
    // this is a mock that will be replaced by the real values from the roster api call.
+   sayText("++++++++++++++++++++++++++");
    const rosterCallResult = {
        groupRepayments: {
            credit: 30000,
