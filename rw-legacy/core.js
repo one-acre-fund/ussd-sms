@@ -615,7 +615,7 @@ addInputHandler('view_individual_balance_menu', function(input) {
     const current_screen = state.vars.current_screen;
     const members_last_screen = state.vars.members_last_screen;
 
-    if(input == '*' && members_last_screen != current_screen + 1) {
+    if(input == '*' && members_last_screen != current_screen + 2) {
         const menu = all_screens[current_screen + 1];
         state.vars.current_screen = current_screen; + 1
         sayText(menu);
