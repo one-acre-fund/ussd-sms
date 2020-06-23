@@ -652,7 +652,7 @@ addInputHandler('view_individual_balance_menu', function(input) {
         }
     } else {
         const group_members = state.vars.goup_members;
-        const current_member = goup_members[input];
+        const current_member = group_members[input -1];
         if(!current_member) {
             // wrong choice.
         } else {
