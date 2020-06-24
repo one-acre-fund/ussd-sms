@@ -418,7 +418,7 @@ addInputHandler('cor_menu_select', function (input) {
 addInputHandler('enter_last_four_id_digits', function(input) {
    // verification of id match 
    const lastFourIdDigits = String(input.replace(/D/g, ''));
-   if(lastFourIdDigits.length != 4 || parseInt(state.vars.nid.slice(-4)) != lastFourIdDigits) {
+   if(!state.vars.nid || parseInt(state.vars.nid.slice(-4)) != lastFourIdDigits) {
         sayText('wrong id please try again');
         promptDigits('enter_last_four_id_digits', {
             'submitOnHash': false,
@@ -567,12 +567,12 @@ addInputHandler('enter_last_four_id_digits', function(input) {
    var options = msgs('continue', {'$label': '*'}, lang) + msgs('back', {'$label': '#'}, lang);
    var index = 0;
    var preFix = index + 1;
-   var record = msgs('group_members_repayments', {'$prefix': preFix, '$firstName': group_members[index].firstName, '$lastName': group_members[index].lastName, '$balance': group_members[index].balance, '$currency': 'RwF'}, lang);
+   var record = msgs('group_members_repayments', {'$prefix': preFix, '$firstName': group_members[index].firstName, '$lastName': group_members[index].lastName, '$balance': group_members[index].balance}, lang);
     while((initialScreen + record + options).length < 140 && index < group_members.length) {
         initialScreen = initialScreen + record;
         index = index + 1;
         preFix = index + 1; 
-        record = msgs('group_members_repayments', {'$prefix': preFix, '$firstName': group_members[index].firstName, '$lastName': group_members[index].lastName, '$balance': group_members[index].balance, '$currency': 'RwF'}, lang);
+        record = msgs('group_members_repayments', {'$prefix': preFix, '$firstName': group_members[index].firstName, '$lastName': group_members[index].lastName, '$balance': group_members[index].balance}, lang);
         // record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + group_members[index].balance + ' RwF\n';
     }
     if(preFix < group_members.length) {
@@ -588,7 +588,7 @@ addInputHandler('enter_last_four_id_digits', function(input) {
         if(preFix == group_members.length) {
             options = msgs('back', {'$label': '#'}, lang);
         }
-        record = msgs('group_members_repayments', {'$prefix': preFix, '$firstName': group_members[i].firstName, '$lastName': group_members[i].lastName, '$balance': group_members[i].balance, '$currency': 'RwF'}, lang);
+        record = msgs('group_members_repayments', {'$prefix': preFix, '$firstName': group_members[i].firstName, '$lastName': group_members[i].lastName, '$balance': group_members[i].balance}, lang);
         if((screen + record + options).length <= 140) {
             screen = screen + record;
             i = i + 1;
@@ -653,11 +653,16 @@ addInputHandler('view_individual_balance_menu', function(input) {
         const current_member = group_members[input -1];
         if(!current_member) {
             // wrong choice.
-            sayText(msgs('invalid_try_again', {}));
-            promptDigits('backToMain');
+            sayText(msgs('invalid_try_again', {'$menu': state.vars.current_screen}, lang));
+            promptDigits("view_individual_balance_menu", {
+                'submitOnHash': false,
+                'maxDigits': max_digits_for_input,
+                'timeout': timeout_length
+            });
         } else {
-            menu = "Name: " + current_member.firstName + " " + current_member.lastName + "\nCredit: " + current_member.credit + " Rwf\nBalance: " + current_member.balance + " RwF\n%Repaid: " + current_member['% Repaid'] + "\n# Go back";
+            menu = msgs('group_member_repayment', {'$firstName': current_member.firstName, '$lastName': current_member.lastName, '$credit': current_member.credit, '$balance': current_member.balance, '$repaid': current_member.repaid, '$repaid_percentage': current_member['% Repaid']}, lang) + msgs('back', {'$label': '#'}, lang);
             sayText(menu);
+            promptDigits('backToMain',{'submitOnHash': false, 'maxDigits': 1, 'timeout': timeout_length })
         }
     }
 })
