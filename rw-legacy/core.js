@@ -668,15 +668,15 @@ addInputHandler('view_individual_balance_menu', function(input) {
 })
 
 addInputHandler('back_to_group_summary', function (input) {
+    const all_screens = JSON.parse(state.vars.all_screens);
     if(input == '#') {
-        sayText(state.vars.current_screen);
+        sayText(all_screens[state.vars.current_screen]);
         promptDigits("view_individual_balance_menu", {
             'submitOnHash': false,
             'maxDigits': max_digits_for_input,
             'timeout': timeout_length
         });
     } else {
-        const all_screens = JSON.parse(state.vars.all_screens);
         sayText(msgs('invalid_try_again', {'$Menu': all_screens[state.vars.current_screen]}, lang));
         promptDigits("view_individual_balance_menu", {
             'submitOnHash': false,
