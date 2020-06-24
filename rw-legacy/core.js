@@ -416,16 +416,7 @@ addInputHandler('cor_menu_select', function (input) {
 });
 
 addInputHandler('enter_last_four_id_digits', function(input) {
-   // veification of id match 
-   var cursor = client_table.queryRows({ 'vars': { 'account_number': response}});
-   if(cursor.hasNext()){
-       var row = cursor.next();
-       if (row.vars.group_leader ==1){
-           state.vars.group_leader = 'yes';
-           state.vars.groupCodeForGL = row.vars.glus;
-       }
-   }
-   const lastFourDigitsOfStoredId = 1997; // mock the userId for the purpose of development. will change later once the api call is made.
+   // verification of id match 
    const lastFourIdDigits = String(input.replace(/D/g, ''));
    if(lastFourIdDigits.length != 4 || parseInt(state.vars.nid.slice(-4)) != lastFourIdDigits) {
         sayText('wrong id please try again');
