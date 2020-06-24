@@ -108,17 +108,17 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
 
                 // Checking if the user is a group leader to options to be seen by only group leaders on the menu
                 var cursor = client_table.queryRows({ 'vars': { 'account_number': response}});
-                // if(true || cursor.hasNext()){
-                //     var row = cursor.next();
-                //     if (true || row.vars.group_leader ==1){
-                //         state.vars.group_leader = 'yes';
-                //         state.vars.groupCodeForGL = row.vars.glus;
-                //     }
-                // }
-                if(true){// my custom if
-                    state.vars.group_leader = 'yes';
-                    state.vars.groupCodeForGL = 1234//row.vars.glus;
+                if(cursor.hasNext()){
+                    var row = cursor.next();
+                    if (true || row.vars.group_leader ==1){
+                        state.vars.group_leader = 'yes';
+                        state.vars.groupCodeForGL = row.vars.glus;
+                    }
                 }
+                // if(true){// my custom if
+                //     state.vars.group_leader = 'yes';
+                //     state.vars.groupCodeForGL = 1234//row.vars.glus;
+                // }
 
                 sayText(msgs('account_number_verified'));    
                 var splash = 'core_enr_splash_menu';
