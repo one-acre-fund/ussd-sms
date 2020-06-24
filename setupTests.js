@@ -18,4 +18,6 @@ global.promptDigits = jest.fn();
 global.afterEach(function() {
     jest.clearAllMocks();
 });
-
+global.httpClient = {
+    request: jest.fn()
+};
