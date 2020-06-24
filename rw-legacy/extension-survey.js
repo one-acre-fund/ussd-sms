@@ -412,6 +412,7 @@ inputHandlers['extension_questions'] = function(input){
         sayText(msgs('ext_farmer_not_eligible',{},lang));
         var failure_details = 'The farmer is disqualified because of '+ questions['extension-survey'][state.vars.qtsn][lang]+' question';
         var row = extensionTable.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'not_eligible': 1, 'failure_details': failure_details}});
+        srvySessionManager.clear(contact.phone_number);
         row.save();
         stopRules();
         return null;

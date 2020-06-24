@@ -1,5 +1,5 @@
 function fetchSurveyState(phoneNumber) {
-    var survey_sessions = project.getOrCreateDataTable(service.vars.ExtSurveySessions);
+    var survey_sessions = project.initDataTableById(service.vars.ExtSurveySessions);
     var cursor = survey_sessions.queryRows({ 'vars': { 'phone_number': phoneNumber } });
     if (!cursor.hasNext()) {
         return null
@@ -51,7 +51,7 @@ function resumeSurvey(phoneNumber, handlers) {
 };
 
 function clearSurveySession(phoneNumber) {
-    var survey_sessions = project.getOrCreateDataTable(service.vars.ExtSurveySessions);
+    var survey_sessions = project.initDataTableById(service.vars.ExtSurveySessions);
     var cursor = survey_sessions.queryRows({ 'vars': { 'phone_number': phoneNumber } });
     if (!cursor.hasNext()) {
         return
@@ -73,7 +73,7 @@ function saveSurveySession(phoneNumber, stateVars, handlerName, input) {
         handler: handlerName,
         input: input
     }
-    var survey_sessions = project.getOrCreateDataTable(service.vars.ExtSurveySessions);
+    var survey_sessions = project.initDataTableById(service.vars.ExtSurveySessions);
     var cursor = survey_sessions.queryRows({ 'vars': { 'phone_number': phoneNumber } });
     var row;
     if (cursor.hasNext()) {
