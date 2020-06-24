@@ -580,19 +580,19 @@ module.exports = {
         "ki": "Ideni ry'itsinda: $groupCredit~B"
     },
     "continue": {
-        "en": "$label) Continue~B",
-        "ki": "$label) Komeza~B",
+        "en": "$label Continue~B",
+        "ki": "$label Komeza~B",
     },
     "back":  {
-        "en": "$label) Go back",
-        "ki": "$label) Subira inyuma"
+        "en": "$label Go back",
+        "ki": "$label Subira inyuma"
     },
     "group_members_repayments": {
-        "en": "$prefix) $firstName $lastName: $balance $currency~B",
-        "ki": "$prefix) $firstName $lastName: $balance $currency~B"
+        "en": "$prefix) $firstName $lastName: $balance RwF~B",
+        "ki": "$prefix) $firstName $lastName: F$balance~B"
     },
     "group_member_repayment": {
-        "en": "Name: $firstName $lastName~BCredit: $credit~BBalance: $balance~BAmount repaid: $repaid~B% repaid: $repaid_percentage~B",
-        "ki": "Izina: $firstName $lastName~BIdeni: $credit~BAsigaye: $balance~BAyishyuwe: $repaid~B% Ijanisha ry'ayishyuwe: $repaid_percentage~B"
+        "en": "Name: $firstName $lastName~BCredit: $creditRwF~BBalance: $balanceRwF~BAmount repaid: $repaidRwF~B% repaid: $repaid_percentageRwF~B",
+        "ki": "Izina: $firstName $lastName~BIdeni: F$credit~BAsigaye: F$balance~BAyishyuwe: F$repaid~B% Ijanisha ry'ayishyuwe: F$repaid_percentage~B"
     } 
 }
