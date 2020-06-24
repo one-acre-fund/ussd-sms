@@ -110,9 +110,11 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
                 var cursor = client_table.queryRows({ 'vars': { 'account_number': response}});
                 if(cursor.hasNext()){
                     var row = cursor.next();
-                    if (true || row.vars.group_leader ==1){
+                    if (row.vars.group_leader == 1){
+                        sayText("**************", row.vars.group_leader);
                         state.vars.group_leader = 'yes';
                         state.vars.groupCodeForGL = row.vars.glus;
+                        state.vars.nid = row.vars.nid;
                     }
                 }
                 // if(true){// my custom if
@@ -415,9 +417,17 @@ addInputHandler('cor_menu_select', function (input) {
 
 addInputHandler('enter_last_four_id_digits', function(input) {
    // veification of id match 
+   var cursor = client_table.queryRows({ 'vars': { 'account_number': response}});
+   if(cursor.hasNext()){
+       var row = cursor.next();
+       if (row.vars.group_leader ==1){
+           state.vars.group_leader = 'yes';
+           state.vars.groupCodeForGL = row.vars.glus;
+       }
+   }
    const lastFourDigitsOfStoredId = 1997; // mock the userId for the purpose of development. will change later once the api call is made.
    const lastFourIdDigits = String(input.replace(/D/g, ''));
-   if(lastFourIdDigits.length != 4 || parseInt(lastFourIdDigits) != lastFourDigitsOfStoredId) {
+   if(lastFourIdDigits.length != 4 || parseInt(state.vars.nid.slice(-4)) != lastFourIdDigits) {
         sayText('wrong id please try again');
         promptDigits('enter_last_four_id_digits', {
             'submitOnHash': false,
