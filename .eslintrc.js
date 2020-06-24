@@ -41,6 +41,7 @@ module.exports = {
         addInputHandler: 'readonly',
         stopRules: 'readonly',
         httpClient: 'readonly',
+        sendEmail: 'readonly',
     },
     'overrides': [
         {
