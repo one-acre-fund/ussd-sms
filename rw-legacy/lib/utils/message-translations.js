@@ -577,7 +577,7 @@ module.exports = {
     },
     "group_credit": {
         "en": "Group credit: $groupCredit~B",
-        "ki": "Asigaye mu itsinda: $groupCredit~B"
+        "ki": "Ideni ry'itsinda: $groupCredit~B"
     },
     "continue": {
         "en": "$label) Continue~B",

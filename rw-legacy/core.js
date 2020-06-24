@@ -562,22 +562,22 @@ addInputHandler('enter_last_four_id_digits', function(input) {
    var screen = '';
    var all_screens = [];
 
-   var initialScreen = msgs('group_credit', {groupCredit: group_repayments.credit}, lang) + msgs('group_balance', {groupBalance: group_repayments.balance}, lang);
-   var options = msgs('continue', {label: '*'}, lang) + msgs('back', {label: '#'}, lang);
+   var initialScreen = msgs('group_credit', {'$groupCredit': group_repayments.credit}, lang) + msgs('group_balance', {'$groupBalance': group_repayments.balance}, lang);
+   var options = msgs('continue', {'$label': '*'}, lang) + msgs('back', {'$label': '#'}, lang);
    var index = 0;
    var preFix = index + 1;
-   var record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + group_members[index].balance;
+   var record = msgs('group_members_repayments', {'$prefix': preFix, '$firstName': group_members[index].firstName, '$lastName': group_members[index].lastName, '$balance': group_members[index].balance, '$currency': 'RwF'}, lang);
     while((initialScreen + record + options).length < 140 && index < group_members.length) {
         initialScreen = initialScreen + record;
         index = index + 1;
         preFix = index + 1; 
-        record = msgs('group_members_repayments', {prefix: preFix, firstName: group_members[index].firstName, lastName: group_members[index].lastName, balance: group_members[index].balance, currency: 'RwF'}, lang);
+        record = msgs('group_members_repayments', {'$prefix': preFix, '$firstName': group_members[index].firstName, '$lastName': group_members[index].lastName, '$balance': group_members[index].balance, '$currency': 'RwF'}, lang);
         // record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + group_members[index].balance + ' RwF\n';
     }
     if(preFix < group_members.length) {
         initialScreen = initialScreen + options;
     } else {
-        initialScreen = initialScreen + msgs('back', {label: '#'}, lang);
+        initialScreen = initialScreen + msgs('back', {'$label': '#'}, lang);
     }
 
     all_screens.push(initialScreen);
@@ -585,9 +585,9 @@ addInputHandler('enter_last_four_id_digits', function(input) {
     for(var i=index; i<group_members.length; ) {
         // find a way to manage the options to fit screens relevantly
         if(preFix == group_members.length) {
-            options = msgs('back', {label: '#'}, lang);
+            options = msgs('back', {'$label': '#'}, lang);
         }
-        record = msgs('group_members_repayments', {prefix: preFix, firstName: group_members[i].firstName, lastName: group_members[i].lastName, balance: group_members[i].balance, currency: 'RwF'}, lang);
+        record = msgs('group_members_repayments', {'$prefix': preFix, '$firstName': group_members[i].firstName, '$lastName': group_members[i].lastName, '$balance': group_members[i].balance, '$currency': 'RwF'}, lang);
         if((screen + record + options).length <= 140) {
             screen = screen + record;
             i = i + 1;
