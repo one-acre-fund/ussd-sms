@@ -991,6 +991,9 @@ var MainMenuText = function (client){
 
     if (GetLang()){MenuText = MenuText + "\n9) Contact Call center"}
     else {MenuText = MenuText + "\n9) Wasiliana na Huduma ya wateja"}
+
+    if (GetLang()){MenuText = MenuText + "\n10) View group repayment"}
+    else {MenuText = MenuText + "\n10) Mukhtasari wa malipo ya kikundi"}
     
     if (GetLang()){MenuText =MenuText + "\n99) Swahili"}
     else {MenuText =MenuText + "\n99) English"}
@@ -1707,6 +1710,10 @@ addInputHandler("MainMenu", function(MainMenu) {
     else if (MainMenu == 9){
         CallCenterMenuText();
         promptDigits("CallCenterMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
+    } else if (MainMenu == 10) {
+        // view repayment information
+        sayText('Please enter the last four digits of the national ID you registered with.');
+        promptDigits("enter_last_four_id_digits", {submitOnHash: true, maxDigits: 4, timeout: 5})
     }
     else{
         var arrayLength = client.BalanceHistory.length;
