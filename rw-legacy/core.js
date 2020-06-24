@@ -59,6 +59,7 @@ var geo_mm_data = require('./dat/mm-agent-geography');
 var get_time = require('./lib/enr-timestamp');
 var get_client = require('./lib/enr-retrieve-client-row');
 var regSessionManager = require('./lib/enr-resume-registration');
+var group_size_satisfied = require('./lib/core-group-size-check');
 
 //options
 const lang = project.vars.cor_lang;
@@ -962,12 +963,22 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
         var group_information = groupCheck(input, 'group_codes', lang);
         // if the info about the id is not null, ask for confirmation with the group info
         if (group_information != null) {
+
+            // Check if the group size is less than 16
+            if (!group_size_satisfied(input,client_table)){
+                sayText(msgs('group_size_not_satisfied',{},lang));
+                regSessionManager.clear(contact.phone_number);
+                stopRules();
+                return null;
+            }     
+            else{   
             regSessionManager.save(contact.phone_number, state.vars, 'groupCodeInputHandler', input);
             var confirmation_menu = msgs('enr_confirmation_menu', {}, lang);
             var current_menu = msgs('enr_group_id_confirmation', { '$ENR_GROUP_ID': input, '$LOCATION_INFO': group_information, '$ENR_CONFIRMATION_MENU': confirmation_menu }, lang);
             state.vars.current_menu_str = current_menu;
             sayText(current_menu);
             promptDigits('enr_group_id_confirmation', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            }
         }
         // if the group id is not valid, prompt them again
         else {
@@ -1145,12 +1156,20 @@ addInputHandler('enr_glvv_id', function (input) {
     state.vars.group_information = groupCheck(input, 'group_codes', lang);
 
     if (state.vars.group_information != null) {
-        var confirmation_menu = msgs('enr_confirmation_menu', {}, lang);
-        var current_menu = msgs('enr_group_id_confirmation', { '$ENR_GROUP_ID': input, '$LOCATION_INFO': state.vars.group_information, '$ENR_CONFIRMATION_MENU': confirmation_menu }, lang);
-        state.vars.current_menu_str = current_menu;
-        sayText(current_menu);
-        promptDigits('enr_glvv_id_confirmation', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
 
+        // Check if the group size is less than 16
+        if (!group_size_satisfied(input,client_table)){
+            sayText(msgs('group_size_not_satisfied',{},lang));
+            stopRules();
+            return null;
+        }
+        else{
+            var confirmation_menu = msgs('enr_confirmation_menu', {}, lang);
+            var current_menu = msgs('enr_group_id_confirmation', { '$ENR_GROUP_ID': input, '$LOCATION_INFO': state.vars.group_information, '$ENR_CONFIRMATION_MENU': confirmation_menu }, lang);
+            state.vars.current_menu_str = current_menu;
+            sayText(current_menu);
+            promptDigits('enr_glvv_id_confirmation', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+        }
     }
     // if the group id is not valid, prompt them again
     else {

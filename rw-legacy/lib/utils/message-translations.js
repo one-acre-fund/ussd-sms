@@ -59,6 +59,10 @@ module.exports = {
         "en": "$GEO_MENU",
         "ki": "$GEO_MENU",
     },
+    "group_size_not_satisfied": {
+        "en" : "The group has reached its maximum of 16 people, find a different group to register with",
+        "ki" : " Itsinda mwinjije rwujuje umubare wabantu 16 usabwa, shaka irindi tsinda wiyandikishamo"
+    },
     "cto_fo_information": {
         "en": "Your FO is $FO_NAME~BTheir phone number is $FO_PHONE",
         "ki": "Umukangurambaga wawe ni $FO_NAME.~BNomero ya telefone ye ni $FO_PHONE",
