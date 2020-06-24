@@ -570,5 +570,29 @@ module.exports = {
     "NATIONAL_ID_last_four_digits": {
         "en": "Please enter the last four digits of the national ID you registered with",
         "ki": "Nyaboneka injiza imibare ine ya nyuma ya nomera ndangamuntu wakoresheje wiyandikisha"
-    }
+    },
+    "group_balance": {
+        "en": "Group balance: $groupBalance~B",
+        "ki": "Asigaye mu itsinda: $groupBalance~B"
+    },
+    "group_credit": {
+        "en": "Group credit: $groupCredit~B",
+        "ki": "Asigaye mu itsinda: $groupCredit~B"
+    },
+    "continue": {
+        "en": "$label) Continue~B",
+        "ki": "$label) Komeza~B",
+    },
+    "back":  {
+        "en": "$label) Go back",
+        "ki": "$label) Subira inyuma"
+    },
+    "group_members_repayments": {
+        "en": "$prefix) $firstName $lastName: $balance $currency~B",
+        "ki": "$prefix) $firstName $lastName: $balance $currency~B"
+    },
+    "group_member_repayment": {
+        "en": "Name: $firstName $lastName~BCredit: $credit~BBalance: $balance~BAmount repaid: $repaid~B% repaid: $repaid_percentage~B",
+        "ki": "Izina: $firstName $lastName~BIdeni: $credit~BAsigaye: $balance~BAyishyuwe: $repaid~B% Ijanisha ry'ayishyuwe: $repaid_percentage~B"
+    } 
 }
