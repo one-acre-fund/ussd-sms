@@ -653,7 +653,7 @@ addInputHandler('view_individual_balance_menu', function(input) {
         const current_member = group_members[input -1];
         if(!current_member) {
             // wrong choice.
-            sayText(msgs('invalid_try_again', {'$menu': state.vars.current_screen}, lang));
+            sayText(msgs('invalid_try_again', {'$Menu': state.vars.current_screen}, lang));
             promptDigits("view_individual_balance_menu", {
                 'submitOnHash': false,
                 'maxDigits': max_digits_for_input,
@@ -670,17 +670,19 @@ addInputHandler('view_individual_balance_menu', function(input) {
 addInputHandler('back_to_group_summary', function (input) {
     const all_screens = JSON.parse(state.vars.all_screens);
     if(input == '#') {
-        sayText(all_screens[0]);
+        sayText(state.vars.current_screen);
         promptDigits("view_individual_balance_menu", {
             'submitOnHash': false,
             'maxDigits': max_digits_for_input,
             'timeout': timeout_length
         });
-        state.vars.current_screen = 0;
-        state.vars.next_screen = 1;
-        state.vars.previous_screen = -1;
     } else {
-        stopRules();
+        sayText(msgs('invalid_try_again', {'$Menu': state.vars.current_screen}, lang));
+        promptDigits("view_individual_balance_menu", {
+            'submitOnHash': false,
+            'maxDigits': max_digits_for_input,
+            'timeout': timeout_length
+        });
     }
 });
 
