@@ -5,7 +5,7 @@ var slack = {
             url,
             {
                 method: 'POST',
-                data: { text: message }
+                data: JSON.stringify({ text: message })
             }
         );
 

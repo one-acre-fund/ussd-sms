@@ -6,15 +6,13 @@ describe('slack', () => {
         expect(slack.log).toBeInstanceOf(Function);
     });
     describe('slack.log', () => {
-        it('should call the telerivet httpClient with the', () => {
+        it('should make an http request', () => {
             const exampleMessage = 'Exammple Log message';
             slack.log(exampleMessage);
             expect(httpClient.request).toHaveBeenLastCalledWith(
                 'https://hooks.slack.com/services'+project.vars.slack_log_key,{
                     method: 'POST',
-                    data: {
-                        text: exampleMessage
-                    }
+                    data: JSON.stringify({ text: exampleMessage })
                 }
             );
         });
