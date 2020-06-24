@@ -643,7 +643,7 @@ addInputHandler('view_individual_balance_menu', function(input) {
                 'timeout': timeout_length
             });
         } else {
-            // take them to the main menu
+            // take them to the main menu if they click back while being on group summary (first screen)
             menu = state.vars.main_menu;
             sayText(menu);
             promptDigits('backToMain', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
@@ -662,11 +662,27 @@ addInputHandler('view_individual_balance_menu', function(input) {
         } else {
             menu = msgs('group_member_repayment', {'$firstName': current_member.firstName, '$lastName': current_member.lastName, '$credit': current_member.credit, '$balance': current_member.balance, '$repaid': current_member.repaid, '$repaid_percentage': current_member['% Repaid']}, lang) + msgs('back', {'$label': '#'}, lang);
             sayText(menu);
-            promptDigits('backToMain',{'submitOnHash': false, 'maxDigits': 1, 'timeout': timeout_length })
+            promptDigits('back_to_group_summary',{'submitOnHash': false, 'maxDigits': 1, 'timeout': timeout_length })
         }
     }
 })
 
+addInputHandler('back_to_group_summary', function (input) {
+    const all_screens = JSON.parse(state.vars.all_screens);
+    if(input == '#') {
+        sayText(all_screens[0]);
+        promptDigits("view_individual_balance_menu", {
+            'submitOnHash': false,
+            'maxDigits': max_digits_for_input,
+            'timeout': timeout_length
+        });
+        state.vars.current_screen = 0;
+        state.vars.next_screen = 1;
+        state.vars.previous_screen = -1;
+    } else {
+        stopRules();
+    }
+});
 
 addInputHandler('market_access_handler', function (input){
 
