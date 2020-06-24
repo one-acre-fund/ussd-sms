@@ -58,23 +58,56 @@ var extensionTable =  project.initDataTableById('DT6d616f3e4e82bd9d');
 global.main = function(){
     sayText(msgs('ext_main_splash'));
     var menu = populate_menu('extension_main_menu', lang);
-    sayText(menu);
-    promptDigits('ext_main_splash', {   'submitOnHash' : false,
-                                        'maxDigits'    : max_digits_for_input,
-                                        'timeout'      : timeout_length });
+
+    if (typeof (menu) == 'string') {
+        state.vars.current_menu_str = menu;
+        sayText(menu);
+        state.vars.multiple_input_menus = 0;
+        state.vars.input_menu = menu;
+        promptDigits('ext_main_splash', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+    }
+    else if (typeof (menu) == 'object') {
+        state.vars.input_menu_loc = 0; //watch for off by 1 errors - consider moving this to start at 1
+        state.vars.multiple_input_menus = 1;
+        state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
+        state.vars.current_menu_str = menu[state.vars.input_menu_loc];
+        sayText(menu[state.vars.input_menu_loc]);
+        state.vars.input_menu = JSON.stringify(menu);
+        promptDigits('ext_main_splash', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+    }
 }
 
 // input handler for survey type
 addInputHandler('ext_main_splash', function(input){
     // redirect user based on their input menu selection
 
+
+    if (state.vars.multiple_input_menus) {
+        if (input == 44 && state.vars.input_menu_loc > 0) {
+            state.vars.input_menu_loc = state.vars.input_menu_loc - 1;
+            var menu = JSON.parse(state.vars.input_menu)[state.vars.input_menu_loc];
+            state.vars.current_menu_str = menu;
+            sayText(menu);
+            promptDigits('ext_main_splash', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            return null;
+        }
+        else if (input == 77 && (state.vars.input_menu_loc < state.vars.input_menu_length - 1)) {
+            state.vars.input_menu_loc = state.vars.input_menu_loc + 1;
+            var menu = JSON.parse(state.vars.input_menu)[state.vars.input_menu_loc]
+            state.vars.current_menu_str = menu;
+            sayText(menu);
+            promptDigits('ext_main_splash', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            return null;
+        }
+        else if (input == 44 && state.vars.input_menu_loc == 0) {
+            sayText(msgs('invalid_input', {}, lang));
+            promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            return null;
+        }
+    }
+
     var selection = get_menu_option(input, 'extension_main_menu');
     if(selection === 'test_pack_reg'){
-        sayText('not available');
-        stopRules();
-        return;
-    }
-    else if(selection === 'tree_program_reg'){
         const resumedSession = srvySessionManager.resume(contact.phone_number, inputHandlers);
         if(!resumedSession){
             state.vars.survey_type = 'ext';
@@ -89,7 +122,7 @@ addInputHandler('ext_main_splash', function(input){
     else if(selection === 'fp_training'){
         var menu = populate_menu('extension_fp_menu', lang);
         sayText(menu);
-        promptDigits('ext_main_splash', {   'submitOnHash' : false,
+        promptDigits('fp_menu_handler', {   'submitOnHash' : false,
                                             'maxDigits'    : max_digits_for_input,
                                             'timeout'      : timeout_length });
 
