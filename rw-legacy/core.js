@@ -102,7 +102,7 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
     else {
         try {
             var verify = require('./lib/account-verify')
-            var client_verified = true// verify(response);
+            var client_verified = verify(response);
             state.vars.account_number = response;
             if (client_verified) {
 
@@ -111,16 +111,11 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
                 if(cursor.hasNext()){
                     var row = cursor.next();
                     if (row.vars.group_leader == 1){
-                        sayText("**************", row.vars.group_leader);
                         state.vars.group_leader = 'yes';
                         state.vars.groupCodeForGL = row.vars.glus;
                         state.vars.nid = row.vars.nid;
                     }
                 }
-                // if(true){// my custom if
-                //     state.vars.group_leader = 'yes';
-                //     state.vars.groupCodeForGL = 1234//row.vars.glus;
-                // }
 
                 sayText(msgs('account_number_verified'));    
                 var splash = 'core_enr_splash_menu';
