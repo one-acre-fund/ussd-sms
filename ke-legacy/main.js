@@ -1,5 +1,6 @@
 // Setting global variables!
 var rosterAPI = require('ext/Roster_v1_2_0/api');
+var groupRepaymentsModule = require('../group-repayments/index');
 var MenuCount = 0;
 var MenuNext = false;
 var LocArray="";
@@ -80,9 +81,9 @@ var InteractionCounter = function(input){
 };
 var IsGl = function(accnum){
     var GLTable = project.getOrCreateDataTable("GroupLeaders");
-    GLCursor = GLTable.queryRows({vars: {'accountnumber': accnum}});
+    var GLCursor = GLTable.queryRows({vars: {'accountnumber': accnum}});
     if(GLCursor.count()>0){state.vars.IsGL = true}
-    else {state.vars.IsGL = false}
+    else {state.vars.IsGL = false;}
     return state.vars.IsGL;
 };
 var GetBalance = function (client, season){
@@ -992,12 +993,15 @@ var MainMenuText = function (client){
     if (GetLang()){MenuText = MenuText + "\n9) Contact Call center"}
     else {MenuText = MenuText + "\n9) Wasiliana na Huduma ya wateja"}
 
-    if (GetLang()){MenuText = MenuText + "\n10) View group repayment"}
-    else {MenuText = MenuText + "\n10) Mukhtasari wa malipo ya kikundi"}
+    if(IsGl(client.AccountNumber)) {
+        if (GetLang() ){MenuText = MenuText + "\n10) View group repayment"}
+        else {MenuText = MenuText + "\n10) Mukhtasari wa malipo ya kikundi"}
+    }
     
     if (GetLang()){MenuText =MenuText + "\n99) Swahili"}
     else {MenuText =MenuText + "\n99) English"}
     sayText(MenuText);
+    state.vars.main_menu = MenuText;
 };
 
 var NonClientMenuText = function (){
@@ -1566,6 +1570,7 @@ var StaffConfrimAbsenceEmailHR = function(){
     console.log("Pending foprmat");
 };
 
+
 // Start logic flow
 global.main = function () {
     LogSessionID();
@@ -1573,41 +1578,47 @@ global.main = function () {
     promptDigits("SplashMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
 };
 
-// addInputHandler("SplashMenu", function(SplashMenu) {
-//     LogSessionID();
-//     InteractionCounter("SplashMenu");
-//     ClientAccNum = SplashMenu;
-//     if (SplashMenu == "99"){
-//         ChangeLang();
-//         SplashMenuText();
-//         promptDigits("SplashMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
-//     }
-//     else if (SplashMenu == "0"){
-//         NonClientMenuText();
-//         promptDigits("NonClientMenu", {submitOnHash: true, maxDigits: 2, timeout: 5});
-//     }
-//     else if (SplashMenu == "9"){
-//         StaffPayrollText();
-//         promptDigits('StaffPayRoll', {submitOnHash: true, maxDigits: 5, timeout: 5});
-//     }
+// register input handlers
+groupRepaymentsModule.registerGroupRepaymentHandlers({lang: GetLang() ? 'en' : 'sw', main_menu: state.vars.main_menu, main_menu_handler: 'MainMenu'});
 
-//     else {
-//         if (RosterClientVal(ClientAccNum)){
-//             console.log("SuccessFully Validated against Roster");
-//             client = RosterClientGet(ClientAccNum);
-//             state.vars.client = JSON.stringify(TrimClientJSON(client));
-//             call.vars.client = JSON.stringify(TrimClientJSON(client));
-//             call.vars.AccNum = ClientAccNum;
-//             MainMenuText (client);
-//             promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
-//         }
-//         else{
-//             console.log("account number not valid");
-//             SplashMenuFailure();
-//             promptDigits("SplashMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
-//         }
-//     }
-// });
+addInputHandler("SplashMenu", function(SplashMenu) {
+    LogSessionID();
+    InteractionCounter("SplashMenu");
+    ClientAccNum = SplashMenu;
+    if (SplashMenu == "99"){
+        ChangeLang();
+        SplashMenuText();
+        promptDigits("SplashMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+    }
+    else if (SplashMenu == "0"){
+        NonClientMenuText();
+        promptDigits("NonClientMenu", {submitOnHash: true, maxDigits: 2, timeout: 5});
+    }
+    else if (SplashMenu == "9"){
+        StaffPayrollText();
+        promptDigits('StaffPayRoll', {submitOnHash: true, maxDigits: 5, timeout: 5});
+    }
+
+    else {
+        if (true){// if (true || RosterClientVal(ClientAccNum)){ // mock a true to avoid db call
+            console.log("SuccessFully Validated against Roster");
+            // client = RosterClientGet(ClientAccNum); will be uncommented after the developmet
+            // client get should return nid too.
+            client = {nid: '12345678', DistrictName: "Ruhango", AccountNumber: '00000000', BalanceHistory: [{SeasonName: 'season1'}]}; // mock client
+            state.vars.client = JSON.stringify(TrimClientJSON(client));
+            call.vars.client = JSON.stringify(TrimClientJSON(client));
+            call.vars.AccNum = ClientAccNum;
+            state.vars.nid = client.nid;
+            MainMenuText(client);
+            promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+        }
+        else{
+            console.log("account number not valid");
+            SplashMenuFailure();
+            promptDigits("SplashMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+        }
+    }
+});
 addInputHandler("NonClientMenu", function(input) {
     LogSessionID();
     InteractionCounter("NonClientMenu");
@@ -1711,10 +1722,9 @@ addInputHandler("MainMenu", function(MainMenu) {
     else if (MainMenu == 9){
         CallCenterMenuText();
         promptDigits("CallCenterMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
-    } else if (MainMenu == 10) {
+    } else if (MainMenu == 10 ) { // put a check for GL too. in case the user tries to be smart and guess the option while they are not GL
         // view repayment information
-        sayText('Please enter the last four digits of the national ID you registered with.');
-        promptDigits("enter_last_four_id_digits", {submitOnHash: true, maxDigits: 4, timeout: 5})
+        groupRepaymentsModule.spinGroupRepayments({lang: GetLang() ? 'en' : 'sw'})
     }
     else{
         var arrayLength = client.BalanceHistory.length;
@@ -1747,6 +1757,7 @@ addInputHandler("MainMenu", function(MainMenu) {
         promptDigits("ContinueToPayment", {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
 });
+
 addInputHandler("BackToMain", function(input) {
     LogSessionID();
     InteractionCounter("BackToMain");

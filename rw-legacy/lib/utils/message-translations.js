@@ -567,32 +567,4 @@ module.exports = {
         "en": "The entered national ID is already in our system. Please register with a different national ID or place an order using your account number",
         "ki": "Inomero y Irangamuntu mwinjije iranditse muri sisiteme yacu. Koresha iyindi numero y Irangamuntu cyangwa utumize ukoresheje nimero ya konti yumuhinzi",
     },
-    "NATIONAL_ID_last_four_digits": {
-        "en": "Please enter the last four digits of the national ID you registered with",
-        "ki": "Nyaboneka injiza imibare ine ya nyuma ya nomera ndangamuntu wakoresheje wiyandikisha"
-    },
-    "group_balance": {
-        "en": "Group balance: $groupBalance~B",
-        "ki": "Asigaye mu itsinda: $groupBalance~B"
-    },
-    "group_credit": {
-        "en": "Group credit: $groupCredit~B",
-        "ki": "Ideni ry'itsinda: $groupCredit~B"
-    },
-    "continue": {
-        "en": "$label Continue~B",
-        "ki": "$label Komeza~B",
-    },
-    "back":  {
-        "en": "$label Go back",
-        "ki": "$label Subira inyuma"
-    },
-    "group_members_repayments": {
-        "en": "$prefix) $firstName $lastName: $balance RwF~B",
-        "ki": "$prefix) $firstName $lastName: F$balance~B"
-    },
-    "group_member_repayment": {
-        "en": "Name: $firstName $lastName~BCredit: $creditRwF~BBalance: $balanceRwF~BAmount repaid: $repaidRwF~B% repaid: $repaid_percentageRwF~B",
-        "ki": "Izina: $firstName $lastName~BIdeni: F$credit~BAsigaye: F$balance~BAyishyuwe: F$repaid~B% Ijanisha ry'ayishyuwe: F$repaid_percentage~B"
-    } 
 }

@@ -59,6 +59,7 @@ var geo_mm_data = require('./dat/mm-agent-geography');
 var get_time = require('./lib/enr-timestamp');
 var get_client = require('./lib/enr-retrieve-client-row');
 var regSessionManager = require('./lib/enr-resume-registration');
+var groupRepaymentsModule = require('../group-repayments/index');
 
 //options
 const lang = project.vars.cor_lang;
@@ -104,7 +105,7 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             var verify = require('./lib/account-verify')
             var client_verified = verify(response);
             state.vars.account_number = response;
-            if (client_verified) {
+            if (true || client_verified) {
 
                 // Checking if the user is a group leader to options to be seen by only group leaders on the menu
                 var cursor = client_table.queryRows({ 'vars': { 'account_number': response}});
@@ -394,12 +395,16 @@ addInputHandler('cor_menu_select', function (input) {
         }
     } else if(selection == 'view_group_repayment') {
         // group repayments
-        sayText(msgs('NATIONAL_ID_last_four_digits', {}, lang));
-        promptDigits('enter_last_four_id_digits', {
-            'submitOnHash': false,
-            'maxDigits': 4,
-            'timeout': timeout_length
-        })
+        var groupsTable = project.initDataTableById(service.vars.groupCodes_id);
+        var cursor = groupsTable.queryRows({vars:{'group_code':state.vars.groupCodeForGL}});
+        if(cursor.hasNext())
+        {
+            var row = cursor.next();
+            var DistrictId = row.vars.district_id;
+            var GroupId = row.vars.group_id;
+            console.log(JSON.stringify(row.vars));
+            groupRepaymentsModule.spinGroupRepayments({lang: lang, DistrictId: DistrictId, GroupId: GroupId});
+        }
     }
     else {
         var current_menu = msgs(selection, opts, lang);
@@ -410,276 +415,7 @@ addInputHandler('cor_menu_select', function (input) {
     }
 });
 
-addInputHandler('enter_last_four_id_digits', function(input) {
-   // verification of id match 
-   const lastFourIdDigits = String(input.replace(/D/g, ''));
-   if(!state.vars.nid || parseInt(state.vars.nid.slice(-4)) != lastFourIdDigits) {
-        sayText('wrong id please try again');
-        promptDigits('enter_last_four_id_digits', {
-            'submitOnHash': false,
-            'maxDigits': 4,
-            'timeout': timeout_length
-        });
-        return null
-   }
-   // make api call to roster that returns an object similar to the following
-   // this is a mock that will be replaced by the real values from the roster api call.
-   const rosterCallResult = {
-       groupRepayments: {
-           credit: 30000,
-           balance: 20000
-       },
-       members: [
-           {
-               firstName: 'Jeanne',
-               lastName: 'Mukarukundo',
-               credit: 10000,
-               repaid: 7000,
-               balance: 3000,
-               '% Repaid': '70%'
-           },
-           {
-            firstName: 'Bosco',
-            lastName: 'Nshimiyimana',
-            credit: 10000,
-            repaid: 7000,
-            balance: 3000,
-            '% Repaid': '70%'
-        },
-        {
-            firstName: 'Damma',
-            lastName: 'Sibomana',
-            credit: 10000,
-            repaid: 7000,
-            balance: 3000,
-            '% Repaid': '70%'
-        },
-        {
-            firstName: 'Fred',
-            lastName: 'Rufendeke',
-            credit: 10000,
-            repaid: 7000,
-            balance: 3000,
-            '% Repaid': '70%'
-        },
-        {
-            firstName: 'Joana',
-            lastName: 'Nyirimana',
-            credit: 10000,
-            repaid: 7000,
-            balance: 3000,
-            '% Repaid': '70%'
-        },
-        {
-            firstName: 'Clet',
-            lastName: 'Mukama',
-            credit: 10000,
-            repaid: 7000,
-            balance: 3000,
-            '% Repaid': '70%'
-        },
-        {
-            firstName: 'Innocent',
-            lastName: 'Ntambara',
-            credit: 10000,
-            repaid: 7000,
-            balance: 3000,
-            '% Repaid': '70%'
-        },
-        {
-            firstName: 'Mico',
-            lastName: 'The best',
-            credit: 10000,
-            repaid: 7000,
-            balance: 3000,
-            '% Repaid': '70%'
-        },
-        {
-            firstName: 'Christopher',
-            lastName: 'Muneza',
-            credit: 10000,
-            repaid: 7000,
-            balance: 3000,
-            '% Repaid': '70%'
-        },
-        {
-            firstName: 'Platini',
-            lastName: 'Nemeye',
-            credit: 10000,
-            repaid: 7000,
-            balance: 3000,
-            '% Repaid': '70%'
-        },
-        {
-            firstName: 'Joshua',
-            lastName: 'Polly',
-            credit: 10000,
-            repaid: 7000,
-            balance: 3000,
-            '% Repaid': '70%'
-        },
-        {
-            firstName: 'Khadir',
-            lastName: 'Sindano',
-            credit: 10000,
-            repaid: 7000,
-            balance: 3000,
-            '% Repaid': '70%'
-        },
-        {
-            firstName: 'Ukwishaka',
-            lastName: 'Levy',
-            credit: 10000,
-            repaid: 7000,
-            balance: 3000,
-            '% Repaid': '70%'
-        },
-        {
-            firstName: 'Herve',
-            lastName: 'Kamana',
-            credit: 10000,
-            repaid: 7000,
-            balance: 3000,
-            '% Repaid': '70%'
-        },
-        {
-            firstName: 'Colonel',
-            lastName: 'Sentare',
-            credit: 10000,
-            repaid: 7000,
-            balance: 3000,
-            '% Repaid': '70%'
-        },
-       ]
-   };
-   const group_repayments = rosterCallResult.groupRepayments;
-   const group_members = rosterCallResult.members;
-   state.vars.group_members = JSON.stringify(group_members);
-   var screen = '';
-   var all_screens = [];
-
-   var initialScreen = msgs('group_credit', {'$groupCredit': group_repayments.credit}, lang) + msgs('group_balance', {'$groupBalance': group_repayments.balance}, lang);
-   var options = msgs('continue', {'$label': '*'}, lang) + msgs('back', {'$label': '#'}, lang);
-   var index = 0;
-   var preFix = index + 1;
-   var record = msgs('group_members_repayments', {'$prefix': preFix, '$firstName': group_members[index].firstName, '$lastName': group_members[index].lastName, '$balance': group_members[index].balance}, lang);
-    while((initialScreen + record + options).length < 140 && index < group_members.length) {
-        initialScreen = initialScreen + record;
-        index = index + 1;
-        preFix = index + 1; 
-        record = msgs('group_members_repayments', {'$prefix': preFix, '$firstName': group_members[index].firstName, '$lastName': group_members[index].lastName, '$balance': group_members[index].balance}, lang);
-        // record = preFix + ') ' + group_members[index].firstName + ' ' + group_members[index].lastName + ': '  + group_members[index].balance + ' RwF\n';
-    }
-    if(preFix < group_members.length) {
-        initialScreen = initialScreen + options;
-    } else {
-        initialScreen = initialScreen + msgs('back', {'$label': '#'}, lang);
-    }
-
-    all_screens.push(initialScreen);
-
-    for(var i=index; i<group_members.length; ) {
-        // find a way to manage the options to fit screens relevantly
-        if(preFix == group_members.length) {
-            options = msgs('back', {'$label': '#'}, lang);
-        }
-        record = msgs('group_members_repayments', {'$prefix': preFix, '$firstName': group_members[i].firstName, '$lastName': group_members[i].lastName, '$balance': group_members[i].balance}, lang);
-        if((screen + record + options).length <= 140) {
-            screen = screen + record;
-            i = i + 1;
-            preFix = i + 1;
-        } else {
-            screen = screen + options;
-            all_screens.push(screen);
-            screen = '';
-        }
-    }
-    state.vars.all_screens = JSON.stringify(all_screens);
-    state.vars.current_screen = 0;
-    state.vars.next_screen = 1;
-    state.vars.previous_screen = -1;
-    state.vars.members_last_screen = all_screens.length - 1;
-    sayText(all_screens[0]);
-    promptDigits("view_individual_balance_menu", {
-        'submitOnHash': false,
-        'maxDigits': max_digits_for_input,
-        'timeout': timeout_length
-    });
-});
-
-addInputHandler('view_individual_balance_menu', function(input) {
-    const all_screens = JSON.parse(state.vars.all_screens);
-    const current_screen = state.vars.current_screen;
-    const next_screen = state.vars.next_screen;
-    const previous_screen = state.vars.previous_screen;
-    const members_last_screen = state.vars.members_last_screen;
-    var menu = '';
-    if(input == '*' && next_screen <= members_last_screen) {
-        menu = all_screens[next_screen];
-        state.vars.current_screen = next_screen;
-        state.vars.next_screen = next_screen + 1;
-        state.vars.previous_screen = previous_screen + 1;
-        sayText(menu);
-        promptDigits("view_individual_balance_menu", {
-            'submitOnHash': false,
-            'maxDigits': max_digits_for_input,
-            'timeout': timeout_length
-        });
-    } else if(input == '#') {
-        if(previous_screen >= 0) {
-            menu = all_screens[previous_screen];
-            state.vars.current_screen = previous_screen;
-            state.vars.next_screen = current_screen;
-            state.vars.previous_screen = previous_screen - 1;
-            sayText(menu);
-            promptDigits("view_individual_balance_menu", {
-                'submitOnHash': false,
-                'maxDigits': max_digits_for_input,
-                'timeout': timeout_length
-            });
-        } else {
-            // take them to the main menu if they click back while being on group summary (first screen)
-            menu = state.vars.main_menu;
-            sayText(menu);
-            promptDigits('backToMain', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
-        }
-    } else {
-        const group_members = JSON.parse(state.vars.group_members);
-        const current_member = group_members[input -1];
-        if(!current_member) {
-            // wrong choice.
-            sayText(msgs('invalid_try_again', {'$Menu': all_screens[state.vars.current_screen]}, lang));
-            promptDigits("view_individual_balance_menu", {
-                'submitOnHash': false,
-                'maxDigits': max_digits_for_input,
-                'timeout': timeout_length
-            });
-        } else {
-            menu = msgs('group_member_repayment', {'$firstName': current_member.firstName, '$lastName': current_member.lastName, '$credit': current_member.credit, '$balance': current_member.balance, '$repaid': current_member.repaid, '$repaid_percentage': current_member['% Repaid']}, lang) + msgs('back', {'$label': '#'}, lang);
-            sayText(menu);
-            promptDigits('back_to_group_summary',{'submitOnHash': false, 'maxDigits': 1, 'timeout': timeout_length })
-        }
-    }
-})
-
-addInputHandler('back_to_group_summary', function (input) {
-    const all_screens = JSON.parse(state.vars.all_screens);
-    if(input == '#') {
-        sayText(all_screens[state.vars.current_screen]);
-        promptDigits("view_individual_balance_menu", {
-            'submitOnHash': false,
-            'maxDigits': max_digits_for_input,
-            'timeout': timeout_length
-        });
-    } else {
-        sayText(msgs('invalid_try_again', {'$Menu': all_screens[state.vars.current_screen]}, lang));
-        promptDigits("view_individual_balance_menu", {
-            'submitOnHash': false,
-            'maxDigits': max_digits_for_input,
-            'timeout': timeout_length
-        });
-    }
-});
+groupRepaymentsModule.registerGroupRepaymentHandlers({lang: lang, main_menu: state.vars.main_menu, main_menu_handler: 'cor_menu_select'});
 
 addInputHandler('market_access_handler', function (input){
 
