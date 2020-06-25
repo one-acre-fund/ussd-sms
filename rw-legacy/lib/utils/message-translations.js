@@ -7,9 +7,177 @@ module.exports = {
         "en": "77)Next page",
         "ki": "77)Gukomeza"
     },
+    "ext_farmer_national_id": {
+        "en": "Enter the farmer National ID Number",
+        "ki": "Andika nimero y' irangamuntu y' umuhinzi",
+    },
+    "ext_farmer_national_id_used": {
+        "en": "The National ID Number is already registered",
+        "ki": "Nimero y' irangamuntu y' umuhinzi mwinjije iranditse",
+    },
+    "ext_farmer_name_1": {
+        "en": "Enter the farmer's first name",
+        "ki": "Andika izina ry'ikinyarwanda ry' umuhinzi",
+    },
+    "ext_farmer_name_2": {
+        "en": "Enter the farmer's second name",
+        "ki": "Andika izina ry'irikirisitu ry' umuhinzi",
+    },
+    "exiting": {
+        "en": "Thank you for using the service. Exiting",
+        "ki": "Murakoze gukoresha iyi serivice",
+    },
+    "ext_farmer_gender": {
+        "en": "What gender is the Farmer who will receive the tester pack?\n1) Male\n2) Female",
+        "ki": "Igitsina cy'umuhinzi uzakira inyongeramusaruro z'igerageza\n1) Gabo\n2) Gore"
+    },
+    "ext_farmer_phone": {
+        "en": " What the phone number that the farmer can be reached on?",
+        "ki": " Nimero ya telefone uyu muhinzi yabonekaho?"
+    },
+    "ext_farmer_not_eligible": {
+        "en": "Thank you, this farmer is not eligible",
+        "ki": "Murakoze, uyu muhinzi ntiyujuje ibisabwa"
+    },
+    "ext_farmer_confirmation": {
+        "en": "Thank you, this is registered in tester pack",
+        "ki": "Murakoze, Uyumuhinzi agiye k'urutonde rwabazahabwa inyongera musaruro zigerageza"
+    },
+    "ext_farmerId_used_NE":{
+        "en": "The farmer's Id was used and they are not eligible",
+        "ki": "Nimero y' irangamuntu y' umuhinzi yakoreshejwe, ntago yujuje ibisabwa"
+    },
+    "ext_farmerId_used_RE":{
+        "en": "The farmer's Id was used and they are already registered",
+        "ki": "Nimero y' irangamuntu y' umuhinzi yakoreshejwe, ari kurutonde rwabazahabwa inyongera musaruro zigerageza"
+    },
+    "ext_invalid_national_id":{
+        "en":"The national Id entered is incorect. Please try again",
+        "ki": " Inomero y'irangamuntu mwayanditse nabi. Ongera ongerageze"
+    },
+    "ext_main_splash": {
+        "en": "Welcome. ~B",
+        "ki": "Murakaza neza. ~B"
+      },
+      "fp_enter_id": {
+        "en": "Welcome Farmer Promoter. Enter your village ID",
+        "ki": "Ikaze mujyanama, andika code y'umudugudu wawe"
+      },
+      "sedo_enter_id": {
+        "en": "Please identify yourself with your SEDO ID (6 digits).",
+        "ki": "Subiza na code yawe ya SEDO (Imibare 6)?"
+      },
+      "sedo_enter_vid": {
+        "en": "Please reply with your village ID",
+        "ki": "Subiza na code y'umudugudu wasuye"
+      },
+      "invalid_fp_age": {
+        "en": "Not correct, please reply with a number ~BWhat is the Farmer Promoter's Age?",
+        "ki": "Sibyo, subiza wandika umubare~BImyaka y'umujyanama w'ubuhinzi?"
+      },
+      "sedo_invalid_id": {
+        "en": "This is an invalid SEDO ID. Please try again",
+        "ki": "Ntabwo wanditse neza code yawe. Ongera usubiremo"
+      },
+      "invalid_vid": {
+        "en": "This is not a valid village ID, please try again.",
+        "ki": "Iyo ntabwo ari code y'umudugudu. ongera usubiremo"
+      },
+      "confirm_crop": {
+        "en": "You selected $CROPNAME.~B1) Confirm~B0)Don't confirm",
+        "ki": "Hitamo $CROPNAME.~B1) Niba aribyo~B0) Niba ataribyo"
+      },
+      "fp_gender": {
+        "en": "What is the Farmer Promoter's gender? ~B1) Male~B2) Female",
+        "ki": "Igitsina y'umujyanama w'ubuhinzi ~B1) Gabo ~B2) Gore"
+      },
+      "fp_age": {
+        "en": "What is the Farmer Promoter's Age?",
+        "ki": "Imyaka y'umujyanama w'ubuhinzi?"
+      },
+      "fp_tenure": {
+        "en": "How many years has the Farmer Promoter been a Farmer Promoter",
+        "ki": "Umujyanama amaze igihe kingana iki ari umujyanama w'ubuhinzi?"
+      },
+      "fp_num_trained": {
+        "en": "How many farmers did the FP practically train this season in the field?",
+        "ki": "Umujyanama w'ubuhinzi yahuguye abahinzi bangahe mumurima?"
+      },
+      "num_groups": {
+        "en": "How many Twigire Groups does the FP have?",
+        "ki": "Umujyanama w'ubuhinzi afite amatsinda angahe ya Twigire Muhinzi?"
+      },
+      "fp_num_trainings": {
+        "en": "How many training sessions has the Farmer Promoter received this season?",
+        "ki": "Umujyanama w'ubuhinzi yahawe amahugurwa inshuro zingahe muri iki gihembwe?"
+      },
+      "survey_start": {
+        "en": "Choose a crop:~B",
+        "ki": "Hitamo igihingwa:~B"
+      },
+      "survey_question": {
+        "en": "$FEEDBACK~B$TEXT~B$OPT1~B$OPT2~B$OPT3~B$OPT4~B5) Ntabyo nzi",
+        "ki": "$FEEDBACK~B$TEXT~B$OPT1~B$OPT2~B$OPT3~B$OPT4~B5) Ntabyo nzi"
+      },
+      "invalid_input": {
+        "en": "Please try again",
+        "ki": "Ongera usubiremo"
+      },
+      "closing_message": {
+        "en": "Thank you for answering the questions. You answered $NUM_CORRECT out of 10 correctly.",
+        "ki": "Murakoze gusubiza ibibazo. Mubibazo mwakoze mubashyije gusubiza $NUM_CORRECT kuri 10 neza. Twigire Muhizi izifashisha ibisubizo mukunoza imikorere."
+      },
+      "fp_trained": {
+        "en": "Did the FP receive training this season on how to plant this crop?~B1) Yes~B2) No",
+        "ki": "Umujyanama w'ubuhinzi yabonye amahugurwa iki gihembwe kuri iki gihingwa?~B1) Yego~B2) Oya"
+      },
+      "num_females_crop": {
+        "en": "How many unique female farmers were practically trained this season on this crop?",
+        "ki": "Umujyanama w'ubuhinzi yahuguye abagore bangahe iki gihembwe kuri iki gihingwa?"
+      },
+      "num_males_crop": {
+        "en": "How many unique male farmers were practically trained this season on this crop?",
+        "ki": "Umujyanama w'ubuhinzi yahuguye abagabo bangahe iki gihembwe kuri iki gihingwa?"
+      },
+      "num_farmers": {
+        "en": "How many unique farmers were trained at a demo plots on planting?",
+        "ki": "Umujyanama w'ubuhinzi yahuguye abahinzi bangahe bose mu gihe cy'itera ku murima ntangarugero ?"
+      },
+      "num_plots": {
+        "en": "How many demo plots does the Farmer Promoter have?",
+        "ki": "Umujyanama w'ubuhinzi afite imirima ntangarugero ingahe?"
+      },
+      "num_females": {
+        "en": "How many females in Twigire Groups in this village?",
+        "ki": "Mu matsinda ya twigire harimo abagore bangahe mu mudugudu ?"
+      },
+      "num_males": {
+        "en": "How many males in Twigire Groups in this village?",
+        "ki": "Mu matsinda ya twigire harimo abagabo bangahe  mu mudugudu?"
+      },
+      "fp_gender_tra": {
+        "en": "What is your gender? ~B1) Male~B2) Female",
+        "ki": "Igitsina ~B1) Gabo~B2) Gore"
+      },
+      "fp_age_tra": {
+        "en": "What is your age?",
+        "ki": "Ufite imyaka ingahe?"
+      },
+      "fp_tenure_tra": {
+        "en": "How many years have you been a Farmer Promoter?",
+        "ki": "Umaze igihe kingana iki uri umujyanama ?"
+      },
+      "fp_tr_num": {
+        "en": "What is your trainer number?",
+        "ki": "Andika nimero y'ugiye ku guhugura"
+      },
     "crop_type_menu": {
         "en": "Which crop?~B $CropType",
         "ki": "Ikihe gihingwa:~B $CropType"
+    },
+    "invalid_entry" :{
+        "en": "You have entered an incorect input enter 1 to retry or 99 exit",
+        "ki": " Mwinjije ibitaribyo, kanda 1 kugirango wongere ugeraze 99 kuvamo",
     },
     "crop_amount_menu": {
         "en": "Quantity of this crop to sell in kg",
