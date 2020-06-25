@@ -1,6 +1,7 @@
 module.exports = {
     'env': {
-        'commonjs': true
+        'commonjs': true,
+        'jest': true
     },
     'extends': 'eslint:recommended',
     'parserOptions': {
@@ -40,6 +41,7 @@ module.exports = {
         addInputHandler: 'readonly',
         stopRules: 'readonly',
         httpClient: 'readonly',
+        sendEmail: 'readonly',
     },
     'overrides': [
         {
