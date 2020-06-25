@@ -1571,42 +1571,43 @@ global.main = function () {
     LogSessionID();
     SplashMenuText();
     promptDigits("SplashMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
-}
-addInputHandler("SplashMenu", function(SplashMenu) {
-    LogSessionID();
-    InteractionCounter("SplashMenu");
-    ClientAccNum = SplashMenu;
-    if (SplashMenu == "99"){
-        ChangeLang();
-        SplashMenuText();
-        promptDigits("SplashMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
-    }
-    else if (SplashMenu == "0"){
-        NonClientMenuText();
-        promptDigits("NonClientMenu", {submitOnHash: true, maxDigits: 2, timeout: 5});
-    }
-    else if (SplashMenu == "9"){
-        StaffPayrollText();
-        promptDigits('StaffPayRoll', {submitOnHash: true, maxDigits: 5, timeout: 5});
-    }
+};
 
-    else {
-        if (RosterClientVal(ClientAccNum)){
-            console.log("SuccessFully Validated against Roster");
-            client = RosterClientGet(ClientAccNum);
-            state.vars.client = JSON.stringify(TrimClientJSON(client));
-            call.vars.client = JSON.stringify(TrimClientJSON(client));
-            call.vars.AccNum = ClientAccNum;
-            MainMenuText (client);
-            promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
-        }
-        else{
-            console.log("account number not valid");
-            SplashMenuFailure();
-            promptDigits("SplashMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
-        }
-    }
-});
+// addInputHandler("SplashMenu", function(SplashMenu) {
+//     LogSessionID();
+//     InteractionCounter("SplashMenu");
+//     ClientAccNum = SplashMenu;
+//     if (SplashMenu == "99"){
+//         ChangeLang();
+//         SplashMenuText();
+//         promptDigits("SplashMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+//     }
+//     else if (SplashMenu == "0"){
+//         NonClientMenuText();
+//         promptDigits("NonClientMenu", {submitOnHash: true, maxDigits: 2, timeout: 5});
+//     }
+//     else if (SplashMenu == "9"){
+//         StaffPayrollText();
+//         promptDigits('StaffPayRoll', {submitOnHash: true, maxDigits: 5, timeout: 5});
+//     }
+
+//     else {
+//         if (RosterClientVal(ClientAccNum)){
+//             console.log("SuccessFully Validated against Roster");
+//             client = RosterClientGet(ClientAccNum);
+//             state.vars.client = JSON.stringify(TrimClientJSON(client));
+//             call.vars.client = JSON.stringify(TrimClientJSON(client));
+//             call.vars.AccNum = ClientAccNum;
+//             MainMenuText (client);
+//             promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+//         }
+//         else{
+//             console.log("account number not valid");
+//             SplashMenuFailure();
+//             promptDigits("SplashMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+//         }
+//     }
+// });
 addInputHandler("NonClientMenu", function(input) {
     LogSessionID();
     InteractionCounter("NonClientMenu");
