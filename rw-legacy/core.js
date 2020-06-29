@@ -450,6 +450,7 @@ addInputHandler('harvest_timing_handler', function(input){
         sayText(msgs('invalid_try_again', {'$Menu':menu}, lang));
         promptDigits('harvest_timing_handler', { 'submitOnHash': false, 'maxDigits': 9, 'timeout': timeout_length });
         stopRules();
+        return;
     }
     var menu ='';
     menu = msgs('market_access_confirmation_menu',{'$Amount':state.vars.harvest_amount,'$TypeOfCrop': state.vars.crop_type,'$Timeline':state.vars.harvest_time},lang);
