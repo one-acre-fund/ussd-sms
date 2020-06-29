@@ -402,7 +402,7 @@ addInputHandler('cor_menu_select', function (input) {
 // If the number of persons in a group is more than 30 ask them to try again
 addInputHandler('market_people_in_group', function(input){
 
-    if(input < 30){
+    if(input > 0 && input <= 30){
         var menu = msgs('maize_number',{},lang);
         state.vars.current_menu = menu;
         sayText(menu);
