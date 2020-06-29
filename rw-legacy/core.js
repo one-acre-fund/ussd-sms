@@ -403,7 +403,7 @@ addInputHandler('cor_menu_select', function (input) {
 addInputHandler('market_people_in_group', function(input){
 
     if(input < 30){
-        var menu = sayText(msgs('maize_number',{},lang));
+        var menu = msgs('maize_number',{},lang);
         state.vars.current_menu = menu;
         sayText(menu);
         promptDigits('harvest_amount_handler', { 'submitOnHash': false, 'maxDigits': 10, 'timeout': timeout_length });
