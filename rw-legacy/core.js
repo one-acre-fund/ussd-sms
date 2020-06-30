@@ -65,6 +65,7 @@ var regSessionManager = require('./lib/enr-resume-registration');
 var group_size_satisfied = require('./lib/core-group-size-check');
 const chickenServices = require('../chicken-services/index');
 var transactionHistory = require('../transaction-history/transactionHistory');
+var groupRepaymentsModule = require('../group-repayments/groupRepayments');
 
 //options
 const lang = project.vars.cor_lang;
@@ -120,6 +121,7 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
                     sayText(menu);
                     state.vars.multiple_input_menus = 0;
                     state.vars.input_menu = menu;
+                    state.vars.main_menu = menu;
                     promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
                 }
                 else if (typeof (menu) == 'object') {
@@ -127,6 +129,7 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
                     state.vars.multiple_input_menus = 1;
                     state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
                     state.vars.current_menu_str = menu[state.vars.input_menu_loc];
+                    state.vars.main_menu = menu[state.vars.input_menu_loc]
                     sayText(menu[state.vars.input_menu_loc]);
                     state.vars.input_menu = JSON.stringify(menu);
                     promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
@@ -393,6 +396,8 @@ addInputHandler('cor_menu_select', function (input) {
             sayText(msgs('enr_already_finalized', {}, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         }
+    } else if(selection == 'view_group_repayment') {
+        groupRepaymentsModule.spinGroupRepayments({lang: lang});
     }
     else {
         var current_menu = msgs(selection, opts, lang);
@@ -403,7 +408,7 @@ addInputHandler('cor_menu_select', function (input) {
     }
 });
 
-
+groupRepaymentsModule.registerGroupRepaymentHandlers({lang: lang, main_menu: state.vars.current_menu_str, main_menu_handler: 'cor_menu_select'});
 
 // If the number of persons in a group is more than 30 ask them to try again
 addInputHandler('market_people_in_group', function(input){
@@ -634,7 +639,6 @@ addInputHandler('chx_confirm_order', function (input) {
         return null;
     }
 });
-
 addInputHandler('chx_final_confirm', function(input){ //final confirmation to ensure that correct number of chickens is picked
     input = parseInt(input.replace(/\D/g,''));
     if(input === 1){

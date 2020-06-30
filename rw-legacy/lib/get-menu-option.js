@@ -6,6 +6,12 @@ const districtBundles = require('../dat/district-bundles');
 
 module.exports = function(menu_option, menu_table,districtId){
 
+    // If the user is a group leader
+    if(state.vars.group_leader == 'yes'){
+        if(menu_option == state.vars.view_group_repayment_option) {
+            return 'view_group_repayment';
+        }
+    }
     if(!menu_option){
         return null;
     }

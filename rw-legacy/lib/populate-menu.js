@@ -50,6 +50,14 @@ module.exports = function(table_name, lang, max_chars){
         }
     }
 
+    // Append menu of  group repayments if group leaders
+    if(state.vars.group_leader == 'yes'){
+        
+        // option for grouprepayments
+        state.vars.view_group_repayment_option = Object.keys(option_numbers).length + 1;
+        var groupRepaymentsOption = msgs('view_group_repayment',{'$label': state.vars.view_group_repayment_option},lang);
+        output = output + groupRepaymentsOption;
+    }
     if(Object.keys(out_obj).length > 0){
         out_obj[loc] = out_obj[loc] = output;
         return out_obj;
@@ -57,4 +65,4 @@ module.exports = function(table_name, lang, max_chars){
     else{
         return output;
     }
-}
+};
