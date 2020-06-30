@@ -453,7 +453,7 @@ addInputHandler('harvest_timing_handler', function(input){
         return;
     }
     var menu ='';
-    menu = msgs('market_access_confirmation_menu',{'$Amount':state.vars.harvest_amount,'$TypeOfCrop': state.vars.crop_type,'$Timeline':state.vars.harvest_time},lang);
+    menu = msgs('market_access_confirmation_menu',{'$Amount':state.vars.harvest_amount,'$Timeline':state.vars.harvest_time},lang);
     sayText(menu);
     promptDigits('m_market_confirm_handler', { 'submitOnHash': false, 'maxDigits': 9, 'timeout': timeout_length });
 });
@@ -480,7 +480,7 @@ addInputHandler('m_market_confirm_handler', function(input){
     }
     else{
         var menu ='';
-        menu = msgs('market_access_confirmation_menu',{'$Amount':state.vars.harvest_amount,'$TypeOfCrop': state.vars.crop_type,'$Timeline':state.vars.harvest_time},lang);
+        menu = msgs('market_access_confirmation_menu',{'$Amount':state.vars.harvest_amount, '$Timeline':state.vars.harvest_time},lang);
         sayText(msgs('invalid_try_again', {'$Menu':menu}, lang));
         promptDigits('m_market_confirm_handler', { 'submitOnHash': false, 'maxDigits': 9, 'timeout': timeout_length });
     }
