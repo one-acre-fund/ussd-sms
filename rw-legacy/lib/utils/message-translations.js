@@ -192,8 +192,8 @@ module.exports = {
         "ki": "Igihe umusaruro uzabonekera~B $HarvestTime"
     },
     "market_access_confirmation_menu": {
-        "en": "You are committing to sell $Amount kgs of $TypeOfCrop crop  in $Timeline timeframe. Enter 0 to confirm",
-        "ki":"Mwemeye kugurisha $Amount Kg, Imyaka $TypeOfCrop mu gihe cy' $Timeline Kanda 0 Wemeze"
+        "en": "You are committing to sell $Amount kgs of unshielded maize in $Timeline timeframe. Enter 0 to confirm",
+        "ki": "Mwemeye kugurisha imifuka $Amount, y'ibigoli bidahunguye (biri kubitiritiri) mu gihe cy'$Timeline. Kanda 0 Wemeze"
     },
     "market_access_final_message":{
         "en": "Thank you for using this service. If you want to go to the main menu press 0. Tubura your trusted patner",

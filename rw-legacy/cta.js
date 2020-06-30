@@ -36,7 +36,7 @@ addInputHandler('geo_selection_1', function(input){
         var selection_menu = geo_process(geo_data);
         state.vars.current_menu = JSON.stringify(selection_menu);
         sayText(msgs('geo_selections', selection_menu));
-        promptDigits('geo_selection_2', {'submitOnHash' : false, 'maxDigits' : 1,'timeout' : 180});
+        promptDigits('geo_selection_2', {'submitOnHash' : false, 'maxDigits' : 2,'timeout' : 180});
     }
     else if (input == 99){ // exit
         sayText(msgs('exit'));
@@ -44,7 +44,7 @@ addInputHandler('geo_selection_1', function(input){
     }
     else{ // selection not within parameters
         sayText(msgs('invalid_geo_input'));
-        promptDigits('repeat_geo_input', {'submitOnHash' : false, 'maxDigits' : 1,'timeout' : 180});
+        promptDigits('repeat_geo_input', {'submitOnHash' : false, 'maxDigits' : 2,'timeout' : 180});
     }
 });
 
@@ -67,7 +67,7 @@ addInputHandler('geo_selection_2', function(input){
         var selection_menu = geo_process(geo_data);
         state.vars.current_menu = JSON.stringify(selection_menu);
         sayText(msgs('geo_selections', selection_menu));
-        promptDigits('geo_selection_3', {'submitOnHash' : false, 'maxDigits' : 1,'timeout' : 180});
+        promptDigits('geo_selection_3', {'submitOnHash' : false, 'maxDigits' : 2,'timeout' : 180});
     }
     else if (input == 99){ // exit
         sayText(msgs('exit')); // need to add this to the list
@@ -75,7 +75,7 @@ addInputHandler('geo_selection_2', function(input){
     }
     else{ // selection not within parameters
         sayText(msgs('invalid_geo_input'));
-        promptDigits('repeat_geo_input', {'submitOnHash' : false, 'maxDigits' : 1,'timeout' : 180});
+        promptDigits('repeat_geo_input', {'submitOnHash' : false, 'maxDigits' : 2,'timeout' : 180});
     }
 });
 
@@ -100,7 +100,7 @@ addInputHandler('geo_selection_3', function(input){
         var selection_menu = geo_process(geo_data);
         state.vars.current_menu = JSON.stringify(selection_menu);
         sayText(msgs('geo_selections', selection_menu));
-        promptDigits('geo_selection_4', {'submitOnHash' : false, 'maxDigits' : 1,'timeout' : 180});
+        promptDigits('geo_selection_4', {'submitOnHash' : false, 'maxDigits' : 2,'timeout' : 180});
     }
     else if (input == 99){ // exit
         sayText(msgs('exit')); // need to add this to the list
@@ -108,7 +108,7 @@ addInputHandler('geo_selection_3', function(input){
     }
     else{ // selection not within parameters
         sayText(msgs('invalid_geo_input'));
-        promptDigits('repeat_geo_input', {'submitOnHash' : false, 'maxDigits' : 1,'timeout' : 180});
+        promptDigits('repeat_geo_input', {'submitOnHash' : false, 'maxDigits' : 2,'timeout' : 180});
     }
 });
 
@@ -153,7 +153,7 @@ addInputHandler('geo_selection_4', function(input){
     }
     else{ // selection not within parameters
         sayText(msgs('invalid_geo_input'));
-        promptDigits('repeat_geo_input', {'submitOnHash' : false, 'maxDigits' : 1,'timeout' : 180});
+        promptDigits('repeat_geo_input', {'submitOnHash' : false, 'maxDigits' : 2,'timeout' : 180});
     }
 });
 
@@ -168,7 +168,7 @@ addInputHandler('repeat_geo_input', function(input){
     }
     else if(input === 1){
         sayText(msgs('geo_selections', JSON.parse(state.vars.current_menu)));
-        promptDigits(state.vars.current_step, {'submitOnHash' : false, 'maxDigits' : 1,'timeout' : 180});
+        promptDigits(state.vars.current_step, {'submitOnHash' : false, 'maxDigits' : 2,'timeout' : 180});
     }
     else{
         sayText('exit');
