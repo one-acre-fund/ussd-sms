@@ -452,6 +452,12 @@ addInputHandler('m_market_confirm_handler', function(input){
     input = String(input.replace(/\D/g, '')); 
     if(input == 0){
         var groupsTable = project.initDataTableById(service.vars.groupCodes_id);
+        var cursor = client_table.queryRows({ 'vars': { 'account_number': state.vars.account_number}});
+        
+        if(cursor.hasNext()){
+            var row = cursor.next();
+            state.vars.groupCodeForGL = row.vars.glus;
+        }
         var cursor = groupsTable.queryRows({vars:{'group_code':state.vars.groupCodeForGL}});
         if(cursor.hasNext())
         {
