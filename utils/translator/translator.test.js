@@ -41,23 +41,23 @@ describe('createTranslator', () => {
             expect(translate('simple')).toEqual(exampleTranslations.simple.en);
         });
         it('should return the selected language translation', () => {
-            expect(translate('simple','sw')).toEqual(exampleTranslations.simple.sw);
+            expect(translate('simple', {}, 'sw')).toEqual(exampleTranslations.simple.sw);
         });
         it('should throw an error if there is no text matching the translations  ', () => {
             expect(() => {
-                translate('non-existent','sw');
+                translate('non-existent', {}, 'sw');
             }).toThrowError('No Entry For "non-existent"');
         });
         it('should return the default translation if non exists for the language provided', () => {
-            expect(translate('simple','ki')).toEqual(exampleTranslations.simple.en);
+            expect(translate('simple', {}, 'ki')).toEqual(exampleTranslations.simple.en);
         });
         it('should throw an error if no translation exists in the default or given language', () => {
             expect(() => {
-                translate('another','sw');
+                translate('another', {}, 'sw');
             }).toThrowError('No "sw" or "en" Translations For "another"');
         });
         it('should replace template placeholders with corresponding values from options', () => {
-            expect(translate('with-substitutions','en',{$firstName: 'clark',$lastName: 'kent'})).toEqual(
+            expect(translate('with-substitutions', {$firstName: 'clark',$lastName: 'kent'}, 'en')).toEqual(
                 'Should I call you clark or kent'
             );
         });
