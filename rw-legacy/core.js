@@ -106,16 +106,6 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             var client_verified = verify(response);
             state.vars.account_number = response;
             if (client_verified) {
-
-                // Checking if the user is a group leader to options to be seen by only group leaders on the menu
-                var cursor = client_table.queryRows({ 'vars': { 'account_number': response}});
-                if(cursor.hasNext()){
-                    var row = cursor.next();
-                    if (row.vars.group_leader ==1){
-                        state.vars.group_leader = 'yes';
-                        state.vars.groupCodeForGL = row.vars.glus;
-                    }
-                }
                 sayText(msgs('account_number_verified'));    
                 var splash = 'core_enr_splash_menu';
                 state.vars.splash = splash;
@@ -462,6 +452,12 @@ addInputHandler('m_market_confirm_handler', function(input){
     input = String(input.replace(/\D/g, '')); 
     if(input == 0){
         var groupsTable = project.initDataTableById(service.vars.groupCodes_id);
+        var cursor = client_table.queryRows({ 'vars': { 'account_number': state.vars.account_number}});
+        
+        if(cursor.hasNext()){
+            var row = cursor.next();
+            state.vars.groupCodeForGL = row.vars.glus;
+        }
         var cursor = groupsTable.queryRows({vars:{'group_code':state.vars.groupCodeForGL}});
         if(cursor.hasNext())
         {
