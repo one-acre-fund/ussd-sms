@@ -192,8 +192,8 @@ module.exports = {
         "ki": "Igihe umusaruro uzabonekera~B $HarvestTime"
     },
     "market_access_confirmation_menu": {
-        "en": "You are committing to sell $Amount kgs of $TypeOfCrop crop at $Price RwF/kg in $Timeline timeframe. Enter 0 to confirm",
-        "ki":"Mwemeye kugurisha $Amount Kg, Imyaka $TypeOfCrop ku kiguzi $Price frw/kg mu gihe cy'$Timeline Kanda 0 Wemeze"
+        "en": "You are committing to sell $Amount kgs of unshielded maize in $Timeline timeframe. Enter 0 to confirm",
+        "ki": "Mwemeye kugurisha imifuka $Amount, y'ibigoli bidahunguye (biri kubitiritiri) mu gihe cy'$Timeline. Kanda 0 Wemeze"
     },
     "market_access_final_message":{
         "en": "Thank you for using this service. If you want to go to the main menu press 0. Tubura your trusted patner",
@@ -738,5 +738,13 @@ module.exports = {
     "ENR_NATIONAL_ID_DUPLICATE": {
         "en": "The entered national ID is already in our system. Please register with a different national ID or place an order using your account number",
         "ki": "Inomero y Irangamuntu mwinjije iranditse muri sisiteme yacu. Koresha iyindi numero y Irangamuntu cyangwa utumize ukoresheje nimero ya konti yumuhinzi",
+    },
+    "market_persons_in_group":{
+            "en":"Number of farmers" ,
+            "ki": "Umubare w'abahinzi"
+        
+    },"maize_number":{
+        "en": "Quantity of this unshelled maize to sell in bags (use big bags of 100kg)",
+        "ki": "Imifuka y'ibigori bidahunguye ugurisha(hakoreshwa umufuka munini w'ibiro 100)"
     }
 }
