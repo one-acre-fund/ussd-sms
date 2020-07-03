@@ -8,13 +8,13 @@ var translations = require('../translations');
 var handlerName = 'on-last-four-id-input-handler-handler';
 module.exports = {
     handlerName: handlerName,
-    getHandler: function (onIdValidated) {
+    getHandler: function (account,country, onIdValidated) {
         return function (input) {
             var lang = state.vars.lang || project.vars.lang;
             var translate = getTranslator(translations, lang);
-            var client = roster.getClient(state.vars.account_number);
+            var client = roster.getClient(account, country);
         
-            if(client.nid.slice(-4) !== input){
+            if(client.NationalId.slice(-4) !== input){
                 sayText(translate('invalid_last_4_nid_digits'));
                 promptDigits(handlerName);
                 return;        
@@ -22,14 +22,14 @@ module.exports = {
             var transactions = getTransactionHistory();
             var txOptions = '';
             transactions.forEach(function ( tx, index) {
-                txOptions = txOptions+'\n'+ translate('payment_details',null,
+                txOptions = txOptions+'\n'+ translate('payment_details',
                     {'$option': index+1, '$date': tx.date, '$amount': tx.amount });
             });
         
             sayText(
                 translate('select_payment_detail_prompt') + txOptions
             );
-            onIdValidated();
+            onIdValidated(client);
         };
     }
 };

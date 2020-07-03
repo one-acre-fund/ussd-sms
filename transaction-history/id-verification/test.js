@@ -6,9 +6,10 @@ const getTransactionHistory= require('../get-transaction-history');
 jest.mock('../../rw-legacy/lib/roster/api');
 jest.mock('../get-transaction-history');
 
-getClient.mockReturnValue({            
-    nid: '9876543211234657981234'
-});
+const mockClient = {
+    NationalId: '9876543211234657981234'
+};
+getClient.mockReturnValue(mockClient);
 
 const exampleTXHistory = [
     {
@@ -38,12 +39,13 @@ var translate = getTranslator(translations,'en');
 describe('idVerificationHandler', () => {
     var idVerificationHandler;
     var onIdValidated;
+    const account_number = '55555555';
+    const country = 'wk';
     beforeEach(() => {
         getTransactionHistory.mockReset();
         sayText.mockReset();
         onIdValidated = jest.fn();
-        idVerificationHandler = getHandler(onIdValidated);
-        state.vars.account_number = '55555555';
+        idVerificationHandler = getHandler(account_number, country, onIdValidated);
         getTransactionHistory.mockReturnValueOnce(exampleTXHistory);
     });
     it('should be a function', () => {
@@ -51,7 +53,7 @@ describe('idVerificationHandler', () => {
     });
     it('should get the client data with the account number', () => {
         idVerificationHandler('1234');
-        expect(getClient).toHaveBeenCalledWith(state.vars.account_number);
+        expect(getClient).toHaveBeenCalledWith(account_number, country);
     });
     it('should call getTransactionHistory if input matches the last four digits on the nationalID ', () => {
         idVerificationHandler('1234');
@@ -72,9 +74,7 @@ describe('idVerificationHandler', () => {
     });
     describe('Withtransactionhistory', () => {
         beforeEach(() => {
-            getClient.mockReturnValueOnce({            
-                nid: '9876543211234657981234'
-            });
+            getClient.mockReturnValueOnce(mockClient);
         });
         it('should call sayText with the transactions menu', () => {
             idVerificationHandler('1234');
@@ -89,7 +89,7 @@ describe('idVerificationHandler', () => {
             project.vars.lang = 'ki';
             idVerificationHandler('1234');
             expect(sayText).toBeCalledWith(
-                `${translate('select_payment_detail_prompt','ki')}`
+                `${translate('select_payment_detail_prompt', {},'ki')}`
                 +`\n1. ${exampleTXHistory[0].date} - F${exampleTXHistory[0].amount}`
                 +`\n2. ${exampleTXHistory[1].date} - F${exampleTXHistory[1].amount}`
             );            
@@ -99,7 +99,7 @@ describe('idVerificationHandler', () => {
             project.vars.lang = 'sw';
             idVerificationHandler('1234');
             expect(sayText).toBeCalledWith(
-                `${translate('select_payment_detail_prompt','sw')}`
+                `${translate('select_payment_detail_prompt', {},'sw')}`
                 +`\n1. ${exampleTXHistory[0].date} - KES ${exampleTXHistory[0].amount}`
                 +`\n2. ${exampleTXHistory[1].date} - KES ${exampleTXHistory[1].amount}`
             );            
@@ -110,7 +110,7 @@ describe('idVerificationHandler', () => {
             state.vars.lang = 'en';
             idVerificationHandler('1234');
             expect(sayText).toBeCalledWith(
-                `${translate('select_payment_detail_prompt','en')}`
+                `${translate('select_payment_detail_prompt',{},'en')}`
                 +`\n1. ${exampleTXHistory[0].date} - ${exampleTXHistory[0].amount} RwF`
                 +`\n2. ${exampleTXHistory[1].date} - ${exampleTXHistory[1].amount} RwF`
             );      
@@ -119,7 +119,7 @@ describe('idVerificationHandler', () => {
 
         it('should call the onValidated handler if successful', () => {
             idVerificationHandler('1234');
-            expect(onIdValidated).toHaveBeenCalled();
+            expect(onIdValidated).toHaveBeenCalledWith(mockClient);
         });
     });
 
