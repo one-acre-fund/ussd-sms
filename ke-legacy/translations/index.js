@@ -11,7 +11,7 @@ var translations = {
         en: '$label) Swahili',
         sw: '$label) English'
     },
-    'locate_oaf_doka': {
+    'locate_oaf_duka': {
         en: '$label) Locate an OAF duka\n',
         sw: '$label) Lipate duka la OAF\n'
     }

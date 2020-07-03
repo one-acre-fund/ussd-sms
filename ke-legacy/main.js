@@ -2,6 +2,7 @@
 var rosterAPI = require('ext/Roster_v1_2_0/api');
 var translatorFactory = require('../utils/translator/translator');
 var translations = require('./translations/index');
+var dukaLocator = require('../duka-locator/index');
 var MenuCount = 0;
 var MenuNext = false;
 var LocArray="";
@@ -1008,16 +1009,17 @@ var NonClientMenuText = function (){
     var menuOptions = [
         {key: 'find_oaf_contact', options: {'$label': 1}},
         {key: 'trainings', options: {'$label': 2}},
-        {key: 'locate_oaf_doka', options: {'$label': 3}},
+        {key: 'locate_oaf_duka', options: {'$label': 3}},
         {key: 'change_lang', options: {'$label': 99}}
     ];
 
     var non_client_menu_options = {
     'find_oaf_contact': 1,
-    'trainings': 2, 
+    'trainings': 2,
+    'locate_oaf_duka': 3, 
     'change_lang': 99
 }
-    state.vars.non_client_menu_options = non_client_menu_options;
+    state.vars.non_client_menu_options = JSON.stringify(non_client_menu_options);
     var menu = buildMenu(menuOptions, lang)
     sayText(menu);
 }
@@ -1589,6 +1591,9 @@ global.main = function () {
     SplashMenuText();
     promptDigits("SplashMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
 }
+
+// load input handlers
+dukaLocator.registerDukaLocatorHandlers()
 addInputHandler("SplashMenu", function(SplashMenu) {
     LogSessionID();
     InteractionCounter("SplashMenu");
@@ -1641,8 +1646,8 @@ addInputHandler("NonClientMenu", function(input) {
         TrainingMenuText();
         promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
     }
-    else if(input == clientMenuOptions.locate_oaf_doka) {
-        // my implementaton for oaf duka location for non clients probably calling a function to handle it.
+    else if(input == clientMenuOptions.locate_oaf_duka) {
+        dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
     }
     else{
         NonClientMenuText();
