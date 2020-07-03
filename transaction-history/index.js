@@ -1,7 +1,7 @@
 
 var nidVerification = require('./id-verification/index');
-var transactionView = require('./list-transactions');
-var getTransactionHistory = require('./get-transaction-history');
+var transactionView = require('./list-transactions/index');
+var getTransactionHistory = require('./get-transaction-history/index');
 var selectionHandler = require('./selection-hander/on-select');
 
 module.exports = {
