@@ -21,3 +21,8 @@ global.afterEach(function() {
 global.httpClient = {
     request: jest.fn()
 };
+
+global.service = {
+    vars: {
+    }
+};
