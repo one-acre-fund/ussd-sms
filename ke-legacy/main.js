@@ -1,5 +1,7 @@
 // Setting global variables!
 var rosterAPI = require('ext/Roster_v1_2_0/api');
+var translatorFactory = require('../utils/translator/translator');
+var translations = require('./translations/index');
 var MenuCount = 0;
 var MenuNext = false;
 var LocArray="";
@@ -62,6 +64,9 @@ var JITTUMaxOrders = 3;
 var FAWUnitPrice = 720;
 var FAWMaxOrders = 2;
 var StaffDistrict = "KENYA STAFF";
+
+// loading the translator with all translations and setting the default language to English
+var translator = translatorFactory(translations, 'en');
 // Setting global functions
 var InteractionCounter = function(input){
     try{
@@ -998,8 +1003,23 @@ var MainMenuText = function (client){
 };
 
 var NonClientMenuText = function (){
-    if (GetLang()){sayText("1) Find my One Acre Fund contact\n2) Trainings\n99) Swahili")}
-    else {sayText("1) Pata Afisa wa Nyanjani wa One Acre Fund\n2) Mafunzo\n99) English")}
+    var buildMenu = require('./utils/build-menu');
+    var lang = GetLang() ? 'en' : 'sw';
+    var menuOptions = [
+        {key: 'find_oaf_contact', options: {'$label': 1}},
+        {key: 'trainings', options: {'$label': 2}},
+        {key: 'locate_oaf_doka', options: {'$label': 3}},
+        {key: 'change_lang', options: {'$label': 99}}
+    ];
+
+    var non_client_menu_options = {
+    'find_oaf_contact': 1,
+    'trainings': 2, 
+    'change_lang': 99
+}
+    state.vars.non_client_menu_options = non_client_menu_options;
+    var menu = buildMenu(menuOptions, lang)
+    sayText(menu);
 }
 
 var PaymentMenuText = function (client){
@@ -1607,18 +1627,22 @@ addInputHandler("SplashMenu", function(SplashMenu) {
 addInputHandler("NonClientMenu", function(input) {
     LogSessionID();
     InteractionCounter("NonClientMenu");
-    if (input == "99"){
+    var clientMenuOptions = JSON.parse(state.vars.non_client_menu_options);
+    if (input == clientMenuOptions.change_lang){
         ChangeLang();
         NonClientMenuText();
         promptDigits("NonClientMenu", {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
-    else if (input== "1"){
+    else if (input== clientMenuOptions.find_oaf_contact){
         FOLocatorRegionText();
         promptDigits("FOLocRegion", {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
-    else if (input == "2"){
+    else if (input == clientMenuOptions.trainings){
         TrainingMenuText();
         promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
+    }
+    else if(input == clientMenuOptions.locate_oaf_doka) {
+        // my implementaton for oaf duka location for non clients probably calling a function to handle it.
     }
     else{
         NonClientMenuText();
