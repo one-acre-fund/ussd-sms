@@ -20,8 +20,8 @@ var translations = {
         sw: '$label) Ongea na muhudumu wetu.\n'
     },
     'exit_menu': {
-        en: '$label) Exit menu',
-        sw: '$label) Hapana- Exit Menu'
+        en: '$label) Exit menu\n',
+        sw: '$label) Hapana- Exit Menu\n'
     },
     'message_to_duka_supervisor': {
         en: 'There is a potential client with phonenumber $client_pn. Please call them back to follow up. Thanks',
@@ -38,6 +38,10 @@ var translations = {
     'invalid_input': {
         en: 'Invalid input\n$Menu',
         sw: 'Nambari sio sahihi\n$Menu'
+    },
+    'change_lang': {
+        en: '99) Swahili',
+        sw: '99) English'
     }
 };
 
