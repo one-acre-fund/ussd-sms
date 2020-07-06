@@ -1,18 +1,16 @@
 var translations = require('./translations/index');
 var translator = require('./../utils/translator/translator');
-var adminLogger = require('../rw-legacy/lib/admin-alert');
 
 /**
- * Holds the core implementation of group repayments  
+ * REgisters all input handlers for duka location 
  * For devs: you can extend the behaviours of this function by adding more inputs
  * @param {Object} session_details Object with properties as session details that are specific to the country 
  * @param {String} session_details.lang language being use
- * @param {String} session_details.main_menu  main menu to be displayed depending on which country
- * @param {String} session_details.main_menu_handler input handler for main menu depending on the country
  */
 
 function registerInputHandlers(session_details){
     // state.vars.group_repayment_variables = JSON.stringify(session_details);
+    state.vars.lang = session_details.lang;
     var regionHandlers = require('./inputHandlers/regionHandler');
     var countyHandler = require('./inputHandlers/countyHandler');
     var dukaHandler = require('./inputHandlers/dukaHandler');
@@ -24,7 +22,7 @@ function registerInputHandlers(session_details){
 }
 
 /**
- * Spins the group repayment summary feature for group leaders
+ * Spins the duka locator 
  * @param {Object} session_details Session Details that are specific to the country
  * @param {String} session_details.lang the language used during the session
  */

@@ -956,12 +956,12 @@ var StaffCreateRequest = function(payrollid,startday,amount){
 
 //MAIN FUNCTIONS OR GENERIC TEXT
 var SplashMenuText = function (){
-    if (GetLang()){sayText("Welcome to the OAF portal. Please enter the 8 digit account number you use for repayment\nPress 0 if you are not our client\n99) Swahili")}
-    else {sayText("Karibu kwenye huduma ya One Acre Fund. Tafadhali bonyenza nambari zako 8 za akaunti. \nBonyeza 0 ikiwa wewe si mkulima\n99) English")}
+    if (GetLang()){sayText("Welcome to the OAF portal. Please enter the 8 digit account number you use for repayment\nPress 0 if you do not have an OAF account\n99) Swahili")}
+    else {sayText("Karibu kwenye huduma ya One Acre Fund. Tafadhali bonyenza nambari zako 8 za akaunti. \nBonyeza 0 kama hauna akaunti ya OAF\n99) English")}
 };
 var SplashMenuFailure = function (){
-    if (GetLang()){sayText("Welcome to the OAF portal. Please enter the 8 digit account number you use for repayment\nPress 0 if you are not our client\n99) Swahili")}
-    else {sayText("Karibu kwenye huduma ya One Acre Fund. Tafadhali bonyenza nambari zako 8 za akaunti.\nBonyeza 0 ikiwa wewe si mkulima\n99) English")}
+    if (GetLang()){sayText("Incorrect input. Please enter the 8 digit account number you use for repayment\nPress 0 if you do not have an OAF account\n99) Swahili")}
+    else {sayText("Nambari sio sahihi. Tafadhali ingiza nambari 8 za akaunti yako ambayo unatumia kufanya malipo.\nBonyeza 0 kama hauna akaunti ya OAF\n99) English")}
 };
 var MainMenuText = function (client){
     var MenuText = "";
@@ -997,7 +997,10 @@ var MainMenuText = function (client){
 
     if (GetLang()){MenuText = MenuText + "\n9) Contact Call center"}
     else {MenuText = MenuText + "\n9) Wasiliana na Huduma ya wateja"}
-    
+
+    if (GetLang()){MenuText = MenuText + "\n10) Locate an OAF duka"}
+    else {MenuText = MenuText + "\n10) Lipate duka la OAF"}
+
     if (GetLang()){MenuText =MenuText + "\n99) Swahili"}
     else {MenuText =MenuText + "\n99) English"}
     sayText(MenuText);
@@ -1593,7 +1596,7 @@ global.main = function () {
 }
 
 // load input handlers
-dukaLocator.registerDukaLocatorHandlers()
+dukaLocator.registerDukaLocatorHandlers({lang: GetLang() ? 'en' : 'sw'})
 addInputHandler("SplashMenu", function(SplashMenu) {
     LogSessionID();
     InteractionCounter("SplashMenu");
@@ -1611,7 +1614,6 @@ addInputHandler("SplashMenu", function(SplashMenu) {
         StaffPayrollText();
         promptDigits('StaffPayRoll', {submitOnHash: true, maxDigits: 5, timeout: 5});
     }
-
     else {
         if (RosterClientVal(ClientAccNum)){
             console.log("SuccessFully Validated against Roster");
@@ -1736,6 +1738,8 @@ addInputHandler("MainMenu", function(MainMenu) {
     else if (MainMenu == 9){
         CallCenterMenuText();
         promptDigits("CallCenterMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
+    } else if(MainMenu == 10) {
+        dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
     }
     else{
         var arrayLength = client.BalanceHistory.length;

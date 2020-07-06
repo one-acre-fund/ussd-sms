@@ -15,7 +15,7 @@ module.exports = function dukaHandler(input) {
         var dukaLocation = record[lang];
         state.vars.duka_options = JSON.stringify({reach_out_to_agent: 1, exit_menu: 2});
         var menu = getMessage('reach_out_to_agent', {'$label': 1}, lang) + getMessage('exit_menu', {'$label': 2}, lang);
-        sayText(dukaLocation + menu);
+        sayText(dukaLocation + '\n' + menu);
         promptDigits('reach_out_to_agent', {
             submitOnHash: false,
             maxDigits: 2,

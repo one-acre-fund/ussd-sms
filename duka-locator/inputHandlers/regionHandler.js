@@ -11,15 +11,34 @@ module.exports = function regionHandler(input) {
     if(countiesEntries.hasNext()) {
         var labeledCounties = {};
         var label = {value: 1};
+        var recordsCounter = 1;
+        var multiple_screens = [];
+        var filtered_counties = [];
         while(countiesEntries.hasNext()) {
             var record = countiesEntries.next().vars;
             labeledCounties[label.value] = record.countie_id;
             counties = counties + String(label.value) + ') ' + record.countie_name + '\n';
+            filtered_counties.push(record.countie_name);
+            if(recordsCounter > 4) {
+                multiple_screens.push(counties);
+                counties = '';
+                recordsCounter = 1;
+            } else if(multiple_screens.length > 0 && !countiesEntries.hasNext()) {
+                multiple_screens.push(counties);
+            }
+            recordsCounter = recordsCounter + 1;
             label.value = label.value + 1;
         }
 
+        state.vars.filtered_counties = JSON.stringify(filtered_counties);
+
+        if(multiple_screens.length > 0) {
+            state.vars.multiple_countie_screens = JSON.stringify(multiple_screens);
+            counties = multiple_screens[0];
+            state.vars.current_countie_screen = 0;
+        }
         state.vars.labeled_counties = JSON.stringify(labeledCounties);
-        state.vars.duka_current_menu = getMessage('select_oaf_duka_county', {'$Menu': counties}, lang);
+        state.vars.duka_current_menu = getMessage('select_oaf_duka_county', {'$Menu': counties}, lang) + (multiple_screens.length > 1 ? getMessage('next_page', {}, lang) : '');
         sayText(state.vars.duka_current_menu);
         promptDigits('select_oaf_duka_county', {
             submitOnHash: false,

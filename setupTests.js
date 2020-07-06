@@ -5,7 +5,9 @@ global.project = {
         new_line: '~B',
         lang: 'en',
         console_lang: 'en'
-    }
+    },
+    getOrCreateDataTable: jest.fn(),
+    sendMulti: jest.fn()
 };
 global.httpClient = jest.fn();
 global.state = {
@@ -26,3 +28,10 @@ global.service = {
     vars: {
     }
 };
+
+global.contact = {
+    vars: {
+    }
+};
+
+global.stopRules = jest.fn();

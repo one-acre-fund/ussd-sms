@@ -4,8 +4,8 @@ var translations = {
         sw: 'Kulipata Duka la One Acre Fund karibu nawe,Chagua eneo lako\n$Menu'
     },
     'select_oaf_duka_county': {
-        en: 'Please select your county\n$Menu',
-        sw: 'Tafadhali chagua county yako\n$Menu'
+        en: 'Please select your county\n$Menu\n',
+        sw: 'Tafadhali chagua county yako\n$Menu\n'
     },
     'select_oaf_duka': {
         en: 'Please select your duka\n$Menu',
@@ -33,7 +33,7 @@ var translations = {
     },
     'supported_locations': {
         en: 'Sorry, OAF currently has OAF Dukas in the following locations\n$Locations',
-        sw: '$Locations'
+        sw: 'Pole,kwa sasa OAF ina maduka maeneo yafuatayo\n$Locations'
     },
     'invalid_input': {
         en: 'Invalid input\n$Menu',
@@ -42,6 +42,10 @@ var translations = {
     'change_lang': {
         en: '99) Swahili',
         sw: '99) English'
+    },
+    'next_page': {
+        en: '* Next',
+        sw: '* Endelea'
     }
 };
 
