@@ -31,10 +31,6 @@ const exampleTXHistory = [
     
     }
 ];
-var getTranslator = require('../../utils/translator/translator');
-var translations = require('../translations');
-var translate = getTranslator(translations,'en');
-
 
 describe('idVerificationHandler', () => {
     var idVerificationHandler;
@@ -57,10 +53,6 @@ describe('idVerificationHandler', () => {
         idVerificationHandler('1234');
         expect(getClient).toHaveBeenCalledWith(account_number, country);
     });
-    it('should call getTransactionHistory if input matches the last four digits on the nationalID ', () => {
-        idVerificationHandler('1234');
-        expect(getTransactionHistory).toHaveBeenCalled();
-    });
     it('should not call getTransactionHistory if input does not match the last four digits on the nationalID ', () => {
         idVerificationHandler('4321');
         expect(getTransactionHistory).not.toHaveBeenCalled();
@@ -77,46 +69,6 @@ describe('idVerificationHandler', () => {
     describe('Withtransactionhistory', () => {
         beforeEach(() => {
             getClient.mockReturnValueOnce(mockClient);
-        });
-        it('should call sayText with the transactions menu', () => {
-            idVerificationHandler('1234');
-            expect(sayText).toBeCalledWith(
-                `${translate('select_payment_detail_prompt')}`
-                +`\n1. ${exampleTXHistory[0].date} - ${exampleTXHistory[0].amount} RwF`
-                +`\n2. ${exampleTXHistory[1].date} - ${exampleTXHistory[1].amount} RwF`
-            );            
-        });
-        
-        it('should call sayText with the transactions menu and Kinyarwanda translation if that is the default language', () => {
-            project.vars.lang = 'ki';
-            idVerificationHandler('1234');
-            expect(sayText).toBeCalledWith(
-                `${translate('select_payment_detail_prompt', {},'ki')}`
-                +`\n1. ${exampleTXHistory[0].date} - F${exampleTXHistory[0].amount}`
-                +`\n2. ${exampleTXHistory[1].date} - F${exampleTXHistory[1].amount}`
-            );            
-        });  
-        
-        it('should call sayText with the transactions menu and Swahili translation if that is the default language', () => {
-            project.vars.lang = 'sw';
-            idVerificationHandler('1234');
-            expect(sayText).toBeCalledWith(
-                `${translate('select_payment_detail_prompt', {},'sw')}`
-                +`\n1. ${exampleTXHistory[0].date} - KES ${exampleTXHistory[0].amount}`
-                +`\n2. ${exampleTXHistory[1].date} - KES ${exampleTXHistory[1].amount}`
-            );            
-        }); 
-        
-        it('should call sayText with the transactions menu and english translation if that is the state language even if defaultlaguage is different', () => {
-            project.vars.lang = 'sw';
-            state.vars.lang = 'en';
-            idVerificationHandler('1234');
-            expect(sayText).toBeCalledWith(
-                `${translate('select_payment_detail_prompt',{},'en')}`
-                +`\n1. ${exampleTXHistory[0].date} - ${exampleTXHistory[0].amount} RwF`
-                +`\n2. ${exampleTXHistory[1].date} - ${exampleTXHistory[1].amount} RwF`
-            );      
-            state.vars.lang = undefined;      
         });
 
         it('should call the onValidated handler if successful', () => {
