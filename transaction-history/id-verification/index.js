@@ -1,11 +1,11 @@
 
-var getTransactionHistory= require('../get-transaction-history');
+var getTransactionHistory= require('../get-transaction-history/index');
 var roster = require('../../rw-legacy/lib/roster/api');
 
 var getTranslator = require('../../utils/translator/translator');
 var translations = require('../translations');
 
-var handlerName = 'on-last-four-id-input-handler-handler';
+var handlerName = 'id_input_handler';
 module.exports = {
     handlerName: handlerName,
     getHandler: function (account,country, onIdValidated) {
