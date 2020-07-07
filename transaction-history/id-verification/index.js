@@ -12,8 +12,8 @@ module.exports = {
             var translate = getTranslator(translations, lang);
             var client = roster.getClient(state.vars.account, state.vars.country);
             if(client.NationalId.slice(-4) !== input){
-                sayText(translate('invalid_last_4_nid_digits'));
-                promptDigits(handlerName);
+                global.sayText(translate('invalid_last_4_nid_digits'));
+                global.promptDigits(handlerName);
                 return;        
             }
             onIdValidated(client);

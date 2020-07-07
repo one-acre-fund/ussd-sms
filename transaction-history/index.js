@@ -8,25 +8,27 @@ var translations = require('./translations');
 
 module.exports = {
     registerHandlers: function () {
-        var transactionHistory;
+        
         var translate =  createTranslator(translations, project.vars.lang);
-        var page = 1;
+        state.vars.thPage = 1;
         function onIdVerified(client) { 
-            transactionHistory = getTransactionHistory(client);
-            transactionView.list(transactionHistory);
-            promptDigits(selectionHandler.handlerName);
+            var repayments = getTransactionHistory(client);
+            state.vars.transactionHistory = JSON.stringify(repayments);
+            transactionView.list(repayments);
+            global.promptDigits(selectionHandler.handlerName);
         }
     
         function onTransactionSelected(selection){
+            var repayments = JSON.parse(state.vars.transactionHistory);
             if(selection == '99'){
-                page = page + 1;
-                transactionView.list(transactionHistory, page);
-                promptDigits(selectionHandler.handlerName);
-            }else if(parseInt(selection,10) > transactionHistory.length){
+                state.vars.thPage = state.vars.thPage + 1;
+                transactionView.list(repayments, state.vars.thPage);
+                global.promptDigits(selectionHandler.handlerName);
+            }else if(parseInt(selection,10) > repayments.length){
                 translate =  createTranslator(translations, project.vars.lang);
-                transactionView.list(transactionHistory, page,translate('invalid_list_selection'));                
+                transactionView.list(repayments, state.vars.thPage, translate('invalid_list_selection'));                
             }else{
-                transactionView.show(transactionHistory[selection - 1]);
+                transactionView.show(repayments[selection - 1]);
             }
         }
         // register transaction selection handler
@@ -38,7 +40,7 @@ module.exports = {
         state.vars.account = account;
         state.vars.country = country;
         var translate =  createTranslator(translations, project.vars.lang);
-        sayText(translate('last_4_national_id_prompt'));
-        promptDigits(nidVerification.handlerName);
+        global.sayText(translate('last_4_national_id_prompt'));
+        global.promptDigits(nidVerification.handlerName);
     }
 };
