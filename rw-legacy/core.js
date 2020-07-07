@@ -45,6 +45,7 @@ var client_table = project.initDataTableById(service.vars['21a_client_data_id'])
 // console.log(JSON.stringify(service.vars));
 // console.log('### End Env Info###');
 
+var slack = require('../slack-logger/index');
 
 //global functionss
 var msgs = require('./lib/msg-retrieve'); //global message handler
@@ -178,8 +179,12 @@ addInputHandler('cor_menu_select', function (input) {
     var selection = get_menu_option(input, state.vars.splash);
     state.vars.selected_core_input = input;
     if (input == 8) {
-        var transactionHistory = require('../transaction-history/index');
-        transactionHistory.start(state.vars.account_number,'rw');
+        try {
+            var transactionHistory = require('../transaction-history/index');
+            transactionHistory.start(state.vars.account_number,'rw');            
+        } catch (error) {
+            slack.log(error)
+        }
     }else if (selection === null ||(input != 8 && selection === undefined)) {
         sayText(msgs('invalid_input', {}, lang));
         promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
