@@ -82,7 +82,18 @@ describe('list', () => {
                 +'\n99. Continue'
             );        
         });
-        
+        it('should show the error message if provided', () => {
+            const erorMessage = 'Something is wrong\n';
+            list(repaymentsList,1, erorMessage);
+            expect(sayText).toHaveBeenLastCalledWith(
+                erorMessage +'Select a payment for details:'
+                +`\n1. 20-05-2020 - ${repaymentsList[0].Amount} RwF`
+                +`\n2. 05-05-2020 - ${repaymentsList[1].Amount} RwF`
+                +`\n3. 04-03-2020 - ${repaymentsList[2].Amount} RwF`
+                +`\n4. 11-02-2020 - ${repaymentsList[3].Amount} RwF`
+                +'\n99. Continue'
+            );
+        });
     });
     
     describe('in Kinyarwanda', () => {

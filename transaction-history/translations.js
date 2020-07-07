@@ -4,10 +4,10 @@ module.exports ={
         'ki': 'Hitamo ubwishyu uhabwe ubusobanuro burambuye:',
         'sw': 'Chagua rekodi ya malipo kwa maelezo zaidi:'
     },
-    'invalid_selection_list_selection': {
-        'en': 'Invalid selection, please try again.\nSelect a payment for details:',
-        'ki': 'Ibyo wahisemo ntibyakunze, ongera ugerageze.\nHitamo ubwishyu uhabwe ubusobanuro:',
-        'sw': 'Sio sahihi, tafadhali jaribu tena.\nChagua rekodi ya malipo kwa maelezo zaidi'
+    'invalid_list_selection': {
+        'en': 'Invalid selection, please try again.\n',
+        'ki': 'Ibyo wahisemo ntibyakunze, ongera ugerageze.\n',
+        'sw': 'Sio sahihi, tafadhali jaribu tena.\n'
     },
     'payment_list_item': {
         'en': '$option. $date - $amount RwF',

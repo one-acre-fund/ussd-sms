@@ -3,11 +3,11 @@ var translations = require('../translations');
 
 
 
-var ListTransactions = function (transactionHistory, page) {
+var listTransactions = function (transactionHistory, page, errorMessage) {
     var translate = createTranslator(translations, project.vars.lang);
     var offset = ((page || 1)-1) * 4;
     var to_show = transactionHistory.slice(offset, offset + 4);
-    var options_list = translate('select_payment_detail_prompt')+'\n';
+    var options_list = (errorMessage || '')+ translate('select_payment_detail_prompt')+'\n';
     to_show.forEach(function (transaction, index) {
         var date = transaction.RepaymentDate.substring(0, 10).replace(/\//g, '-');
         options_list = options_list + translate('payment_list_item', {
@@ -22,7 +22,7 @@ var ListTransactions = function (transactionHistory, page) {
 
 
 module.exports = {
-    list: ListTransactions,
+    list: listTransactions,
     show: function (transaction) {
         var translate = createTranslator(translations, project.vars.lang);
         var RepaymentDate = transaction.RepaymentDate.substring(0,10).replace( /\//g,'-');

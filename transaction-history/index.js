@@ -3,6 +3,9 @@ var nidVerification = require('./id-verification/index');
 var transactionView = require('./list-transactions/index');
 var getTransactionHistory = require('./get-transaction-history/index');
 var selectionHandler = require('./selection-hander/on-select');
+var createTranslator = require('../utils/translator/translator');
+var translations = require('./translations');
+
 
 module.exports = {
     start: function (account, country) {
@@ -18,6 +21,9 @@ module.exports = {
                 page = page + 1;
                 transactionView.list(transactionHistory, page);
                 promptDigits(selectionHandler.handlerName);
+            }else if(parseInt(selection,10) > transactionHistory.length){
+                var translate =  createTranslator(translations, project.vars.lang);
+                transactionView.list(transactionHistory, page,translate('invalid_list_selection'));                
             }else{
                 transactionView.show(transactionHistory[selection - 1]);
             }

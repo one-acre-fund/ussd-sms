@@ -17,46 +17,38 @@ const mockSelectionHandler = jest.fn();
 
 var mockTransactions = [
     {
-        'Payment': 'ID ABC',
-        'RepaymentDate': '11-06-20',
-        'Season': '21A',
-        'Amount': '1000',
-        'PaidFrom': '0789193399',
+        'RepaymentId': '2534504906',
+        'RepaymentDate': '20/05/2020 20:27:03',
+        'Season': '2020',
+        'Amount': 2001,
+    },    
+    {
+        'RepaymentId': '2474515444',
+        'RepaymentDate': '05/05/2020 16:16:56',
+        'Season': '2020',
+        'Amount': 2002,
+        'PaidFrom': '0787428878'
     },
     {
-        'Payment': 'ID DEF',
-        'RepaymentDate': '10-06-20',
-        'Season': '21A',
-        'Amount': '2000',
-        'PaidFrom': '0789193399',
+        'RepaymentId': '2285699969',
+        'RepaymentDate': '04/03/2020 20:29:54',
+        'Season': '2020',
+        'Amount': 2003,
+        'PaidFrom': '663565'
     },
     {
-        'Payment': 'ID GHI',
-        'RepaymentDate': '09-06-20',
-        'Season': '21A',
-        'Amount': '3000',
-        'PaidFrom': '0789193399',
+        'RepaymentId': '2233627731',
+        'RepaymentDate': '11/02/2020 21:11:39',
+        'Season': '2020',
+        'Amount': 2004,
+        'PaidFrom': '788926'
     },
     {
-        'Payment': 'ID JKL',
-        'RepaymentDate': '08-06-20',
-        'Season': '21A',
-        'Amount': '1000',
-        'PaidFrom': '0789193399',
-    },
-    {
-        'Payment': 'ID MNO',
-        'RepaymentDate': '07-06-20',
-        'Season': '21A',
-        'Amount': '2000',
-        'PaidFrom': '0789193399',
-    },
-    {
-        'Payment': 'ID PQR',
-        'RepaymentDate': '06-06-20',
-        'Season': '21A',
-        'Amount': '3000',
-        'PaidFrom': '0789193399',
+        'RepaymentId': '2219628297',
+        'RepaymentDate': '05/02/2020 19:36:25',
+        'Season': '2020',
+        'Amount': 2005,
+        'PaidFrom': '594206'
     },
 ];
 
@@ -107,6 +99,7 @@ describe('TransactionHistory', () => {
         describe('Selection Callback', () => {
             var callback;
             beforeEach(() => {
+                transactionView.list.mockClear();
                 transactionHistory.start(account, country);
                 const onVerified = nidVerification.getHandler.mock.calls[0][2];
                 onVerified();
@@ -141,6 +134,11 @@ describe('TransactionHistory', () => {
                     callback(`${index+1}`);
                 });
                 expect(promptDigits).not.toHaveBeenCalledWith(selectionHandler.handlerName);           
+            });
+            it('should show an error message if the user seects an invalid option', () => {
+                callback(`${mockTransactions.length +3}`);
+                const errorMessage = 'Invalid selection, please try again.\n';
+                expect(transactionView.list).toHaveBeenLastCalledWith(mockTransactions, 1, errorMessage);
             });
         });
     });
