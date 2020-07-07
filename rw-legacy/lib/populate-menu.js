@@ -50,14 +50,6 @@ module.exports = function(table_name, lang, max_chars){
         }
     }
 
-    // Append menu of accessing the market if group leaders
-    if(state.vars.group_leader == 'yes'){
-        state.vars.market_access_option_num = Object.keys(option_numbers).length +1;
-        if(lang == 'ki'){var optn = ' Kugurisha umusaruro'}
-        else{var optn = 'Selling harvest'}
-        output = output + String(state.vars.market_access_option_num) + ") "+ optn +"\n";
-    
-    }
     if(Object.keys(out_obj).length > 0){
         out_obj[loc] = out_obj[loc] = output;
         return out_obj;

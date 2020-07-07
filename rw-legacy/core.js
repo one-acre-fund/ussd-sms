@@ -28,7 +28,7 @@ if(env === 'prod'){
     service.vars.RegistrationSessions = project.vars.RegistrationSessions;
     service.vars['21a_client_data_id'] = project.vars['21a_client_data_id'];
     service.vars.client_enrollment_table_id = project.vars.client_enrollment_data_id;
-    service.vars.market_access_table_id = 'DT1aae6fdec1f4e2ea';
+    service.vars.market_access_table_id = 'DT278868f96626c4b0';
 }else{
     service.vars.season_clients_table = 'dev_' + project.vars.season_clients_table;
     service.vars.client_enrollment_table = 'dev_' + project.vars.client_enrollment_data;
@@ -106,16 +106,6 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             var client_verified = verify(response);
             state.vars.account_number = response;
             if (client_verified) {
-
-                // Checking if the user is a group leader to options to be seen by only group leaders on the menu
-                var cursor = client_table.queryRows({ 'vars': { 'account_number': response}});
-                if(cursor.hasNext()){
-                    var row = cursor.next();
-                    if (row.vars.group_leader ==1){
-                        state.vars.group_leader = 'yes';
-                        state.vars.groupCodeForGL = row.vars.glus;
-                    }
-                }
                 sayText(msgs('account_number_verified'));    
                 var splash = 'core_enr_splash_menu';
                 state.vars.splash = splash;
@@ -462,6 +452,12 @@ addInputHandler('m_market_confirm_handler', function(input){
     input = String(input.replace(/\D/g, '')); 
     if(input == 0){
         var groupsTable = project.initDataTableById(service.vars.groupCodes_id);
+        var cursor = client_table.queryRows({ 'vars': { 'account_number': state.vars.account_number}});
+        
+        if(cursor.hasNext()){
+            var row = cursor.next();
+            state.vars.groupCodeForGL = row.vars.glus;
+        }
         var cursor = groupsTable.queryRows({vars:{'group_code':state.vars.groupCodeForGL}});
         if(cursor.hasNext())
         {
