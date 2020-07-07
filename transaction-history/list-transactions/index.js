@@ -7,7 +7,7 @@ var ListTransactions = function (transactionHistory, page) {
     var translate = createTranslator(translations, project.vars.lang);
     var offset = ((page || 1)-1) * 4;
     var to_show = transactionHistory.slice(offset, offset + 4);
-    var options_list = '';
+    var options_list = translate('select_payment_detail_prompt')+'\n';
     to_show.forEach(function (transaction, index) {
         var date = transaction.RepaymentDate.substring(0, 10).replace(/\//g, '-');
         options_list = options_list + translate('payment_list_item', {

@@ -53,31 +53,94 @@ describe('show', () => {
 
 
 describe('list', () => {
-    beforeEach(() => {
-        project.vars.lang ='en';
-    });
     it('should be a function', () => {
         expect(list).toBeInstanceOf(Function);
     });
-    it('should list the fisrt four if not given a page', () => {
-        list(repaymentsList);
-        expect(sayText).toHaveBeenLastCalledWith(
-            `1. 20-05-2020 - ${repaymentsList[0].Amount} RwF`
-            +`\n2. 05-05-2020 - ${repaymentsList[1].Amount} RwF`
-            +`\n3. 04-03-2020 - ${repaymentsList[2].Amount} RwF`
-            +`\n4. 11-02-2020 - ${repaymentsList[3].Amount} RwF`
-            +'\n99. Continue'
-        );
+    describe('in Rwanda English', () => {
+        beforeEach(() => {
+            project.vars.lang ='en';
+        });
+        it('should list the first four if not given a page', () => {
+            list(repaymentsList);
+            expect(sayText).toHaveBeenLastCalledWith(
+                'Select a payment for details:'
+                +`\n1. 20-05-2020 - ${repaymentsList[0].Amount} RwF`
+                +`\n2. 05-05-2020 - ${repaymentsList[1].Amount} RwF`
+                +`\n3. 04-03-2020 - ${repaymentsList[2].Amount} RwF`
+                +`\n4. 11-02-2020 - ${repaymentsList[3].Amount} RwF`
+                +'\n99. Continue'
+            );
+        });
+        it('should list the second four if given a page number of 2 ', () => {
+            list(repaymentsList,2);
+            expect(sayText).toHaveBeenLastCalledWith(
+                'Select a payment for details:'
+                +`\n5. 05-02-2020 - ${repaymentsList[4].Amount} RwF`
+                +`\n6. 16-08-2019 - ${repaymentsList[5].Amount} RwF`
+                +`\n7. 05-06-2019 - ${repaymentsList[6].Amount} RwF`
+                +`\n8. 06-05-2019 - ${repaymentsList[7].Amount} RwF`
+                +'\n99. Continue'
+            );        
+        });
+        
     });
-    it('should list the second four if given a page number of 2 ', () => {
-        list(repaymentsList,2);
-        expect(sayText).toHaveBeenLastCalledWith(
-            `5. 05-02-2020 - ${repaymentsList[4].Amount} RwF`
-            +`\n6. 16-08-2019 - ${repaymentsList[5].Amount} RwF`
-            +`\n7. 05-06-2019 - ${repaymentsList[6].Amount} RwF`
-            +`\n8. 06-05-2019 - ${repaymentsList[7].Amount} RwF`
-            +'\n99. Continue'
-        );        
+    
+    describe('in Kinyarwanda', () => {
+        beforeEach(() => {
+            project.vars.lang ='ki';
+        });
+        it('should list the first four if not given a page', () => {
+            list(repaymentsList);
+            expect(sayText).toHaveBeenLastCalledWith(
+                'Hitamo ubwishyu uhabwe ubusobanuro burambuye:'
+                +`\n1. 20-05-2020 - F${repaymentsList[0].Amount}`
+                +`\n2. 05-05-2020 - F${repaymentsList[1].Amount}`
+                +`\n3. 04-03-2020 - F${repaymentsList[2].Amount}`
+                +`\n4. 11-02-2020 - F${repaymentsList[3].Amount}`
+                +'\n99. Komeza'
+            );
+        });
+        it('should list the second four if given a page number of 2 ', () => {
+            list(repaymentsList,2);
+            expect(sayText).toHaveBeenLastCalledWith(
+                'Hitamo ubwishyu uhabwe ubusobanuro burambuye:'
+                +`\n5. 05-02-2020 - F${repaymentsList[4].Amount}`
+                +`\n6. 16-08-2019 - F${repaymentsList[5].Amount}`
+                +`\n7. 05-06-2019 - F${repaymentsList[6].Amount}`
+                +`\n8. 06-05-2019 - F${repaymentsList[7].Amount}`
+                +'\n99. Komeza'
+            );        
+        });
+        
+    });
+    
+    describe('in Swahilli', () => {
+        beforeEach(() => {
+            project.vars.lang ='sw';
+        });
+        it('should list the first four if not given a page', () => {
+            list(repaymentsList);
+            expect(sayText).toHaveBeenLastCalledWith(
+                'Chagua rekodi ya malipo kwa maelezo zaidi:'
+                +`\n1. 20-05-2020 - KES ${repaymentsList[0].Amount}`
+                +`\n2. 05-05-2020 - KES ${repaymentsList[1].Amount}`
+                +`\n3. 04-03-2020 - KES ${repaymentsList[2].Amount}`
+                +`\n4. 11-02-2020 - KES ${repaymentsList[3].Amount}`
+                +'\n99. Endelea'
+            );
+        });
+        it('should list the second four if given a page number of 2 ', () => {
+            list(repaymentsList,2);
+            expect(sayText).toHaveBeenLastCalledWith(
+                'Chagua rekodi ya malipo kwa maelezo zaidi:'
+                +`\n5. 05-02-2020 - KES ${repaymentsList[4].Amount}`
+                +`\n6. 16-08-2019 - KES ${repaymentsList[5].Amount}`
+                +`\n7. 05-06-2019 - KES ${repaymentsList[6].Amount}`
+                +`\n8. 06-05-2019 - KES ${repaymentsList[7].Amount}`
+                +'\n99. Endelea'
+            );        
+        });
+        
     });
 });
 

@@ -2,7 +2,7 @@ module.exports ={
     'select_payment_detail_prompt': {
         'en': 'Select a payment for details:',
         'ki': 'Hitamo ubwishyu uhabwe ubusobanuro burambuye:',
-        'sw': 'Chagua rekodi ya malipo kwa maelezo zaidi'
+        'sw': 'Chagua rekodi ya malipo kwa maelezo zaidi:'
     },
     'invalid_selection_list_selection': {
         'en': 'Invalid selection, please try again.\nSelect a payment for details:',
