@@ -177,9 +177,11 @@ addInputHandler('cor_menu_select', function (input) {
 
     var selection = get_menu_option(input, state.vars.splash);
     state.vars.selected_core_input = input;
-    if (selection === null || selection === undefined) {
+    if (input == 8) {
+        var transactionHistory = require('../transaction-history/index');
+        transactionHistory.start(state.vars.account_number,'rw');
+    }else if (selection === null ||(input != 8 && selection === undefined)) {
         sayText(msgs('invalid_input', {}, lang));
-        console.log('############################ I was called #####################');
         promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         return null;
     }
@@ -190,15 +192,15 @@ addInputHandler('cor_menu_select', function (input) {
 
     }
     else if (selection === 'cor_get_balance') { //inelegant
-        get_balance = require('./lib/cor-get-balance');
+        var get_balance = require('./lib/cor-get-balance');
         var balance_data = get_balance(JSON.parse(state.vars.client_json), lang);
         sayText(msgs('cor_get_balance', balance_data, lang));
         promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         return null;
     }
     else if (selection === 'cor_get_payg') {
-        payg_retrieve = require('./lib/cor-payg-retrieve');
-        payg_balance = require('./lib/cor-payg-balance');
+        var payg_retrieve = require('./lib/cor-payg-retrieve');
+        var payg_balance = require('./lib/cor-payg-balance');
         console.log("PAYG balance is " + payg_balance(JSON.parse(state.vars.client_json)));
 
         // only run code if client has paid enough; otherwise tell them they haven't paid enough for a new code
@@ -288,7 +290,7 @@ addInputHandler('cor_menu_select', function (input) {
         }
         else if (client.vars.registered == 1) {
             // if client does not have a glvv id entered, prompt them to enter it before continuing
-            glvv_check = client.vars.glus || state.vars.glus;
+            var glvv_check = client.vars.glus || state.vars.glus;
             if (glvv_check == null || glvv_check == 0) {
                 sayText(msgs('enr_missing_glvv', {}, lang));
                 promptDigits('enr_glvv_id', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
