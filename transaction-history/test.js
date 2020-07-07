@@ -59,37 +59,30 @@ describe('TransactionHistory', () => {
     it('should have a start function', () => {
         expect(transactionHistory.start ).toBeInstanceOf(Function);
     });
-    describe('start', () => {
+    describe('registerHandlers', () => {
         beforeEach(() => {
             nidVerification.getHandler.mockClear();
             nidVerification.getHandler.mockReturnValue(mockIdVerificationHandler);
             selectionHandler.getHandler.mockReturnValue(mockSelectionHandler);
         });
         it('should add IdVerificationhandler to input handlers', () => {
-            transactionHistory.start(account, country);
+            transactionHistory.registerHandlers();
             expect(addInputHandler).toHaveBeenCalledWith(nidVerification.handlerName, nidVerification.getHandler());            
         });
         it('should get the niDVerification handler using the account number and country', () => {
-            transactionHistory.start(account, country);
-            expect( nidVerification.getHandler).toHaveBeenCalledWith(account,country, expect.any(Function));
-        });
-        it('should prompt for the last four digits of the national id', () => {
-            transactionHistory.start(account, country);
-            expect(sayText).toHaveBeenCalledWith('Please enter the last four digits of the national ID you registered with.');
-        });
-        it('should call prompt digits with "last_four_nid_handler"', () => {
-            transactionHistory.start(account, country);
-            expect(promptDigits).toHaveBeenCalledWith(idVerification.handlerName);
+            transactionHistory.registerHandlers();
+            expect( nidVerification.getHandler).toHaveBeenCalledWith(expect.any(Function));
         });
         it('should add selectionhandler to inputHandlers', () => {
-            transactionHistory.start(account, country);
+            transactionHistory.registerHandlers();
             expect(addInputHandler).toHaveBeenCalledWith(selectionHandler.handlerName, selectionHandler.getHandler());             
         });
+        
         describe('Id Verification success callback', () => {
             var callback;
             beforeEach(() => {
-                transactionHistory.start(account, country);
-                callback = nidVerification.getHandler.mock.calls[0][2];                
+                transactionHistory.registerHandlers();
+                callback = nidVerification.getHandler.mock.calls[0][0];                
             });
             it('should lists the transactions from getTransactions ', () => {
                 callback();
@@ -104,8 +97,8 @@ describe('TransactionHistory', () => {
             var callback;
             beforeEach(() => {
                 transactionView.list.mockClear();
-                transactionHistory.start(account, country);
-                const onVerified = nidVerification.getHandler.mock.calls[0][2];
+                transactionHistory.registerHandlers();
+                const onVerified = nidVerification.getHandler.mock.calls[0][0];
                 onVerified();
                 callback = selectionHandler.getHandler.mock.calls[0][0];   
             });
@@ -144,6 +137,22 @@ describe('TransactionHistory', () => {
                 const errorMessage = 'Invalid selection, please try again.\n';
                 expect(transactionView.list).toHaveBeenLastCalledWith(mockTransactions, 1, errorMessage);
             });
+        });
+    });
+    describe('start', () => {
+        it('should set the  state vars to the provided account and country', () => {
+            state.vars.account = '';
+            state.vars.country = '';
+            transactionHistory.start(account, country);
+            expect(state.vars).toMatchObject({account,country});
+        });
+        it('should prompt for the last four digits of the national id', () => {
+            transactionHistory.start(account, country);
+            expect(sayText).toHaveBeenCalledWith('Please enter the last four digits of the national ID you registered with.');
+        });
+        it('should call prompt digits with "last_four_nid_handler"', () => {
+            transactionHistory.start(account, country);
+            expect(promptDigits).toHaveBeenCalledWith(idVerification.handlerName);
         });
     });
 });

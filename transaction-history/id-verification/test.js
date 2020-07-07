@@ -45,7 +45,9 @@ describe('idVerificationHandler', () => {
         getTransactionHistory.mockReset();
         sayText.mockReset();
         onIdValidated = jest.fn();
-        idVerificationHandler = getHandler(account_number, country, onIdValidated);
+        state.vars.account = account_number;
+        state.vars.country = country;
+        idVerificationHandler = getHandler(onIdValidated);
         getTransactionHistory.mockReturnValueOnce(exampleTXHistory);
     });
     it('should be a function', () => {
