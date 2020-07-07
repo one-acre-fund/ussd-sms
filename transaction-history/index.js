@@ -1,4 +1,3 @@
-
 var nidVerification = require('./id-verification/index');
 var transactionView = require('./list-transactions/index');
 var getTransactionHistory = require('./get-transaction-history/index');
@@ -28,9 +27,11 @@ module.exports = {
                 transactionView.show(transactionHistory[selection - 1]);
             }
         }
+        var translate =  createTranslator(translations, project.vars.lang);
         // register transaction selection hhandler
         addInputHandler(nidVerification.handlerName, nidVerification.getHandler(account, country, onIdVerified));
         addInputHandler(selectionHandler.handlerName, selectionHandler.getHandler(onTransactionSelected));
+        sayText(translate('last_4_national_id_prompt'));
         promptDigits(nidVerification.handlerName);
     }
 };

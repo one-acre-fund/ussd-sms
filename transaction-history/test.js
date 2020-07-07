@@ -73,6 +73,10 @@ describe('TransactionHistory', () => {
             transactionHistory.start(account, country);
             expect( nidVerification.getHandler).toHaveBeenCalledWith(account,country, expect.any(Function));
         });
+        it('should prompt for the last four digits of the national id', () => {
+            transactionHistory.start(account, country);
+            expect(sayText).toHaveBeenCalledWith('Please enter the last four digits of the national ID you registered with.');
+        });
         it('should call prompt digits with "last_four_nid_handler"', () => {
             transactionHistory.start(account, country);
             expect(promptDigits).toHaveBeenCalledWith(idVerification.handlerName);

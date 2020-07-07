@@ -28,5 +28,10 @@ module.exports ={
         'en': 'You\'ve incorrectly entered the last four digits of your national ID. Please try again.',
         'ki': 'Winjijemo imibare ine ya nyuma ya nomera ndangamuntu. Ongera ugerageze',
         'sw': 'Umeweke nambari ambazo si sahihi. Tafadhali jaribu tena.'
+    },
+    'last_4_national_id_prompt': {
+        'en': 'Please enter the last four digits of the national ID you registered with.',
+        'ki': 'Nyaboneka injiza imibare ine ya nyuma ya nomera ndangamuntu wakoresheje wiyandikisha.',
+        'sw': 'Tafadhali weka namba nne za mwisho za kitambulisho ulichotumia kujiandikisha'
     }
 };
