@@ -22,7 +22,7 @@ module.exports = {
             var transactions = getTransactionHistory();
             var txOptions = '';
             transactions.forEach(function ( tx, index) {
-                txOptions = txOptions+'\n'+ translate('payment_details',
+                txOptions = txOptions+'\n'+ translate('payment_list_item',
                     {'$option': index+1, '$date': tx.date, '$amount': tx.amount });
             });
         
