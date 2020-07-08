@@ -26,7 +26,8 @@ module.exports = {
                 global.promptDigits(selectionHandler.handlerName);
             }else if(parseInt(selection,10) > repayments.length){
                 translate =  createTranslator(translations, project.vars.lang);
-                transactionView.list(repayments, state.vars.thPage, translate('invalid_list_selection'));                
+                transactionView.list(repayments, state.vars.thPage, translate('invalid_list_selection')); 
+                global.promptDigits(selectionHandler.handlerName);               
             }else{
                 transactionView.show(repayments[selection - 1]);
             }
