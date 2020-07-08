@@ -137,6 +137,11 @@ describe('TransactionHistory', () => {
                 const errorMessage = 'Invalid selection, please try again.\n';
                 expect(transactionView.list).toHaveBeenLastCalledWith(mockTransactions, 1, errorMessage);
             });
+            it('should prompt the client to enter make another selection if the first was invalid', () => {
+                promptDigits.mockClear();                
+                callback(`${mockTransactions.length +3}`);
+                expect(promptDigits).toHaveBeenLastCalledWith(selectionHandler.handlerName);
+            });
         });
     });
     describe('start', () => {
