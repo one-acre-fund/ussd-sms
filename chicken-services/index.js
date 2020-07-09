@@ -10,7 +10,7 @@ var translate =  createTranslator(translations, project.vars.lang);
 module.exports = {
     registerHandlers: function (){
         function onPaymentValidated(){
-            global.sayText(translate('chicken_possible_nber',{'$name': state.vars.client_json.FirstName,'$min': 2, '$max': state.vars.max_chicken}));
+            global.sayText(translate('chicken_possible_nber',{'$name': JSON.parse(state.vars.client_json).FirstName,'$min': 2, '$max': state.vars.max_chicken}));
             global.promptDigits(possibleOrderHandler.handlerName);
         }
         function onOrderingConfirmed(){
@@ -39,7 +39,7 @@ module.exports = {
                         row.vars.confirmed_chicken_in_R2 = 'yes';
                     }
                     row.save();
-                    var final_msg = msgs('chicken_ordering_final_msg',{'$number': state.vars.confirmed_number ,'$code': code },lang);
+                    var final_msg = translate('chicken_ordering_final_msg',{'$number': state.vars.confirmed_number ,'$code': code });
                     global.sayText(final_msg);  
                     var msg_route = project.vars.sms_push_route;
                     project.sendMessage({ 'to_number': contact.phone_number, 'route_id': msg_route, 'content': final_msg }); 
@@ -60,7 +60,7 @@ module.exports = {
                         row.vars.confirmed_chicken_in_R1 = 'no';
                         row.vars.confirmed_chicken_in_R2 = 'yes';
                     }
-                    var final_msg = msgs('chicken_ordering_final_msg',{'$number': state.vars.confirmed_number ,'$code': 'CODE' },lang);
+                    var final_msg = translate('chicken_ordering_final_msg',{'$number': state.vars.confirmed_number ,'$code': 'CODE' });
                     global.sayText(final_msg);  
                     var msg_route = project.vars.sms_push_route;
                     project.sendMessage({ 'to_number': contact.phone_number, 'route_id': msg_route, 'content': final_msg }); 
