@@ -8,7 +8,7 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function (onIdValidated) {
         return function (input) {
-            var lang = state.vars.lang || project.vars.lang;
+            var lang = state.vars.lang || service.vars.lang || project.vars.lang;
             var translate = getTranslator(translations, lang);
             var client = roster.getClient(state.vars.account, state.vars.country);
             if(client.NationalId.slice(-4) !== input){

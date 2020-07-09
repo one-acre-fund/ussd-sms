@@ -8,8 +8,8 @@ var translations = require('./translations');
 
 module.exports = {
     registerHandlers: function () {
-        
-        var translate =  createTranslator(translations, project.vars.lang);
+        var language = (state && state.vars.lang) || service.vars.lang || project.vars.lang;
+        var translate =  createTranslator(translations, language);
         state.vars.thPage = 1;
         function onIdVerified(client) { 
             var repayments = getTransactionHistory(client);
@@ -25,7 +25,7 @@ module.exports = {
                 transactionView.list(repayments, state.vars.thPage);
                 global.promptDigits(selectionHandler.handlerName);
             }else if(parseInt(selection,10) > repayments.length){
-                translate =  createTranslator(translations, project.vars.lang);
+                translate =  createTranslator(translations, language);
                 transactionView.list(repayments, state.vars.thPage, translate('invalid_list_selection')); 
                 global.promptDigits(selectionHandler.handlerName);               
             }else{
