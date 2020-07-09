@@ -19,7 +19,7 @@ service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 service.vars.ussd_settings_table_id = 'DT1f9908b578f65458';
 service.vars.groupCodes_id = 'DTf1ac46f52abd0c5e';
-
+var account_splash_menu_name = '';
 if(env === 'prod'){
     service.vars.season_clients_table = project.vars.season_clients_table;
     service.vars.client_enrollment_table = project.vars.client_enrollment_data;
@@ -29,6 +29,7 @@ if(env === 'prod'){
     service.vars['21a_client_data_id'] = project.vars['21a_client_data_id'];
     service.vars.client_enrollment_table_id = project.vars.client_enrollment_data_id;
     service.vars.market_access_table_id = 'DT278868f96626c4b0';
+    account_splash_menu_name = 'core_enr_splash_menu'
 }else{
     service.vars.season_clients_table = 'dev_' + project.vars.season_clients_table;
     service.vars.client_enrollment_table = 'dev_' + project.vars.client_enrollment_data;
@@ -38,6 +39,7 @@ if(env === 'prod'){
     service.vars['21a_client_data_id'] = project.vars['dev_21a_client_data_id'];
     service.vars.client_enrollment_table_id = project.vars.dev_client_enrollment_data_id;
     service.vars.market_access_table_id = 'DT627b1e89d0150102';
+    account_splash_menu_name = 'dev_core_enr_splash_menu'
 }
 
 var client_table = project.initDataTableById(service.vars['21a_client_data_id']);
@@ -109,7 +111,7 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             state.vars.account_number = response;
             if (client_verified) {
                 sayText(msgs('account_number_verified'));    
-                var splash = 'core_enr_splash_menu';
+                var splash = account_splash_menu_name;
                 state.vars.splash = splash;
                 var menu = populate_menu(splash, lang);
                 if (typeof (menu) == 'string') {
@@ -490,7 +492,7 @@ addInputHandler('m_market_confirm_handler', function(input){
 });
 
 addInputHandler('backToMain', function(input){
-    var splash = 'core_enr_splash_menu';
+    var splash = account_splash_menu_name;
     state.vars.splash = splash;
     var menu = populate_menu(splash, lang);
     if (typeof (menu) == 'string') {
@@ -804,7 +806,7 @@ addInputHandler('enr_nid_client_confirmation', function (input) {
                 if (client_verified) {
                     sayText(msgs('account_number_verified'));
                     state.vars.account_number = client.account_number;
-                    var splash = 'core_enr_splash_menu';
+                    var splash = account_splash_menu_name;
                     if (splash === null || splash === undefined) {
                         admin_alert(state.vars.client_district + ' not found in district database');
                         throw 'ERROR : DISTRICT NOT FOUND';
