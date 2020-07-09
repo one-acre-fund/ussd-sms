@@ -110,8 +110,8 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             state.vars.account_number = response;
             if (client_verified) {
                 sayText(msgs('account_number_verified'));    
-                var splash = 'core_enr_splash_menu';
-                state.vars.splash = splash;
+                var splash = service.vars.main_menu_table_name;
+                state.vars.splash = service.vars.main_menu_table_name;
                 var menu = populate_menu(splash, lang);
                 if (typeof (menu) == 'string') {
                     state.vars.current_menu_str = menu;
@@ -494,7 +494,7 @@ addInputHandler('m_market_confirm_handler', function(input){
 });
 
 addInputHandler('backToMain', function(input){
-    var splash = 'core_enr_splash_menu';
+    var splash = service.vars.main_menu_table_name ;
     state.vars.splash = splash;
     var menu = populate_menu(splash, lang);
     if (typeof (menu) == 'string') {
@@ -808,7 +808,7 @@ addInputHandler('enr_nid_client_confirmation', function (input) {
                 if (client_verified) {
                     sayText(msgs('account_number_verified'));
                     state.vars.account_number = client.account_number;
-                    var splash = 'core_enr_splash_menu';
+                    var splash = service.vars.main_menu_table_name;
                     if (splash === null || splash === undefined) {
                         admin_alert(state.vars.client_district + ' not found in district database');
                         throw 'ERROR : DISTRICT NOT FOUND';
@@ -1253,7 +1253,7 @@ addInputHandler('enr_input_splash', function (input) { //main input menu
             promptDigits('enr_input_splash', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         }
         else if (input == 44 && state.vars.input_menu_loc == 0) {
-            var splash_menu = populate_menu('enr_splash', lang, 300);
+            var splash_menu = populate_menu(state.vars.splash, lang, 300);
             var menu = msgs('enr_splash', { '$ENR_SPLASH': splash_menu }, lang);
             state.vars.current_menu_str = menu;
             sayText(menu);
