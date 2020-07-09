@@ -179,16 +179,14 @@ addInputHandler('cor_menu_select', function (input) {
 
     var selection = get_menu_option(input, state.vars.splash);
     state.vars.selected_core_input = input;
-    if (input == 8) {
-        try {
-            transactionHistory.start(state.vars.account_number,'rw');            
-        } catch (error) {
-            slack.log(error)
-        }
-    }else if (selection === null ||(input != 8 && selection === undefined)) {
+    
+    if (selection === null || selection === undefined) {
         sayText(msgs('invalid_input', {}, lang));
         promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         return null;
+    }
+    else if(selection === 'cor_get_repayments'){
+        transactionHistory.start(state.vars.account_number,'rw');            
     }
     else if(selection === 'cor_market_access'){
 
