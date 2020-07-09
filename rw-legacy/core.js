@@ -400,6 +400,7 @@ addInputHandler('market_people_in_group', function(input){
     if(input > 0 && input <= 30){
         var menu = msgs('maize_number',{},lang);
         state.vars.current_menu = menu;
+        state.vars.number_of_farmers = input;
         sayText(menu);
         promptDigits('harvest_amount_handler', { 'submitOnHash': false, 'maxDigits': 10, 'timeout': timeout_length });
     }
@@ -473,7 +474,7 @@ addInputHandler('m_market_confirm_handler', function(input){
         }
         var table = project.initDataTableById(service.vars.market_access_table_id);
         var row = table.createRow({ 
-            vars: {'district': district, 'site': site, 'group': group, 'account_number': state.vars.account_number, 'product': state.vars.crop_type, "amount" : state.vars.harvest_amount, "date_available" : state.vars.harvest_time }
+            vars: {'district': district, 'site': site, 'group': group, 'account_number': state.vars.account_number, 'product': state.vars.crop_type, "amount" : state.vars.harvest_amount, "date_available" : state.vars.harvest_time, "farmers_number":state.vars.number_of_farmers}
         });
         row.save();
         sayText(msgs('market_access_final_message'),{},lang);
