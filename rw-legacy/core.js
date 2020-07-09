@@ -60,6 +60,7 @@ var get_time = require('./lib/enr-timestamp');
 var get_client = require('./lib/enr-retrieve-client-row');
 var regSessionManager = require('./lib/enr-resume-registration');
 var group_size_satisfied = require('./lib/core-group-size-check');
+const chickenServices = require('../chicken-services/index');
 
 //options
 const lang = project.vars.cor_lang;
@@ -140,7 +141,7 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
     }
 });
 
-
+chickenServices.registerHandlers();
 
 addInputHandler('cor_menu_select', function (input) {
     input = String(input.replace(/\D/g, ''));
@@ -227,6 +228,13 @@ addInputHandler('cor_menu_select', function (input) {
             sayText(msgs('cor_payg_insufficient', {}, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
             return null;
+        }
+    }
+    else if(selection === 'chicken_confirm'){
+        try {
+            chickenServices.start(state.vars.account_number,'rw');            
+        } catch (error) {
+            slack.log(error)
         }
     }
     else if (selection === 'chx_confirm') {
