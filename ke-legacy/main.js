@@ -1,5 +1,8 @@
 // Setting global variables!
 var rosterAPI = require('ext/Roster_v1_2_0/api');
+var translatorFactory = require('../utils/translator/translator');
+var translations = require('./translations/index');
+var dukaLocator = require('../duka-locator/index');
 var MenuCount = 0;
 var MenuNext = false;
 var LocArray="";
@@ -62,6 +65,9 @@ var JITTUMaxOrders = 3;
 var FAWUnitPrice = 720;
 var FAWMaxOrders = 2;
 var StaffDistrict = "KENYA STAFF";
+
+// loading the translator with all translations and setting the default language to English
+var translator = translatorFactory(translations, 'en');
 // Setting global functions
 var InteractionCounter = function(input){
     try{
@@ -950,12 +956,12 @@ var StaffCreateRequest = function(payrollid,startday,amount){
 
 //MAIN FUNCTIONS OR GENERIC TEXT
 var SplashMenuText = function (){
-    if (GetLang()){sayText("Welcome to the OAF portal. Please enter the 8 digit account number you use for repayment\nPress 0 if you are not our client\n99) Swahili")}
-    else {sayText("Karibu kwenye huduma ya One Acre Fund. Tafadhali bonyenza nambari zako 8 za akaunti. \nBonyeza 0 ikiwa wewe si mkulima\n99) English")}
+    if (GetLang()){sayText("Welcome to the OAF portal. Please enter the 8 digit account number you use for repayment\nPress 0 if you do not have an OAF account\n99) Swahili")}
+    else {sayText("Karibu kwenye huduma ya One Acre Fund. Tafadhali bonyenza nambari zako 8 za akaunti. \nBonyeza 0 kama hauna akaunti ya OAF\n99) English")}
 };
 var SplashMenuFailure = function (){
-    if (GetLang()){sayText("Welcome to the OAF portal. Please enter the 8 digit account number you use for repayment\nPress 0 if you are not our client\n99) Swahili")}
-    else {sayText("Karibu kwenye huduma ya One Acre Fund. Tafadhali bonyenza nambari zako 8 za akaunti.\nBonyeza 0 ikiwa wewe si mkulima\n99) English")}
+    if (GetLang()){sayText("Incorrect input. Please enter the 8 digit account number you use for repayment\nPress 0 if you do not have an OAF account\n99) Swahili")}
+    else {sayText("Nambari sio sahihi. Tafadhali ingiza nambari 8 za akaunti yako ambayo unatumia kufanya malipo.\nBonyeza 0 kama hauna akaunti ya OAF\n99) English")}
 };
 var MainMenuText = function (client){
     var MenuText = "";
@@ -991,15 +997,34 @@ var MainMenuText = function (client){
 
     if (GetLang()){MenuText = MenuText + "\n9) Contact Call center"}
     else {MenuText = MenuText + "\n9) Wasiliana na Huduma ya wateja"}
-    
+
+    if (GetLang()){MenuText = MenuText + "\n10) Locate an OAF duka"}
+    else {MenuText = MenuText + "\n10) Lipate duka la OAF"}
+
     if (GetLang()){MenuText =MenuText + "\n99) Swahili"}
     else {MenuText =MenuText + "\n99) English"}
     sayText(MenuText);
 };
 
 var NonClientMenuText = function (){
-    if (GetLang()){sayText("1) Find my One Acre Fund contact\n2) Trainings\n99) Swahili")}
-    else {sayText("1) Pata Afisa wa Nyanjani wa One Acre Fund\n2) Mafunzo\n99) English")}
+    var buildMenu = require('./utils/build-menu');
+    var lang = GetLang() ? 'en' : 'sw';
+    var menuOptions = [
+        {key: 'find_oaf_contact', options: {'$label': 1}},
+        {key: 'trainings', options: {'$label': 2}},
+        {key: 'locate_oaf_duka', options: {'$label': 3}},
+        {key: 'change_lang', options: {'$label': 99}}
+    ];
+
+    var non_client_menu_options = {
+    'find_oaf_contact': 1,
+    'trainings': 2,
+    'locate_oaf_duka': 3, 
+    'change_lang': 99
+}
+    state.vars.non_client_menu_options = JSON.stringify(non_client_menu_options);
+    var menu = buildMenu(menuOptions, lang)
+    sayText(menu);
 }
 
 var PaymentMenuText = function (client){
@@ -1569,6 +1594,9 @@ global.main = function () {
     SplashMenuText();
     promptDigits("SplashMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
 }
+
+// load input handlers
+dukaLocator.registerDukaLocatorHandlers({lang: GetLang() ? 'en' : 'sw'})
 addInputHandler("SplashMenu", function(SplashMenu) {
     LogSessionID();
     InteractionCounter("SplashMenu");
@@ -1586,7 +1614,6 @@ addInputHandler("SplashMenu", function(SplashMenu) {
         StaffPayrollText();
         promptDigits('StaffPayRoll', {submitOnHash: true, maxDigits: 5, timeout: 5});
     }
-
     else {
         if (RosterClientVal(ClientAccNum)){
             console.log("SuccessFully Validated against Roster");
@@ -1607,18 +1634,22 @@ addInputHandler("SplashMenu", function(SplashMenu) {
 addInputHandler("NonClientMenu", function(input) {
     LogSessionID();
     InteractionCounter("NonClientMenu");
-    if (input == "99"){
+    var clientMenuOptions = JSON.parse(state.vars.non_client_menu_options);
+    if (input == clientMenuOptions.change_lang){
         ChangeLang();
         NonClientMenuText();
         promptDigits("NonClientMenu", {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
-    else if (input== "1"){
+    else if (input== clientMenuOptions.find_oaf_contact){
         FOLocatorRegionText();
         promptDigits("FOLocRegion", {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
-    else if (input == "2"){
+    else if (input == clientMenuOptions.trainings){
         TrainingMenuText();
         promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
+    }
+    else if(input == clientMenuOptions.locate_oaf_duka) {
+        dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
     }
     else{
         NonClientMenuText();
@@ -1707,6 +1738,8 @@ addInputHandler("MainMenu", function(MainMenu) {
     else if (MainMenu == 9){
         CallCenterMenuText();
         promptDigits("CallCenterMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
+    } else if(MainMenu == 10) {
+        dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
     }
     else{
         var arrayLength = client.BalanceHistory.length;
