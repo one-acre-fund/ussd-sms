@@ -1630,8 +1630,10 @@ global.main = function () {
 }
 
 // load input handlers
-dukaLocator.registerDukaLocatorHandlers({lang: GetLang() ? 'en' : 'sw'})
-addInputHandler("SplashMenu", function(SplashMenu) {
+dukaLocator.registerDukaLocatorHandlers({lang: GetLang() ? 'en' : 'sw'});
+transactionHistory.registerHandlers();
+
+addInputHandler('SplashMenu', function(SplashMenu) {
     LogSessionID();
     InteractionCounter("SplashMenu");
     ClientAccNum = SplashMenu;
