@@ -1,4 +1,23 @@
+var defaultEnvironment;
+if(service.active){
+    defaultEnvironment = 'prod';
+}else{
+    defaultEnvironment = 'dev';
+}
+
+var env;
+if(service.vars.env === 'prod' || service.vars.env === 'dev'){
+    env = service.vars.env;
+}else{
+    env = defaultEnvironment;
+}
+
+service.vars.server_name = project.vars[env+'_server_name'];
+service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
+
+
 var transactionHistory = require('../transaction-history/index');
+
 // Setting global variables!
 var rosterAPI = require('ext/Roster_v1_2_0/api');
 var translatorFactory = require('../utils/translator/translator');
