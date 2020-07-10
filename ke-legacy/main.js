@@ -995,10 +995,10 @@ var SplashMenuFailure = function (){
     if (GetLang()){sayText("Incorrect input. Please enter the 8 digit account number you use for repayment\nPress 0 if you do not have an OAF account\n99) Swahili")}
     else {sayText("Nambari sio sahihi. Tafadhali ingiza nambari 8 za akaunti yako ambayo unatumia kufanya malipo.\nBonyeza 0 kama hauna akaunti ya OAF\n99) English")}
 };
+var MenuText = '';
 var MainMenuText = function (client){
-    var MenuText = "";
-    if (GetLang()){MenuText ="Select Service\n1) Make a payment\n2) Check balance\n3) Trainings"}
-    else {MenuText ="Chagua Huduma\n1) Fanya malipo\n2) Kuangalia salio\n3) Mafunzo"}
+    if (GetLang()){MenuText ='Select Service\n1) Make a payment\n2) Check balance\n3) Trainings\n4) View transaction history';}
+    else {MenuText ='Chagua Huduma\n1) Fanya malipo\n2) Kuangalia salio\n3) Mafunzo\n4) Angalia historia ya malipo';}
     var JITActive = true;
     var FAWActiveCheck = true;
     //if (IsGl(client.AccountNumber)){
