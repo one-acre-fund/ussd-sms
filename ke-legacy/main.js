@@ -156,19 +156,21 @@ var TrimClientJSON = function(client){
 var GetLang = function(){
     if(contact.vars.English === true){
         service.vars.lang = 'en';
+        contact.vars.lang = 'en';
         return true;
     } else {
         service.vars.lang = 'sw';
+        contact.vars.lang = 'sw';
         return false;
     }
 };
 var ChangeLang = function (){
     if (contact.vars.English === true){
-        service.vars.lang = 'sw';
         contact.vars.English = false;
+        contact.vars.lang = 'sw';
     }
     else {
-        service.vars.lang = 'en';
+        contact.vars.lang = 'en';
         contact.vars.English = true;
     }
     contact.save();

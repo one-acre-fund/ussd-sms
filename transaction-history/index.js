@@ -8,7 +8,7 @@ var translations = require('./translations');
 
 module.exports = {
     registerHandlers: function () {
-        var language = (state && state.vars.lang) || service.vars.lang || project.vars.lang;
+        var language = (contact && contact.vars.lang) || (state && state.vars.lang) || service.vars.lang || project.vars.lang;
         var translate =  createTranslator(translations, language);
         state.vars.thPage = 1;
         function onIdVerified(client) { 
