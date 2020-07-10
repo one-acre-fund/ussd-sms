@@ -1,3 +1,4 @@
+var transactionHistory = require('../transaction-history/index');
 // Setting global variables!
 var rosterAPI = require('ext/Roster_v1_2_0/api');
 var translatorFactory = require('../utils/translator/translator');
@@ -134,11 +135,23 @@ var TrimClientJSON = function(client){
     return client;
 };
 var GetLang = function(){
-    if(contact.vars.English === true){return true} else {return false}
+    if(contact.vars.English === true){
+        service.vars.lang = 'en';
+        return true;
+    } else {
+        service.vars.lang = 'sw';
+        return false;
+    }
 };
 var ChangeLang = function (){
-    if (contact.vars.English === true){contact.vars.English = false}
-    else {contact.vars.English = true}
+    if (contact.vars.English === true){
+        service.vars.lang = 'sw';
+        contact.vars.English = false;
+    }
+    else {
+        service.vars.lang = 'en';
+        contact.vars.English = true;
+    }
     contact.save();
 };
 var RosterClientVal = function (AccNum){
@@ -1682,7 +1695,9 @@ addInputHandler("MainMenu", function(MainMenu) {
     }
     else if(MainMenu == 3){
         TrainingMenuText();
-        promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
+    }
+    else if(MainMenu == 4){
+        transactionHistory.start(client.AccountNumber, 'ke');
     }
     //else if(MainMenu == 3 && IsGl(client.AccountNumber)&&IsJITTUDistrict(client.DistrictName)){
       //      if (SiteLockVal (client.SiteName, client.DistrictName)){
