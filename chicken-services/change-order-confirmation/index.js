@@ -1,13 +1,14 @@
 var createTranslator = require('../../utils/translator/translator');
 var translations = require('../translations');
-
 var handlerName = 'change_order_confirm';
+
 module.exports = {
     handlerName: handlerName,
     getHandler: function(onOrderFinalized){
         return function(input){
             if(input == 0){
-                global.promptDigits('backToMain',{'submitOnHash': false, 'maxDigits': 0, 'timeout': 0 });
+                var backToMain = require('../../rw-legacy/lib/backToMainMenu');
+                backToMain();
             }
             else if(input == 1){
                 onOrderFinalized();

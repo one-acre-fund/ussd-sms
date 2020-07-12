@@ -1,14 +1,14 @@
 var createTranslator = require('../../utils/translator/translator');
 var translations = require('../translations');
 var translate =  createTranslator(translations, project.vars.lang);
-
 var handlerName = 'change_chicken';
 module.exports = {
     handlerName: handlerName,
     getHandler: function (onPaymentValidated) {
         return function (input) {
             if(input == 0){
-                global.promptDigits('backToMain',{'submitOnHash': false, 'maxDigits': 0, 'timeout': 0 });
+                var backToMain = require('../../rw-legacy/lib/backToMainMenu');
+                backToMain();
                 return;
             }
             else if(input == 1){
