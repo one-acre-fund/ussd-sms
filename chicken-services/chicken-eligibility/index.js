@@ -1,4 +1,4 @@
-
+var slack = require('../../slack-logger/index');
 
 module.exports = function(chicken_table, acc_nber, client_json){
 
@@ -51,8 +51,7 @@ module.exports = function(chicken_table, acc_nber, client_json){
     }
     else{
         state.vars.client_notfound = true;
-        //admin_alert = require('./admin-alert')
-        //admin_alert('Client account not fund in chicken table + '\n' + JSON.stringify(client));
+        slack.log('Client '+ client_json.FirstName+' not found in chicken table');
     }  
 
 };

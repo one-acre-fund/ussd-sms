@@ -20,16 +20,10 @@ module.exports = {
         function onOrderFinalized(){
             var r1,r2;
             if(Date.parse(new Date()) > Date.parse(new Date('2020-08-01T00:00:00.00'))){
-                console.log(new Date()+'-------------------------------------------');
-                console.log(Date.parse(new Date()) < new Date('2020-08-01T00:00:00.00'));
-                console.log(Date.parse(new Date()) > Date.parse((new Date('2020-08-01T00:00:00.00'))));
                 r1 = 'true';
                 r2 = 'false'; 
             }
             else{
-                console.log(new Date()+'++++++++++++++++++++++++++++++++');
-                console.log(Date.parse((new Date()) > Date.parse((new Date('2020-08-01T00:00:00.00')))));
-                console.log(Date.parse(new Date()) < Date.parse(new Date('2020-08-01T00:00:00.00')));
                 r1 = 'false';
                 r2 = 'true';
             }
