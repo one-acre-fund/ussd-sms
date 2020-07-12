@@ -18,7 +18,7 @@ describe('change_order_confirm', () => {
     it('should show a message for retry if is not zero', () => {
         project.vars.lang = 'en';
         changeOrderHandler('7');
-        expect(sayText).toHaveBeenCalledWith(`Invaid input, please try again. ~B You are confirming ${confirmed_number} ` 
+        expect(sayText).toHaveBeenCalledWith(`Invaid input, please try again.  You are confirming ${confirmed_number} ` 
         + `chickens. Your total credit for chickens is ${confirmed_number * 2400} `
         +'Rwf. Your chickens will be ready within 2 months! 1: Confirm 0: Return home');
     });

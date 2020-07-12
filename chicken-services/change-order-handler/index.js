@@ -23,8 +23,7 @@ module.exports = {
                 }           
             }
             else{
-                //TODO: 
-                global.sayText(translate('chicken_already_confirmed',{'$name': JSON.parse(state.vars.client_json).FirstName,'$number': state.vars.chcken_nber}));
+                global.sayText(translate('invalid_try_again', {'$Menu': translate('chicken_already_confirmed',{'$name': JSON.parse(state.vars.client_json).FirstName,'$number': state.vars.chcken_nber})}));
                 global.promptDigits(handlerName);
                 return;
             }

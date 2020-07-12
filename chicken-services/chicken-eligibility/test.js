@@ -72,7 +72,7 @@ describe('cicken_Eligibility', () => {
         chickenEligibility(mockTable,client.AccountNumber,client);
         expect(state.vars.max_chicken).toBe(15);
     });
-    it('should set state.vars.minimum_amount_paid to False if prepayment_amount is greater than 1000', ()=>{
+    it('should set state.vars.minimum_amount_paid to False if prepayment_amount is less than 1000', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(false);
         client.BalanceHistory.TotalRepayment_IncludingOverpayments = 2500;
         client.BalanceHistory.TotalCredit = 2000;

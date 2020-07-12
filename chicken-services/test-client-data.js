@@ -34,7 +34,8 @@ var client = {
             "CountryName": "Uganda"
         }
     ],
-    "BalanceHistory": [{
+    "BalanceHistory": [
+        {
             "AccountGuid": "f456ff55-2d01-ea21-a42d-505bc2b76563",
             "GroupId": 678,
             "GroupName": "BIKUWERAKI",
@@ -44,10 +45,11 @@ var client = {
             "SeasonName": "2020, Short Rain",
             "SeasonStart": "2020-08-01T00:00:00",
             "TotalCredit": 128000.000,
-            "TotalRepayment_IncludingOverpayments": 0.0000,
+            "TotalRepayment_IncludingOverpayments": 1500000.0000,
             "Balance": 128000.0000,
             "CurrencyCode": "UGX"
-        }, {
+        },
+        {
             "AccountGuid": "f456ff55-2d01-ea21-a42d-505bc2b76563",
             "GroupId": 678,
             "GroupName": "BIKUWERAKI",
@@ -62,5 +64,6 @@ var client = {
             "CurrencyCode": "UGX"
         }
     ]
+    
 };
 exports.client = client;

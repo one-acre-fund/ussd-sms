@@ -2,10 +2,11 @@
 
 module.exports = function(chicken_table, acc_nber, client_json){
 
-    //client_json =JSON.parse(client_json);
     //calculate the prepayment
+    if(client_json.BalanceHistory.length>0){
+        client_json.BalanceHistory = client_json.BalanceHistory[0];
+    }
     var prepayment_amount = client_json.BalanceHistory.TotalRepayment_IncludingOverpayments - client_json.BalanceHistory.TotalCredit;
-    prepayment_amount = 8000;
     // if prepayment satisfies the mminimum condition( > than 2 chicken prepayment amount(2000))
     if(prepayment_amount >= 1000){
         state.vars.minimum_amount_paid = true;

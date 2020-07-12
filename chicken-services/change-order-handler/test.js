@@ -41,7 +41,7 @@ describe('change_order_handler', () => {
     it('should show a message for retry if is not zero or one', () => {
         project.vars.lang = 'en';
         changeOrderHandler('7');
-        expect(sayText).toHaveBeenCalledWith(`Hello ${name} `
+        expect(sayText).toHaveBeenCalledWith(`Invaid input, please try again.  Hello ${name} `
         + `You have already confirmed ${number} `+
         'number of chicken. 1: Change confirmation 0: Return home');
     });

@@ -18,6 +18,21 @@ module.exports = {
             global.promptDigits(changeOrderConfirmation.handlerName);
         }
         function onOrderFinalized(){
+            var r1,r2;
+            if(Date.parse(new Date()) > Date.parse(new Date('2020-08-01T00:00:00.00'))){
+                console.log(new Date()+'-------------------------------------------');
+                console.log(Date.parse(new Date()) < new Date('2020-08-01T00:00:00.00'));
+                console.log(Date.parse(new Date()) > Date.parse((new Date('2020-08-01T00:00:00.00'))));
+                r1 = 'true';
+                r2 = 'false'; 
+            }
+            else{
+                console.log(new Date()+'++++++++++++++++++++++++++++++++');
+                console.log(Date.parse((new Date()) > Date.parse((new Date('2020-08-01T00:00:00.00')))));
+                console.log(Date.parse(new Date()) < Date.parse(new Date('2020-08-01T00:00:00.00')));
+                r1 = 'false';
+                r2 = 'true';
+            }
             var chicken_table = project.initDataTableById(service.vars.chicken_table_id);
             var cursor = chicken_table.queryRows({'vars': {'account_number': state.vars.account_number}});
             if(cursor.hasNext()){
@@ -30,14 +45,8 @@ module.exports = {
                 row.vars.district = JSON.parse(state.vars.client_json).DistrictName;
                 row.vars.group = JSON.parse(state.vars.client_json).GroupName;
                 row.vars.ordered_chickens = state.vars.confirmed_number;
-                if(new Date() > new Date('2020-08-01T00:00:00.00')){
-                    row.vars.confirmed_chicken_in_R1 = 'yes';
-                    row.vars.confirmed_chicken_in_R2 = 'no'; 
-                }
-                else{
-                    row.vars.confirmed_chicken_in_R1 = 'no';
-                    row.vars.confirmed_chicken_in_R2 = 'yes';
-                }
+                row.vars.confirmed_chicken_in_R1 = r1;
+                row.vars.confirmed_chicken_in_R2 = r2;
                 row.save();
                 var final_msg = translate('chicken_ordering_final_msg',{'$number': state.vars.confirmed_number ,'$code': code });
                 global.sayText(final_msg);  
@@ -53,14 +62,8 @@ module.exports = {
                 row.vars.district = JSON.parse(state.vars.client_json).DistrictName;
                 row.vars.group = JSON.parse(state.vars.client_json).GroupName;
                 row.vars.ordered_chickens = state.vars.confirmed_number;
-                if(new Date() > new Date('2020-08-01T00:00:00.00')){
-                    row.vars.confirmed_chicken_in_R1 = 'no';
-                    row.vars.confirmed_chicken_in_R1 = 'yes';
-                }
-                else{
-                    row.vars.confirmed_chicken_in_R1 = 'yes';
-                    row.vars.confirmed_chicken_in_R2 = 'no';
-                }
+                row.vars.confirmed_chicken_in_R1 = r1;
+                row.vars.confirmed_chicken_in_R2 = r2;
                 var final_msg = translate('chicken_ordering_final_msg',{'$number': state.vars.confirmed_number ,'$code': 'CODE' });
                 global.sayText(final_msg);  
                 var msg_route = project.vars.sms_push_route;

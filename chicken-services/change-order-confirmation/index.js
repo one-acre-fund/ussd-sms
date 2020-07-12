@@ -14,7 +14,6 @@ module.exports = {
                 onOrderFinalized();
             }
             else{
-                //TODO: handle illegal input
                 var translate =  createTranslator(translations, project.vars.lang);
                 global.sayText(translate('invalid_try_again', {'$Menu': translate('chicken_final_confrm',{'$number': state.vars.confirmed_number,'$price': (state.vars.confirmed_number * 2400)})}));
                 global.promptDigits(handlerName);
