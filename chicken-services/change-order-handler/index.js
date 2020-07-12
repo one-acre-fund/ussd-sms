@@ -8,7 +8,7 @@ module.exports = {
     getHandler: function (onPaymentValidated) {
         return function (input) {
             if(input == 0){
-                promptDigits('backToMain',{'submitOnHash': false, 'maxDigits': 1, 'timeout': project.vars.timeout });
+                global.promptDigits('backToMain',{'submitOnHash': false, 'maxDigits': 1, 'timeout': project.vars.timeout });
                 return;
             }
             else if(input == 1){

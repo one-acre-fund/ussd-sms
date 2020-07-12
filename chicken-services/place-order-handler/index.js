@@ -18,7 +18,7 @@ module.exports = {
                 }
             }
             else if(input == 0){
-                promptDigits('backToMain',{'submitOnHash': false, 'maxDigits': 1, 'timeout': project.vars.timeout });
+                global.promptDigits('backToMain',{'submitOnHash': false, 'maxDigits': 1, 'timeout': project.vars.timeout });
                 return;
             }
             else{

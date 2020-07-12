@@ -52,13 +52,14 @@ module.exports = {
                 row.vars.site = JSON.parse(state.vars.client_json).SiteName;
                 row.vars.district = JSON.parse(state.vars.client_json).DistrictName;
                 row.vars.group = JSON.parse(state.vars.client_json).GroupName;
-                row.vars.ordered_chicken = state.vars.confirmed_number;
+                row.vars.ordered_chickens = state.vars.confirmed_number;
                 if(new Date() > new Date('2020-08-01T00:00:00.00')){
+                    row.vars.confirmed_chicken_in_R1 = 'no';
                     row.vars.confirmed_chicken_in_R1 = 'yes';
                 }
                 else{
-                    row.vars.confirmed_chicken_in_R1 = 'no';
-                    row.vars.confirmed_chicken_in_R2 = 'yes';
+                    row.vars.confirmed_chicken_in_R1 = 'yes';
+                    row.vars.confirmed_chicken_in_R2 = 'no';
                 }
                 var final_msg = translate('chicken_ordering_final_msg',{'$number': state.vars.confirmed_number ,'$code': 'CODE' });
                 global.sayText(final_msg);  
