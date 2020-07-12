@@ -82,8 +82,6 @@ describe('ChickenServices', () => {
         it('should show a prompt placeOrderHandler if order is no chicken ordered', () => {
             state.vars.chcken_nber = 0;
             chickenServices.start(account, country);
-            console.log('!!!!!!!!!!!!!!!!!!!'+ new Date());
-            console.log('!!!!!!!!!!!!!!!!!!!'+ Date.parse(new Date('2020-08-01T00:00:00.00')));
             expect(promptDigits).toHaveBeenCalledWith(placeOrderHandler.handlerName);
             expect(promptDigits).toHaveBeenCalledTimes(1);
         });

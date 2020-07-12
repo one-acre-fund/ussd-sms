@@ -23,23 +23,16 @@ global.afterEach(function() {
 global.httpClient = {
     request: jest.fn()
 };
-<<<<<<< HEAD
 global.stopRules = jest.fn();
-=======
 
->>>>>>> origin/develop
 global.service = {
     vars: {
     }
 };
-<<<<<<< HEAD
-global.project.initDataTableById = jest.fn();
-=======
 
 global.contact = {
     vars: {
     }
 };
-
+project.initDataTableById = jest.fn();
 global.stopRules = jest.fn();
->>>>>>> origin/develop

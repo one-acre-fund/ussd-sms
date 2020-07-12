@@ -13,7 +13,6 @@ module.exports = {
             }
             else if(input == 1){
                 if(state.vars.minimum_amount_paid == false){
-                    console.log(state.vars.minimum_amount_paid);
                     global.sayText(translate('chicken_no_minimum_prepayment'));
                     global.stopRules();
                     return;  

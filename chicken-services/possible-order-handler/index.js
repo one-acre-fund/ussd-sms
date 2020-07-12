@@ -6,7 +6,6 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(onOrderingConfirmed){
         return function(input){
-            console.log('max_chicken'+state.vars.max_chicken);
             if((input >= 2) && (input <= state.vars.max_chicken)){
                 state.vars.confirmed_number = input;
                 onOrderingConfirmed();
