@@ -13,7 +13,7 @@ module.exports = {
             }
             else{
                 var translate =  createTranslator(translations, project.vars.lang);
-                global.sayText(translate('chicken_oder_out_of_bound',{'$name': JSON.parse(state.vars.client_json).FirstName,'$min': 2, '$number': state.vars.max_chicken}));
+                global.sayText(translate('chicken_oder_out_of_bound',{'$number': state.vars.max_chicken}));
                 global.promptDigits(handlerName);
             }
         };

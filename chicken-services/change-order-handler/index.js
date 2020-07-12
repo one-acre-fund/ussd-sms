@@ -1,22 +1,21 @@
 var createTranslator = require('../../utils/translator/translator');
 var translations = require('../translations');
+var translate =  createTranslator(translations, project.vars.lang);
 
 var handlerName = 'change_chicken';
 module.exports = {
     handlerName: handlerName,
-    getHandler:  function (onPaymentValidated) {
+    getHandler: function (onPaymentValidated) {
         return function (input) {
             if(input == 0){
-                //TODO: back to main
-                global.promptDigits('backToMain',{'submitOnHash': false, 'maxDigits': 1, 'timeout': timeout_length });
+                promptDigits('backToMain',{'submitOnHash': false, 'maxDigits': 1, 'timeout': project.vars.timeout });
                 return;
             }
             else if(input == 1){
                 if(state.vars.minimum_amount_paid == false){
                     console.log(state.vars.minimum_amount_paid);
-                    var translate =  createTranslator(translations, project.vars.lang);
                     global.sayText(translate('chicken_no_minimum_prepayment'));
-                    stopRules();
+                    global.stopRules();
                     return;  
                 }
                 else{
@@ -25,12 +24,11 @@ module.exports = {
             }
             else{
                 //TODO: 
-                var translate =  createTranslator(translations, project.vars.lang);
-                global.sayText(translate('chicken_already_confirmed',{'$name':JSON.parse(state.vars.client_json).FirstName,'$number': state.vars.chcken_nber}));
+                global.sayText(translate('chicken_already_confirmed',{'$name': JSON.parse(state.vars.client_json).FirstName,'$number': state.vars.chcken_nber}));
                 global.promptDigits(handlerName);
                 return;
             }
             
-        }
+        };
     }
 };

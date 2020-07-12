@@ -1,6 +1,8 @@
 
 
-module.exports = function(chicken_table, acc_nber,client_json){
+module.exports = function(chicken_table, acc_nber, client_json){
+
+    //client_json =JSON.parse(client_json);
     //calculate the prepayment
     var prepayment_amount = client_json.BalanceHistory.TotalRepayment_IncludingOverpayments - client_json.BalanceHistory.TotalCredit;
     prepayment_amount = 2000;

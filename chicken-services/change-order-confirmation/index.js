@@ -7,9 +7,7 @@ module.exports = {
     getHandler: function(onOrderFinalized){
         return function(input){
             if(input == 0){
-                // TODO: add go to main menu
-                global.promptDigits(handlerName);
-                return;
+                promptDigits('backToMain',{'submitOnHash': false, 'maxDigits': 1, 'timeout': project.vars.timeout });
             }
             else if(input == 1){
                 onOrderFinalized();
@@ -17,9 +15,7 @@ module.exports = {
             else{
                 //TODO: handle illegal input
                 var translate =  createTranslator(translations, project.vars.lang);
-                global.sayText(translate('chicken_final_confrm',{'$number': state.vars.confirmed_number,'$price': (state.vars.confirmed_number * 2400)}));
-                var menu = translate(('chicken_final_confrm',{'$number': confirmed_number,'$price': (confirmed_number * 2400)}));
-                global.sayText(translate('invalid_try_again', {'$Menu':menu}));
+                global.sayText(translate('invalid_try_again', {'$Menu': translate('chicken_final_confrm',{'$number': state.vars.confirmed_number,'$price': (state.vars.confirmed_number * 2400)})}));
                 global.promptDigits(handlerName);
                 return;
             }

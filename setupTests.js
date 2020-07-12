@@ -21,3 +21,9 @@ global.afterEach(function() {
 global.httpClient = {
     request: jest.fn()
 };
+global.stopRules = jest.fn();
+global.service = {
+    vars: {
+    }
+};
+global.project.initDataTableById = jest.fn();

@@ -39,5 +39,9 @@ module.exports = {
     "chicken_place_order" :{
         "en": "Press 1 if you'd like to order and confirm chickens 1: Continue 0: Return home",
         "ki":  " Kanda 1 niba ushaka gutumiza no kwemeza inkoko 1:Gukomeza 0:Subira ahabanza"
+    },
+    "invalid_try_again":{
+        "en":"Invaid input, please try again. ~B $Menu",
+        "ki": "Ibyo mwinjije ntago bishoboka, ongera ugerageze. ~B $Menu"
     }
 };
