@@ -8,7 +8,7 @@ describe('cicken_Eligibility', () => {
     };
     const mockTable = { queryRows: jest.fn() };
     mockTable.queryRows.mockReturnValue(mockCursor);
-    var mockRow ={vars: { ordered_chicken: 4, confirmed: 1}};
+    var mockRow ={vars: { ordered_chickens: 4, confirmed: 1}};
     beforeEach(() => {
         sayText.mockClear();
         promptDigits.mockClear();
@@ -19,7 +19,7 @@ describe('cicken_Eligibility', () => {
 
     it('should not define confirmed_chicken variable if the client chicken number is zero', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(true);
-        mockRow ={vars: { ordered_chicken: 0}};
+        mockRow ={vars: { ordered_chickens: 0}};
         mockCursor.next.mockReturnValueOnce(mockRow);
         chickenEligibility(mockTable,client.AccountNumber,client);
         expect(state.vars.confirmed_chicken).not.toBeDefined();
@@ -39,21 +39,21 @@ describe('cicken_Eligibility', () => {
     
     it('should set confirmed_chicken variable to true if the client chicken number is not zero and they already confirmed', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(true);
-        mockRow ={vars: { ordered_chicken: 4, confirmed: 1}};
+        mockRow ={vars: { ordered_chickens: 4, confirmed: 1}};
         mockCursor.next.mockReturnValueOnce(mockRow);
         chickenEligibility(mockTable,client.AccountNumber,client);
         expect(state.vars.confirmed_chicken).toBeTruthy();
     });
     it('should set confirmed_chicken variable to false if the client chicken number is not zero and they have not confirmed', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(true);
-        mockRow ={vars: { ordered_chicken: 4, confirmed: 0}};
+        mockRow ={vars: { ordered_chickens: 4, confirmed: 0}};
         mockCursor.next.mockReturnValueOnce(mockRow);
         chickenEligibility(mockTable,client.AccountNumber,client);
         expect(state.vars.confirmed_chicken).toBeFalsy();
     });
     it('should define confirmed_chicken variable if the client chicken number is not zero and they have not confirmed', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(true);
-        mockRow ={vars: { ordered_Chicken: 4, confirmed: 0}};
+        mockRow ={vars: { ordered_Chickens: 4, confirmed: 0}};
         mockCursor.next.mockReturnValueOnce(mockRow);
         chickenEligibility(mockTable,client.AccountNumber,client);
         expect(state.vars.confirmed_chicken).toBeDefined();

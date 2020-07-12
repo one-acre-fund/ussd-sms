@@ -26,7 +26,7 @@ module.exports = function(chicken_table, acc_nber, client_json){
 
     if(cursor.hasNext()){
         var row = cursor.next();
-        state.vars.chcken_nber = row.vars.ordered_chicken || 0;
+        state.vars.chcken_nber = row.vars.ordered_chickens || 0;
         state.vars.farmer_name  = JSON.parse(state.vars.client_json).FirstName;
         //Did not roder any chicken return
         if(state.vars.chcken_nber == 0){
