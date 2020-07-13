@@ -19,7 +19,7 @@ service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 service.vars.ussd_settings_table_id = 'DT1f9908b578f65458';
 service.vars.groupCodes_id = 'DTf1ac46f52abd0c5e';
-
+var account_splash_menu_name = '';
 if(env === 'prod'){
     service.vars.season_clients_table = project.vars.season_clients_table;
     service.vars.client_enrollment_table = project.vars.client_enrollment_data;
@@ -29,6 +29,7 @@ if(env === 'prod'){
     service.vars['21a_client_data_id'] = project.vars['21a_client_data_id'];
     service.vars.client_enrollment_table_id = project.vars.client_enrollment_data_id;
     service.vars.market_access_table_id = 'DT278868f96626c4b0';
+    account_splash_menu_name = 'core_enr_splash_menu'
 }else{
     service.vars.season_clients_table = 'dev_' + project.vars.season_clients_table;
     service.vars.client_enrollment_table = 'dev_' + project.vars.client_enrollment_data;
@@ -38,6 +39,7 @@ if(env === 'prod'){
     service.vars['21a_client_data_id'] = project.vars['dev_21a_client_data_id'];
     service.vars.client_enrollment_table_id = project.vars.dev_client_enrollment_data_id;
     service.vars.market_access_table_id = 'DT627b1e89d0150102';
+    account_splash_menu_name = 'dev_core_enr_splash_menu'
 }
 
 var client_table = project.initDataTableById(service.vars['21a_client_data_id']);
@@ -45,6 +47,7 @@ var client_table = project.initDataTableById(service.vars['21a_client_data_id'])
 // console.log(JSON.stringify(service.vars));
 // console.log('### End Env Info###');
 
+var slack = require('../slack-logger/index');
 
 //global functionss
 var msgs = require('./lib/msg-retrieve'); //global message handler
@@ -60,6 +63,8 @@ var get_time = require('./lib/enr-timestamp');
 var get_client = require('./lib/enr-retrieve-client-row');
 var regSessionManager = require('./lib/enr-resume-registration');
 var group_size_satisfied = require('./lib/core-group-size-check');
+const chickenServices = require('../chicken-services/index');
+var transactionHistory = require('../transaction-history/index');
 
 //options
 const lang = project.vars.cor_lang;
@@ -107,7 +112,7 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             state.vars.account_number = response;
             if (client_verified) {
                 sayText(msgs('account_number_verified'));    
-                var splash = 'core_enr_splash_menu';
+                var splash = account_splash_menu_name;
                 state.vars.splash = splash;
                 var menu = populate_menu(splash, lang);
                 if (typeof (menu) == 'string') {
@@ -140,7 +145,8 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
     //}
 });
 
-
+chickenServices.registerHandlers();
+transactionHistory.registerHandlers();
 
 addInputHandler('cor_menu_select', function (input) {
     input = String(input.replace(/\D/g, ''));
@@ -177,11 +183,14 @@ addInputHandler('cor_menu_select', function (input) {
 
     var selection = get_menu_option(input, state.vars.splash);
     state.vars.selected_core_input = input;
+    
     if (selection === null || selection === undefined) {
         sayText(msgs('invalid_input', {}, lang));
-        console.log('############################ I was called #####################');
         promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         return null;
+    }
+    else if(selection === 'cor_get_repayments'){
+        transactionHistory.start(state.vars.account_number,'rw');            
     }
     else if(selection === 'cor_market_access'){
 
@@ -190,15 +199,15 @@ addInputHandler('cor_menu_select', function (input) {
 
     }
     else if (selection === 'cor_get_balance') { //inelegant
-        get_balance = require('./lib/cor-get-balance');
+        var get_balance = require('./lib/cor-get-balance');
         var balance_data = get_balance(JSON.parse(state.vars.client_json), lang);
         sayText(msgs('cor_get_balance', balance_data, lang));
         promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         return null;
     }
     else if (selection === 'cor_get_payg') {
-        payg_retrieve = require('./lib/cor-payg-retrieve');
-        payg_balance = require('./lib/cor-payg-balance');
+        var payg_retrieve = require('./lib/cor-payg-retrieve');
+        var payg_balance = require('./lib/cor-payg-balance');
         console.log("PAYG balance is " + payg_balance(JSON.parse(state.vars.client_json)));
 
         // only run code if client has paid enough; otherwise tell them they haven't paid enough for a new code
@@ -227,6 +236,13 @@ addInputHandler('cor_menu_select', function (input) {
             sayText(msgs('cor_payg_insufficient', {}, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
             return null;
+        }
+    }
+    else if(selection === 'chicken_confirm'){
+        try {
+            chickenServices.start(state.vars.account_number,'rw');            
+        } catch (error) {
+            slack.log(error)
         }
     }
     else if (selection === 'chx_confirm') {
@@ -288,7 +304,7 @@ addInputHandler('cor_menu_select', function (input) {
         }
         else if (client.vars.registered == 1) {
             // if client does not have a glvv id entered, prompt them to enter it before continuing
-            glvv_check = client.vars.glus || state.vars.glus;
+            var glvv_check = client.vars.glus || state.vars.glus;
             if (glvv_check == null || glvv_check == 0) {
                 sayText(msgs('enr_missing_glvv', {}, lang));
                 promptDigits('enr_glvv_id', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
@@ -485,7 +501,7 @@ addInputHandler('m_market_confirm_handler', function(input){
 });
 
 addInputHandler('backToMain', function(input){
-    var splash = 'core_enr_splash_menu';
+    var splash = account_splash_menu_name;
     state.vars.splash = splash;
     var menu = populate_menu(splash, lang);
     if (typeof (menu) == 'string') {
@@ -799,7 +815,7 @@ addInputHandler('enr_nid_client_confirmation', function (input) {
                 if (client_verified) {
                     sayText(msgs('account_number_verified'));
                     state.vars.account_number = client.account_number;
-                    var splash = 'core_enr_splash_menu';
+                    var splash = account_splash_menu_name;
                     if (splash === null || splash === undefined) {
                         admin_alert(state.vars.client_district + ' not found in district database');
                         throw 'ERROR : DISTRICT NOT FOUND';
@@ -1244,7 +1260,7 @@ addInputHandler('enr_input_splash', function (input) { //main input menu
             promptDigits('enr_input_splash', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         }
         else if (input == 44 && state.vars.input_menu_loc == 0) {
-            var splash_menu = populate_menu('enr_splash', lang, 300);
+            var splash_menu = populate_menu(state.vars.splash, lang, 300);
             var menu = msgs('enr_splash', { '$ENR_SPLASH': splash_menu }, lang);
             state.vars.current_menu_str = menu;
             sayText(menu);
