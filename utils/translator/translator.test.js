@@ -44,8 +44,12 @@ describe('createTranslator', () => {
         it('should return the selected language translation', () => {
             expect(translate('simple', {}, 'sw')).toEqual(exampleTranslations.simple.sw);
         });
-        it('should return the languge translation if the locale translation is unavailable', () => {
+        it('should return the language translation if the locale translation is unavailable', () => {
             expect(translate('simple', {}, 'sw-tz')).toEqual(exampleTranslations.simple.sw);
+        });
+        it('should return the language translation if the default is a locale translation that is unavailable', () => {
+            translate = createTranslator(exampleTranslations,'sw-ug');
+            expect(translate('simple')).toEqual(exampleTranslations.simple.sw);
         });
         it('should throw an error if there is no text matching the translations  ', () => {
             expect(() => {

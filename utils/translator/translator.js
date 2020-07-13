@@ -11,7 +11,7 @@ function createTranslator(translations, defaultLanguage) {
     var translate = function (key, options, lang) {
         var entry = translations[key];
         if (entry === undefined) throw 'No Entry For "' + key + '"';
-        var template = entry[lang] ||lang && entry[lang.split('-')[0]] || entry[defaultLanguage];
+        var template = entry[lang] ||lang && entry[lang.split('-')[0]] || entry[defaultLanguage] || entry[defaultLanguage.split('-')[0]];
         if (template === undefined) throw 'No "' + lang + '" or "' + defaultLanguage + '" Translations For "' + key + '"';
         var text = template;
         if (options && Object.keys(options).length > 0) {
