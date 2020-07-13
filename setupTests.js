@@ -23,6 +23,7 @@ global.afterEach(function() {
 global.httpClient = {
     request: jest.fn()
 };
+global.stopRules = jest.fn();
 
 global.service = {
     vars: {
@@ -33,5 +34,5 @@ global.contact = {
     vars: {
     }
 };
-
+project.initDataTableById = jest.fn();
 global.stopRules = jest.fn();
