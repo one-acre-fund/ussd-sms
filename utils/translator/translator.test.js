@@ -10,7 +10,8 @@ const exampleTranslations = {
         de: 'Guten tag'
     },
     'with-substitutions': {
-        en: 'Should I call you $firstName or $lastName',
+        en: 'Should I call you $firstName or $lastName?',
+        'en-ug': 'What should I call you? $firstName or $lastName.',
         sw: 'Ninapaswa Kukuita $firstName au $lastName',
     }
 };
@@ -43,6 +44,13 @@ describe('createTranslator', () => {
         it('should return the selected language translation', () => {
             expect(translate('simple', {}, 'sw')).toEqual(exampleTranslations.simple.sw);
         });
+        it('should return the language translation if the locale translation is unavailable', () => {
+            expect(translate('simple', {}, 'sw-tz')).toEqual(exampleTranslations.simple.sw);
+        });
+        it('should return the language translation if the default is a locale translation that is unavailable', () => {
+            translate = createTranslator(exampleTranslations,'sw-ug');
+            expect(translate('simple')).toEqual(exampleTranslations.simple.sw);
+        });
         it('should throw an error if there is no text matching the translations  ', () => {
             expect(() => {
                 translate('non-existent', {}, 'sw');
@@ -58,7 +66,12 @@ describe('createTranslator', () => {
         });
         it('should replace template placeholders with corresponding values from options', () => {
             expect(translate('with-substitutions', {$firstName: 'clark',$lastName: 'kent'}, 'en')).toEqual(
-                'Should I call you clark or kent'
+                'Should I call you clark or kent?'
+            );
+        });
+        it('should replace template placeholders with corresponding values from options in locale translations', () => {
+            expect(translate('with-substitutions', {$firstName: 'clark',$lastName: 'kent'}, 'en-ug')).toEqual(
+                'What should I call you? clark or kent.'
             );
         });
         
