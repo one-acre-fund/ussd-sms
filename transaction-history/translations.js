@@ -11,6 +11,7 @@ module.exports ={
     },
     'payment_list_item': {
         'en': '$option. $date - $amount RwF',
+        'en-ke': '$option. $date - $amount KES',
         'ki': '$option. $date - F$amount',
         'sw': '$option. $date - KES $amount'
     },
