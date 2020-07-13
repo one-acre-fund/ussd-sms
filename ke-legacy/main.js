@@ -155,8 +155,8 @@ var TrimClientJSON = function(client){
 };
 var GetLang = function(){
     if(contact.vars.English === true){
-        service.vars.lang = 'en';
-        contact.vars.lang = 'en';
+        service.vars.lang = 'en-ke';
+        contact.vars.lang = 'en-ke';
         return true;
     } else {
         service.vars.lang = 'sw';
@@ -170,7 +170,7 @@ var ChangeLang = function (){
         contact.vars.lang = 'sw';
     }
     else {
-        contact.vars.lang = 'en';
+        contact.vars.lang = 'en-ke';
         contact.vars.English = true;
     }
     contact.save();

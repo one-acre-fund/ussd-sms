@@ -40,7 +40,8 @@ module.exports = {
     start: function (account, country) {
         state.vars.account = account;
         state.vars.country = country;
-        var translate =  createTranslator(translations, project.vars.lang);
+        var language = (contact && contact.vars.lang) || (state && state.vars.lang) || service.vars.lang || project.vars.lang;
+        var translate =  createTranslator(translations, language);
         global.sayText(translate('last_4_national_id_prompt'));
         global.promptDigits(nidVerification.handlerName);
     }
