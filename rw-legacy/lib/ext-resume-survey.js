@@ -13,7 +13,7 @@ function fetchSurveyState(phoneNumber) {
         remove: function () {
             row.delete();
         }
-    }
+    }   
 }
 /**
  * 
@@ -21,43 +21,49 @@ function fetchSurveyState(phoneNumber) {
  * @param {object} handlers 
  */
 function resumeSurvey(phoneNumber, handlers) {
-    var surveyState = fetchSurveyState(phoneNumber);
-    if (surveyState == null) {
-        return false;
-    }
-    if (surveyState.isExpired) {
-        surveyState.remove()
-        return false;
-    }
-    const savedState = surveyState.sessionInfo.state;
-    console.log('### fetched state: '+JSON.stringify(savedState));
-    
-    for (key in savedState) {
-        if (savedState.hasOwnProperty(key)) {
-            state.vars[key] = savedState[key];
+    if(!state.vars.testing){
+        var surveyState = fetchSurveyState(phoneNumber);
+        if (surveyState == null) {
+            return false;
         }
+        if (surveyState.isExpired) {
+            surveyState.remove()
+            return false;
+        }
+        const savedState = surveyState.sessionInfo.state;
+        console.log('### fetched state: '+JSON.stringify(savedState));
+        
+        for (key in savedState) {
+            if (savedState.hasOwnProperty(key)) {
+                state.vars[key] = savedState[key];
+            }
+        }
+        // TODO: call handler with input
+        const handler = surveyState.sessionInfo.handler;
+        const input = surveyState.sessionInfo.input;
+        if (handlers[handler]) {
+            console.log('#### Found hander');
+            handlers[handler](input);
+            return true;
+        }
+        console.log('#### Found no hander');
+        
+        return false;
+
     }
-    // TODO: call handler with input
-    const handler = surveyState.sessionInfo.handler;
-    const input = surveyState.sessionInfo.input;
-    if (handlers[handler]) {
-        console.log('#### Found hander');
-        handlers[handler](input);
-        return true;
-    }
-    console.log('#### Found no hander');
     
-    return false;
 };
 
 function clearSurveySession(phoneNumber) {
-    var survey_sessions = project.initDataTableById(service.vars.ExtSurveySessions);
-    var cursor = survey_sessions.queryRows({ 'vars': { 'phone_number': phoneNumber } });
-    if (!cursor.hasNext()) {
-        return
-    }
-    var row = cursor.next();
-    row.delete();
+    if(!state.vars.testing){
+        var survey_sessions = project.initDataTableById(service.vars.ExtSurveySessions);
+        var cursor = survey_sessions.queryRows({ 'vars': { 'phone_number': phoneNumber } });
+        if (!cursor.hasNext()) {
+            return
+        }
+        var row = cursor.next();
+        row.delete();
+    }  
 }
 
 /**
@@ -68,30 +74,34 @@ function clearSurveySession(phoneNumber) {
  * @param {string} input 
  */
 function saveSurveySession(phoneNumber, stateVars, handlerName, input) {
-    const sessionInfo = {
-        state: stateVars,
-        handler: handlerName,
-        input: input
-    }
-    var survey_sessions = project.initDataTableById(service.vars.ExtSurveySessions);
-    var cursor = survey_sessions.queryRows({ 'vars': { 'phone_number': phoneNumber } });
-    var row;
-    if (cursor.hasNext()) {
-        row = cursor.next();
-    } else {
-        row = survey_sessions.createRow({
-            from_number: phoneNumber,
-            vars: {}
-        });
-        console.log('created row');
-    }
-    console.log(sessionInfo);
+    if(!state.vars.testing){
+        const sessionInfo = {
+            state: stateVars,
+            handler: handlerName,
+            input: input
+        }
+        var survey_sessions = project.initDataTableById(service.vars.ExtSurveySessions);
+        var cursor = survey_sessions.queryRows({ 'vars': { 'phone_number': phoneNumber } });
+        var row;
+        if (cursor.hasNext()) {
+            row = cursor.next();
+        } else {
+            row = survey_sessions.createRow({
+                from_number: phoneNumber,
+                vars: {}
+            });
+            console.log('created row');
+        }
+        console.log(sessionInfo);
+    
+        row.vars.sessionInfo = JSON.stringify(sessionInfo);
+        row.vars.phone_number = phoneNumber
+        row.vars.handler = handlerName;
+        row.vars.input = input;
+        row.save();
 
-    row.vars.sessionInfo = JSON.stringify(sessionInfo);
-    row.vars.phone_number = phoneNumber
-    row.vars.handler = handlerName;
-    row.vars.input = input;
-    row.save()
+    }
+    
 }
 module.exports = {
     resume: resumeSurvey,
