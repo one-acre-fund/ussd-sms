@@ -36,3 +36,7 @@ global.contact = {
 };
 project.initDataTableById = jest.fn();
 global.stopRules = jest.fn();
+global.project.getOrCreateLabel = jest.fn();
+
+global.project.sendMessage = jest.fn();
+global.sendEmail = jest.fn();
