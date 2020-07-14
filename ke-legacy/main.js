@@ -17,6 +17,7 @@ service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 
 
 var transactionHistory = require('../transaction-history/index');
+var clientRegistration = require('../client-registration/clientRegistration');
 
 // Setting global variables!
 var rosterAPI = require('ext/Roster_v1_2_0/api');
@@ -999,8 +1000,8 @@ var SplashMenuFailure = function (){
 };
 var MenuText = '';
 var MainMenuText = function (client){
-    if (GetLang()){MenuText ='Select Service\n1) Make a payment\n2) Check balance\n3) Trainings\n4) View transaction history';}
-    else {MenuText ='Chagua Huduma\n1) Fanya malipo\n2) Kuangalia salio\n3) Mafunzo\n4) Angalia historia ya malipo';}
+    if (GetLang()){MenuText ='Select Service\n1) Make a payment\n2) Check balance\n3) Register a client\n4) Trainings \n5) View transaction history';}
+    else {MenuText ='Chagua Huduma\n1) Fanya malipo\n2) Kuangalia salio\n3) Jisajili\n4) Mafunzo\n5) Angalia historia ya malipo';}
     var JITActive = true;
     var FAWActiveCheck = true;
     //if (IsGl(client.AccountNumber)){
@@ -1015,25 +1016,25 @@ var MainMenuText = function (client){
     //} 
     
     if (IsPrePayTrialDistrict(client.DistrictName)){
-        if (GetLang()){MenuText = MenuText + "\n5) Prepayment amount"}
-        else {MenuText = MenuText + "\n5) Malipo ya kufuzu"}
+        if (GetLang()){MenuText = MenuText + "\n6) Prepayment amount"}
+        else {MenuText = MenuText + "\n6) Malipo ya kufuzu"}
     }
     if (EnrolledAndQualified(client)){
-        if (GetLang()){MenuText = MenuText + "\n6) FAW Pesticide Order"}
-        else {MenuText = MenuText + "\n6) Kuagiza dawa ya FAW"}
+        if (GetLang()){MenuText = MenuText + "\n7) FAW Pesticide Order"}
+        else {MenuText = MenuText + "\n7) Kuagiza dawa ya FAW"}
     }
     if (SHSActive(client.DistrictName)){
-        if (GetLang()){MenuText = MenuText + "\n7) Solar"}
-        else {MenuText = MenuText + "\n7) Sola"}
+        if (GetLang()){MenuText = MenuText + "\n8) Solar"}
+        else {MenuText = MenuText + "\n8) Sola"}
     }
-    if (GetLang()){MenuText = MenuText + "\n8) Insurance"}
-    else {MenuText = MenuText + "\n8) Bima"}
+    if (GetLang()){MenuText = MenuText + "\n9) Insurance"}
+    else {MenuText = MenuText + "\n9) Bima"}
 
-    if (GetLang()){MenuText = MenuText + "\n9) Contact Call center"}
-    else {MenuText = MenuText + "\n9) Wasiliana na Huduma ya wateja"}
+    if (GetLang()){MenuText = MenuText + "\n10) Contact Call center"}
+    else {MenuText = MenuText + "\n10) Wasiliana na Huduma ya wateja"}
 
-    if (GetLang()){MenuText = MenuText + "\n10) Locate an OAF duka"}
-    else {MenuText = MenuText + "\n10) Lipate duka la OAF"}
+    if (GetLang()){MenuText = MenuText + "\n11) Locate an OAF duka"}
+    else {MenuText = MenuText + "\n11) Lipate duka la OAF"}
 
     if (GetLang()){MenuText =MenuText + "\n99) Swahili"}
     else {MenuText =MenuText + "\n99) English"}
@@ -1621,6 +1622,10 @@ var StaffConfrimAbsenceEmail = function(email, firstname, startday, amount){
 var StaffConfrimAbsenceEmailHR = function(){
     console.log("Pending foprmat");
 };
+var registrationMenu= function(){
+    if (GetLang()){sayText("Please reply with the account number of the farmer\n0) For new client.")}
+    else {sayText("Tafadhali jibu na nambari ya akaunti ya mkulima\n0) kwa mkulima mgeni")}
+};
 
 // Start logic flow
 global.main = function () {
@@ -1632,6 +1637,7 @@ global.main = function () {
 // load input handlers
 dukaLocator.registerDukaLocatorHandlers({lang: GetLang() ? 'en' : 'sw'});
 transactionHistory.registerHandlers();
+clientRegistration.registerHandlers();
 
 addInputHandler('SplashMenu', function(SplashMenu) {
     LogSessionID();
@@ -1654,6 +1660,8 @@ addInputHandler('SplashMenu', function(SplashMenu) {
         if (RosterClientVal(ClientAccNum)){
             console.log("SuccessFully Validated against Roster");
             client = RosterClientGet(ClientAccNum);
+            console.log('Client JSON******************************'+JSON.stringify(client)+'******************');
+            state.vars.client_json = JSON.stringify(client);
             state.vars.client = JSON.stringify(TrimClientJSON(client));
             call.vars.client = JSON.stringify(TrimClientJSON(client));
             call.vars.AccNum = ClientAccNum;
@@ -1706,7 +1714,7 @@ addInputHandler("MainMenu", function(MainMenu) {
         PaymentMenuText (client);
         promptDigits("PaymentAmount", {submitOnHash: true, maxDigits: 5, timeout: 5});
     }
-    else if(MainMenu == 5 &&  IsPrePayTrialDistrict(client.DistrictName)){
+    else if(MainMenu == 6 &&  IsPrePayTrialDistrict(client.DistrictName)){
         if(client.BalanceHistory[0].SeasonName == CurrentSeasonName){
             var paid = client.BalanceHistory[0].TotalRepayment_IncludingOverpayments;
             PrepaymentMenuText(GetPrepaymentAmount(client),paid);
@@ -1717,9 +1725,13 @@ addInputHandler("MainMenu", function(MainMenu) {
         promptDigits("BackToMain", {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
     else if(MainMenu == 3){
-        TrainingMenuText();
+        registrationMenu();
+        promptDigits("registrationHandler", {submitOnHash: true, maxDigits: 10, timeout: 5});
     }
     else if(MainMenu == 4){
+        TrainingMenuText();
+    }
+    else if(MainMenu == 5){
         transactionHistory.start(client.AccountNumber, 'ke');
     }
     //else if(MainMenu == 3 && IsGl(client.AccountNumber)&&IsJITTUDistrict(client.DistrictName)){
@@ -1742,7 +1754,7 @@ addInputHandler("MainMenu", function(MainMenu) {
           //  promptDigits("JITEAccNum", {submitOnHash: true, maxDigits: 8, timeout: 5});
         //}
     //}
-    else if(MainMenu == 6){
+    else if(MainMenu == 7){
         if( FAWActive(client.DistrictName)&&EnrolledAndQualified(client)){
             var OrdersPlaced = FAWOrdersPlaced(client.AccountNumber);
             if (OrdersPlaced<FAWMaxOrders){
@@ -1764,19 +1776,19 @@ addInputHandler("MainMenu", function(MainMenu) {
             promptDigits("BackToMain", {submitOnHash: true, maxDigits: 1, timeout: 5})
         }
     }
-    else if(MainMenu == 7 && SHSActive(client.DistrictName) ){
+    else if(MainMenu == 8 && SHSActive(client.DistrictName) ){
         SHSMenuText();
         promptDigits("SolarMenu", {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
-    else if(MainMenu == 8){
+    else if(MainMenu == 9){
         InsuranceMenuText();
         promptDigits("InsuranceMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
     }
 
-    else if (MainMenu == 9){
+    else if (MainMenu == 10){
         CallCenterMenuText();
         promptDigits("CallCenterMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
-    } else if(MainMenu == 10) {
+    } else if(MainMenu == 11) {
         dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
     }
     else{
@@ -3184,5 +3196,15 @@ addInputHandler('TrainingSelect', function(input) {
     else{
         TrainingMenuText();
         promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
+    }
+});
+
+addInputHandler('registrationHandler', function(input){
+
+    if(input == 0){
+        clientRegistration.start(client.AccountNumber,'ke');
+    }
+    else{
+
     }
 });
