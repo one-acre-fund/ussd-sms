@@ -443,8 +443,6 @@ inputHandlers['extension_questions'] = function(input){
             slack.log('Failed to get sector and cell from village Id: \n'+state.vars.village_id);
         }
         var table = project.initDataTableById('DTe1025290143442b5');
-        console.log(state.vars.village_id+state.vars.sector+state.vars.cell);
-        sayText(state.vars.village_id+state.vars.sector+state.vars.cell);
         var row = table.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'first_name': state.vars.firstN, 'last_name': state.vars.lastN, 'gender' : state.vars.gender, 'phone_number': state.vars.phoneNumber,'village_id': state.vars.village_id,'Sector': state.vars.sector, 'Cell': state.vars.cell}});
         row.save();
         var rowAll = extensionTable.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'not_eligible': 0}});
