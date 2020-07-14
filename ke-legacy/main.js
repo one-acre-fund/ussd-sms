@@ -1,3 +1,23 @@
+var defaultEnvironment;
+if(service.active){
+    defaultEnvironment = 'prod';
+}else{
+    defaultEnvironment = 'dev';
+}
+
+var env;
+if(service.vars.env === 'prod' || service.vars.env === 'dev'){
+    env = service.vars.env;
+}else{
+    env = defaultEnvironment;
+}
+
+service.vars.server_name = project.vars[env+'_server_name'];
+service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
+
+
+var transactionHistory = require('../transaction-history/index');
+
 // Setting global variables!
 var rosterAPI = require('ext/Roster_v1_2_0/api');
 var translatorFactory = require('../utils/translator/translator');
@@ -134,11 +154,25 @@ var TrimClientJSON = function(client){
     return client;
 };
 var GetLang = function(){
-    if(contact.vars.English === true){return true} else {return false}
+    if(contact.vars.English === true){
+        service.vars.lang = 'en-ke';
+        contact.vars.lang = 'en-ke';
+        return true;
+    } else {
+        service.vars.lang = 'sw';
+        contact.vars.lang = 'sw';
+        return false;
+    }
 };
 var ChangeLang = function (){
-    if (contact.vars.English === true){contact.vars.English = false}
-    else {contact.vars.English = true}
+    if (contact.vars.English === true){
+        contact.vars.English = false;
+        contact.vars.lang = 'sw';
+    }
+    else {
+        contact.vars.lang = 'en-ke';
+        contact.vars.English = true;
+    }
     contact.save();
 };
 var RosterClientVal = function (AccNum){
@@ -963,10 +997,10 @@ var SplashMenuFailure = function (){
     if (GetLang()){sayText("Incorrect input. Please enter the 8 digit account number you use for repayment\nPress 0 if you do not have an OAF account\n99) Swahili")}
     else {sayText("Nambari sio sahihi. Tafadhali ingiza nambari 8 za akaunti yako ambayo unatumia kufanya malipo.\nBonyeza 0 kama hauna akaunti ya OAF\n99) English")}
 };
+var MenuText = '';
 var MainMenuText = function (client){
-    var MenuText = "";
-    if (GetLang()){MenuText ="Select Service\n1) Make a payment\n2) Check balance\n3) Trainings"}
-    else {MenuText ="Chagua Huduma\n1) Fanya malipo\n2) Kuangalia salio\n3) Mafunzo"}
+    if (GetLang()){MenuText ='Select Service\n1) Make a payment\n2) Check balance\n3) Trainings\n4) View transaction history';}
+    else {MenuText ='Chagua Huduma\n1) Fanya malipo\n2) Kuangalia salio\n3) Mafunzo\n4) Angalia historia ya malipo';}
     var JITActive = true;
     var FAWActiveCheck = true;
     //if (IsGl(client.AccountNumber)){
@@ -1596,8 +1630,10 @@ global.main = function () {
 }
 
 // load input handlers
-dukaLocator.registerDukaLocatorHandlers({lang: GetLang() ? 'en' : 'sw'})
-addInputHandler("SplashMenu", function(SplashMenu) {
+dukaLocator.registerDukaLocatorHandlers({lang: GetLang() ? 'en' : 'sw'});
+transactionHistory.registerHandlers();
+
+addInputHandler('SplashMenu', function(SplashMenu) {
     LogSessionID();
     InteractionCounter("SplashMenu");
     ClientAccNum = SplashMenu;
@@ -1682,7 +1718,9 @@ addInputHandler("MainMenu", function(MainMenu) {
     }
     else if(MainMenu == 3){
         TrainingMenuText();
-        promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
+    }
+    else if(MainMenu == 4){
+        transactionHistory.start(client.AccountNumber, 'ke');
     }
     //else if(MainMenu == 3 && IsGl(client.AccountNumber)&&IsJITTUDistrict(client.DistrictName)){
       //      if (SiteLockVal (client.SiteName, client.DistrictName)){

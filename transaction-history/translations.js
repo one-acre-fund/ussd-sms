@@ -11,6 +11,7 @@ module.exports ={
     },
     'payment_list_item': {
         'en': '$option. $date - $amount RwF',
+        'en-ke': '$option. $date - $amount KES',
         'ki': '$option. $date - F$amount',
         'sw': '$option. $date - KES $amount'
     },
@@ -21,6 +22,7 @@ module.exports ={
     },
     'payment_detail': {
         'en': 'Payment ID: $RepaymentId\nDate Received: $RepaymentDate\nSeason: $Season\nAmount: $Amount RwF\nPaid from: $PaidFrom',
+        'en-ke': 'Payment ID: $RepaymentId\nDate Received: $RepaymentDate\nSeason: $Season\nAmount: $Amount KES\nPaid from: $PaidFrom',
         'ki': 'Nomero ndangagikorwa: $RepaymentId\nItariki yishyuriweho: $RepaymentDate\nIgihembwe: $Season\nAmafaranga: $Amount RwF\nYishyuwe avuye: $PaidFrom',
         'sw': 'Rekodi ya malipo: $RepaymentId\nTarehe ya malipo: $RepaymentDate\nMsimu: $Season\nIdadi ya malipo: $Amount KES\nMalipo kutoka simu nambari: $PaidFrom',
     },

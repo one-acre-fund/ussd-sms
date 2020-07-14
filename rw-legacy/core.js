@@ -63,6 +63,7 @@ var get_time = require('./lib/enr-timestamp');
 var get_client = require('./lib/enr-retrieve-client-row');
 var regSessionManager = require('./lib/enr-resume-registration');
 var group_size_satisfied = require('./lib/core-group-size-check');
+const chickenServices = require('../chicken-services/index');
 var transactionHistory = require('../transaction-history/index');
 
 //options
@@ -95,16 +96,16 @@ input handlers - one per response variable
 */
 addInputHandler('account_number_splash', function (input) { //acount_number_splash input handler - main input handler for initial splash
     var response = input.replace(/\D/g, '');
-    if (response == 1) {
-        const resumedSession = regSessionManager.resume(contact.phone_number, inputHandlers);
-        if(!resumedSession){
-            var current_menu = msgs('enr_reg_start', {}, lang);
-            state.vars.current_menu_str = current_menu;
-            sayText(current_menu);
-            promptDigits('enr_reg_start', { 'submitOnHash': false, 'maxDigits': max_digits_for_nid, 'timeout': timeout_length });
-        }
-    }
-    else {
+    // if (response == 1) {
+    //     const resumedSession = regSessionManager.resume(contact.phone_number, inputHandlers);
+    //     if(!resumedSession){
+    //         var current_menu = msgs('enr_reg_start', {}, lang);
+    //         state.vars.current_menu_str = current_menu;
+    //         sayText(current_menu);
+    //         promptDigits('enr_reg_start', { 'submitOnHash': false, 'maxDigits': max_digits_for_nid, 'timeout': timeout_length });
+    //     }
+    // }
+    //else {
         try {
             var verify = require('./lib/account-verify')
             var client_verified = verify(response);
@@ -141,9 +142,10 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             admin_alert('Error on USSD test integration : ' + error + '\nAccount number: ' + response, "ERROR, ERROR, ERROR", 'marisa')
             stopRules();
         }
-    }
+    //}
 });
 
+chickenServices.registerHandlers();
 transactionHistory.registerHandlers();
 
 addInputHandler('cor_menu_select', function (input) {
@@ -234,6 +236,13 @@ addInputHandler('cor_menu_select', function (input) {
             sayText(msgs('cor_payg_insufficient', {}, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
             return null;
+        }
+    }
+    else if(selection === 'chicken_confirm'){
+        try {
+            chickenServices.start(state.vars.account_number,'rw');            
+        } catch (error) {
+            slack.log(error)
         }
     }
     else if (selection === 'chx_confirm') {
@@ -1251,7 +1260,7 @@ addInputHandler('enr_input_splash', function (input) { //main input menu
             promptDigits('enr_input_splash', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         }
         else if (input == 44 && state.vars.input_menu_loc == 0) {
-            var splash_menu = populate_menu('enr_splash', lang, 300);
+            var splash_menu = populate_menu(state.vars.splash, lang, 300);
             var menu = msgs('enr_splash', { '$ENR_SPLASH': splash_menu }, lang);
             state.vars.current_menu_str = menu;
             sayText(menu);
