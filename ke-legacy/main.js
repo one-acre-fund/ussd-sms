@@ -20,6 +20,8 @@ var transactionHistory = require('../transaction-history/index');
 var clientRegistration = require('../client-registration/clientRegistration');
 
 // Setting global variables!
+var translations = require('./translations/index');
+var createTranslator = require('../utils/translator/translator');
 var rosterAPI = require('ext/Roster_v1_2_0/api');
 var translatorFactory = require('../utils/translator/translator');
 var translations = require('./translations/index');
@@ -1627,6 +1629,8 @@ var registrationMenu= function(){
     else {sayText("Tafadhali jibu na nambari ya akaunti ya mkulima\n0) kwa mkulima mgeni")}
 };
 
+var translate =  createTranslator(translations, GetLang());
+
 // Start logic flow
 global.main = function () {
     LogSessionID();
@@ -3202,9 +3206,31 @@ addInputHandler('TrainingSelect', function(input) {
 addInputHandler('registrationHandler', function(input){
 
     if(input == 0){
-        clientRegistration.start(client.AccountNumber,'ke');
+        clientRegistration.start(client.AccountNumber,'ke',GetLang());
     }
     else{
+        client = RosterClientGet(input);
+        var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
+        var foInfo = getFOInfo(client.districtId,client.siteId,GetLang())
+        if(client){
+            var table = project.initDataTableById('DTcb22aac587c755c5');
+            var row = table.createRow({
+                vars: {
+                    'Accountnumber':input,
+                    'from_number': contact.phone_number,
+                    'new_client': 'false'
+                }
+            });
+            row.save();
+            var message = translate('registration_message' , {'$phone': foInfo.phone}, GetLang());
+            var sent_msg = project.sendMessage({
+                content: message, 
+                to_number: contact.phone_number
+            });
+            }
+            else{
+                sayText(translate('account_not_found'));
+            }
 
     }
 });

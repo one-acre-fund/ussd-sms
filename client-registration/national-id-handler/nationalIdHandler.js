@@ -21,7 +21,7 @@ module.exports = {
                 onNationalIdValidated(input);
             }
             else{
-                global.sayText(translate('invalid_national_id'));
+                global.sayText(translate('invalid_national_id',{},state.vars.reg_lang));
                 global.promptDigits(handlerName);
             }
 

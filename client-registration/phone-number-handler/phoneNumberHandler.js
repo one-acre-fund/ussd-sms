@@ -19,7 +19,7 @@ module.exports = {
                 onPhoneNumberValidated(input);
             }
             else{
-                global.sayText(translate('invalid_phone_number'));
+                global.sayText(translate('invalid_phone_number',{},state.vars.reg_lang));
                 global.promptDigits(handlerName);
             }
             

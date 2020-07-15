@@ -12,7 +12,7 @@ module.exports = {
                 onNationalIdConfirmation();
             }
             else{
-                global.sayText(translate('phone_number_prompt'));
+                global.sayText(translate('phone_number_prompt',{},state.vars.reg_lang));
                 global.promptDigits(phoneNumberHandler.handlerName);
             }
         };

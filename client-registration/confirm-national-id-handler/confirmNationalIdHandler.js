@@ -11,7 +11,7 @@ module.exports = {
                 onPhoneNumberConfirmed();
             }
             else{
-                global.sayText(translate('national_id_handler'));
+                global.sayText(translate('national_id_handler',{},state.vars.reg_lang));
                 global.promptDigits(nationalIdHandler.handlerName);
             }
 
