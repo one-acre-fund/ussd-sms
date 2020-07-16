@@ -9,17 +9,16 @@ var firstNameHandler = require('./first-name-handler/firstNameHandler');
 var nationalIdHandler = require('./national-id-handler/nationalIdHandler');
 var phoneNumberHandler = require('./phone-number-handler/phoneNumberHandler');
 var secondNameHandler = require('./second-name-handler/secondNameHandler');
-const contactDukaAgentHandler = require('../duka-locator/inputHandlers/contactDukaAgentHandler');
 
 module.exports = {
     registerHandlers: function (){
-
+        
         function onNationalIdValidated(nationalId){
             state.vars.nationalId = nationalId;
-            global.sayText(translate('confirm_national_id',{'$nationalId':nationalId},state.vars.reg_lang));
+            global.sayText(translate('confirm_national_id',{'$nationalId': nationalId},state.vars.reg_lang));
             global.promptDigits(confirmNationalIdHandler.handlerName);
         }
-        function onNationalIdConfirmation(nationalId){
+        function onNationalIdConfirmation(){
             global.sayText(translate('first_name_prompt',{},state.vars.reg_lang));
             global.promptDigits(firstNameHandler.handlerName);
         }
@@ -35,47 +34,46 @@ module.exports = {
         }
         function onPhoneNumberValidated(phoneNumber){
             state.vars.phoneNumber = phoneNumber;
-            global.sayText(translate('confrm_phone_prompt',{'$phone' : phoneNumber},state.vars.reg_lang));
+            global.sayText(translate('confrm_phone_prompt',{'$phone': phoneNumber},state.vars.reg_lang));
             global.promptDigits(confirmPhoneNumberHandler.handlerName);
         }
         function onPhoneNumberConfirmed(){
             var client = JSON.parse(state.vars.client_json);
             
             var clientJSON = {
-                "districtId": client.GroupId,
-                "siteId": client.SiteId,
-                "groupId": client.DistrictId,
-                "firstName": state.vars.firstName,
-                "lastName": state.vars.lastName,
-                "nationalIdNumber": state.vars.nationalId,
-                "phoneNumber": state.vars.phoneNumber
+                'districtId': client.GroupId,
+                'siteId': client.SiteId,
+                'groupId': client.DistrictId,
+                'firstName': state.vars.firstName,
+                'lastName': state.vars.lastName,
+                'nationalIdNumber': state.vars.nationalId,
+                'phoneNumber': state.vars.phoneNumber
             };
             try {
-                clientData = JSON.parse(rosterRegisterClient(clientJSON),lang);
+                var clientData = JSON.parse(rosterRegisterClient(clientJSON));
                 console.log('client Data ****************' + clientData.AccountNumber);
-                var table = project.initDataTableById('DTcb22aac587c755c5');
-                var row = table.createRow({
-                    vars: {
-                        'Accountnumber':clientData.AccountNumber,
-                        'Phonenumber': clientJSON.phoneNumber,
-                        'firstName': clientJSON.firstName,
-                        'lastName': clientJSON.lastName,
-                        'nationalIdNumber': clientJSON.nationalIdNumber,
-                        'siteId': clientJSON.siteId,
-                        'groupId': clientJSON.groupId,
-                        'districtId': clientJSON.districtId,
-                        'from_number': contact.phone_number,
-                        'new_client': 'true'
-                    }
-                });
-                row.save();
+                // var table = project.initDataTableById('DTcb22aac587c755c5');
+                // var row = table.createRow({
+                //     vars: {
+                //         'Accountnumber': clientData.AccountNumber,
+                //         'Phonenumber': clientJSON.phoneNumber,
+                //         'firstName': clientJSON.firstName,
+                //         'lastName': clientJSON.lastName,
+                //         'nationalIdNumber': clientJSON.nationalIdNumber,
+                //         'siteId': clientJSON.siteId,
+                //         'groupId': clientJSON.groupId,
+                //         'districtId': clientJSON.districtId,
+                //         'from_number': contact.phone_number,
+                //         'new_client': 'true'
+                //     }
+                // });
+                // row.save();
                 var message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
                 project.sendMulti({
                     messages: [
                         {content: message, to_number: contact.phone_number}, 
                         {content: message, to_number: clientJSON.phoneNumber}],
-                        message_type: 'text'
-        });
+                        message_type: 'text'});
 
             }
             catch (e) {
@@ -98,7 +96,5 @@ module.exports = {
         state.vars.reg_lang = lang;
         global.sayText(translate('national_id_handler'));
         global.promptDigits(nationalIdHandler.handlerName);
-
-
     }
 };

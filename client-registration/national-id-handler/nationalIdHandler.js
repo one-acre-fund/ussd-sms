@@ -1,16 +1,17 @@
 var createTranslator = require('../../utils/translator/translator');
 var translations = require('../translations');
-var translate =  createTranslator(translations, project.vars.lang);
+var translate =  createTranslator(translations,  state.vars.reg_lang || 'en');
 
 var isNationalIdValid= function(nId){
     var idLength = nId.length;
-    
     //Different country have different national Id digits length
-    if(state.vars.country ='ke'){
-        if (idLength == 7 || idLength == 8){return true}
+    if(state.vars.country == 'ke'){
+        console.log('called true');
+        if (idLength == 7 || idLength == 8){return true;}
     }
+    console.log('called false');
     return false;
-}
+};
 
 var handlerName = 'national_id_handler';
 module.exports = {
@@ -21,11 +22,10 @@ module.exports = {
                 onNationalIdValidated(input);
             }
             else{
-                global.sayText(translate('invalid_national_id',{},state.vars.reg_lang));
+                global.sayText(translate('invalid_national_id'));
                 global.promptDigits(handlerName);
             }
 
         };
-
     }
 };

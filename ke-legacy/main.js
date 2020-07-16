@@ -12,6 +12,7 @@ if(service.vars.env === 'prod' || service.vars.env === 'dev'){
     env = defaultEnvironment;
 }
 
+
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 
@@ -1629,7 +1630,7 @@ var registrationMenu= function(){
     else {sayText("Tafadhali jibu na nambari ya akaunti ya mkulima\n0) kwa mkulima mgeni")}
 };
 
-var translate =  createTranslator(translations, GetLang());
+var translate =  createTranslator(translations, contact.vars.lang);
 
 // Start logic flow
 global.main = function () {
@@ -3213,23 +3214,23 @@ addInputHandler('registrationHandler', function(input){
         var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
         var foInfo = getFOInfo(client.districtId,client.siteId,GetLang())
         if(client){
-            var table = project.initDataTableById('DTcb22aac587c755c5');
-            var row = table.createRow({
-                vars: {
-                    'Accountnumber':input,
-                    'from_number': contact.phone_number,
-                    'new_client': 'false'
-                }
-            });
-            row.save();
-            var message = translate('registration_message' , {'$phone': foInfo.phone}, GetLang());
+            // var table = project.initDataTableById('DTcb22aac587c755c5');
+            // var row = table.createRow({
+            //     vars: {
+            //         'Accountnumber':input,
+            //         'from_number': contact.phone_number,
+            //         'new_client': 'false'
+            //     }
+            // });
+            // row.save();
+            var message = translate('registration_message' , {'$phone': foInfo.phone}, contact.vars.lang);
             var sent_msg = project.sendMessage({
                 content: message, 
                 to_number: contact.phone_number
             });
             }
             else{
-                sayText(translate('account_not_found'));
+                sayText(translate('account_not_found',{},contact.vars.lang));
             }
 
     }
