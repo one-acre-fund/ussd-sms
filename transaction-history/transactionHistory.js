@@ -1,4 +1,4 @@
-var nidVerification = require('./id-verification/index');
+var nidVerification = require('./id-verification/idVerification');
 var transactionView = require('./list-transactions/index');
 var getTransactionHistory = require('./get-transaction-history/getTransactionHistory');
 var selectionHandler = require('./selection-hander/on-select');

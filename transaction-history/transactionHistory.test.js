@@ -1,16 +1,15 @@
-var nidVerification = require('./id-verification');
+var nidVerification = require('./id-verification/idVerification');
 var transactionView = require('./list-transactions');
 var getTransactionHistory = require('./get-transaction-history/getTransactionHistory');
 var selectionHandler = require('./selection-hander/on-select');
 
 
-jest.mock('./id-verification');
+jest.mock('./id-verification/idVerification');
 jest.mock('./list-transactions');
 jest.mock('./get-transaction-history/getTransactionHistory');
 jest.mock('./selection-hander/on-select');
 
 const transactionHistory = require('./transactionHistory');
-const idVerification = require('./id-verification');
 
 const mockIdVerificationHandler = jest.fn();
 const mockSelectionHandler = jest.fn();
@@ -157,7 +156,7 @@ describe('TransactionHistory', () => {
         });
         it('should call prompt digits with "last_four_nid_handler"', () => {
             transactionHistory.start(account, country);
-            expect(promptDigits).toHaveBeenCalledWith(idVerification.handlerName);
+            expect(promptDigits).toHaveBeenCalledWith(nidVerification.handlerName);
         });
     });
 });

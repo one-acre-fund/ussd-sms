@@ -1,4 +1,4 @@
-const {handlerName,getHandler} = require ('.');
+const {handlerName,getHandler} = require ('./idVerification');
 const { getClient } = require('../../rw-legacy/lib/roster/api');
 
 
