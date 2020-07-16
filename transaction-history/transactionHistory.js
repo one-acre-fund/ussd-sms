@@ -10,10 +10,10 @@ module.exports = {
     registerHandlers: function () {
         var language = (contact && contact.vars.lang) || (state && state.vars.lang) || service.vars.lang || project.vars.lang;
         var translate =  createTranslator(translations, language);
-        state.vars.thPage = 1;
         function onIdVerified(client) { 
             var repayments = getTransactionHistory(client);
             state.vars.transactionHistory = JSON.stringify(repayments);
+            state.vars.thPage = 1;
             transactionView.list(repayments);
             global.promptDigits(selectionHandler.handlerName);
         }
