@@ -1,11 +1,11 @@
 var nidVerification = require('./id-verification/idVerification');
-var transactionView = require('./list-transactions');
+var transactionView = require('./display-transactions/displayTransactions');
 var getTransactionHistory = require('./get-transaction-history/getTransactionHistory');
 var selectionHandler = require('./selection-hander/on-select');
 
 
 jest.mock('./id-verification/idVerification');
-jest.mock('./list-transactions');
+jest.mock('./display-transactions/displayTransactions');
 jest.mock('./get-transaction-history/getTransactionHistory');
 jest.mock('./selection-hander/on-select');
 
