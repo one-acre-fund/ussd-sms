@@ -1,4 +1,4 @@
-const getTransactionHistory = require('.');
+const getTransactionHistory = require('./getTransactionHistory');
 const slack = require('../../slack-logger');
 
 jest.mock('../../slack-logger');

@@ -1,6 +1,6 @@
 var nidVerification = require('./id-verification/index');
 var transactionView = require('./list-transactions/index');
-var getTransactionHistory = require('./get-transaction-history/index');
+var getTransactionHistory = require('./get-transaction-history/getTransactionHistory');
 var selectionHandler = require('./selection-hander/on-select');
 var createTranslator = require('../utils/translator/translator');
 var translations = require('./translations');
