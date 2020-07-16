@@ -9,7 +9,7 @@ jest.mock('./list-transactions');
 jest.mock('./get-transaction-history');
 jest.mock('./selection-hander/on-select');
 
-const transactionHistory = require('.');
+const transactionHistory = require('./transactionHistory');
 const idVerification = require('./id-verification');
 
 const mockIdVerificationHandler = jest.fn();
