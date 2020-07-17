@@ -3211,8 +3211,6 @@ addInputHandler('registrationHandler', function(input){
     }
     else{
         client = RosterClientGet(input);
-        var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
-        var foInfo = getFOInfo(client.districtId,client.siteId,GetLang())
         if(client){
             // var table = project.initDataTableById('DTcb22aac587c755c5');
             // var row = table.createRow({
@@ -3223,11 +3221,15 @@ addInputHandler('registrationHandler', function(input){
             //     }
             // });
             // row.save();
-            var message = translate('registration_message' , {'$phone': foInfo.phone}, contact.vars.lang);
-            var sent_msg = project.sendMessage({
+            var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
+            var foInfo = getFOInfo(client.DistrictId,client.SiteId,GetLang());
+            if(foInfo){
+                var message = translate('registration_message' , {'$phone': foInfo.phone}, contact.vars.lang);
+                var sent_msg = project.sendMessage({
                 content: message, 
                 to_number: contact.phone_number
             });
+            }
             }
             else{
                 sayText(translate('account_not_found',{},contact.vars.lang));

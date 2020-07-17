@@ -94,7 +94,7 @@ module.exports = {
         state.vars.account = account;
         state.vars.country = country;
         state.vars.reg_lang = lang;
-        global.sayText(translate('national_id_handler'));
+        global.sayText(translate('national_id_handler',{},state.vars.reg_lang));
         global.promptDigits(nationalIdHandler.handlerName);
     }
 };

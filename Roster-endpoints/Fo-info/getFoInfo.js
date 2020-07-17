@@ -17,7 +17,7 @@ module.exports = function (districtId,siteId, lang) {
         }
         else {
             console.log('failure registering');
-            slack.log('Failed to get Fo info: ' + response);
+            slack.log('Failed to get Fo info: ' + JSON.stringify(response));
             stopRules();
             return null;
         }
