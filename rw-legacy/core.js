@@ -64,7 +64,7 @@ var get_client = require('./lib/enr-retrieve-client-row');
 var regSessionManager = require('./lib/enr-resume-registration');
 var group_size_satisfied = require('./lib/core-group-size-check');
 const chickenServices = require('../chicken-services/index');
-var transactionHistory = require('../transaction-history/index');
+var transactionHistory = require('../transaction-history/transactionHistory');
 
 //options
 const lang = project.vars.cor_lang;

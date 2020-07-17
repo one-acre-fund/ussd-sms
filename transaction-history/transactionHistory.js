@@ -1,6 +1,6 @@
-var nidVerification = require('./id-verification/index');
-var transactionView = require('./list-transactions/index');
-var getTransactionHistory = require('./get-transaction-history/index');
+var nidVerification = require('./id-verification/idVerification');
+var transactionView = require('./display-transactions/displayTransactions');
+var getTransactionHistory = require('./get-transaction-history/getTransactionHistory');
 var selectionHandler = require('./selection-hander/on-select');
 var createTranslator = require('../utils/translator/translator');
 var translations = require('./translations');
@@ -10,10 +10,10 @@ module.exports = {
     registerHandlers: function () {
         var language = (contact && contact.vars.lang) || (state && state.vars.lang) || service.vars.lang || project.vars.lang;
         var translate =  createTranslator(translations, language);
-        state.vars.thPage = 1;
         function onIdVerified(client) { 
             var repayments = getTransactionHistory(client);
             state.vars.transactionHistory = JSON.stringify(repayments);
+            state.vars.thPage = 1;
             transactionView.list(repayments);
             global.promptDigits(selectionHandler.handlerName);
         }
