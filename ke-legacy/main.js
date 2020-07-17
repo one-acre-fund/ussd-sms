@@ -3207,7 +3207,7 @@ addInputHandler('TrainingSelect', function(input) {
 addInputHandler('registrationHandler', function(input){
 
     if(input == 0){
-        clientRegistration.start(client.AccountNumber,'ke',GetLang());
+        clientRegistration.start(client.AccountNumber,'ke',contact.vars.lang);
     }
     else{
         client = RosterClientGet(input);
