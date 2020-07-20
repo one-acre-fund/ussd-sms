@@ -46,6 +46,7 @@ var groupRepaymentsModule = require('../group-repayments/groupRepayments');
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 service.vars.roster_read_key = project.vars.roster_read_key;
+var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 
 var MenuCount = 0;
 var MenuNext = false;
@@ -1059,7 +1060,7 @@ var MainMenuText = function (client){
     if (GetLang()){MenuText = MenuText + "\n11) Locate an OAF duka"}
     else {MenuText = MenuText + "\n11) Lipate duka la OAF"}
 
-    if(IsGl(client.AccountNumber)) {
+    if(state.vars.isGroupLeader) {
         if (GetLang() ){MenuText = MenuText + "\n11) View group repayment"}
         else {MenuText = MenuText + "\n11) Mukhtasari wa malipo ya kikundi"}
     }
@@ -1695,6 +1696,9 @@ addInputHandler('SplashMenu', function(SplashMenu) {
             client = RosterClientGet(ClientAccNum);
             console.log('Client JSON******************************'+JSON.stringify(client)+'******************');
             state.vars.client_json = JSON.stringify(client);
+            // check for goroup leader
+            var isGroupLeader = checkGroupLeader(client.DistrictId, client.ClientId);
+            state.vars.isGroupLeader = isGroupLeader;
             state.vars.client = JSON.stringify(TrimClientJSON(client));
             call.vars.client = JSON.stringify(TrimClientJSON(client));
             call.vars.AccNum = ClientAccNum;
@@ -1824,7 +1828,7 @@ addInputHandler("MainMenu", function(MainMenu) {
         promptDigits("CallCenterMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
     } else if(MainMenu == 11) {
         dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
-    } else if (MainMenu == 11 && IsGl(client.AccountNumber)) { // put a check for GL too. in case the user tries to be smart and guess the option while they are not GL
+    } else if (MainMenu == 11 && state.vars.isGroupLeader) {
         // view repayment information
         groupRepaymentsModule.spinGroupRepayments({lang: GetLang() ? 'en' : 'sw'})
     }

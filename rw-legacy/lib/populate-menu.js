@@ -51,7 +51,7 @@ module.exports = function(table_name, lang, max_chars){
     }
 
     // Append menu of  group repayments if group leaders
-    if(state.vars.group_leader == 'yes'){
+    if(state.vars.isGroupLeader){
         
         // option for grouprepayments
         state.vars.view_group_repayment_option = Object.keys(option_numbers).length + 1;

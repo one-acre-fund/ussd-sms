@@ -66,6 +66,7 @@ var group_size_satisfied = require('./lib/core-group-size-check');
 const chickenServices = require('../chicken-services/index');
 var transactionHistory = require('../transaction-history/transactionHistory');
 var groupRepaymentsModule = require('../group-repayments/groupRepayments');
+var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 
 //options
 const lang = project.vars.cor_lang;
@@ -112,6 +113,8 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             var client_verified = verify(response);
             state.vars.account_number = response;
             if (client_verified) {
+                var isGroupLeader = checkGroupLeader(state.vars.client_districtId, state.vars.client_id);
+                state.vars.isGroupLeader = isGroupLeader;
                 sayText(msgs('account_number_verified'));    
                 var splash = account_splash_menu_name;
                 state.vars.splash = splash;
@@ -396,7 +399,7 @@ addInputHandler('cor_menu_select', function (input) {
             sayText(msgs('enr_already_finalized', {}, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         }
-    } else if(selection == 'view_group_repayment') {
+    } else if(selection == 'view_group_repayment' && state.vars.isGroupLeader) {
         groupRepaymentsModule.spinGroupRepayments({lang: lang});
     }
     else {
