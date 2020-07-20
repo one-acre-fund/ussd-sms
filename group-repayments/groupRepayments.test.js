@@ -1,4 +1,7 @@
 const groupRepayments = require('./index');
+const groupSummaryHandler = require('./inputHandlers/groupSummaryHandler');
+const individualBalanceHandler = require('./inputHandlers/individualBalanceHandler');
+const lastFourIdDigitsHandler = require('./inputHandlers/lastFourIdDigitsHandler');
 
 describe.only('Back to group summary handler', () => {
     beforeAll(() => {

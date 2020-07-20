@@ -3,6 +3,7 @@ var translator = require('../../utils/translator/translator');
 
 var fetchGroupRepaymentInformation = require('../api/groupRepaymentsApi');
 var adminLogger = require('../../rw-legacy/lib/admin-alert');
+const groupRepaymentsApi = require('../api/groupRepaymentsApi');
 /**
  * Callback to the Input handler for handling the user input for last four digits of id
  * @param {String} input parameter to the callback
@@ -26,7 +27,6 @@ module.exports = function lastFourIdDigitsHandler(input) {
     try{
         var rosterCallResult = fetchGroupRepaymentInformation(state.vars.district_id, state.vars.group_id);
     } catch(error) {
-        console.log(error);
         adminLogger(error, 'Roster API Call: Fetching group information');
         return;
     }
@@ -46,7 +46,6 @@ module.exports = function lastFourIdDigitsHandler(input) {
     var group_members = groupMembers;
     state.vars.group_members = JSON.stringify(group_members);
     var all_screens = [];
-         
     var initialScreen = getMessage('group_credit', {'$groupCredit': group_repayments.credit}, lang) + getMessage('group_balance', {'$groupBalance': group_repayments.balance}, lang);
     var options = getMessage('continue', {'$label': '*'}, lang) + getMessage('back', {'$label': '#'}, lang);
     var index = 0;
@@ -76,7 +75,6 @@ module.exports = function lastFourIdDigitsHandler(input) {
     all_screens.push(initialScreen);
     var screen = '';
     for(var i=index; i<group_members.length; ) {
-        // find a way to manage the options to fit screens relevantly
         if(preFix == group_members.length) {
             options = getMessage('back', {'$label': '#'}, lang);
         }

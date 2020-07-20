@@ -16,7 +16,10 @@ describe('Last four nid digits input handler', () => {
         jest.spyOn(httpClient, 'request').mockReturnValue({status: 200, content });
         global.state.vars.group_repayment_variables = JSON.stringify({lang: 'en'});
         lastFourIdDigitsHandler('4223');
-        expect(sayText).toHaveBeenCalledTimes(1);
+        expect(sayText).toHaveBeenCalledWith('Group credit: 12000 RwF\n' +
+        'Group balance: NaN RwF\n' +
+        '1) bahati robben: NaN RwF\n' + 
+        '# Go back');
         expect(promptDigits).toHaveBeenCalledWith('view_individual_balance_menu', {
             submitOnHash: false,
             maxDigits: 2,

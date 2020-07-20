@@ -71,7 +71,13 @@ describe('Back to group summary handler', () => {
         global.state.vars.members_last_screen = 1;
         global.state.vars.group_members = JSON.stringify([{firstName: 'bahati', lastName: 'robben', credit: 120, balance: 60, repaid: 60, '% Repaid': '50%'}]);
         individualBalanceHandler(1);
-        expect(sayText).toHaveBeenCalledTimes(1);
+        expect(sayText).toHaveBeenCalledWith(
+            'Name: bahati robben\n' + 
+            'Credit: 120 RwF\n' +
+            'Balance: 60 RwF\n' +
+            'Amount repaid: 60 RwF\n' + 
+            '% repaid: 60_percentage%\n' + 
+            '# Go back');
         expect(promptDigits).toHaveBeenCalledWith('back_to_group_summary', {
             submitOnHash: false,
             maxDigits: 1,
@@ -88,7 +94,7 @@ describe('Back to group summary handler', () => {
         global.state.vars.members_last_screen = 1;
         global.state.vars.group_members = JSON.stringify([{firstName: 'bahati', lastName: 'robben', credit: 120, balance: 60, repaid: 60, '% Repaid': '50%'}]);
         individualBalanceHandler(22);
-        expect(sayText).toHaveBeenCalledTimes(1);
+        expect(sayText).toHaveBeenCalledWith('Invalid input, please try again.\nscreen1');
         expect(promptDigits).toHaveBeenCalledWith('view_individual_balance_menu', {
             submitOnHash: false,
             maxDigits: 2,

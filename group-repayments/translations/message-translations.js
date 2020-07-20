@@ -35,8 +35,8 @@ module.exports = {
         'sw': 'Jina: $firstName $lastName\nIdeni: KES $credit\nAsigaye: KES $balance\nAyishyuwe: KES $repaid\n% Ijanisha ry\'ayishyuwe: $repaid_percentage%\n'
     },
     'invalid_try_again': {
-        'en': 'Invalid input, please try again. \n $Menu',
-        'ki': 'Ibyo mwinjije ntago bishoboka, ongera ugerageze. \n $Menu',
-        'sw': 'Sio sahihi, tafadhali jaribu tena. \n $Menu'
+        'en': 'Invalid input, please try again.\n$Menu',
+        'ki': 'Ibyo mwinjije ntago bishoboka, ongera ugerageze.\n$Menu',
+        'sw': 'Sio sahihi, tafadhali jaribu tena.\n$Menu'
     }, 
 };

@@ -25,7 +25,7 @@ describe('Back to group summary handler', () => {
         global.state.vars.all_screens = JSON.stringify(['group summary']);
         global.state.vars.current_screen = 0;
         groupSummaryHandler('*');
-        expect(sayText).toHaveBeenCalledTimes(1);
+        expect(sayText).toHaveBeenCalledWith('Invalid input, please try again.\ngroup summary');
         expect(promptDigits).toHaveBeenCalledWith('view_individual_balance_menu', {
             submitOnHash: false,
             maxDigits: 2,
