@@ -38,6 +38,7 @@ var check_sedo = require('./lib/ext-sedo-verify');
 var start_survey = require('./lib/ext-survey-start');
 var checkstop = require('./lib/ext-check-stop');
 var srvySessionManager = require('./lib/ext-resume-survey');
+var testerPack = require('../tester-pack/testerPack');
 
 // set various constants
 const lang = project.vars.cor_lang;
@@ -61,7 +62,6 @@ var extensionTable =  project.initDataTableById('DT6d616f3e4e82bd9d');
 global.main = function(){
     sayText(msgs('ext_main_splash'));
     var menu = populate_menu(extension_main_menu_table, lang);
-    console.log(">>>>>>>>>\n" + extension_main_menu_table + "\n====menu====\n", + menu);
     if (typeof (menu) == 'string') {
         state.vars.current_menu_str = menu;
         sayText(menu);
@@ -79,6 +79,8 @@ global.main = function(){
         promptDigits('ext_main_splash', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
     }
 }
+
+testerPack.registerTesterPackConfirmationHandlers({lang: lang});
 
 // input handler for survey type
 addInputHandler('ext_main_splash', function(input){
@@ -136,6 +138,9 @@ addInputHandler('ext_main_splash', function(input){
                                         'maxDigits'     : max_digits_for_sedo_id,
                                         'timeout'       : timeout_length 
                                         });
+    }
+    else if(selection === 'confirm_tester_pack') {
+        testerPack.spinTesterPackConfirmation({lang: lang})
     }
     else{
         sayText(msgs('invalid_input', {}, lang));
