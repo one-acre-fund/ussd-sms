@@ -9,7 +9,7 @@ var msgs = require('./msg-retrieve');
 var admin_alert = require('./admin-alert');
 
 module.exports = function(table_name, lang, max_chars){
-        
+        console.log(">>>>>>>>>>reaching==" + table_name);
     var lang = lang || project.vars.lang;
     var console_lang = project.vars.console_lang;
     var prev_page = msgs('prev_page',{},lang);

@@ -19,6 +19,8 @@ if(service.vars.env === 'prod' || service.vars.env === 'dev'){
     env = defaultEnvironment;
 }
 
+//initialize dataTables
+var extension_main_menu_table = env === 'dev' ? env + '_extension_main_menu' : 'extension_main_menu';
 
 // load in general functions
 var msgs = require('./lib/msg-retrieve');
@@ -58,8 +60,8 @@ var extensionTable =  project.initDataTableById('DT6d616f3e4e82bd9d');
 // display welcome message and prompt user to choose their survey (AMA1, AMA2, GUS)
 global.main = function(){
     sayText(msgs('ext_main_splash'));
-    var menu = populate_menu('extension_main_menu', lang);
-
+    var menu = populate_menu(extension_main_menu_table, lang);
+    console.log(">>>>>>>>>\n" + extension_main_menu_table + "\n====menu====\n", + menu);
     if (typeof (menu) == 'string') {
         state.vars.current_menu_str = menu;
         sayText(menu);
@@ -107,7 +109,7 @@ addInputHandler('ext_main_splash', function(input){
         }
     }
 
-    var selection = get_menu_option(input, 'extension_main_menu');
+    var selection = get_menu_option(input, extension_main_menu_table);
     if(selection === 'test_pack_reg'){
         const resumedSession = srvySessionManager.resume(contact.phone_number, inputHandlers);
         if(!resumedSession){
