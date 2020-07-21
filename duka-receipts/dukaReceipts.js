@@ -6,12 +6,12 @@
     }
     var getObjectKeys = require('./objectKeysFilter');
     var response = state.vars;
-    var netPriceKeys = getObjectKeys(response, /^netUnitPrice?/);
+    var unitPriceKeys = getObjectKeys(response, /^unitPrice?/);
     var rowPriceKeys = getObjectKeys(response, /^rowPrice?/);
     var totalCost = 0;
     var productCost = 0;
     
-    netPriceKeys.forEach(function(key){
+    unitPriceKeys.forEach(function(key){
         var postFixNumber = key.match(/\d+/)[0];
         var quantity = 'quantity' + postFixNumber;
         totalCost = totalCost + (Number(response[key]) * Number(response[quantity])); 
