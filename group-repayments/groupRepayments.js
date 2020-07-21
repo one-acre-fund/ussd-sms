@@ -22,11 +22,11 @@ function registerInputHandlers(session_details){
 }
 
 /**
- * Spins the group repayment summary feature for group leaders
+ * starts the group repayment summary feature for group leaders
  * @param {Object} session_details Session Details that are specific to the country
  * @param {String} session_details.lang the language used during the session
  */
-function spinGroupRepayments(session_details) {
+function startGroupRepayments(session_details) {
     var lang = session_details.lang;
     var getMessage = translator(translations, lang);
     var getClient = require('../shared/rosterApi/getClient');
@@ -47,5 +47,5 @@ function spinGroupRepayments(session_details) {
 
 module.exports = {
     registerGroupRepaymentHandlers: registerInputHandlers,
-    spinGroupRepayments: spinGroupRepayments
+    startGroupRepayments: startGroupRepayments
 };

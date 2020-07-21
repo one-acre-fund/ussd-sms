@@ -19,6 +19,7 @@ service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 service.vars.ussd_settings_table_id = 'DT1f9908b578f65458';
 service.vars.groupCodes_id = 'DTf1ac46f52abd0c5e';
+service.vars.currency = 'RwF';
 var account_splash_menu_name = '';
 if(env === 'prod'){
     service.vars.season_clients_table = project.vars.season_clients_table;
@@ -400,10 +401,10 @@ addInputHandler('cor_menu_select', function (input) {
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         }
     } else if(selection == 'view_group_repayment' && state.vars.isGroupLeader) {
-        groupRepaymentsModule.spinGroupRepayments({lang: lang});
+        groupRepaymentsModule.startGroupRepayments({lang: lang});
     }
     else {
-        var current_menu = msgs(selection, opts, lang);
+        var current_menu = msgs(selection, {}, lang);
         state.vars.current_menu_str = current_menu;
         sayText(current_menu);
         promptDigits(selection, { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });

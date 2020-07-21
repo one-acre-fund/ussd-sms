@@ -3,6 +3,7 @@ const individualBalanceHandler = require('./individualBalanceHandler');
 describe('Back to group summary handler', () => {
     beforeAll(() => {
         global.state = { vars: {} };
+        global.service = {vars: {currency: 'RwF'}};
     });
     beforeEach(() => {
         jest.resetModules();
@@ -69,14 +70,14 @@ describe('Back to group summary handler', () => {
         global.state.vars.previous_screen = -1;
         global.state.vars.next_screen = 1;
         global.state.vars.members_last_screen = 1;
-        global.state.vars.group_members = JSON.stringify([{firstName: 'bahati', lastName: 'robben', credit: 120, balance: 60, repaid: 60, '% Repaid': '50%'}]);
+        global.state.vars.group_members = JSON.stringify([{firstName: 'bahati', lastName: 'robben', credit: 120, balance: 60, repaid: 60, '% Repaid': 50}]);
         individualBalanceHandler(1);
         expect(sayText).toHaveBeenCalledWith(
             'Name: bahati robben\n' + 
             'Credit: 120 RwF\n' +
             'Balance: 60 RwF\n' +
             'Amount repaid: 60 RwF\n' + 
-            '% repaid: 60_percentage%\n' + 
+            '% repaid: 50.00%\n' + 
             '# Go back');
         expect(promptDigits).toHaveBeenCalledWith('back_to_group_summary', {
             submitOnHash: false,

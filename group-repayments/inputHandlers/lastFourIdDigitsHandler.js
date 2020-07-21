@@ -29,31 +29,34 @@ module.exports = function lastFourIdDigitsHandler(input) {
     } catch(error) {
         adminLogger(error, 'Roster API Call: Fetching group information');
         return;
-    }
-                
+    }     
     // create an array of group members
     var groupRepayments = {credit: 0, balance: 0};
     var groupMembers = rosterCallResult.map(function(result) {
         var newResult = result;
         newResult.balance = result.credit - result.repaid;
-        newResult['% Repaid'] = (result.repaid * 100) / result.credit;
+        if(result.credit !== 0) {
+            newResult['% Repaid'] = (result.repaid * 100) / result.credit;
+        } else {
+            newResult['% Repaid'] = result.repaid * 100;
+        }
         groupRepayments.credit = groupRepayments.credit + newResult.credit; 
         groupRepayments.balance = groupRepayments.balance + newResult.balance;
         return newResult;
-    });
-
+    }); 
     var group_repayments = groupRepayments;
     var group_members = groupMembers;
     state.vars.group_members = JSON.stringify(group_members);
     var all_screens = [];
-    var initialScreen = getMessage('group_credit', {'$groupCredit': group_repayments.credit}, lang) + getMessage('group_balance', {'$groupBalance': group_repayments.balance}, lang);
+    var initialScreen = getMessage('group_credit', {'$groupCredit': group_repayments.credit, '$currency': service.vars.currency}, lang) + getMessage('group_balance', {'$groupBalance': group_repayments.balance, '$currency': service.vars.currency}, lang);
     var options = getMessage('continue', {'$label': '*'}, lang) + getMessage('back', {'$label': '#'}, lang);
     var index = 0;
     var preFix = index + 1;
     var record = getMessage('group_members_repayments', {'$prefix': preFix,
         '$firstName': group_members[index].firstName,
         '$lastName': group_members[index].lastName,
-        '$balance': group_members[index].balance}, lang);
+        '$balance': group_members[index].balance,
+        '$currency': service.vars.currency}, lang);
 
     while((initialScreen + record + options).length < 140 && index < group_members.length) {
         initialScreen = initialScreen + record;
@@ -63,7 +66,8 @@ module.exports = function lastFourIdDigitsHandler(input) {
             record = getMessage('group_members_repayments', {'$prefix': preFix, 
                 '$firstName': group_members[index].firstName, 
                 '$lastName': group_members[index].lastName, 
-                '$balance': group_members[index].balance}, lang);
+                '$balance': group_members[index].balance,
+                '$currency': service.vars.currency}, lang);
         }
     }
     if(preFix < group_members.length) {
@@ -81,7 +85,8 @@ module.exports = function lastFourIdDigitsHandler(input) {
         record = getMessage('group_members_repayments', {'$prefix': preFix, 
             '$firstName': group_members[i].firstName, 
             '$lastName': group_members[i].lastName, 
-            '$balance': group_members[i].balance}, lang);
+            '$balance': group_members[i].balance,
+            '$currency': service.vars.currency}, lang);
         if((screen + record + options).length <= 140) {
             screen = screen + record;
             i = i + 1;

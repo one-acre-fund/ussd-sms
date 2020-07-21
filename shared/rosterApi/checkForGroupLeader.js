@@ -20,12 +20,10 @@ module.exports = function checkForGl(DistrictId, ClientId) {
             return data.isGroupLeader;
         }
         else {
-            slackLogger(response);
             console.log('#### error while checking for a gl');
             console.log(JSON.stringify(response));
         }
     } catch (error) {
-        slackLogger(error);
-        console.log('Error: ' + error);
+        slackLogger.log(error);
     }
 };

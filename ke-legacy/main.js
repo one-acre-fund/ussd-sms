@@ -15,6 +15,7 @@ if(service.vars.env === 'prod' || service.vars.env === 'dev'){
 
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
+service.vars.currency = 'KES';
 
 
 var transactionHistory = require('../transaction-history/transactionHistory');
@@ -38,9 +39,6 @@ if(service.vars.env === 'prod' || service.vars.env === 'dev'){
 }else{
     env = defaultEnvironment;
 }
-var rosterAPI = require('ext/Roster_v1_2_0/api');
-var translatorFactory = require('../utils/translator/translator');
-var translations = require('./translations/index');
 var dukaLocator = require('../duka-locator/index');
 var groupRepaymentsModule = require('../group-repayments/groupRepayments');
 service.vars.server_name = project.vars[env+'_server_name'];
@@ -112,7 +110,7 @@ var FAWMaxOrders = 2;
 var StaffDistrict = "KENYA STAFF";
 
 // loading the translator with all translations and setting the default language to English
-var translator = translatorFactory(translations, 'en');
+var translator = createTranslator(translations, 'en');
 // Setting global functions
 var InteractionCounter = function(input){
     try{
@@ -1061,8 +1059,8 @@ var MainMenuText = function (client){
     else {MenuText = MenuText + "\n11) Lipate duka la OAF"}
 
     if(state.vars.isGroupLeader) {
-        if (GetLang() ){MenuText = MenuText + "\n11) View group repayment"}
-        else {MenuText = MenuText + "\n11) Mukhtasari wa malipo ya kikundi"}
+        if (GetLang() ){MenuText = MenuText + "\n12) View group repayment"}
+        else {MenuText = MenuText + "\n12) Mukhtasari wa malipo ya kikundi"}
     }
     
     if (GetLang()){MenuText =MenuText + "\n99) Swahili"}
@@ -1702,7 +1700,7 @@ addInputHandler('SplashMenu', function(SplashMenu) {
             state.vars.client = JSON.stringify(TrimClientJSON(client));
             call.vars.client = JSON.stringify(TrimClientJSON(client));
             call.vars.AccNum = ClientAccNum;
-            state.vars.account_number = client.ClientAccNum;
+            state.vars.account_number = client.AccountNumber;
             MainMenuText(client);
             promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
         }
@@ -1731,7 +1729,7 @@ addInputHandler("NonClientMenu", function(input) {
         promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
     }
     else if(input == clientMenuOptions.locate_oaf_duka) {
-        dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
+        dukaLocator.startDukaLocator({lang: GetLang() ? 'en' : 'sw'});
     }
     else{
         NonClientMenuText();
@@ -1827,10 +1825,10 @@ addInputHandler("MainMenu", function(MainMenu) {
         CallCenterMenuText();
         promptDigits("CallCenterMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
     } else if(MainMenu == 11) {
-        dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
-    } else if (MainMenu == 11 && state.vars.isGroupLeader) {
+        dukaLocator.startDukaLocator({lang: GetLang() ? 'en' : 'sw'});
+    } else if (MainMenu == 12 && state.vars.isGroupLeader) {
         // view repayment information
-        groupRepaymentsModule.spinGroupRepayments({lang: GetLang() ? 'en' : 'sw'})
+        groupRepaymentsModule.startGroupRepayments({lang: GetLang() ? 'en' : 'sw'})
     }
     else{
         var arrayLength = client.BalanceHistory.length;
