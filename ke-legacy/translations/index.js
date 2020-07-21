@@ -16,8 +16,8 @@ var translations = {
         sw: '$label) Lipate duka la OAF\n'
     },
     'registration_message':{
-        'en-ke': 'you are registered for the new season, and to add inputs the FO will call you, or you can call your FO at $phone',
-        'en': 'you are registered for the new season, and to add inputs the FO will call you, or you can call your FO at $phone.',
+        'en-ke': 'Thank you for enrolling with OAF.  Please visit the FO to add inputs or call the FO on $phone',
+        'en': 'Thank you for enrolling with OAF.  Please visit the FO to add inputs or call the FO on  $phone.',
         'sw': 'umesajiliwa kwa msimu mpya, na kuongeza pembejeo FO itakupigia simu, au unaweza kupiga FO yako kwa simu ya $phone.'
     },
     'account_not_found':{

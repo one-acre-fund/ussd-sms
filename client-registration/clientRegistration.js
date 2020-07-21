@@ -39,11 +39,10 @@ module.exports = {
         }
         function onPhoneNumberConfirmed(){
             var client = JSON.parse(state.vars.client_json);
-            
             var clientJSON = {
-                'districtId': client.GroupId,
+                'districtId': client.DistrictId,
                 'siteId': client.SiteId,
-                'groupId': client.DistrictId,
+                'groupId': client.GroupId,
                 'firstName': state.vars.firstName,
                 'lastName': state.vars.lastName,
                 'nationalIdNumber': state.vars.nationalId,
