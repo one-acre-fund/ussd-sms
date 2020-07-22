@@ -188,7 +188,7 @@ var RosterClientVal = function (AccNum){
         console.log("Validating accountnumber length. Result: "+ AccNum.length);
         if (AccNum.length == 8){
             rosterAPI.verbose = true;
-            rosterAPI.dataTableAttach();
+            //rosterAPI.dataTableAttach();
             response = rosterAPI.authClient(AccNum,'KE');
             return response;
         }
@@ -199,7 +199,7 @@ var RosterClientVal = function (AccNum){
 };
 var RosterClientGet = function (AccNum){
     rosterAPI.verbose = true;
-    rosterAPI.dataTableAttach();
+    //rosterAPI.dataTableAttach();
     client = rosterAPI.getClient(AccNum,'KE');
     return client;
 };
@@ -213,7 +213,7 @@ var ErrorEmail = function (Subject, Body){
 };
 var RosterColRequest = function (AccNum,Amount){
     rosterAPI.verbose = true;
-    rosterAPI.dataTableAttach();
+    //rosterAPI.dataTableAttach();
     var phone = {
         country: "KE",
         phone_number: "+"+PhoneNumber.formatInternationalRaw(contact.phone_number, "KE")
