@@ -3206,23 +3206,12 @@ addInputHandler('TrainingSelect', function(input) {
 });
 
 addInputHandler('registrationHandler', function(input){
-
     if(input == 0){
         clientRegistration.start(client.AccountNumber,'ke',contact.vars.lang);
     }
     else{
         client = RosterClientGet(input);
         if(client){
-            // var table = project.initDataTableById('DTcb22aac587c755c5');
-            // var row = table.createRow({
-            //     vars: {
-            //         'Accountnumber':input,
-            //         'from_number': contact.phone_number,
-            //         'new_client': 'false'
-            //     }
-            // });
-            // row.save();
-            //calculate the prepayment
             if(client.BalanceHistory.length > 0){
                 client.BalanceHistory = client.BalanceHistory[0];
             }
@@ -3237,13 +3226,13 @@ addInputHandler('registrationHandler', function(input){
                     to_number: contact.phone_number
                 });
                 }
-                }
-                else{
-                    sayText(translate('account_not_found',{},contact.vars.lang));
-                }
             }
             else{
-                sayText(translate('loan_payment_not_satisfied'),{},contact.vars.lang);
+                sayText(translate('loan_payment_not_satisfied'),{'$amount': remainingLoan },contact.vars.lang);
             }
+        }
+        else{
+            sayText(translate('account_not_found',{},contact.vars.lang));
+        }
     }
 });

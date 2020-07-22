@@ -51,22 +51,6 @@ module.exports = {
             try {
                 var clientData = JSON.parse(rosterRegisterClient(clientJSON));
                 console.log('client Data ****************' + clientData.AccountNumber);
-                // var table = project.initDataTableById('DTcb22aac587c755c5');
-                // var row = table.createRow({
-                //     vars: {
-                //         'Accountnumber': clientData.AccountNumber,
-                //         'Phonenumber': clientJSON.phoneNumber,
-                //         'firstName': clientJSON.firstName,
-                //         'lastName': clientJSON.lastName,
-                //         'nationalIdNumber': clientJSON.nationalIdNumber,
-                //         'siteId': clientJSON.siteId,
-                //         'groupId': clientJSON.groupId,
-                //         'districtId': clientJSON.districtId,
-                //         'from_number': contact.phone_number,
-                //         'new_client': 'true'
-                //     }
-                // });
-                // row.save();
                 var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
                 var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
                 var message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phone}, state.vars.reg_lang);
