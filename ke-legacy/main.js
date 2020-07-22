@@ -23,7 +23,8 @@ var clientRegistration = require('../client-registration/clientRegistration');
 // Setting global variables!
 var translations = require('./translations/index');
 var createTranslator = require('../utils/translator/translator');
-var rosterAPI = require('ext/Roster_v1_2_0/api');
+//var rosterAPI = require('ext/Roster_v1_2_0/api');
+var rosterAPI = require('../rw-legacy/lib/roster/api');
 var translatorFactory = require('../utils/translator/translator');
 var translations = require('./translations/index');
 var dukaLocator = require('../duka-locator/index');

@@ -19,7 +19,7 @@ describe('phone_number_handler', () => {
     });
     it('should show prompt message for retry if input is not a valid phone number', () => {
         phoneNumberHandler('0000');
-        expect(sayText).toHaveBeenCalledWith('Invalid entry.Please enter a valid pnone number.');
+        expect(sayText).toHaveBeenCalledWith('Invalid entry.Please enter a valid phone number.');
     });
     it('should call promptDigits for the phone number if the input is not a valid phone number format', () => {
         phoneNumberHandler('000');

@@ -20,7 +20,7 @@ describe('phone_number_handler', () => {
     });
     it('should show prompt message for phone number input if input is not 1', () => {
         phoneNumberHandler('0000');
-        expect(sayText).toHaveBeenCalledWith('Reply with their Phone number of the farmer');
+        expect(sayText).toHaveBeenCalledWith('Reply with the Phone number of the farmer');
     });
     it('should call promptDigits for the phone number if the input is not 1', () => {
         phoneNumberHandler('000');
