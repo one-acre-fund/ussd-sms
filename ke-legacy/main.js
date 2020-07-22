@@ -19,7 +19,7 @@ service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 
 var transactionHistory = require('../transaction-history/index');
 var clientRegistration = require('../client-registration/clientRegistration');
-
+var clientEnrollment = require('../client-enrollment/clientEnollment');
 // Setting global variables!
 var translations = require('./translations/index');
 var createTranslator = require('../utils/translator/translator');
@@ -3210,29 +3210,6 @@ addInputHandler('registrationHandler', function(input){
         clientRegistration.start(client.AccountNumber,'ke',contact.vars.lang);
     }
     else{
-        client = RosterClientGet(input);
-        if(client){
-            if(client.BalanceHistory.length > 0){
-                client.BalanceHistory = client.BalanceHistory[0];
-            }
-            var remainingLoan =  client.BalanceHistory.TotalCredit - client.BalanceHistory.TotalRepayment_IncludingOverpayments;
-            if(remainingLoan <= 0){
-                var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
-                var foInfo = getFOInfo(client.DistrictId,client.SiteId,GetLang());
-                if(foInfo){
-                    var message = translate('registration_message' , {'$phone': foInfo.phone}, contact.vars.lang);
-                    var sent_msg = project.sendMessage({
-                    content: message, 
-                    to_number: contact.phone_number
-                });
-                }
-            }
-            else{
-                sayText(translate('loan_payment_not_satisfied'),{'$amount': remainingLoan },contact.vars.lang);
-            }
-        }
-        else{
-            sayText(translate('account_not_found',{},contact.vars.lang));
-        }
+        clientEnrollment.start(input,'ke', contact.vars.lang);
     }
 });
