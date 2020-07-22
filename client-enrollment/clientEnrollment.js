@@ -19,7 +19,10 @@ module.exports = {
             }
             var remainingLoan =  client.BalanceHistory.TotalCredit - client.BalanceHistory.TotalRepayment_IncludingOverpayments;
             console.log('remaining loan:'+ remainingLoan);
-            if(remainingLoan <= 0){
+            if(remainingLoan > 0 ){
+                sayText(translate('loan_payment_not_satisfied'),{'$amount': remainingLoan },state.vars.enr_lang);
+            }
+            else{
                 var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
                 var foInfo = getFOInfo(client.DistrictId,client.SiteId,state.vars.enr_lang);
                 if(foInfo){
@@ -29,9 +32,6 @@ module.exports = {
                         to_number: contact.phone_number
                     });
                 }
-            }
-            else{
-                sayText(translate('loan_payment_not_satisfied'),{'$amount': remainingLoan },state.vars.enr_lang);
             }
         }
         else{

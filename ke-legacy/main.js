@@ -19,7 +19,7 @@ service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 
 var transactionHistory = require('../transaction-history/index');
 var clientRegistration = require('../client-registration/clientRegistration');
-var clientEnrollment = require('../client-enrollment/clientEnollment');
+var clientEnrollment = require('../client-enrollment/clientEnrollment');
 // Setting global variables!
 var translations = require('./translations/index');
 var createTranslator = require('../utils/translator/translator');

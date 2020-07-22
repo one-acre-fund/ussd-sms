@@ -44,7 +44,7 @@ module.exports = {
     'reg_complete_message': {
         'en-ke': 'Thank you for expressing your interest to enroll with OAF. Your Account Number is $ACCOUNT_NUMBER. Please visit the FO to add inputs or call the FO on $FOphone',
         'en': 'Thank you for expressing your interest to enroll with OAF. Your Account Number is $ACCOUNT_NUMBER. Please visit the FO to add inputs or call the FO on $FOphone',
-        'ki': 'Asante kwa nia ya kujiandikisha na OAF. Nambari yako ya akaunti ni: $ACCOUNT_NUMBER. Tafadhali tembelea mwalimu wa nyanjani ili kuchagua bidhaa au mpigie simu $FOphone',
+        'sw': 'Asante kwa nia ya kujiandikisha na OAF. Nambari yako ya akaunti ni: $ACCOUNT_NUMBER. Tafadhali tembelea mwalimu wa nyanjani ili kuchagua bidhaa au mpigie simu $FOphone',
     },
 
 };
