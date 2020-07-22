@@ -67,12 +67,14 @@ module.exports = {
                 //     }
                 // });
                 // row.save();
-                var message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
+                var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
+                var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
+                var message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phone}, state.vars.reg_lang);
                 project.sendMulti({
                     messages: [
-                        {content: message, to_number: contact.phone_number}, 
+                        {content: message, to_number: contact.phone_number},
                         {content: message, to_number: clientJSON.phoneNumber}],
-                        message_type: 'text'});
+                    message_type: 'text'});
 
             }
             catch (e) {

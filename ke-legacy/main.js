@@ -3221,19 +3221,28 @@ addInputHandler('registrationHandler', function(input){
             //     }
             // });
             // row.save();
-            var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
-            var foInfo = getFOInfo(client.DistrictId,client.SiteId,GetLang());
-            if(foInfo){
-                var message = translate('registration_message' , {'$phone': foInfo.phone}, contact.vars.lang);
-                var sent_msg = project.sendMessage({
-                content: message, 
-                to_number: contact.phone_number
-            });
+            //calculate the prepayment
+            if(client.BalanceHistory.length > 0){
+                client.BalanceHistory = client.BalanceHistory[0];
             }
+            var remainingLoan =  client.BalanceHistory.TotalCredit - client.BalanceHistory.TotalRepayment_IncludingOverpayments;
+            if(remainingLoan <= 0){
+                var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
+                var foInfo = getFOInfo(client.DistrictId,client.SiteId,GetLang());
+                if(foInfo){
+                    var message = translate('registration_message' , {'$phone': foInfo.phone}, contact.vars.lang);
+                    var sent_msg = project.sendMessage({
+                    content: message, 
+                    to_number: contact.phone_number
+                });
+                }
+                }
+                else{
+                    sayText(translate('account_not_found',{},contact.vars.lang));
+                }
             }
             else{
-                sayText(translate('account_not_found',{},contact.vars.lang));
+                sayText(translate('loan_payment_not_satisfied'),{},contact.vars.lang);
             }
-
     }
 });

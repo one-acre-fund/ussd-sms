@@ -15,15 +15,20 @@ var translations = {
         en: '$label) Locate an OAF duka\n',
         sw: '$label) Lipate duka la OAF\n'
     },
-    'registration_message':{
-        'en-ke': 'Thank you for enrolling with OAF.  Please visit the FO to add inputs or call the FO on $phone',
-        'en': 'Thank you for enrolling with OAF.  Please visit the FO to add inputs or call the FO on  $phone.',
-        'sw': 'umesajiliwa kwa msimu mpya, na kuongeza pembejeo FO itakupigia simu, au unaweza kupiga FO yako kwa simu ya $phone.'
+    'registration_message': {
+        'en-ke': 'Thanks for enrolling with One Acre Fund. To add inputs the FO will call you, or you can call your FO at $phone',
+        'en': 'Thanks for enrolling with One Acre Fund. Kuongeza pembejeo FO itakuita, au unaweza kupiga FO yako kwa $phone',
+        'sw': 'Asante kwa kujisajili na One acre Fund kupitia. Kuongeza pembejeo FO itakuita, au unaweza kupiga FO yako kwa $phone.'
     },
-    'account_not_found':{
+    'account_not_found': {
         'en-ke': 'account number not found',
         'en': 'account number not found',
         'sw': 'nambari ya akaunti haipatikani'
+    },
+    'loan_payment_not_satisfied': {
+        'en-ke': 'Thank you for expressing your interest to enrol for 2021. Please finish your loan first then try again!',
+        'en': 'Thank you for expressing your interest to enrol for 2021. Please finish your loan first then try again!',
+        'sw': 'Asante kwa kuelezea nia yako ya kujiandikisha kwa 2021. Tafadhali maliza mkopo wako kwanza kisha ujaribu tena!'
     }
 };
 
