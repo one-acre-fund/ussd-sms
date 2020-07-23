@@ -1,4 +1,5 @@
 var roster = require('../rw-legacy/lib/roster/api');
+var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
 var translations = require('./translations');
 var createTranslator = require('../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
@@ -20,13 +21,13 @@ module.exports = {
             var remainingLoan =  client.BalanceHistory.TotalCredit - client.BalanceHistory.TotalRepayment_IncludingOverpayments;
             console.log('remaining loan:'+ remainingLoan);
             if(remainingLoan > 0 ){
-                sayText(translate('loan_payment_not_satisfied'),{'$amount': remainingLoan },state.vars.enr_lang);
+                sayText(translate('loan_payment_not_satisfied',{'$amount': remainingLoan },state.vars.enr_lang));
             }
             else{
-                var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
                 var foInfo = getFOInfo(client.DistrictId,client.SiteId,state.vars.enr_lang);
+                console.log(foInfo);
                 if(foInfo){
-                    var message = translate('registration_message' , {'$phone': foInfo.phone}, state.vars.enr_lang);
+                    var message = translate('registration_message' , {'$phone': foInfo.phoneNumber}, state.vars.enr_lang);
                     var send_msg = project.sendMessage({
                         content: message, 
                         to_number: contact.phone_number
