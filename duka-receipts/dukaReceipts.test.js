@@ -16,8 +16,8 @@ describe('Mobile Money receipts', () => {
             'rowPrice1': '373.91',
             'rowPrice2': '1346.10',
             
-            'netUnitPrice1': '400.00',
-            'netUnitPrice2': '240.00',
+            'netUnitPrice1': '450.00',
+            'netUnitPrice2': '260.00',
             
             'name1': 'Foliar fertilizer [Stock]',
             'name2': 'Crop Storage; PICS Storage Bag [Stock]',
@@ -49,6 +49,6 @@ describe('Mobile Money receipts', () => {
         require('./dukaReceipts');
         expect(global.sendEmail).toHaveBeenCalledWith('user@tester.com', 
             'Testing email', 
-            '{"date":"2020-07-07","netRowPrice1":"373.91","netRowPrice2":"1346.10","unitPrice1":"400.00","unitPrice2":"240.00","quantity1":"1","quantity2":"6","rowPrice1":"373.91","rowPrice2":"1346.10","netUnitPrice1":"400.00","netUnitPrice2":"240.00","name1":"Foliar fertilizer [Stock]","name2":"Crop Storage; PICS Storage Bag [Stock]","receipt":"34002858","phone":"0721415321","amount":1720.01,"email":"user@tester.com"}');
+            '{"date":"2020-07-07","netRowPrice1":"373.91","netRowPrice2":"1346.10","unitPrice1":"400.00","unitPrice2":"240.00","quantity1":"1","quantity2":"6","rowPrice1":"373.91","rowPrice2":"1346.10","netUnitPrice1":"450.00","netUnitPrice2":"260.00","name1":"Foliar fertilizer [Stock]","name2":"Crop Storage; PICS Storage Bag [Stock]","receipt":"34002858","phone":"0721415321","amount":1720.01,"email":"user@tester.com"}');
     });
 });
