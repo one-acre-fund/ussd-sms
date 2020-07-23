@@ -1,36 +1,15 @@
-const {handlerName,getHandler} = require ('.');
+const {handlerName,getHandler} = require ('./idVerification');
 const { getClient } = require('../../rw-legacy/lib/roster/api');
-const getTransactionHistory= require('../get-transaction-history');
 
 
 jest.mock('../../rw-legacy/lib/roster/api');
-jest.mock('../get-transaction-history');
+jest.mock('../get-transaction-history/getTransactionHistory');
 
 const mockClient = {
     NationalId: '9876543211234657981234'
 };
 getClient.mockReturnValue(mockClient);
 
-const exampleTXHistory = [
-    {
-        date: '09-06-20',
-        paymentID: 'xyz',
-        season: '20A',
-        amount: '1000',
-        paidFrom: '078123456789',
-        paidTo: '078987654321'
-    
-    },
-    {
-        date: '19-06-20',
-        paymentID: 'abc',
-        season: '20B',
-        amount: '2000',
-        paidFrom: '078123456789',
-        paidTo: '078987654321'
-    
-    }
-];
 
 describe('idVerificationHandler', () => {
     var idVerificationHandler;
@@ -38,13 +17,11 @@ describe('idVerificationHandler', () => {
     const account_number = '55555555';
     const country = 'wk';
     beforeEach(() => {
-        getTransactionHistory.mockReset();
         sayText.mockReset();
         onIdValidated = jest.fn();
         state.vars.account = account_number;
         state.vars.country = country;
         idVerificationHandler = getHandler(onIdValidated);
-        getTransactionHistory.mockReturnValueOnce(exampleTXHistory);
     });
     it('should be a function', () => {
         expect(idVerificationHandler).toBeInstanceOf(Function);
@@ -52,10 +29,6 @@ describe('idVerificationHandler', () => {
     it('should get the client data with the account number', () => {
         idVerificationHandler('1234');
         expect(getClient).toHaveBeenCalledWith(account_number, country);
-    });
-    it('should not call getTransactionHistory if input does not match the last four digits on the nationalID ', () => {
-        idVerificationHandler('4321');
-        expect(getTransactionHistory).not.toHaveBeenCalled();
     });
     it('should show prompt message for retry if input does not match the last for digits of the NID', () => {
         project.vars.lang = 'en';

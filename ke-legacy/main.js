@@ -17,7 +17,7 @@ service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 
 
-var transactionHistory = require('../transaction-history/index');
+var transactionHistory = require('../transaction-history/transactionHistory');
 var clientRegistration = require('../client-registration/clientRegistration');
 var clientEnrollment = require('../client-enrollment/clientEnrollment');
 // Setting global variables!

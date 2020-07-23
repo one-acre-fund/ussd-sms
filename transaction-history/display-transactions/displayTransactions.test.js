@@ -1,4 +1,4 @@
-const {list,show} = require('.');
+const {list,show} = require('./displayTransactions');
 
 describe('show', () => {
     it('shouldbe a function', () => {

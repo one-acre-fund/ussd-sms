@@ -26,6 +26,7 @@ var admin_alert = require('./lib/admin-alert');
 var populate_menu = require('./lib/populate-menu');
 var get_menu_option = require('./lib/get-menu-option');
 var questions = require('./dat/surveys'); 
+var slack = require('../slack-logger/index');
 
 // load in extension-specific modules
 var reinit = require('./lib/ext-reinitization');
@@ -168,6 +169,9 @@ inputHandlers['fp_enter_id'] =  function(input){
     // verify village id
     input = input.replace(/\s/g,'');
     if(check_vid(input)){
+        state.vars.village_id = input;
+        //Allow this specific id to be used for testing with reinitialization not working
+        if(state.vars.village_id == '10000000'){state.vars.testing = true}else{state.vars.testing = false};
         if(state.vars.survey_type == 'ext'){
             sayText(msgs('ext_farmer_national_id',{},lang));
             promptDigits('ext_national_id_handler', {   'submitOnHash' : false,
@@ -427,8 +431,19 @@ inputHandlers['extension_questions'] = function(input){
     
     }
     else{
+        // load the rows of village table that match the input vid
+        var village_table = project.getOrCreateDataTable("VillageInfo");
+        var village_cursor = village_table.queryRows({vars: {'villageid' : state.vars.village_id}});
+        if(village_cursor.hasNext()){
+            var row = village_cursor.next();
+            state.vars.sector = row.vars.sector;
+            state.vars.cell = row.vars.cell;
+        }
+        else{
+            slack.log('Failed to get sector and cell from village Id: \n'+state.vars.village_id);
+        }
         var table = project.initDataTableById('DTe1025290143442b5');
-        var row = table.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'first_name': state.vars.firstN, 'last_name': state.vars.lastN, 'gender' : state.vars.gender, 'phone_number': state.vars.phoneNumber}});
+        var row = table.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'first_name': state.vars.firstN, 'last_name': state.vars.lastN, 'gender' : state.vars.gender, 'phone_number': state.vars.phoneNumber,'village_id': state.vars.village_id,'Sector': state.vars.sector, 'Cell': state.vars.cell}});
         row.save();
         var rowAll = extensionTable.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'not_eligible': 0}});
         rowAll.save();
