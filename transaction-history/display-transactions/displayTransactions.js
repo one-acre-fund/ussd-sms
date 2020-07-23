@@ -23,7 +23,7 @@ var listTransactions = function (transactionHistory, page, errorMessage) {
 
 module.exports = {
     list: listTransactions,
-    show: function (transaction) {
+    show: function (transaction, inputHandlerName) {
         var language = (contact && contact.vars.lang) || (state && state.vars.lang) || service.vars.lang || project.vars.lang;
         var translate = createTranslator(translations, language);
         var RepaymentDate = transaction.RepaymentDate.split(' ')[0].replace( /\//g,'-');
@@ -35,5 +35,8 @@ module.exports = {
             '$Amount': transaction.Amount,
             '$PaidFrom': transaction.PaidFrom
         }));
+        if(inputHandlerName){
+            global.promptDigits(inputHandlerName);
+        }
     }
 };
