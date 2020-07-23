@@ -1,5 +1,6 @@
 module.exports = [
     {
+        'en-ke': 'Make a payment',
         'en': 'Make a payment',
         'sw': 'Fanya malipo',
         'option_name': 'make_payment',
@@ -7,6 +8,7 @@ module.exports = [
         'start_date': project.vars.start_make_payment
     },
     {
+        'en-ke': 'Check balance',
         'en': 'Check balance',
         'sw': 'Kuangalia salio',
         'option_name': 'check_balance',
@@ -14,13 +16,15 @@ module.exports = [
         'start_date': project.vars.start_check_balance
     },
     {
+        'en-ke': 'training',
         'en': 'training',
-        'sw': 'Trainings',
-        'option_name': 'make_payment',
+        'sw': 'Mafunzo',
+        'option_name': 'trainings',
         'end_date': project.vars.end_make_payment,
         'start_date': project.vars.start_make_payment
     },
     {
+        'en-ke': 'View transaction history',
         'en': 'View transaction history',
         'sw': 'Angalia historia ya malipo',
         'option_name': 'transaction_history',
@@ -28,6 +32,7 @@ module.exports = [
         'start_date': project.vars.start_tx_history
     },
     {
+        'en-ke': 'Prepayment amount',
         'en': 'Prepayment amount',
         'sw': 'Malipo ya kufuzu',
         'option_name': 'prepayment_amount',
@@ -35,6 +40,7 @@ module.exports = [
         'start_date': project.vars.start_prepayment_amount
     },
     {
+        'en-ke': 'FAW Pesticide Order',
         'en': 'FAW Pesticide Order',
         'sw': 'Kuagiza dawa ya FAW',
         'option_name': 'presticide_order',
@@ -42,6 +48,7 @@ module.exports = [
         'start_date': project.vars.start_FAW_order
     },
     {
+        'en-ke': 'Solar',
         'en': 'Solar',
         'sw': 'Sola',
         'option_name': 'solar',
@@ -49,6 +56,7 @@ module.exports = [
         'start_date': project.vars.start_solar
     },
     {
+        'en-ke': 'Insurance',
         'en': 'Insurance',
         'sw': 'Bima',
         'option_name': 'insurance',
@@ -56,6 +64,7 @@ module.exports = [
         'start_date': project.vars.start_insurance
     },
     {
+        'en-ke': 'Contact Call center',
         'en': 'Contact Call center',
         'sw': 'Wasiliana na Huduma ya wateja',
         'option_name': 'contact_call_center',
@@ -63,6 +72,7 @@ module.exports = [
         'start_date': project.vars.start_contact_call_center
     },
     {
+        'en-ke': 'Locate an OAF duka',
         'en': 'Locate an OAF duka',
         'sw': 'Lipate duka la OAF',
         'option_name': 'locate_oaf_duka',

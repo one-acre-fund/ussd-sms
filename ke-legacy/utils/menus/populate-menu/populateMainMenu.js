@@ -1,6 +1,6 @@
 const mainMenu = require('./mainMenu');
-var createTranslator = require('../utils/translator/translator');
-var translations = require('./translations');
+var createTranslator = require('../../../../utils/translator/translator');
+var translations = require('../../../translations/index');
 
 var IsPrePayTrialDistrict= function(districtName){
     return false;
@@ -19,16 +19,19 @@ var EnrolledAndQualified = function (client){
     var arrayLength = client.BalanceHistory.length;
     var Valid = false;
     for (var i = 0; i < arrayLength; i++) {
-        if (client.BalanceHistory[i].SeasonName == CurrentSeasonName){    
+        if (client.BalanceHistory[i].SeasonName == global.CurrentSeasonName){    
             if(client.BalanceHistory[i].TotalCredit> 0){Valid = true}
         }
     }
     return Valid;
 };
 var skipMenuOption = function(optionName){
-    var optionMenu = mainMenu.find(element => element.option_name = optionName);
-    if((Date.parse(new Date()) > Date.parse(new Date(optionMenu.end_date))) || (Date.parse(new Date()) < Date.parse(new Date(optionMenu.start_date)))){
-        return true;
+    var optionMenu = '';
+    mainMenu.forEach(function(menu){
+        if(menu.option_name == optionName){optionMenu = menu}
+    })
+    if((Date.parse(new Date()) > Date.parse(new Date(optionMenu.end_date))) && (Date.parse(new Date()) < Date.parse(new Date(optionMenu.start_date)))){
+        return false;
     }
     else if(optionName == 'prepayment_amount'){
         if(!(IsPrePayTrialDistrict(JSON.parse(state.vars.client).DistrictName))){
@@ -49,6 +52,7 @@ var skipMenuOption = function(optionName){
 }
 
 module.exports = function(lang, max_chars){
+    console.log(state.vars.client);
     var translate =  createTranslator(translations, lang);
     var prev_page = translate('prev_page');
     var next_page = translate('next_page');
@@ -58,29 +62,31 @@ module.exports = function(lang, max_chars){
     var loc = 0;
     var counter = 1;
     var displayingMenu = {};
-    var sessionMenu = {};
-    for(var i = 1; i<=optionsLength ; i++){
+    var sessionMenu = [];
+    for(var i = 0; i < optionsLength ; i++){
         if(!(skipMenuOption(mainMenu[i].option_name))){
             var currentOption = mainMenu[i];
-            currentMenu = finalMenu + String(counter) +') '+ currentOption.lang + '\n';
-
+            currentMenu = finalMenu + String(counter) +') '+ currentOption[lang]  + '\n';
             if(currentMenu.length < max_chars){
-                finalMenu = finalMenu + String(counter) + ') ' + currentOption.lang + '\n'
+                finalMenu = finalMenu + String(counter) + ') ' + currentOption[lang] + '\n'
             }
             else{
                 displayingMenu[loc] = finalMenu + next_page;
-                finalMenu = prev_page + '\n' + String(counter) + ')' + currentOption.lang + '\n';
+                finalMenu = prev_page + '\n' + String(counter) + ')' + currentOption[lang] + '\n';
                 loc = loc + 1;
             }
-            sessionMenu.push(currentOption); 
+            sessionMenu.push(currentOption);
+            counter = counter + 1; 
         }
     }
+    
     state.vars.sessionMenu = JSON.stringify(sessionMenu);
     if(Object.keys(displayingMenu).length > 0){
         displayingMenu[loc] = displayingMenu[loc] = finalMenu;
         return displayingMenu;
     }
     else{
+        console.log('final'+finalMenu);
         return finalMenu;
     }
 }

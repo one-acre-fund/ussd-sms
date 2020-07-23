@@ -21,7 +21,7 @@ var translations = {
     },
     'next_page': {
         'en': '77)Next page',
-        'ki': '77)ukurasa unaofuata'
+        'sw': '77)ukurasa unaofuata'
     },
 };
 

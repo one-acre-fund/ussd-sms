@@ -1002,7 +1002,6 @@ var MainMenuText = function(client){
     var populateMainMenu = require('./utils/menus/populate-menu/populateMainMenu');
     var menu = populateMainMenu(contact.vars.lang, 140);
     if (typeof (menu) == 'string') {
-        state.vars.current_menu_str = menu;
         sayText(menu);
         state.vars.multiple_input_menus = 0;
         state.vars.input_menu = menu;
@@ -1011,7 +1010,6 @@ var MainMenuText = function(client){
         state.vars.input_menu_loc = 0; //watch for off by 1 errors - consider moving this to start at 1
         state.vars.multiple_input_menus = 1;
         state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
-        state.vars.current_menu_str = menu[state.vars.input_menu_loc];
         sayText(menu[state.vars.input_menu_loc]);
         state.vars.input_menu = JSON.stringify(menu);
     }
@@ -1651,7 +1649,6 @@ global.main = function () {
 // load input handlers
 dukaLocator.registerDukaLocatorHandlers({lang: GetLang() ? 'en' : 'sw'});
 transactionHistory.registerHandlers();
-
 addInputHandler('SplashMenu', function(SplashMenu) {
     LogSessionID();
     InteractionCounter("SplashMenu");
@@ -1686,6 +1683,7 @@ addInputHandler('SplashMenu', function(SplashMenu) {
         }
     }
 });
+
 addInputHandler("NonClientMenu", function(input) {
     LogSessionID();
     InteractionCounter("NonClientMenu");
@@ -1710,22 +1708,53 @@ addInputHandler("NonClientMenu", function(input) {
         NonClientMenuText();
         promptDigits("NonClientMenu", {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
-})
-addInputHandler("MainMenu", function(MainMenu) {
+});
+addInputHandler('MainMenu', function(SplashMenu){
     LogSessionID();
     InteractionCounter("MainMenu");
     client = JSON.parse(state.vars.client);
-    if (MainMenu== "99"){
+    var sessionMenu =JSON.parse(state.vars.sessionMenu);
+    if (state.vars.multiple_input_menus) {
+        if (SplashMenu == 44 && state.vars.input_menu_loc > 0) {
+            state.vars.input_menu_loc = state.vars.input_menu_loc - 1;
+            var menu = JSON.parse(state.vars.input_menu)[state.vars.input_menu_loc];
+            sayText(menu);
+            promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+            return null;
+        }
+        else if (SplashMenu == 77 && (state.vars.input_menu_loc < state.vars.input_menu_length - 1)) {
+            state.vars.input_menu_loc = state.vars.input_menu_loc + 1;
+            var menu = JSON.parse(state.vars.input_menu)[state.vars.input_menu_loc]
+            sayText(menu);
+            promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+            return null;
+        }
+        else if (SplashMenu == 44 && state.vars.input_menu_loc == 0) {
+            MainMenuText(client);
+            promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+            return null;
+        }
+    }
+    if (sessionMenu == "99"){
         ChangeLang();
         MainMenuText (client);
         promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
     }
-    else if (MainMenu == 1){
+    else if(sessionMenu[SplashMenu-1].option_name == 'make_payment'){
         client = JSON.parse(state.vars.client);
         PaymentMenuText (client);
         promptDigits("PaymentAmount", {submitOnHash: true, maxDigits: 5, timeout: 5});
     }
-    else if(MainMenu == 5 &&  IsPrePayTrialDistrict(client.DistrictName)){
+    // else if(mainMenu[i-1].option_name == 'check_balance'){
+
+    // }
+    else if(sessionMenu[SplashMenu-1].option_name == 'trainings'){
+        TrainingMenuText();
+    }
+    else if(sessionMenu[SplashMenu-1].option_name == 'transaction_history'){
+        transactionHistory.start(client.AccountNumber, 'ke');
+    }
+    else if(sessionMenu[SplashMenu-1].option_name == 'prepayment_amount'){
         if(client.BalanceHistory[0].SeasonName == CurrentSeasonName){
             var paid = client.BalanceHistory[0].TotalRepayment_IncludingOverpayments;
             PrepaymentMenuText(GetPrepaymentAmount(client),paid);
@@ -1735,33 +1764,7 @@ addInputHandler("MainMenu", function(MainMenu) {
         }
         promptDigits("BackToMain", {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
-    else if(MainMenu == 3){
-        TrainingMenuText();
-    }
-    else if(MainMenu == 4){
-        transactionHistory.start(client.AccountNumber, 'ke');
-    }
-    //else if(MainMenu == 3 && IsGl(client.AccountNumber)&&IsJITTUDistrict(client.DistrictName)){
-      //      if (SiteLockVal (client.SiteName, client.DistrictName)){
-        //        JITTUSiteLockedText();
-          //      promptDigits("ViewJITOrder", {submitOnHash: true, maxDigits: 8, timeout: 5});
-            //}
-        //else{
-          //  JITTUAccNumText();
-           //  promptDigits("JITTUAccNum", {submitOnHash: true, maxDigits: 8, timeout: 5});
-        //}
-    //}
-   // else if(MainMenu == 4 && IsGl(client.AccountNumber)&&IsJITEDistrict(client.DistrictName)){
-     //   if (SiteLockVal (client.SiteName, client.DistrictName)){
-       //     JITESiteLockedText();
-         //   promptDigits("BackToMain", {submitOnHash: true, maxDigits: 8, timeout: 5});
-        //}
-        //else{
-         //   JITEAccNumText();
-          //  promptDigits("JITEAccNum", {submitOnHash: true, maxDigits: 8, timeout: 5});
-        //}
-    //}
-    else if(MainMenu == 6){
+    else if(sessionMenu[SplashMenu-1].option_name == 'presticide_order'){
         if( FAWActive(client.DistrictName)&&EnrolledAndQualified(client)){
             var OrdersPlaced = FAWOrdersPlaced(client.AccountNumber);
             if (OrdersPlaced<FAWMaxOrders){
@@ -1782,20 +1785,22 @@ addInputHandler("MainMenu", function(MainMenu) {
             FAWInactiveText();
             promptDigits("BackToMain", {submitOnHash: true, maxDigits: 1, timeout: 5})
         }
+
     }
-    else if(MainMenu == 7 && SHSActive(client.DistrictName) ){
+    else if(sessionMenu[SplashMenu-1].option_name == 'solar'){
         SHSMenuText();
         promptDigits("SolarMenu", {submitOnHash: true, maxDigits: 2, timeout: 5});
+
     }
-    else if(MainMenu == 8){
+    else if(sessionMenu[SplashMenu-1].option_name == 'insurance'){
         InsuranceMenuText();
         promptDigits("InsuranceMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
     }
-
-    else if (MainMenu == 9){
+    else if(sessionMenu[SplashMenu-1].option_name == 'contact_call_center'){
         CallCenterMenuText();
         promptDigits("CallCenterMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
-    } else if(MainMenu == 10) {
+    }
+    else if(sessionMenu[SplashMenu-1].option_name == 'locate_oaf_duka'){
         dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
     }
     else{
@@ -1829,6 +1834,125 @@ addInputHandler("MainMenu", function(MainMenu) {
         promptDigits("ContinueToPayment", {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
 });
+// });
+// addInputHandler("MainMenu", function(MainMenu) {
+//     LogSessionID();
+//     InteractionCounter("MainMenu");
+//     client = JSON.parse(state.vars.client);
+//     if (MainMenu== "99"){
+//         ChangeLang();
+//         MainMenuText (client);
+//         promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+//     }
+//     else if (MainMenu == 1){
+//         client = JSON.parse(state.vars.client);
+//         PaymentMenuText (client);
+//         promptDigits("PaymentAmount", {submitOnHash: true, maxDigits: 5, timeout: 5});
+//     }
+//     else if(MainMenu == 5 &&  IsPrePayTrialDistrict(client.DistrictName)){
+//         if(client.BalanceHistory[0].SeasonName == CurrentSeasonName){
+//             var paid = client.BalanceHistory[0].TotalRepayment_IncludingOverpayments;
+//             PrepaymentMenuText(GetPrepaymentAmount(client),paid);
+//         }
+//         else {
+//             PrepaymentNotEnrolledText();
+//         }
+//         promptDigits("BackToMain", {submitOnHash: true, maxDigits: 1, timeout: 5});
+//     }
+//     else if(MainMenu == 3){
+//         TrainingMenuText();
+//     }
+//     else if(MainMenu == 4){
+//         transactionHistory.start(client.AccountNumber, 'ke');
+//     }
+//     //else if(MainMenu == 3 && IsGl(client.AccountNumber)&&IsJITTUDistrict(client.DistrictName)){
+//       //      if (SiteLockVal (client.SiteName, client.DistrictName)){
+//         //        JITTUSiteLockedText();
+//           //      promptDigits("ViewJITOrder", {submitOnHash: true, maxDigits: 8, timeout: 5});
+//             //}
+//         //else{
+//           //  JITTUAccNumText();
+//            //  promptDigits("JITTUAccNum", {submitOnHash: true, maxDigits: 8, timeout: 5});
+//         //}
+//     //}
+//    // else if(MainMenu == 4 && IsGl(client.AccountNumber)&&IsJITEDistrict(client.DistrictName)){
+//      //   if (SiteLockVal (client.SiteName, client.DistrictName)){
+//        //     JITESiteLockedText();
+//          //   promptDigits("BackToMain", {submitOnHash: true, maxDigits: 8, timeout: 5});
+//         //}
+//         //else{
+//          //   JITEAccNumText();
+//           //  promptDigits("JITEAccNum", {submitOnHash: true, maxDigits: 8, timeout: 5});
+//         //}
+//     //}
+//     else if(MainMenu == 6){
+//         if( FAWActive(client.DistrictName)&&EnrolledAndQualified(client)){
+//             var OrdersPlaced = FAWOrdersPlaced(client.AccountNumber);
+//             if (OrdersPlaced<FAWMaxOrders){
+//                 var RemainOrders = FAWMaxOrders - OrdersPlaced;
+//                 state.vars.FAWRemaining = RemainOrders;
+//                 FAWOrderText(RemainOrders, OrdersPlaced);
+//                 promptDigits("FAWOrder", {submitOnHash: true, maxDigits: 1, timeout: 5});
+//             }
+//             else {
+//                 FAWMaxOrderText(OrdersPlaced);
+//                 if (state.vars.FAWAllowcancel){
+//                     promptDigits("FAWCancel", {submitOnHash: true, maxDigits: 1, timeout: 5});
+//                 }
+//                 else{promptDigits("BackToMain", {submitOnHash: true, maxDigits: 1, timeout: 5})}
+//             }
+//         }
+//         else {
+//             FAWInactiveText();
+//             promptDigits("BackToMain", {submitOnHash: true, maxDigits: 1, timeout: 5})
+//         }
+//     }
+//     else if(MainMenu == 7 && SHSActive(client.DistrictName) ){
+//         SHSMenuText();
+//         promptDigits("SolarMenu", {submitOnHash: true, maxDigits: 2, timeout: 5});
+//     }
+//     else if(MainMenu == 8){
+//         InsuranceMenuText();
+//         promptDigits("InsuranceMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
+//     }
+
+//     else if (MainMenu == 9){
+//         CallCenterMenuText();
+//         promptDigits("CallCenterMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
+//     } else if(MainMenu == 10) {
+//         dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
+//     }
+//     else{
+//         var arrayLength = client.BalanceHistory.length;
+//         var Balance = '';
+//         var Season = "";
+//         var Overpaid = false;
+//         var Credit = "";
+//         var Paid = "";
+//         for (var i = 0; i < arrayLength; i++) {
+//             if (client.BalanceHistory[i].Balance>0){
+//                 Season = client.BalanceHistory[i].SeasonName;
+//                 Paid = client.BalanceHistory[i].TotalRepayment_IncludingOverpayments;
+//                 Balance = client.BalanceHistory[i].Balance;
+//                 Credit = client.BalanceHistory[i].TotalCredit;
+//             }
+//         }
+//         if (Balance === ''){
+//             for (var j = 0; j < arrayLength; j++) {
+//                 if (client.BalanceHistory[j].TotalRepayment_IncludingOverpayments>0){
+//                     Paid = client.BalanceHistory[j].TotalRepayment_IncludingOverpayments;
+//                     Balance = client.BalanceHistory[j].Balance;
+//                     Credit = client.BalanceHistory[j].TotalCredit;
+//                     Season = client.BalanceHistory[j].SeasonName;
+//                     j = 99;
+//                     Overpaid = true;
+//                 }
+//             }
+//         }
+//         CheckBalanceMenuText (Overpaid,Season,Credit,Paid,Balance);
+//         promptDigits("ContinueToPayment", {submitOnHash: true, maxDigits: 1, timeout: 5});
+//     }
+// });
 addInputHandler("BackToMain", function(input) {
     LogSessionID();
     InteractionCounter("BackToMain");
