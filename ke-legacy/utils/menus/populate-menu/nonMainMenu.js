@@ -12,8 +12,8 @@ module.exports = [
         'en': 'Trainings',
         'sw': 'Mafunzo',
         'option_name': 'trainings',
-        'end_date': project.vars.end_make_payment_non_client,
-        'start_date': project.vars.start_make_payment_non_client
+        'end_date': project.vars.end_training_non_client,
+        'start_date': project.vars.start_training_non_client
     },
     {
         'en-ke': 'Locate an OAF duka',

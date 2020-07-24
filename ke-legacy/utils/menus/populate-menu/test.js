@@ -8,6 +8,8 @@ var skipMenuOption, SHSActive;
 global.project.vars = {
     end_find_oaf_contact: 'December 31, 2021',
     start_find_oaf_contact: 'December 31, 2019',
+    end_training_non_client: 'December 31, 2021',
+    start_training_non_client: 'December 31, 2019',
     end_prepayment_amount: 'December 31, 2021',
     start_prepayment_amount: 'December 31, 2019',
     end_tx_history: 'December 31, 2021',
@@ -32,7 +34,6 @@ global.project.vars = {
     start_contact_call_center: 'December 31, 2019',
     end_locate_oaf_duka: 'December 31, 2021',
     start_locate_oaf_duka: 'December 31, 2019',
-
 };
 describe('ChickenServices', () => {
     beforeAll(() => {

@@ -1716,7 +1716,7 @@ addInputHandler("NonClientMenu", function(input) {
         promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
     }
     else if(sessionMenu[input-1].option_name == 'locate_oaf_duka') {
-        dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
+        dukaLocator.startDukaLocator({lang: GetLang() ? 'en' : 'sw'});
     }
     else{
         NonClientMenuText();
@@ -1816,7 +1816,7 @@ addInputHandler('MainMenu', function(SplashMenu){
         promptDigits("CallCenterMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'locate_oaf_duka'){
-        dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
+        dukaLocator.startDukaLocator({lang: GetLang() ? 'en' : 'sw'});
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'view_group_repayment'){
         // view repayment information
