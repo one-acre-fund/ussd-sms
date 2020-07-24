@@ -40,6 +40,6 @@ describe('getFoInfo', () => {
         httpClient.request.mockImplementationOnce(()=>{throw 'Error fetching FO info';});
         slack.log.mockClear();
         getFoInfo(mockRequestData.districtId,mockRequestData.siteId);
-        expect(slack.log).toHaveBeenCalledWith(expect.stringContaining('Failed to get Fo info: '));        
+        expect(slack.log).toHaveBeenCalledWith('Failed to get Fo info: Error fetching FO info');        
     });
 });

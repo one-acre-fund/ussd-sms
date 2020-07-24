@@ -58,7 +58,7 @@ describe('clientRegistration', () => {
         clientRegistration.registerHandlers();
         expect(addInputHandler).toHaveBeenCalledWith(phoneNumberHandler.handlerName, phoneNumberHandler.getHandler());            
     });
-    it('should add phone Number handler to input handlers', () => {
+    it('should add second Name handler to input handlers', () => {
         clientRegistration.registerHandlers();
         expect(addInputHandler).toHaveBeenCalledWith(secondNameHandler.handlerName, secondNameHandler.getHandler());            
     });

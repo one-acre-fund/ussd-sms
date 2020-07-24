@@ -10,7 +10,7 @@ describe('secondNameHandler', () => {
         expect(getHandler(onSecondNameReceived)).toBeInstanceOf(Function);
     });
     
-    it('should call the onFirstNameReceived callback when the returned value is called', () => {
+    it('should call the onSecondNameReceived callback when the returned value is called', () => {
         const handler  = getHandler(onSecondNameReceived);
         const mockInput = 'hello';
         expect(onSecondNameReceived).not.toHaveBeenCalledWith(mockInput);
