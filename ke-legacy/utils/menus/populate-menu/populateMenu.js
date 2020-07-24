@@ -1,7 +1,10 @@
 const mainMenu = require('./mainMenu');
+const nonClientMenu = require('./nonMainMenu');
 var createTranslator = require('../../../../utils/translator/translator');
 var translations = require('../../../translations/index');
 
+
+var chosenMenu;
 var IsPrePayTrialDistrict= function(districtName){
     return false;
     //districtname = districtname.toLowerCase();
@@ -26,12 +29,14 @@ var EnrolledAndQualified = function (client){
     return Valid;
 };
 var skipMenuOption = function(optionName){
+    
     var optionMenu = '';
-    mainMenu.forEach(function(menu){
+    chosenMenu.forEach(function(menu){
         if(menu.option_name == optionName){optionMenu = menu}
     })
-    if((Date.parse(new Date()) > Date.parse(new Date(optionMenu.end_date))) && (Date.parse(new Date()) < Date.parse(new Date(optionMenu.start_date)))){
-        return false;
+    if(!((Date.parse(new Date()) > Date.parse(new Date(String(optionMenu.start_date)))) && (Date.parse(new Date()) < Date.parse(new Date(String(optionMenu.end_date)))))){
+        console.log('Failed because of dates-----------------'+optionMenu.option_name+ ' start:'+ Date.parse(new Date(String(optionMenu.start_date)))+ ' end: '+  Date.parse(new Date(String(optionMenu.end_date)))+ 'current'+ Date.parse(new Date()));
+        return true;
     }
     else if(optionName == 'prepayment_amount'){
         if(!(IsPrePayTrialDistrict(JSON.parse(state.vars.client).DistrictName))){
@@ -51,12 +56,13 @@ var skipMenuOption = function(optionName){
     return false;
 }
 
-module.exports = function(lang, max_chars){
-    console.log(state.vars.client);
+module.exports = function(lang, max_chars, isClient){
+
+    if(isClient){chosenMenu = mainMenu}else{chosenMenu = nonClientMenu};
     var translate =  createTranslator(translations, lang);
     var prev_page = translate('prev_page');
     var next_page = translate('next_page');
-    var optionsLength = mainMenu.length;
+    var optionsLength = chosenMenu.length;
     var finalMenu = '';
     var currentMenu = '';
     var loc = 0;
@@ -64,8 +70,8 @@ module.exports = function(lang, max_chars){
     var displayingMenu = {};
     var sessionMenu = [];
     for(var i = 0; i < optionsLength ; i++){
-        if(!(skipMenuOption(mainMenu[i].option_name))){
-            var currentOption = mainMenu[i];
+        if(!(skipMenuOption(chosenMenu[i].option_name))){
+            var currentOption = chosenMenu[i];
             currentMenu = finalMenu + String(counter) +') '+ currentOption[lang]  + '\n';
             if(currentMenu.length < max_chars){
                 finalMenu = finalMenu + String(counter) + ') ' + currentOption[lang] + '\n'

@@ -20,8 +20,8 @@ module.exports = [
         'en': 'training',
         'sw': 'Mafunzo',
         'option_name': 'trainings',
-        'end_date': project.vars.end_make_payment,
-        'start_date': project.vars.start_make_payment
+        'end_date': project.vars.end_training_client,
+        'start_date': project.vars.start_training_client
     },
     {
         'en-ke': 'View transaction history',

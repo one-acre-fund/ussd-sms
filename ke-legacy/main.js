@@ -999,8 +999,8 @@ var SplashMenuFailure = function (){
 };
 var MenuText = '';
 var MainMenuText = function(client){
-    var populateMainMenu = require('./utils/menus/populate-menu/populateMainMenu');
-    var menu = populateMainMenu(contact.vars.lang, 140);
+    var populateMainMenu = require('./utils/menus/populate-menu/populateMenu');
+    var menu = populateMainMenu(contact.vars.lang, 140,true);
     if (typeof (menu) == 'string') {
         sayText(menu);
         state.vars.multiple_input_menus = 0;
@@ -1058,24 +1058,20 @@ var MainMenuText = function(client){
 // };
 
 var NonClientMenuText = function (){
-    var buildMenu = require('./utils/build-menu');
-    var lang = GetLang() ? 'en' : 'sw';
-    var menuOptions = [
-        {key: 'find_oaf_contact', options: {'$label': 1}},
-        {key: 'trainings', options: {'$label': 2}},
-        {key: 'locate_oaf_duka', options: {'$label': 3}},
-        {key: 'change_lang', options: {'$label': 99}}
-    ];
-
-    var non_client_menu_options = {
-    'find_oaf_contact': 1,
-    'trainings': 2,
-    'locate_oaf_duka': 3, 
-    'change_lang': 99
-}
-    state.vars.non_client_menu_options = JSON.stringify(non_client_menu_options);
-    var menu = buildMenu(menuOptions, lang)
-    sayText(menu);
+    var populateMainMenu = require('./utils/menus/populate-menu/populateMenu');
+    var menu = populateMainMenu(contact.vars.lang, 140,false);
+    if (typeof (menu) == 'string') {
+        sayText(menu);
+        state.vars.multiple_input_menus = 0;
+        state.vars.input_menu = menu;
+    }
+    else if (typeof (menu) == 'object') {
+        state.vars.input_menu_loc = 0; //watch for off by 1 errors - consider moving this to start at 1
+        state.vars.multiple_input_menus = 1;
+        state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
+        sayText(menu[state.vars.input_menu_loc]);
+        state.vars.input_menu = JSON.stringify(menu);
+    }
 }
 
 var PaymentMenuText = function (client){
@@ -1687,21 +1683,42 @@ addInputHandler('SplashMenu', function(SplashMenu) {
 addInputHandler("NonClientMenu", function(input) {
     LogSessionID();
     InteractionCounter("NonClientMenu");
-    var clientMenuOptions = JSON.parse(state.vars.non_client_menu_options);
-    if (input == clientMenuOptions.change_lang){
+    var sessionMenu =JSON.parse(state.vars.sessionMenu);
+    if (state.vars.multiple_input_menus) {
+        if (input == 44 && state.vars.input_menu_loc > 0) {
+            state.vars.input_menu_loc = state.vars.input_menu_loc - 1;
+            var menu = JSON.parse(state.vars.input_menu)[state.vars.input_menu_loc];
+            sayText(menu);
+            promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+            return null;
+        }
+        else if (input == 77 && (state.vars.input_menu_loc < state.vars.input_menu_length - 1)) {
+            state.vars.input_menu_loc = state.vars.input_menu_loc + 1;
+            var menu = JSON.parse(state.vars.input_menu)[state.vars.input_menu_loc]
+            sayText(menu);
+            promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+            return null;
+        }
+        else if (input == 44 && state.vars.input_menu_loc == 0) {
+            MainMenuText(client);
+            promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+            return null;
+        }
+    }
+    if (input == 99){
         ChangeLang();
         NonClientMenuText();
         promptDigits("NonClientMenu", {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
-    else if (input== clientMenuOptions.find_oaf_contact){
+    else if(sessionMenu[input-1].option_name == 'find_oaf_contact'){
         FOLocatorRegionText();
         promptDigits("FOLocRegion", {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
-    else if (input == clientMenuOptions.trainings){
+    else if(sessionMenu[input-1].option_name == 'trainings'){
         TrainingMenuText();
         promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
     }
-    else if(input == clientMenuOptions.locate_oaf_duka) {
+    else if(sessionMenu[input-1].option_name == 'locate_oaf_duka') {
         dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
     }
     else{

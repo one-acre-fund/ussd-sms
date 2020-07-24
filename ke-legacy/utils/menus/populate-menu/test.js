@@ -1,4 +1,4 @@
-var populateMenu = require('./populateMainMenu');
+var populateMenu = require('./populateMenu');
 var mainMenu = require('./mainMenu');
 const { client } = require('../test-client-data');
 var lang ='en';
