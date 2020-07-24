@@ -15,6 +15,7 @@ if(service.vars.env === 'prod' || service.vars.env === 'dev'){
 
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
+service.vars.currency = 'KES';
 
 
 var transactionHistory = require('../transaction-history/transactionHistory');
@@ -25,9 +26,26 @@ var translations = require('./translations/index');
 var createTranslator = require('../utils/translator/translator');
 //var rosterAPI = require('ext/Roster_v1_2_0/api');
 var rosterAPI = require('../rw-legacy/lib/roster/api');
-var translatorFactory = require('../utils/translator/translator');
-var translations = require('./translations/index');
+var defaultEnvironment;
+if(service.active){
+    defaultEnvironment = 'prod';
+}else{
+    defaultEnvironment = 'dev';
+}
+
+var env = defaultEnvironment;
+if(service.vars.env === 'prod' || service.vars.env === 'dev'){
+    env = service.vars.env;
+}else{
+    env = defaultEnvironment;
+}
 var dukaLocator = require('../duka-locator/index');
+var groupRepaymentsModule = require('../group-repayments/groupRepayments');
+service.vars.server_name = project.vars[env+'_server_name'];
+service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
+service.vars.roster_read_key = project.vars.roster_read_key;
+var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
+
 var MenuCount = 0;
 var MenuNext = false;
 var LocArray="";
@@ -92,7 +110,7 @@ var FAWMaxOrders = 2;
 var StaffDistrict = "KENYA STAFF";
 
 // loading the translator with all translations and setting the default language to English
-var translator = translatorFactory(translations, 'en');
+var translator = createTranslator(translations, 'en');
 // Setting global functions
 var InteractionCounter = function(input){
     try{
@@ -111,9 +129,9 @@ var InteractionCounter = function(input){
 };
 var IsGl = function(accnum){
     var GLTable = project.getOrCreateDataTable("GroupLeaders");
-    GLCursor = GLTable.queryRows({vars: {'accountnumber': accnum}});
+    var GLCursor = GLTable.queryRows({vars: {'accountnumber': accnum}});
     if(GLCursor.count()>0){state.vars.IsGL = true}
-    else {state.vars.IsGL = false}
+    else {state.vars.IsGL = false;}
     return state.vars.IsGL;
 };
 var GetBalance = function (client, season){
@@ -1040,9 +1058,15 @@ var MainMenuText = function (client){
     if (GetLang()){MenuText = MenuText + "\n11) Locate an OAF duka"}
     else {MenuText = MenuText + "\n11) Lipate duka la OAF"}
 
+    if(state.vars.isGroupLeader) {
+        if (GetLang() ){MenuText = MenuText + "\n12) View group repayment"}
+        else {MenuText = MenuText + "\n12) Mukhtasari wa malipo ya kikundi"}
+    }
+    
     if (GetLang()){MenuText =MenuText + "\n99) Swahili"}
     else {MenuText =MenuText + "\n99) English"}
     sayText(MenuText);
+    state.vars.main_menu = MenuText;
 };
 
 var NonClientMenuText = function (){
@@ -1633,6 +1657,7 @@ var registrationMenu= function(){
 
 var translate =  createTranslator(translations, contact.vars.lang);
 
+
 // Start logic flow
 global.main = function () {
     LogSessionID();
@@ -1644,6 +1669,7 @@ global.main = function () {
 dukaLocator.registerDukaLocatorHandlers({lang: GetLang() ? 'en' : 'sw'});
 transactionHistory.registerHandlers();
 clientRegistration.registerHandlers();
+groupRepaymentsModule.registerGroupRepaymentHandlers({lang: GetLang() ? 'en' : 'sw', main_menu: state.vars.main_menu, main_menu_handler: 'MainMenu'});
 
 addInputHandler('SplashMenu', function(SplashMenu) {
     LogSessionID();
@@ -1668,10 +1694,14 @@ addInputHandler('SplashMenu', function(SplashMenu) {
             client = RosterClientGet(ClientAccNum);
             console.log('Client JSON******************************'+JSON.stringify(client)+'******************');
             state.vars.client_json = JSON.stringify(client);
+            // check for goroup leader
+            var isGroupLeader = checkGroupLeader(client.DistrictId, client.ClientId);
+            state.vars.isGroupLeader = isGroupLeader;
             state.vars.client = JSON.stringify(TrimClientJSON(client));
             call.vars.client = JSON.stringify(TrimClientJSON(client));
             call.vars.AccNum = ClientAccNum;
-            MainMenuText (client);
+            state.vars.account_number = client.AccountNumber;
+            MainMenuText(client);
             promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
         }
         else{
@@ -1699,7 +1729,7 @@ addInputHandler("NonClientMenu", function(input) {
         promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
     }
     else if(input == clientMenuOptions.locate_oaf_duka) {
-        dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
+        dukaLocator.startDukaLocator({lang: GetLang() ? 'en' : 'sw'});
     }
     else{
         NonClientMenuText();
@@ -1795,7 +1825,10 @@ addInputHandler("MainMenu", function(MainMenu) {
         CallCenterMenuText();
         promptDigits("CallCenterMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
     } else if(MainMenu == 11) {
-        dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
+        dukaLocator.startDukaLocator({lang: GetLang() ? 'en' : 'sw'});
+    } else if (MainMenu == 12 && state.vars.isGroupLeader) {
+        // view repayment information
+        groupRepaymentsModule.startGroupRepayments({lang: GetLang() ? 'en' : 'sw'})
     }
     else{
         var arrayLength = client.BalanceHistory.length;
@@ -1828,6 +1861,7 @@ addInputHandler("MainMenu", function(MainMenu) {
         promptDigits("ContinueToPayment", {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
 });
+
 addInputHandler("BackToMain", function(input) {
     LogSessionID();
     InteractionCounter("BackToMain");

@@ -20,7 +20,7 @@ describe('Duka locator', () => {
         expect(addInputHandler).toHaveBeenCalledWith('reach_out_to_agent', contactDukaHandlerAgent);
     });
 
-    it('should spin the duka locator', () => {
+    it('should start the duka locator', () => {
         var regionsMock = [{vars: {region_id: 1, region_name: 'west region'}}, {vars: {region_id: 2, region_name: 'city valley'}}];
         var current = -1;
         var dukaRegionsTableMock = {
@@ -34,7 +34,7 @@ describe('Duka locator', () => {
             })
         };
         jest.spyOn(project, 'getOrCreateDataTable').mockReturnValue(dukaRegionsTableMock);
-        dukaLocator.spinDukaLocator({lang: 'en'});
+        dukaLocator.startDukaLocator({lang: 'en'});
         expect(sayText).toHaveBeenCalledWith('To find a One Acre Fund Duka near you, select region\n1) west region\n2) city valley\n3) My region is not listed\n');
         expect(promptDigits).toHaveBeenCalledWith('select_oaf_duka_region', {
             submitOnHash: false, maxDigits: 2, timeout: 5
