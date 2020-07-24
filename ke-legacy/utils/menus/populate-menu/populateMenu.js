@@ -2,7 +2,7 @@ const mainMenu = require('./mainMenu');
 const nonClientMenu = require('./nonMainMenu');
 var createTranslator = require('../../../../utils/translator/translator');
 var translations = require('../../../translations/index');
-
+var CurrentSeasonName = "2020, Long Rain";
 
 var chosenMenu;
 var IsPrePayTrialDistrict= function(districtName){
@@ -22,7 +22,7 @@ var EnrolledAndQualified = function (client){
     var arrayLength = client.BalanceHistory.length;
     var Valid = false;
     for (var i = 0; i < arrayLength; i++) {
-        if (client.BalanceHistory[i].SeasonName == global.CurrentSeasonName){    
+        if (client.BalanceHistory[i].SeasonName == CurrentSeasonName){    
             if(client.BalanceHistory[i].TotalCredit> 0){Valid = true}
         }
     }
@@ -50,6 +50,11 @@ var skipMenuOption = function(optionName){
     }
     else if(optionName == 'solar'){
         if(!(SHSActive(JSON.parse(state.vars.client).DistrictName))){
+            return true;
+        }
+    }
+    else if(optionName == 'view_group_repayment'){
+        if(!state.vars.isGroupLeader){
             return true;
         }
     }

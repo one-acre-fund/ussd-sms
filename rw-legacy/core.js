@@ -19,6 +19,7 @@ service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 service.vars.ussd_settings_table_id = 'DT1f9908b578f65458';
 service.vars.groupCodes_id = 'DTf1ac46f52abd0c5e';
+service.vars.currency = 'RwF';
 var account_splash_menu_name = '';
 if(env === 'prod'){
     service.vars.season_clients_table = project.vars.season_clients_table;
@@ -65,6 +66,8 @@ var regSessionManager = require('./lib/enr-resume-registration');
 var group_size_satisfied = require('./lib/core-group-size-check');
 const chickenServices = require('../chicken-services/index');
 var transactionHistory = require('../transaction-history/transactionHistory');
+var groupRepaymentsModule = require('../group-repayments/groupRepayments');
+var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 
 //options
 const lang = project.vars.cor_lang;
@@ -111,6 +114,8 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             var client_verified = verify(response);
             state.vars.account_number = response;
             if (client_verified) {
+                var isGroupLeader = checkGroupLeader(state.vars.client_districtId, state.vars.client_id);
+                state.vars.isGroupLeader = isGroupLeader;
                 sayText(msgs('account_number_verified'));    
                 var splash = account_splash_menu_name;
                 state.vars.splash = splash;
@@ -120,6 +125,7 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
                     sayText(menu);
                     state.vars.multiple_input_menus = 0;
                     state.vars.input_menu = menu;
+                    state.vars.main_menu = menu;
                     promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
                 }
                 else if (typeof (menu) == 'object') {
@@ -127,6 +133,7 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
                     state.vars.multiple_input_menus = 1;
                     state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
                     state.vars.current_menu_str = menu[state.vars.input_menu_loc];
+                    state.vars.main_menu = menu[state.vars.input_menu_loc]
                     sayText(menu[state.vars.input_menu_loc]);
                     state.vars.input_menu = JSON.stringify(menu);
                     promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
@@ -393,9 +400,11 @@ addInputHandler('cor_menu_select', function (input) {
             sayText(msgs('enr_already_finalized', {}, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         }
+    } else if(selection == 'view_group_repayment' && state.vars.isGroupLeader) {
+        groupRepaymentsModule.startGroupRepayments({lang: lang});
     }
     else {
-        var current_menu = msgs(selection, opts, lang);
+        var current_menu = msgs(selection, {}, lang);
         state.vars.current_menu_str = current_menu;
         sayText(current_menu);
         promptDigits(selection, { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
@@ -403,7 +412,7 @@ addInputHandler('cor_menu_select', function (input) {
     }
 });
 
-
+groupRepaymentsModule.registerGroupRepaymentHandlers({lang: lang, main_menu: state.vars.current_menu_str, main_menu_handler: 'cor_menu_select'});
 
 // If the number of persons in a group is more than 30 ask them to try again
 addInputHandler('market_people_in_group', function(input){
@@ -634,7 +643,6 @@ addInputHandler('chx_confirm_order', function (input) {
         return null;
     }
 });
-
 addInputHandler('chx_final_confirm', function(input){ //final confirmation to ensure that correct number of chickens is picked
     input = parseInt(input.replace(/\D/g,''));
     if(input === 1){

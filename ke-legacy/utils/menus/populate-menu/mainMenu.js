@@ -16,6 +16,14 @@ module.exports = [
         'start_date': project.vars.start_check_balance
     },
     {
+        'en-ke': 'Register a client',
+        'en': 'Check balance',
+        'sw': 'Jisajili',
+        'option_name': 'register_client',
+        'end_date': project.vars.end_register_client,
+        'start_date': project.vars.start_register_client
+    },
+    {
         'en-ke': 'training',
         'en': 'training',
         'sw': 'Mafunzo',
@@ -78,5 +86,13 @@ module.exports = [
         'option_name': 'locate_oaf_duka',
         'end_date': project.vars.end_locate_oaf_duka,
         'start_date': project.vars.start_locate_oaf_duka
+    },
+    {
+        'en-ke': 'View group repayment',
+        'en': 'View group repayment',
+        'sw': 'Mukhtasari wa malipo ya kikundi',
+        'option_name': 'view_group_repayment',
+        'end_date': project.vars.end_view_group_repayment,
+        'start_date': project.vars.start_view_group_repayment
     }
 ];
