@@ -92,7 +92,8 @@ module.exports = function(lang, max_chars, isClient){
         return displayingMenu;
     }
     else{
-        console.log('final'+finalMenu);
+        console.log(finalMenu);
         return finalMenu;
+
     }
 }

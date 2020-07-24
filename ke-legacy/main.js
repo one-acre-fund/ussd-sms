@@ -1015,48 +1015,6 @@ var MainMenuText = function(client){
     }
 
 }
-// var MainMenuText = function (client){
-//     if (GetLang()){MenuText ='Select Service\n1) Make a payment\n2) Check balance\n3) Trainings\n4) View transaction history';}
-//     else {MenuText ='Chagua Huduma\n1) Fanya malipo\n2) Kuangalia salio\n3) Mafunzo\n4) Angalia historia ya malipo';}
-//     var JITActive = true;
-//     var FAWActiveCheck = true;
-//     //if (IsGl(client.AccountNumber)){
-//     //    if (IsJITTUDistrict(client.DistrictName)){
-//     //        if (GetLang()){MenuText = MenuText + "\n3) Top Up"}
-//     //        else {MenuText = MenuText + "\n3) Top Up"}
-//     //    }
-//     //    if (IsJITEDistrict(client.DistrictName)){
-//     //        if (GetLang()){MenuText = MenuText + "\n4) Enroll"}
-//     //        else {MenuText = MenuText + "\n4) Enroll"}
-//     //    }
-//     //} 
-    
-//     if (IsPrePayTrialDistrict(client.DistrictName)){
-//         if (GetLang()){MenuText = MenuText + "\n5) Prepayment amount"}
-//         else {MenuText = MenuText + "\n5) Malipo ya kufuzu"}
-//     }
-//     if (EnrolledAndQualified(client)){
-//         if (GetLang()){MenuText = MenuText + "\n6) FAW Pesticide Order"}
-//         else {MenuText = MenuText + "\n6) Kuagiza dawa ya FAW"}
-//     }
-//     if (SHSActive(client.DistrictName)){
-//         if (GetLang()){MenuText = MenuText + "\n7) Solar"}
-//         else {MenuText = MenuText + "\n7) Sola"}
-//     }
-//     if (GetLang()){MenuText = MenuText + "\n8) Insurance"}
-//     else {MenuText = MenuText + "\n8) Bima"}
-
-//     if (GetLang()){MenuText = MenuText + "\n9) Contact Call center"}
-//     else {MenuText = MenuText + "\n9) Wasiliana na Huduma ya wateja"}
-
-//     if (GetLang()){MenuText = MenuText + "\n10) Locate an OAF duka"}
-//     else {MenuText = MenuText + "\n10) Lipate duka la OAF"}
-
-//     if (GetLang()){MenuText =MenuText + "\n99) Swahili"}
-//     else {MenuText =MenuText + "\n99) English"}
-//     sayText(MenuText);
-// };
-
 var NonClientMenuText = function (){
     var populateMainMenu = require('./utils/menus/populate-menu/populateMenu');
     var menu = populateMainMenu(contact.vars.lang, 140,false);
