@@ -1,7 +1,7 @@
 
 const logResponse = require('../utils/request-logger');
 var registrationEndpoint = "/Api/Registrations/RegisterClient";
-
+const slack = require('../../../slack-logger/index');
 var exampleRequestData = {
     "districtId": 1404,
     "siteId": 14,
@@ -70,11 +70,13 @@ module.exports = function (clientJSON, lang) {
             logResponse(fullUrl, response);
             var msgs = require('../msg-retrieve');
             sayText(msgs('FAILURE_REGISTERING'), {}, lang);
+            slack.log('Error Registering a new client: ' + JSON.stringify(response));
             stopRules();
             return null;
         }
     } catch (e) {
         console.log('Error' + e);
+        slack.log('Error in registering a new client: ' + e);
     }
 
     console.log("####Failed to save" + JSON.stringify(response));
