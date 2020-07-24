@@ -22,11 +22,11 @@ function registerInputHandlers(session_details){
 }
 
 /**
- * Spins the duka locator 
+ * starts the duka locator 
  * @param {Object} session_details Session Details that are specific to the country
  * @param {String} session_details.lang the language used during the session
  */
-function spinDukaLocator(session_details) {
+function startDukaLocator(session_details) {
     var lang = session_details.lang;
     var getMessage = translator(translations, lang);
     var dukaRegionsTable = project.getOrCreateDataTable('Duka_locator_regions');
@@ -48,5 +48,5 @@ function spinDukaLocator(session_details) {
 
 module.exports = {
     registerDukaLocatorHandlers: registerInputHandlers,
-    spinDukaLocator: spinDukaLocator
+    startDukaLocator: startDukaLocator
 };

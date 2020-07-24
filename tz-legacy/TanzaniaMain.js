@@ -2,6 +2,9 @@
 var rosterAPI = require('ext/Roster_v1_2_0/api');
 var RouteIDPush = "PNd735c47103a6304e";
 
+
+var notifyELK = require('../notifications/elk-notification/elkNotification');
+
 var LogSessionID = function(){
     console.log("Unique session id: "+call.id);
 };
@@ -26,6 +29,7 @@ var InteractionCounter = function(input){
     catch(err) {
         console.log("Error occurred in interaction counter")
       }
+      notifyELK();
 };
 var RosterClientVal = function (AccNum){
     if (typeof AccNum === "undefined" || AccNum == ""){
@@ -129,6 +133,7 @@ var CheckBalanceMenuText = function (Season,Credit,Paid,Balance, DistanceToHealt
     if (state.vars.NextSeason){sayText(BalanceInfo+  "\n1. Msimu uliopita\n2. Nitumie taarifa kwa meseji")}
     else{sayText(BalanceInfo+  "\n2. Nitumie taarifa kwa meseji\n9. Rudi mwanzo")}
     call.vars.BalanceInfo = BalanceInfo;
+    notifyELK();
 }
 
 var SendPushSMStoContact = function(content, label){
@@ -193,6 +198,7 @@ var CallBackConfirmNoBackText = function(){
 // start logic flow
 
 global.main = function () {
+    notifyELK();
     SplashMenuText();
     promptDigits("SplashMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
 }

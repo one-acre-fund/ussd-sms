@@ -53,6 +53,11 @@ var skipMenuOption = function(optionName){
             return true;
         }
     }
+    else if(optionName == 'view_group_repayment'){
+        if(!state.vars.isGroupLeader){
+            return true;
+        }
+    }
     return false;
 }
 

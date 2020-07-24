@@ -746,5 +746,9 @@ module.exports = {
     },"maize_number":{
         "en": "Quantity of this unshelled maize to sell in bags (use big bags of 100kg)",
         "ki": "Imifuka y'ibigori bidahunguye ugurisha(hakoreshwa umufuka munini w'ibiro 100)"
+    },
+    'view_group_repayment': {
+        'en': '$label) View group repayment\n',
+        'ki': '$label) Reba amakuru y\'ubwishyu bwishyuwe mu itsinda\n'
     }
 }

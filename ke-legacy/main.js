@@ -12,17 +12,40 @@ if(service.vars.env === 'prod' || service.vars.env === 'dev'){
     env = defaultEnvironment;
 }
 
+
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
+service.vars.currency = 'KES';
 
 
 var transactionHistory = require('../transaction-history/transactionHistory');
-
+var clientRegistration = require('../client-registration/clientRegistration');
+var clientEnrollment = require('../client-enrollment/clientEnrollment');
 // Setting global variables!
-var rosterAPI = require('ext/Roster_v1_2_0/api');
-var translatorFactory = require('../utils/translator/translator');
 var translations = require('./translations/index');
+var createTranslator = require('../utils/translator/translator');
+//var rosterAPI = require('ext/Roster_v1_2_0/api');
+var rosterAPI = require('../rw-legacy/lib/roster/api');
+var defaultEnvironment;
+if(service.active){
+    defaultEnvironment = 'prod';
+}else{
+    defaultEnvironment = 'dev';
+}
+
+var env = defaultEnvironment;
+if(service.vars.env === 'prod' || service.vars.env === 'dev'){
+    env = service.vars.env;
+}else{
+    env = defaultEnvironment;
+}
 var dukaLocator = require('../duka-locator/index');
+var groupRepaymentsModule = require('../group-repayments/groupRepayments');
+service.vars.server_name = project.vars[env+'_server_name'];
+service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
+service.vars.roster_read_key = project.vars.roster_read_key;
+var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
+
 var MenuCount = 0;
 var MenuNext = false;
 var LocArray="";
@@ -87,7 +110,7 @@ var FAWMaxOrders = 2;
 var StaffDistrict = "KENYA STAFF";
 
 // loading the translator with all translations and setting the default language to English
-var translator = translatorFactory(translations, 'en');
+var translator = createTranslator(translations, 'en');
 // Setting global functions
 var InteractionCounter = function(input){
     try{
@@ -106,9 +129,9 @@ var InteractionCounter = function(input){
 };
 var IsGl = function(accnum){
     var GLTable = project.getOrCreateDataTable("GroupLeaders");
-    GLCursor = GLTable.queryRows({vars: {'accountnumber': accnum}});
+    var GLCursor = GLTable.queryRows({vars: {'accountnumber': accnum}});
     if(GLCursor.count()>0){state.vars.IsGL = true}
-    else {state.vars.IsGL = false}
+    else {state.vars.IsGL = false;}
     return state.vars.IsGL;
 };
 var GetBalance = function (client, season){
@@ -183,7 +206,7 @@ var RosterClientVal = function (AccNum){
         console.log("Validating accountnumber length. Result: "+ AccNum.length);
         if (AccNum.length == 8){
             rosterAPI.verbose = true;
-            rosterAPI.dataTableAttach();
+            //rosterAPI.dataTableAttach();
             response = rosterAPI.authClient(AccNum,'KE');
             return response;
         }
@@ -194,7 +217,7 @@ var RosterClientVal = function (AccNum){
 };
 var RosterClientGet = function (AccNum){
     rosterAPI.verbose = true;
-    rosterAPI.dataTableAttach();
+    //rosterAPI.dataTableAttach();
     client = rosterAPI.getClient(AccNum,'KE');
     return client;
 };
@@ -208,7 +231,7 @@ var ErrorEmail = function (Subject, Body){
 };
 var RosterColRequest = function (AccNum,Amount){
     rosterAPI.verbose = true;
-    rosterAPI.dataTableAttach();
+    //rosterAPI.dataTableAttach();
     var phone = {
         country: "KE",
         phone_number: "+"+PhoneNumber.formatInternationalRaw(contact.phone_number, "KE")
@@ -1592,6 +1615,13 @@ var StaffConfrimAbsenceEmail = function(email, firstname, startday, amount){
 var StaffConfrimAbsenceEmailHR = function(){
     console.log("Pending foprmat");
 };
+var registrationMenu= function(){
+    if (GetLang()){sayText("Please reply with the account number of the farmer\n0) For new client.")}
+    else {sayText("Tafadhali jibu na nambari ya akaunti ya mkulima\n0) kwa mkulima mgeni")}
+};
+
+var translate =  createTranslator(translations, contact.vars.lang);
+
 
 // Start logic flow
 global.main = function () {
@@ -1603,6 +1633,9 @@ global.main = function () {
 // load input handlers
 dukaLocator.registerDukaLocatorHandlers({lang: GetLang() ? 'en' : 'sw'});
 transactionHistory.registerHandlers();
+clientRegistration.registerHandlers();
+groupRepaymentsModule.registerGroupRepaymentHandlers({lang: GetLang() ? 'en' : 'sw', main_menu: state.vars.main_menu, main_menu_handler: 'MainMenu'});
+
 addInputHandler('SplashMenu', function(SplashMenu) {
     LogSessionID();
     InteractionCounter("SplashMenu");
@@ -1624,10 +1657,16 @@ addInputHandler('SplashMenu', function(SplashMenu) {
         if (RosterClientVal(ClientAccNum)){
             console.log("SuccessFully Validated against Roster");
             client = RosterClientGet(ClientAccNum);
+            console.log('Client JSON******************************'+JSON.stringify(client)+'******************');
+            state.vars.client_json = JSON.stringify(client);
+            // check for goroup leader
+            var isGroupLeader = checkGroupLeader(client.DistrictId, client.ClientId);
+            state.vars.isGroupLeader = isGroupLeader;
             state.vars.client = JSON.stringify(TrimClientJSON(client));
             call.vars.client = JSON.stringify(TrimClientJSON(client));
             call.vars.AccNum = ClientAccNum;
-            MainMenuText (client);
+            state.vars.account_number = client.AccountNumber;
+            MainMenuText(client);
             promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
         }
         else{
@@ -1720,9 +1759,10 @@ addInputHandler('MainMenu', function(SplashMenu){
         PaymentMenuText (client);
         promptDigits("PaymentAmount", {submitOnHash: true, maxDigits: 5, timeout: 5});
     }
-    // else if(mainMenu[i-1].option_name == 'check_balance'){
-
-    // }
+    else if(sessionMenu[SplashMenu-1].option_name == 'register_client'){
+        registrationMenu();
+        promptDigits("registrationHandler", {submitOnHash: true, maxDigits: 10, timeout: 5});
+    }
     else if(sessionMenu[SplashMenu-1].option_name == 'trainings'){
         TrainingMenuText();
     }
@@ -1778,6 +1818,10 @@ addInputHandler('MainMenu', function(SplashMenu){
     else if(sessionMenu[SplashMenu-1].option_name == 'locate_oaf_duka'){
         dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
     }
+    else if(sessionMenu[SplashMenu-1].option_name == 'view_group_repayment'){
+        // view repayment information
+        groupRepaymentsModule.startGroupRepayments({lang: GetLang() ? 'en' : 'sw'});
+    }
     else{
         var arrayLength = client.BalanceHistory.length;
         var Balance = '';
@@ -1809,125 +1853,6 @@ addInputHandler('MainMenu', function(SplashMenu){
         promptDigits("ContinueToPayment", {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
 });
-// });
-// addInputHandler("MainMenu", function(MainMenu) {
-//     LogSessionID();
-//     InteractionCounter("MainMenu");
-//     client = JSON.parse(state.vars.client);
-//     if (MainMenu== "99"){
-//         ChangeLang();
-//         MainMenuText (client);
-//         promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
-//     }
-//     else if (MainMenu == 1){
-//         client = JSON.parse(state.vars.client);
-//         PaymentMenuText (client);
-//         promptDigits("PaymentAmount", {submitOnHash: true, maxDigits: 5, timeout: 5});
-//     }
-//     else if(MainMenu == 5 &&  IsPrePayTrialDistrict(client.DistrictName)){
-//         if(client.BalanceHistory[0].SeasonName == CurrentSeasonName){
-//             var paid = client.BalanceHistory[0].TotalRepayment_IncludingOverpayments;
-//             PrepaymentMenuText(GetPrepaymentAmount(client),paid);
-//         }
-//         else {
-//             PrepaymentNotEnrolledText();
-//         }
-//         promptDigits("BackToMain", {submitOnHash: true, maxDigits: 1, timeout: 5});
-//     }
-//     else if(MainMenu == 3){
-//         TrainingMenuText();
-//     }
-//     else if(MainMenu == 4){
-//         transactionHistory.start(client.AccountNumber, 'ke');
-//     }
-//     //else if(MainMenu == 3 && IsGl(client.AccountNumber)&&IsJITTUDistrict(client.DistrictName)){
-//       //      if (SiteLockVal (client.SiteName, client.DistrictName)){
-//         //        JITTUSiteLockedText();
-//           //      promptDigits("ViewJITOrder", {submitOnHash: true, maxDigits: 8, timeout: 5});
-//             //}
-//         //else{
-//           //  JITTUAccNumText();
-//            //  promptDigits("JITTUAccNum", {submitOnHash: true, maxDigits: 8, timeout: 5});
-//         //}
-//     //}
-//    // else if(MainMenu == 4 && IsGl(client.AccountNumber)&&IsJITEDistrict(client.DistrictName)){
-//      //   if (SiteLockVal (client.SiteName, client.DistrictName)){
-//        //     JITESiteLockedText();
-//          //   promptDigits("BackToMain", {submitOnHash: true, maxDigits: 8, timeout: 5});
-//         //}
-//         //else{
-//          //   JITEAccNumText();
-//           //  promptDigits("JITEAccNum", {submitOnHash: true, maxDigits: 8, timeout: 5});
-//         //}
-//     //}
-//     else if(MainMenu == 6){
-//         if( FAWActive(client.DistrictName)&&EnrolledAndQualified(client)){
-//             var OrdersPlaced = FAWOrdersPlaced(client.AccountNumber);
-//             if (OrdersPlaced<FAWMaxOrders){
-//                 var RemainOrders = FAWMaxOrders - OrdersPlaced;
-//                 state.vars.FAWRemaining = RemainOrders;
-//                 FAWOrderText(RemainOrders, OrdersPlaced);
-//                 promptDigits("FAWOrder", {submitOnHash: true, maxDigits: 1, timeout: 5});
-//             }
-//             else {
-//                 FAWMaxOrderText(OrdersPlaced);
-//                 if (state.vars.FAWAllowcancel){
-//                     promptDigits("FAWCancel", {submitOnHash: true, maxDigits: 1, timeout: 5});
-//                 }
-//                 else{promptDigits("BackToMain", {submitOnHash: true, maxDigits: 1, timeout: 5})}
-//             }
-//         }
-//         else {
-//             FAWInactiveText();
-//             promptDigits("BackToMain", {submitOnHash: true, maxDigits: 1, timeout: 5})
-//         }
-//     }
-//     else if(MainMenu == 7 && SHSActive(client.DistrictName) ){
-//         SHSMenuText();
-//         promptDigits("SolarMenu", {submitOnHash: true, maxDigits: 2, timeout: 5});
-//     }
-//     else if(MainMenu == 8){
-//         InsuranceMenuText();
-//         promptDigits("InsuranceMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
-//     }
-
-//     else if (MainMenu == 9){
-//         CallCenterMenuText();
-//         promptDigits("CallCenterMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
-//     } else if(MainMenu == 10) {
-//         dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
-//     }
-//     else{
-//         var arrayLength = client.BalanceHistory.length;
-//         var Balance = '';
-//         var Season = "";
-//         var Overpaid = false;
-//         var Credit = "";
-//         var Paid = "";
-//         for (var i = 0; i < arrayLength; i++) {
-//             if (client.BalanceHistory[i].Balance>0){
-//                 Season = client.BalanceHistory[i].SeasonName;
-//                 Paid = client.BalanceHistory[i].TotalRepayment_IncludingOverpayments;
-//                 Balance = client.BalanceHistory[i].Balance;
-//                 Credit = client.BalanceHistory[i].TotalCredit;
-//             }
-//         }
-//         if (Balance === ''){
-//             for (var j = 0; j < arrayLength; j++) {
-//                 if (client.BalanceHistory[j].TotalRepayment_IncludingOverpayments>0){
-//                     Paid = client.BalanceHistory[j].TotalRepayment_IncludingOverpayments;
-//                     Balance = client.BalanceHistory[j].Balance;
-//                     Credit = client.BalanceHistory[j].TotalCredit;
-//                     Season = client.BalanceHistory[j].SeasonName;
-//                     j = 99;
-//                     Overpaid = true;
-//                 }
-//             }
-//         }
-//         CheckBalanceMenuText (Overpaid,Season,Credit,Paid,Balance);
-//         promptDigits("ContinueToPayment", {submitOnHash: true, maxDigits: 1, timeout: 5});
-//     }
-// });
 addInputHandler("BackToMain", function(input) {
     LogSessionID();
     InteractionCounter("BackToMain");
@@ -3302,5 +3227,14 @@ addInputHandler('TrainingSelect', function(input) {
     else{
         TrainingMenuText();
         promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
+    }
+});
+
+addInputHandler('registrationHandler', function(input){
+    if(input == 0){
+        clientRegistration.start(client.AccountNumber,'ke',contact.vars.lang);
+    }
+    else{
+        clientEnrollment.start(input,'ke', contact.vars.lang);
     }
 });

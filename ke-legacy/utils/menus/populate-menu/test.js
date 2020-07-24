@@ -32,8 +32,6 @@ global.project.vars = {
     start_contact_call_center: 'December 31, 2019',
     end_locate_oaf_duka: 'December 31, 2021',
     start_locate_oaf_duka: 'December 31, 2019',
-
-
 };
 describe('ChickenServices', () => {
     beforeAll(() => {
