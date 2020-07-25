@@ -76,6 +76,30 @@ describe('TransactionHistory', () => {
             transactionHistory.registerHandlers();
             expect(addInputHandler).toHaveBeenCalledWith(selectionHandler.handlerName, selectionHandler.getHandler());             
         });
+        it('should add the backTolisthandler to inputHandlers', () => {            
+            transactionHistory.registerHandlers();
+            expect(addInputHandler).toHaveBeenCalledWith(transactionHistory.backToListHandlerName, expect.any(Function));  
+        });
+        describe('BackToList handler', () => {
+            let handler;
+            beforeEach(() => {         
+                transactionHistory.registerHandlers();
+                handler = addInputHandler.mock.calls[2][1];
+                state.vars.transactionHistory = JSON.stringify([{some: 'trasactions'}]);
+                state.vars.thPage = 5;
+            });
+            it('should call transactionview.list with transactions from the state object and  the page', () => {
+                handler('anything');
+                expect(transactionView.list).toHaveBeenLastCalledWith(
+                    JSON.parse(state.vars.transactionHistory),
+                    state.vars.thPage
+                );
+            });
+            it('should prompt the user to select ', () => {
+                handler('anything');
+                expect(global.promptDigits).toHaveBeenCalledWith(selectionHandler.handlerName);
+            });
+        });
         
         describe('Id Verification success callback', () => {
             var callback;
@@ -83,9 +107,10 @@ describe('TransactionHistory', () => {
                 transactionHistory.registerHandlers();
                 callback = nidVerification.getHandler.mock.calls[0][0];                
             });
-            it('should lists the transactions from getTransactions ', () => {
+            it('should list the transactions from getTransactions ', () => {
                 callback();
-                expect(transactionView.list).toHaveBeenCalledWith(mockTransactions);
+                expect(transactionView.list).toHaveBeenCalled();
+                expect(transactionView.list.mock.calls[0][0]).toEqual(mockTransactions);
             });
             it('should prompt for the client to select a transaction ', () => {
                 callback();
@@ -104,7 +129,7 @@ describe('TransactionHistory', () => {
             it('should show the selected transaction', () => {
                 mockTransactions.forEach((tx,index)=>{
                     callback(`${index+1}`);
-                    expect(transactionView.show).toHaveBeenLastCalledWith(tx);
+                    expect(transactionView.show).toHaveBeenLastCalledWith(tx, transactionHistory.backToListHandlerName);
                 });
             });
             it('should show the next page when 99 is entered  ', () => {
