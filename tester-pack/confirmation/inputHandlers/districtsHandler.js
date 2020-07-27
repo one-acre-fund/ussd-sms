@@ -1,5 +1,5 @@
 var translations = require('../translations/index');
-var translator = require('../../utils/translator/translator');
+var translator = require('../../../utils/translator/translator');
 var locationsMenu = require('../utils/createLocationMenu');
 
 module.exports = function districtHandler(input) {

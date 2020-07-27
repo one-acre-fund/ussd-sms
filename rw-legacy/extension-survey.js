@@ -80,7 +80,7 @@ global.main = function(){
     }
 }
 
-testerPack.registerTesterPackConfirmationHandlers({lang: lang});
+testerPack.registerTesterPackHandlers({lang: lang});
 
 // input handler for survey type
 addInputHandler('ext_main_splash', function(input){
@@ -140,7 +140,7 @@ addInputHandler('ext_main_splash', function(input){
                                         });
     }
     else if(selection === 'confirm_tester_pack') {
-        testerPack.spinTesterPackConfirmation({lang: lang})
+        testerPack.startTesterPack({lang: lang})
     }
     else{
         sayText(msgs('invalid_input', {}, lang));

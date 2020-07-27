@@ -1,5 +1,5 @@
 var translations = require('../translations/index');
-var translator = require('../../utils/translator/translator');
+var translator = require('../../../utils/translator/translator');
 
 module.exports = function farmerHandler(input) {
     var lang = state.vars.lang || 'en';

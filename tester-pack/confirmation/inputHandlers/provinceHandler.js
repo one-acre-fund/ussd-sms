@@ -1,5 +1,5 @@
 var translations = require('../translations/index');
-var translator = require('../../utils/translator/translator');
+var translator = require('../../../utils/translator/translator');
 var locationsMenu = require('../utils/createLocationMenu');
 
 module.exports = function provinceHandler(input) {
@@ -24,7 +24,7 @@ module.exports = function provinceHandler(input) {
         state.vars.districts_screens = JSON.stringify(all_locations.all_screens);
         state.vars.current_districts_screen = 1;
         state.vars.districts = JSON.stringify(all_locations.stored_locations);
-        sayText(all_locations.all_screens[state.vars.current_districts_screen]);
+        sayText(all_locations.all_screens[1]);
         promptDigits('select_district', {
             timeout: 5,
             maxDigits: 2,

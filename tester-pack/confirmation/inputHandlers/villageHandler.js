@@ -1,6 +1,6 @@
 var translations = require('../translations/index');
-var translator = require('../../utils/translator/translator');
-var farmersMenu = require('../utils/createFarmersMenu');
+var translator = require('../../../utils/translator/translator');
+var farmersMenu = require('../../utils/createFarmersMenu');
 
 module.exports = function villageHandler(input) {
     var lang = state.vars.lang || 'en';

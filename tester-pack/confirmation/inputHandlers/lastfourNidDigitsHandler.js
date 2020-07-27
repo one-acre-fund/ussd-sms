@@ -1,5 +1,5 @@
 var translations = require('../translations/index');
-var translator = require('../../utils/translator/translator');
+var translator = require('../../../utils/translator/translator');
 
 module.exports = function farmerHandler(input) {
     var lang = state.vars.lang || 'en';
@@ -17,7 +17,7 @@ module.exports = function farmerHandler(input) {
             submitOnHash: false
         });
     } else {
-        sayText('incorrect_id_try_again', {}, lang);
+        sayText(getMessage('incorrect_id_try_again', {}, lang));
         promptDigits('last_four_nid_digits', {
             timeout: 10,
             maxDigits: 4,
