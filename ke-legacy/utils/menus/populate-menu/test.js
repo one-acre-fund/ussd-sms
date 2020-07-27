@@ -75,7 +75,7 @@ describe('ChickenServices', () => {
         const menu = populateMenu(lang,140,true);
         console.log(menu);
         expect(typeof menu).toEqual('object');
-        expect(JSON.stringify(menu)).toMatch("{\"0\":\"1) Make a payment\\n2) Check balance\\n3) training\\n4) View transaction history\\n5) FAW Pesticide Order\\n6) Solar\\n7) Insurance\\n77)Next page\",\"1\":\"44)Previous page\\n8)Contact Call center\\n9) Locate an OAF duka\\n\"}");
+        expect(JSON.stringify(menu)).toMatch("{\"0\":\"1) Make a payment\\n2) Check balance\\n3) Training\\n4) View transaction history\\n5) FAW Pesticide Order\\n6) Solar\\n7) Insurance\\n77)Next page\",\"1\":\"44)Previous page\\n8)Contact Call center\\n9) Locate an OAF duka\\n\"}");
 
     });
     it('should return an object of only options that satisfy the date condition if the character is greater than 140',()=>{        
@@ -83,7 +83,7 @@ describe('ChickenServices', () => {
         const menu = populateMenu(lang,140,true);
         console.log(menu);
         expect(typeof menu).toEqual('object');
-        expect(JSON.stringify(menu)).toMatch("{\"0\":\"1) Make a payment\\n2) Check balance\\n3) training\\n4) View transaction history\\n5) FAW Pesticide Order\\n6) Solar\\n7) Insurance\\n77)Next page\",\"1\":\"44)Previous page\\n8)Contact Call center\\n9) Locate an OAF duka\\n\"}");
+        expect(JSON.stringify(menu)).toMatch("{\"0\":\"1) Make a payment\\n2) Check balance\\n3) Training\\n4) View transaction history\\n5) FAW Pesticide Order\\n6) Solar\\n7) Insurance\\n77)Next page\",\"1\":\"44)Previous page\\n8)Contact Call center\\n9) Locate an OAF duka\\n\"}");
 
     });
 

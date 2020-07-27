@@ -1,6 +1,5 @@
 module.exports = [
     {
-        'en-ke': 'Find my One Acre Fund contact',
         'en': 'Find my One Acre Fund contact',
         'sw': 'Pata Afisa wa Nyanjani wa One Acre Fund',
         'option_name': 'find_oaf_contact',
@@ -8,7 +7,6 @@ module.exports = [
         'start_date': project.vars.start_find_oaf_contact
     },
     {
-        'en-ke': 'Trainings',
         'en': 'Trainings',
         'sw': 'Mafunzo',
         'option_name': 'trainings',
@@ -16,7 +14,6 @@ module.exports = [
         'start_date': project.vars.start_training_non_client
     },
     {
-        'en-ke': 'Locate an OAF duka',
         'en': 'Locate an OAF duka',
         'sw': 'Lipate duka la OAF',
         'option_name': 'locate_oaf_duka',
