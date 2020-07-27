@@ -1,5 +1,5 @@
 const mainMenu = require('./mainMenu');
-const nonClientMenu = require('./nonMainMenu');
+const nonClientMenu = require('./nonClientMainMenu');
 var createTranslator = require('../../../../utils/translator/translator');
 var translations = require('../../../translations/index');
 var CurrentSeasonName = "2020, Long Rain";

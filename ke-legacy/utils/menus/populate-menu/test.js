@@ -1,10 +1,6 @@
 var populateMenu = require('./populateMenu');
-var mainMenu = require('./mainMenu');
-var nonClient = require('./nonMainMenu');
 const { client } = require('../test-client-data');
 var lang ='en';
-var skipMenuOption, SHSActive;
-//jest.mock('./nonMainMenu');
 global.project.vars = {
     end_find_oaf_contact: 'December 31, 2021',
     start_find_oaf_contact: 'December 31, 2019',
