@@ -63,6 +63,7 @@ var skipMenuOption = function(optionName){
 
 module.exports = function(lang, max_chars, isClient){
 
+    console.log('lang is:' +lang);
     if(isClient){chosenMenu = mainMenu}else{chosenMenu = nonClientMenu};
     var translate =  createTranslator(translations, lang);
     var prev_page = translate('prev_page');
@@ -92,6 +93,7 @@ module.exports = function(lang, max_chars, isClient){
     }
     
     state.vars.sessionMenu = JSON.stringify(sessionMenu);
+    console.log('menu:' +state.vars.sessionMenu);
     if(Object.keys(displayingMenu).length > 0){
         displayingMenu[loc] = displayingMenu[loc] = finalMenu;
         return displayingMenu;
