@@ -1657,7 +1657,7 @@ addInputHandler('SplashMenu', function(SplashMenu) {
         if (RosterClientVal(ClientAccNum)){
             console.log("SuccessFully Validated against Roster");
             client = RosterClientGet(ClientAccNum);
-            console.log('Client JSON******************************'+JSON.stringify(client)+'******************');
+            //console.log('Client JSON******************************'+JSON.stringify(client)+'******************');
             state.vars.client_json = JSON.stringify(client);
             // check for goroup leader
             var isGroupLeader = checkGroupLeader(client.DistrictId, client.ClientId);

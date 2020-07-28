@@ -1,6 +1,6 @@
 var populateMenu = require('./populateMenu');
 const { client } = require('../test-client-data');
-var lang ='en';
+var lang ='en-ke';
 global.project.vars = {
     end_find_oaf_contact: 'December 31, 2021',
     start_find_oaf_contact: 'December 31, 2019',
