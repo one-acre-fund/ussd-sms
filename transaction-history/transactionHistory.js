@@ -26,15 +26,17 @@ module.exports = {
      
         function onTransactionSelected(selection){
             var repayments = JSON.parse(state.vars.transactionHistory);
+            var selectionNumber = parseInt(selection, 10);
             if(selection == '99'){
                 state.vars.thPage = state.vars.thPage + 1;
                 transactionView.list(repayments, state.vars.thPage);
                 global.promptDigits(selectionHandler.handlerName);
-            }else if(parseInt(selection,10) > repayments.length){
+            }else if(selectionNumber > repayments.length || isNaN(selectionNumber)){
                 translate =  createTranslator(translations, language);
                 transactionView.list(repayments, state.vars.thPage, translate('invalid_list_selection')); 
                 global.promptDigits(selectionHandler.handlerName);               
-            }else{
+            }
+            else{
                 transactionView.show(repayments[selection - 1],backToListHandler);
             }
         }
