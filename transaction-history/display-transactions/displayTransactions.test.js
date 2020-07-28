@@ -1,5 +1,7 @@
 const {list,show} = require('./displayTransactions');
 
+const inputHandlerName = 'name_of_handler_of_input';
+
 describe('show', () => {
     it('shouldbe a function', () => {
         expect(show).toBeInstanceOf(Function);
@@ -17,7 +19,11 @@ describe('show', () => {
                 +`\nAmount: ${singleRepayment.Amount} RwF`
                 +`\nPaid from: ${singleRepayment.PaidFrom}`
             );
-        });        
+        });     
+        it('should call promptDigits with the given inputhadnler', () => {
+            show(singleRepayment, inputHandlerName);
+            expect(global.promptDigits).toHaveBeenCalledWith(inputHandlerName);
+        });   
     });
     describe('in Rwanda Kinyarwada', () => {
         beforeEach(() => {
