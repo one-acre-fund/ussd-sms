@@ -7,6 +7,7 @@
 module.exports = function(accnum){
     // load relevant functions and data tables
     var admin_alert = require('./admin-alert');
+    var slack = require('../../slack-logger/index');
     var table = project.getOrCreateDataTable(service.vars.serial_number_table);
     state.vars.duplicate = false; 
 
@@ -41,6 +42,7 @@ module.exports = function(accnum){
             }
             else{
                 admin_alert('No rows in ActTable for serial no: ' + state.vars.serial_no, 'Missing Serial Number in ActivationCodes', 'marisa');
+                slack.log('No rows in ActTable for serial no: ' + state.vars.serial_no, 'Missing Serial Number in ActivationCodes');
                 return false;
             }
         }

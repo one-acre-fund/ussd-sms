@@ -4,9 +4,11 @@
     Status: complete
 */
 
+
 module.exports = function(accnum, serial_no){
     // retrieve necssary tables and modules
     var admin_alert = require('./admin-alert');
+    var slack = require('../../slack-logger/index');
     var SerialTable =  project.getOrCreateDataTable(service.vars.serial_number_table);
 
     // save as variable the row from the serial table where the entered serial number matches
@@ -41,6 +43,7 @@ module.exports = function(accnum, serial_no){
         });
         if(ListAct.count() < 1){
             admin_alert('No codes remaining for SHS product with serial number: ' + serial_no, 'No remaining serial numbers', 'marisa');
+            slack.log('No codes remaining for SHS product with serial number: ' + serial_no, 'No remaining serial numbers');
         }
         else{
             ListAct.limit(1);
@@ -56,6 +59,7 @@ module.exports = function(accnum, serial_no){
     // if there are more than one rows with the input serial number, flag an error
     else if(ListRows.count() > 1){
         admin_alert('duplicate serial numbers in PSHOPs database sn: ' + serial_no, 'Duplicate Serial Numbers in TR DB', 'marisa');
+        slack.log('duplicate serial numbers in PSHOPs database sn: ' + serial_no, 'Duplicate Serial Numbers in TR DB');
         return false;
     }
     // if there are zero rows in the table with the serial number, return false

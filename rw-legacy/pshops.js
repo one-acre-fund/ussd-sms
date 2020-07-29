@@ -26,6 +26,10 @@ else{
     service.vars.serial_number_table = 'dev_SeriaNumberTable';
     service.vars.pShop_main_menu = 'dev_pshop_main_menu';
 }
+
+service.vars.server_name = project.vars[env+'_server_name'];
+service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
+
  
 // load in necessary functions
 var msgs = require('./lib/msg-retrieve'); // global message handler
@@ -36,6 +40,7 @@ var check_account_no = require('./lib/psh-check-account');
 var registration_check = require('./lib/psh-reg-check');
 var renew_code = require('./lib/psh-renew-code');
 var serial_no_check = require('./lib/psh-serial-verify');
+var slack = require('../slack-logger/index');
 
 // set various constants
 var settings_table = project.getOrCreateDataTable('ussd_settings');
@@ -80,7 +85,8 @@ addInputHandler('account_number_splash', function(accnum){
         // if error occurs, print client error message, log error, and alert the admin
         sayText(msgs('client_alert'));
         console.log(error);
-        admin_alert('Error on USSD test integration : '+ error + '\nAccount number: ' + accnum, "ERROR, ERROR, ERROR")
+        slack.log('Error on USSD test integration' +error + '\n Account number:' + accnum, "Error, ERROR, ERROR" )
+        //admin_alert('Error on USSD test integration : '+ error + '\nAccount number: ' + accnum, "ERROR, ERROR, ERROR")
         stopRules();
     }
 });
