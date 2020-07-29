@@ -31,19 +31,21 @@ module.exports = function(accnum, serial_no){
         Serial.vars.accountnumber = accnum; 
         Serial.vars.historic_credit = state.vars.TotalCredit - state.vars.Balance;
         Serial.vars.dateregistered = new Date().toString();
+        Serial.vars.product_type = 'biolite';
         Serial.save(); 
         
         // retrieve one unused activation code for this serial number
         var ActTable = project.getOrCreateDataTable(service.vars.activation_code_table);
         ListAct = ActTable.queryRows({
             vars: {'serialnumber': serial_no,
-                    'type': "Activation",
-                    'activated': "No"
+                'type': 'Activation',
+                'activated': 'No',
+                'product_type': 'biolite'   // because only biolite products are being sold now 
             }
         });
         if(ListAct.count() < 1){
-            admin_alert('No codes remaining for SHS product with serial number: ' + serial_no, 'No remaining serial numbers', 'marisa');
-            slack.log('No codes remaining for SHS product with serial number: ' + serial_no, 'No remaining serial numbers');
+            admin_alert('No codes remaining for Biolite product with serial number: ' + serial_no, 'No remaining serial numbers', 'marisa');
+            slack.log('No codes remaining for Biolite product with serial number: ' + serial_no, 'No remaining serial numbers');
         }
         else{
             ListAct.limit(1);

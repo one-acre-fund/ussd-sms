@@ -22,16 +22,22 @@ module.exports = function(accnum){
         var Serial = ListRows.next();
         state.vars.serial_no = Serial.vars.serialnumber;
         var Activationtable = project.getOrCreateDataTable(service.vars.activation_code_table);
-
         // if the serial number is unlocked, retrieve the the relevant activation code
         if (Serial.vars.unlock == "Yes"){
             state.vars.unlock = true;
+            var unlockVars = {
+                'activated': 'Yes',
+                'unlock': 'Yes',
+                'serialnumber': state.vars.serial_no,
+                'product_type': {'ne': 'biolite'}
+            };
+            // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
+            if(Serial.vars.product_type == 'biolite'){
+                unlockVars['product_type'] = 'biolite';
+            }
+            console.log('unlock vars ' + unlockVars);
             ActList = Activationtable.queryRows({
-                vars: {
-                    'activated': "Yes",
-                    'unlock': "Yes",
-                    'serialnumber': state.vars.serial_no
-                },
+                vars: unlockVars,
             });
             
             // if the serial number is in the table, retrieve the corresponding activation code; else send alert to admin
@@ -48,14 +54,20 @@ module.exports = function(accnum){
         }
         else{
             console.log('About to get the latest activation code');
-        // Get latest activation code
+            // Get latest activation code
             state.vars.unlock = false;
             var Activationtable = project.getOrCreateDataTable(service.vars.activation_code_table);
+            var activationVars= {
+                'activated': "Yes",
+                'serialnumber': state.vars.serial_no,
+                'product_type': {'ne': 'biolite'}
+            };
+            // If the product type is biolite in the serial tabe, we look for matching serial number with biolite type 
+            if(Serial.vars.product_type == 'biolite'){
+                activationVars['product_type'] = 'biolite';
+            }
             ActList = Activationtable.queryRows({
-                vars: {
-                    'activated': "Yes",
-                    'serialnumber': state.vars.serial_no
-                },
+                vars: activationVars,
             });
             // save the client's number of codes used
             Serial.vars.numbercodes = ActList.count();

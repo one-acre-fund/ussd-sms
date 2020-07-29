@@ -44,11 +44,19 @@ module.exports = function(accnum, serial_no){
     var months_between = current_month - month_reg;
     console.log("MonthsBetween: " + months_between + "\n MaxBalance: " + MaxBalance + "\n Balance: " + state.vars.Balance);
 
+    // Taking into consideration the biolite product type
+    var activationCodeVars = { 
+        'serialnumber' : serial_no,
+        'product_type': {'ne': 'biolite'},
+        'dateactivated' : {exists : 1}
+    }
+    if(serial.vars.product_type == 'biolite'){
+        activationCodeVars['product_type'] = 'biolite'
+    }
     // the section below checks how long ago the past activation code was given
     // initialize variables
     var act_pointer = act_table.queryRows({
-        vars: { 'serialnumber' : serial_no,
-                'dateactivated' : {exists : 1}}
+        vars: activationCodeVars
     });
     var month_active = 0;
     var month_check = 0;
@@ -104,18 +112,34 @@ module.exports = function(accnum, serial_no){
     // if balance is zero and months between is larger than one, client has unlocked product
     if(state.vars.Balance === 0 && months_between > 1){
         state.vars.NewCodeStatus = "Unlock";
+
+        // Taking into consideration the biolite product type
+        var listActVars = {
+            'serialnumber': serial_no,
+            'type': "Unlock",
+            'product_type': {'ne': 'biolite'},
+            'activated': "No"
+        }
+        if(serial.vars.product_type == 'biolite'){
+            listActVars['product_type'] = 'biolite';
+        }
         var ListAct = act_table.queryRows({
-            vars: {'serialnumber': serial_no,
-                    'type': "Unlock",
-                    'activated': "No"
-            }
+            vars: listActVars
         });
         if(ListAct.count() < 1){
+            // Taking into consideration the biolite product type
+            var listActVars ={
+                'serialnumber': serial_no,
+                'type': "Unlock",
+                'activated': {exists : 0},
+                'product_type': {'ne': 'biolite'}
+            }
+        
+            if(serial.vars.product_type == 'biolite'){
+                listActVars['product_type'] = 'biolite';
+            }
             var ListAct = act_table.queryRows({
-                vars: {'serialnumber': serial_no,
-                        'type': "Unlock",
-                        'activated': {exists : 0}
-                }
+                vars: listActVars
             });
         }         
         ListAct.limit(1); // replace with error flags
@@ -124,19 +148,33 @@ module.exports = function(accnum, serial_no){
     }
     else if(state.vars.Balance <= MaxBalance && month_valid){
         state.vars.NewCodeStatus = "Yes";
+        // Taking into consideration the biolite product type
+        var listActVars = {
+            'serialnumber': serial_no,
+            'type': "Activation",
+            'activated': "No",
+            'product_type': {'ne': 'biolite'}
+        }
+        if(serial.vars.product_type == 'biolite'){
+            listActVars['product_type'] = 'biolite';
+        }
         var ListAct = act_table.queryRows({
-            vars: {'serialnumber': serial_no,
-                    'type': "Activation",
-                    'activated': "No"
-            }
+            vars: listActVars
         });  
         console.log('rows in listact: ' + ListAct.count());
         if(ListAct.count() < 1){
+            // Taking into consideration the biolite product type
+            var listActVars = {
+                'serialnumber': serial_no,
+                'type': "Activation",
+                'activated': {exists : 0},
+                'product_type': {'ne': 'biolite'}
+            }
+            if(serial.vars.product_type == 'biolite'){
+                listActVars['product_type'] = 'biolite';
+            }    
             var ListAct = act_table.queryRows({
-                vars: {'serialnumber': serial_no,
-                        'type': "Activation",
-                        'activated': {exists : 0}
-                }
+                vars: listActVars
             });
         }
         ListAct.limit(1); 
