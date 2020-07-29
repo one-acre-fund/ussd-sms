@@ -7,8 +7,8 @@
 module.exports = function(accnum, serial_no){
     // load relevant data tables from Telerivet
     var admin_alert = require('./admin-alert');
-    var serial_table = project.getOrCreateDataTable("SerialNumberTable");
-    var act_table = project.getOrCreateDataTable("ActivationCodes");
+    var serial_table = project.getOrCreateDataTable(service.vars.serial_number_table);
+    var act_table = project.getOrCreateDataTable(service.vars.activation_code_table);
 
     // retrieve the row in the serial table with the relevant account number
     var serial_pointer = serial_table.queryRows({

@@ -7,7 +7,7 @@
 module.exports = function(accnum, serial_no){
     // retrieve necssary tables and modules
     var admin_alert = require('./admin-alert');
-    var SerialTable = project.getOrCreateDataTable("SerialNumberTable");
+    var SerialTable =  project.getOrCreateDataTable(service.vars.serial_number_table);
 
     // save as variable the row from the serial table where the entered serial number matches
     if(state.vars.duplicate){
@@ -32,7 +32,7 @@ module.exports = function(accnum, serial_no){
         Serial.save(); 
         
         // retrieve one unused activation code for this serial number
-        var ActTable = project.getOrCreateDataTable("ActivationCodes");
+        var ActTable = project.getOrCreateDataTable(service.vars.activation_code_table);
         ListAct = ActTable.queryRows({
             vars: {'serialnumber': serial_no,
                     'type': "Activation",

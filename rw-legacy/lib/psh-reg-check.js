@@ -7,7 +7,7 @@
 module.exports = function(accnum){
     // load relevant functions and data tables
     var admin_alert = require('./admin-alert');
-    var table = project.getOrCreateDataTable("SerialNumberTable");
+    var table = project.getOrCreateDataTable(service.vars.serial_number_table);
     state.vars.duplicate = false; 
 
     // retrieve rows where account number in table corresponds to input account number
@@ -20,7 +20,7 @@ module.exports = function(accnum){
     if(ListRows.count() === 1){
         var Serial = ListRows.next();
         state.vars.serial_no = Serial.vars.serialnumber;
-        var Activationtable = project.getOrCreateDataTable("ActivationCodes");
+        var Activationtable = project.getOrCreateDataTable(service.vars.activation_code_table);
 
         // if the serial number is unlocked, retrieve the the relevant activation code
         if (Serial.vars.unlock == "Yes"){
@@ -48,7 +48,7 @@ module.exports = function(accnum){
             console.log('About to get the latest activation code');
         // Get latest activation code
             state.vars.unlock = false;
-            var Activationtable = project.getOrCreateDataTable("ActivationCodes");
+            var Activationtable = project.getOrCreateDataTable(service.vars.activation_code_table);
             ActList = Activationtable.queryRows({
                 vars: {
                     'activated': "Yes",
