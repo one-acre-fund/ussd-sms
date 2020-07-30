@@ -808,6 +808,10 @@ module.exports = {
         "en": "Incorrect input. ~B1 - To check balance ~B2 - Solar Codes",
         "ki": "Winjije umubare utariwo. ~B1. Kureba uko ubwishyu buhagaze ~B2. Kodi y'itara"
     },
+    'solar_duplicate':{
+        "en": "You have registered multiple products. Please enter the serial number of the product you'd like to use.",
+        "ki": "Wanditseho amatara menshi. Andikamo nomero iranga itara uri gukoresha.",
+    },
     'view_group_repayment': {
         'en': '$label) View group repayment\n',
         'ki': '$label) Reba amakuru y\'ubwishyu bwishyuwe mu itsinda\n'

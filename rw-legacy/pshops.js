@@ -230,6 +230,9 @@ addInputHandler('serial_no_reg', function(input){
                                             'maxDigits'    : max_digits_for_account_number,
                                             'timeout'      : timeout_length });
         }
+        else if(state.vars.SerialStatus == 'failed_getting_serial_number'){
+            sayText(msgs('client_alert'));
+        }
         else{
             sayText(msgs('serial_not_found', {}, lang));
             promptDigits('serial_no_reg', { 'submitOnHash' : false,
