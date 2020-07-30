@@ -44,24 +44,26 @@ module.exports = function(accnum, serial_no){
             }
         });
         if(ListAct.count() < 1){
-            admin_alert('No codes remaining for Biolite product with serial number: ' + serial_no, 'No remaining serial numbers', 'marisa');
-            slack.log('No codes remaining for Biolite product with serial number: ' + serial_no, 'No remaining serial numbers');
+            //admin_alert('No codes remaining for Biolite product with serial number: ' + serial_no, 'No remaining serial numbers', 'marisa');
+            //slack.log('No codes remaining for Biolite product with serial number: ' + serial_no);
+            console.log('No codes remaining for Biolite product with serial number: ' + serial_no, 'No remaining serial numbers');
+            return false;
         }
         else{
             ListAct.limit(1);
+            var Act = ListAct.next();
+            state.vars.ActCode = Act.vars.code;
+            Act.vars.activated = "Yes";
+            Act.vars.dateactivated = new Date().toString();
+            Act.save();
         }
-        
         // update the activation table to say that this code has been used
-        var Act = ListAct.next();
-        state.vars.ActCode = Act.vars.code;
-        Act.vars.activated = "Yes";
-        Act.vars.dateactivated = new Date().toString();
-        Act.save();
     }
     // if there are more than one rows with the input serial number, flag an error
     else if(ListRows.count() > 1){
         admin_alert('duplicate serial numbers in PSHOPs database sn: ' + serial_no, 'Duplicate Serial Numbers in TR DB', 'marisa');
-        slack.log('duplicate serial numbers in PSHOPs database sn: ' + serial_no, 'Duplicate Serial Numbers in TR DB');
+        slack.log('duplicate serial numbers in PSHOPs database sn: ' + serial_no);
+        console.log('duplicate serial numbers in PSHOPs database sn: ' + serial_no, 'Duplicate Serial Numbers in TR DB');
         return false;
     }
     // if there are zero rows in the table with the serial number, return false

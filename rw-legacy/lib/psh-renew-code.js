@@ -47,11 +47,15 @@ module.exports = function(accnum, serial_no){
     // Taking into consideration the biolite product type
     var activationCodeVars = { 
         'serialnumber' : serial_no,
-        'product_type': {'ne': 'biolite'},
         'dateactivated' : {exists : 1}
     }
-    if(serial.vars.product_type == 'biolite'){
-        activationCodeVars['product_type'] = 'biolite'
+    // If the the product type is not nul check if it s biolite
+    if(serial.vars.product_type != null){
+        activationCodeVars['product_type'] = {'ne': 'biolite'};
+        // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
+        if(serial.vars.product_type == 'biolite'){
+            activationCodeVars['product_type'] = 'biolite';
+        }
     }
     // the section below checks how long ago the past activation code was given
     // initialize variables
@@ -117,11 +121,15 @@ module.exports = function(accnum, serial_no){
         var listActVars = {
             'serialnumber': serial_no,
             'type': "Unlock",
-            'product_type': {'ne': 'biolite'},
             'activated': "No"
         }
-        if(serial.vars.product_type == 'biolite'){
-            listActVars['product_type'] = 'biolite';
+        // If the the product type is not nul check if it s biolite
+        if(serial.vars.product_type != null){
+            listActVars['product_type'] = {'ne': 'biolite'};
+            // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
+            if(serial.vars.product_type == 'biolite'){
+                listActVars['product_type'] = 'biolite';
+            }
         }
         var ListAct = act_table.queryRows({
             vars: listActVars
@@ -132,11 +140,14 @@ module.exports = function(accnum, serial_no){
                 'serialnumber': serial_no,
                 'type': "Unlock",
                 'activated': {exists : 0},
-                'product_type': {'ne': 'biolite'}
             }
-        
-            if(serial.vars.product_type == 'biolite'){
-                listActVars['product_type'] = 'biolite';
+            // If the the product type is not nul check if it s biolite
+            if(serial.vars.product_type != null){
+                listActVars['product_type'] = {'ne': 'biolite'};
+                // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
+                if(serial.vars.product_type == 'biolite'){
+                    listActVars['product_type'] = 'biolite';
+                }
             }
             var ListAct = act_table.queryRows({
                 vars: listActVars
@@ -153,10 +164,14 @@ module.exports = function(accnum, serial_no){
             'serialnumber': serial_no,
             'type': "Activation",
             'activated': "No",
-            'product_type': {'ne': 'biolite'}
         }
-        if(serial.vars.product_type == 'biolite'){
-            listActVars['product_type'] = 'biolite';
+        // If the the product type is not nul check if it s biolite
+        if(serial.vars.product_type != null){
+            listActVars['product_type'] = {'ne': 'biolite'};
+            // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
+            if(serial.vars.product_type == 'biolite'){
+                listActVars['product_type'] = 'biolite';
+            }
         }
         var ListAct = act_table.queryRows({
             vars: listActVars
@@ -168,11 +183,15 @@ module.exports = function(accnum, serial_no){
                 'serialnumber': serial_no,
                 'type': "Activation",
                 'activated': {exists : 0},
-                'product_type': {'ne': 'biolite'}
             }
-            if(serial.vars.product_type == 'biolite'){
-                listActVars['product_type'] = 'biolite';
-            }    
+            // If the the product type is not nul check if it s biolite
+            if(serial.vars.product_type != null){
+                listActVars['product_type'] = {'ne': 'biolite'};
+                // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
+                if(serial.vars.product_type == 'biolite'){
+                    listActVars['product_type'] = 'biolite';
+                }
+            }   
             var ListAct = act_table.queryRows({
                 vars: listActVars
             });
