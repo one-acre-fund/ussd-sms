@@ -6,6 +6,7 @@ const districtBundles = require('../dat/district-bundles');
 
 module.exports = function(menu_option, menu_table,districtId){
 
+    // If the user is a group leader
     if(!menu_option){
         return null;
     }

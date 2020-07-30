@@ -14,7 +14,7 @@ module.exports = function(table_name, lang, max_chars){
     var console_lang = project.vars.console_lang;
     var prev_page = msgs('prev_page',{},lang);
     var next_page = msgs('next_page',{},lang);
-    console.log(prev_page+"****************"+ next_page);
+    console.log(prev_page+'****************'+ next_page);
     
     if(prev_page == null || next_page == null){
         var lang = 'ki';
@@ -32,17 +32,21 @@ module.exports = function(table_name, lang, max_chars){
     var loc = 0;
     for(var x = 1; x <= Object.keys(option_numbers).length; x++){
         try{
-            var opt_row = menu_table.queryRows({'vars' : {'option_number' : x}}).next();
-            var temp_out = output + String(x) + ")" + opt_row.vars[lang] + '\n';
+            var opt_row = menu_table.queryRows({'vars': {'option_number': x}}).next();
+            if(opt_row.vars.option_name == 'view_group_repayment' && !state.vars.isGroupLeader) {
+                x++;
+                opt_row = menu_table.queryRows({'vars': {'option_number': x}}).next();
+            }
+            var temp_out = output + String(x) + ')' + opt_row.vars[lang] + '\n';
             if(temp_out.length < max_chars){
-                output = output + String(x) + ")" + opt_row.vars[lang] + '\n';
+                output = output + String(x) + ')' + opt_row.vars[lang] + '\n';
             }
             else{
                 out_obj[loc] = output + next_page;
-                output = prev_page + '\n' + String(x) + ")" + opt_row.vars[lang] + '\n'
+                output = prev_page + '\n' + String(x) + ')' + opt_row.vars[lang] + '\n';
                 loc = loc + 1;
             }
-            console_output = console_output + String(x) + ")" + opt_row.vars[console_lang] + '\n';
+            console_output = console_output + String(x) + ')' + opt_row.vars[console_lang] + '\n';
         }
         catch(error){
             admin_alert('Options table length does not match option labeling\nError: ' + error+'\ntable : ' + table_name);
@@ -50,6 +54,7 @@ module.exports = function(table_name, lang, max_chars){
         }
     }
 
+    // Append menu of  group repayments if group leaders
     if(Object.keys(out_obj).length > 0){
         out_obj[loc] = out_obj[loc] = output;
         return out_obj;
@@ -57,4 +62,4 @@ module.exports = function(table_name, lang, max_chars){
     else{
         return output;
     }
-}
+};

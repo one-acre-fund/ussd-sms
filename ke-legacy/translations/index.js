@@ -14,7 +14,15 @@ var translations = {
     'locate_oaf_duka': {
         en: '$label) Locate an OAF duka\n',
         sw: '$label) Lipate duka la OAF\n'
-    }
+    },
+    'prev_page': {
+        'en': '44)Previous page',
+        'sw': '44)ukurasa uliopita'
+    },
+    'next_page': {
+        'en': '77)Next page',
+        'sw': '77)ukurasa unaofuata'
+    },
 };
 
 module.exports = translations;

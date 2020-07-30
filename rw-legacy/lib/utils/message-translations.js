@@ -806,6 +806,10 @@ module.exports = {
     },
     "invalid_input":{
         "en": "Incorrect input. ~B1 - To check balance ~B2 - Solar Codes",
-        "ki": "Winjije umubare utariwo. ~B1. Kureba uko ubwishyu buhagaze ~B2. Kodi y'itara",
+        "ki": "Winjije umubare utariwo. ~B1. Kureba uko ubwishyu buhagaze ~B2. Kodi y'itara"
+    },
+    'view_group_repayment': {
+        'en': '$label) View group repayment\n',
+        'ki': '$label) Reba amakuru y\'ubwishyu bwishyuwe mu itsinda\n'
     }
 }
