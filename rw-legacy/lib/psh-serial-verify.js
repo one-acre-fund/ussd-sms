@@ -9,7 +9,6 @@ module.exports = function(accnum, serial_no){
     // retrieve necssary tables and modules
     var admin_alert = require('./admin-alert');
     var slack = require('../../slack-logger/index');
-    var msgs = require('../lib/msg-retrieve');
     var SerialTable =  project.getOrCreateDataTable(service.vars.serial_number_table);
 
     // save as variable the row from the serial table where the entered serial number matches
@@ -46,8 +45,8 @@ module.exports = function(accnum, serial_no){
             vars: listVars,
         });
         if(ListAct.count() < 1){
-            //admin_alert('No codes remaining for Biolite product with serial number: ' + serial_no, 'No remaining serial numbers', 'marisa');
-            //slack.log('No codes remaining for Biolite product with serial number: ' + serial_no);
+            admin_alert('No codes remaining for Biolite product with serial number: ' + serial_no, 'No remaining serial numbers', 'marisa');
+            slack.log('No codes remaining for Biolite product with serial number: ' + serial_no);
             console.log('No codes remaining for Biolite product with serial number: ' + serial_no, 'No remaining serial numbers');            
             state.vars.SerialStatus = 'failed_getting_serial_number';
         }

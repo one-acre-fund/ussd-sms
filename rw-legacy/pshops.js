@@ -86,7 +86,7 @@ addInputHandler('account_number_splash', function(accnum){
         sayText(msgs('client_alert'));
         console.log(error);
         slack.log('Error on USSD test integration' +error + '\n Account number:' + accnum, "Error, ERROR, ERROR" )
-        //admin_alert('Error on USSD test integration : '+ error + '\nAccount number: ' + accnum, "ERROR, ERROR, ERROR")
+        admin_alert('Error on USSD test integration : '+ error + '\nAccount number: ' + accnum, "ERROR, ERROR, ERROR")
         stopRules();
     }
 });
