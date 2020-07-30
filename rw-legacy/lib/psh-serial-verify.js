@@ -31,17 +31,18 @@ module.exports = function(accnum, serial_no){
         Serial.vars.accountnumber = accnum; 
         Serial.vars.historic_credit = state.vars.TotalCredit - state.vars.Balance;
         Serial.vars.dateregistered = new Date().toString();
-        Serial.vars.product_type = 'biolite';
+        if(!state.vars.duplicate){Serial.vars.product_type = 'biolite';}
         Serial.save(); 
         
         // retrieve one unused activation code for this serial number
         var ActTable = project.getOrCreateDataTable(service.vars.activation_code_table);
+        var listVars = {'serialnumber': serial_no,
+            'type': 'Activation',
+            'activated': 'No'   
+        };
+        if(!state.vars.duplicate){listVars.vars.product_type = 'biolite';} // because only biolite products are being sold now
         ListAct = ActTable.queryRows({
-            vars: {'serialnumber': serial_no,
-                'type': 'Activation',
-                'activated': 'No',
-                'product_type': 'biolite'   // because only biolite products are being sold now 
-            }
+            vars: listVars,
         });
         if(ListAct.count() < 1){
             //admin_alert('No codes remaining for Biolite product with serial number: ' + serial_no, 'No remaining serial numbers', 'marisa');
