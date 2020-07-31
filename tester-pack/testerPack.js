@@ -13,9 +13,11 @@ function registerInputHandlers(session_details){
     state.vars.lang = session_details.lang;
     var testerPackMenuHandler = require('./inputHandlers/testerPackMenuHandler');
     var confirmation = require('./confirmation/confirmTesterPackReception');
+    var status = require('./status/status')
     
     addInputHandler('tester_pack_menu', testerPackMenuHandler);
     confirmation.registerTesterPackConfirmationHandlers();
+    status.registerTesterPackStatusHandlers();
 }
 
 /**

@@ -1,11 +1,14 @@
 var confirmation = require('../confirmation/confirmTesterPackReception');
 var translations = require('../translations/index');
 var translator = require('../../utils/translator/translator');
+var status = require('../status/status');
+var lang = state.vars.lang;
+var getMessage = translator(translations, lang);
 
 module.exports = function testerPackMenuHandler(input) {
-    var lang = state.vars.lang;
-    var getMessage = translator(translations, lang);
-    if(input == 2) {
+    if(input == 1) {
+        status.startTesterPackStatus({lang: lang});
+    } else if(input == 2) {
         confirmation.startTesterPackConfirmation({lang: lang});
     } else {
         sayText(getMessage('invalid_input', {'$Menu': getMessage('tester_pack_menu', {}, lang)}, lang));
