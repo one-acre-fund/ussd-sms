@@ -3,7 +3,7 @@ var translator = require('../../../utils/translator/translator');
 var farmersMenu = require('../../utils/createFarmersMenu');
 
 module.exports = function villageHandler(input) {
-    var lang = state.vars.lang || 'en';
+    var lang = state.vars.lang;
     state.vars.lang = lang;
     var getMessage = translator(translations, lang);
     var villages = JSON.parse(state.vars.villages);
@@ -13,7 +13,7 @@ module.exports = function villageHandler(input) {
     if(village) {
         state.vars.selected_village = JSON.stringify(village);
         var farmers = {};
-        var farmers_table = project.getOrCreateDataTable('Extension Farmers');
+        var farmers_table = project.initDataTableById(service.vars.ExtensionFarmers);
         var farmers_cursor = farmers_table.queryRows({vars: {'village_id': village.village_id}});
         var index = 0;
         while(farmers_cursor.hasNext()) {
@@ -52,5 +52,12 @@ module.exports = function villageHandler(input) {
             maxDigits: 2,
             submitOnHash: false
         });
+    } else {
+        sayText(getMessage('invalid_input', {'$Menu': villages_screen[state.vars.current_villages_screen]}, lang));
+        promptDigits('select_village', {
+            timeout: 5,
+            maxDigits: 2,
+            submitOnHash: false
+        });  
     }
 };

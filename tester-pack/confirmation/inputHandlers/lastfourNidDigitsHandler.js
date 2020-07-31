@@ -2,7 +2,7 @@ var translations = require('../translations/index');
 var translator = require('../../../utils/translator/translator');
 
 module.exports = function farmerHandler(input) {
-    var lang = state.vars.lang || 'en';
+    var lang = state.vars.lang;
     state.vars.lang = lang;
     var getMessage = translator(translations, lang);
     var farmer = JSON.parse(state.vars.selected_farmer);
@@ -10,7 +10,7 @@ module.exports = function farmerHandler(input) {
     var last_four_nid_digits = nid.slice(-4);
     
     if(input === last_four_nid_digits) {
-        sayText(getMessage('confirm_reception'));
+        sayText(getMessage('confirm_reception', {}, lang));
         promptDigits('confirm_reception', {
             timeout: 5,
             maxDigits: 2,

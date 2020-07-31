@@ -3,7 +3,7 @@ var translator = require('../../../utils/translator/translator');
 var locationsMenu = require('../utils/createLocationMenu');
 
 module.exports = function cellHandler(input) {
-    var lang = state.vars.lang || 'en';
+    var lang = state.vars.lang;
     state.vars.lang = lang;
     var getMessage = translator(translations, lang);
     var cells = JSON.parse(state.vars.cells);
@@ -19,15 +19,13 @@ module.exports = function cellHandler(input) {
                 'provence': state.vars.provence, 
                 'district': state.vars.selected_district,
                 'sector': state.vars.selected_sector,
-                'cell': state.vars.selected_Cell
+                'cell': cell
             }});
         while(village_cursor.hasNext()) {
             var row = village_cursor.next();
-            if(!villages[row.vars.village]) {
-                var villageid = row.vars.villageid;
-                var villageName = row.vars.village;
-                villages[row.vars.village] = {village_id: villageid, village_name: villageName};
-            }
+            var villageid = row.vars.villageid;
+            var villageName = row.vars.village;
+            villages[row.vars.village] = {village_id: villageid, village_name: villageName};
         }
 
         var message = getMessage('village_title', {}, lang);
@@ -44,6 +42,13 @@ module.exports = function cellHandler(input) {
     } else if(input === '*' && cells_screens[current_cells_screen + 1]) {
         state.vars.current_cells_screen = current_cells_screen + 1;
         sayText(cells_screens[state.vars.current_cells_screen]);
+        promptDigits('select_cell', {
+            timeout: 5,
+            maxDigits: 2,
+            submitOnHash: false
+        });
+    } else {
+        sayText(getMessage('invalid_input', {'$Menu': cells_screens[state.vars.current_cells_screen]}));
         promptDigits('select_cell', {
             timeout: 5,
             maxDigits: 2,

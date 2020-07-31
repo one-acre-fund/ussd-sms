@@ -1,23 +1,19 @@
 var translations = {
-    'exit_menu': {
-        en: '$label) Exit menu\n',
-        sw: '$label) Hapana- Exit Menu\n'
-    },
     'invalid_input': {
-        en: 'Invalid input\n$Menu',
-        sw: 'Nambari sio sahihi\n$Menu'
+        'en': 'Invalid input. Try again\n$Menu',
+        'ki': 'Ibyo mwinjije ntago bishoboka, ongera ugerageze\n$Menu'
     },
     'village_id': {
-        en: 'Enter village ID',
-        ki: 'Injiza kode y\' umudugudu'
+        'en': 'Enter village ID',
+        'ki': 'Injiza kode y\' umudugudu'
     },
     'registered': {
-        en: '1) Registration= $registered\n2) Confirmed= $confirmed',
-        ki: '1) Kandika=$registered\n2)Abemejwe=$confirmed'
+        'en': '1) Registration= $registered\n2) Confirmed= $confirmed',
+        'ki': '1) Kwandika=$registered\n2)Abemejwe=$confirmed'
     },
     'provinces': {
-        en: '1) EASTERN ZONE\n2) KIGALI CITY\n3) SOUTHERN ZONE\n4) WESTERN ZONE\n5) NORTHERN ZONE',
-        ki: '1) EASTERN ZONE\n2) KIGALI CITY\n3) SOUTHERN ZONE\n4) WESTERN ZONE\n5) NORTHERN ZONE'
+        'en': '1) EASTERN ZONE\n2) KIGALI CITY\n3) SOUTHERN ZONE\n4) WESTERN ZONE\n5) NORTHERN ZONE',
+        'ki': '1) EASTERN ZONE\n2) KIGALI CITY\n3) SOUTHERN ZONE\n4) WESTERN ZONE\n5) NORTHERN ZONE'
     },
     'locations': {
         'en': '$label) $location\n',

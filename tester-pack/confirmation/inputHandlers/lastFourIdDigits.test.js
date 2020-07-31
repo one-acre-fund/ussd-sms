@@ -10,7 +10,7 @@ describe('lastFourIdDigitsHandler', () => {
     });
 
 
-    it('should handle the right choice', () => {
+    it('should handle ask the farmer if they have received the pack once the input match the stored id', () => {
         state.vars.selected_farmer = JSON.stringify({national_id: '13753675', id: 1, first_name: 'Mosh', last_name: 'Hamedani'});
         lastFourIdDigitsHandler('3675');
         expect(sayText).toHaveBeenCalledWith('Has the farmer received the pack?\n1. Yes\n2. No');

@@ -2,7 +2,7 @@ var translations = require('../translations/index');
 var translator = require('../../../utils/translator/translator');
 
 module.exports = function farmerHandler(input) {
-    var lang = state.vars.lang || 'en';
+    var lang = state.vars.lang;
     state.vars.lang = lang;
     var getMessage = translator(translations, lang);
     var farmers = JSON.parse(state.vars.farmers);
@@ -20,6 +20,13 @@ module.exports = function farmerHandler(input) {
     } else if(input === '*' && farmers_screens[state.vars.current_farmers_screen + 1]) {
         state.vars.current_farmers_screen = state.vars.current_farmers_screen + 1;
         sayText(farmers_screens[state.vars.current_farmers_screen]); 
+        promptDigits('select_farmer', {
+            timeout: 5,
+            maxDigits: 2,
+            submitOnHash: false
+        });
+    } else {
+        sayText(getMessage('invalid_input', {'$Menu': farmers_screens[state.vars.current_farmers_screen]}, lang)); 
         promptDigits('select_farmer', {
             timeout: 5,
             maxDigits: 2,

@@ -8,7 +8,7 @@ describe('tester pack menu handler', () => {
     beforeEach(() => {
         jest.resetModules();
     });
-    it('should handle the right choice', () => {
+    it('should promt the user to select a province', () => {
         confirmTesterPackReception.startTesterPackConfirmation();
         expect(sayText).toHaveBeenCalledWith('Province\n' + 
             '1) EASTERN ZONE\n' + 
@@ -30,7 +30,7 @@ describe('tester pack menu handler', () => {
         var lastFourIdDigitsHandler = require('./inputHandlers/lastfourNidDigitsHandler');
         var receptionHandler = require('./inputHandlers/receptionHandler');
         
-        confirmTesterPackReception.registerTesterPackConfirmationHandlers()
+        confirmTesterPackReception.registerTesterPackConfirmationHandlers();
 
         expect(addInputHandler).toHaveBeenCalledWith('select_province',provinceHandler);
         expect(addInputHandler).toHaveBeenCalledWith('select_district',districtHandler);

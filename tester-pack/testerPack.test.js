@@ -23,7 +23,7 @@ describe('Tester pack', () => {
 
         testerPack.registerTesterPackHandlers({lang: 'en'});
 
-        expect(confirmation.registerTesterPackConfirmationHandlers).toBeCalledWith()
+        expect(confirmation.registerTesterPackConfirmationHandlers).toBeCalled();
         expect(addInputHandler).toBeCalledWith('tester_pack_menu', testerPackMenuHandler);
-    })
+    });
 });

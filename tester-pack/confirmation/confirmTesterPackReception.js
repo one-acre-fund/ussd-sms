@@ -22,12 +22,12 @@ function registerInputHandlers(){
 }
 
 /**
- * Spins the duka locator 
+ * Spins confirmation
  * @param {Object} session_details Session Details that are specific to the country
  * @param {String} session_details.lang the language used during the session
  */
 function startTesterPackConfirmation() {
-    var lang = state.vars.lang || 'en';
+    var lang = state.vars.lang;
     var getMessage = translator(translations, lang);
     var provinces = {'1': 'EASTERN ZONE', '2': 'KIGALI CITY', '3': 'SOUTHERN ZONE', '4': 'WESRERN ZONE', '5': 'NORTHERN ZONE'};
     state.vars.provinces = JSON.stringify(provinces);

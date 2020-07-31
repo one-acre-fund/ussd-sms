@@ -1,9 +1,11 @@
 
 module.exports = function receptionHandler(input) {
-    var lang = state.vars.lang || 'en';
-    state.vars.lang = lang;
+    var lang = state.vars.lang;
+    var translations = require('../translations/index');
+    var translator = require('../../../utils/translator/translator');
+    var getMessage = translator(translations, lang);
     var farmer = JSON.parse(state.vars.selected_farmer);
-    var farmers_table = project.initDataTableById('DTe1025290143442b5');
+    var farmers_table = project.initDataTableById(service.vars.ExtensionFarmers);
     var farmer_row = farmers_table.queryRows({
         vars: {'national_id': farmer.national_id}
     });
@@ -20,6 +22,13 @@ module.exports = function receptionHandler(input) {
             nextedRow.vars.received_tester_pack = false;
             nextedRow.save();
         }
+    } else {
+        sayText(getMessage('invalid_input', {'$Menu': getMessage('confirm_reception', {}, lang)}, lang));
+        promptDigits('confirm_reception', {
+            timeout: 5,
+            maxDigits: 2,
+            submitOnHash: false
+        });
     }
     stopRules();
 };
