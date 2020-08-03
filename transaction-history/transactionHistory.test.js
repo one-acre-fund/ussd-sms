@@ -156,8 +156,13 @@ describe('TransactionHistory', () => {
                 });
                 expect(promptDigits).not.toHaveBeenCalledWith(selectionHandler.handlerName);           
             });
-            it('should show an error message if the user seects an invalid option', () => {
+            it('should show an error message if the user selects an out of range option', () => {
                 callback(`${mockTransactions.length +3}`);
+                const errorMessage = 'Invalid selection, please try again.\n';
+                expect(transactionView.list).toHaveBeenLastCalledWith(mockTransactions, 1, errorMessage);
+            });
+            it('should show an error message if the user input is invalid', () => {
+                callback('x');
                 const errorMessage = 'Invalid selection, please try again.\n';
                 expect(transactionView.list).toHaveBeenLastCalledWith(mockTransactions, 1, errorMessage);
             });
