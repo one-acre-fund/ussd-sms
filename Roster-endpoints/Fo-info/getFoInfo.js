@@ -1,15 +1,14 @@
 
-const logResponse = require('../../rw-legacy/lib/utils/request-logger');
-const slack = require('../../slack-logger/index');
-module.exports = function (districtId,siteId, lang) {
+var slack = require('../../slack-logger/index');
+module.exports = function (districtId,siteId) {
 
     var response;
     var getFOEndpoint = '/Api/FieldOfficer/Get/?districtId='+districtId+'&siteId='+siteId;
     var fullUrl = service.vars.server_name + getFOEndpoint;
-    console.log("####FULL-URL: " + fullUrl);
+    console.log('####FULL-URL: ' + fullUrl);
     var opts = { headers: {} };
-    opts.headers['Authorization'] = "Token " + service.vars.roster_api_key;
-    opts.method = "GET";
+    opts.headers['Authorization'] = 'Token ' + service.vars.roster_api_key;
+    opts.method = 'GET';
     try {
         response = httpClient.request(fullUrl, opts);
         if (response.status == 200) {

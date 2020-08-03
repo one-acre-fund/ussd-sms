@@ -28,7 +28,7 @@ module.exports = {
                 console.log(foInfo);
                 if(foInfo){
                     var message = translate('registration_message' , {'$phone': foInfo.phoneNumber}, state.vars.enr_lang);
-                    var send_msg = project.sendMessage({
+                    project.sendMessage({
                         content: message, 
                         to_number: contact.phone_number
                     });
