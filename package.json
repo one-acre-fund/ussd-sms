@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest --colors --coverage",
     "test:watch": "jest --colors --watch",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint": "eslint . --ignore-pattern '/*-legacy/*'",
+    "lint:fix": "eslint . --fix --ignore-pattern '/*-legacy/*'"
   },
   "repository": {
     "type": "git",

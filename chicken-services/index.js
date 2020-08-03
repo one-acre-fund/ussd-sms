@@ -29,8 +29,9 @@ module.exports = {
             }
             var chicken_table = project.initDataTableById(service.vars.chicken_table_id);
             var cursor = chicken_table.queryRows({'vars': {'account_number': state.vars.account_number}});
+            var row, final_msg, msg_route;
             if(cursor.hasNext()){
-                var row = cursor.next();
+                row = cursor.next();
                 var code = row.vars.confirmation_code;
                 row.vars.confirmed = 1;
                 row.vars.first_name = JSON.parse(state.vars.client_json).FirstName;
@@ -42,13 +43,13 @@ module.exports = {
                 row.vars.confirmed_chicken_in_R1 = r1;
                 row.vars.confirmed_chicken_in_R2 = r2;
                 row.save();
-                var final_msg = translate('chicken_ordering_final_msg',{'$number': state.vars.confirmed_number ,'$code': code });
+                final_msg = translate('chicken_ordering_final_msg',{'$number': state.vars.confirmed_number ,'$code': code });
                 global.sayText(final_msg);  
-                var msg_route = project.vars.sms_push_route;
+                msg_route = project.vars.sms_push_route;
                 project.sendMessage({ 'to_number': contact.phone_number, 'route_id': msg_route, 'content': final_msg }); 
             }
             else{
-                var row = chicken_table.createRow({vars: {'account_number' : state.vars.account_number}});
+                row = chicken_table.createRow({vars: {'account_number': state.vars.account_number}});
                 row.vars.confirmed = 1;
                 row.vars.first_name = JSON.parse(state.vars.client_json).FirstName;
                 row.vars.last_name = JSON.parse(state.vars.client_json).LastName;
@@ -58,9 +59,9 @@ module.exports = {
                 row.vars.ordered_chickens = state.vars.confirmed_number;
                 row.vars.confirmed_chicken_in_R1 = r1;
                 row.vars.confirmed_chicken_in_R2 = r2;
-                var final_msg = translate('chicken_ordering_final_msg',{'$number': state.vars.confirmed_number ,'$code': 'CODE' });
+                final_msg = translate('chicken_ordering_final_msg',{'$number': state.vars.confirmed_number ,'$code': 'CODE' });
                 global.sayText(final_msg);  
-                var msg_route = project.vars.sms_push_route;
+                msg_route = project.vars.sms_push_route;
                 project.sendMessage({ 'to_number': contact.phone_number, 'route_id': msg_route, 'content': final_msg }); 
                 row.vars.new_client = 'true';
                 row.save();

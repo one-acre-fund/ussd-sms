@@ -54,8 +54,8 @@ module.exports = {
                 var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
                 var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
                 var message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phone}, state.vars.reg_lang);
-                var send_to_GL = project.sendMessage({content: message, to_number: contact.phone_number});
-                var send__to_Client = project.sendMessage({content: message, to_number: clientJSON.phoneNumber});
+                project.sendMessage({content: message, to_number: contact.phone_number});
+                project.sendMessage({content: message, to_number: clientJSON.phoneNumber});
             }
             catch (e) {
                 console.log('error getting account number from roster' + e);

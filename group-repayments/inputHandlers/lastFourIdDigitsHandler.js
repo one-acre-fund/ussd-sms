@@ -3,7 +3,7 @@ var translator = require('../../utils/translator/translator');
 
 var fetchGroupRepaymentInformation = require('../api/groupRepaymentsApi');
 var adminLogger = require('../../rw-legacy/lib/admin-alert');
-const groupRepaymentsApi = require('../api/groupRepaymentsApi');
+
 /**
  * Callback to the Input handler for handling the user input for last four digits of id
  * @param {String} input parameter to the callback

@@ -51,7 +51,6 @@ describe('ChickenServices', () => {
         expect(addInputHandler).toHaveBeenCalledWith(possibleOrderHandler.handlerName, possibleOrderHandler.getHandler());            
     });
 
-    var name = 'hello';
     var number = 10;
     describe('start', () => {
         beforeAll(() => {
