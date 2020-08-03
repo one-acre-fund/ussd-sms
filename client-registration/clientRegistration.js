@@ -9,6 +9,7 @@ var firstNameHandler = require('./first-name-handler/firstNameHandler');
 var nationalIdHandler = require('./national-id-handler/nationalIdHandler');
 var phoneNumberHandler = require('./phone-number-handler/phoneNumberHandler');
 var secondNameHandler = require('./second-name-handler/secondNameHandler');
+var groupLeaderQuestionHander = require('./group-leader-question-hander/groupLeaderQuestionHandler');
 
 module.exports = {
     registerHandlers: function (){
@@ -38,6 +39,10 @@ module.exports = {
             global.promptDigits(confirmPhoneNumberHandler.handlerName);
         }
         function onPhoneNumberConfirmed(){
+            global.sayText(translate('reg_group_leader_question',{},state.vars.reg_lang));
+            global.promptDigits(groupLeaderQuestionHander.handlerName);
+        }
+        function onGroupLeaderQuestion(){
             var client = JSON.parse(state.vars.client_json);
             var clientJSON = {
                 'districtId': client.DistrictId,
@@ -53,14 +58,39 @@ module.exports = {
                 console.log('client Data ****************' + clientData.AccountNumber);
                 var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
                 var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
-                var message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phone}, state.vars.reg_lang);
+                var message;
+                if(foInfo.phone == null || undefined){
+                    message = translate('reg_complete_message_no_phone' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
+                }
+                else{
+                    message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phone}, state.vars.reg_lang);
+                }
+                
                 var send_to_GL = project.sendMessage({content: message, to_number: contact.phone_number});
                 var send__to_Client = project.sendMessage({content: message, to_number: clientJSON.phoneNumber});
+                var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
+                var row = tavl.createRow({
+                    contact_id: contact.id,
+                    from_number: from_number,
+                    vars: {
+                        'account_number': clientData.AccountNumber,
+                        'national_id': clientData.NationalId,
+                        'phone_number': clientJSON.phoneNumber,
+                        'first_name': clientData.FirstName,
+                        'last_name': clientData.LastName,
+                        'district': clientData.DistrictId,
+                        'site': clientData.SiteId,
+                        'new_client': '1',
+                        'gl_interested': state.vars.groupLeader
+
+                    }
+                });
+                row.save();
             }
             catch (e) {
                 console.log('error getting account number from roster' + e);
             }
-            
+
         }
 
         addInputHandler(confirmNationalIdHandler.handlerName, confirmNationalIdHandler.getHandler(onNationalIdConfirmation));
@@ -69,6 +99,7 @@ module.exports = {
         addInputHandler(nationalIdHandler.handlerName, nationalIdHandler.getHandler(onNationalIdValidated));
         addInputHandler(phoneNumberHandler.handlerName, phoneNumberHandler.getHandler(onPhoneNumberValidated));
         addInputHandler(secondNameHandler.handlerName, secondNameHandler.getHandler(onSecondNameReceived));
+        addInputHandler(groupLeaderQuestionHander.handlerName, groupLeaderQuestionHander.getHandler(onGroupLeaderQuestion))
     },
 
     start: function (account, country,lang) {

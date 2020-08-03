@@ -8,14 +8,13 @@ describe('national_id_handler', () => {
         onNationalIdValidated = jest.fn();
         idVerificationHandler = getHandler(onNationalIdValidated);
         state.vars.country = 'ke';
-        state.vars.reg_lang = 'en';
+        state.vars.reg_lang = 'en-ke';
     });
     it('should not call onNationalIdValidated if input does not match a valid nationalID ', () => {
         idVerificationHandler('1');
         expect(onNationalIdValidated).not.toHaveBeenCalled();
     });
     it('should show prompt message for retry if input is not a valid national Id', () => {
-        state.vars.reg_lang = 'en';
         idVerificationHandler('0000');
         expect(sayText).toHaveBeenCalledWith('Invalid entry. Please enter a valid national id.');
     });

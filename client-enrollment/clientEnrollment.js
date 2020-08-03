@@ -34,6 +34,17 @@ module.exports = {
                     });
                 }
             }
+            var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
+            var row = table.createRow({
+                contact_id: contact.id,
+                from_number: contact.from_number,
+                vars: {
+                    'account_number': client.AccountNumber,
+                    'national_id': client.NationalId,
+                    'new_client': '0'
+                }
+            });
+            row.save();
         }
         else{
             sayText(translate('account_not_found',{},contact.vars.lang));

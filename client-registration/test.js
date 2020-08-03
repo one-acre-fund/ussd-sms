@@ -23,7 +23,7 @@ const mockSecondNameHandler = jest.fn();
 const clientRegistration = require('./clientRegistration');
 const account = 123456789;
 const country = 'KE';
-const reg_lang = 'en';
+const reg_lang = 'en-ke';
 describe('clientRegistration', () => {
 
     it('should have a start function', () => {
