@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --colors",
+    "test": "jest --colors --coverage",
+    "test:changed": "jest --colors --coverage --changedSince=develop",
     "test:watch": "jest --colors --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
@@ -27,6 +28,15 @@
   "jest": {
     "setupFilesAfterEnv": [
       "./setupTests.js"
-    ]
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    },
+    "verbose": true
   }
 }
