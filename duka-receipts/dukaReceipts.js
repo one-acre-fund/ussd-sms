@@ -20,9 +20,10 @@
     });
 
     var total_cost = response.amount || totalCost;
+    var rounded_total_cost =  Math.round(total_cost).toFixed(2);
     
     var vatCost = total_cost - productCost;
-    var SMStext = 'Thank you for shopping at the OAF Duka! Date: ' + response.date + ' Invoice nro: ' + response.receipt + ' Product cost: KES ' + productCost + ' VAT: KES ' + vatCost.toFixed(2) + ' Total: KES ' + totalCost;
+    var SMStext = 'Thank you for shopping at the OAF Duka! Date: ' + response.date + ' Invoice nro: ' + response.receipt + ' Product cost: KES ' + productCost + ' VAT: KES ' + vatCost.toFixed(2) + ' Total: KES ' + rounded_total_cost;
     var RouteIDPush = project.vars.route_push;
     var Label = project.getOrCreateLabel('Duka Receipt');
     console.log('sent message' + SMStext);
