@@ -59,7 +59,7 @@ module.exports = {
                 var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
                 var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
                 var message;
-                if(foInfo.phone == null || undefined){
+                if((foInfo == null) || (foInfo.phone == null || undefined)){
                     message = translate('reg_complete_message_no_phone' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
                 }
                 else{
@@ -69,9 +69,9 @@ module.exports = {
                 var send_to_GL = project.sendMessage({content: message, to_number: contact.phone_number});
                 var send__to_Client = project.sendMessage({content: message, to_number: clientJSON.phoneNumber});
                 var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
-                var row = tavl.createRow({
-                    contact_id: contact.id,
-                    from_number: from_number,
+                var row = table.createRow({
+                    'contact_id': contact.id,
+                    'from_number': contact.from_number,
                     vars: {
                         'account_number': clientData.AccountNumber,
                         'national_id': clientData.NationalId,
