@@ -29,6 +29,12 @@
     "setupFilesAfterEnv": [
       "./setupTests.js"
     ],
+    "collectCoverageFrom":[
+      "**/*.{js,jsx}", 
+      "!**/node_modules/**",
+      "!**/*-legacy/**",
+      "!.eslintrc.js"
+    ],
     "coverageThreshold": {
       "global": {
         "branches": 100,
