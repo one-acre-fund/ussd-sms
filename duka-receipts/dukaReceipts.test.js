@@ -40,7 +40,7 @@ describe('Mobile Money receipts', () => {
     it('should send an updated receips message', () => {
         jest.spyOn(project, 'getOrCreateLabel').mockReturnValue({id: 1});
         require('./dukaReceipts');
-        expect(project.sendMessage).toHaveBeenCalledWith({'content': 'Thank you for shopping at the OAF Duka! Date: 2020-07-26 Invoice nro: 54003657 Product cost: KES 538.61 VAT: KES 61.39 Total: KES 600.01',
+        expect(project.sendMessage).toHaveBeenCalledWith({'content': 'Thank you for shopping at the OAF Duka! Date: 2020-07-26 Invoice nro: 54003657 Product cost: KES 538.61 VAT: KES 61.39 Total: KES 600.00',
             'label_ids': [1], 
             'route_id': 'ts7ajag2saGA82ya8',
             'to_number': '0750475911'});
