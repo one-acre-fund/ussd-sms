@@ -5,8 +5,9 @@ name: Test Changes
 
 
 on:
-  push:
   pull_request:
+    branches:
+      - develop
 
 jobs:
   build:
@@ -19,10 +20,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Checkout Develop
+      run: git fetch --no-tags --depth=1 origin develop
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: npm run build --if-present
-    - run: npm run test:changed
+    - run: npm run test -- --changedSince=origin/develop

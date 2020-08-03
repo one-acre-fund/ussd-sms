@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --colors --coverage",
-    "test:changed": "jest --colors --coverage --changedSince=develop",
     "test:watch": "jest --colors --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
