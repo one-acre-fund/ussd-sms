@@ -2,8 +2,8 @@
 const elkNotify = require('../elk-notification/elkNotification');
 const slack = require('../../slack-logger/index');
 jest.mock('../../slack-logger');
-mockGoodResponse = {response : {status: 200}};
-mockBadResponse = {response : {status: 404}};
+const mockGoodResponse = {response: {status: 200}};
+const mockBadResponse = {response: {status: 404}};
 describe('elkNotification', () => {
     it('should be a function', () => {
         expect(elkNotify).toBeInstanceOf(Function);
