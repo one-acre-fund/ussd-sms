@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --colors",
+    "test": "jest --colors --coverage",
     "test:watch": "jest --colors --watch",
     "lint": "eslint . --ignore-pattern '/*-legacy/*'",
     "lint:fix": "eslint . --fix --ignore-pattern '/*-legacy/*'"
@@ -27,6 +27,21 @@
   "jest": {
     "setupFilesAfterEnv": [
       "./setupTests.js"
-    ]
+    ],
+    "collectCoverageFrom":[
+      "**/*.{js,jsx}", 
+      "!**/node_modules/**",
+      "!**/*-legacy/**",
+      "!.eslintrc.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 82.76,
+        "functions": 88.75,
+        "lines": 86.6,
+        "statements": 86.71
+      }
+    },
+    "verbose": true
   }
 }
