@@ -31,7 +31,12 @@ if(env === 'prod'){
     service.vars['21a_client_data_id'] = project.vars['21a_client_data_id'];
     service.vars.client_enrollment_table_id = project.vars.client_enrollment_data_id;
     service.vars.market_access_table_id = 'DT278868f96626c4b0';
+<<<<<<< HEAD
     account_splash_menu_name = 'core_enr_splash_menu',
+=======
+    service.vars.chicken_table_id = 'DT588706b3a7513443'
+    account_splash_menu_name = 'core_enr_splash_menu'
+>>>>>>> origin/develop
 }else{
     service.vars.season_clients_table = 'dev_' + project.vars.season_clients_table;
     service.vars.client_enrollment_table = 'dev_' + project.vars.client_enrollment_data;
@@ -41,7 +46,8 @@ if(env === 'prod'){
     service.vars['21a_client_data_id'] = project.vars['dev_21a_client_data_id'];
     service.vars.client_enrollment_table_id = project.vars.dev_client_enrollment_data_id;
     service.vars.market_access_table_id = 'DT627b1e89d0150102';
-    account_splash_menu_name = 'dev_core_enr_splash_menu'
+    account_splash_menu_name = 'dev_core_enr_splash_menu';
+    service.vars.chicken_table_id = 'DT8c3e091b499f1726'
 }
 
 var client_table = project.initDataTableById(service.vars['21a_client_data_id']);
