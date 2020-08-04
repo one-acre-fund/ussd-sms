@@ -58,7 +58,6 @@ module.exports = {
                 console.log('client Data ****************' + clientData.AccountNumber);
                 var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
                 var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
-<<<<<<< HEAD
                 var message;
                 if((foInfo == null) || (foInfo.phone == null || undefined)){
                     message = translate('reg_complete_message_no_phone' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
@@ -67,8 +66,8 @@ module.exports = {
                     message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phone}, state.vars.reg_lang);
                 }
                 
-                var send_to_GL = project.sendMessage({content: message, to_number: contact.phone_number});
-                var send__to_Client = project.sendMessage({content: message, to_number: clientJSON.phoneNumber});
+                project.sendMessage({content: message, to_number: contact.phone_number});
+                project.sendMessage({content: message, to_number: clientJSON.phoneNumber});
                 var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
                 var row = table.createRow({
                     'contact_id': contact.id,
@@ -87,11 +86,6 @@ module.exports = {
                     }
                 });
                 row.save();
-=======
-                var message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phone}, state.vars.reg_lang);
-                project.sendMessage({content: message, to_number: contact.phone_number});
-                project.sendMessage({content: message, to_number: clientJSON.phoneNumber});
->>>>>>> origin/develop
             }
             catch (e) {
                 console.log('error getting account number from roster' + e);
@@ -105,7 +99,7 @@ module.exports = {
         addInputHandler(nationalIdHandler.handlerName, nationalIdHandler.getHandler(onNationalIdValidated));
         addInputHandler(phoneNumberHandler.handlerName, phoneNumberHandler.getHandler(onPhoneNumberValidated));
         addInputHandler(secondNameHandler.handlerName, secondNameHandler.getHandler(onSecondNameReceived));
-        addInputHandler(groupLeaderQuestionHander.handlerName, groupLeaderQuestionHander.getHandler(onGroupLeaderQuestion))
+        addInputHandler(groupLeaderQuestionHander.handlerName, groupLeaderQuestionHander.getHandler(onGroupLeaderQuestion));
     },
 
     start: function (account, country,lang) {

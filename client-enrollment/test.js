@@ -10,7 +10,7 @@ const country = 'KE';
 const enr_lang = 'en';
 const foPhone = '0786182098';
 var mockTable = { createRow: jest.fn()};
-var mockRow = {save:jest.fn()};
+var mockRow = {save: jest.fn()};
 describe('clientRegistration', () => {
     beforeAll(()=>{
         roster.getClient = jest.fn();
@@ -72,13 +72,13 @@ describe('clientRegistration', () => {
             contact.phone_number = '0789098965';
             clientEnrollment.start(account, country, enr_lang);
             expect(mockTable.createRow).toHaveBeenCalledWith({
-                    'contact_id': contact.id,
-                    'from_number': contact.from_number,
-                    'vars': {
-                        'account_number': client.AccountNumber,
-                        'national_id': client.NationalId,
-                        'new_client': '0'
-                    }
+                'contact_id': contact.id,
+                'from_number': contact.from_number,
+                'vars': {
+                    'account_number': client.AccountNumber,
+                    'national_id': client.NationalId,
+                    'new_client': '0'
+                }
             });
             expect(mockRow.save).toHaveBeenCalled();
         });
