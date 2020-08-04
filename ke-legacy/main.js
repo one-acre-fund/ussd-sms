@@ -109,8 +109,6 @@ var FAWUnitPrice = 720;
 var FAWMaxOrders = 2;
 var StaffDistrict = "KENYA STAFF";
 
-// loading the translator with all translations and setting the default language to English
-var translator = createTranslator(translations, 'en');
 // Setting global functions
 var InteractionCounter = function(input){
     try{
@@ -1628,7 +1626,6 @@ var registrationMenu= function(){
     else {sayText("Tafadhali jibu na nambari ya akaunti ya mkulima\n0) kwa mkulima mgeni")}
 };
 
-var translate =  createTranslator(translations, state.vars.lang);
 
 
 // Start logic flow
