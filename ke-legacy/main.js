@@ -177,24 +177,28 @@ var TrimClientJSON = function(client){
     return client;
 };
 var GetLang = function(){
-    if(contact.vars.English === true){
+    if(state.vars.English === true){
         service.vars.lang = 'en-ke';
         contact.vars.lang = 'en-ke';
+        state.vars.lang = 'en-ke';
         return true;
     } else {
         service.vars.lang = 'sw';
-        contact.vars.lang = 'sw';
+        contact.vars.lang = 'en-ke';
+        state.vars.lang = 'sw';
         return false;
     }
 };
 var ChangeLang = function (){
-    if (contact.vars.English === true){
-        contact.vars.English = false;
+    if (state.vars.English === true){
+        state.vars.English = false;
         contact.vars.lang = 'sw';
+        state.vars.lang = 'sw';
     }
     else {
-        contact.vars.lang = 'en-ke';
+        state.vars.lang = 'en-ke';
         contact.vars.English = true;
+        state.vars.English = true;
     }
     contact.save();
 };
@@ -1023,10 +1027,11 @@ var SplashMenuFailure = function (){
 var MenuText = '';
 var MainMenuText = function(client){
     var populateMainMenu = require('./utils/menus/populate-menu/populateMenu');
-    var menu = populateMainMenu(contact.vars.lang, 140,true);
+    var menu = populateMainMenu(state.vars.lang, 140,true);
     if (typeof (menu) == 'string') {
         sayText(menu);
         state.vars.multiple_input_menus = 0;
+        state.vars.main_menu = menu;
         state.vars.input_menu = menu;
     }
     else if (typeof (menu) == 'object') {
@@ -1034,21 +1039,24 @@ var MainMenuText = function(client){
         state.vars.multiple_input_menus = 1;
         state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
         sayText(menu[state.vars.input_menu_loc]);
+        state.vars.main_menu = menu;
         state.vars.input_menu = JSON.stringify(menu);
     }
 
 }
 var NonClientMenuText = function (){
     var populateMainMenu = require('./utils/menus/populate-menu/populateMenu');
-    var menu = populateMainMenu(contact.vars.lang, 140,false);
+    var menu = populateMainMenu(state.vars.lang, 140,false);
     if (typeof (menu) == 'string') {
         sayText(menu);
         state.vars.multiple_input_menus = 0;
         state.vars.input_menu = menu;
+        state.vars.main_menu = menu;
     }
     else if (typeof (menu) == 'object') {
         state.vars.input_menu_loc = 0; //watch for off by 1 errors - consider moving this to start at 1
         state.vars.multiple_input_menus = 1;
+        state.vars.main_menu = menu;
         state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
         sayText(menu[state.vars.input_menu_loc]);
         state.vars.input_menu = JSON.stringify(menu);
@@ -1620,12 +1628,12 @@ var registrationMenu= function(){
     else {sayText("Tafadhali jibu na nambari ya akaunti ya mkulima\n0) kwa mkulima mgeni")}
 };
 
-var translate =  createTranslator(translations, contact.vars.lang);
+var translate =  createTranslator(translations, state.vars.lang);
 
 
 // Start logic flow
 global.main = function () {
-    contact.vars.English = false;
+    state.vars.English = false;
     LogSessionID();
     SplashMenuText();
     promptDigits("SplashMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
@@ -3233,9 +3241,9 @@ addInputHandler('TrainingSelect', function(input) {
 
 addInputHandler('registrationHandler', function(input){
     if(input == 0){
-        clientRegistration.start(client.AccountNumber,'ke',contact.vars.lang);
+        clientRegistration.start(client.AccountNumber,'ke',state.vars.lang);
     }
     else{
-        clientEnrollment.start(input,'ke', contact.vars.lang);
+        clientEnrollment.start(input,'ke', state.vars.lang);
     }
 });
