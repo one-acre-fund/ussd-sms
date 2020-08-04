@@ -1,16 +1,16 @@
 // jest.mock('./translations');
 const getTranslation = require('./translations');
-const { client } = require("./test-client-data");
+const { client } = require('./test-client-data');
 
 const exampleContact = {
-    phone_number: "0794320345",
+    phone_number: '0794320345',
     vars: {
         lastTransactionAmount: 8000,
         client: JSON.stringify(client)
     }
-}
+};
 
-const shortRainsBalance = client.BalanceHistory[0].Balance;
+// const shortRainsBalance = client.BalanceHistory[0].Balance;
 const longRainsbalance = client.BalanceHistory[1].Balance;
 
 describe('Mobile Money receipts', () => {
@@ -35,7 +35,7 @@ describe('Mobile Money receipts', () => {
                 firstName: client.FirstName,
                 lastTransaction: exampleContact.vars.lastTransactionAmount,
                 balance: longRainsbalance
-            }, 'en')
+            }, 'en');
             expect(sendMessage).toHaveBeenCalledWith(exampleContact.phone_number, expectedMessage);
 
         });

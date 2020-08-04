@@ -88,13 +88,13 @@
 
 
 */
+/* global message*/
 
-const slack = require('../../slack-logger/index');
+var slack = require('../../slack-logger/index');
 module.exports = function(){
     var url = 'https://elk.operations.oneacrefund.org:8080/telerivet';
     var opts = {};
     var dataJSON ={};
-
     dataJSON['content'] = message.content;
     dataJSON['from_number'] = message.from_number;
     dataJSON['starred'] = message.starred;
@@ -138,9 +138,9 @@ module.exports = function(){
 
 
 
-    opts.method = "POST";
+    opts.method = 'POST';
     opts.data = dataJSON;
-    response = httpClient.request(url,opts);
+    var response = httpClient.request(url,opts);
     if(response.status != 200){
         console.log('error sending data to ELK');
         slack.log('Failed to send ELK notification :'+ JSON.stringify(response));
