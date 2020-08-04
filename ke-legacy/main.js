@@ -184,7 +184,7 @@ var GetLang = function(){
         return true;
     } else {
         service.vars.lang = 'sw';
-        contact.vars.lang = 'en-ke';
+        contact.vars.lang = 'sw';
         state.vars.lang = 'sw';
         return false;
     }
