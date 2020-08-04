@@ -1625,6 +1625,7 @@ var translate =  createTranslator(translations, contact.vars.lang);
 
 // Start logic flow
 global.main = function () {
+    contact.vars.English = false;
     LogSessionID();
     SplashMenuText();
     promptDigits("SplashMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
