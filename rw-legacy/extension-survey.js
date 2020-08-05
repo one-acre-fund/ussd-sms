@@ -19,6 +19,8 @@ if(service.vars.env === 'prod' || service.vars.env === 'dev'){
     env = defaultEnvironment;
 }
 
+//initialize dataTables
+var extension_main_menu_table = env === 'dev' ? env + '_extension_main_menu' : 'extension_main_menu';
 
 // load in general functions
 var msgs = require('./lib/msg-retrieve');
@@ -36,6 +38,7 @@ var check_sedo = require('./lib/ext-sedo-verify');
 var start_survey = require('./lib/ext-survey-start');
 var checkstop = require('./lib/ext-check-stop');
 var srvySessionManager = require('./lib/ext-resume-survey');
+var testerPack = require('../tester-pack/testerPack');
 
 // set various constants
 const lang = project.vars.cor_lang;
@@ -47,8 +50,10 @@ const timeout_length = project.vars.timeout_length;
 
 if(env === 'prod'){
     service.vars.ExtSurveySessions = 'DT643b929207d5f6b9';
+    service.vars.ExtensionFarmers = project.vars.ExtensionFarmersTableId;
 }else{
     service.vars.ExtSurveySessions = 'DT5c79b0c09ade8d5d';
+    service.vars.ExtensionFarmers = project.vars.dev_ExtensionFarmersTableId;
 }
 const inputHandlers = {};
 
@@ -58,8 +63,7 @@ var extensionTable =  project.initDataTableById('DT6d616f3e4e82bd9d');
 // display welcome message and prompt user to choose their survey (AMA1, AMA2, GUS)
 global.main = function(){
     sayText(msgs('ext_main_splash'));
-    var menu = populate_menu('extension_main_menu', lang);
-
+    var menu = populate_menu(extension_main_menu_table, lang);
     if (typeof (menu) == 'string') {
         state.vars.current_menu_str = menu;
         sayText(menu);
@@ -77,6 +81,8 @@ global.main = function(){
         promptDigits('ext_main_splash', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
     }
 }
+
+testerPack.registerTesterPackHandlers({lang: lang});
 
 // input handler for survey type
 addInputHandler('ext_main_splash', function(input){
@@ -107,7 +113,7 @@ addInputHandler('ext_main_splash', function(input){
         }
     }
 
-    var selection = get_menu_option(input, 'extension_main_menu');
+    var selection = get_menu_option(input, extension_main_menu_table);
     if(selection === 'test_pack_reg'){
         const resumedSession = srvySessionManager.resume(contact.phone_number, inputHandlers);
         if(!resumedSession){
@@ -134,6 +140,9 @@ addInputHandler('ext_main_splash', function(input){
                                         'maxDigits'     : max_digits_for_sedo_id,
                                         'timeout'       : timeout_length 
                                         });
+    }
+    else if(selection === 'confirm_tester_pack') {
+        testerPack.startTesterPack({lang: lang})
     }
     else{
         sayText(msgs('invalid_input', {}, lang));
