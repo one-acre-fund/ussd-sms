@@ -25,14 +25,16 @@ module.exports = {
             }
             else{
                 var foInfo = getFOInfo(client.DistrictId,client.SiteId,state.vars.enr_lang);
-                console.log(foInfo);
-                if(foInfo){
-                    var message = translate('registration_message' , {'$phone': foInfo.phoneNumber}, state.vars.enr_lang);
-                    project.sendMessage({
-                        content: message, 
-                        to_number: contact.phone_number
-                    });
+                var message;
+                if(foInfo == null || (foInfo.phoneNumber == null || undefined)){
+                    message = translate('registration_message_no_phone',{},lang);
+                }else{
+                    message = translate('registration_message' , {'$phone': foInfo.phoneNumber}, state.vars.enr_lang);
                 }
+                project.sendMessage({
+                    content: message, 
+                    to_number: contact.phone_number
+                });
                 var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
                 var row = table.createRow({
                     'contact_id': contact.id,
@@ -47,7 +49,7 @@ module.exports = {
             }
         }
         else{
-            sayText(translate('account_not_found',{},contact.vars.lang));
+            sayText(translate('account_not_found',{},state.vars.enr_lang));
         }
     }
 

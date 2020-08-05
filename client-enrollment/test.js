@@ -7,7 +7,7 @@ jest.mock('../Roster-endpoints/Fo-info/getFoInfo');
 
 const account = 123456789;
 const country = 'KE';
-const enr_lang = 'en';
+const enr_lang = 'en-ke';
 const foPhone = '0786182098';
 var mockTable = { createRow: jest.fn()};
 var mockRow = {save: jest.fn()};
@@ -33,7 +33,7 @@ describe('clientRegistration', () => {
         it('should set the  state vars to the provided account and country', () => {
             state.vars.account = '';
             state.vars.country = '';
-            state.vars.enr_lang = '';
+            state.vars.enr_lang = enr_lang;
             clientEnrollment.start(account, country,enr_lang);
             expect(state.vars).toMatchObject({account,country,enr_lang});
         });
@@ -58,6 +58,30 @@ describe('clientRegistration', () => {
             clientEnrollment.start(account, country, enr_lang);
             expect(project.sendMessage).toHaveBeenCalledWith({
                 content: `Thank you for enrolling with One Acre Fund. Please follow-up with the Field Officer (FO) to add inputs. You can also call the FO on ${foPhone}`, 
+                to_number: contact.phone_number
+            });
+        });
+        it('should send a message without FO contact if loan is fully paid and foinfo.phoneNumber is null',()=>{
+            var {client}  = require('./test-client-data'); 
+            roster.getClient = jest.fn().mockImplementationOnce(() => {return client ;});
+            getFOInfo.mockImplementationOnce(() => {return {
+                'firstName': 'sabin',
+                'lastName': 'sheja',
+                'phoneNumber': null
+            };});
+            clientEnrollment.start(account, country, enr_lang);
+            expect(project.sendMessage).toHaveBeenCalledWith({
+                content: 'Thank you for expressing your interest to enroll with OAF. Your FO will reach out to you to add inputs to your order.', 
+                to_number: contact.phone_number
+            });
+        });
+        it('should send a message without FO contact if loan is fully paid and foinfo is null',()=>{
+            var {client}  = require('./test-client-data'); 
+            roster.getClient = jest.fn().mockImplementationOnce(() => {return client ;});
+            getFOInfo.mockImplementationOnce(() => {return null;});
+            clientEnrollment.start(account, country, enr_lang);
+            expect(project.sendMessage).toHaveBeenCalledWith({
+                content: 'Thank you for expressing your interest to enroll with OAF. Your FO will reach out to you to add inputs to your order.', 
                 to_number: contact.phone_number
             });
         });

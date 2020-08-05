@@ -9,7 +9,7 @@ var firstNameHandler = require('./first-name-handler/firstNameHandler');
 var nationalIdHandler = require('./national-id-handler/nationalIdHandler');
 var phoneNumberHandler = require('./phone-number-handler/phoneNumberHandler');
 var secondNameHandler = require('./second-name-handler/secondNameHandler');
-var groupLeaderQuestionHander = require('./group-leader-question-hander/groupLeaderQuestionHandler');
+var groupLeaderQuestionHander = require('./group-leader-question-handler/groupLeaderQuestionHandler');
 
 module.exports = {
     registerHandlers: function (){
@@ -44,6 +44,7 @@ module.exports = {
         }
         function onGroupLeaderQuestion(){
             var client = JSON.parse(state.vars.client_json);
+            console.log('client Data ****************' + client.AccountNumber);
             var clientJSON = {
                 'districtId': client.DistrictId,
                 'siteId': client.SiteId,
@@ -59,11 +60,11 @@ module.exports = {
                 var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
                 var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
                 var message;
-                if((foInfo == null) || (foInfo.phone == null || undefined)){
+                if((foInfo == null) || (foInfo.phoneNumber == null || undefined)){
                     message = translate('reg_complete_message_no_phone' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
                 }
                 else{
-                    message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phone}, state.vars.reg_lang);
+                    message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phoneNumber}, state.vars.reg_lang);
                 }
                 
                 project.sendMessage({content: message, to_number: contact.phone_number});
@@ -92,7 +93,6 @@ module.exports = {
             }
 
         }
-
         addInputHandler(confirmNationalIdHandler.handlerName, confirmNationalIdHandler.getHandler(onNationalIdConfirmation));
         addInputHandler(confirmPhoneNumberHandler.handlerName, confirmPhoneNumberHandler.getHandler(onPhoneNumberConfirmed));
         addInputHandler(firstNameHandler.handlerName, firstNameHandler.getHandler(onFirstNameReceived));
@@ -101,6 +101,7 @@ module.exports = {
         addInputHandler(secondNameHandler.handlerName, secondNameHandler.getHandler(onSecondNameReceived));
         addInputHandler(groupLeaderQuestionHander.handlerName, groupLeaderQuestionHander.getHandler(onGroupLeaderQuestion));
     },
+    
 
     start: function (account, country,lang) {
         state.vars.account = account;
