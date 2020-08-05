@@ -2,7 +2,7 @@ var roster = require('../rw-legacy/lib/roster/api');
 var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
 var translations = require('./translations');
 var createTranslator = require('../utils/translator/translator');
-var translate =  createTranslator(translations, project.vars.lang);
+
 
 module.exports = {
 
@@ -10,6 +10,7 @@ module.exports = {
         state.vars.account = account;
         state.vars.country = country;
         state.vars.enr_lang = lang;
+        var translate =  createTranslator(translations,state.vars.enr_lang);
         var client_auth = roster.authClient(state.vars.account, country);
         if(client_auth){
             var client = roster.getClient(state.vars.account, state.vars.country);
@@ -27,7 +28,7 @@ module.exports = {
                 var foInfo = getFOInfo(client.DistrictId,client.SiteId,state.vars.enr_lang);
                 var message;
                 if(foInfo == null || (foInfo.phoneNumber == null || undefined)){
-                    message = translate('registration_message_no_phone',{},lang);
+                    message = translate('registration_message_no_phone',{},state.vars.enr_lang );
                 }else{
                     message = translate('registration_message' , {'$phone': foInfo.phoneNumber}, state.vars.enr_lang);
                 }
