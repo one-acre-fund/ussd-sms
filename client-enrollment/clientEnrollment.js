@@ -27,7 +27,7 @@ module.exports = {
             else{
                 var foInfo = getFOInfo(client.DistrictId,client.SiteId,state.vars.enr_lang);
                 var message;
-                if(foInfo == null || (foInfo.phoneNumber == null || undefined)){
+                if(foInfo == null || (foInfo.phoneNumber == null || foInfo.phoneNumber == undefined)){
                     message = translate('registration_message_no_phone',{},state.vars.enr_lang );
                 }else{
                     message = translate('registration_message' , {'$phone': foInfo.phoneNumber}, state.vars.enr_lang);

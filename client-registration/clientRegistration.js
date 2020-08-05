@@ -60,7 +60,7 @@ module.exports = {
                 var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
                 var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
                 var message;
-                if((foInfo == null) || (foInfo.phoneNumber == null || undefined)){
+                if((foInfo == null) || (foInfo.phoneNumber == null || foInfo.phoneNumber == undefined)){
                     message = translate('reg_complete_message_no_phone' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
                 }
                 else{
