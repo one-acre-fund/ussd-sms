@@ -1086,8 +1086,8 @@ var TrainingMenuText = function (){
 };
 
 var TrainingMenuNextText = function (){
-    if (GetLang()){sayText("8: Pest Mitigation\n9: Vegetables")}
-    else {sayText("8: Wadudu/Magonjwa\n9: Kupanda Mboga")}
+    if (GetLang()){sayText("8: Pest Mitigation\n9: Vegetables\n10: Tatu Hadi Tatu")}
+    else {sayText("8: Wadudu/Magonjwa\n9: Kupanda Mboga\n10: Tatu Hadi Tatu")}
 };
 
 var TrainingPlatSelectText = function (){
@@ -1729,7 +1729,7 @@ addInputHandler("NonClientMenu", function(input) {
     }
     else if(sessionMenu[input-1].option_name == 'trainings'){
         TrainingMenuText();
-        promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
+        promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 2, timeout: 5})
     }
     else if(sessionMenu[input-1].option_name == 'locate_oaf_duka') {
         dukaLocator.startDukaLocator({lang: GetLang() ? 'en' : 'sw'});
@@ -3192,7 +3192,7 @@ addInputHandler('TrainingSelect', function(input) {
     
     if (input == 0 ){
         TrainingMenuNextText();
-        promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
+        promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 2, timeout: 5})
     }
     
     else if (input == 6){
@@ -3240,9 +3240,13 @@ addInputHandler('TrainingSelect', function(input) {
         TrainingPlatSelectText();
         promptDigits("TrainingPlatformSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
     }
+    else if (input == 10){
+        TriggerTraining("SV1a959518b783e17f");
+        TrainingTriggeredText();
+    }
     else{
         TrainingMenuText();
-        promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
+        promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 2, timeout: 5})
     }
 });
 
