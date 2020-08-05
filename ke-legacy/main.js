@@ -1090,9 +1090,19 @@ var TrainingMenuNextText = function (){
     else {sayText("8: Wadudu/Magonjwa\n9: Kupanda Mboga")}
 };
 
+var TrainingPlatSelectText = function (){
+    if (GetLang()){sayText("1. SMS\n2. Get a FREE CALL")}
+    else {sayText("1. SMS\n2. KUPIGIWA")}
+};
+
 var TrainingTriggeredText = function (){
     if (GetLang()){sayText("A training SMS has been sent to your phone. Messages are free! But please delete unwanted SMS in your phone to make space for incoming.")}
     else {sayText("Ujumbe wa mafunzo umetumwa kwa simu yako. Ujumbe wote ni bure! Kumbuka kufuta SMS usizohitaji ili uwe na nafasi ya kupata ujumbe zaidi.")}
+};
+
+var TrainingTriggeredIVRText = function (){
+    if (GetLang()){sayText(" You will be called by 0711 082 882.")}
+    else {sayText("Utapigiwa moja kwa moja na 0711 082 882.")}
 };
 
 var CallCenterMenuText = function (){
@@ -3227,12 +3237,45 @@ addInputHandler('TrainingSelect', function(input) {
         TrainingTriggeredText();
     }
     else if (input == 9){
-        TriggerTraining("SVeafd5eeb2dadc2d2");
-        TrainingTriggeredText();
+        TrainingPlatSelectText();
+        promptDigits("TrainingPlatformSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
     }
     else{
         TrainingMenuText();
         promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
+    }
+});
+
+addInputHandler('TrainingPlatformSelect', function(input) {
+    LogSessionID();
+    InteractionCounter('TrainingPlatSelect');
+
+    if (input == 1 ){
+        TriggerTraining("SVeafd5eeb2dadc2d2");
+        TrainingTriggeredText();
+    }
+    else {
+        TrainingTriggeredIVRText();
+        hangUp();
+        if (GetLang()){
+
+            var IVR_Call_EN = project.scheduleMessage({
+                message_type: "call", 
+                to_number: contact.phone_number, 
+                start_time_offset: 0,
+                service_id: "SV40cc89e83d0e5810",
+                route_id: "PN54d237477649c512"
+            });
+        }
+        else {
+            var IVR_Call_SW = project.scheduleMessage({
+                message_type: "call", 
+                to_number: contact.phone_number, 
+                start_time_offset: 0,
+                service_id: "SV6b002eba0603b476",
+                route_id: "PN54d237477649c512"
+            });
+        }
     }
 });
 
