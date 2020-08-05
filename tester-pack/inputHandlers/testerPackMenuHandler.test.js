@@ -30,4 +30,11 @@ describe('tester pack menu handler', () => {
         expect(promptDigits).toHaveBeenCalledWith('tester_pack_menu', {'maxDigits': 2, 'submitOnHash': false, 'timeout': 5});
     });
 
+    it('should prompt a user to enter village id once they select option (3)  for status', () => {
+        testerPackMenuHandler(3);
+        expect(sayText).toHaveBeenCalledWith('Enter village ID');
+
+        expect(promptDigits).toHaveBeenCalledWith('village_id', {'maxDigits': 10, 'submitOnHash': false, 'timeout': 5});
+    });
+
 });

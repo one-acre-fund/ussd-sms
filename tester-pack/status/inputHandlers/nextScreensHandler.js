@@ -3,7 +3,7 @@ module.exports = function nextScreensHandler(input) {
     var current_screen = state.vars.current_screen;
 
     if(input === '*' && screens[current_screen + 1]) {
-        state.vars.current_screen = current_screen + 1
+        state.vars.current_screen = current_screen + 1;
         sayText(screens[state.vars.current_screen]);
         if(screens[state.vars.current_screen + 1]) {
             promptDigits('next_farmers_list', {
@@ -13,4 +13,4 @@ module.exports = function nextScreensHandler(input) {
             });
         }
     }
-}
+};

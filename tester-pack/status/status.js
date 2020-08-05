@@ -17,12 +17,12 @@ function registerInputHandlers(){
  * @param {String} session_details.lang the language used during the session
  */
 function startTesterPackStatus() {
-    var lang = state.vars.lang || 'en';
+    var lang = state.vars.lang;
     var getMessage = translator(translations, lang);
     sayText(getMessage('village_id', {}, lang));
     promptDigits('village_id', {
         timeout: 5,
-        maxDigits: 2,
+        maxDigits: 10,
         submitOnHash: false
     });
 }
