@@ -743,9 +743,74 @@ module.exports = {
             "en":"Number of farmers" ,
             "ki": "Umubare w'abahinzi"
         
-    },"maize_number":{
+    },
+    "maize_number":{
         "en": "Quantity of this unshelled maize to sell in bags (use big bags of 100kg)",
         "ki": "Imifuka y'ibigori bidahunguye ugurisha(hakoreshwa umufuka munini w'ibiro 100)"
+    },
+    "pshops_main_splash":{
+        "en": "Welcome to the PShop Client portal. Please enter your Account Number",
+        "ki": "Murakaza neza ku iduka. Injizamo konti yawe y'umuhinzi",
+    },
+    "incorrect_account_number":{
+        "en": "Incorrect input. Please enter your Account Number",
+        "ki": "Winjije umubare utariwo. Ongera winjze umubare wa konti yawe ukoresha wishyura iduka",
+    },
+    "pshop_main_menu":{
+        "en": "Welcome $NAME ~B1 - To check balance ~B2 - Solar Codes",
+        "ki": "Murakaza neza $NAME ~B1. Kureba uko ubwishyu buhagaze ~B2. Kodi y'itara",
+    },
+    "main_message":{
+        "en": "Paid: $REPAY ~BTotal credit: $CREDIT ~BRemaining: $BALANCE ~B1 - Back to main menu",
+        "ki": "Ayishyuwe: $REPAY ~BIdeni ryose: $CREDIT ~BIdeni risigaye: $BALANCE ~B1 - Subira inyuma",
+    },
+    "solar_unlocked":{
+        "en": "You registered Serial $SERIAL ~BUnlock code: $ACTCODE ~B99 - Back to menu",
+        "ki": "Umubare uranga itara ryawe ni: $SERIAL ~BKodi yawe ya burundu ni: $ACTCODE ~B99. Subira inyuma",
+    },
+    "solar_locked":{
+        "en": "You registered Serial $SERIAL ~BLast code: $ACTCODE ~B1- New code ~B99 - Back to menu",
+        "ki": "Umubare uranga itara ryawe ni: $SERIAL ~BKodi uheruka kubona ni: $ACTCODE ~B1. Kodi nshya ~B99. Subira inyuma",
+    },
+    "solar_nonreg":{
+        "en": "You have not registered an SHS. Enter your Serial Number to register ~B99 - Back to menu",
+        "ki": "Ntabwo wandikishije itara ryawe. Injizamo umubare uranga itara kugirango uryandikishe ~B99. Subira inyuma",
+    },
+    "insufficient_funds":{
+        "en": "You have not paid enough to request your new code ~BTo the next code: $REMAIN_BAL ~BTo unlock: $BALANCE ~B1 - Back to main",
+        "ki": "Ubwishyu bwawe ntibuhagije. Ubusigaye ngo ubone kodi ~BNshya: $REMAIN_BAL ~BYa burundu: $BALANCE ~B1. Subira ahabanza",
+    },
+    "unlock_success":{
+        "en": "You have successfully unlocked your SHS! Your unlock code is: $ACTCODE ~B1 - Back to main",
+        "ki": "Warangije kwishyura neza itara ryawe! Kodi ya burundu ni: $ACTCODE ~B1. Subira ahabanza",
+    },
+    "activation_code":{
+        "en": "Your new activation code is: $ACTCODE ~B1 - Back to main",
+        "ki": "Kodi yawe nshya ni: $ACTCODE ~B1. Subira ahabanza",
+    },
+    "reg_success":{
+        "en": "You have registered. Your activation code is $ACTCODE ~B99 - Back to menu",
+        "ki": "Kwandikisha itara ryawe byagenze neza. Kodi yo gucana itara ryawe ni: $ACTCODE ~B99. Subira inyuma",
+    },
+    "already_reg":{
+        "en": "Serial number already registered please try again ~B99 - Back to menu",
+        "ki": "Umubare uranga itara winjije warafashwe. Ongera ugerageze ~B99. Subira inyuma",
+    },
+    "serial_not_found":{
+        "en": "This serial number is not found please try again ~B99 - Back to menu",
+        "ki": "Umubare uranga itara ushyizemo ntubaho. Ongera ugerageze ~B99. Subira inyuma",
+    },
+    "client_alert":{
+        "en": "An error has occurred and has been reported to our technical team.",
+        "ki": "Habayemo ikibazo kandi cyoherejwe ku ikipe ishinzwe kugikemura.",
+    },
+    "invalid_input":{
+        "en": "Incorrect input. ~B1 - To check balance ~B2 - Solar Codes",
+        "ki": "Winjije umubare utariwo. ~B1. Kureba uko ubwishyu buhagaze ~B2. Kodi y'itara"
+    },
+    'solar_duplicate':{
+        "en": "You have registered multiple products. Please enter the serial number of the product you'd like to use.",
+        "ki": "Wanditseho amatara menshi. Andikamo nomero iranga itara uri gukoresha.",
     },
     'view_group_repayment': {
         'en': '$label) View group repayment\n',
