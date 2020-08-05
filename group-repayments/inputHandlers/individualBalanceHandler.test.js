@@ -1,4 +1,7 @@
 const individualBalanceHandler = require('./individualBalanceHandler');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
+
+jest.mock('../../notifications/elk-notification/elkNotification');
 
 describe('Back to group summary handler', () => {
     beforeAll(() => {
@@ -101,6 +104,11 @@ describe('Back to group summary handler', () => {
             maxDigits: 2,
             timeout: 5
         });
+    });
+
+    it('should call notifyELK',()=>{
+        individualBalanceHandler(22);
+        expect(notifyELK).toHaveBeenCalled();
     });
     
 });

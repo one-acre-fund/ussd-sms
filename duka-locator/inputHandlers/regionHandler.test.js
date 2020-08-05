@@ -1,5 +1,6 @@
 const regionHandler = require('./regionHandler');
-
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
+jest.mock('../../notifications/elk-notification/elkNotification');
 describe('region Handler', () => {
     beforeAll(() => {
         global.state = { vars: {} };
@@ -60,5 +61,9 @@ describe('region Handler', () => {
             maxDigits: 2,
             timeout: 5
         });
+    });
+    it('should call ELK',()=>{
+        regionHandler('2');
+        expect(notifyELK).toHaveBeenCalled();
     });
 });

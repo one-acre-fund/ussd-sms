@@ -1,4 +1,7 @@
 const {handlerName, getHandler} = require ('./phoneNumberHandler');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
+
+jest.mock('../../notifications/elk-notification/elkNotification');
 
 describe('phone_number_handler', () => {
     var phoneNumberHandler;
@@ -12,6 +15,10 @@ describe('phone_number_handler', () => {
     });
     it('should be a function', () => {
         expect(phoneNumberHandler).toBeInstanceOf(Function);
+    });
+    it('should call notifyELK ', () => {
+        phoneNumberHandler('1');
+        expect(notifyELK).toHaveBeenCalled();
     });
     it('should not call onPhoneNumberValidated if input does not match a valid phone Number ', () => {
         phoneNumberHandler('1');

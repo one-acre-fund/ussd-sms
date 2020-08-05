@@ -1,5 +1,7 @@
 const groupSummaryHandler = require('./groupSummaryHandler');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
+jest.mock('../../notifications/elk-notification/elkNotification');
 describe('Back to group summary handler', () => {
     beforeAll(() => {
         global.state = { vars: {} };
@@ -31,5 +33,9 @@ describe('Back to group summary handler', () => {
             maxDigits: 2,
             timeout: 5
         }); 
+    });
+    it('should call notifyELK',()=>{
+        groupSummaryHandler('*');
+        expect(notifyELK).toHaveBeenCalled();
     });
 });

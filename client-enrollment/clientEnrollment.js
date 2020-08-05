@@ -2,7 +2,7 @@ var roster = require('../rw-legacy/lib/roster/api');
 var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
 var translations = require('./translations');
 var createTranslator = require('../utils/translator/translator');
-
+var notifyELK = require('../notifications/elk-notification/elkNotification');
 
 module.exports = {
 
@@ -10,6 +10,7 @@ module.exports = {
         state.vars.account = account;
         state.vars.country = country;
         state.vars.enr_lang = lang;
+        notifyELK();
         var translate =  createTranslator(translations,state.vars.enr_lang);
         var client_auth = roster.authClient(state.vars.account, country);
         if(client_auth){

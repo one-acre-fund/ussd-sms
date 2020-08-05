@@ -1,7 +1,8 @@
 const {handlerName,getHandler} = require ('./idVerification');
 const { getClient } = require('../../rw-legacy/lib/roster/api');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
-
+jest.mock('../../notifications/elk-notification/elkNotification');
 jest.mock('../../rw-legacy/lib/roster/api');
 jest.mock('../get-transaction-history/getTransactionHistory');
 
@@ -29,6 +30,10 @@ describe('idVerificationHandler', () => {
     it('should get the client data with the account number', () => {
         idVerificationHandler('1234');
         expect(getClient).toHaveBeenCalledWith(account_number, country);
+    });
+    it('should call notifyELK', () => {
+        idVerificationHandler();
+        expect(notifyELK).toHaveBeenCalledWith();
     });
     it('should show prompt message for retry if input does not match the last for digits of the NID', () => {
         project.vars.lang = 'en';

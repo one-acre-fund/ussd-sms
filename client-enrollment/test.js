@@ -1,10 +1,11 @@
 const clientEnrollment = require('./clientEnrollment');
 const roster = require('../rw-legacy/lib/roster/api');
+var notifyELK = require('../notifications/elk-notification/elkNotification');
 var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
 
 jest.mock('../rw-legacy/lib/roster/api');
 jest.mock('../Roster-endpoints/Fo-info/getFoInfo');
-
+jest.mock('../notifications/elk-notification/elkNotification');
 const account = 123456789;
 const country = 'KE';
 const enr_lang = 'en-ke';
@@ -19,6 +20,7 @@ describe('clientRegistration', () => {
         project.initDataTableById = jest.fn();
         mockTable.createRow.mockReturnValue(mockRow);
         project.initDataTableById.mockReturnValue(mockTable);
+        //notifyELK = jest.fn();
     });
     beforeEach(()=>{
         roster.authClient = jest.fn().mockImplementationOnce(() => {
@@ -36,6 +38,10 @@ describe('clientRegistration', () => {
             state.vars.enr_lang = enr_lang;
             clientEnrollment.start(account, country,enr_lang);
             expect(state.vars).toMatchObject({account,country,enr_lang});
+        });
+        it('should call notifyELK on start function', () => {
+            clientEnrollment.start(account, country,enr_lang); 
+            expect(notifyELK).toHaveBeenCalled();
         });
         it('should call roster.authClient', () => {
             clientEnrollment.start(account, country, enr_lang);

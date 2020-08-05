@@ -1,5 +1,7 @@
 const {handlerName,getHandler} = require('./groupLeaderQuestionHandler');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
+jest.mock('../../notifications/elk-notification/elkNotification');
 describe('group_leader_question_handler', () => {
     var groupLeaderQuestionHandler;
     var onGroupLeaderQuestion;
@@ -12,6 +14,10 @@ describe('group_leader_question_handler', () => {
     });
     it('should be a function', () => {
         expect(groupLeaderQuestionHandler).toBeInstanceOf(Function);
+    });
+    it('should call notifyELK ', () => {
+        groupLeaderQuestionHandler();
+        expect(notifyELK).toHaveBeenCalled();
     });
     it('should not call onGroupLeaderQuestion if input is not 1 or 2', () => {
         groupLeaderQuestionHandler('7');

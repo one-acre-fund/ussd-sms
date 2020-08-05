@@ -3,12 +3,13 @@ var translator = require('../../utils/translator/translator');
 
 var fetchGroupRepaymentInformation = require('../api/groupRepaymentsApi');
 var adminLogger = require('../../rw-legacy/lib/admin-alert');
-
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 /**
  * Callback to the Input handler for handling the user input for last four digits of id
  * @param {String} input parameter to the callback
  */
 module.exports = function lastFourIdDigitsHandler(input) {
+    notifyELK();
     var group_repayment_variables = JSON.parse(state.vars.group_repayment_variables);
     
     var lang = group_repayment_variables.lang;
