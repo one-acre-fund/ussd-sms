@@ -20,12 +20,12 @@ describe('group_leader_question_handler', () => {
     it('should set groupLeader state variable to true and call onGroupLeaderQuestion if input is 1', () => {
         groupLeaderQuestionHandler('1');
         expect(state.vars.groupLeader).toBeTruthy();
-        expect(onGroupLeaderQuestion).toHaveBeenCalled();
+        expect(onGroupLeaderQuestion).toHaveBeenCalledWith('1');
     });
-    it('should set groupLeader state variable to true and call onGroupLeaderQuesion if the input is 2', () => {
+    it('should set groupLeader state variable to false and call onGroupLeaderQuesion if the input is 2', () => {
         groupLeaderQuestionHandler('2');
         expect(state.vars.groupLeader).toBeFalsy();
-        expect(onGroupLeaderQuestion).toHaveBeenCalled();
+        expect(onGroupLeaderQuestion).toHaveBeenCalledWith('2');
     });
     it('should reprompt the user with the message asking if they want to be a group eader if the input is not 1 or 2', () => {
         groupLeaderQuestionHandler('4');
