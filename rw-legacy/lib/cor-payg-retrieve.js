@@ -6,7 +6,7 @@
 
 module.exports = function(accnum){
     // load in relevant modules and data tables
-    var serial_table = project.getOrCreateDataTable('Valid_Serial_Number');
+    var serial_table = project.getOrCreateDataTable(service.vars.Valid_Serial_Number_table);
 
     // save api cursor pointing to rows from the serial table where the entered serial number matches
     var client_pointer = serial_table.queryRows({'vars' : {'account_number' : accnum}});
