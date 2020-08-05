@@ -1,6 +1,6 @@
 var createTranslator = require('../../utils/translator/translator');
 var translations = require('../translations');
-var translate =  createTranslator(translations, state.vars.reg_lang ||'en');
+var translate =  createTranslator(translations, state.vars.reg_lang ||'en-ke');
 
 var isPhoneNumberValid = function(phoneNumber){
     // Valid for Kenya

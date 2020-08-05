@@ -44,6 +44,7 @@ var groupRepaymentsModule = require('../group-repayments/groupRepayments');
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 service.vars.roster_read_key = project.vars.roster_read_key;
+service.vars.lr_2021_client_table_id = project.vars[env+'_lr_2021_client_table_id'];
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 
 var MenuCount = 0;
@@ -1635,7 +1636,6 @@ var registrationMenu= function(){
     if (GetLang()){sayText("Please reply with the account number of the farmer\n0) For new client.")}
     else {sayText("Tafadhali jibu na nambari ya akaunti ya mkulima\n0) kwa mkulima mgeni")}
 };
-
 
 
 // Start logic flow

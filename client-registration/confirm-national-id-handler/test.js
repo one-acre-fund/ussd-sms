@@ -8,7 +8,7 @@ describe('confirm_national_id', () => {
         onNationalIdConfirmation = jest.fn();
         idVerificationHandler = getHandler(onNationalIdConfirmation);
         state.vars.country = 'ke';
-        state.vars.reg_lang = 'en';
+        state.vars.reg_lang = 'en-ke';
     });
     it('should not call onNationalIdConfirmation if input is not 1 ', () => {
         idVerificationHandler('2');

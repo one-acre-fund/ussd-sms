@@ -6,7 +6,7 @@ describe('phone_number_handler', () => {
     beforeEach(() => {
         sayText.mockReset();
         onPhoneNumberValidated = jest.fn();
-        state.vars.reg_lang = 'en';
+        state.vars.reg_lang = 'en-ke';
         state.vars.country = 'ke';
         phoneNumberHandler = getHandler(onPhoneNumberValidated);
     });
