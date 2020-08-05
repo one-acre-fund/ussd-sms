@@ -4,10 +4,12 @@
     Status: complete
 */
 
+
 module.exports = function(accnum, serial_no){
     // retrieve necssary tables and modules
     var admin_alert = require('./admin-alert');
-    var SerialTable = project.getOrCreateDataTable("SerialNumberTable");
+    var slack = require('../../slack-logger/index');
+    var SerialTable =  project.getOrCreateDataTable(service.vars.serial_number_table);
 
     // save as variable the row from the serial table where the entered serial number matches
     if(state.vars.duplicate){
@@ -29,33 +31,40 @@ module.exports = function(accnum, serial_no){
         Serial.vars.accountnumber = accnum; 
         Serial.vars.historic_credit = state.vars.TotalCredit - state.vars.Balance;
         Serial.vars.dateregistered = new Date().toString();
+        if(!state.vars.duplicate){Serial.vars.product_type = 'biolite';}
         Serial.save(); 
         
         // retrieve one unused activation code for this serial number
-        var ActTable = project.getOrCreateDataTable("ActivationCodes");
+        var ActTable = project.getOrCreateDataTable(service.vars.activation_code_table);
+        var listVars = {'serialnumber': serial_no,
+            'type': 'Activation',
+            'activated': 'No'   
+        };
+        if(!state.vars.duplicate){listVars.vars.product_type = 'biolite';} // because only biolite products are being sold now
         ListAct = ActTable.queryRows({
-            vars: {'serialnumber': serial_no,
-                    'type': "Activation",
-                    'activated': "No"
-            }
+            vars: listVars,
         });
         if(ListAct.count() < 1){
-            admin_alert('No codes remaining for SHS product with serial number: ' + serial_no, 'No remaining serial numbers', 'marisa');
+            admin_alert('No codes remaining for Biolite product with serial number: ' + serial_no, 'No remaining serial numbers', 'marisa');
+            slack.log('No codes remaining for Biolite product with serial number: ' + serial_no);
+            console.log('No codes remaining for Biolite product with serial number: ' + serial_no, 'No remaining serial numbers');            
+            state.vars.SerialStatus = 'failed_getting_serial_number';
         }
         else{
             ListAct.limit(1);
+            var Act = ListAct.next();
+            state.vars.ActCode = Act.vars.code;
+            Act.vars.activated = "Yes";
+            Act.vars.dateactivated = new Date().toString();
+            Act.save();
         }
-        
         // update the activation table to say that this code has been used
-        var Act = ListAct.next();
-        state.vars.ActCode = Act.vars.code;
-        Act.vars.activated = "Yes";
-        Act.vars.dateactivated = new Date().toString();
-        Act.save();
     }
     // if there are more than one rows with the input serial number, flag an error
     else if(ListRows.count() > 1){
         admin_alert('duplicate serial numbers in PSHOPs database sn: ' + serial_no, 'Duplicate Serial Numbers in TR DB', 'marisa');
+        slack.log('duplicate serial numbers in PSHOPs database sn: ' + serial_no);
+        console.log('duplicate serial numbers in PSHOPs database sn: ' + serial_no, 'Duplicate Serial Numbers in TR DB');
         return false;
     }
     // if there are zero rows in the table with the serial number, return false
