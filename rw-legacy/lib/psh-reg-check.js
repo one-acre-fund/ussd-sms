@@ -7,7 +7,8 @@
 module.exports = function(accnum){
     // load relevant functions and data tables
     var admin_alert = require('./admin-alert');
-    var table = project.getOrCreateDataTable("SerialNumberTable");
+    var slack = require('../../slack-logger/index');
+    var table = project.getOrCreateDataTable(service.vars.serial_number_table);
     state.vars.duplicate = false; 
 
     // retrieve rows where account number in table corresponds to input account number
@@ -20,17 +21,27 @@ module.exports = function(accnum){
     if(ListRows.count() === 1){
         var Serial = ListRows.next();
         state.vars.serial_no = Serial.vars.serialnumber;
-        var Activationtable = project.getOrCreateDataTable("ActivationCodes");
-
+        var Activationtable = project.getOrCreateDataTable(service.vars.activation_code_table);
         // if the serial number is unlocked, retrieve the the relevant activation code
         if (Serial.vars.unlock == "Yes"){
+            console.log('unlock is:' + Serial.vars.unlock);
             state.vars.unlock = true;
+            var unlockVars = {
+                'activated': 'Yes',
+                'unlock': 'Yes',
+                'serialnumber': state.vars.serial_no,
+            };
+            // If the the product type is not null check if it is biolite
+            if(Serial.vars.product_type != null){
+                unlockVars['product_type'] = {'ne': 'biolite'};
+                // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
+                if(Serial.vars.product_type == 'biolite'){
+                    unlockVars['product_type'] = 'biolite';
+                }
+            }
+            console.log('unlock vars ' + JSON.stringify(unlockVars));
             ActList = Activationtable.queryRows({
-                vars: {
-                    'activated': "Yes",
-                    'unlock': "Yes",
-                    'serialnumber': state.vars.serial_no
-                },
+                vars: unlockVars,
             });
             
             // if the serial number is in the table, retrieve the corresponding activation code; else send alert to admin
@@ -41,20 +52,38 @@ module.exports = function(accnum){
             }
             else{
                 admin_alert('No rows in ActTable for serial no: ' + state.vars.serial_no, 'Missing Serial Number in ActivationCodes', 'marisa');
+                slack.log('No rows in ActTable for serial no: ' + state.vars.serial_no, 'Missing Serial Number in ActivationCodes');
+                console.log('No rows in ActTable for serial no: ' + state.vars.serial_no, 'Missing Serial Number in ActivationCodes');
                 return false;
             }
         }
         else{
             console.log('About to get the latest activation code');
-        // Get latest activation code
+            // Get latest activation code
             state.vars.unlock = false;
-            var Activationtable = project.getOrCreateDataTable("ActivationCodes");
+            var Activationtable = project.getOrCreateDataTable(service.vars.activation_code_table);
+            var activationVars= {
+                'activated': "Yes",
+                'serialnumber': state.vars.serial_no,
+            };
+            // If the the product type is not nul check if it s biolite
+            if(Serial.vars.product_type != null){
+                activationVars['product_type'] = {'ne': 'biolite'};
+                // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
+                if(Serial.vars.product_type == 'biolite'){
+                    activationVars['product_type'] = 'biolite';
+                }
+            }
+            console.log(JSON.stringify(activationVars));
             ActList = Activationtable.queryRows({
-                vars: {
-                    'activated': "Yes",
-                    'serialnumber': state.vars.serial_no
-                },
+                vars: activationVars,
             });
+            if(ActList.count() == 0){
+                admin_alert('No rows in ActTable for serial no: ' + state.vars.serial_no, 'Missing Serial Number in ActivationCodes', 'marisa');
+                slack.log('No rows in ActTable for serial no: ' + state.vars.serial_no, 'Missing Serial Number in ActivationCodes');
+                console.log('No rows in ActTable for serial no: ' + state.vars.serial_no, 'Missing Serial Number in ActivationCodes');
+                return false;
+            }
             // save the client's number of codes used
             Serial.vars.numbercodes = ActList.count();
             Serial.save();
