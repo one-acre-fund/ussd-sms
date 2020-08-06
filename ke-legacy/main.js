@@ -3292,7 +3292,7 @@ addInputHandler('TrainingPlatformSelect', function(input) {
 
 addInputHandler('registrationHandler', function(input){
     LogSessionID();
-    InteractionCounter('TrainingPlatSelect');
+    InteractionCounter('registrationHandler');
     if(input == 0){
         clientRegistration.start(client.AccountNumber,'ke',state.vars.lang);
     }

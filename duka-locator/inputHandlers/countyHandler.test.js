@@ -45,7 +45,7 @@ describe('County handler', () => {
         expect(sayText).toHaveBeenCalledWith('Sorry, OAF currently has OAF Dukas in the following locations\ningati, ayoba, sasamu');
         expect(stopRules).toHaveBeenCalledWith();
     });
-    it('should call ELK',()=>{
+    it('should call notifyELK',()=>{
         countyHandler('3');
         expect(notifyELK).toHaveBeenCalled();
     });

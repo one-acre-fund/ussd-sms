@@ -48,7 +48,7 @@ describe('Duka locator', () => {
         });
     });
 
-    it('should call ELK',()=>{
+    it('should call notifyELK',()=>{
         dukaHandler('1');
         expect(notifyELK).toHaveBeenCalled();
     });

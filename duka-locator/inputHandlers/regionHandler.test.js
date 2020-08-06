@@ -62,7 +62,7 @@ describe('region Handler', () => {
             timeout: 5
         });
     });
-    it('should call ELK',()=>{
+    it('should call notifyELK',()=>{
         regionHandler('2');
         expect(notifyELK).toHaveBeenCalled();
     });

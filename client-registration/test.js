@@ -271,7 +271,7 @@ describe('clientRegistration', () => {
             clientRegistration.start(account, country,reg_lang);
             expect(state.vars).toMatchObject({account,country,reg_lang});
         });
-        it('should set the  state vars to the provided account and country', () => {
+        it('should call notifyELK', () => {
             clientRegistration.start(account, country,reg_lang);
             expect(notifyELK).toHaveBeenCalled();
         });

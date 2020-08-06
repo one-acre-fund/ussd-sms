@@ -20,7 +20,6 @@ describe('clientRegistration', () => {
         project.initDataTableById = jest.fn();
         mockTable.createRow.mockReturnValue(mockRow);
         project.initDataTableById.mockReturnValue(mockTable);
-        //notifyELK = jest.fn();
     });
     beforeEach(()=>{
         roster.authClient = jest.fn().mockImplementationOnce(() => {
