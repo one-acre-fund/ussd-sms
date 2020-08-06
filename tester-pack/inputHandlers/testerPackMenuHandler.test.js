@@ -37,4 +37,11 @@ describe('tester pack menu handler', () => {
         expect(promptDigits).toHaveBeenCalledWith('village_id', {'maxDigits': 10, 'submitOnHash': false, 'timeout': 5});
     });
 
+    it('should prompt a user to enter village id once they select option (1)  for registration', () => {
+        testerPackMenuHandler(1);
+        expect(sayText).toHaveBeenCalledWith('Welcome Farmer Promoter. Enter your village ID');
+
+        expect(promptDigits).toHaveBeenCalledWith('fp_enter_id', {'maxDigits': 8, 'submitOnHash': false, 'timeout': 180});
+    });
+
 });
