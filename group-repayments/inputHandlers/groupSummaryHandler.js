@@ -1,12 +1,13 @@
 var translations = require('../translations/message-translations');
 var translator = require('../../utils/translator/translator');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 /**
  * Input handler for handling the choice of returning the user to group summary 
  * @param {String} input parameter to the callback
  */
 module.exports = function groupSummaryHandler(input) {
+    notifyELK();
     var group_repayment_variables = JSON.parse(state.vars.group_repayment_variables);
-    
     var lang = group_repayment_variables.lang;
     var getMessage = translator(translations, lang);
     var all_screens = JSON.parse(state.vars.all_screens);

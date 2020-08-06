@@ -17,7 +17,7 @@ service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 service.vars.currency = 'KES';
 
-
+var notifyELK = require('../notifications/elk-notification/elkNotification');
 var transactionHistory = require('../transaction-history/transactionHistory');
 var clientRegistration = require('../client-registration/clientRegistration');
 var clientEnrollment = require('../client-enrollment/clientEnrollment');
@@ -124,7 +124,8 @@ var InteractionCounter = function(input){
     }
     catch(err) {
         console.log("Error occurred in interaction counter")
-      }
+    }
+    notifyELK();
 };
 var IsGl = function(accnum){
     var GLTable = project.getOrCreateDataTable("GroupLeaders");
@@ -245,6 +246,7 @@ var RosterColRequest = function (AccNum,Amount){
     if (colResult.Success) {console.log("The user will get PIN authorization form on their phone to pay OAF")}
     else {console.log(colResult.Description + "Try again")}
     call.vars.colreqTimeStamp = moment().format('X');
+    notifyELK();
     return colResult.Success;
 };
 
@@ -1079,6 +1081,7 @@ var CheckBalanceMenuText = function (Overpaid,Season,Credit,Paid,Balance){
     }
     var BalanceInfo = "Balance: "+Balance+ "\nSeason: "+Season+ "\nCredit: "+Credit+ "\nPaid: "+Paid+ "\nOverpaid: "+Overpaid;
     call.vars.BalanceInfo = BalanceInfo;
+    notifyELK();
 };
 
 var TrainingMenuText = function (){
@@ -1681,6 +1684,7 @@ addInputHandler('SplashMenu', function(SplashMenu) {
             state.vars.client = JSON.stringify(TrimClientJSON(client));
             call.vars.client = JSON.stringify(TrimClientJSON(client));
             call.vars.AccNum = ClientAccNum;
+            notifyELK();
             state.vars.account_number = client.AccountNumber;
             MainMenuText(client);
             promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
@@ -1895,6 +1899,7 @@ addInputHandler("PaymentAmount", function(PaymentAmount) {
         }
         else{
             call.vars.PaymentAmount = parseInt(PaymentAmount);
+            notifyELK();
             console.log("trimmed payment amount to number");
         }
 
@@ -1902,10 +1907,12 @@ addInputHandler("PaymentAmount", function(PaymentAmount) {
             call.vars.ColStatus = "Success";
             PaymentSuccessText();
             call.vars.UpdateReceived = "NO";
+            notifyELK();
             hangUp();
         }
         else {
             call.vars.ColStatus = "Failed";
+            notifyELK();
             PaymentFailureText();
             ErrorEmail("KE USSD Collection request failure","Acc num: "+client.AccountNumber+"\nAmount: "+ PaymentAmount+ "\nPhonenumber: "+call.from_number);
             hangUp();
@@ -3284,6 +3291,8 @@ addInputHandler('TrainingPlatformSelect', function(input) {
 });
 
 addInputHandler('registrationHandler', function(input){
+    LogSessionID();
+    InteractionCounter('registrationHandler');
     if(input == 0){
         clientRegistration.start(client.AccountNumber,'ke',state.vars.lang);
     }

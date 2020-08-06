@@ -1,6 +1,8 @@
 const {handlerName} = require ('../phone-number-handler/phoneNumberHandler');
 const {getHandler} = require('./confirmPhoneNumberHandler');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
+jest.mock('../../notifications/elk-notification/elkNotification');
 describe('phone_number_handler', () => {
     var phoneNumberHandler;
     var onPhoneNumberConfirmed;
@@ -17,6 +19,10 @@ describe('phone_number_handler', () => {
     it('should not call onPhoneNumberConfirmed if input is not 1', () => {
         phoneNumberHandler('7');
         expect(onPhoneNumberConfirmed).not.toHaveBeenCalled();
+    });
+    it('should call notifyELK ', () => {
+        phoneNumberHandler();
+        expect(notifyELK).toHaveBeenCalled();
     });
     it('should show prompt message for phone number input if input is not 1', () => {
         phoneNumberHandler('0000');

@@ -1,7 +1,7 @@
 var translations = require('./translations/message-translations');
 var translator = require('../utils/translator/translator');
 var adminLogger = require('../rw-legacy/lib/admin-alert');
-
+var notifyELK = require('../notifications/elk-notification/elkNotification');
 /**
  * Holds the core implementation of group repayments  
  * For devs: you can extend the behaviours of this function by adding more inputs
@@ -27,6 +27,7 @@ function registerInputHandlers(session_details){
  * @param {String} session_details.lang the language used during the session
  */
 function startGroupRepayments(session_details) {
+    notifyELK();
     var lang = session_details.lang;
     var getMessage = translator(translations, lang);
     var getClient = require('../shared/rosterApi/getClient');

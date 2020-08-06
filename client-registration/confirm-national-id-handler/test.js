@@ -1,5 +1,8 @@
 const {handlerName} = require ('../national-id-handler/nationalIdHandler');
 const {getHandler} = require('./confirmNationalIdHandler');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
+
+jest.mock('../../notifications/elk-notification/elkNotification');
 describe('confirm_national_id', () => {
     var idVerificationHandler;
     var onNationalIdConfirmation;
@@ -13,6 +16,10 @@ describe('confirm_national_id', () => {
     it('should not call onNationalIdConfirmation if input is not 1 ', () => {
         idVerificationHandler('2');
         expect(onNationalIdConfirmation).not.toHaveBeenCalled();
+    });
+    it('should call notifyELK ', () => {
+        idVerificationHandler();
+        expect(notifyELK).toHaveBeenCalled();
     });
     it('should show prompt message for national ID input if input is not a valid national Id', () => {
         idVerificationHandler('0');

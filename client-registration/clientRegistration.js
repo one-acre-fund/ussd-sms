@@ -2,7 +2,7 @@ var translations = require('./translations');
 var createTranslator = require('../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
 var rosterRegisterClient = require('../rw-legacy/lib/roster/register-client');
-
+var notifyELK = require('../notifications/elk-notification/elkNotification');
 var confirmNationalIdHandler = require('./confirm-national-id-handler/confirmNationalIdHandler');
 var confirmPhoneNumberHandler = require('./confirm-phone-number-hundler/confirmPhoneNumberHandler');
 var firstNameHandler = require('./first-name-handler/firstNameHandler');
@@ -104,6 +104,7 @@ module.exports = {
     
 
     start: function (account, country,lang) {
+        notifyELK();
         state.vars.account = account;
         state.vars.country = country;
         state.vars.reg_lang = lang;

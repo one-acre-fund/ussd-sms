@@ -1,5 +1,7 @@
 const groupRepayments = require('./groupRepayments');
+var notifyELK = require('../notifications/elk-notification/elkNotification');
 
+jest.mock('../notifications/elk-notification/elkNotification');
 describe('Back to group summary handler', () => {
     beforeAll(() => {
         global.state = { vars: {lang: 'en'} };
@@ -23,5 +25,9 @@ describe('Back to group summary handler', () => {
         jest.spyOn(httpClient, 'request').mockReturnValue({status: 200, content: JSON.stringify({})});
         groupRepayments.startGroupRepayments({lang: 'en'});
         expect(sayText).toHaveBeenCalledWith('Please enter the last four digits of the national ID you registered with');
+    });
+    it('should call notifyELK', () => {
+        groupRepayments.startGroupRepayments({lang: 'en'});
+        expect(notifyELK).toHaveBeenCalled();
     });
 });

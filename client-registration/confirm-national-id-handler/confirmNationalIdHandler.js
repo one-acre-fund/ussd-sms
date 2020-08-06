@@ -2,11 +2,13 @@ var createTranslator = require('../../utils/translator/translator');
 var translations = require('../translations');
 var translate =  createTranslator(translations, project.vars.lang);
 var nationalIdHandler = require('../national-id-handler/nationalIdHandler');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 var handlerName = 'confirm_national_id';
 module.exports = {
     handlerName: handlerName,
     getHandler: function(onNationalIdConfirmation){
-        return function (input) {  
+        return function (input) { 
+            notifyELK(); 
             if(input == 1){
                 onNationalIdConfirmation();
             }

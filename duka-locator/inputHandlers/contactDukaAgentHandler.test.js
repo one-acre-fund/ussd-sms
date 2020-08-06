@@ -1,5 +1,6 @@
 const contactDukaAgentHandler = require('./contactDukaAgentHandler');
-
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
+jest.mock('../../notifications/elk-notification/elkNotification');
 describe('Contact duka agent input handler', () => {
     beforeAll(() => {
         global.state = { vars: {} };
@@ -25,5 +26,9 @@ describe('Contact duka agent input handler', () => {
         state.vars.selected_duka = JSON.stringify({duka_supervisor_pn: '0767443653', duka_supervisor_name: 'Claude'});
         contactDukaAgentHandler('2');
         expect(stopRules).toHaveBeenCalledWith();
+    });
+    it('should call ELK',()=>{
+        contactDukaAgentHandler();
+        expect(notifyELK).toHaveBeenCalled();
     });
 });

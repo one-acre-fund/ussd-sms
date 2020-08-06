@@ -1,7 +1,8 @@
 var translations = require('../translations/index');
 var translator = require('../../utils/translator/translator');
-
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 module.exports = function countyHandler(input) {
+    notifyELK();
     var lang = state.vars.lang || 'en';
     state.vars.lang = lang;
     var labeled_counties = JSON.parse(state.vars.labeled_counties);
