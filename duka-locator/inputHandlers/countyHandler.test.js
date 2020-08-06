@@ -1,5 +1,6 @@
 const countyHandler = require('./countyHandler');
-
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
+jest.mock('../../notifications/elk-notification/elkNotification');
 describe('County handler', () => {
     beforeAll(() => {
         global.state = { vars: {} };
@@ -43,5 +44,9 @@ describe('County handler', () => {
         countyHandler('3');
         expect(sayText).toHaveBeenCalledWith('Sorry, OAF currently has OAF Dukas in the following locations\ningati, ayoba, sasamu');
         expect(stopRules).toHaveBeenCalledWith();
+    });
+    it('should call notifyELK',()=>{
+        countyHandler('3');
+        expect(notifyELK).toHaveBeenCalled();
     });
 });

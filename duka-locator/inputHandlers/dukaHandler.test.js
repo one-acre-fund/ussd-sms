@@ -1,5 +1,6 @@
 const dukaHandler = require('./dukaHandler');
-
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
+jest.mock('../../notifications/elk-notification/elkNotification');
 describe('Duka locator', () => {
     beforeAll(() => {
         global.state = { vars: {} };
@@ -47,5 +48,9 @@ describe('Duka locator', () => {
         });
     });
 
+    it('should call notifyELK',()=>{
+        dukaHandler('1');
+        expect(notifyELK).toHaveBeenCalled();
+    });
 
 });

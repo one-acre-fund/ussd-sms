@@ -1,11 +1,12 @@
 var translations = require('../translations/message-translations');
 var translator = require('../../utils/translator/translator');
-
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 /**
      * This is the callback function called on input handlers
      * @param {String} input parameter of the callback
      */
 module.exports = function individualBalanceHandler(input) {
+    notifyELK();
     var group_repayment_variables = JSON.parse(state.vars.group_repayment_variables);
 
     var lang = group_repayment_variables.lang;

@@ -7,7 +7,9 @@ const secondNameHandler = require('./second-name-handler/secondNameHandler');
 const groupLeaderQuestionHandler = require('./group-leader-question-handler/groupLeaderQuestionHandler');
 var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
 var {client}  = require('../client-enrollment/test-client-data'); 
+var notifyELK = require('../notifications/elk-notification/elkNotification');
 
+jest.mock('../notifications/elk-notification/elkNotification');
 jest.mock('../Roster-endpoints/Fo-info/getFoInfo');
 jest.mock('./confirm-national-id-handler/confirmNationalIdHandler');
 jest.mock('./confirm-phone-number-hundler/confirmPhoneNumberHandler');
@@ -268,6 +270,10 @@ describe('clientRegistration', () => {
             state.vars.reg_lang = '';
             clientRegistration.start(account, country,reg_lang);
             expect(state.vars).toMatchObject({account,country,reg_lang});
+        });
+        it('should call notifyELK', () => {
+            clientRegistration.start(account, country,reg_lang);
+            expect(notifyELK).toHaveBeenCalled();
         });
         it('should show a what is the farmer\'s national Id message', () => {
             clientRegistration.start(account, country, reg_lang);

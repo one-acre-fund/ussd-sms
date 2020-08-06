@@ -1,5 +1,7 @@
 const dukaLocator = require('./index');
+var notifyELK = require('../notifications/elk-notification/elkNotification');
 
+jest.mock('../notifications/elk-notification/elkNotification');
 describe('Duka locator', () => {
     beforeAll(() => {
         global.state = { vars: {} };
@@ -39,5 +41,9 @@ describe('Duka locator', () => {
         expect(promptDigits).toHaveBeenCalledWith('select_oaf_duka_region', {
             submitOnHash: false, maxDigits: 2, timeout: 5
         });
+    });
+    it('should call notifyELK',()=>{
+        dukaLocator.startDukaLocator({lang: 'en'});
+        expect(notifyELK).toHaveBeenCalled();
     });
 });

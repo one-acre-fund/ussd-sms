@@ -1,6 +1,6 @@
 var translations = require('./translations/index');
 var translator = require('./../utils/translator/translator');
-
+var notifyELK = require('../notifications/elk-notification/elkNotification');
 /**
  * REgisters all input handlers for duka location 
  * For devs: you can extend the behaviours of this function by adding more inputs
@@ -27,6 +27,7 @@ function registerInputHandlers(session_details){
  * @param {String} session_details.lang the language used during the session
  */
 function startDukaLocator(session_details) {
+    notifyELK();
     var lang = session_details.lang;
     var getMessage = translator(translations, lang);
     var dukaRegionsTable = project.getOrCreateDataTable('Duka_locator_regions');

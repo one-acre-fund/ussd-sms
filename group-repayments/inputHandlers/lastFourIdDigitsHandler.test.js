@@ -1,5 +1,7 @@
 const lastFourIdDigitsHandler = require('./lastFourIdDigitsHandler');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
+jest.mock('../../notifications/elk-notification/elkNotification');
 describe('Last four nid digits input handler', () => {
     beforeAll(() => {
         global.state = { vars: {national_id: '119987129264223'} };
@@ -38,4 +40,9 @@ describe('Last four nid digits input handler', () => {
             timeout: 5
         });
     });
+    it('should call notifyELK',()=>{
+        lastFourIdDigitsHandler('5334');
+        expect(notifyELK).toHaveBeenCalled();
+    });
+    
 });

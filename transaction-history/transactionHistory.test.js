@@ -2,8 +2,9 @@ var nidVerification = require('./id-verification/idVerification');
 var transactionView = require('./display-transactions/displayTransactions');
 var getTransactionHistory = require('./get-transaction-history/getTransactionHistory');
 var selectionHandler = require('./selection-hander/on-select');
+var notifyELK = require('../notifications/elk-notification/elkNotification');
 
-
+jest.mock('../notifications/elk-notification/elkNotification');
 jest.mock('./id-verification/idVerification');
 jest.mock('./display-transactions/displayTransactions');
 jest.mock('./get-transaction-history/getTransactionHistory');
@@ -179,6 +180,10 @@ describe('TransactionHistory', () => {
             state.vars.country = '';
             transactionHistory.start(account, country);
             expect(state.vars).toMatchObject({account,country});
+        });
+        it('should call notifyELk', () => {
+            transactionHistory.start(account, country);
+            expect(notifyELK).toHaveBeenCalled();
         });
         it('should prompt for the last four digits of the national id', () => {
             transactionHistory.start(account, country);

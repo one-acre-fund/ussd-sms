@@ -1,7 +1,7 @@
 var createTranslator = require('../../utils/translator/translator');
 var translations = require('../translations');
 var translate =  createTranslator(translations, state.vars.reg_lang ||'en-ke');
-
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 var isPhoneNumberValid = function(phoneNumber){
     // Valid for Kenya
     if(state.vars.country == 'ke'){
@@ -16,6 +16,7 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(onPhoneNumberValidated){
         return function (input) {
+            notifyELK();
             if(isPhoneNumberValid(input)){
                 onPhoneNumberValidated(input);
             }
