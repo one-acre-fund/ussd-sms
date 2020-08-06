@@ -32,7 +32,8 @@
       "**/*.{js,jsx}", 
       "!**/node_modules/**",
       "!**/*-legacy/**",
-      "!.eslintrc.js"
+      "!.eslintrc.js",
+      "!./coverage/**"
     ],
     "coverageThreshold": {
       "global": {
