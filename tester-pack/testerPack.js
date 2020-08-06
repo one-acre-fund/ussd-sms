@@ -13,9 +13,11 @@ function registerInputHandlers(session_details){
     state.vars.lang = session_details.lang;
     var testerPackMenuHandler = require('./inputHandlers/testerPackMenuHandler');
     var confirmation = require('./confirmation/confirmTesterPackReception');
+    var status = require('./status/status');
     
     addInputHandler('tester_pack_menu', testerPackMenuHandler);
     confirmation.registerTesterPackConfirmationHandlers();
+    status.registerTesterPackStatusHandlers();
 }
 
 /**
@@ -28,7 +30,7 @@ function startTesterPack(session_details) {
     state.vars.lang = lang;
     var getMessage = translator(translations, lang);
 
-    sayText(getMessage('tester_pack_menu'));
+    sayText(getMessage('tester_pack_menu', {}, lang));
     promptDigits('tester_pack_menu', {submitOnHash: false, maxDigits: 2, timeout: 5});
 }
 
