@@ -17,10 +17,11 @@ module.exports = {
             var client = roster.getClient(state.vars.account, state.vars.country);
         }
         if(client){
+            var remainingLoan = 0;
             if(client.BalanceHistory.length > 0){
                 client.latestBalanceHistory = client.BalanceHistory[0];
+                remainingLoan = client.latestBalanceHistory.TotalCredit - client.latestBalanceHistory.TotalRepayment_IncludingOverpayments;
             }
-            var remainingLoan =  client.latestBalanceHistory.TotalCredit - client.latestBalanceHistory.TotalRepayment_IncludingOverpayments;
             console.log('remaining loan:'+ remainingLoan);
             if(remainingLoan > 0 ){
                 sayText(translate('loan_payment_not_satisfied',{'$amount': remainingLoan },state.vars.enr_lang));
