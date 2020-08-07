@@ -1037,15 +1037,26 @@ var PaymentMenuText = function (client){
     else {sayText('Unafanya malipo kwa hii akaunti '+client.AccountNumber+' Jumla ya malipo '+repaid+', Salio '+balance+'.Tafadhali weka kiasi unachotaka kulipa');}
 };
 var CheckBalanceMenuText = function (Overpaid,Season,Credit,Paid,Balance){
+    var getHealthyPathMessage = require('../healthy-path/balance/healthyPathOnBalance');
+    var balanceMenu = '';
+    var healthyPathMessage = '';
     if (GetLang()){
-        if(Overpaid){sayText(Season+':\nPaid: '+Paid+'\nTotal credit: '+Credit+'\nOver payment: '+Balance+ '\n1 - Make payment');}
-        else {sayText(Season+':\nPaid: '+Paid+'\nTotal credit: '+Credit+'\nRemaining: '+Balance+ '\n1 - Make payment');}
+        healthyPathMessage = getHealthyPathMessage(Credit, Paid, 'en');
+        if(Overpaid){
+            balanceMenu = Season+':\nPaid: '+Paid+'\nTotal credit: '+Credit+'\nOver payment: '+Balance+ '\n' + healthyPathMessage + '1 - Make payment';
+        }else {
+            balanceMenu = Season+':\nPaid: '+Paid+'\nTotal credit: '+Credit+'\nRemaining: '+Balance + '\n' + healthyPathMessage +  '1 - Make payment';
+        }
+    } else{
+        healthyPathMessage = getHealthyPathMessage(Credit, Paid, 'sw');
+        if(Overpaid){
+            balanceMenu = Season+':\nJumla ya malipo: '+Paid+'\nJumla ya mkopo: '+Credit+'\nMalipo kwa mkopo unaofuata: '+Balance+ '\n' + healthyPathMessage + '1 - Fanya malipo';
+        }else {
+            balanceMenu = Season+':\nPaid: '+Paid+'\nTotal credit: '+Credit+'\nSalio: '+Balance+ '\n' + healthyPathMessage + '1 - Fanya malipo';
+        }
     }
-    else{
-        if(Overpaid){sayText(Season+':\nJumla ya malipo: '+Paid+'\nJumla ya mkopo: '+Credit+'\nMalipo kwa mkopo unaofuata: '+Balance+ '\n1 - Fanya malipo');}
-        else {sayText(Season+':\nPaid: '+Paid+'\nTotal credit: '+Credit+'\nSalio: '+Balance+ '\n1 - Fanya malipo');}
-    }
-    var BalanceInfo = 'Balance: '+Balance+ '\nSeason: '+Season+ '\nCredit: '+Credit+ '\nPaid: '+Paid+ '\nOverpaid: '+Overpaid;
+    sayText(balanceMenu);
+    var BalanceInfo = 'Balance: '+Balance+ '\nSeason: '+Season+ '\nCredit: '+Credit+ '\nPaid: '+Paid+ '\nOverpaid: '+Overpaid + '\n' + healthyPathMessage;
     call.vars.BalanceInfo = BalanceInfo;
     notifyELK();
 };

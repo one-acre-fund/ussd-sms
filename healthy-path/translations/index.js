@@ -6,8 +6,8 @@ module.exports = {
         'sw': 'Pay $HP_DIST to stay on the healthy path'
     },
     'healthy_path_balance': {
-        'en': '$HP_DIST $status healthy path\n',
-        'ki': '$HP_DIST $status healthy path\n',
-        'en-ke': '$HP_DIST $status healthy path\n'
+        'en': 'Healthy Path Status: $HP_DIST $status healthy path\n',
+        'ki': 'Healthy Path Status: $HP_DIST $status healthy path\n',
+        'en-ke': 'Healthy Path Status: $HP_DIST $status healthy path\n'
     },
 };

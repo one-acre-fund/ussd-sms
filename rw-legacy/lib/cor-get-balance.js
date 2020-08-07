@@ -1,7 +1,7 @@
 /*
 main get-balance function for core USSD
 */
-
+var healthyPath = require('../../healthy-path/balance/healthyPathOnBalance');
 module.exports = function(client, lang){
     lang = lang || 'ki';
     const arrayLength = client.BalanceHistory.length;
@@ -117,11 +117,14 @@ module.exports = function(client, lang){
         console.log(error);
     }
     */
+   var healthyPathMessage = healthyPath(credit, paid, lang);
+   console.log('healthy path: >>>>>' + healthyPathMessage);
     return {'$CLIENT_NAME' : client.ClientName,
             '$PAID'        : paid,
             '$BALANCE'     : balance,
             '$CREDIT'      : credit,
             '$DAY_NAME'    : day_name,
             '$MONTH'       : month,
-            '$DAYNR'       : day_num };
+            '$DAYNR'       : day_num,
+            '$HEALTHY_PATH': healthyPathMessage};
 };
