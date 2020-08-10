@@ -1040,7 +1040,7 @@ var MainMenuText = function(client){
         state.vars.multiple_input_menus = 1;
         state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
         sayText(menu[state.vars.input_menu_loc]);
-        state.vars.main_menu = menu;
+        state.vars.main_menu = menu[state.vars.input_menu_loc];
         state.vars.input_menu = JSON.stringify(menu);
     }
 
@@ -1057,7 +1057,7 @@ var NonClientMenuText = function (){
     else if (typeof (menu) == 'object') {
         state.vars.input_menu_loc = 0; //watch for off by 1 errors - consider moving this to start at 1
         state.vars.multiple_input_menus = 1;
-        state.vars.main_menu = menu;
+        state.vars.main_menu = menu[state.vars.input_menu_loc];
         state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
         sayText(menu[state.vars.input_menu_loc]);
         state.vars.input_menu = JSON.stringify(menu);
@@ -1678,7 +1678,7 @@ addInputHandler('SplashMenu', function(SplashMenu) {
             client = RosterClientGet(ClientAccNum);
             //console.log('Client JSON******************************'+JSON.stringify(client)+'******************');
             state.vars.client_json = JSON.stringify(client);
-            // check for goroup leader
+            // check for group leader
             var isGroupLeader = checkGroupLeader(client.DistrictId, client.ClientId);
             state.vars.isGroupLeader = isGroupLeader;
             state.vars.client = JSON.stringify(TrimClientJSON(client));
