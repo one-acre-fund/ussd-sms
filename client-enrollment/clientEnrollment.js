@@ -34,6 +34,7 @@ module.exports = {
                 }else{
                     message = translate('registration_message' , {'$phone': foInfo.phoneNumber}, state.vars.enr_lang);
                 }
+                sayText(message);
                 project.sendMessage({
                     content: message, 
                     to_number: contact.phone_number

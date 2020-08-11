@@ -205,6 +205,11 @@ describe('clientRegistration', () => {
                 to_number: state.vars.phoneNumber
             }));
         });
+        it('should show a message containing the FO phone number if the FO contact is available', () => {  
+            callback();
+            expect(sayText).toHaveBeenCalledWith(`Thank you for expressing your interest to enroll with OAF. Your Account Number is ${client.AccountNumber}`+
+                `. Please visit the FO to add inputs or call the FO on ${foPhone}`);
+        });
         it('should send a message with no FO phone number to the GL phone number if the FO phone is not available', () => {  
             getFOInfo.mockImplementationOnce(() => {return {'firstName': 'sabin','lastName': 'sheja','phoneNumber': null};});
             callback();
@@ -243,6 +248,7 @@ describe('clientRegistration', () => {
                 to_number: state.vars.phoneNumber
             }));
         });
+        
         it('should send a message with no FO phone number to the GL phone number if the FO contact is not available', () => {  
             getFOInfo.mockImplementationOnce(() => {return null;});
             callback();
@@ -260,6 +266,12 @@ describe('clientRegistration', () => {
                 '. Your FO will reach out to you to add inputs to your order.',
                 to_number: state.vars.phoneNumber
             }));
+        });
+        it('should show a message with no FO phone number if the FO phone is not available', () => {  
+            getFOInfo.mockImplementationOnce(() => {return null;});
+            callback();
+            expect(sayText).toHaveBeenCalledWith(`Thank you for expressing your interest to enroll with OAF. Your Account Number is: ${client.AccountNumber}`+
+                '. Your FO will reach out to you to add inputs to your order.');
         });
     });
 
