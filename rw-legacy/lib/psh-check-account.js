@@ -15,7 +15,7 @@ module.exports = function(accnum){
 
     require('./account-verify')(accnum); // run account number through core account verify function
     console.log(state.vars.client_district);
-    if(state.vars.client_district === 'RRT P-Shops'){
+    if(state.vars.client_district === 'RRT P-Shops' || state.vars.client_district === 'RRT P-Shops Gakenke' || state.vars.client_district === 'RRT P-Shops Gicumbi' || state.vars.client_district === 'RRT P-Shops Kayonza' || state.vars.client_district === 'RRT P-Shops Rwamagana'){
         var client = api.getClient(accnum);
         state.vars.client_json = JSON.stringify(client);
         state.vars.TotalCredit = client.BalanceHistory[0].TotalCredit;
