@@ -80,6 +80,17 @@ describe('clientRegistration', () => {
                 to_number: contact.phone_number
             });
         });
+        it('should show a message without FO contact if loan is fully paid and foinfo.phoneNumber is null',()=>{
+            var {client}  = require('./test-client-data'); 
+            roster.getClient = jest.fn().mockImplementationOnce(() => {return client ;});
+            getFOInfo.mockImplementationOnce(() => {return {
+                'firstName': 'sabin',
+                'lastName': 'sheja',
+                'phoneNumber': null
+            };});
+            clientEnrollment.start(account, country, enr_lang);
+            expect(sayText).toHaveBeenCalledWith('Thank you for expressing your interest to enroll with OAF. Your FO will reach out to you to add inputs to your order.');
+        });
         it('should send a message without FO contact if loan is fully paid and foinfo is null',()=>{
             var {client}  = require('./test-client-data'); 
             roster.getClient = jest.fn().mockImplementationOnce(() => {return client ;});
@@ -89,6 +100,13 @@ describe('clientRegistration', () => {
                 content: 'Thank you for expressing your interest to enroll with OAF. Your FO will reach out to you to add inputs to your order.', 
                 to_number: contact.phone_number
             });
+        });
+        it('should show a message without FO contact if loan is fully paid and foinfo is null',()=>{
+            var {client}  = require('./test-client-data'); 
+            roster.getClient = jest.fn().mockImplementationOnce(() => {return client ;});
+            getFOInfo.mockImplementationOnce(() => {return null;});
+            clientEnrollment.start(account, country, enr_lang);
+            expect(sayText).toHaveBeenCalledWith('Thank you for expressing your interest to enroll with OAF. Your FO will reach out to you to add inputs to your order.');
         });
         it('should save a row with client info if loan is fully paid',()=>{
             var {client}  = require('./test-client-data'); 

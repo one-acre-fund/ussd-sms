@@ -114,19 +114,7 @@ addInputHandler('ext_main_splash', function(input){
     }
 
     var selection = get_menu_option(input, extension_main_menu_table);
-    if(selection === 'test_pack_reg'){
-        const resumedSession = srvySessionManager.resume(contact.phone_number, inputHandlers);
-        if(!resumedSession){
-            state.vars.survey_type = 'ext';
-            sayText(msgs('fp_enter_id'));
-            promptDigits('fp_enter_id', {   'submitOnHash' : false,
-                                            'maxDigits'    : max_digits_for_vid,
-                                            'timeout'      : timeout_length 
-                                        });
-        }
-
-    }
-    else if(selection === 'fp_training'){
+    if(selection === 'fp_training'){
         var menu = populate_menu('extension_fp_menu', lang);
         sayText(menu);
         promptDigits('fp_menu_handler', {   'submitOnHash' : false,
@@ -141,8 +129,8 @@ addInputHandler('ext_main_splash', function(input){
                                         'timeout'       : timeout_length 
                                         });
     }
-    else if(selection === 'confirm_tester_pack') {
-        testerPack.startTesterPack({lang: lang})
+    else if(selection === 'tester_pack') {
+        testerPack.startTesterPack({lang: lang});
     }
     else{
         sayText(msgs('invalid_input', {}, lang));
