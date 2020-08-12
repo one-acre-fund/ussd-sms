@@ -52,7 +52,7 @@ describe('reception Handler', () => {
             submitOnHash: false
         });
     });
-    it('should change the value of client_received_tester_pack to yes if the user chooses 2', () => {
+    it('should change the value of client_received_tester_pack to no if the user chooses 2', () => {
     
         project.initDataTableById = jest.fn().mockReturnValue(mockedTable);
         mockedRow.next.mockReturnValue(mockedRow);
@@ -87,6 +87,19 @@ describe('reception Handler', () => {
     it('should change the time updated for confirmation to now if the client chooses 2 and it\'s not the first time', () => {
         mockedRow.vars.time_created_confirmation = new Date().toString();
         receptionHandler(2);
+        expect(mockedRow.vars.last_updated_confirmation).toEqual(new Date().toString());
+    });
+    
+    it('should change the time created and last updated for confirmation to now if the client chooses 2 and it\'s not the first time(undefined)', () => {
+        mockedRow.vars.time_created_confirmation = undefined;
+        receptionHandler(2);
+        expect(mockedRow.vars.time_created_confirmation).toEqual(new Date().toString());
+        expect(mockedRow.vars.last_updated_confirmation).toEqual(new Date().toString());
+    });
+    it('should change the time created and last updated for confirmation to now if the client chooses 2 and it\'s not the first time(undefined)', () => {
+        mockedRow.vars.time_created_confirmation = undefined;
+        receptionHandler(1);
+        expect(mockedRow.vars.time_created_confirmation).toEqual(new Date().toString());
         expect(mockedRow.vars.last_updated_confirmation).toEqual(new Date().toString());
     });
 });
