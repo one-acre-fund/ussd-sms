@@ -135,12 +135,11 @@ module.exports = function(){
     dataJSON['contact']['message_count'] = contact.message_count;
     dataJSON['contact']['send_blocked'] = contact.send_blocked;
 
-
-
-
+    console.log('******************************'+ JSON.stringify(dataJSON));
     opts.method = 'POST';
     opts.data = dataJSON;
     var response = httpClient.request(url,opts);
+    console.log('##################################'+ JSON.stringify(response));
     if(response.status != 200){
         console.log('error sending data to ELK');
         slack.log('Failed to send ELK notification :'+ JSON.stringify(response));

@@ -19,6 +19,13 @@ module.exports = [
         'option_name': 'register_client',
         'end_date': project.vars.end_register_client,
         'start_date': project.vars.start_register_client
+    },{
+        'en-ke': 'Top up',
+        'sw': 'Ongeza Bibhaa',
+        'option_name': 'top_up',
+        'end_date': project.vars.end_top_up,
+        'start_date': project.vars.start_top_up
+
     },
     {
         'en-ke': 'Training',
