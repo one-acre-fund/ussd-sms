@@ -18,7 +18,6 @@ module.exports = function villageHandler(input) {
         var index = 0;
         if(!farmers_cursor.hasNext()) {
             // if no farmer has registered in the given village
-            console.log(JSON.stringify(village));
             sayText(getMessage('no_farmers_found', {'$village_name': village.village_name}, lang));
             stopRules();
             return;
