@@ -44,5 +44,9 @@ module.exports = {
     'reg_group_leader_question': {
         'en-ke': 'Does the farmer want to be a Group Leader of a new group?\n1) Yes\n2) No',
         'sw': 'Je mkulima huyu angetaka kuwa Kiongozi wa kikundi kipya?\n1) Ndio\n2) Hapana'
+    },
+    'duplicate_national_id': {
+        'en-ke': 'You have already enrolled this season and your account number is $AccountNumber. Reach out to your FO to help you add inputs to your order.',
+        'sw': 'Tayari umesajiliwa mwaka huu na akauti namba yako ni $AccountNumber Tembelea mwalimu wako ili akusaidie kuongeza bidhaa unazotaka!'
     }
 };

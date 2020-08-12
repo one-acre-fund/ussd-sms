@@ -15,6 +15,10 @@ module.exports = {
     'loan_payment_not_satisfied': {
         'en-ke': 'Thank you for expressing your interest to enrol for 2021. Please pay KSHs $amount to finish your loan then try again!',
         'sw': 'Asante kwa kuonesha nia ya kujiandikisha mwaka wa 2021. Tafadhali lipa shilingi $amount umalize mkopo wako, kisha ujaribu tena!'
+    },
+    'duplicate_national_id': {
+        'en-ke': 'You have already enrolled this season and your account number is $AccountNumber. Reach out to your FO to help you add inputs to your order.',
+        'sw': 'Tayari umesajiliwa mwaka huu na akauti namba yako ni $AccountNumber Tembelea mwalimu wako ili akusaidie kuongeza bidhaa unazotaka!'
     }
 
 };
