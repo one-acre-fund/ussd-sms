@@ -26,11 +26,16 @@ global.httpClient = {
 global.stopRules = jest.fn();
 
 global.service = {
+    phone_number: {},
     vars: {
     }
 };
 
 global.contact = {
+    vars: {
+    }
+};
+global.message = {
     vars: {
     }
 };
@@ -40,3 +45,4 @@ global.project.getOrCreateLabel = jest.fn();
 
 global.project.sendMessage = jest.fn();
 global.sendEmail = jest.fn();
+project.getOrCreateDataTable = jest.fn();

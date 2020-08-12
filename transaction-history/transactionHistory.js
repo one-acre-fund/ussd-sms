@@ -4,6 +4,7 @@ var getTransactionHistory = require('./get-transaction-history/getTransactionHis
 var selectionHandler = require('./selection-hander/on-select');
 var createTranslator = require('../utils/translator/translator');
 var translations = require('./translations');
+var notifyELK = require('../notifications/elk-notification/elkNotification');
 
 var backToListHandler= 'back_to_txlist_handler';
 
@@ -47,6 +48,7 @@ module.exports = {
         
     },
     start: function (account, country) {
+        notifyELK();
         state.vars.account = account;
         state.vars.country = country;
         var language = (contact && contact.vars.lang) || (state && state.vars.lang) || service.vars.lang || project.vars.lang;

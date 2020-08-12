@@ -3,6 +3,33 @@
     Purpose: OAF RW PShops Client Portal; allows clients to register, get new codes, and check balance for SHS products
     Status: complete
 */
+var defaultEnvironment;
+if(service.active){
+    defaultEnvironment = 'prod'
+}else{
+    defaultEnvironment = 'dev'
+}
+
+var env;
+if(service.vars.env === 'prod' || service.vars.env === 'dev'){
+    env = service.vars.env;
+}else{
+    env = defaultEnvironment;
+}
+if(env === 'prod'){
+    service.vars.activation_code_table = 'ActivationCodes';
+    service.vars.serial_number_table = 'SerialNumberTable';
+    service.vars.pShop_main_menu = 'pshop_main_menu';
+}
+else{
+    service.vars.activation_code_table = 'dev_ActivationCodes';
+    service.vars.serial_number_table = 'dev_SerialNumberTable';
+    service.vars.pShop_main_menu = 'dev_pshop_main_menu';
+}
+
+service.vars.server_name = project.vars[env+'_server_name'];
+service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
+
  
 // load in necessary functions
 var msgs = require('./lib/msg-retrieve'); // global message handler
@@ -13,6 +40,7 @@ var check_account_no = require('./lib/psh-check-account');
 var registration_check = require('./lib/psh-reg-check');
 var renew_code = require('./lib/psh-renew-code');
 var serial_no_check = require('./lib/psh-serial-verify');
+var slack = require('../slack-logger/index');
 
 // set various constants
 var settings_table = project.getOrCreateDataTable('ussd_settings');
@@ -20,6 +48,9 @@ const max_digits_for_account_number = parseInt(settings_table.queryRows({'vars' 
 const max_digits = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits'}}).next().vars.value);
 const timeout_length = 180; // this doesn't appear to work. data type error?
 const lang = project.vars.cor_lang;
+var menuTable = service.vars.pShop_main_menu;
+var activation_code_table = service.vars.activation_code_table;
+var serial_number_table = service.vars.serial_number_table ;
 
 // display welcome message and prompt user to enter account number
 global.main = function() {
@@ -35,7 +66,7 @@ addInputHandler('account_number_splash', function(accnum){
     // if account number is valid, save it as a state variable and display main menu
         if(check_account_no(accnum)){ 
             state.vars.accnum = accnum;
-            var menu = populate_menu('pshop_main_menu', lang);
+            var menu = populate_menu(menuTable, lang);
             state.vars.current_menu_str = menu;
             sayText(msgs('pshop_main_menu', {'$NAME' : state.vars.client_name}, lang));
             promptDigits('pshop_menu_select', { 'submitOnHash' : false,
@@ -54,6 +85,7 @@ addInputHandler('account_number_splash', function(accnum){
         // if error occurs, print client error message, log error, and alert the admin
         sayText(msgs('client_alert'));
         console.log(error);
+        slack.log('Error on USSD test integration' +error + '\n Account number:' + accnum, "Error, ERROR, ERROR" )
         admin_alert('Error on USSD test integration : '+ error + '\nAccount number: ' + accnum, "ERROR, ERROR, ERROR")
         stopRules();
     }
@@ -64,7 +96,7 @@ addInputHandler('pshop_menu_select', function(input){
     // clean input and save current step as a variable
     input = String(input.replace(/\D/g,''));
     state.vars.current_step = 'pshop_menu_select';
-    var selection = get_menu_option(input, 'pshop_main_menu');
+    var selection = get_menu_option(input, menuTable);
 
     // if menu selection is null/undefined, print error message and request new selection
     if(selection === null || selection === undefined){
@@ -153,7 +185,7 @@ addInputHandler('get_new_code', function(input){
         }
     }
     else{
-        var menu = populate_menu('pshop_main_menu', lang);
+        var menu = populate_menu(menuTable, lang);
         state.vars.current_menu_str = menu;
         sayText(menu);
         promptDigits('pshop_menu_select', { 'submitOnHash' : false,
@@ -164,7 +196,7 @@ addInputHandler('get_new_code', function(input){
 
 // input handler for back to main; returns user to the main menu
 addInputHandler('back_to_main', function(input){
-    var menu = populate_menu('pshop_main_menu', lang);
+    var menu = populate_menu(menuTable, lang);
     state.vars.current_menu_str = menu;
     sayText(menu);
     promptDigits('pshop_menu_select', { 'submitOnHash' : false,
@@ -177,7 +209,7 @@ addInputHandler('serial_no_reg', function(input){
     // if user wants to register, run serial # registration check and display corresponding messages/options 
     input = String(input.replace(/\D/g,''));
     if(input === '99'){
-        var menu = populate_menu('pshop_main_menu', lang);
+        var menu = populate_menu(menuTable, lang);
         state.vars.current_menu_str = menu;
         sayText(menu);
         promptDigits('pshop_menu_select', { 'submitOnHash' : false,
@@ -197,6 +229,9 @@ addInputHandler('serial_no_reg', function(input){
             promptDigits('serial_no_reg', { 'submitOnHash' : false,
                                             'maxDigits'    : max_digits_for_account_number,
                                             'timeout'      : timeout_length });
+        }
+        else if(state.vars.SerialStatus == 'failed_getting_serial_number'){
+            sayText(msgs('client_alert'));
         }
         else{
             sayText(msgs('serial_not_found', {}, lang));

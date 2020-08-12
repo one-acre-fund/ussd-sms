@@ -7,15 +7,18 @@
 module.exports = function(accnum){
     // some code to be able to use Roster API
     var client = null;
-    var api = require('ext/Roster_v1_2_0/api'); //roster. todo make more general
-    api.dataTableAttach('ExternalApis');
+    var api = require('../lib/roster/api'); //roster. occasionally will need update
+    api.loadURLAndAPIKey();
+    //var api = require('ext/Roster_v1_2_0/api'); //roster. todo make more general
+    //api.dataTableAttach('ExternalApis');
     var country = project.vars.country; 
     api.verbose = true;
-    api.dataTableAttach('ExternalApis'); //todo: make more general
+    //api.dataTableAttach('ExternalApis'); //todo: make more general
 
     require('./account-verify')(accnum); // run account number through core account verify function
     console.log(state.vars.client_district);
-    if(state.vars.client_district === 'RRT P-Shops'){
+    if(state.vars.client_district === 'RRT P-Shops' || state.vars.client_district === 'RRT P-Shops Gakenke' || state.vars.client_district === 'RRT P-Shops Gicumbi' || state.vars.client_district === 'RRT P-Shops Kayonza' || state.vars.client_district === 'RRT P-Shops Rwamagana'){
+        
         var client = api.getClient(accnum);
         state.vars.client_json = JSON.stringify(client);
         state.vars.TotalCredit = client.BalanceHistory[0].TotalCredit;

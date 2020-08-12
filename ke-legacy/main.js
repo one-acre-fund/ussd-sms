@@ -12,17 +12,41 @@ if(service.vars.env === 'prod' || service.vars.env === 'dev'){
     env = defaultEnvironment;
 }
 
+
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
+service.vars.currency = 'KES';
 
-
+var notifyELK = require('../notifications/elk-notification/elkNotification');
 var transactionHistory = require('../transaction-history/transactionHistory');
-
+var clientRegistration = require('../client-registration/clientRegistration');
+var clientEnrollment = require('../client-enrollment/clientEnrollment');
 // Setting global variables!
-var rosterAPI = require('ext/Roster_v1_2_0/api');
-var translatorFactory = require('../utils/translator/translator');
 var translations = require('./translations/index');
+var createTranslator = require('../utils/translator/translator');
+//var rosterAPI = require('ext/Roster_v1_2_0/api');
+var rosterAPI = require('../rw-legacy/lib/roster/api');
+var defaultEnvironment;
+if(service.active){
+    defaultEnvironment = 'prod';
+}else{
+    defaultEnvironment = 'dev';
+}
+
+var env = defaultEnvironment;
+if(service.vars.env === 'prod' || service.vars.env === 'dev'){
+    env = service.vars.env;
+}else{
+    env = defaultEnvironment;
+}
 var dukaLocator = require('../duka-locator/index');
+var groupRepaymentsModule = require('../group-repayments/groupRepayments');
+service.vars.server_name = project.vars[env+'_server_name'];
+service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
+service.vars.roster_read_key = project.vars.roster_read_key;
+service.vars.lr_2021_client_table_id = project.vars[env+'_lr_2021_client_table_id'];
+var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
+
 var MenuCount = 0;
 var MenuNext = false;
 var LocArray="";
@@ -86,8 +110,6 @@ var FAWUnitPrice = 720;
 var FAWMaxOrders = 2;
 var StaffDistrict = "KENYA STAFF";
 
-// loading the translator with all translations and setting the default language to English
-var translator = translatorFactory(translations, 'en');
 // Setting global functions
 var InteractionCounter = function(input){
     try{
@@ -102,13 +124,14 @@ var InteractionCounter = function(input){
     }
     catch(err) {
         console.log("Error occurred in interaction counter")
-      }
+    }
+    notifyELK();
 };
 var IsGl = function(accnum){
     var GLTable = project.getOrCreateDataTable("GroupLeaders");
-    GLCursor = GLTable.queryRows({vars: {'accountnumber': accnum}});
+    var GLCursor = GLTable.queryRows({vars: {'accountnumber': accnum}});
     if(GLCursor.count()>0){state.vars.IsGL = true}
-    else {state.vars.IsGL = false}
+    else {state.vars.IsGL = false;}
     return state.vars.IsGL;
 };
 var GetBalance = function (client, season){
@@ -154,24 +177,28 @@ var TrimClientJSON = function(client){
     return client;
 };
 var GetLang = function(){
-    if(contact.vars.English === true){
+    if(state.vars.English === true){
         service.vars.lang = 'en-ke';
         contact.vars.lang = 'en-ke';
+        state.vars.lang = 'en-ke';
         return true;
     } else {
         service.vars.lang = 'sw';
         contact.vars.lang = 'sw';
+        state.vars.lang = 'sw';
         return false;
     }
 };
 var ChangeLang = function (){
-    if (contact.vars.English === true){
-        contact.vars.English = false;
+    if (state.vars.English === true){
+        state.vars.English = false;
         contact.vars.lang = 'sw';
+        state.vars.lang = 'sw';
     }
     else {
-        contact.vars.lang = 'en-ke';
+        state.vars.lang = 'en-ke';
         contact.vars.English = true;
+        state.vars.English = true;
     }
     contact.save();
 };
@@ -183,7 +210,7 @@ var RosterClientVal = function (AccNum){
         console.log("Validating accountnumber length. Result: "+ AccNum.length);
         if (AccNum.length == 8){
             rosterAPI.verbose = true;
-            rosterAPI.dataTableAttach();
+            //rosterAPI.dataTableAttach();
             response = rosterAPI.authClient(AccNum,'KE');
             return response;
         }
@@ -194,7 +221,7 @@ var RosterClientVal = function (AccNum){
 };
 var RosterClientGet = function (AccNum){
     rosterAPI.verbose = true;
-    rosterAPI.dataTableAttach();
+    //rosterAPI.dataTableAttach();
     client = rosterAPI.getClient(AccNum,'KE');
     return client;
 };
@@ -208,7 +235,7 @@ var ErrorEmail = function (Subject, Body){
 };
 var RosterColRequest = function (AccNum,Amount){
     rosterAPI.verbose = true;
-    rosterAPI.dataTableAttach();
+    //rosterAPI.dataTableAttach();
     var phone = {
         country: "KE",
         phone_number: "+"+PhoneNumber.formatInternationalRaw(contact.phone_number, "KE")
@@ -219,6 +246,7 @@ var RosterColRequest = function (AccNum,Amount){
     if (colResult.Success) {console.log("The user will get PIN authorization form on their phone to pay OAF")}
     else {console.log(colResult.Description + "Try again")}
     call.vars.colreqTimeStamp = moment().format('X');
+    notifyELK();
     return colResult.Success;
 };
 
@@ -998,67 +1026,42 @@ var SplashMenuFailure = function (){
     else {sayText("Nambari sio sahihi. Tafadhali ingiza nambari 8 za akaunti yako ambayo unatumia kufanya malipo.\nBonyeza 0 kama hauna akaunti ya OAF\n99) English")}
 };
 var MenuText = '';
-var MainMenuText = function (client){
-    if (GetLang()){MenuText ='Select Service\n1) Make a payment\n2) Check balance\n3) Trainings\n4) View transaction history';}
-    else {MenuText ='Chagua Huduma\n1) Fanya malipo\n2) Kuangalia salio\n3) Mafunzo\n4) Angalia historia ya malipo';}
-    var JITActive = true;
-    var FAWActiveCheck = true;
-    //if (IsGl(client.AccountNumber)){
-    //    if (IsJITTUDistrict(client.DistrictName)){
-    //        if (GetLang()){MenuText = MenuText + "\n3) Top Up"}
-    //        else {MenuText = MenuText + "\n3) Top Up"}
-    //    }
-    //    if (IsJITEDistrict(client.DistrictName)){
-    //        if (GetLang()){MenuText = MenuText + "\n4) Enroll"}
-    //        else {MenuText = MenuText + "\n4) Enroll"}
-    //    }
-    //} 
-    
-    if (IsPrePayTrialDistrict(client.DistrictName)){
-        if (GetLang()){MenuText = MenuText + "\n5) Prepayment amount"}
-        else {MenuText = MenuText + "\n5) Malipo ya kufuzu"}
+var MainMenuText = function(client){
+    var populateMainMenu = require('./utils/menus/populate-menu/populateMenu');
+    var menu = populateMainMenu(state.vars.lang, 140,true);
+    if (typeof (menu) == 'string') {
+        sayText(menu);
+        state.vars.multiple_input_menus = 0;
+        state.vars.main_menu = menu;
+        state.vars.input_menu = menu;
     }
-    if (EnrolledAndQualified(client)){
-        if (GetLang()){MenuText = MenuText + "\n6) FAW Pesticide Order"}
-        else {MenuText = MenuText + "\n6) Kuagiza dawa ya FAW"}
+    else if (typeof (menu) == 'object') {
+        state.vars.input_menu_loc = 0; //watch for off by 1 errors - consider moving this to start at 1
+        state.vars.multiple_input_menus = 1;
+        state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
+        sayText(menu[state.vars.input_menu_loc]);
+        state.vars.main_menu = menu[state.vars.input_menu_loc];
+        state.vars.input_menu = JSON.stringify(menu);
     }
-    if (SHSActive(client.DistrictName)){
-        if (GetLang()){MenuText = MenuText + "\n7) Solar"}
-        else {MenuText = MenuText + "\n7) Sola"}
-    }
-    if (GetLang()){MenuText = MenuText + "\n8) Insurance"}
-    else {MenuText = MenuText + "\n8) Bima"}
 
-    if (GetLang()){MenuText = MenuText + "\n9) Contact Call center"}
-    else {MenuText = MenuText + "\n9) Wasiliana na Huduma ya wateja"}
-
-    if (GetLang()){MenuText = MenuText + "\n10) Locate an OAF duka"}
-    else {MenuText = MenuText + "\n10) Lipate duka la OAF"}
-
-    if (GetLang()){MenuText =MenuText + "\n99) Swahili"}
-    else {MenuText =MenuText + "\n99) English"}
-    sayText(MenuText);
-};
-
-var NonClientMenuText = function (){
-    var buildMenu = require('./utils/build-menu');
-    var lang = GetLang() ? 'en' : 'sw';
-    var menuOptions = [
-        {key: 'find_oaf_contact', options: {'$label': 1}},
-        {key: 'trainings', options: {'$label': 2}},
-        {key: 'locate_oaf_duka', options: {'$label': 3}},
-        {key: 'change_lang', options: {'$label': 99}}
-    ];
-
-    var non_client_menu_options = {
-    'find_oaf_contact': 1,
-    'trainings': 2,
-    'locate_oaf_duka': 3, 
-    'change_lang': 99
 }
-    state.vars.non_client_menu_options = JSON.stringify(non_client_menu_options);
-    var menu = buildMenu(menuOptions, lang)
-    sayText(menu);
+var NonClientMenuText = function (){
+    var populateMainMenu = require('./utils/menus/populate-menu/populateMenu');
+    var menu = populateMainMenu(state.vars.lang, 140,false);
+    if (typeof (menu) == 'string') {
+        sayText(menu);
+        state.vars.multiple_input_menus = 0;
+        state.vars.input_menu = menu;
+        state.vars.main_menu = menu;
+    }
+    else if (typeof (menu) == 'object') {
+        state.vars.input_menu_loc = 0; //watch for off by 1 errors - consider moving this to start at 1
+        state.vars.multiple_input_menus = 1;
+        state.vars.main_menu = menu[state.vars.input_menu_loc];
+        state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
+        sayText(menu[state.vars.input_menu_loc]);
+        state.vars.input_menu = JSON.stringify(menu);
+    }
 }
 
 var PaymentMenuText = function (client){
@@ -1078,6 +1081,7 @@ var CheckBalanceMenuText = function (Overpaid,Season,Credit,Paid,Balance){
     }
     var BalanceInfo = "Balance: "+Balance+ "\nSeason: "+Season+ "\nCredit: "+Credit+ "\nPaid: "+Paid+ "\nOverpaid: "+Overpaid;
     call.vars.BalanceInfo = BalanceInfo;
+    notifyELK();
 };
 
 var TrainingMenuText = function (){
@@ -1086,13 +1090,23 @@ var TrainingMenuText = function (){
 };
 
 var TrainingMenuNextText = function (){
-    if (GetLang()){sayText("8: Pest Mitigation\n9: Vegetables")}
-    else {sayText("8: Wadudu/Magonjwa\n9: Kupanda Mboga")}
+    if (GetLang()){sayText("8: Pest Mitigation\n9: Vegetables\n10: Tatu Hadi Tatu")}
+    else {sayText("8: Wadudu/Magonjwa\n9: Kupanda Mboga\n10: Tatu Hadi Tatu")}
+};
+
+var TrainingPlatSelectText = function (){
+    if (GetLang()){sayText("1. SMS\n2. Get a FREE CALL")}
+    else {sayText("1. SMS\n2. KUPIGIWA")}
 };
 
 var TrainingTriggeredText = function (){
     if (GetLang()){sayText("A training SMS has been sent to your phone. Messages are free! But please delete unwanted SMS in your phone to make space for incoming.")}
     else {sayText("Ujumbe wa mafunzo umetumwa kwa simu yako. Ujumbe wote ni bure! Kumbuka kufuta SMS usizohitaji ili uwe na nafasi ya kupata ujumbe zaidi.")}
+};
+
+var TrainingTriggeredIVRText = function (){
+    if (GetLang()){sayText(" You will be called by 0711 082 882.")}
+    else {sayText("Utapigiwa moja kwa moja na 0711 082 882.")}
 };
 
 var CallCenterMenuText = function (){
@@ -1621,9 +1635,15 @@ var StaffConfrimAbsenceEmail = function(email, firstname, startday, amount){
 var StaffConfrimAbsenceEmailHR = function(){
     console.log("Pending foprmat");
 };
+var registrationMenu= function(){
+    if (GetLang()){sayText("Please reply with the account number of the farmer\n0) For new client.")}
+    else {sayText("Tafadhali jibu na nambari ya akaunti ya mkulima\n0) kwa mkulima mgeni")}
+};
+
 
 // Start logic flow
 global.main = function () {
+    state.vars.English = false;
     LogSessionID();
     SplashMenuText();
     promptDigits("SplashMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
@@ -1632,6 +1652,8 @@ global.main = function () {
 // load input handlers
 dukaLocator.registerDukaLocatorHandlers({lang: GetLang() ? 'en' : 'sw'});
 transactionHistory.registerHandlers();
+clientRegistration.registerHandlers();
+groupRepaymentsModule.registerGroupRepaymentHandlers({lang: GetLang() ? 'en' : 'sw', main_menu: state.vars.main_menu, main_menu_handler: 'MainMenu'});
 
 addInputHandler('SplashMenu', function(SplashMenu) {
     LogSessionID();
@@ -1654,10 +1676,17 @@ addInputHandler('SplashMenu', function(SplashMenu) {
         if (RosterClientVal(ClientAccNum)){
             console.log("SuccessFully Validated against Roster");
             client = RosterClientGet(ClientAccNum);
+            //console.log('Client JSON******************************'+JSON.stringify(client)+'******************');
+            state.vars.client_json = JSON.stringify(client);
+            // check for group leader
+            var isGroupLeader = checkGroupLeader(client.DistrictId, client.ClientId);
+            state.vars.isGroupLeader = isGroupLeader;
             state.vars.client = JSON.stringify(TrimClientJSON(client));
             call.vars.client = JSON.stringify(TrimClientJSON(client));
             call.vars.AccNum = ClientAccNum;
-            MainMenuText (client);
+            notifyELK();
+            state.vars.account_number = client.AccountNumber;
+            MainMenuText(client);
             promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
         }
         else{
@@ -1667,46 +1696,100 @@ addInputHandler('SplashMenu', function(SplashMenu) {
         }
     }
 });
+
 addInputHandler("NonClientMenu", function(input) {
     LogSessionID();
     InteractionCounter("NonClientMenu");
-    var clientMenuOptions = JSON.parse(state.vars.non_client_menu_options);
-    if (input == clientMenuOptions.change_lang){
+    var sessionMenu =JSON.parse(state.vars.sessionMenu);
+    if (state.vars.multiple_input_menus) {
+        if (input == 44 && state.vars.input_menu_loc > 0) {
+            state.vars.input_menu_loc = state.vars.input_menu_loc - 1;
+            var menu = JSON.parse(state.vars.input_menu)[state.vars.input_menu_loc];
+            sayText(menu);
+            promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+            return null;
+        }
+        else if (input == 77 && (state.vars.input_menu_loc < state.vars.input_menu_length - 1)) {
+            state.vars.input_menu_loc = state.vars.input_menu_loc + 1;
+            var menu = JSON.parse(state.vars.input_menu)[state.vars.input_menu_loc]
+            sayText(menu);
+            promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+            return null;
+        }
+        else if (input == 44 && state.vars.input_menu_loc == 0) {
+            MainMenuText(client);
+            promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+            return null;
+        }
+    }
+    if (input == 99){
         ChangeLang();
         NonClientMenuText();
         promptDigits("NonClientMenu", {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
-    else if (input== clientMenuOptions.find_oaf_contact){
+    else if(sessionMenu[input-1].option_name == 'find_oaf_contact'){
         FOLocatorRegionText();
         promptDigits("FOLocRegion", {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
-    else if (input == clientMenuOptions.trainings){
+    else if(sessionMenu[input-1].option_name == 'trainings'){
         TrainingMenuText();
-        promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
+        promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 2, timeout: 5})
     }
-    else if(input == clientMenuOptions.locate_oaf_duka) {
-        dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
+    else if(sessionMenu[input-1].option_name == 'locate_oaf_duka') {
+        dukaLocator.startDukaLocator({lang: GetLang() ? 'en' : 'sw'});
     }
     else{
         NonClientMenuText();
         promptDigits("NonClientMenu", {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
-})
-addInputHandler("MainMenu", function(MainMenu) {
+});
+addInputHandler('MainMenu', function(SplashMenu){
     LogSessionID();
     InteractionCounter("MainMenu");
     client = JSON.parse(state.vars.client);
-    if (MainMenu== "99"){
+    var sessionMenu =JSON.parse(state.vars.sessionMenu);
+    if (state.vars.multiple_input_menus) {
+        if (SplashMenu == 44 && state.vars.input_menu_loc > 0) {
+            state.vars.input_menu_loc = state.vars.input_menu_loc - 1;
+            var menu = JSON.parse(state.vars.input_menu)[state.vars.input_menu_loc];
+            sayText(menu);
+            promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+            return null;
+        }
+        else if (SplashMenu == 77 && (state.vars.input_menu_loc < state.vars.input_menu_length - 1)) {
+            state.vars.input_menu_loc = state.vars.input_menu_loc + 1;
+            var menu = JSON.parse(state.vars.input_menu)[state.vars.input_menu_loc]
+            sayText(menu);
+            promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+            return null;
+        }
+        else if (SplashMenu == 44 && state.vars.input_menu_loc == 0) {
+            MainMenuText(client);
+            promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
+            return null;
+        }
+    }
+    if (sessionMenu == "99"){
         ChangeLang();
         MainMenuText (client);
         promptDigits("MainMenu", {submitOnHash: true, maxDigits: 8, timeout: 5});
     }
-    else if (MainMenu == 1){
+    else if(sessionMenu[SplashMenu-1].option_name == 'make_payment'){
         client = JSON.parse(state.vars.client);
         PaymentMenuText (client);
         promptDigits("PaymentAmount", {submitOnHash: true, maxDigits: 5, timeout: 5});
     }
-    else if(MainMenu == 5 &&  IsPrePayTrialDistrict(client.DistrictName)){
+    else if(sessionMenu[SplashMenu-1].option_name == 'register_client'){
+        registrationMenu();
+        promptDigits("registrationHandler", {submitOnHash: true, maxDigits: 10, timeout: 5});
+    }
+    else if(sessionMenu[SplashMenu-1].option_name == 'trainings'){
+        TrainingMenuText();
+    }
+    else if(sessionMenu[SplashMenu-1].option_name == 'transaction_history'){
+        transactionHistory.start(client.AccountNumber, 'ke');
+    }
+    else if(sessionMenu[SplashMenu-1].option_name == 'prepayment_amount'){
         if(client.BalanceHistory[0].SeasonName == CurrentSeasonName){
             var paid = client.BalanceHistory[0].TotalRepayment_IncludingOverpayments;
             PrepaymentMenuText(GetPrepaymentAmount(client),paid);
@@ -1716,33 +1799,7 @@ addInputHandler("MainMenu", function(MainMenu) {
         }
         promptDigits("BackToMain", {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
-    else if(MainMenu == 3){
-        TrainingMenuText();
-    }
-    else if(MainMenu == 4){
-        transactionHistory.start(client.AccountNumber, 'ke');
-    }
-    //else if(MainMenu == 3 && IsGl(client.AccountNumber)&&IsJITTUDistrict(client.DistrictName)){
-      //      if (SiteLockVal (client.SiteName, client.DistrictName)){
-        //        JITTUSiteLockedText();
-          //      promptDigits("ViewJITOrder", {submitOnHash: true, maxDigits: 8, timeout: 5});
-            //}
-        //else{
-          //  JITTUAccNumText();
-           //  promptDigits("JITTUAccNum", {submitOnHash: true, maxDigits: 8, timeout: 5});
-        //}
-    //}
-   // else if(MainMenu == 4 && IsGl(client.AccountNumber)&&IsJITEDistrict(client.DistrictName)){
-     //   if (SiteLockVal (client.SiteName, client.DistrictName)){
-       //     JITESiteLockedText();
-         //   promptDigits("BackToMain", {submitOnHash: true, maxDigits: 8, timeout: 5});
-        //}
-        //else{
-         //   JITEAccNumText();
-          //  promptDigits("JITEAccNum", {submitOnHash: true, maxDigits: 8, timeout: 5});
-        //}
-    //}
-    else if(MainMenu == 6){
+    else if(sessionMenu[SplashMenu-1].option_name == 'presticide_order'){
         if( FAWActive(client.DistrictName)&&EnrolledAndQualified(client)){
             var OrdersPlaced = FAWOrdersPlaced(client.AccountNumber);
             if (OrdersPlaced<FAWMaxOrders){
@@ -1763,21 +1820,27 @@ addInputHandler("MainMenu", function(MainMenu) {
             FAWInactiveText();
             promptDigits("BackToMain", {submitOnHash: true, maxDigits: 1, timeout: 5})
         }
+
     }
-    else if(MainMenu == 7 && SHSActive(client.DistrictName) ){
+    else if(sessionMenu[SplashMenu-1].option_name == 'solar'){
         SHSMenuText();
         promptDigits("SolarMenu", {submitOnHash: true, maxDigits: 2, timeout: 5});
+
     }
-    else if(MainMenu == 8){
+    else if(sessionMenu[SplashMenu-1].option_name == 'insurance'){
         InsuranceMenuText();
         promptDigits("InsuranceMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
     }
-
-    else if (MainMenu == 9){
+    else if(sessionMenu[SplashMenu-1].option_name == 'contact_call_center'){
         CallCenterMenuText();
         promptDigits("CallCenterMenu", {submitOnHash: true, maxDigits: 1, timeout: 5})
-    } else if(MainMenu == 10) {
-        dukaLocator.spinDukaLocator({lang: GetLang() ? 'en' : 'sw'});
+    }
+    else if(sessionMenu[SplashMenu-1].option_name == 'locate_oaf_duka'){
+        dukaLocator.startDukaLocator({lang: GetLang() ? 'en' : 'sw'});
+    }
+    else if(sessionMenu[SplashMenu-1].option_name == 'view_group_repayment'){
+        // view repayment information
+        groupRepaymentsModule.startGroupRepayments({lang: GetLang() ? 'en' : 'sw'});
     }
     else{
         var arrayLength = client.BalanceHistory.length;
@@ -1836,6 +1899,7 @@ addInputHandler("PaymentAmount", function(PaymentAmount) {
         }
         else{
             call.vars.PaymentAmount = parseInt(PaymentAmount);
+            notifyELK();
             console.log("trimmed payment amount to number");
         }
 
@@ -1843,10 +1907,12 @@ addInputHandler("PaymentAmount", function(PaymentAmount) {
             call.vars.ColStatus = "Success";
             PaymentSuccessText();
             call.vars.UpdateReceived = "NO";
+            notifyELK();
             hangUp();
         }
         else {
             call.vars.ColStatus = "Failed";
+            notifyELK();
             PaymentFailureText();
             ErrorEmail("KE USSD Collection request failure","Acc num: "+client.AccountNumber+"\nAmount: "+ PaymentAmount+ "\nPhonenumber: "+call.from_number);
             hangUp();
@@ -3133,7 +3199,7 @@ addInputHandler('TrainingSelect', function(input) {
     
     if (input == 0 ){
         TrainingMenuNextText();
-        promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
+        promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 2, timeout: 5})
     }
     
     else if (input == 6){
@@ -3178,11 +3244,59 @@ addInputHandler('TrainingSelect', function(input) {
         TrainingTriggeredText();
     }
     else if (input == 9){
-        TriggerTraining("SVeafd5eeb2dadc2d2");
+        TrainingPlatSelectText();
+        promptDigits("TrainingPlatformSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
+    }
+    else if (input == 10){
+        TriggerTraining("SV1a959518b783e17f");
         TrainingTriggeredText();
     }
     else{
         TrainingMenuText();
-        promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 1, timeout: 5})
+        promptDigits("TrainingSelect", {submitOnHash: true, maxDigits: 2, timeout: 5})
+    }
+});
+
+addInputHandler('TrainingPlatformSelect', function(input) {
+    LogSessionID();
+    InteractionCounter('TrainingPlatSelect');
+
+    if (input == 1 ){
+        TriggerTraining("SVeafd5eeb2dadc2d2");
+        TrainingTriggeredText();
+    }
+    else {
+        TrainingTriggeredIVRText();
+        hangUp();
+        if (GetLang()){
+
+            var IVR_Call_EN = project.scheduleMessage({
+                message_type: "call", 
+                to_number: contact.phone_number, 
+                start_time_offset: 0,
+                service_id: "SV40cc89e83d0e5810",
+                route_id: "PN54d237477649c512"
+            });
+        }
+        else {
+            var IVR_Call_SW = project.scheduleMessage({
+                message_type: "call", 
+                to_number: contact.phone_number, 
+                start_time_offset: 0,
+                service_id: "SV6b002eba0603b476",
+                route_id: "PN54d237477649c512"
+            });
+        }
+    }
+});
+
+addInputHandler('registrationHandler', function(input){
+    LogSessionID();
+    InteractionCounter('registrationHandler');
+    if(input == 0){
+        clientRegistration.start(client.AccountNumber,'ke',state.vars.lang);
+    }
+    else{
+        clientEnrollment.start(input,'ke', state.vars.lang);
     }
 });
