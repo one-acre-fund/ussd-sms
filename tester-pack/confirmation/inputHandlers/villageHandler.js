@@ -16,6 +16,13 @@ module.exports = function villageHandler(input) {
         var farmers_table = project.initDataTableById(service.vars.ExtensionFarmers);
         var farmers_cursor = farmers_table.queryRows({vars: {'village_id': village.village_id}});
         var index = 0;
+        if(!farmers_cursor.hasNext()) {
+            // if no farmer has registered in the given village
+            console.log(JSON.stringify(village));
+            sayText(getMessage('no_farmers_found', {'$village_name': village.village_name}, lang));
+            stopRules();
+            return;
+        }
         while(farmers_cursor.hasNext()) {
             var row = farmers_cursor.next();
             var nid = row.vars.national_id;
