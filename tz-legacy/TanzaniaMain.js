@@ -22,7 +22,7 @@ var InteractionCounter = function(input){
         call.vars.InteractionCount = state.vars.InteractionCount;
         if (typeof(input) !== 'undefined') {
             var Now = moment().format('X');
-            var varString = 'call.vars.TimeStamp_'+input+'= ' + Now;
+            var varString = 'call.vars.TimeStamp_'+input+'=' + Now;
             eval(varString);
         }
     }
@@ -68,10 +68,12 @@ var BackToMainFunction = function(){
 };
 
 var DisplayBalance = function(client){
-
     var i = state.vars.SeasonCount;
-    if (typeof(client.BalanceHistory[i+1]) == 'undefined'){state.vars.NextSeason = false;}
-    else{state.vars.NextSeason = true;}
+    if (typeof(client.BalanceHistory[i-1]) == 'undefined'){
+        state.vars.NextSeason = false;
+    }else{
+        state.vars.NextSeason = true;
+    }
     if (typeof(client.BalanceHistory[i].SeasonName) !== 'undefined'){
 
         var Season = client.BalanceHistory[i].SeasonName;
@@ -80,14 +82,23 @@ var DisplayBalance = function(client){
         var Credit = client.BalanceHistory[i].TotalCredit;
         var RegionName = client.RegionName;
         var DistanceToHealthy = GetHeathyPathPercent (Season, RegionName);
+
         console.log('DistanceToHealth: '+ DistanceToHealthy);
-        if (DistanceToHealthy === false){console.log('no distance to healthy path set');}
-        else {DistanceToHealthy =Math.round( Math.max(DistanceToHealthy* Credit - Paid,0));}
-        if (DistanceToHealthy === 0){DistanceToHealthy = '-';}
+
+        if (DistanceToHealthy === false){
+            console.log('no distance to healthy path set');
+        }else {
+            DistanceToHealthy =Math.round( Math.max(DistanceToHealthy* Credit - Paid,0));
+        }
+
+        if (DistanceToHealthy === 0){
+            DistanceToHealthy = '-';
+        }
         CheckBalanceMenuText (Season,Credit,Paid,Balance,DistanceToHealthy);
 
+    }else {
+        sayText(call.vars.BalanceInfo+ '\n2. Nitumie taarifa kwa meseji\n9. Rudi mwanzo');
     }
-    else {sayText(call.vars.BalanceInfo+ '\n2. Nitumie taarifa kwa meseji\n9. Rudi mwanzo');}
 };
 
 var GetHeathyPathPercent = function (Season,RegionName){
@@ -128,10 +139,19 @@ var GetHeathyPathPercent = function (Season,RegionName){
 var CheckBalanceMenuText = function (Season,Credit,Paid,Balance, DistanceToHealthy){
     var client = JSON.parse(state.vars.client);
     var firstname = client.FirstName;
-    if(DistanceToHealthy === false){var BalanceInfo = 'Habari '+firstname+ '\n'+Season.substring(0, 4)+'\nUmelipa: '+Paid+'/'+Credit+'\nIliyobaki: '+Balance;}
-    else{BalanceInfo = 'Habari '+firstname+ '\n'+ Season.substring(0, 4)+'\nUmelipa: '+Paid+'/'+Credit+'\nIliyobaki: '+Balance+'\nKiasi ili kufikia lengo: '+ DistanceToHealthy;}
-    if (state.vars.NextSeason){sayText(BalanceInfo+  '\n1. Msimu uliopita\n2. Nitumie taarifa kwa meseji');}
-    else{sayText(BalanceInfo+  '\n2. Nitumie taarifa kwa meseji\n9. Rudi mwanzo');}
+    var BalanceInfo = '';
+    if(DistanceToHealthy === false){
+        BalanceInfo = 'Habari '+firstname+ '\n'+Season.substring(0, 4)+'\nUmelipa: '+Paid+'/'+Credit+'\nIliyobaki: '+Balance;
+    }else{
+        BalanceInfo = 'Habari '+firstname+ '\n'+ Season.substring(0, 4)+'\nUmelipa: '+Paid+'/'+Credit+'\nIliyobaki: '+Balance+'\nKiasi ili kufikia lengo: '+ DistanceToHealthy;
+    }
+    
+    if (state.vars.NextSeason){
+        sayText(BalanceInfo+  '\n1. Msimu unaofuata\n2. Nitumie taarifa kwa meseji');
+    }
+    else{
+        sayText(BalanceInfo+  '\n2. Nitumie taarifa kwa meseji\n9. Rudi mwanzo');
+    }
     call.vars.BalanceInfo = BalanceInfo;
     notifyELK();
 };
@@ -250,11 +270,16 @@ addInputHandler('account_number', function(accountNumber) {
 });
 
 addInputHandler('MainMenu', function(MainMenu) {
-    state.vars.SeasonCount = 0;
+    var season = 0;
     LogSessionID();
     InteractionCounter('MainMenu');
     client = JSON.parse(state.vars.client);
-    console.log(state.vars.client);
+    client.BalanceHistory.forEach(function(history, index) {
+        if(history.Balance > 0) {
+            season = index;
+        }
+    });
+    state.vars.SeasonCount = JSON.stringify(season);
     if (MainMenu == 1){
         DisplayBalance(client);
         promptDigits('BalanceContinue', {submitOnHash: true, maxDigits: 1, timeout: 5});
@@ -370,7 +395,7 @@ addInputHandler('BalanceContinue', function(input) {
     InteractionCounter('BalanceContinue');
     var client = JSON.parse(state.vars.client);
     if (input == 1 && state.vars.NextSeason){
-        state.vars.SeasonCount = state.vars.SeasonCount +1;
+        state.vars.SeasonCount = state.vars.SeasonCount - 1;
         DisplayBalance(client);
         promptDigits('BalanceContinue', {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
