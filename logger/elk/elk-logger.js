@@ -15,26 +15,52 @@ function sendRequest(baseURL, path,msg,options) {
 }
 var Log = function (baseURL){
     if(!baseURL) throw 'Required base URL not provided';
-    
-    this.log= function(msg, options){
-        if (!msg)
-            throw 'Error: log called without message';
-        var logPath = '/telerivet-logs';
-        sendRequest(baseURL, logPath,msg,options);
-    };
-    this.warn= function(msg,options){
-        if (!msg)
-            throw 'Error: "logger.warn" called without message';
-        var logPath = '/telerivet-warn';
-        sendRequest(baseURL, logPath,msg,options);
-    };
-    this.error= function(msg,options){
-        if (!msg)
-            throw 'Error: "logger.error" called without message';
-        var logPath = '/telerivet-error';
-        sendRequest(baseURL, logPath,msg,options);
-    };
+    this.baseURL = baseURL;
 };
+
+/**
+ * 
+ * @param {string} msg a log message
+ * @param {Object} options Object containing details of the log request
+ * @param {string[]} options.tags Array of tags for the log entry
+ * @param {Object} options.data Miscellaneous data 
+ */
+Log.prototype.log = function(msg, options){
+    if (!msg)
+        throw 'Error: log called without message';
+    var logPath = '/telerivet-logs';
+    sendRequest(this.baseURL, logPath,msg,options);
+};
+
+/**
+ * 
+ * @param {string} msg a warning message
+ * @param {Object} options Object containing details of the log request
+ * @param {string[]} options.tags Array of tags for the log entry
+ * @param {Object} options.data Miscellaneous data 
+ */
+Log.prototype.warn= function(msg,options){
+    if (!msg)
+        throw 'Error: "logger.warn" called without message';
+    var logPath = '/telerivet-warn';
+    sendRequest(this.baseURL, logPath,msg,options);
+};
+
+/**
+ * 
+ * @param {string} msg an Error message
+ * @param {Object} options Object containing details of the log request
+ * @param {string[]} options.tags Array of tags for the log entry
+ * @param {Object} options.data Miscellaneous data 
+ */
+Log.prototype.error= function(msg,options){
+    if (!msg)
+        throw 'Error: "logger.error" called without message';
+    var logPath = '/telerivet-error';
+    sendRequest(this.baseURL, logPath,msg,options);
+};
+
+
 
 module.exports = Log;
 
