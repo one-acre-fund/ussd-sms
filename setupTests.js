@@ -31,6 +31,7 @@ global.stopRules = jest.fn();
 global.service = {
     phone_number: {},
     vars: {
+        env: 'dev'
     }
 };
 
