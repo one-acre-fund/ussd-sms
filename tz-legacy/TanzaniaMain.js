@@ -230,6 +230,7 @@ addInputHandler('SplashMenu', function(SplashMenu) {
 });
 
 addInputHandler('account_number', function(accountNumber) {
+    InteractionCounter('AccountNumber');
     var ClientAccNum = accountNumber;
     if (RosterClientVal(ClientAccNum)){
         console.log('SuccessFully Validated against Roster');

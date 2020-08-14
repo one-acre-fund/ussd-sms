@@ -23,7 +23,7 @@ describe('Village handler', () => {
     };
 
     it('should promt the user to select a farmer once the input matches an existinf village', () => {
-        state.vars.villages = JSON.stringify({'1': {village: 'Mpazi', villageid: 1}, '2': {village: 'Tetero', villageid: 2}, '3': {village: 'Kinyambo', villageid: 3}});
+        state.vars.villages = JSON.stringify({'1': {village: 'Mpazi', village_id: 1}, '2': {village: 'Tetero', village_id: 2}, '3': {village: 'Kinyambo', village_id: 3}});
         state.vars.villages_screen = JSON.stringify({'1': '1) Mpazi\n2) Tetero\n* Komeza', '2': '3) Kinyambo'});
         const table = {queryRows: () => table_cursor};
         project.initDataTableById = () => table;
@@ -31,7 +31,7 @@ describe('Village handler', () => {
         expect(state.vars.farmers).toEqual('{"1":{"national_id":"13753675","first_name":"Mosh","last_name":"Hamedani","row_id":1},"2":{"national_id":"11437284",' + 
         '"first_name":"Brad","last_name":"Traversy","row_id":2},"3":{"national_id":"11433948","first_name":"Fun","last_name":"Function","row_id":3}}');
         
-        expect(state.vars.villages).toEqual('{"1":{"village":"Mpazi","villageid":1},"2":{"village":"Tetero","villageid":2},"3":{"village":"Kinyambo","villageid":3}}');
+        expect(state.vars.villages).toEqual('{"1":{"village":"Mpazi","village_id":1},"2":{"village":"Tetero","village_id":2},"3":{"village":"Kinyambo","village_id":3}}');
         expect(state.vars.current_farmers_screen).toEqual(1);
         expect(sayText).toHaveBeenCalledWith('Press the number corresponding to farmer who is receiving the tester pack\n' +
         '1) Mosh Hamedani\n' +
@@ -39,8 +39,21 @@ describe('Village handler', () => {
         '3) Fun Function\n');
         expect(promptDigits).toHaveBeenCalledWith('select_farmer', {'maxDigits': 2, 'submitOnHash': false, 'timeout': 5});
     });
+
+    it('should tell the user if there are no registered farmers in the selected village', () => {
+        state.vars.villages = JSON.stringify({'1': {village_name: 'Mpazi', village_id: 1}, '2': {village_name: 'Tetero', village_id: 2}, '3': {village_name: 'Kinyambo', village_id: 3}});
+        state.vars.villages_screen = JSON.stringify({'1': '1) Mpazi\n2) Tetero\n* Komeza', '2': '3) Kinyambo'});
+        table_cursor.results = [];
+        const table = {queryRows: () => table_cursor};
+        project.initDataTableById = () => table;
+        villageHandler(1);
+        expect(sayText).toHaveBeenCalledWith('No registered farmers in Mpazi village');
+        expect(stopRules).toHaveBeenCalled();
+        expect(promptDigits).not.toHaveBeenCalled();
+    });
+
     it('should display a next page when a user inputs *', () => {
-        state.vars.villages = JSON.stringify({'1': {village: 'Mpazi', villageid: 1}, '2': {village: 'Tetero', villageid: 2}, '3': {village: 'Kinyambo', villageid: 3}});
+        state.vars.villages = JSON.stringify({'1': {village: 'Mpazi', village_id: 1}, '2': {village: 'Tetero', village_id: 2}, '3': {village: 'Kinyambo', village_id: 3}});
         state.vars.villages_screen = JSON.stringify({'1': '1) Mpazi\n2) Tetero\n* Komeza', '2': '3) Kinyambo'});
         state.vars.current_villages_screen = 1;
         project.initDataTableById = jest.fn();
@@ -51,7 +64,7 @@ describe('Village handler', () => {
     });
 
     it('should display a next page when a user inputs *', () => {
-        state.vars.villages = JSON.stringify({'1': {village: 'Mpazi', villageid: 1}, '2': {village: 'Tetero', villageid: 2}, '3': {village: 'Kinyambo', villageid: 3}});
+        state.vars.villages = JSON.stringify({'1': {village: 'Mpazi', village_id: 1}, '2': {village: 'Tetero', village_id: 2}, '3': {village: 'Kinyambo', village_id: 3}});
         state.vars.villages_screen = JSON.stringify({'1': '1) Mpazi\n2) Tetero\n* Komeza', '2': '3) Kinyambo'});
         state.vars.current_villages_screen = 2;
         project.initDataTableById = jest.fn();

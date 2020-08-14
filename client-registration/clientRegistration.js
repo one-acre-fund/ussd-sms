@@ -66,7 +66,7 @@ module.exports = {
                 else{
                     message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phoneNumber}, state.vars.reg_lang);
                 }
-                
+                sayText(message);
                 project.sendMessage({content: message, to_number: contact.phone_number});
                 project.sendMessage({content: message, to_number: clientJSON.phoneNumber});
                 var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
