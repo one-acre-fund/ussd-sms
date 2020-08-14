@@ -13,7 +13,8 @@ function sendRequest(baseURL, path,msg,options) {
     }
     httpClient.request(baseURL + path, {method: 'POST', data: data});
 }
-var Log = function (baseURL){
+var Log = function (logsBaseURL){
+    var baseURL = logsBaseURL || project.vars.elk_logs_base_url;
     if(!baseURL) throw 'Required base URL not provided';
     this.baseURL = baseURL;
 };

@@ -8,10 +8,16 @@ describe('Logger', () => {
     it('should be a function', () => {
         expect(Logger).toBeInstanceOf(Function);
     });
-    it('should throw an error if called without a URL', () => {
+    it('should throw an error if called without a URL and without a project.vars.elk_logs_base_url', () => {
+        project.vars.elk_logs_base_url =undefined;
         expect(() => {
             logger = new Logger();
         }).toThrow('Required base URL not provided');
+    });
+    it('should not throw an error if project.vars.elk_logs_base_url is set and it is initialised without a URl', () => {
+        project.vars.elk_logs_base_url = 'https://example.com';
+        logger = new Logger();
+        expect(logger.baseURL).toEqual(project.vars.elk_logs_base_url);
     });
     it('should provide a log.log function', () => {
         expect(logger.log).toBeInstanceOf(Function);
