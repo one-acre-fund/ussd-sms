@@ -13,7 +13,7 @@ var translations = {
     },
     'provinces': {
         'en': '1) EASTERN ZONE\n2) KIGALI CITY\n3) SOUTHERN ZONE\n4) WESTERN ZONE\n5) NORTHERN ZONE',
-        'ki': '1) EASTERN ZONE\n2) KIGALI CITY\n3) SOUTHERN ZONE\n4) WESTERN ZONE\n5) NORTHERN ZONE'
+        'ki': '1) IBURASIRAZUBA\n2) UMUGI WA KIGALI\n3) AMAJYEPFO\n4) IBURENGERAZUBA\n5) AMAJYARUGURU'
     },
     'locations': {
         'en': '$label) $location\n',
@@ -42,6 +42,10 @@ var translations = {
     'village_title': {
         'en': 'Village\n',
         'ki': 'Umudugudu\n'
+    },
+    'no_farmers_found': {
+        'en': 'No registered farmers in $village_name village',
+        'ki': 'Nta bahinzi bariyandikisha m\'umudugudu wa $village_name'
     },
     'farmers_title': {
         'en': 'Press the number corresponding to farmer who is receiving the tester pack\n',
