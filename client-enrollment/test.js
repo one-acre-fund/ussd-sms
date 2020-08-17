@@ -10,16 +10,19 @@ const account = 123456789;
 const country = 'KE';
 const enr_lang = 'en-ke';
 const foPhone = '0786182098';
-var mockTable = { createRow: jest.fn()};
-var mockRow = {save: jest.fn()};
+var mockTable = { createRow: jest.fn(), queryRows: jest.fn()};
+var mockRow = {save: jest.fn(),next: jest.fn(), hasNext: jest.fn(),vars: {'account_number': account}};
 describe('clientRegistration', () => {
     beforeAll(()=>{
         roster.getClient = jest.fn();
         roster.authClient = jest.fn();
         project.sendMessage = jest.fn();
-        project.initDataTableById = jest.fn();
         mockTable.createRow.mockReturnValue(mockRow);
-        project.initDataTableById.mockReturnValue(mockTable);
+        project.initDataTableById = jest.fn().mockReturnValue(mockTable);
+        mockTable.queryRows.mockReturnValue(mockRow);
+        mockRow.hasNext.mockReturnValue(false);
+        mockRow.next.mockReturnValue(mockRow);
+
     });
     beforeEach(()=>{
         roster.authClient = jest.fn().mockImplementationOnce(() => {
@@ -140,6 +143,12 @@ describe('clientRegistration', () => {
             expect(sayText).toHaveBeenCalledWith(`Thank you for expressing your interest to enrol for 2021. Please pay KSHs ${loanAmount} `+
             'to finish your loan then try again!');
             expect(sayText).toHaveBeenCalledTimes(1);
+        });
+        it('should display a message with an account number if a duplicate account number is found in the tables', () => {
+            mockRow.hasNext.mockReturnValue(true);
+            clientEnrollment.start(account, country,enr_lang);
+            expect(sayText).toHaveBeenCalledWith(`You have already enrolled this season and your account number is ${account}`+
+            '. Reach out to your FO to help you add inputs to your order.');
         });
         
     });
