@@ -1,66 +1,48 @@
 
-const logResponse = require('../utils/request-logger');
-var registrationEndpoint = "/Api/Registrations/RegisterClient";
-const slack = require('../../../slack-logger/index');
-var exampleRequestData = {
-    "districtId": 1404,
-    "siteId": 14,
-    "groupId": 14,
-    "firstName": "Angello",
-    "lastName": "Obel",
-    "nationalIdNumber": "{{$randomInt}}",
-    "phoneNumber": "0776320345"
-}
-
-var exampleResponse = {
-    "EntityType": "Client",
-    "DistrictId": 1404,
-    "ClientId": -1014000370,
-    "FirstName": "Angello",
-    "LastName": "Obel",
-    "EnrollmentDate": "2020-04-29T13:29:52.36",
-    "Ban": false,
-    "BannedDate": null,
-    "DateCreated": "2020-04-29T13:29:52.36",
-    "Deceased": false,
-    "DeceasedDate": null,
-    "AccountNumber": "27509737",
-    "GlobalClientId": "dd65a009-8bcf-475e-86b4-bc5ea5dc7939",
-    "FirstSeasonId": 280,
-    "LastActiveSeasonId": null,
-    "NationalId": "358",
-    "OldGlobalClientId": null,
-    "ParentGlobalClientId": null,
-    "ValidationCode": null,
-    "CanEnrollAsNewMember": null,
-    "SiteId": 14
-}
+var logResponse = require('../utils/request-logger');
+var registrationEndpoint = '/Api/Registrations/RegisterClient';
+var slack = require('../../../slack-logger/index');
+var Log = require('../../../logger/elk/elk-logger');
 
 
+/**
+ * 
+ * @param {Object} clientJSON 
+ * @param {number} districtId
+ * @param {number} siteId
+ * @param {number} groupId
+ * @param {string} firstName
+ * @param {string} lastName
+ * @param {string} nationalIdNumber
+ * @param {string} phoneNumber
+ * @param {string} lang 
+ */
 
 module.exports = function (clientJSON, lang) {
 
+    var logger;
     var response;
     var fullUrl = service.vars.server_name + registrationEndpoint;
-    console.log("####FULL-URL: " + fullUrl);
     var opts = { headers: {} };
-    opts.headers['Authorization'] = "Token " + service.vars.roster_api_key;
-    opts.method = "POST";
+    opts.headers['Authorization'] = 'Token ' + service.vars.roster_api_key;
+    opts.method = 'POST';
     opts.data = clientJSON;
-    console.log("#### typeof clientjson: " + typeof clientJSON)
-    console.log('####### ClientJSON:' + clientJSON);
-    console.log("#### OPtions: " + JSON.stringify(opts));
 
     try {
+        logger = new Log(project.vars.elk_logs_base_url);
+    } catch (error) {
+        slack.log('Error creating logger'+ error);
+    }
+    
+    try {
         response = httpClient.request(fullUrl, opts);
+        var msgs = require('../msg-retrieve');
         if (response.status == 200) {
-            console.log('***************SUCCESS*******************' + JSON.stringify(response));
             return response.content;
         }
         else if (response.status == 409) {
             logResponse(fullUrl, response);
-            if (response.content == "\"National Id Conflict\"") {
-                var msgs = require('../msg-retrieve');
+            if (response.content == '"National Id Conflict"') {
                 sayText(msgs('ENR_NATIONAL_ID_DUPLICATE'), {}, lang);
                 stopRules();
                 return null;
@@ -68,17 +50,13 @@ module.exports = function (clientJSON, lang) {
         }
         else {
             logResponse(fullUrl, response);
-            var msgs = require('../msg-retrieve');
             sayText(msgs('FAILURE_REGISTERING'), {}, lang);
-            slack.log('Error Registering a new client: ' + JSON.stringify(response));
+            if(logger) logger.log('Error Registering a new Client',{tags: [service.vars.env],data: response});
             stopRules();
             return null;
         }
     } catch (e) {
-        console.log('Error' + e);
-        slack.log('Error in registering a new client: ' + e);
+        if(logger) logger.log('Error Registering a new Client',{tags: [service.vars.env],data: {error: e,response: response}});
     }
 
-    console.log("####Failed to save" + JSON.stringify(response));
-
-}
+};
