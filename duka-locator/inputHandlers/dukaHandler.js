@@ -13,7 +13,7 @@ module.exports = function dukaHandler(input) {
     if(dukasTableEntries.hasNext()) {
         var record = dukasTableEntries.next().vars;
         state.vars.selected_duka = JSON.stringify(record);
-        var dukaLocation = record[lang];
+        var dukaLocation = record[lang === 'sw' ? 'sw' : 'en'];
         state.vars.duka_options = JSON.stringify({reach_out_to_agent: 1, exit_menu: 2});
         var menu = getMessage('reach_out_to_agent', {'$label': 1}, lang) + getMessage('exit_menu', {'$label': 2}, lang);
         sayText(dukaLocation + '\n' + menu);
