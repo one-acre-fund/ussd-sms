@@ -61,7 +61,7 @@ module.exports = function (clientJSON, lang) {
             logResponse(fullUrl, response);
             if (response.content == "\"National Id Conflict\"") {
                 var msgs = require('../msg-retrieve');
-                sayText(msgs('ENR_NATIONAL_ID_DUPLICATE'), {}, lang);
+                sayText(msgs('enrolled_national_id'), {}, lang);
                 stopRules();
                 return null;
             }

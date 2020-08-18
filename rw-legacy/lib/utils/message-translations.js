@@ -815,5 +815,9 @@ module.exports = {
     'view_group_repayment': {
         'en': '$label) View group repayment\n',
         'ki': '$label) Reba amakuru y\'ubwishyu bwishyuwe mu itsinda\n'
+    },
+    'enrolled_national_id':{
+        'en-ke':'You have already enrolled this season and your account number is $AccountNumber. Reach out to your FO to help you add inputs to your order.',
+        'sw': 'Tayari umesajiliwa mwaka huu na akauti namba yako ni $AccountNumber Tembelea mwalimu wako ili akusaidie kuongeza bidhaa unazotaka!'
     }
 }

@@ -89,7 +89,7 @@ describe('clientRegistration', () => {
         it('should tell the client to confirm the national Id they have entered', () => {
             callback(nationalId);
             expect(sayText).toHaveBeenCalledWith(`You enter ${nationalId} ID`+
-            '. Enter 1 to confirm or 2 to try again');
+            '. Enter\n1) To confirm\n2) To try again');
         });
         it('should prompt for the client to confirm their national Id', () => {
             callback();
@@ -150,7 +150,7 @@ describe('clientRegistration', () => {
         it('should tell the client to confirm their phone number after they have entered it', () => {
             callback(phone);
             expect(sayText).toHaveBeenCalledWith(`You enter ${phone}`+
-            ' Phone number. Enter 1 to confirm or 2 to try again');
+            ' Phone number. Enter\n1) To confirm\n2) To try again');
         });
         it('should prompt to ask the user if the would like to be a GL', () => {
             callback(phone);
@@ -224,16 +224,16 @@ describe('clientRegistration', () => {
             callback();
             expect(mockTable.createRow).toHaveBeenCalledWith({
                 'contact_id': contact.id,
-                'from_number': contact.from_number,
                 'vars': {
                     'account_number': client.AccountNumber,
                     'national_id': client.NationalId,
-                    'phone_number': state.vars.phoneNumber,
+                    'client_phone_number': state.vars.phoneNumber,
                     'first_name': client.FirstName,
                     'last_name': client.LastName,
                     'district': client.DistrictId,
                     'site': client.SiteId,
                     'new_client': '1',
+                    'gl_phone_number': contact.phone_number,
                     'gl_interested': state.vars.groupLeader
                 }
             });

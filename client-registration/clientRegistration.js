@@ -72,17 +72,17 @@ module.exports = {
                 var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
                 var row = table.createRow({
                     'contact_id': contact.id,
-                    'from_number': contact.from_number,
                     vars: {
                         'account_number': clientData.AccountNumber,
                         'national_id': clientData.NationalId,
-                        'phone_number': clientJSON.phoneNumber,
+                        'client_phone_number': clientJSON.phoneNumber,
                         'first_name': clientData.FirstName,
                         'last_name': clientData.LastName,
                         'district': clientData.DistrictId,
                         'site': clientData.SiteId,
                         'new_client': '1',
-                        'gl_interested': state.vars.groupLeader
+                        'gl_interested': state.vars.groupLeader,
+                        'gl_phone_number': contact.phone_number,
 
                     }
                 });
