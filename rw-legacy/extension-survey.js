@@ -51,7 +51,7 @@ const timeout_length = project.vars.timeout_length;
 if(env === 'prod'){
     service.vars.ExtSurveySessions = 'DT643b929207d5f6b9';
     service.vars.ExtensionFarmers = project.vars.ExtensionFarmersTableId;
-    serive.vars.extensionTableId = project.vars.ExtensionSurveyTableId;
+    service.vars.extensionTableId = project.vars.ExtensionSurveyTableId;
 }else{
     service.vars.ExtSurveySessions = 'DT5c79b0c09ade8d5d';
     service.vars.ExtensionFarmers = project.vars.dev_ExtensionFarmersTableId;
