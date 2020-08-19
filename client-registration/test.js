@@ -36,6 +36,10 @@ const reg_lang = 'en-ke';
 const nationalId = 12345678;
 const phone = '0786182099';
 var foPhone = '0786192039';
+
+var mockedTable = { queryRows: jest.fn()};
+var mockedRow = {hasNext: jest.fn(), next: jest.fn(),vars: {'national_id': nationalId,'account_number': account}};
+
 describe('clientRegistration', () => {
 
     it('should have a start function', () => {
@@ -86,13 +90,25 @@ describe('clientRegistration', () => {
             clientRegistration.registerHandlers();
             callback = nationalIdHandler.getHandler.mock.calls[0][0];                
         });
-        it('should tell the client to confirm the national Id they have entered', () => {
+        it('should display a message with an account number if a duplicate national id is found in the tables', () => {
+            project.initDataTableById = jest.fn().mockReturnValue(mockedTable);
+            mockedTable.queryRows.mockReturnValue(mockedRow);
+            mockedRow.hasNext.mockReturnValue(true);
+            mockedRow.next.mockReturnValue(mockedRow);
             callback(nationalId);
-            expect(sayText).toHaveBeenCalledWith(`You enter ${nationalId} ID`+
+            expect(sayText).toHaveBeenCalledWith(`You have already enrolled this season and your account number is ${account}`+
+            '. Reach out to your FO to help you add inputs to your order.');
+        });
+        it('should tell the client to confirm the national Id they have entered', () => {
+            mockedRow.hasNext.mockReturnValue(false);
+            var differentId = '12385679';
+            callback(differentId);
+            expect(sayText).toHaveBeenCalledWith(`You enter ${differentId} ID`+
             '. Enter\n1) To confirm\n2) To try again');
         });
         it('should prompt for the client to confirm their national Id', () => {
-            callback();
+            var differentId = '12385679';
+            callback(differentId);
             expect(promptDigits).toHaveBeenCalledWith(confrmNationalIdHandler.handlerName);
         });
     });
@@ -254,6 +270,12 @@ describe('clientRegistration', () => {
                 to_number: state.vars.phoneNumber
             }));
         });
+        it('should send a message with no FO phone number to the new client phone number if the FO phone number is not available', () => {  
+            getFOInfo.mockImplementationOnce(() => {return {'firstName': 'sabin','lastName': 'sheja','phoneNumber': null};});
+            callback();
+            expect(sayText).toHaveBeenCalledWith(`Thank you for expressing your interest to enroll with OAF. Your Account Number is: ${client.AccountNumber}`+
+                '. Your FO will reach out to you to add inputs to your order.');
+        });
         
         it('should send a message with no FO phone number to the GL phone number if the FO contact is not available', () => {  
             getFOInfo.mockImplementationOnce(() => {return null;});
@@ -273,7 +295,7 @@ describe('clientRegistration', () => {
                 to_number: state.vars.phoneNumber
             }));
         });
-        it('should show a message with no FO phone number if the FO phone is not available', () => {  
+        it('should show a message with no FO phone number if the FO details is not available', () => {  
             getFOInfo.mockImplementationOnce(() => {return null;});
             callback();
             expect(sayText).toHaveBeenCalledWith(`Thank you for expressing your interest to enroll with OAF. Your Account Number is: ${client.AccountNumber}`+

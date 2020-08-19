@@ -15,9 +15,17 @@ module.exports = {
     registerHandlers: function (){
         
         function onNationalIdValidated(nationalId){
-            state.vars.nationalId = nationalId;
-            global.sayText(translate('confirm_national_id',{'$nationalId': nationalId},state.vars.reg_lang));
-            global.promptDigits(confirmNationalIdHandler.handlerName);
+            var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
+            var rows = table.queryRows({'vars': {'national_id': nationalId}});
+            if(rows.hasNext()){
+                var row = rows.next();
+                global.sayText(translate('duplicate_national_id',{'$AccountNumber': row.vars.account_number},state.vars.reg_lang)); 
+            }
+            else{
+                state.vars.nationalId = nationalId;
+                global.sayText(translate('confirm_national_id',{'$nationalId': nationalId},state.vars.reg_lang));
+                global.promptDigits(confirmNationalIdHandler.handlerName);
+            }
         }
         function onNationalIdConfirmation(){
             global.sayText(translate('first_name_prompt',{},state.vars.reg_lang));
