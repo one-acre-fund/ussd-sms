@@ -23,12 +23,11 @@ var lang = project.vars.lang;
 
 state.vars.lang = lang;
 
-var translations = require('./tranlations');
+var translations = require('./translations/index');
 var translator = require('../utils/translator/translator');
 var getMessage = translator(translations, lang);
 
 var inputHandlers = require('./inputHandlers/inputHandlers');
-var buyBackTransactions = require('../buyback-transactions/buyBackTransactions');
 
 global.main = function(){
     notifyELK();
@@ -41,4 +40,3 @@ global.main = function(){
 };
 
 addInputHandler('account_number', inputHandlers.accountNumberInputHandler);
-buyBackTransactions.registerInputHandlers();
