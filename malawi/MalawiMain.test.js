@@ -10,7 +10,7 @@ describe('Malawi legacy', () => {
                 dev_roster_api_key: 'Sample API key',
                 roster_read_key: 'roster_Read_key',
                 dev_varieties_table_id: 'dev_varieties_table_id',
-                lang: 'en-mw'
+                lang: 'en'
             }
         };
     });
