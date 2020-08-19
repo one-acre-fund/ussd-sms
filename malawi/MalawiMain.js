@@ -40,5 +40,5 @@ global.main = function(){
     });
 };
 
-addInputHandler('account_number', inputHandlers.accountNumberInputHandler);
 buybackTransactions.registerInputHandlers();
+addInputHandler('account_number', inputHandlers.accountNumberInputHandler);

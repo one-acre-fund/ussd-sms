@@ -1,4 +1,6 @@
 var buybackTransactions = require('./buyBackTransactions');
+var cropsInputHandler = require('./inputHandlers/cropsInputHandler');
+var varietiesInputHandler = require('./inputHandlers/varietiesInputHandler');
 
 describe('Buyback transactions', () => {
     beforeAll(() => {
@@ -10,9 +12,8 @@ describe('Buyback transactions', () => {
 
     it('should register the input handlers', () => {
         buybackTransactions.registerInputHandlers();
-
-        var cropsInputHandler = require('./inputHandlers/cropsInputHandler');
-        expect(addInputHandler).toHaveBeenCalledWith('crops', cropsInputHandler);
+        expect(addInputHandler).toHaveBeenCalledWith('crops', cropsInputHandler.Handler);
+        expect(addInputHandler).toHaveBeenCalledWith('varieties', varietiesInputHandler.Handler);
     });
 
     it('should show a list of crops and prompt the user to select one', () => {
@@ -22,7 +23,7 @@ describe('Buyback transactions', () => {
         '1) Groundnuts\n' +
         '2) Rice\n' +
         '3) Pigeon peas\n');
-        expect(promptDigits).toHaveBeenCalledWith('crops', {
+        expect(promptDigits).toHaveBeenCalledWith(cropsInputHandler.handlerName, {
             submitOnHash: false,
             timeout: 5,
             maxDigits: 1
