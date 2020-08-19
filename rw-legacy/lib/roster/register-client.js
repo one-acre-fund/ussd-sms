@@ -59,12 +59,10 @@ module.exports = function (clientJSON, lang) {
         }
         else if (response.status == 409) {
             logResponse(fullUrl, response);
-            if (response.content == "\"National Id Conflict\"") {
                 var msgs = require('../msg-retrieve');
-                sayText(msgs('enrolled_national_id'), {}, lang);
+                sayText(msgs('enrolled_national_id'), {'$AccountNumber': response.content}, lang);
                 stopRules();
                 return null;
-            }
         }
         else {
             logResponse(fullUrl, response);

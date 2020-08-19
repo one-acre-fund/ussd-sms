@@ -712,8 +712,10 @@ module.exports = {
         "ki": "Niyandikishije muri TUBURA nemeye amabwiriza n'amategeko agenga ideni rya TUBURA nkazayasinya kumunsi w'ifata ry'inyongeramusaruro. ~B 1) Gukomeza ~B 2)Gusohoka",
     },
     "FAILURE_REGISTERING": {
-        "en": "Registration failed. Please try again later",
-        "ki": "Kwiyandikisha biranze. Ongera mukanya",
+        'en': 'Registration failed. Please try again later',
+        'en-ke': 'Registration failed, Please try again later. At this time many people are using the system!',
+        'ki': 'Kwiyandikisha biranze. Ongera mukanya',
+        'sw': 'Tafadhali jaribu tena baada ya mda kidogo. Watu wengi wanatuma maombi kwa sasa!'
     },
     "ENR-SMS-ORDER-FINALIZE": {
         "en": "The total price is $TotalPrice for your $OrderDetails orders, don’t forget to make a prepayment by the 1st of July. Tubura is your trusted partner for quality products and quality harvests.",
