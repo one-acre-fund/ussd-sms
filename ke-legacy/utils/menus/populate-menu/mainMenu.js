@@ -14,8 +14,8 @@ module.exports = [
         'start_date': project.vars.start_check_balance
     },
     {
-        'en-ke': 'Enroll',
-        'sw': 'Jisajili',
+        'en-ke': 'Register client',
+        'sw': 'Sajili Mkulima',
         'option_name': 'register_client',
         'end_date': project.vars.end_register_client,
         'start_date': project.vars.start_register_client
