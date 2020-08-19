@@ -28,8 +28,8 @@
     "setupFilesAfterEnv": [
       "./setupTests.js"
     ],
-    "collectCoverageFrom":[
-      "**/*.{js,jsx}", 
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
       "!**/node_modules/**",
       "!**/*-legacy/**",
       "!.eslintrc.js",
