@@ -189,6 +189,12 @@ describe('clientRegistration', () => {
             callback = groupLeaderQuestionHandler.getHandler.mock.calls[0][0];
             JSON.parse = jest.fn().mockImplementation(() => {return client ;});
         });
+        it('should not send message or save a row if the returned JSON from registering the client is null ', () => {
+            JSON.parse = jest.fn().mockImplementationOnce(() => {return client ;}).mockImplementationOnce(()=>{return null;});
+            callback();
+            expect(project.sendMessage).not.toHaveBeenCalled();
+            expect(mockRow.save).not.toHaveBeenCalled();
+        });
         it('should send a message containing the FO phone number to the Group leader phone number if the FO contact is available', () => {
             callback();
             expect(project.sendMessage).toHaveBeenCalledWith(expect.objectContaining({

@@ -819,7 +819,8 @@ module.exports = {
         'ki': '$label) Reba amakuru y\'ubwishyu bwishyuwe mu itsinda\n'
     },
     'enrolled_national_id':{
-        'en-ke':'You have already enrolled this season and your account number is $AccountNumber. Reach out to your FO to help you add inputs to your order.',
-        'sw': 'Tayari umesajiliwa mwaka huu na akauti namba yako ni $AccountNumber Tembelea mwalimu wako ili akusaidie kuongeza bidhaa unazotaka!'
+        'en': 'Thank you for expressing your interest to enroll with OAF. Your Account Number is: $AccountNumber .Your FO will reach out to you to add inputs to your order.',
+        'en-ke': 'Thank you for expressing your interest to enroll with OAF. Your Account Number is: $AccountNumber .Your FO will reach out to you to add inputs to your order.',
+        'sw': 'Asante kwa nia ya kujiandikisha na OAF. Nambari yako ya akaunti ni: $AccountNumber. Mwalimu wa nyanjani atawasiliana na wewe ili uchagua bidhaa.'
     }
 }
