@@ -4,11 +4,13 @@ const firstNameHandler = require('./first-name-handler/firstNameHandler');
 const nationalIdHandler = require('./national-id-handler/nationalIdHandler');
 const phoneNumberHandler = require('./phone-number-handler/phoneNumberHandler');
 const secondNameHandler = require('./second-name-handler/secondNameHandler');
+var rosterRegisterClient = require('../rw-legacy/lib/roster/register-client');
 const groupLeaderQuestionHandler = require('./group-leader-question-handler/groupLeaderQuestionHandler');
 var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
 var {client}  = require('../client-enrollment/test-client-data'); 
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 
+jest.mock('../rw-legacy/lib/roster/register-client');
 jest.mock('../notifications/elk-notification/elkNotification');
 jest.mock('../Roster-endpoints/Fo-info/getFoInfo');
 jest.mock('./confirm-national-id-handler/confirmNationalIdHandler');
@@ -199,14 +201,16 @@ describe('clientRegistration', () => {
             contact.phone_number = '0789098965';
             state.vars.phoneNumber = '0789777767';
             getFOInfo.mockImplementation(() => {return {'firstName': 'sabin','lastName': 'sheja','phoneNumber': foPhone};});
+            state.vars.client_json = JSON.stringify(client);
+            rosterRegisterClient.mockImplementation(()=>{return JSON.stringify(client);});
         });
         beforeEach(() => {
             clientRegistration.registerHandlers();
             callback = groupLeaderQuestionHandler.getHandler.mock.calls[0][0];
-            JSON.parse = jest.fn().mockImplementation(() => {return client ;});
+
         });
         it('should not send message or save a row if the returned JSON from registering the client is null ', () => {
-            JSON.parse = jest.fn().mockImplementationOnce(() => {return client ;}).mockImplementationOnce(()=>{return null;});
+            rosterRegisterClient.mockImplementationOnce(()=>{return null;});
             callback();
             expect(project.sendMessage).not.toHaveBeenCalled();
             expect(mockRow.save).not.toHaveBeenCalled();
@@ -296,6 +300,7 @@ describe('clientRegistration', () => {
             }));
         });
         it('should show a message with no FO phone number if the FO details is not available', () => {  
+            
             getFOInfo.mockImplementationOnce(() => {return null;});
             callback();
             expect(sayText).toHaveBeenCalledWith(`Thank you for expressing your interest to enroll with OAF. Your Account Number is: ${client.AccountNumber}`+
