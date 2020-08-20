@@ -421,12 +421,13 @@ inputHandlers['extension_questions'] = function(input){
             state.vars.sector = row.vars.sector;
             state.vars.cell = row.vars.cell;
             state.vars.village = row.vars.village;
+            state.vars.district = row.vars.district;
         }
         else{
             slack.log('Failed to get sector and cell from village Id: \n'+state.vars.village_id);
         }
         var failure_details = 'The farmer is disqualified because of '+ questions['extension-survey'][state.vars.qtsn][lang]+' question';
-        var row = extensionTable.createRow({ 'vars': {'first_name': state.vars.firstN, 'last_name':  state.vars.lastN,'gender': state.vars.gender, 'national_id': state.vars.nationalId, 'phone_number': state.vars.phoneNumber, 'registration_status': 'Rejected','Sector': state.vars.sector, 'Cell': state.vars.cell, 'Village':state.vars.village , 'VillageId': state.vars.village_id, 'Time_Created_Registration': new Date().toString(), 'not_eligible': 1, 'failure_details': failure_details}});
+        var row = extensionTable.createRow({ 'vars': {'first_name': state.vars.firstN, 'last_name':  state.vars.lastN,'gender': state.vars.gender, 'national_id': state.vars.nationalId, 'phone_number': state.vars.phoneNumber, 'registration_status': 'Rejected','District': state.vars.district,'Sector': state.vars.sector, 'Cell': state.vars.cell, 'Village':state.vars.village , 'VillageId': state.vars.village_id, 'Time_Created_Registration': new Date().toString(), 'not_eligible': 1, 'failure_details': failure_details}});
         srvySessionManager.clear(contact.phone_number);
         row.save();
         stopRules();
@@ -450,14 +451,15 @@ inputHandlers['extension_questions'] = function(input){
             state.vars.sector = row.vars.sector;
             state.vars.cell = row.vars.cell;
             state.vars.village = row.vars.village;
+            state.vars.district = row.vars.district;
         }
         else{
             slack.log('Failed to get sector and cell from village Id: \n'+state.vars.village_id);
         }
         var table = project.initDataTableById(service.vars.ExtensionFarmers);
-        var row = table.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'first_name': state.vars.firstN, 'last_name': state.vars.lastN, 'gender' : state.vars.gender, 'phone_number': state.vars.phoneNumber,'village_id': state.vars.village_id,'Sector': state.vars.sector, 'Cell': state.vars.cell}});
+        var row = table.createRow({ 'vars': { 'national_id': state.vars.nationalId, 'first_name': state.vars.firstN, 'last_name': state.vars.lastN, 'gender' : state.vars.gender, 'phone_number': state.vars.phoneNumber,'village_id': state.vars.village_id,'District': state.vars.district,'Sector': state.vars.sector, 'Cell': state.vars.cell}});
         row.save();
-        var rowAll = extensionTable.createRow({ 'vars': {'first_name': state.vars.firstN, 'last_name':  state.vars.lastN,'gender': state.vars.gender, 'national_id': state.vars.nationalId, 'phone_number': state.vars.phoneNumber, 'registration_status': 'Successful','Sector': state.vars.sector, 'Cell': state.vars.cell, 'Village':state.vars.village , 'VillageId': state.vars.village_id, 'Time_Created_Registration': new Date().toString(), 'not_eligible': 0}});
+        var rowAll = extensionTable.createRow({ 'vars': {'first_name': state.vars.firstN, 'last_name':  state.vars.lastN,'gender': state.vars.gender, 'national_id': state.vars.nationalId, 'phone_number': state.vars.phoneNumber, 'registration_status': 'Successful','District': state.vars.district,'Sector': state.vars.sector, 'Cell': state.vars.cell, 'Village':state.vars.village , 'VillageId': state.vars.village_id, 'Time_Created_Registration': new Date().toString(), 'not_eligible': 0}});
         rowAll.save();
         sayText(msgs('ext_farmer_confirmation',{},lang));
         srvySessionManager.clear(contact.phone_number);
