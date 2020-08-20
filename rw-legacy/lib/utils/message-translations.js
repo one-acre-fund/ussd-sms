@@ -712,8 +712,10 @@ module.exports = {
         "ki": "Niyandikishije muri TUBURA nemeye amabwiriza n'amategeko agenga ideni rya TUBURA nkazayasinya kumunsi w'ifata ry'inyongeramusaruro. ~B 1) Gukomeza ~B 2)Gusohoka",
     },
     "FAILURE_REGISTERING": {
-        "en": "Registration failed. Please try again later",
-        "ki": "Kwiyandikisha biranze. Ongera mukanya",
+        'en': 'Registration failed. Please try again later',
+        'en-ke': 'Registration failed, Please try again later. At this time many people are using the system!',
+        'ki': 'Kwiyandikisha biranze. Ongera mukanya',
+        'sw': 'Tafadhali jaribu tena baada ya mda kidogo. Watu wengi wanatuma maombi kwa sasa!'
     },
     "ENR-SMS-ORDER-FINALIZE": {
         "en": "The total price is $TotalPrice for your $OrderDetails orders, don’t forget to make a prepayment by the 1st of July. Tubura is your trusted partner for quality products and quality harvests.",
@@ -815,5 +817,10 @@ module.exports = {
     'view_group_repayment': {
         'en': '$label) View group repayment\n',
         'ki': '$label) Reba amakuru y\'ubwishyu bwishyuwe mu itsinda\n'
+    },
+    'enrolled_national_id':{
+        'en': 'Thank you for expressing your interest to enroll with OAF. Your Account Number is: $AccountNumber .Your FO will reach out to you to add inputs to your order.',
+        'en-ke': 'Thank you for expressing your interest to enroll with OAF. Your Account Number is: $AccountNumber .Your FO will reach out to you to add inputs to your order.',
+        'sw': 'Asante kwa nia ya kujiandikisha na OAF. Nambari yako ya akaunti ni: $AccountNumber. Mwalimu wa nyanjani atawasiliana na wewe ili uchagua bidhaa.'
     }
 }
