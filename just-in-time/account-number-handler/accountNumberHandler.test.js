@@ -15,7 +15,7 @@ describe('account_number_handler', () => {
         onAccountNumberValidated = jest.fn();
         accountNumberHandler = getHandler(onAccountNumberValidated);
         rosterAPI.getClient = jest.fn();
-        state.vars.country = 'ke';
+        state.vars.country = 'KE';
         state.vars.jitLang = 'en-ke';
         state.vars.client_json = JSON.stringify(client);
     });

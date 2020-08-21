@@ -1789,7 +1789,7 @@ addInputHandler('MainMenu', function(SplashMenu){
         promptDigits("registrationHandler", {submitOnHash: true, maxDigits: 10, timeout: 5});
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'top_up'){
-        justInTime.start(client.AccountNumber,'ke',state.vars.lang);
+        justInTime.start(client.AccountNumber,'KE',state.vars.lang);
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'trainings'){
         TrainingMenuText();
