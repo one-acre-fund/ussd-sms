@@ -16,7 +16,7 @@ module.exports = {
             }
             if(remainingLoan > 500 ){
                 var amountToPay = remainingLoan-500;
-                sayText(translate('loan_payment_not_satisfied',{'$amount': amountToPay },state.vars.jitLang));
+                global.sayText(translate('loan_payment_not_satisfied',{'$amount': amountToPay },state.vars.jitLang));
             }
         }
         addInputHandler(accountNumberHandler.handlerName, accountNumberHandler.getHandler(onAccountNumberValidated));
