@@ -1,5 +1,5 @@
 const {handlerName,getHandler} = require ('.');
-
+var notifyELK = require('../../notifications/elk-notification/elkNotification'); 
 describe('change_order_handler', () => {
 
     var onPaymentValidated;
@@ -15,6 +15,10 @@ describe('change_order_handler', () => {
     });
     it('should be a function', () => {
         expect(changeOrderHandler).toBeInstanceOf(Function);
+    });
+    it('should call notifyELK ', () => {
+        changeOrderHandler('1');
+        expect(notifyELK).toHaveBeenCalled();
     });
     it('should show a message saying they don\'t meet requirements if repayment is small', () => {
         project.vars.lang = 'en';

@@ -6,6 +6,7 @@ var placeOrderHandler = require('./place-order-handler/index');
 var changeOrderHandler = require('./change-order-handler/index');
 var changeOrderConfirmation = require('./change-order-confirmation/index');
 var translate =  createTranslator(translations, project.vars.lang);
+var notifyELK = require('../notifications/elk-notification/elkNotification'); 
 
 module.exports = {
     registerHandlers: function (){
@@ -75,6 +76,7 @@ module.exports = {
     },
 
     start: function (account, country) {
+        notifyELK();
         state.vars.account = account;
         state.vars.country = country;
         var chicken_table = project.initDataTableById(service.vars.chicken_table_id);
