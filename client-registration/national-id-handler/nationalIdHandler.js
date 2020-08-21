@@ -2,6 +2,7 @@ var createTranslator = require('../../utils/translator/translator');
 var translations = require('../translations');
 var translate =  createTranslator(translations,  state.vars.reg_lang || 'en-ke');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
+
 var isNationalIdValid= function(nId){
     var idLength = nId.length;
     //Different country have different national Id digits length
