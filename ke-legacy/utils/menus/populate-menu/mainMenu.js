@@ -23,8 +23,8 @@ module.exports = [
         'en-ke': 'Top up',
         'sw': 'Ongeza Bibhaa',
         'option_name': 'top_up',
-        'end_date': project.vars.end_top_up,
-        'start_date': project.vars.start_top_up
+        'end_date': project.vars[service.vars.topUpEnd],
+        'start_date': project.vars[service.vars.topUpStart]
 
     },
     {

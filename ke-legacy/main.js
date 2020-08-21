@@ -15,12 +15,16 @@ if(service.vars.env === 'prod' || service.vars.env === 'dev'){
 
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
+service.vars.topUpStart = env + '_start_top_up';
+service.vars.topUpEnd = env + '_end_top_up';
+
 service.vars.currency = 'KES';
 
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var transactionHistory = require('../transaction-history/transactionHistory');
 var clientRegistration = require('../client-registration/clientRegistration');
 var clientEnrollment = require('../client-enrollment/clientEnrollment');
+var justInTime = require('../just-in-time/justInTime');
 // Setting global variables!
 var translations = require('./translations/index');
 var createTranslator = require('../utils/translator/translator');
@@ -1782,6 +1786,9 @@ addInputHandler('MainMenu', function(SplashMenu){
     else if(sessionMenu[SplashMenu-1].option_name == 'register_client'){
         registrationMenu();
         promptDigits("registrationHandler", {submitOnHash: true, maxDigits: 10, timeout: 5});
+    }
+    else if(sessionMenu[SplashMenu-1].option_name == 'top_up'){
+        justInTime.start(client.AccountNumber,'ke',state.vars.lang);
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'trainings'){
         TrainingMenuText();
