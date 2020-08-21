@@ -4,7 +4,7 @@ var varietiesInputHandler = require('./inputHandlers/varietiesInputHandler');
 
 describe('Buyback transactions', () => {
     beforeAll(() => {
-        global.state = { vars: {lang: 'en'} };
+        global.state = { vars: {lang: 'en-mw'} };
     });
     beforeEach(() => {
         jest.resetModules();
