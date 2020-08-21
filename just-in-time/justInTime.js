@@ -15,7 +15,8 @@ module.exports = {
                 remainingLoan = client.latestBalanceHistory.TotalCredit - client.latestBalanceHistory.TotalRepayment_IncludingOverpayments;
             }
             if(remainingLoan > 500 ){
-                sayText(translate('loan_payment_not_satisfied',{'$amount': remainingLoan-500 },state.vars.jitLang));
+                var amountToPay = remainingLoan-500;
+                sayText(translate('loan_payment_not_satisfied',{'$amount': amountToPay },state.vars.jitLang));
             }
         }
         addInputHandler(accountNumberHandler.handlerName, accountNumberHandler.getHandler(onAccountNumberValidated));
