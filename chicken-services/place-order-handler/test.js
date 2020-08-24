@@ -1,5 +1,7 @@
 const {handlerName,getHandler} = require ('.');
 var notifyELK = require('../../notifications/elk-notification/elkNotification'); 
+
+jest.mock('../../notifications/elk-notification/elkNotification');
 describe('change_order_handler', () => {
 
     var onPaymentValidated;

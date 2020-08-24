@@ -4,7 +4,6 @@ var translate =  createTranslator(translations, project.vars.lang);
 var handlerName = 'place_chicken_order';
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
-jest.mock('../../notifications/elk-notification/elkNotification');
 module.exports = {
     handlerName: handlerName,
     getHandler: function(onPaymentValidated){

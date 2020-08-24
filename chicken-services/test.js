@@ -11,6 +11,7 @@ jest.mock('./change-order-handler');
 jest.mock('./place-order-handler');
 jest.mock('./possible-order-handler');
 jest.mock('./chicken-eligibility');
+jest.mock('../notifications/elk-notification/elkNotification');
 
 const mockChangeOrderCofrm = jest.fn();
 const mockChangeOrderHandler = jest.fn();
