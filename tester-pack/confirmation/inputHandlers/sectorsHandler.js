@@ -10,6 +10,7 @@ module.exports = function sectorHandler(input) {
     var sector = sectors[input];
     var sectors_screens = JSON.parse(state.vars.sectors_screens);
     var current_sectors_screen = state.vars.current_sectors_screen;
+    console.log('>>>> sectors' + state.vars.sectors_screens + 'current screen' + state.vars.current_sectors_screen);
     if(sector) {
         state.vars.selected_sector = sector;
         var cells = {};
