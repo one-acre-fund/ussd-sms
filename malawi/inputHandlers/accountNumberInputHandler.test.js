@@ -1,6 +1,9 @@
 var accountNumberHandler = require('./accountNumberInputHandler');
 var getClient = require('../utils/getClient');
+var buybackTransactions =  require('../../buyback-transactions/buyBackTransactions');
+
 jest.mock('../utils/getClient');
+jest.mock('../../buyback-transactions/buyBackTransactions');
 
 describe('account number input handler', () => {
     beforeAll(() => {
@@ -18,9 +21,6 @@ describe('account number input handler', () => {
     it('should validate the registered account number successfully', () => {
         getClient.mockReturnValue({client: {accountNumber: '12000123', name: 'Adonis Lags'}});
         accountNumberHandler('12000123');
-        expect(sayText).toHaveBeenCalledWith('Crops\n' +
-        '1) Groundnuts\n' +
-        '2) Rice\n' +
-        '3) Pigeon peas\n');
+        expect(buybackTransactions.start).toHaveBeenCalled();
     });
 });

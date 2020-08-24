@@ -1,6 +1,8 @@
 var buybackTransactions = require('./buyBackTransactions');
 var cropsInputHandler = require('./inputHandlers/cropsInputHandler');
 var varietiesInputHandler = require('./inputHandlers/varietiesInputHandler');
+var kgsInputHandler = require('./inputHandlers/kgsInputHandler');
+var phoneNumberInputHandler = require('./inputHandlers/phoneNumberHandler');
 
 describe('Buyback transactions', () => {
     beforeAll(() => {
@@ -12,8 +14,10 @@ describe('Buyback transactions', () => {
 
     it('should register the input handlers', () => {
         buybackTransactions.registerInputHandlers();
-        expect(addInputHandler).toHaveBeenCalledWith('crops', cropsInputHandler.Handler);
-        expect(addInputHandler).toHaveBeenCalledWith('varieties', varietiesInputHandler.Handler);
+        expect(addInputHandler).toHaveBeenCalledWith(cropsInputHandler.handlerName, cropsInputHandler.Handler);
+        expect(addInputHandler).toHaveBeenCalledWith(varietiesInputHandler.handlerName, varietiesInputHandler.handler);
+        expect(addInputHandler).toHaveBeenCalledWith(kgsInputHandler.handlerName, kgsInputHandler.handler);
+        expect(addInputHandler).toHaveBeenCalledWith(phoneNumberInputHandler.handlerName, phoneNumberInputHandler.handler);
     });
 
     it('should show a list of crops and prompt the user to select one', () => {
