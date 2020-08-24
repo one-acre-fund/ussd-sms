@@ -1,3 +1,5 @@
+var requestLogger = require('../data-table/request-logger');
+
 function sendRequest(baseURL, path,msg,options) {
     var data = {message: msg};
     if(options){
@@ -11,7 +13,11 @@ function sendRequest(baseURL, path,msg,options) {
         }
         data.data = options.data;
     }
-    httpClient.request(baseURL + path, {method: 'POST', data: data});
+    var url = baseURL + path;
+    var response = httpClient.request(url, {method: 'POST', data: data});
+    if(response && response.status !== 200){
+        requestLogger(url, response);
+    }
 }
 var Log = function (logsBaseURL){
     var baseURL = logsBaseURL || project.vars.elk_logs_base_url;

@@ -1,9 +1,18 @@
 var Logger = require('./elk-logger');
 const baseURL = 'http://elkendpoint.example.com';
+const requestLogger = require('../data-table/request-logger');
+
+jest.mock('../data-table/request-logger');
+
+httpClient.request.mockReturnValue({status: 200});
+
 describe('Logger', () => {
     let  logger;
     beforeEach(() => {
         logger = new Logger(baseURL);
+    });
+    afterAll(() => {
+        jest.resetAllMocks();
     });
     it('should be a function', () => {
         expect(Logger).toBeInstanceOf(Function);
@@ -83,6 +92,12 @@ describe('Logger', () => {
                 method: 'POST',
                 data: {message,tags,data: otherData}
             });
+        });
+        it('should log to request logger if the returned status code is not 200', () => {
+            const mockResponse = { status: 404, content: 'mockContent' };
+            httpClient.request.mockReturnValueOnce(mockResponse);
+            logger.log(message,{tags,data: otherData});
+            expect(requestLogger).toHaveBeenCalledWith(baseURL+'/telerivet-logs', mockResponse);
         });
     });
     describe('logger.warn', () => {
