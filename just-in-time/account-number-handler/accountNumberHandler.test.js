@@ -10,6 +10,10 @@ describe('account_number_handler', () => {
     var onAccountNumberValidated;
     var validAccountNumber = '123456789';
     var accountNumberDifferentGroup = '24450523';
+    beforeAll(()=>{
+        rosterAPI.authClient = jest.fn();
+        rosterAPI.authClient.mockReturnValue(true);
+    });
     beforeEach(() => {
         sayText.mockReset();
         onAccountNumberValidated = jest.fn();

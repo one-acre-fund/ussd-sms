@@ -7,15 +7,20 @@ var translate =  createTranslator(translations, project.vars.lang);
 
 
 var isInTheSameGroup = function(accountNumber) {
-    var clientJSON = rosterAPI.getClient(accountNumber,state.vars.country);
-    if(clientJSON){
-        state.vars.topUpClient = JSON.stringify(clientJSON);
-        var groupId = clientJSON.GroupId;
-        if(JSON.parse(state.vars.client_json).GroupId == groupId){
-            return true;
+    
+    if(rosterAPI.authClient(accountNumber,'KE')){
+        var clientJSON = rosterAPI.getClient(accountNumber,state.vars.country);
+        if(clientJSON){
+            state.vars.topUpClient = JSON.stringify(clientJSON);
+            var groupId = clientJSON.GroupId;
+            if(JSON.parse(state.vars.client_json).GroupId == groupId){
+                return true;
+            }
+            return false;
         }
-        return false;
+
     }
+    return false;
 };
 module.exports = {
     handlerName: handlerName,
