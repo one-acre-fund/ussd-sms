@@ -1,4 +1,4 @@
-var slack = require('../../slack-logger/index');
+var Log = require('../../logger/elk/elk-logger');
 
 module.exports = function(chicken_table, acc_nber, client_json){
 
@@ -51,7 +51,9 @@ module.exports = function(chicken_table, acc_nber, client_json){
     }
     else{
         state.vars.client_notfound = true;
-        slack.log('Client '+ client_json.FirstName+' not found in chicken table');
+        var logger = new Log();
+        var logMessage = 'Client ' + client_json.FirstName + ' not found in chicken table';
+        logger.log(logMessage);
     }  
 
 };
