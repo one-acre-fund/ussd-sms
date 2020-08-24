@@ -1,5 +1,7 @@
 const {handlerName,getHandler} = require ('.');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
+jest.mock('../../notifications/elk-notification/elkNotification');
 describe('possible_order_handler', () => {
 
     var onOrderingConfirmed;
@@ -16,6 +18,10 @@ describe('possible_order_handler', () => {
     });
     it('should be a function', () => {
         expect(possibleOrderHandler).toBeInstanceOf(Function);
+    });
+    it('should call notifyELK ', () => {
+        possibleOrderHandler('1');
+        expect(notifyELK).toHaveBeenCalled();
     });
     it('should show a message saying that showing the bounds of number of chickens if they are beyond it', () => {
         project.vars.lang = 'en';

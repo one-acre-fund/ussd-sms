@@ -1,6 +1,7 @@
 const {handlerName,getHandler} = require ('.');
+var notifyELK = require('../../notifications/elk-notification/elkNotification'); 
 
-
+jest.mock('../../notifications/elk-notification/elkNotification');
 describe('change_order_confirm', () => {
     var changeOrderHandler;
     var onOrderFinalized;
@@ -14,6 +15,10 @@ describe('change_order_confirm', () => {
     });
     it('should be a function', () => {
         expect(changeOrderHandler).toBeInstanceOf(Function);
+    });
+    it('should call notifyELK ', () => {
+        changeOrderHandler('1');
+        expect(notifyELK).toHaveBeenCalled();
     });
     it('should show a message for retry if is not zero', () => {
         project.vars.lang = 'en';
