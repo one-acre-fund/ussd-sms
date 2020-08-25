@@ -60,8 +60,8 @@ var translations = {
         'ki': 'Winjijemo imibare ine ya nyuma ya nomera ndangamuntu itari yo. Ongera ugerageze',
     },
     'next_page': {
-        'en': '* Next',
-        'ki': '* Komeza'
+        'en': '77) Next',
+        'ki': '77) Komeza'
     },
 };
 
