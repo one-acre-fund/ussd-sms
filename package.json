@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --colors --coverage",
+    "test": "jest --colors --coverage --coverageReporters=cobertura",
     "test:watch": "jest --colors --watch",
     "lint": "eslint . --ignore-pattern '/*-legacy/*'",
     "lint:fix": "eslint . --fix --ignore-pattern '/*-legacy/*'"
