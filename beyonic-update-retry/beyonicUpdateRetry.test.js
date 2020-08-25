@@ -47,11 +47,26 @@ describe('beyonicUpdateRetry', () => {
         expect(project.getOrCreateDataTable).toHaveBeenCalledWith('dev_Client portal 2.0');
 
     });
+    it('should set the default value to prod if the service is live and call Client portal 2.0',()=>{
+        service.vars.env = null;
+        service.active = true;
+        require('./beyonicUpdateRetry');
+        expect(project.getOrCreateDataTable).toHaveBeenCalledWith('Client portal 2.0');
+
+    });
+    it('should set the default value to dev if the service is not live and call dev_Client portal 2.0',()=>{
+        service.vars.env = null;
+        service.active = false;
+        require('./beyonicUpdateRetry');
+        expect(project.getOrCreateDataTable).toHaveBeenCalledWith('dev_Client portal 2.0');
+
+    });
     it('should set the updateReceived row in telerivet to done if no error is found and a row with UpdateReceived as no is found',()=>{
         mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true);
         require('./beyonicUpdateRetry');
         expect(mockRow.vars.UpdateReceived).toEqual('DONE');
     });
+
     it('should send a message in english if an error is found and English is set to true',()=>{
         mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true);
         mockPhoneNumber.formatInternationalRaw.mockReturnValue('1234');
@@ -81,6 +96,7 @@ describe('beyonicUpdateRetry', () => {
         expect(mockRow.vars.ErrorMessageAfterRetry).toEqual(collectionRequest.error_message);
         expect(mockRow.vars.BeyonicID).toEqual(collectionRequest.id);
         expect(mockRow.vars.UpdateReceived).toEqual('DONE');
+        expect(mockRow.vars.ColReqDoneTimeStamp).toEqual(moment().format('X'));
         expect(mockRow.save).toHaveBeenCalled();
     });
     it('should send a message if the update is retrying and the sim is in the old sim card table with a the content saying they should upgrade(if swahili is set)',()=>{

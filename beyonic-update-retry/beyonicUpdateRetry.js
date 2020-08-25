@@ -1,13 +1,20 @@
 
-var env;
+var env, tableName, defaultEnvironment;
+
+if(service.active){
+    defaultEnvironment = 'prod';
+}else{
+    defaultEnvironment = 'dev';
+}
+
 if(service.vars.env === 'prod' || service.vars.env === 'dev'){
     env = service.vars.env;
 }else{
-    env = 'prod';
+    env = defaultEnvironment;
 }
 
 if(env == 'prod'){
-    var tableName = 'Client portal 2.0';
+    tableName = 'Client portal 2.0';
 }
 else{
     tableName = 'dev_Client portal 2.0';
