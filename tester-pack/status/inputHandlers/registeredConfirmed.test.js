@@ -33,10 +33,10 @@ describe('registered and confirmed', () => {
         '5) Samuel Tally\n' +
         '6) Tyrion Lanister\n' +
         '7) Jon Snow\n' +
-        '* Next');
-        expect(state.vars.screens).toEqual('{"1":"Registration\\n1) Jon Snow\\n2) Samuel Tally\\n3) Tyrion Lanister\\n4) Jon Snow\\n5) Samuel Tally\\n6) Tyrion Lanister\\n7) Jon Snow\\n* Next","2":"8) Samuel Tally\\n9) Tyrion Lanister\\n10) Jon Snow\\n11) Samuel Tally\\n12) Tyrion Lanister\\n"}');
+        '77) Next');
+        expect(state.vars.screens).toEqual('{"1":"Registration\\n1) Jon Snow\\n2) Samuel Tally\\n3) Tyrion Lanister\\n4) Jon Snow\\n5) Samuel Tally\\n6) Tyrion Lanister\\n7) Jon Snow\\n77) Next","2":"8) Samuel Tally\\n9) Tyrion Lanister\\n10) Jon Snow\\n11) Samuel Tally\\n12) Tyrion Lanister\\n"}');
         expect(promptDigits).toHaveBeenCalledWith('next_farmers_list', {
-            maxDigits: 1,
+            maxDigits: 2,
             timeout: 10,
             submitOnHash: false
         });
@@ -69,13 +69,13 @@ describe('registered and confirmed', () => {
         '6) Tyrion Lanister\n' +
         '7) Jon Snow\n' +
         '8) Samuel Tally\n' +
-        '* Next');
+        '77) Next');
         expect(promptDigits).toHaveBeenCalledWith('next_farmers_list', {
-            maxDigits: 1,
+            maxDigits: 2,
             timeout: 10,
             submitOnHash: false
         });
-        expect(state.vars.screens).toEqual('{"1":"Confirmed\\n1) Jon Snow\\n2) Samuel Tally\\n3) Tyrion Lanister\\n4) Jon Snow\\n5) Samuel Tally\\n6) Tyrion Lanister\\n7) Jon Snow\\n8) Samuel Tally\\n* Next","2":"8) Samuel Tally\\n9) Tyrion Lanister\\n10) Jon Snow\\n11) Samuel Tally\\n12) Tyrion Lanister\\n"}');
+        expect(state.vars.screens).toEqual('{"1":"Confirmed\\n1) Jon Snow\\n2) Samuel Tally\\n3) Tyrion Lanister\\n4) Jon Snow\\n5) Samuel Tally\\n6) Tyrion Lanister\\n7) Jon Snow\\n8) Samuel Tally\\n77) Next","2":"8) Samuel Tally\\n9) Tyrion Lanister\\n10) Jon Snow\\n11) Samuel Tally\\n12) Tyrion Lanister\\n"}');
 
     });
 
