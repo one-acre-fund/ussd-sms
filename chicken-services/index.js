@@ -43,6 +43,7 @@ module.exports = {
                 row.vars.ordered_chickens = state.vars.confirmed_number;
                 row.vars.confirmed_chicken_in_R1 = r1;
                 row.vars.confirmed_chicken_in_R2 = r2;
+                row.vars.confirmed_month = new Date().getMonth() + 1;
                 row.save();
                 final_msg = translate('chicken_ordering_final_msg',{'$number': state.vars.confirmed_number ,'$code': code });
                 global.sayText(final_msg);  
@@ -60,6 +61,7 @@ module.exports = {
                 row.vars.ordered_chickens = state.vars.confirmed_number;
                 row.vars.confirmed_chicken_in_R1 = r1;
                 row.vars.confirmed_chicken_in_R2 = r2;
+                row.vars.confirmed_month = new Date().getMonth() + 1;
                 final_msg = translate('chicken_ordering_final_msg',{'$number': state.vars.confirmed_number ,'$code': 'CODE' });
                 global.sayText(final_msg);  
                 msg_route = project.vars.sms_push_route;
@@ -82,8 +84,8 @@ module.exports = {
         var chicken_table = project.initDataTableById(service.vars.chicken_table_id);
         chickenEligibility(chicken_table, state.vars.account,JSON.parse(state.vars.client_json)); 
         if((state.vars.chcken_nber == 0) || state.vars.client_notfound ){
-            global.sayText(translate('chicken_place_order'));
-            global.promptDigits(placeOrderHandler.handlerName);
+            global.sayText(translate('chicken_confirmation_not_allowed'));
+            global.stopRules();
         }
 
         else if(state.vars.confirmed_chicken){
@@ -96,14 +98,29 @@ module.exports = {
             return;   
         }
         else if(state.vars.minimum_amount_paid){
-            global.sayText(translate('chicken_possible_nber',{'$name': JSON.parse(state.vars.client_json).FirstName,'$min': 2,'$max': state.vars.max_chicken}));
-            global.promptDigits(possibleOrderHandler.handlerName);
+            console.log('minimum paid');
+            var CheckChickenCapByDistrict = require('./check-chicken-cap-by-district/CheckChickenCapByDistrict');
+            var possibleChickensPerDistrict = CheckChickenCapByDistrict(JSON.parse(state.vars.client_json).DistrictId,new Date().getMonth() + 1);
+            console.log('possible Chickens'+ possibleChickensPerDistrict);
+            if(!possibleChickensPerDistrict){
+                console.log('cap reached');
+                global.sayText(translate('chicken_cap_reached'));
+                stopRules();
+                return; 
+            }
+            else{
+                console.log('okay to go');
+                global.sayText(translate('chicken_possible_nber',{'$name': JSON.parse(state.vars.client_json).FirstName,'$min': 2,'$max': state.vars.max_chicken}));
+                global.promptDigits(possibleOrderHandler.handlerName);
+            }            
         }
 
         else{
+            console.log('try later');
             global.sayText(translate('try_later',{}));
             global.stopRules();
             return;
         }
     }
+ 
 };
