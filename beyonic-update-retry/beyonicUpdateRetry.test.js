@@ -26,9 +26,6 @@ describe('beyonicUpdateRetry', () => {
     beforeAll(() => {
         contact.phone_number = '0786182098';
         project.getOrCreateDataTable.mockReturnValue(mockTable);
-        moment.mockReturnValue({
-            format: jest.fn()
-        });
         project.getOrCreateLabel.mockReturnValue(mockedLabel);
         PhoneNumber.formatInternationalRaw.mockReturnValue(collectionRequest.phonenumber);
         contact.vars.English = true;

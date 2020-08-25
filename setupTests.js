@@ -5,7 +5,7 @@ global.addInputHandler = jest.fn();
 global.PhoneNumber = {
     formatInternationalRaw: jest.fn()
 };
-global.moment  = jest.fn();
+global.moment  = require('moment');
 
 global.project = {
     vars: {
