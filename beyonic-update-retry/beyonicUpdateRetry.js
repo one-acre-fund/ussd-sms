@@ -1,10 +1,22 @@
 
+var env;
+if(service.vars.env === 'prod' || service.vars.env === 'dev'){
+    env = service.vars.env;
+}else{
+    env = 'prod';
+}
 
-
+if(env == 'prod'){
+    var tableName = 'Client portal 2.0';
+}
+else{
+    tableName = 'dev_Client portal 2.0';
+}
 
 var ColReq = JSON.parse(contact.vars.collectionRequest);
-var IntPNCol = PhoneNumber.formatInternationalRaw(ColReq.phonenumber, "KE");
-var IntPNContact = PhoneNumber.formatInternationalRaw(contact.phone_number, "KE");
+
+var IntPNCol = PhoneNumber.formatInternationalRaw(ColReq.phonenumber, 'KE');
+var IntPNContact = PhoneNumber.formatInternationalRaw(contact.phone_number, 'KE');
 var English = contact.vars.English;
 var Error1 = '[STK_CB - ]DS timeout.';
 var Error2 = 'Collection request failed.Please contact an administrator';
@@ -16,9 +28,8 @@ var Error7 = 'An unexpected response was received from an upstream provider. Ple
 var Error8 = 'DS timeout.';
 var Error9 = 'Unable to lock subscriber, a transaction is already in process for the current subscriber';
 
-var slack = require('../slack-logger/index');
-var SMSPN = IntPNCol;
 
+var SMSPN = IntPNCol;
 
 var Label_BizOps = project.getOrCreateLabel('Business Operations');
 var Label_FailedPayment = project.getOrCreateLabel('Failed payment');
@@ -28,12 +39,13 @@ var Label_TechError = project.getOrCreateLabel('TechnicalError');
 var Label_SW = project.getOrCreateLabel('Swahili');
 var Label_EN = project.getOrCreateLabel('English');
 
-if (IntPNCol== IntPNContact){
+if (IntPNCol == IntPNContact){
     if (ColReq.status == 'instructions_sent'){
         console.log('Skip update');
     }
     else {
-        var table = project.getOrCreateDataTable('Client portal 2.0');
+        var table = project.getOrCreateDataTable(tableName);
+        var row;
         var NotUpdatedCursor = table.queryRows({
             'from_number': IntPNCol,
             vars: {'AccNum': ColReq.metadata.accountNo,
@@ -42,9 +54,8 @@ if (IntPNCol== IntPNContact){
             'sort_dir': 'desc'
         });
         if (NotUpdatedCursor.hasNext()){
-
             while(NotUpdatedCursor.hasNext()){
-                var row = NotUpdatedCursor.next();
+                row = NotUpdatedCursor.next();
                 row.vars.PaymentStatus = ColReq.status;
                 row.vars.ErrorMessage = ColReq.error_message;
                 row.vars.BeyonicID = ColReq.id;
@@ -59,14 +70,14 @@ if (IntPNCol== IntPNContact){
                     ColReq.error_message == Error9){
                         
                     if (English){
-                        var sent_msg = project.sendMessage({
+                        project.sendMessage({
                             content: 'An unexpected error occurred, please try again by dialing *689#\n',
                             to_number: SMSPN,
                             label_ids: [Label_BizOps.id,Label_FailedPayment.id,Label_TechError.id,Label_EN.id],
                         });
                     }
                     else {
-                        var sent_msg = project.sendMessage({
+                        project.sendMessage({
                             content: 'Kuna hitilafu ya mitambo. Tafadhali jaribu tena kwa kubonyeza *689#\n',
                             to_number: SMSPN,
                             label_ids: [Label_BizOps.id,Label_FailedPayment.id,Label_TechError.id,Label_EN.id],
@@ -99,7 +110,6 @@ if (IntPNCol== IntPNContact){
             }
         }
         else{
-        
             var RetryingCursor = table.queryRows({
                 'from_number': IntPNCol,
                 vars: {'AccNum': ColReq.metadata.accountNo,
@@ -111,7 +121,7 @@ if (IntPNCol== IntPNContact){
 
 
             while(RetryingCursor.hasNext()){
-                var row = RetryingCursor.next();
+                row = RetryingCursor.next();
                 row.vars.PaymentStatus = ColReq.status;
                 row.vars.ErrorMessageAfterRetry = ColReq.error_message;
                 row.vars.BeyonicID = ColReq.id;
@@ -127,15 +137,14 @@ if (IntPNCol== IntPNContact){
                     if (SimCursor.count() !== 0){
                         // Send out DS time out OLD SIMSMS
                         if (English){
-
-                            var sent_msg = project.sendMessage({
+                            project.sendMessage({
                                 content: 'Hello. Your SIM card is old and must be swapped by an Mpesa agent to make payments to One Acre Fund. If unsuccessful,use Paybill 840700\n', 
                                 to_number: SMSPN,
                                 label_ids: [Label_BizOps.id,Label_FailedPayment.id,Label_OldSim.id,Label_EN.id],
                             });
                         }
                         else {
-                            var sent_msg = project.sendMessage({
+                            project.sendMessage({
                                 content: 'Jambo. Kadi yako ya simu ni ya zamani. Ibadilishe kwa ajenti wa Mpesa ili uzidi kufanya malipo kwa One Acre Fund.Usipoweza, tumia Paybill 840700\n',
                                 to_number: SMSPN,
                                 label_ids: [Label_BizOps.id,Label_FailedPayment.id,Label_OldSim.id,Label_SW.id],
@@ -145,7 +154,7 @@ if (IntPNCol== IntPNContact){
                     else {
                         // Send out DS time out UPGRADE SIM SMS
                         if (English){
-                            var sent_msg = project.sendMessage({
+                            project.sendMessage({
                                 content: 'Hello.Your SIM card can\'t make a payment to One Acre Fund. Dial *234*1*6# to upgrade. If unsuccessful, use paybill 840700.\n', 
                                 to_number: SMSPN,
                                 label_ids: [Label_BizOps.id,Label_FailedPayment.id,Label_Upgrade.id,Label_EN.id],
@@ -153,7 +162,7 @@ if (IntPNCol== IntPNContact){
                         }
 
                         else {
-                            var sent_msg = project.sendMessage({
+                            project.sendMessage({
                                 content: 'Jambo. Kadi yako ya simu ni ya kitambo haiwezi fanya malipo kwa One Acre Fund. Bonyeza *234*1*6# kuiboresha. Usipofaulu, tumia Paybill 840700\n', 
                                 to_number: SMSPN,
                                 label_ids: [Label_BizOps.id,Label_FailedPayment.id,Label_Upgrade.id,Label_SW.id],
@@ -170,14 +179,14 @@ if (IntPNCol== IntPNContact){
                     ColReq.error_message == Error8 ||
                     ColReq.error_message == Error9){
                     if (English){
-                        var sent_msg = project.sendMessage({
+                        project.sendMessage({
                             content: 'An unexpected error occurred, please try again by dialing *689#\n',
                             to_number: SMSPN,
                             label_ids: [Label_BizOps.id,Label_FailedPayment.id,Label_TechError.id,Label_EN.id],
                         });
                     }
                     else {
-                        var sent_msg = project.sendMessage({
+                        project.sendMessage({
                             content: 'Kuna hitilafu ya mitambo. Tafadhali jaribu tena kwa kubonyeza *689#\n',
                             to_number: SMSPN,
                             label_ids: [Label_BizOps.id,Label_FailedPayment.id,Label_TechError.id,Label_EN.id],
@@ -192,5 +201,4 @@ else {
     sendEmail('tom.vranken@oneacrefund.org', 
         'BEYONIC NOTIFICATION ERROR', 
         'Phone numbers do not match between Beyonic payload and contact');
-    slack.log('BEYONIC NOTIFICATION ERROR, Phone numbers do not match between Beyonic payload and contact');
 }

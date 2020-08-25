@@ -2,6 +2,11 @@ var underscore = require('underscore');
 global._= underscore;
 global.sendMessage = jest.fn();
 global.addInputHandler = jest.fn();
+global.PhoneNumber = {
+    formatInternationalRaw: jest.fn()
+};
+global.moment  = jest.fn();
+
 global.project = {
     vars: {
         new_line: '~B',
