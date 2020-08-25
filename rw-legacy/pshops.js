@@ -41,7 +41,7 @@ var registration_check = require('./lib/psh-reg-check');
 var renew_code = require('./lib/psh-renew-code');
 var serial_no_check = require('./lib/psh-serial-verify');
 var slack = require('../slack-logger/index');
-
+var notiFYELK = require('../notifications/elk-notification/elkNotification');
 // set various constants
 var settings_table = project.getOrCreateDataTable('ussd_settings');
 const max_digits_for_account_number = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits_an'}}).next().vars.value);
@@ -54,6 +54,7 @@ var serial_number_table = service.vars.serial_number_table ;
 
 // display welcome message and prompt user to enter account number
 global.main = function() {
+    notiFYELK();
     sayText(msgs('pshops_main_splash'));
     promptDigits('account_number_splash', { 'submitOnHash' : false,
                                             'maxDigits'    : max_digits_for_account_number,
@@ -62,6 +63,7 @@ global.main = function() {
 
 // input handler for account number
 addInputHandler('account_number_splash', function(accnum){
+    notiFYELK();
     try{
     // if account number is valid, save it as a state variable and display main menu
         if(check_account_no(accnum)){ 
@@ -93,6 +95,7 @@ addInputHandler('account_number_splash', function(accnum){
 
 // input handler for main menu selections
 addInputHandler('pshop_menu_select', function(input){
+    notiFYELK();
     // clean input and save current step as a variable
     input = String(input.replace(/\D/g,''));
     state.vars.current_step = 'pshop_menu_select';
@@ -157,6 +160,7 @@ addInputHandler('pshop_menu_select', function(input){
 
 // input handler for new code (called from solar_codes_option)
 addInputHandler('get_new_code', function(input){
+    notiFYELK();
     // clean input and run renew_code function
     input = String(input.replace(/\D/g,''));
     var selection = get_menu_option(input, 'solar_codes_menu');
@@ -196,6 +200,7 @@ addInputHandler('get_new_code', function(input){
 
 // input handler for back to main; returns user to the main menu
 addInputHandler('back_to_main', function(input){
+    notiFYELK();
     var menu = populate_menu(menuTable, lang);
     state.vars.current_menu_str = menu;
     sayText(menu);
@@ -206,6 +211,7 @@ addInputHandler('back_to_main', function(input){
 
 // input handler for serial number (called from solar_codes_options)
 addInputHandler('serial_no_reg', function(input){
+    notiFYELK();
     // if user wants to register, run serial # registration check and display corresponding messages/options 
     input = String(input.replace(/\D/g,''));
     if(input === '99'){
