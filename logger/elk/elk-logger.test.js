@@ -50,14 +50,16 @@ describe('Logger', () => {
             logger.log(message);
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+'/telerivet-logs',{
                 method: 'POST',
-                data: {message}
+                data: {message},
+                headers: {'Content-Type': 'application/json'}
             });
         });
         it('should send a POST request with any provided tags', () => {
             logger.log(message,{tags});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+'/telerivet-logs',{
                 method: 'POST',
-                data: {message,tags}
+                data: {message,tags},
+                headers: {'Content-Type': 'application/json'}
             });
         });
         it('should throw an error if the tags are not an array', () => {
@@ -76,21 +78,24 @@ describe('Logger', () => {
             logger.log(message,{tags: []});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+'/telerivet-logs',{
                 method: 'POST',
-                data: {message,tags: []}
+                data: {message,tags: []},
+                headers: {'Content-Type': 'application/json'}
             });
         });
         it('should not crash if tags are undefined', () => {
             logger.log(message,{tags: undefined});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+'/telerivet-logs',{
                 method: 'POST',
-                data: {message}
+                data: {message},
+                headers: {'Content-Type': 'application/json'}
             });
         });
         it('should send a POST request with any provided tags and miscellaneous data', () => {
             logger.log(message,{tags,data: otherData});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+'/telerivet-logs',{
                 method: 'POST',
-                data: {message,tags,data: otherData}
+                data: {message,tags,data: otherData},
+                headers: {'Content-Type': 'application/json'}
             });
         });
         it('should log to request logger if the returned status code is not 200', () => {
@@ -114,14 +119,16 @@ describe('Logger', () => {
             logger.warn(message);
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+warningLogPath,{
                 method: 'POST',
-                data: {message}
+                data: {message},
+                headers: {'Content-Type': 'application/json'}
             });
         });
         it('should send a POST request with any provided tags', () => {
             logger.warn(message,{tags});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+warningLogPath,{
                 method: 'POST',
-                data: {message,tags}
+                data: {message,tags},
+                headers: {'Content-Type': 'application/json'}
             });
         });
         it('should throw an error if the tags are not an array', () => {
@@ -133,7 +140,8 @@ describe('Logger', () => {
             logger.warn(message,{tags,data: otherData});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+warningLogPath,{
                 method: 'POST',
-                data: {message,tags,data: otherData}
+                data: {message,tags,data: otherData},
+                headers: {'Content-Type': 'application/json'}
             });
         });
     });
@@ -151,14 +159,16 @@ describe('Logger', () => {
             logger.error(message);
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+errorLogPath,{
                 method: 'POST',
-                data: {message}
+                data: {message},
+                headers: {'Content-Type': 'application/json'}
             });
         });
         it('should send a POST request with any provided tags', () => {
             logger.error(message,{tags});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+errorLogPath,{
                 method: 'POST',
-                data: {message,tags}
+                data: {message,tags},
+                headers: {'Content-Type': 'application/json'}
             });
         });
         it('should throw an error if the tags are not an array', () => {
@@ -170,7 +180,8 @@ describe('Logger', () => {
             logger.error(message,{tags,data: otherData});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+errorLogPath,{
                 method: 'POST',
-                data: {message,tags,data: otherData}
+                data: {message,tags,data: otherData},
+                headers: {'Content-Type': 'application/json'}
             });
         });
     });

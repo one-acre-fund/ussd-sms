@@ -14,7 +14,11 @@ function sendRequest(baseURL, path,msg,options) {
         data.data = options.data;
     }
     var url = baseURL + path;
-    var response = httpClient.request(url, {method: 'POST', data: data});
+    var response = httpClient.request(baseURL + path, {
+        method: 'POST', 
+        data: data,
+        headers: {'Content-Type': 'application/json'}
+    });
     if(response && response.status !== 200){
         requestLogger(url, response);
     }
