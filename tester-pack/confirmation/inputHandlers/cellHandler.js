@@ -39,7 +39,7 @@ module.exports = function cellHandler(input) {
             maxDigits: 2,
             submitOnHash: false
         });
-    } else if(input === '*' && cells_screens[current_cells_screen + 1]) {
+    } else if(input == 77 && cells_screens[current_cells_screen + 1]) {
         state.vars.current_cells_screen = current_cells_screen + 1;
         sayText(cells_screens[state.vars.current_cells_screen]);
         promptDigits('select_cell', {

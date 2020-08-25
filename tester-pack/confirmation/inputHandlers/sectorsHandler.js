@@ -10,7 +10,6 @@ module.exports = function sectorHandler(input) {
     var sector = sectors[input];
     var sectors_screens = JSON.parse(state.vars.sectors_screens);
     var current_sectors_screen = state.vars.current_sectors_screen;
-    console.log('>>>> sectors' + state.vars.sectors_screens + 'current screen' + state.vars.current_sectors_screen);
     if(sector) {
         state.vars.selected_sector = sector;
         var cells = {};
@@ -38,7 +37,7 @@ module.exports = function sectorHandler(input) {
             maxDigits: 2,
             submitOnHash: false
         });
-    } else if(input === '*' && sectors_screens[current_sectors_screen + 1]) {
+    } else if(input == 77 && sectors_screens[current_sectors_screen + 1]) {
         state.vars.current_sectors_screen = current_sectors_screen + 1;
         sayText(sectors_screens[state.vars.current_sectors_screen]);
         promptDigits('select_sector', {
