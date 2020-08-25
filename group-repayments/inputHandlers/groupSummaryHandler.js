@@ -11,7 +11,7 @@ module.exports = function groupSummaryHandler(input) {
     var lang = group_repayment_variables.lang;
     var getMessage = translator(translations, lang);
     var all_screens = JSON.parse(state.vars.all_screens);
-    if(input == '#') {
+    if(input == '44') {
         sayText(all_screens[state.vars.current_screen]);
         promptDigits('view_individual_balance_menu', {
             submitOnHash: false,

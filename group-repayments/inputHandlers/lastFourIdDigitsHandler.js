@@ -50,7 +50,7 @@ module.exports = function lastFourIdDigitsHandler(input) {
     state.vars.group_members = JSON.stringify(group_members);
     var all_screens = [];
     var initialScreen = getMessage('group_credit', {'$groupCredit': group_repayments.credit, '$currency': service.vars.currency}, lang) + getMessage('group_balance', {'$groupBalance': group_repayments.balance, '$currency': service.vars.currency}, lang);
-    var options = getMessage('continue', {'$label': '*'}, lang) + getMessage('back', {'$label': '#'}, lang);
+    var options = getMessage('continue', {'$label': '77'}, lang) + getMessage('back', {'$label': '44'}, lang);
     var index = 0;
     var preFix = index + 1;
     var record = getMessage('group_members_repayments', {'$prefix': preFix,
@@ -74,14 +74,14 @@ module.exports = function lastFourIdDigitsHandler(input) {
     if(preFix < group_members.length) {
         initialScreen = initialScreen + options;
     } else {
-        initialScreen = initialScreen + getMessage('back', {'$label': '#'}, lang);
+        initialScreen = initialScreen + getMessage('back', {'$label': '44'}, lang);
     }
          
     all_screens.push(initialScreen);
     var screen = '';
     for(var i=index; i<group_members.length; ) {
         if(preFix == group_members.length) {
-            options = getMessage('back', {'$label': '#'}, lang);
+            options = getMessage('back', {'$label': '44'}, lang);
         }
         record = getMessage('group_members_repayments', {'$prefix': preFix, 
             '$firstName': group_members[i].firstName, 
