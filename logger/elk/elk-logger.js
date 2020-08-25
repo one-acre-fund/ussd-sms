@@ -1,18 +1,22 @@
 var requestLogger = require('../data-table/request-logger');
 
-function sendRequest(baseURL, path,msg,options) {
-    var data = {message: msg};
+function sendRequest(baseURL, path, msg, options) {
+    var data = {
+        message: msg,
+    };
+    var tags = [project.name, service.name];
     if(options){
         var isAnArray = _.isArray(options.tags);
         var containsOnlyStrings = _.every(options.tags, _.isString);
         var tagsExist = !!options.tags;
         if(tagsExist && isAnArray && containsOnlyStrings){
-            data.tags = options.tags;
+            tags = tags.concat(options.tags);
         }else if(tagsExist && (!isAnArray || !containsOnlyStrings ) ){
             throw 'tags should be an array of strings';
         }
         data.data = options.data;
     }
+    data.tags = tags;
     var url = baseURL + path;
     var response = httpClient.request(baseURL + path, {
         method: 'POST', 

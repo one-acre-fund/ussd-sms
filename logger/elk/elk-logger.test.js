@@ -50,7 +50,7 @@ describe('Logger', () => {
             logger.log(message);
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+'/telerivet-logs',{
                 method: 'POST',
-                data: {message},
+                data: {message, tags: [project.name, service.name]},
                 headers: {'Content-Type': 'application/json'}
             });
         });
@@ -58,7 +58,7 @@ describe('Logger', () => {
             logger.log(message,{tags});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+'/telerivet-logs',{
                 method: 'POST',
-                data: {message,tags},
+                data: {message,tags: [project.name, service.name, ...tags]},
                 headers: {'Content-Type': 'application/json'}
             });
         });
@@ -78,7 +78,7 @@ describe('Logger', () => {
             logger.log(message,{tags: []});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+'/telerivet-logs',{
                 method: 'POST',
-                data: {message,tags: []},
+                data: {message,tags: [project.name, service.name]},
                 headers: {'Content-Type': 'application/json'}
             });
         });
@@ -86,7 +86,7 @@ describe('Logger', () => {
             logger.log(message,{tags: undefined});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+'/telerivet-logs',{
                 method: 'POST',
-                data: {message},
+                data: {message, tags: [project.name, service.name]},
                 headers: {'Content-Type': 'application/json'}
             });
         });
@@ -94,7 +94,7 @@ describe('Logger', () => {
             logger.log(message,{tags,data: otherData});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+'/telerivet-logs',{
                 method: 'POST',
-                data: {message,tags,data: otherData},
+                data: {message,tags: [project.name, service.name, ...tags], data: otherData},
                 headers: {'Content-Type': 'application/json'}
             });
         });
@@ -119,7 +119,7 @@ describe('Logger', () => {
             logger.warn(message);
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+warningLogPath,{
                 method: 'POST',
-                data: {message},
+                data: {message, tags: [project.name, service.name]},
                 headers: {'Content-Type': 'application/json'}
             });
         });
@@ -127,7 +127,7 @@ describe('Logger', () => {
             logger.warn(message,{tags});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+warningLogPath,{
                 method: 'POST',
-                data: {message,tags},
+                data: {message,tags: [project.name, service.name, ...tags]},
                 headers: {'Content-Type': 'application/json'}
             });
         });
@@ -140,7 +140,7 @@ describe('Logger', () => {
             logger.warn(message,{tags,data: otherData});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+warningLogPath,{
                 method: 'POST',
-                data: {message,tags,data: otherData},
+                data: {message,tags: [project.name, service.name, ...tags],data: otherData},
                 headers: {'Content-Type': 'application/json'}
             });
         });
@@ -159,7 +159,7 @@ describe('Logger', () => {
             logger.error(message);
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+errorLogPath,{
                 method: 'POST',
-                data: {message},
+                data: {message, tags: [project.name, service.name]},
                 headers: {'Content-Type': 'application/json'}
             });
         });
@@ -167,7 +167,7 @@ describe('Logger', () => {
             logger.error(message,{tags});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+errorLogPath,{
                 method: 'POST',
-                data: {message,tags},
+                data: {message,tags: [project.name, service.name, ...tags]},
                 headers: {'Content-Type': 'application/json'}
             });
         });
@@ -180,7 +180,7 @@ describe('Logger', () => {
             logger.error(message,{tags,data: otherData});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+errorLogPath,{
                 method: 'POST',
-                data: {message,tags,data: otherData},
+                data: {message,tags: [project.name, service.name, ...tags],data: otherData},
                 headers: {'Content-Type': 'application/json'}
             });
         });
