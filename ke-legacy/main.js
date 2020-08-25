@@ -1781,8 +1781,7 @@ addInputHandler('MainMenu', function(SplashMenu){
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'register_client'){
         registrationMenu();
-        promptDigits("registrationHandler", {submitOnHash: true, maxDigits: 10, timeout: 5});
-    }
+        promptDigits("registrationHandler", {submitOnHash: true, maxDigits: 10, timeout: 5});    }
     else if(sessionMenu[SplashMenu-1].option_name == 'trainings'){
         TrainingMenuText();
     }
