@@ -23,7 +23,7 @@ describe('Districts handler', () => {
 
     it('should prompt a user to select a sector from a list of sectors that belongs to a selected district', () => {
         state.vars.districts = JSON.stringify({'1': 'Nyarugenge'});
-        state.vars.districts_screens = JSON.stringify({'1': '1) Nyarugenge\n2) Gasabo\n* Komeza', '2': '3) Kicukiro'}); 
+        state.vars.districts_screens = JSON.stringify({'1': '1) Nyarugenge\n2) Gasabo\n77) Komeza', '2': '3) Kicukiro'}); 
         state.vars.selected_province = 1; 
         const cursor = {queryRows: () => table_cursor};
         jest.spyOn(cursor, 'queryRows');
@@ -46,12 +46,12 @@ describe('Districts handler', () => {
         expect(promptDigits).toHaveBeenCalledWith('select_sector', {'maxDigits': 2, 'submitOnHash': false, 'timeout': 5});
     });
 
-    it('should display a next page of districts when available and user selects *', () => {
+    it('should display a next page of districts when available and user selects 77', () => {
         state.vars.districts = JSON.stringify({'1': 'Nyarugenge'});
-        state.vars.districts_screens = JSON.stringify({'1': '1) Nyarugenge\n2) Gasabo\n* Komeza', '2': '3) Kicukiro'});
+        state.vars.districts_screens = JSON.stringify({'1': '1) Nyarugenge\n2) Gasabo\n77) Komeza', '2': '3) Kicukiro'});
         state.vars.current_districts_screen = 1;
         project.getOrCreateDataTable = jest.fn();
-        districtHandler('*');
+        districtHandler('77');
         expect(state.vars.current_districts_screen).toEqual(2);
         expect(sayText).toHaveBeenCalledWith('3) Kicukiro');
         expect(promptDigits).toHaveBeenCalledWith('select_district', {'maxDigits': 2, 'submitOnHash': false, 'timeout': 5});
@@ -59,7 +59,7 @@ describe('Districts handler', () => {
 
     it('should prompt a user for a retry when their input doesn\'t match any district', () => {
         state.vars.districts = JSON.stringify({'1': 'Nyarugenge'});
-        state.vars.districts_screens = JSON.stringify({'1': '1) Nyarugenge\n2) Gasabo\n* Komeza', '2': '3) Kicukiro'});
+        state.vars.districts_screens = JSON.stringify({'1': '1) Nyarugenge\n2) Gasabo\n77) Komeza', '2': '3) Kicukiro'});
         state.vars.current_districts_screen = 2;
         districtHandler('@');
         expect(sayText).toHaveBeenCalledWith('Invalid input. Try again\n3) Kicukiro');
