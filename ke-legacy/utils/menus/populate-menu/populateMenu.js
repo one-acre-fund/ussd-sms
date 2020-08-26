@@ -58,6 +58,11 @@ var skipMenuOption = function(optionName){
             return true;
         }
     }
+    else if(optionName == 'top_up'){
+        if(!state.vars.isGroupLeader){
+            return true;
+        }
+    }
     return false;
 }
 

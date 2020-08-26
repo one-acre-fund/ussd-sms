@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --colors --coverage",
+    "test": "jest --colors --coverage --coverageReporters=cobertura",
     "test:watch": "jest --colors --watch",
     "lint": "eslint . --ignore-pattern '/*-legacy/*'",
     "lint:fix": "eslint . --fix --ignore-pattern '/*-legacy/*'"
@@ -22,14 +22,15 @@
   "devDependencies": {
     "@types/jest": "^26.0.0",
     "eslint": "^7.2.0",
-    "jest": "^26.1.0"
+    "jest": "^26.1.0",
+    "jest-junit": "^11.1.0"
   },
   "jest": {
     "setupFilesAfterEnv": [
       "./setupTests.js"
     ],
-    "collectCoverageFrom":[
-      "**/*.{js,jsx}", 
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
       "!**/node_modules/**",
       "!**/*-legacy/**",
       "!.eslintrc.js",
@@ -43,6 +44,13 @@
         "statements": 93.2
       }
     },
+    "reporters": [
+      "default",
+      "jest-junit"
+    ],
     "verbose": true
+  },
+  "dependencies": {
+    "underscore": "^1.6.0"
   }
 }
