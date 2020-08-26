@@ -17,7 +17,7 @@ module.exports = function farmerHandler(input) {
             maxDigits: 4,
             submitOnHash: false
         });
-    } else if(input === '*' && farmers_screens[state.vars.current_farmers_screen + 1]) {
+    } else if(input == 77 && farmers_screens[state.vars.current_farmers_screen + 1]) {
         state.vars.current_farmers_screen = state.vars.current_farmers_screen + 1;
         sayText(farmers_screens[state.vars.current_farmers_screen]); 
         promptDigits('select_farmer', {

@@ -222,34 +222,22 @@ addInputHandler('cor_menu_select', function (input) {
     }
     else if (selection === 'cor_get_payg') {
         var payg_retrieve = require('./lib/cor-payg-retrieve');
-        var payg_balance = require('./lib/cor-payg-balance');
-        console.log("PAYG balance is " + payg_balance(JSON.parse(state.vars.client_json)));
-
-        // only run code if client has paid enough; otherwise tell them they haven't paid enough for a new code
-        if (payg_balance(JSON.parse(state.vars.client_json))) {
             // if account matches a serial number, give the client the corresponding PAYG code
-            if (payg_retrieve(state.vars.account_number)) {
-                sayText(msgs('cor_payg_true', { '$PAYG': state.vars.payg_code }, lang));
-                promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
-                return null;
-            }
-            // else prompt the client to enter their product's serial number
-            else if (state.vars.acc_empty) {
-                sayText(msgs('cor_payg_false', {}, lang));
-                promptDigits('cor_payg_reg', { 'submitOnHash': false, 'maxDigits': max_digits_for_account_number, 'timeout': timeout_length });
-                return null;
-            }
-            // print an error message if an error occurs
-            else {
-                sayText(msgs('cor_payg_duplicate', {}, lang));
-                promptDigits('cor_payg_reg', { 'submitOnHash': false, 'maxDigits': max_digits_for_account_number, 'timeout': timeout_length });
-                return null;
-            }
-        }
-        // if client doesn't have sufficient balance, tell them they haven't paid enough for a new code
-        else {
-            sayText(msgs('cor_payg_insufficient', {}, lang));
+        if (payg_retrieve(state.vars.account_number)) {
+            sayText(msgs('cor_payg_true', { '$PAYG': state.vars.payg_code }, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            return null;
+        }
+        // else prompt the client to enter their product's serial number
+        else if (state.vars.acc_empty) {
+            sayText(msgs('cor_payg_false', {}, lang));
+            promptDigits('cor_payg_reg', { 'submitOnHash': false, 'maxDigits': max_digits_for_account_number, 'timeout': timeout_length });
+            return null;
+        }
+        // print an error message if an error occurs
+        else {
+            sayText(msgs('cor_payg_duplicate', {}, lang));
+            promptDigits('cor_payg_reg', { 'submitOnHash': false, 'maxDigits': max_digits_for_account_number, 'timeout': timeout_length });
             return null;
         }
     }

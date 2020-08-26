@@ -4,11 +4,13 @@ const firstNameHandler = require('./first-name-handler/firstNameHandler');
 const nationalIdHandler = require('./national-id-handler/nationalIdHandler');
 const phoneNumberHandler = require('./phone-number-handler/phoneNumberHandler');
 const secondNameHandler = require('./second-name-handler/secondNameHandler');
+var rosterRegisterClient = require('../rw-legacy/lib/roster/register-client');
 const groupLeaderQuestionHandler = require('./group-leader-question-handler/groupLeaderQuestionHandler');
 var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
 var {client}  = require('../client-enrollment/test-client-data'); 
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 
+jest.mock('../rw-legacy/lib/roster/register-client');
 jest.mock('../notifications/elk-notification/elkNotification');
 jest.mock('../Roster-endpoints/Fo-info/getFoInfo');
 jest.mock('./confirm-national-id-handler/confirmNationalIdHandler');
@@ -104,7 +106,7 @@ describe('clientRegistration', () => {
             var differentId = '12385679';
             callback(differentId);
             expect(sayText).toHaveBeenCalledWith(`You enter ${differentId} ID`+
-            '. Enter 1 to confirm or 2 to try again');
+            '. Enter\n1) To confirm\n2) To try again');
         });
         it('should prompt for the client to confirm their national Id', () => {
             var differentId = '12385679';
@@ -166,7 +168,7 @@ describe('clientRegistration', () => {
         it('should tell the client to confirm their phone number after they have entered it', () => {
             callback(phone);
             expect(sayText).toHaveBeenCalledWith(`You enter ${phone}`+
-            ' Phone number. Enter 1 to confirm or 2 to try again');
+            ' Phone number. Enter\n1) To confirm\n2) To try again');
         });
         it('should prompt to ask the user if the would like to be a GL', () => {
             callback(phone);
@@ -199,11 +201,19 @@ describe('clientRegistration', () => {
             contact.phone_number = '0789098965';
             state.vars.phoneNumber = '0789777767';
             getFOInfo.mockImplementation(() => {return {'firstName': 'sabin','lastName': 'sheja','phoneNumber': foPhone};});
+            state.vars.client_json = JSON.stringify(client);
+            rosterRegisterClient.mockImplementation(()=>{return JSON.stringify(client);});
         });
         beforeEach(() => {
             clientRegistration.registerHandlers();
             callback = groupLeaderQuestionHandler.getHandler.mock.calls[0][0];
-            JSON.parse = jest.fn().mockImplementation(() => {return client ;});
+
+        });
+        it('should not send message or save a row if the returned JSON from registering the client is null ', () => {
+            rosterRegisterClient.mockImplementationOnce(()=>{return null;});
+            callback();
+            expect(project.sendMessage).not.toHaveBeenCalled();
+            expect(mockRow.save).not.toHaveBeenCalled();
         });
         it('should send a message containing the FO phone number to the Group leader phone number if the FO contact is available', () => {
             callback();
@@ -240,16 +250,16 @@ describe('clientRegistration', () => {
             callback();
             expect(mockTable.createRow).toHaveBeenCalledWith({
                 'contact_id': contact.id,
-                'from_number': contact.from_number,
                 'vars': {
                     'account_number': client.AccountNumber,
                     'national_id': client.NationalId,
-                    'phone_number': state.vars.phoneNumber,
+                    'client_phone_number': state.vars.phoneNumber,
                     'first_name': client.FirstName,
                     'last_name': client.LastName,
                     'district': client.DistrictId,
                     'site': client.SiteId,
                     'new_client': '1',
+                    'gl_phone_number': contact.phone_number,
                     'gl_interested': state.vars.groupLeader
                 }
             });
@@ -290,6 +300,7 @@ describe('clientRegistration', () => {
             }));
         });
         it('should show a message with no FO phone number if the FO details is not available', () => {  
+            
             getFOInfo.mockImplementationOnce(() => {return null;});
             callback();
             expect(sayText).toHaveBeenCalledWith(`Thank you for expressing your interest to enroll with OAF. Your Account Number is: ${client.AccountNumber}`+
