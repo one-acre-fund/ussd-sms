@@ -63,38 +63,40 @@ module.exports = {
                 'phoneNumber': state.vars.phoneNumber
             };
             try {
-                var clientData = JSON.parse(rosterRegisterClient(clientJSON));
-                console.log('client Data ****************' + clientData.AccountNumber);
-                var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
-                var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
-                var message;
-                if((foInfo == null) || (foInfo.phoneNumber == null || foInfo.phoneNumber == undefined)){
-                    message = translate('reg_complete_message_no_phone' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
-                }
-                else{
-                    message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phoneNumber}, state.vars.reg_lang);
-                }
-                sayText(message);
-                project.sendMessage({content: message, to_number: contact.phone_number});
-                project.sendMessage({content: message, to_number: clientJSON.phoneNumber});
-                var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
-                var row = table.createRow({
-                    'contact_id': contact.id,
-                    'from_number': contact.from_number,
-                    vars: {
-                        'account_number': clientData.AccountNumber,
-                        'national_id': clientData.NationalId,
-                        'phone_number': clientJSON.phoneNumber,
-                        'first_name': clientData.FirstName,
-                        'last_name': clientData.LastName,
-                        'district': clientData.DistrictId,
-                        'site': clientData.SiteId,
-                        'new_client': '1',
-                        'gl_interested': state.vars.groupLeader
-
+                var clientData = JSON.parse(rosterRegisterClient(clientJSON,state.vars.reg_lang));
+                if(clientData){
+                    console.log('client Data ****************' + clientData.AccountNumber);
+                    var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
+                    var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
+                    var message;
+                    if((foInfo == null) || (foInfo.phoneNumber == null || foInfo.phoneNumber == undefined)){
+                        message = translate('reg_complete_message_no_phone' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
                     }
-                });
-                row.save();
+                    else{
+                        message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phoneNumber}, state.vars.reg_lang);
+                    }
+                    sayText(message);
+                    project.sendMessage({content: message, to_number: contact.phone_number});
+                    project.sendMessage({content: message, to_number: clientJSON.phoneNumber});
+                    var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
+                    var row = table.createRow({
+                        'contact_id': contact.id,
+                        vars: {
+                            'account_number': clientData.AccountNumber,
+                            'national_id': clientData.NationalId,
+                            'client_phone_number': clientJSON.phoneNumber,
+                            'first_name': clientData.FirstName,
+                            'last_name': clientData.LastName,
+                            'district': clientData.DistrictId,
+                            'site': clientData.SiteId,
+                            'new_client': '1',
+                            'gl_interested': state.vars.groupLeader,
+                            'gl_phone_number': contact.phone_number,
+
+                        }
+                    });
+                    row.save();
+                }
             }
             catch (e) {
                 console.log('error getting account number from roster' + e);
