@@ -3,6 +3,7 @@ var changeOrderHandler = require('./change-order-handler');
 var placeOrderHandler = require('./place-order-handler');
 var possibleOrderHandler = require('./possible-order-handler');
 var chickenEligibility = require('./chicken-eligibility/index');
+var notifyELK = require('../notifications/elk-notification/elkNotification'); 
 const {client}  = require('./test-client-data'); 
 
 jest.mock('./change-order-confirmation');
@@ -10,6 +11,7 @@ jest.mock('./change-order-handler');
 jest.mock('./place-order-handler');
 jest.mock('./possible-order-handler');
 jest.mock('./chicken-eligibility');
+jest.mock('../notifications/elk-notification/elkNotification');
 
 const mockChangeOrderCofrm = jest.fn();
 const mockChangeOrderHandler = jest.fn();
@@ -71,6 +73,10 @@ describe('ChickenServices', () => {
             state.vars.country = '';
             chickenServices.start(account, country);
             expect(state.vars).toMatchObject({account,country});
+        });
+        it('should call notifyELK ', () => {
+            chickenServices.start(account, country);
+            expect(notifyELK).toHaveBeenCalled();
         });
         it('should show a place order chicken message if no chicken ordered', () => {
             state.vars.chcken_nber = 0;

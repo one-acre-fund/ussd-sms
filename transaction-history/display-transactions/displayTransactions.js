@@ -1,7 +1,6 @@
 var createTranslator = require('../../utils/translator/translator');
 var translations = require('../translations');
 
-
 var listTransactions = function (transactionHistory, page, errorMessage) {
     var language = (contact && contact.vars.lang) || (state && state.vars.lang) || service.vars.lang || project.vars.lang;
     var translate = createTranslator(translations, language);
