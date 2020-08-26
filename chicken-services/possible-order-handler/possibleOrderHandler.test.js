@@ -1,4 +1,4 @@
-const {handlerName,getHandler} = require ('.');
+const {handlerName,getHandler} = require ('./possibleOrderHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 jest.mock('../../notifications/elk-notification/elkNotification');

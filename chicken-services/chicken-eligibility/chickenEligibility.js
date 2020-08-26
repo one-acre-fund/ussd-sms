@@ -41,11 +41,7 @@ module.exports = function(chicken_table, acc_nber, client_json){
             }
             // If the client did not confirm or wants to change
             else{
-                // Client did not confirm
-                if(row.vars.chicken_confirmed != 1){
-                    state.vars.confirmed_chicken = false;
-                }
-
+                state.vars.confirmed_chicken = false;
             }
         } 
     }
