@@ -22,7 +22,8 @@
   "devDependencies": {
     "@types/jest": "^26.0.0",
     "eslint": "^7.2.0",
-    "jest": "^26.1.0"
+    "jest": "^26.1.0",
+    "jest-junit": "^11.1.0"
   },
   "jest": {
     "setupFilesAfterEnv": [
@@ -43,6 +44,10 @@
         "statements": 93.2
       }
     },
+    "reporters": [
+      "default",
+      "jest-junit"
+    ],
     "verbose": true
   },
   "dependencies": {
