@@ -8,8 +8,8 @@ var translations = {
         'ki': '1) Kwandika\n2)Kwemeza\n3)Aho ngeze'
     },
     'next_page': {
-        'en': '* Next',
-        'ki': '* Komeza'
+        'en': '77) Next',
+        'ki': '77) Komeza'
     },
     'farmers': {
         'en': '$label) $first_name $last_name\n',

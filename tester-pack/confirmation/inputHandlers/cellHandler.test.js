@@ -21,7 +21,7 @@ describe('Cell handler', () => {
 
     it('should prompt the user to select a village once the input matches a stored cell', () => {
         state.vars.cells = JSON.stringify({'1': 'Kora', '2': 'Kigarama', '3': 'Kabahizi'});
-        state.vars.cells_screens = JSON.stringify({'1': '1) Kora\n2) Kigarama\n* Komeza', '2': '3) Kabahizi'});
+        state.vars.cells_screens = JSON.stringify({'1': '1) Kora\n2) Kigarama\n77) Komeza', '2': '3) Kabahizi'});
         state.vars.current_cells_screen = 1;
 
         state.vars.provence = 2;
@@ -52,12 +52,12 @@ describe('Cell handler', () => {
         expect(promptDigits).toHaveBeenCalledWith('select_village', {'maxDigits': 2, 'submitOnHash': false, 'timeout': 5});
     });
 
-    it('should take the user to the next screen upon input of *', () => {
+    it('should take the user to the next screen upon input of 77', () => {
         state.vars.cells = JSON.stringify({'1': 'Kora', '2': 'Kigarama', '3': 'Kabahizi'});
-        state.vars.cells_screens = JSON.stringify({'1': '1) Kora\n2) Kigarama\n* Komeza', '2': '3) Kabahizi'});
+        state.vars.cells_screens = JSON.stringify({'1': '1) Kora\n2) Kigarama\n77) Komeza', '2': '3) Kabahizi'});
         state.vars.current_cells_screen = 1;
         project.getOrCreateDataTable = jest.fn();
-        cellHandler('*');
+        cellHandler(77);
         expect(state.vars.current_cells_screen).toEqual(2);
         expect(sayText).toHaveBeenCalledWith('3) Kabahizi');
         expect(promptDigits).toHaveBeenCalledWith('select_cell', {'maxDigits': 2, 'submitOnHash': false, 'timeout': 5});
@@ -65,7 +65,7 @@ describe('Cell handler', () => {
 
     it('should ask the user to retry when their input does\'t match any cell', () => {
         state.vars.cells = JSON.stringify({'1': 'Kora', '2': 'Kigarama', '3': 'Kabahizi'});
-        state.vars.cells_screens = JSON.stringify({'1': '1) Kora\n2) Kigarama\n* Komeza', '2': '3) Kabahizi'});
+        state.vars.cells_screens = JSON.stringify({'1': '1) Kora\n2) Kigarama\n77) Komeza', '2': '3) Kabahizi'});
         state.vars.current_cells_screen = 2;
         cellHandler('@');
         expect(state.vars.current_cells_screen).toEqual(2);
