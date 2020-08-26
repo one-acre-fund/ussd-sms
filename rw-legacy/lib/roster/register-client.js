@@ -42,11 +42,10 @@ module.exports = function (clientJSON, lang) {
         }
         else if (response.status == 409) {
             logResponse(fullUrl, response);
-            if (response.content == '"National Id Conflict"') {
-                sayText(msgs('ENR_NATIONAL_ID_DUPLICATE'), {}, lang);
-                stopRules();
-                return null;
-            }
+            var accountNumber = parseInt(response.content.replace(/\"/g, ' '));
+            sayText(msgs('enrolled_national_id', {'$AccountNumber': accountNumber}, lang));
+            stopRules();
+            return null;
         }
         else {
             logResponse(fullUrl, response);

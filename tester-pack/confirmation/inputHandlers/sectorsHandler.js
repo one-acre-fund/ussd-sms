@@ -37,7 +37,7 @@ module.exports = function sectorHandler(input) {
             maxDigits: 2,
             submitOnHash: false
         });
-    } else if(input === '*' && sectors_screens[current_sectors_screen + 1]) {
+    } else if(input == 77 && sectors_screens[current_sectors_screen + 1]) {
         state.vars.current_sectors_screen = current_sectors_screen + 1;
         sayText(sectors_screens[state.vars.current_sectors_screen]);
         promptDigits('select_sector', {

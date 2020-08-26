@@ -32,7 +32,7 @@ module.exports = function districtHandler(input) {
             maxDigits: 2,
             submitOnHash: false
         });
-    } else if(input === '*' && districts_screens[current_districts_screen +1]) {
+    } else if(input == 77 && districts_screens[current_districts_screen +1]) {
         state.vars.current_districts_screen = current_districts_screen + 1;
         sayText(districts_screens[state.vars.current_districts_screen]);
         promptDigits('select_district', {

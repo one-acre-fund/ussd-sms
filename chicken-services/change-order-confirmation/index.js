@@ -1,11 +1,12 @@
 var createTranslator = require('../../utils/translator/translator');
 var translations = require('../translations');
 var handlerName = 'change_order_confirm';
-
+var notifyELK = require('../../notifications/elk-notification/elkNotification'); 
 module.exports = {
     handlerName: handlerName,
     getHandler: function(onOrderFinalized){
         return function(input){
+            notifyELK();
             if(input == 0){
                 var backToMain = require('../../rw-legacy/lib/backToMainMenu');
                 backToMain();

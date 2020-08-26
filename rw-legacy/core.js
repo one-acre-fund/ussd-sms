@@ -55,7 +55,7 @@ var client_table = project.initDataTableById(service.vars['21a_client_data_id'])
 // console.log('### End Env Info###');
 
 var slack = require('../slack-logger/index');
-
+var notifyELK = require('../notifications/elk-notification/elkNotification');
 //global functionss
 var msgs = require('./lib/msg-retrieve'); //global message handler
 var admin_alert = require('./lib/admin-alert'); //global admin alerter
@@ -104,6 +104,7 @@ global.main = function () {
 input handlers - one per response variable
 */
 addInputHandler('account_number_splash', function (input) { //acount_number_splash input handler - main input handler for initial splash
+    notifyELK();
     var response = input.replace(/\D/g, '');
     // if (response == 1) {
     //     const resumedSession = regSessionManager.resume(contact.phone_number, inputHandlers);
@@ -162,6 +163,7 @@ chickenServices.registerHandlers();
 transactionHistory.registerHandlers();
 
 addInputHandler('cor_menu_select', function (input) {
+    notifyELK();
     input = String(input.replace(/\D/g, ''));
 
     // If comming from entering the group id reinitialize the input from the main menu
@@ -220,34 +222,22 @@ addInputHandler('cor_menu_select', function (input) {
     }
     else if (selection === 'cor_get_payg') {
         var payg_retrieve = require('./lib/cor-payg-retrieve');
-        var payg_balance = require('./lib/cor-payg-balance');
-        console.log("PAYG balance is " + payg_balance(JSON.parse(state.vars.client_json)));
-
-        // only run code if client has paid enough; otherwise tell them they haven't paid enough for a new code
-        if (payg_balance(JSON.parse(state.vars.client_json))) {
             // if account matches a serial number, give the client the corresponding PAYG code
-            if (payg_retrieve(state.vars.account_number)) {
-                sayText(msgs('cor_payg_true', { '$PAYG': state.vars.payg_code }, lang));
-                promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
-                return null;
-            }
-            // else prompt the client to enter their product's serial number
-            else if (state.vars.acc_empty) {
-                sayText(msgs('cor_payg_false', {}, lang));
-                promptDigits('cor_payg_reg', { 'submitOnHash': false, 'maxDigits': max_digits_for_account_number, 'timeout': timeout_length });
-                return null;
-            }
-            // print an error message if an error occurs
-            else {
-                sayText(msgs('cor_payg_duplicate', {}, lang));
-                promptDigits('cor_payg_reg', { 'submitOnHash': false, 'maxDigits': max_digits_for_account_number, 'timeout': timeout_length });
-                return null;
-            }
-        }
-        // if client doesn't have sufficient balance, tell them they haven't paid enough for a new code
-        else {
-            sayText(msgs('cor_payg_insufficient', {}, lang));
+        if (payg_retrieve(state.vars.account_number)) {
+            sayText(msgs('cor_payg_true', { '$PAYG': state.vars.payg_code }, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            return null;
+        }
+        // else prompt the client to enter their product's serial number
+        else if (state.vars.acc_empty) {
+            sayText(msgs('cor_payg_false', {}, lang));
+            promptDigits('cor_payg_reg', { 'submitOnHash': false, 'maxDigits': max_digits_for_account_number, 'timeout': timeout_length });
+            return null;
+        }
+        // print an error message if an error occurs
+        else {
+            sayText(msgs('cor_payg_duplicate', {}, lang));
+            promptDigits('cor_payg_reg', { 'submitOnHash': false, 'maxDigits': max_digits_for_account_number, 'timeout': timeout_length });
             return null;
         }
     }
@@ -422,6 +412,7 @@ groupRepaymentsModule.registerGroupRepaymentHandlers({lang: lang, main_menu: sta
 
 // If the number of persons in a group is more than 30 ask them to try again
 addInputHandler('market_people_in_group', function(input){
+    notifyELK();
 
     if(input > 0 && input <= 30){
         var menu = msgs('maize_number',{},lang);
@@ -438,6 +429,7 @@ addInputHandler('market_people_in_group', function(input){
 }),
 
 addInputHandler('harvest_amount_handler', function(amount){
+    notifyELK();
     var amount = String(amount.replace(/\D/g, ''));
     if(parseInt(amount) < 0 || parseInt(amount) > 1000000){
         var menu = msgs('crop_amount_menu',{},lang);
@@ -458,7 +450,7 @@ addInputHandler('harvest_amount_handler', function(amount){
 });
 
 addInputHandler('harvest_timing_handler', function(input){
-    
+    notifyELK();
     input = String(input.replace(/\D/g, ''));
     if(input == 1 ){if(lang == 'ki'){state.vars.harvest_time = 'Ubu birumye neza'}else{state.vars.crop_tye ='Now'}}
     else if(input == 2 ){if(lang == 'ki'){state.vars.harvest_time = 'Nyuma y icyumeru'}else{state.vars.crop_tye ='Next week'}}
@@ -481,6 +473,7 @@ addInputHandler('harvest_timing_handler', function(input){
 });
 
 addInputHandler('m_market_confirm_handler', function(input){
+    notifyELK();
     input = String(input.replace(/\D/g, '')); 
     if(input == 0){
         var groupsTable = project.initDataTableById(service.vars.groupCodes_id);
@@ -516,6 +509,7 @@ addInputHandler('m_market_confirm_handler', function(input){
 });
 
 addInputHandler('backToMain', function(input){
+    notifyELK();
     var splash = account_splash_menu_name;
     state.vars.splash = splash;
     var menu = populate_menu(splash, lang);
@@ -540,6 +534,7 @@ addInputHandler('backToMain', function(input){
 
 
 addInputHandler('chx_update', function (input) {
+    notifyELK();
     input = parseInt(input.replace(/\D/g, ''));
     // if they want to update, ask them to place an order
     if (input === 1) {
@@ -566,6 +561,7 @@ addInputHandler('chx_update', function (input) {
 })
 
 addInputHandler('chx_place_order', function (input) {
+    notifyELK();
     input = parseInt(input.replace(/\D/g, ''));
     state.vars.chx_order = input;
     // veto if client has entered an invalid chicken order; otherwise ask them to confirm
@@ -589,6 +585,7 @@ addInputHandler('chx_place_order', function (input) {
 });
 
 addInputHandler('chx_confirm_order', function (input) {
+    notifyELK();
     input = parseInt(input.replace(/\D/g, ''));
     if (input === 1) {
         // save the confirmed order in the data table
@@ -672,6 +669,7 @@ addInputHandler('chx_final_confirm', function(input){ //final confirmation to en
 generic input handler for returning to main splash menu
 */
 addInputHandler('cor_continue', function (input) {
+    notifyELK();
     state.vars.current_step = 'cor_continue';
     input = parseInt(input.replace(/\D/g, ''));
     if (input !== 99) {
@@ -706,6 +704,7 @@ addInputHandler('cor_continue', function (input) {
 input handler for invalid input - input handlers dump here for unrecognized input if there's not already a loop
 */
 addInputHandler('invalid_input', function (input) {
+    notifyELK();
     input = parseInt(input.replace(/\D/g, ''));
     if (input == 1) { //continue on to previously failed step
         sayText(state.vars.current_menu_str);
@@ -726,6 +725,7 @@ addInputHandler('invalid_input', function (input) {
 
 // input handler for registering serial number
 addInputHandler('cor_payg_reg', function (serial_no) {
+    notifyELK();
     //serial_no = parseInt(serial_no.replace(/\D/g,''));
     serial_no = serial_no.replace(/^0+/, '');
     console.log("Serial number is " + serial_no + " and its type is " + typeof (serial_no));
@@ -760,6 +760,7 @@ input handlers for registration steps
 
 //prompt for national Id then Show them the national id they have entered and ask for confirmation
 inputHandlers['registration_start'] = function (input) {
+    notifyELK();
     state.vars.current_step = 'enr_reg_start';
     input = String(input.replace(/\D/g, ''));
     var check_if_nid = require('./lib/enr-check-nid');
@@ -788,6 +789,7 @@ addInputHandler('enr_reg_start', inputHandlers['registration_start']);
 
 // Checking confirmation from the user
 addInputHandler('enr_nid_client_confirmation', function (input) {
+    notifyELK();
     state.vars.current_step = 'enr_nid_client_confirmation';
     input = String(input.replace(/\D/g, ''));
 
@@ -881,6 +883,7 @@ addInputHandler('enr_nid_client_confirmation', function (input) {
 
 
 inputHandlers['name1InputHandler'] = function (input) {
+    notifyELK();
     state.vars.current_step = 'enr_name_1';
     if (input == 99) {
         regSessionManager.clear(contact.phone_number);
@@ -907,6 +910,7 @@ inputHandlers['name1InputHandler'] = function (input) {
 addInputHandler('enr_name_1', inputHandlers['name1InputHandler']);
 
 inputHandlers['name2InputHandler'] = function (input) {
+    notifyELK();
     state.vars.current_step = 'enr_name_2';
     if (input == 99) {
         regSessionManager.clear(contact.phone_number);
@@ -933,6 +937,7 @@ inputHandlers['name2InputHandler'] = function (input) {
 addInputHandler('enr_name_2', inputHandlers['name2InputHandler']);
 
 inputHandlers['phoneInputHandler'] = function (input) {
+    notifyELK();
     state.vars.current_step = 'enr_pn';
     input = input.replace(/\D/g, '');
     var check_pn = require('./lib/phone-format-check');
@@ -957,6 +962,7 @@ inputHandlers['phoneInputHandler'] = function (input) {
 addInputHandler('enr_pn', inputHandlers['phoneInputHandler']);
 
 inputHandlers['groupCodeInputHandler'] = function (input) {
+    notifyELK();
     //input = input.replace(/\W/g, '');
     state.vars.current_step = 'enr_glus';
     if (input == 99) {
@@ -1004,7 +1010,7 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
 addInputHandler('enr_glus', inputHandlers['groupCodeInputHandler']);
 
 addInputHandler('enr_group_id_confirmation', function (input) { //enr group leader / umudugudu support id step. last registration step
-
+    notifyELK();
     state.vars.current_step = 'enr_glus';
     input = input.replace(/\W/g, '');
     if (input == 99) {
@@ -1034,6 +1040,7 @@ addInputHandler('enr_group_id_confirmation', function (input) { //enr group lead
 });//end registration steps input handlers
 
 addInputHandler('reg_group_constitution_confirm',function(input){
+    notifyELK();
     input = input.replace(/\W/g, '');
     if (input == 99) {        
         regSessionManager.clear(contact.phone_number);
@@ -1079,6 +1086,7 @@ addInputHandler('reg_group_constitution_confirm',function(input){
 });
 
 addInputHandler('reg_end_ordering_redirect',function(input){
+    notifyELK();
     input = input.replace(/\W/g, '');
     if (input == 99) {
         sayText(msgs('exit', {}, lang));
@@ -1158,6 +1166,7 @@ addInputHandler('reg_end_ordering_redirect',function(input){
 // input handler for entering glvv id. note, do we want to check if this matches the client's district?
 //Called when the user ordering does not have a group id
 addInputHandler('enr_glvv_id', function (input) {
+    notifyELK();
     state.vars.current_step = 'entered_glvv';
     if(input.length != 13){
         input = '0'+ input;
@@ -1194,7 +1203,7 @@ addInputHandler('enr_glvv_id', function (input) {
 });
 
 addInputHandler('enr_glvv_id_confirmation', function (input) {
-
+    notifyELK();
     input = input.replace(/\W/g, '');
     if (input == 1) {
         if (state.vars.group_information != null) {
@@ -1229,6 +1238,7 @@ addInputHandler('enr_glvv_id_confirmation', function (input) {
 });
 
 addInputHandler('group_constitution_handler',function(input){
+    notifyELK();
     input = parseInt(input.replace(/\D/g, ''));
     if (input == 99) {
         sayText(msgs('exit', {}, lang));
@@ -1250,6 +1260,7 @@ addInputHandler('group_constitution_handler',function(input){
 //Main menu from placing an order
 
 addInputHandler('enr_input_splash', function (input) { //main input menu
+    notifyELK();
     state.vars.current_step = 'enr_input_splash';
     input = parseInt(input.replace(/\D/g, ''));
     if (input == 99) {
@@ -1324,6 +1335,7 @@ addInputHandler('enr_input_splash', function (input) { //main input menu
 
 
 addInputHandler('enr_input_order', function (input) { //input ordering function
+    notifyELK();
     state.vars.current_step = 'enr_input_order';
     state.vars.current_menu_str = state.vars.prod_message;
     input = parseFloat(input.replace(/[^0-9,.,,]/g, '').replace(/,/g, '.'));
@@ -1363,6 +1375,7 @@ addInputHandler('enr_input_order', function (input) { //input ordering function
 
 
 addInputHandler('enr_confirm_input_order', function (input) { //input ordering confirmation
+    notifyELK();
     state.vars.current_step = 'enr_confirm_input_order'
     input = parseInt(input.replace(/\D/g, ''));
     if (input === 99) {
@@ -1400,6 +1413,7 @@ addInputHandler('enr_confirm_input_order', function (input) { //input ordering c
 });
 
 addInputHandler('enr_input_order_continue', function (input) {
+    notifyELK();
     state.vars.current_step = 'input_order_continue';
     input = parseInt(input.replace(/\D/g, ''));
     if (input == 99) {
@@ -1429,6 +1443,7 @@ input handlers for order review
 */
 
 addInputHandler('enr_order_review_continue', function (input) {
+    notifyELK();
     state.vars.current_step = 'enr_order_review_continue';
     input = parseInt(input.replace(/\D/g, ''));
     if (input == 99) {
@@ -1454,6 +1469,7 @@ addInputHandler('enr_order_review_continue', function (input) {
 input handlers for finalize order
 */
 addInputHandler('enr_finalize_verify', function (input) {
+    notifyELK();
     state.vars.current_step = 'enr_finalize_verify';
     state.vars.splash = state.vars.current_step;
     input = parseInt(input.replace(/\D/g, ''));
@@ -1490,6 +1506,7 @@ addInputHandler('enr_finalize_verify', function (input) {
 
 
 addInputHandler('enr_terms_and_conditions',function(input){
+    notifyELK();
     input = parseInt(input.replace(/\D/g, ''));
     if(input == 1){
         sayText(msgs('enr_finalize_verify', {}, lang));

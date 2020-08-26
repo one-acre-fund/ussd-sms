@@ -2,7 +2,7 @@ module.exports = function nextScreensHandler(input) {
     var screens = JSON.parse(state.vars.screens);
     var current_screen = state.vars.current_screen;
 
-    if(input === '*' && screens[current_screen + 1]) {
+    if(input == 77 && screens[current_screen + 1]) {
         state.vars.current_screen = current_screen + 1;
         sayText(screens[state.vars.current_screen]);
         if(screens[state.vars.current_screen + 1]) {

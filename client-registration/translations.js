@@ -5,8 +5,8 @@ module.exports = {
         'sw': 'Weka nambari ya kitambulisho ya mkulima?'
     },
     'confirm_national_id': {
-        'en-ke': 'You enter $nationalId ID. Enter 1 to confirm or 2 to try again',
-        'sw': 'Umeweka nambari ya kitambulisho $nationalId. Weka 1 kudhibitisha au 2 kujaribu tena'
+        'en-ke': 'You enter $nationalId ID. Enter\n1) To confirm\n2) To try again',
+        'sw': 'Umeweka nambari ya kitambulisho $nationalId. Weka\n1) kudhibitisha\n2) kujaribu tena'
 
     },
     'first_name_prompt': {
@@ -22,8 +22,8 @@ module.exports = {
         'sw': 'Weka nambari ya simu ya mkulima'
     },
     'confrm_phone_prompt': {
-        'en-ke': 'You enter $phone Phone number. Enter 1 to confirm or 2 to try again',
-        'sw': 'Umeweka nambari ya simu $phone . Weka 1 kudhibitisha au 2 kujaribu tena.'
+        'en-ke': 'You enter $phone Phone number. Enter\n1) To confirm\n2) To try again',
+        'sw': 'Umeweka nambari ya simu $phone . Weka\n1) kudhibitisha\n2) kujaribu tena.'
     },
     'invalid_national_id': {
         'en-ke': 'Invalid entry. Please enter a valid national id.',
