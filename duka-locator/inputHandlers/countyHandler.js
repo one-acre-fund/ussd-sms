@@ -29,7 +29,7 @@ module.exports = function countyHandler(input) {
             maxDigits: 2,
             timeout: 5
         });
-    } else if(input == '*' && state.vars.multiple_countie_screens && state.vars.current_countie_screen + 1 < JSON.parse(state.vars.multiple_countie_screens).length){
+    } else if(input == 77 && state.vars.multiple_countie_screens && state.vars.current_countie_screen + 1 < JSON.parse(state.vars.multiple_countie_screens).length){
         state.vars.current_countie_screen = state.vars.current_countie_screen + 1;
         var countie_screens = JSON.parse(state.vars.multiple_countie_screens);
         var menu = countie_screens[state.vars.current_countie_screen];

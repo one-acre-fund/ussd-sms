@@ -1,4 +1,4 @@
-var slack = require('../../slack-logger/index');
+var Log = require('../../logger/elk/elk-logger');
 
 module.exports = function(chicken_table, acc_nber, client_json){
 
@@ -10,9 +10,9 @@ module.exports = function(chicken_table, acc_nber, client_json){
     // if prepayment satisfies the mminimum condition( > than 2 chicken prepayment amount(2000))
     if(prepayment_amount >= 1000){
         state.vars.minimum_amount_paid = true;
-        // If the prepayment is greater than the maximum number of chicken necessary(15) 
-        if((prepayment_amount / 500) > 15){
-            state.vars.max_chicken = 15;
+        // If the prepayment is greater than the maximum number of chicken necessary(5) 
+        if((prepayment_amount / 500) > 5){
+            state.vars.max_chicken = 5;
         }
         // else calculate the client's possible maximum
         else{
@@ -41,17 +41,15 @@ module.exports = function(chicken_table, acc_nber, client_json){
             }
             // If the client did not confirm or wants to change
             else{
-                // Client did not confirm
-                if(row.vars.chicken_confirmed != 1){
-                    state.vars.confirmed_chicken = false;
-                }
-
+                state.vars.confirmed_chicken = false;
             }
         } 
     }
     else{
         state.vars.client_notfound = true;
-        slack.log('Client '+ client_json.FirstName+' not found in chicken table');
+        var logger = new Log();
+        var logMessage = 'Client ' + client_json.FirstName + ' not found in chicken table';
+        logger.log(logMessage);
     }  
 
 };

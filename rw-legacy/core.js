@@ -70,7 +70,7 @@ var get_time = require('./lib/enr-timestamp');
 var get_client = require('./lib/enr-retrieve-client-row');
 var regSessionManager = require('./lib/enr-resume-registration');
 var group_size_satisfied = require('./lib/core-group-size-check');
-const chickenServices = require('../chicken-services/index');
+const chickenServices = require('../chicken-services/chickenServices');
 var transactionHistory = require('../transaction-history/transactionHistory');
 var groupRepaymentsModule = require('../group-repayments/groupRepayments');
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
@@ -92,7 +92,7 @@ const max_digits_for_name = project.vars.max_digits_name;
 const inputHandlers = {}
 
 global.main = function () {
-    sayText(msgs('cor_enr_main_splash'));
+    sayText(msgs('cor_enr_main_splash',{},lang));
     promptDigits('account_number_splash', {
         'submitOnHash': false,
         'maxDigits': max_digits_for_account_number,

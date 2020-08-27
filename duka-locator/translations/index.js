@@ -55,9 +55,9 @@ var translations = {
         sw: '99) English'
     },
     'next_page': {
-        en: '* Next',
-        'en-ke': '* Next',
-        sw: '* Endelea'
+        en: '77) Next',
+        'en-ke': '77) Next',
+        sw: '77) Endelea'
     }
 };
 

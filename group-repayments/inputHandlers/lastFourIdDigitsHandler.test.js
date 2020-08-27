@@ -22,7 +22,7 @@ describe('Last four nid digits input handler', () => {
         expect(sayText).toHaveBeenCalledWith('Group credit: 12000 RwF\n' +
         'Group balance: 7000 RwF\n' +
         '1) bahati robben: 7000 RwF\n' + 
-        '# Go back');
+        '44) Go back');
         expect(promptDigits).toHaveBeenCalledWith('view_individual_balance_menu', {
             submitOnHash: false,
             maxDigits: 2,

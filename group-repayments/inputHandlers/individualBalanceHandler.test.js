@@ -12,14 +12,14 @@ describe('Back to group summary handler', () => {
         jest.resetModules();
     });
 
-    it('should take the user to the next screen on *', () => {
+    it('should take the user to the next screen on 77', () => {
         global.state.vars.group_repayment_variables = JSON.stringify({lang: 'en', main_menu: 'main menu', main_menu_handler: 'BackToMain'});
         global.state.vars.all_screens = JSON.stringify(['screen1', 'screen2']);
         global.state.vars.current_screen = 0;
         global.state.vars.previous_screen = -1;
         global.state.vars.next_screen = 1;
         global.state.vars.members_last_screen = 1;
-        individualBalanceHandler('*');
+        individualBalanceHandler('77');
         expect(sayText).toHaveBeenCalledWith('screen2');
         expect(state.vars.next_screen).toBe(2);
         expect(state.vars.previous_screen).toBe(0);
@@ -31,14 +31,14 @@ describe('Back to group summary handler', () => {
         });
     });
 
-    it('should take the user to the previous screen on #', () => {
+    it('should take the user to the previous screen on 44', () => {
         global.state.vars.group_repayment_variables = JSON.stringify({lang: 'en', main_menu: 'main menu', main_menu_handler: 'BackToMain'});
         global.state.vars.all_screens = JSON.stringify(['screen1', 'screen2']);
         global.state.vars.current_screen = 1;
         global.state.vars.previous_screen = 0;
         global.state.vars.next_screen = 2;
         global.state.vars.members_last_screen = 1;
-        individualBalanceHandler('#');
+        individualBalanceHandler('44');
         expect(sayText).toHaveBeenCalledWith('screen1');
         expect(state.vars.next_screen).toBe(1);
         expect(state.vars.previous_screen).toBe(-1);
@@ -50,14 +50,14 @@ describe('Back to group summary handler', () => {
         });
     });
 
-    it('should take the user to the previous screen on #', () => {
+    it('should take the user to the previous screen on 44', () => {
         global.state.vars.group_repayment_variables = JSON.stringify({lang: 'en', main_menu: 'main menu', main_menu_handler: 'BackToMain'});
         global.state.vars.all_screens = JSON.stringify(['screen1', 'screen2']);
         global.state.vars.current_screen = 0;
         global.state.vars.previous_screen = -1;
         global.state.vars.next_screen = 1;
         global.state.vars.members_last_screen = 1;
-        individualBalanceHandler('#');
+        individualBalanceHandler('44');
         expect(sayText).toHaveBeenCalledWith('main menu');
         expect(promptDigits).toHaveBeenCalledWith('BackToMain', {
             submitOnHash: false,
@@ -81,7 +81,7 @@ describe('Back to group summary handler', () => {
             'Balance: 60 RwF\n' +
             'Amount repaid: 60 RwF\n' + 
             '% repaid: 50.00%\n' + 
-            '# Go back');
+            '44) Go back');
         expect(promptDigits).toHaveBeenCalledWith('back_to_group_summary', {
             submitOnHash: false,
             maxDigits: 1,

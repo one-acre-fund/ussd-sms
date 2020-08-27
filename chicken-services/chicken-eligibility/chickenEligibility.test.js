@@ -1,10 +1,10 @@
-const slack = require('../../slack-logger');
-const chickenEligibility = require('./index');
+const Log = require('../../logger/elk/elk-logger');
+const chickenEligibility = require('./chickenEligibility');
 const {client}  = require('../test-client-data');
 
-jest.mock('../../slack-logger');
+jest.mock('../../logger/elk/elk-logger');
 
-describe('cicken_Eligibility', () => {
+describe('chicken_Eligibility', () => {
 
     const mockCursor = { next: jest.fn(), 
         hasNext: jest.fn()
@@ -33,12 +33,15 @@ describe('cicken_Eligibility', () => {
         chickenEligibility(mockTable,client.AccountNumber,client);
         expect(state.vars.client_notfound).not.toBeDefined();
     });
-    it('should slack a message saying the client is not found if the client is not found in the chicken table', ()=>{
+    
+    it('should log a message to elk saying the client is not found if the client is not found in the chicken table', ()=>{
+        const mockLogger = { log: jest.fn() };
+        Log.mockReturnValueOnce(mockLogger);
         mockCursor.hasNext.mockReturnValueOnce(false);
         chickenEligibility(mockTable,client.AccountNumber,client);
         expect(state.vars.client_notfound).toBeTruthy();
-        expect(slack.log).toHaveBeenCalledWith(expect.stringContaining(`Client ${client.FirstName} `+
-        'not found in chicken table'));
+        expect(mockLogger.log).toHaveBeenCalledWith(`Client ${client.FirstName} `+
+        'not found in chicken table');
     });
 
     it('should set state.vars.client_notfound variable to true if the client is not found in the chicken table', ()=>{
@@ -75,12 +78,19 @@ describe('cicken_Eligibility', () => {
         chickenEligibility(mockTable,client.AccountNumber,client);
         expect(state.vars.minimum_amount_paid).toBeTruthy();
     });
-    it('should set state.vars.max_chicken to 15 if prepayment_amount is greater than 7500', ()=>{
+    it('should set state.vars.max_chicken to 5 if prepayment_amount is greater than 7500', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(false);
         client.BalanceHistory.TotalRepayment_IncludingOverpayments = 10000;
         client.BalanceHistory.TotalCredit = 2000;
         chickenEligibility(mockTable,client.AccountNumber,client);
-        expect(state.vars.max_chicken).toBe(15);
+        expect(state.vars.max_chicken).toBe(5);
+    });
+    it('should set state.vars.max_chicken to the number of possible chicken given the prepayment_amount (if the prepayment is greater than 1000 and allows less than 5 possible chicken)', ()=>{
+        mockCursor.hasNext.mockReturnValueOnce(false);
+        client.BalanceHistory.TotalRepayment_IncludingOverpayments = 4000;
+        client.BalanceHistory.TotalCredit = 2000;
+        chickenEligibility(mockTable,client.AccountNumber,client);
+        expect(state.vars.max_chicken).toBe(4);
     });
     it('should set state.vars.minimum_amount_paid to False if prepayment_amount is less than 1000', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(false);

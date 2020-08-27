@@ -20,7 +20,7 @@ module.exports = function individualBalanceHandler(input) {
     var previous_screen = state.vars.previous_screen;
     var members_last_screen = state.vars.members_last_screen;
     var menu = '';
-    if(input == '*' && next_screen <= members_last_screen) {
+    if(input == '77' && next_screen <= members_last_screen) {
         menu = all_screens[next_screen];
         state.vars.current_screen = next_screen;
         state.vars.next_screen = next_screen + 1;
@@ -31,7 +31,7 @@ module.exports = function individualBalanceHandler(input) {
             maxDigits: 2,
             timeout: 5
         });
-    } else if(input == '#') {
+    } else if(input == '44') {
         if(previous_screen >= 0) {
             menu = all_screens[previous_screen];
             state.vars.current_screen = previous_screen;
@@ -66,7 +66,7 @@ module.exports = function individualBalanceHandler(input) {
                 '$balance': current_member.balance, 
                 '$repaid': current_member.repaid,
                 '$currency': service.vars.currency,
-                '$percentage': current_member['% Repaid'].toFixed(2)}) + getMessage('back', {'$label': '#'}, lang);
+                '$percentage': current_member['% Repaid'].toFixed(2)}) + getMessage('back', {'$label': '44'}, lang);
             sayText(menu);
             promptDigits('back_to_group_summary',{submitOnHash: false, maxDigits: 1, timeout: 5 });
         }

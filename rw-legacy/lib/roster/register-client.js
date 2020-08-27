@@ -50,12 +50,12 @@ module.exports = function (clientJSON, lang) {
         else {
             logResponse(fullUrl, response);
             sayText(msgs('FAILURE_REGISTERING'), {}, lang);
-            if(logger) logger.log('Error Registering a new Client',{tags: [service.vars.env],data: response});
+            if(logger) logger.warn('Error Registering a new Client',{tags: [service.vars.env],data: response});
             stopRules();
             return null;
         }
     } catch (e) {
-        if(logger) logger.log('Error Registering a new Client',{tags: [service.vars.env],data: {error: e,response: response}});
+        if(logger) logger.error('Error Registering a new Client',{tags: [service.vars.env],data: {error: e,response: response}});
     }
 
 };
