@@ -1,7 +1,7 @@
 
 const getFoInfo = require('./getFoInfo');
-const slack = require('../../slack-logger/index');
-jest.mock('../../slack-logger');
+const Log = require('../../logger/elk/elk-logger');
+jest.mock('../../logger/elk/elk-logger');
 
 const mockResult = {
     'firstName': 'sabin',
@@ -13,6 +13,14 @@ service.vars.server_name = 'http://example.com';
 service.vars.roster_api_key = 'some-api-key';
 
 describe('getFoInfo', () => {
+    let mockLogger;
+    beforeEach(() => {
+        mockLogger = {
+            error: jest.fn(),
+            warn: jest.fn()
+        };
+        Log.mockReturnValue(mockLogger);
+    });
     it('should be a function', () => {
         expect(getFoInfo).toBeInstanceOf(Function);
     });
@@ -31,15 +39,16 @@ describe('getFoInfo', () => {
         const result = getFoInfo(mockRequestData.districtId,mockRequestData.siteId);
         expect(result).toEqual(mockResult);
     });
-    it('should call slack when the response code is not 200', () => {
-        httpClient.request.mockReturnValueOnce({status: 404, content: mockResult});
+    it('should log a warning when the response code is not 200', () => {
+        const mockResponse = { status: 404, content: mockResult };
+        httpClient.request.mockReturnValueOnce(mockResponse);
         getFoInfo(mockRequestData.districtId,mockRequestData.siteId);
-        expect(slack.log).toHaveBeenCalled();
+        expect(mockLogger.warn).toHaveBeenCalledWith('Failed to get Fo info',{data: mockResponse});
     });
-    it('should slack when the request throws an error', () => {
-        httpClient.request.mockImplementationOnce(()=>{throw 'Error fetching FO info';});
-        slack.log.mockClear();
+    it('should an error when the request throws an error', () => {
+        const error = new Error('Error fetching FO info');
+        httpClient.request.mockImplementationOnce(()=>{throw error;});
         getFoInfo(mockRequestData.districtId,mockRequestData.siteId);
-        expect(slack.log).toHaveBeenCalledWith('Failed to get Fo info: Error fetching FO info');        
+        expect(mockLogger.error).toHaveBeenCalledWith('Failed to get Fo info', {data: error});
     });
 });

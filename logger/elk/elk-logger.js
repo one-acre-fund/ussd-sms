@@ -1,17 +1,31 @@
-function sendRequest(baseURL, path,msg,options) {
-    var data = {message: msg};
+var requestLogger = require('../data-table/request-logger');
+
+function sendRequest(baseURL, path, msg, options) {
+    var data = {
+        message: msg,
+    };
+    var tags = [project.name, service.name];
     if(options){
         var isAnArray = _.isArray(options.tags);
         var containsOnlyStrings = _.every(options.tags, _.isString);
         var tagsExist = !!options.tags;
         if(tagsExist && isAnArray && containsOnlyStrings){
-            data.tags = options.tags;
+            tags = tags.concat(options.tags);
         }else if(tagsExist && (!isAnArray || !containsOnlyStrings ) ){
             throw 'tags should be an array of strings';
         }
         data.data = options.data;
     }
-    httpClient.request(baseURL + path, {method: 'POST', data: data});
+    data.tags = tags;
+    var url = baseURL + path;
+    var response = httpClient.request(baseURL + path, {
+        method: 'POST', 
+        data: data,
+        headers: {'Content-Type': 'application/json'}
+    });
+    if(response && response.status !== 200){
+        requestLogger(url, response);
+    }
 }
 var Log = function (logsBaseURL){
     var baseURL = logsBaseURL || project.vars.elk_logs_base_url;
