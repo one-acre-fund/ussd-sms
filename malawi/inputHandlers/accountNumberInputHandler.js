@@ -1,5 +1,5 @@
 var getClient = require('../utils/getClient');
-// var buybackTransactions =  require('../../buyback-transactions/buyBackTransactions');
+var buybackTransactions =  require('../../buyback-transactions/buyBackTransactions');
 
 module.exports = function(input){
     var account_number = input.replace(/\D/g, '');
@@ -14,7 +14,7 @@ module.exports = function(input){
         });
     } else {
         // spin the buyback implementation
-        // buybackTransactions.start();
-        sayText('Account validated successfully');
+        state.vars.client = JSON.stringify(client.client);
+        buybackTransactions.start();
     } 
 };
