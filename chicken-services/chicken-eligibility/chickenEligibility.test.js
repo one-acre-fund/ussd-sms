@@ -1,10 +1,10 @@
-const slack = require('../../slack-logger');
-const chickenEligibility = require('./chickenEligibility');
+const Log = require('../../logger/elk/elk-logger');
+const chickenEligibility = require('./index');
 const {client}  = require('../test-client-data');
 
-jest.mock('../../slack-logger');
+jest.mock('../../logger/elk/elk-logger');
 
-describe('cicken_Eligibility', () => {
+describe('chicken_Eligibility', () => {
 
     const mockCursor = { next: jest.fn(), 
         hasNext: jest.fn()
@@ -33,12 +33,15 @@ describe('cicken_Eligibility', () => {
         chickenEligibility(mockTable,client.AccountNumber,client);
         expect(state.vars.client_notfound).not.toBeDefined();
     });
-    it('should slack a message saying the client is not found if the client is not found in the chicken table', ()=>{
+    
+    it('should log a message to elk saying the client is not found if the client is not found in the chicken table', ()=>{
+        const mockLogger = { log: jest.fn() };
+        Log.mockReturnValueOnce(mockLogger);
         mockCursor.hasNext.mockReturnValueOnce(false);
         chickenEligibility(mockTable,client.AccountNumber,client);
         expect(state.vars.client_notfound).toBeTruthy();
-        expect(slack.log).toHaveBeenCalledWith(expect.stringContaining(`Client ${client.FirstName} `+
-        'not found in chicken table'));
+        expect(mockLogger.log).toHaveBeenCalledWith(`Client ${client.FirstName} `+
+        'not found in chicken table');
     });
 
     it('should set state.vars.client_notfound variable to true if the client is not found in the chicken table', ()=>{

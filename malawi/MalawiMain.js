@@ -28,6 +28,7 @@ var translator = require('../utils/translator/translator');
 var getMessage = translator(translations, lang);
 
 var inputHandlers = require('./inputHandlers/inputHandlers');
+var buybackTransactions =  require('../buyback-transactions/buyBackTransactions');
 
 global.main = function(){
     notifyELK();
@@ -39,4 +40,5 @@ global.main = function(){
     });
 };
 
+buybackTransactions.registerInputHandlers();
 addInputHandler('account_number', inputHandlers.accountNumberInputHandler);

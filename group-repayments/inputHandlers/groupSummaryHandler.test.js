@@ -13,7 +13,7 @@ describe('Back to group summary handler', () => {
         global.state.vars.group_repayment_variables = JSON.stringify({lang: 'en'});
         global.state.vars.all_screens = JSON.stringify(['group summary']);
         global.state.vars.current_screen = 0;
-        groupSummaryHandler('#');
+        groupSummaryHandler('44');
         expect(sayText).toHaveBeenCalledWith('group summary');
         expect(promptDigits).toHaveBeenCalledWith('view_individual_balance_menu', {
             submitOnHash: false,
@@ -26,7 +26,7 @@ describe('Back to group summary handler', () => {
         global.state.vars.group_repayment_variables = JSON.stringify({lang: 'en'});
         global.state.vars.all_screens = JSON.stringify(['group summary']);
         global.state.vars.current_screen = 0;
-        groupSummaryHandler('*');
+        groupSummaryHandler('000');
         expect(sayText).toHaveBeenCalledWith('Invalid input, please try again.\ngroup summary');
         expect(promptDigits).toHaveBeenCalledWith('view_individual_balance_menu', {
             submitOnHash: false,
@@ -35,7 +35,7 @@ describe('Back to group summary handler', () => {
         }); 
     });
     it('should call notifyELK',()=>{
-        groupSummaryHandler('*');
+        groupSummaryHandler('000');
         expect(notifyELK).toHaveBeenCalled();
     });
 });
