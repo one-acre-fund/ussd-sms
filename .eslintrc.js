@@ -42,6 +42,7 @@ module.exports = {
         stopRules: 'readonly',
         httpClient: 'readonly',
         sendEmail: 'readonly',
+        PhoneNumber: 'readonly',
     },
     'overrides': [
         {
