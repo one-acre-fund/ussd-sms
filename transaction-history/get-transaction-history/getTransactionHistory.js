@@ -1,4 +1,4 @@
-var slack = require('../../slack-logger/index');
+var Log = require('../../logger/elk/elk-logger');
 
 module.exports = function (client) {
     var getRepaymentsEndpoint = '/Api/ClientRepayment/Get/?ClientId='+client.ClientId+'&DistrictId='+client.DistrictId;
@@ -8,16 +8,19 @@ module.exports = function (client) {
     opts.method = 'GET';
 
     try {
+        var logger;
         var response = httpClient.request(fullUrl, opts);
         if (response.status == 200) {
             var data = JSON.parse(response.content);
             return data;
         }
         else {
-            slack.log('Failed to fetch client transactions: \n'+ JSON.stringify(response));
+            logger = new Log();
+            logger.error('Failed to fetch client transactions', {data: response});
         }
     } catch (error) {
-        slack.log('Error fetching client transactions: ' + error);
+        logger = new Log();
+        logger.error('Error fetching client transactions', {data: error});
     }
     return [];
 };

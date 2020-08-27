@@ -1,11 +1,10 @@
 
-var slack = require('../../slack-logger/index');
+var Log = require('../../logger/elk/elk-logger');
 module.exports = function (districtId,siteId) {
 
     var response;
     var getFOEndpoint = '/Api/FieldOfficer/Get/?districtId='+districtId+'&siteId='+siteId;
     var fullUrl = service.vars.server_name + getFOEndpoint;
-    console.log('####FULL-URL: ' + fullUrl);
     var opts = { headers: {} };
     opts.headers['Authorization'] = 'Token ' + service.vars.roster_api_key;
     opts.method = 'GET';
@@ -15,13 +14,13 @@ module.exports = function (districtId,siteId) {
             return response.content;
         }
         else {
-            console.log('failure registering');
-            slack.log('Failed to get Fo info: ' + JSON.stringify(response));
+            var logger = new Log();
+            logger.warn('Failed to get Fo info',{data: response});
             stopRules();
             return null;
         }
     } catch (e) {
-        console.log('Error' + e);
-        slack.log('Failed to get Fo info: ' + e);
+        var log = new Log();
+        log.error('Failed to get Fo info', {data: e});
     }  
 };

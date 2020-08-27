@@ -12,9 +12,9 @@ module.exports = function(account_number){
     api.verbose = true;
     api.loadURLAndAPIKey(); //todo: make more general
     try{
-        client_auth = api.authClient(account_number, country);
+        var client_auth = api.authClient(account_number, country);
         if(client_auth){
-            var client = api.getClient(account_number);
+            client = api.getClient(account_number);
             state.vars.client_json = JSON.stringify(client);
             console.log('####clientJSON: '+JSON.stringify(client));
             
@@ -26,7 +26,7 @@ module.exports = function(account_number){
             state.vars.client_SiteId = client.SiteId;
             console.log('name: ' + state.vars.client_name);
             console.log('district: ' + state.vars.client_district);
-            console.log('site: ' + state.vars.client_site)
+            console.log('site: ' + state.vars.client_site);
             return true;
         }
         else{
@@ -34,9 +34,16 @@ module.exports = function(account_number){
         }
     }
     catch(error){
-            console.log('error : ' + error);
-            admin_alert = require('./admin-alert')
-            admin_alert('API failure on account number ' + account_number + '\nError : ' + error + '\n' + JSON.stringify(client));
-            return false;
+        var Log  = require('../../logger/elk/elk-logger');
+        var logger = new Log();
+        var errorMessage = 'API failure on account number ' + account_number;
+        logger.error(errorMessage, {
+            data: {
+                account_number: account_number,
+                error: error,
+                client: client
+            }
+        });
+        return false;
     }
 };

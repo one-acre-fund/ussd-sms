@@ -3,6 +3,7 @@ global._= underscore;
 global.sendMessage = jest.fn();
 global.addInputHandler = jest.fn();
 global.project = {
+    name: 'mock-project-name',
     vars: {
         new_line: '~B',
         lang: 'en',
@@ -29,6 +30,7 @@ global.httpClient = {
 global.stopRules = jest.fn();
 
 global.service = {
+    name: 'mock-service-name',
     phone_number: {},
     vars: {
         env: 'dev'

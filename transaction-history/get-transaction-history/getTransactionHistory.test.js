@@ -1,7 +1,7 @@
 const getTransactionHistory = require('./getTransactionHistory');
-const slack = require('../../slack-logger');
+const Log = require('../../logger/elk/elk-logger');
 
-jest.mock('../../slack-logger');
+jest.mock('../../logger/elk/elk-logger');
 
 const mockClient = {
     'GlobalClientId': '420057ed-de54-e711-b69c-79a8s798794',
@@ -22,6 +22,11 @@ const mockClientRepayments = [{a: '1'}, {b: '2'}, {c: '3'}];
 const mockResponseData = JSON.stringify(mockClientRepayments);
 
 describe('getTransactionHistory', () => {
+    let mockLogger;
+    beforeEach(() => {
+        mockLogger ={ error: jest.fn() };
+        Log.mockReturnValue(mockLogger);
+    });
     it('should be a function', () => {
         expect(getTransactionHistory).toBeInstanceOf(Function);
     });
@@ -41,21 +46,28 @@ describe('getTransactionHistory', () => {
         const result = getTransactionHistory(mockClient);
         expect(result).toEqual(mockClientRepayments);
     });
-    it('should call slack when the response code is not 200', () => {
-        httpClient.request.mockReturnValueOnce({status: 404, content: mockResponseData});
+    it('should log an error when the response code is not 200', () => {
+        const mockResponse = { status: 404, content: mockResponseData };
+        httpClient.request.mockReturnValueOnce(mockResponse);
         getTransactionHistory(mockClient);
-        expect(slack.log).toHaveBeenCalled();
+        expect(mockLogger.error).toHaveBeenCalledWith(
+            'Failed to fetch client transactions', 
+            {data: mockResponse}
+        );
     });
     it('should return an empty array if the response code is not 200', () => {
         httpClient.request.mockReturnValueOnce({status: 401, content: mockResponseData});
         const result = getTransactionHistory(mockClient);
         expect(result).toEqual([]);
     });
-    it('should cann slack when the request throws an error', () => {
-        httpClient.request.mockImplementationOnce(()=>{throw 'Oh no an Error';});
-        slack.log.mockClear();
+    it('should log an error when the request throws an error', () => {
+        const error = new Error ('Oh no an Error');
+        httpClient.request.mockImplementationOnce(()=>{throw error;});
         getTransactionHistory(mockClient);
-        expect(slack.log).toHaveBeenCalledWith(expect.stringContaining('Error fetching client transactions: Oh no an Error'));        
+        expect(mockLogger.error).toHaveBeenCalledWith(
+            'Error fetching client transactions', 
+            {data: error}
+        );        
     });
     it('shoud return an empty array if the request throws an error', () => {
         httpClient.request.mockImplementationOnce(()=>{throw 'Oh no an Error';});
