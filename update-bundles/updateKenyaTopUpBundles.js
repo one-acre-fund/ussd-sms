@@ -16,7 +16,7 @@ service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key']; 
 service.vars.inputTableId = 'DT545a7c5683114b75';
 
-var districts = require('./topUpKenyaDistricts');
+var districts = JSON.parse(service.vars.districts);
 var updateBundlesHelperFunctions= require('./updateBundlesHelperFunctions');
 
 

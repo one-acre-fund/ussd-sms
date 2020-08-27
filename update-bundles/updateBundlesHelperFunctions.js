@@ -33,6 +33,7 @@ function fetchDistrictBundles(districtId) {
 function processBundles(districtBundles, districtId) {
     var processedBundles = [];
     districtBundles.bundles.forEach(function (bundle) {
+        
         var bundleInput;
         districtBundles.bundleInputs.forEach(function (bi) {
             if (bi.BundleId === bundle.BundleId) {
@@ -82,7 +83,7 @@ function addProcessedBundlesToDistrict(processedBundles, districtId) {
                 'increment': pb.increment,
                 'input_name': pb.input_name,
                 'bundle_name': pb.bundle_name,
-                'bundleType': pb.BundleTypeId,
+                'bundleType': pb.BundleType,
                 'acceptableQuantityList': pb.acceptableQuantityList,
                 'max': pb.max,
                 'min': pb.min,
@@ -108,7 +109,7 @@ function addProcessedBundlesToDistrict(processedBundles, districtId) {
                     'sw': pb.sw,
                     'max': pb.max,
                     'min': pb.min,
-                    'bundleType': pb.BundleTypeId,
+                    'bundleType': pb.BundleType,
                     'acceptableQuantityList': pb.acceptableQuantityList,
                     'price': pb.price,
                     'option_number': nextOptionNumber,
