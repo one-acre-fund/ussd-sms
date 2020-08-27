@@ -20,9 +20,9 @@ module.exports = {
         'sw': '$label Endelea\n',
     },
     'back': {
-        'en': '$label Go back',
-        'ki': '$label Subira inyuma',
-        'sw': '$label Rudi nyuma'
+        'en': '$label) Go back',
+        'ki': '$label) Subira inyuma',
+        'sw': '$label) Rudi nyuma'
     },
     'group_members_repayments': {
         'en': '$prefix) $firstName $lastName: $balance $currency\n',
