@@ -32,7 +32,7 @@ module.exports = function registeredConfirmedHandler(input) {
 
     if(Object.keys(confirmedScreens).length > 1 || Object.keys(registeredScreens).length > 0) {
         promptDigits('next_farmers_list', {
-            maxDigits: 1,
+            maxDigits: 2,
             timeout: 10,
             submitOnHash: false
         });

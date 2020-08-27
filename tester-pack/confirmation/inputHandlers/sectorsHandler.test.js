@@ -21,7 +21,7 @@ describe('Sectors handler', () => {
 
     it('should prompt a user for a cell when their input matches a stored sector', () => {
         state.vars.sectors = JSON.stringify({'1': 'Gitega', '2': 'Cyahafi', '3': 'Nyamirambo'});
-        state.vars.sectors_screens = JSON.stringify({'1': '1) Gitega\n2) Cyahafi\n* Komeza', '2': '3) Nyamirambo'});
+        state.vars.sectors_screens = JSON.stringify({'1': '1) Gitega\n2) Cyahafi\n77) Komeza', '2': '3) Nyamirambo'});
         state.vars.selected_provence = 2;
         state.vars.selected_district = 1;
         const cursor = {queryRows: () => table_cursor};
@@ -49,10 +49,10 @@ describe('Sectors handler', () => {
 
     it('should handle the option for next screen', () => {
         state.vars.sectors = JSON.stringify({'1': 'Gitega', '2': 'Cyahafi', '3': 'Nyamirambo'});
-        state.vars.sectors_screens = JSON.stringify({'1': '1) Gitega\n2) Cyahafi\n* Komeza', '2': '3) Nyamirambo'});
+        state.vars.sectors_screens = JSON.stringify({'1': '1) Gitega\n2) Cyahafi\n77) Komeza', '2': '3) Nyamirambo'});
         state.vars.current_sectors_screen = 1;
         project.getOrCreateDataTable = jest.fn();
-        sectorHandler('*');
+        sectorHandler(77);
         expect(state.vars.current_sectors_screen).toEqual(2);
         expect(sayText).toHaveBeenCalledWith('3) Nyamirambo');
         expect(promptDigits).toHaveBeenCalledWith('select_sector', {'maxDigits': 2, 'submitOnHash': false, 'timeout': 5});
@@ -60,7 +60,7 @@ describe('Sectors handler', () => {
 
     it('should ask a user to retry once their input doesn\'t match any sector', () => {
         state.vars.sectors = JSON.stringify({'1': 'Gitega', '2': 'Cyahafi', '3': 'Nyamirambo'});
-        state.vars.sectors_screens = JSON.stringify({'1': '1) Gitega\n2) Cyahafi\n* Komeza', '2': '3) Nyamirambo'});
+        state.vars.sectors_screens = JSON.stringify({'1': '1) Gitega\n2) Cyahafi\n77) Komeza', '2': '3) Nyamirambo'});
         state.vars.current_sectors_screen = 2;
         project.getOrCreateDataTable = jest.fn();
         sectorHandler('@');

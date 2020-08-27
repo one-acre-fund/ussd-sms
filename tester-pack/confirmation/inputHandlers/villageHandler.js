@@ -50,7 +50,7 @@ module.exports = function villageHandler(input) {
             maxDigits: 2,
             submitOnHash: false
         });
-    } else if(input === '*' && villages_screen[current_villages_screen + 1]) {
+    } else if(input == 77 && villages_screen[current_villages_screen + 1]) {
         state.vars.current_villages_screen = current_villages_screen + 1;
         sayText(villages_screen[state.vars.current_villages_screen]);
         promptDigits('select_village', {
