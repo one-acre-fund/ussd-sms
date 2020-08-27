@@ -17,6 +17,7 @@ service.vars.server_name = project.vars[env + '_server_name'];
 service.vars.roster_api_key = project.vars[env + '_roster_api_key'];
 service.vars.roster_read_key = project.vars.roster_read_key;
 service.vars.varieties_table_id = project.vars[env + '_varieties_table_id'];
+service.vars.buy_back_transactions_table_id = project.vars[env + '_buy_back_transactions_table_id'];
 
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var lang = project.vars.lang;
