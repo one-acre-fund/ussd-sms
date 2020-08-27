@@ -1,17 +1,19 @@
-var changeOrderCofrm = require('./change-order-confirmation');
-var changeOrderHandler = require('./change-order-handler');
-var placeOrderHandler = require('./place-order-handler');
-var possibleOrderHandler = require('./possible-order-handler');
-var chickenEligibility = require('./chicken-eligibility/index');
+var changeOrderCofrm = require('./change-order-confirmation/changeOrderConfirmation');
+var changeOrderHandler = require('./change-order-handler/changeOrderHandler');
+var placeOrderHandler = require('./place-order-handler/placeOrderHandler');
+var possibleOrderHandler = require('./possible-order-handler/possibleOrderHandler');
+var chickenEligibility = require('./chicken-eligibility/chickenEligibility');
 var notifyELK = require('../notifications/elk-notification/elkNotification'); 
+var CheckChickenCapByDistrict = require('./check-chicken-cap-by-district/CheckChickenCapByDistrict');
 const {client}  = require('./test-client-data'); 
 
-jest.mock('./change-order-confirmation');
-jest.mock('./change-order-handler');
-jest.mock('./place-order-handler');
-jest.mock('./possible-order-handler');
-jest.mock('./chicken-eligibility');
+jest.mock('./change-order-confirmation/changeOrderConfirmation');
+jest.mock('./change-order-handler/changeOrderHandler');
+jest.mock('./place-order-handler/placeOrderHandler');
+jest.mock('./possible-order-handler/possibleOrderHandler');
+jest.mock('./chicken-eligibility/chickenEligibility');
 jest.mock('../notifications/elk-notification/elkNotification');
+jest.mock('./check-chicken-cap-by-district/CheckChickenCapByDistrict');
 
 const mockChangeOrderCofrm = jest.fn();
 const mockChangeOrderHandler = jest.fn();
@@ -21,9 +23,16 @@ const mockPossibleOrderHandler = jest.fn();
 
 chickenEligibility.mockReturnValue(0);
 
-const chickenServices = require('.');
+const chickenServices = require('./chickenServices');
 const account = 123456789;
 const country = 'UG';
+const mockCursor = { 
+    next: jest.fn(), 
+    hasNext: jest.fn()
+};
+const mockTable = { queryRows: jest.fn() };
+var mockRow ={vars: { ordered_chickens: 10, confirmed: 1},save: jest.fn()};
+
 describe('ChickenServices', () => {
 
     it('should have a start function', () => {
@@ -78,17 +87,11 @@ describe('ChickenServices', () => {
             chickenServices.start(account, country);
             expect(notifyELK).toHaveBeenCalled();
         });
-        it('should show a place order chicken message if no chicken ordered', () => {
+        it('should show a place order chicken next season message if no chicken is ordered', () => {
             state.vars.chcken_nber = 0;
             chickenServices.start(account, country);
-            expect(sayText).toHaveBeenCalledWith('Press 1 if you\'d like to order and confirm chickens 1: Continue 0: Return home');
+            expect(sayText).toHaveBeenCalledWith('Sorry, you did not order chickens so you are not allowed to confirm chickens. Order chickens next season!');
             expect(sayText).toHaveBeenCalledTimes(1);
-        });
-        it('should show a prompt placeOrderHandler if order is no chicken ordered', () => {
-            state.vars.chcken_nber = 0;
-            chickenServices.start(account, country);
-            expect(promptDigits).toHaveBeenCalledWith(placeOrderHandler.handlerName);
-            expect(promptDigits).toHaveBeenCalledTimes(1);
         });
         it('should show a change chicken message if chicken confimed', () => {
             state.vars.confirmed_chicken = true;
@@ -117,8 +120,9 @@ describe('ChickenServices', () => {
             chickenServices.start(account, country);
             expect(promptDigits).not.toBeCalled();
         });
-        it('should show a chicken_possible_nber message if the client met minumum payment', () => {
+        it('should show a chicken_possible_nber message if the client met minumum payment and the number of caps is not reached', () => {
             state.vars.minimum_amount_paid = true;
+            CheckChickenCapByDistrict.mockReturnValue(4);
             state.vars.max_chicken = number;
             chickenServices.start(account, country);
             expect(sayText).toHaveBeenCalledWith(`Hello ${client.FirstName} `
@@ -126,13 +130,83 @@ describe('ChickenServices', () => {
             +'number of chickens. How many would you like to confirm? 0: Return home');
             expect(sayText).toHaveBeenCalledTimes(1);
         });
-        it('should call onPayment Validated if minimum payment is met', () => {
+        it('should call onPayment Validated if minimum payment is met and the number of caps is not reached', () => {
             state.vars.minimum_amount_paid = true;
+            CheckChickenCapByDistrict.mockReturnValue(4);
             state.vars.max_chicken = number;
             chickenServices.start(account, country);
             expect(promptDigits).toHaveBeenCalledWith(possibleOrderHandler.handlerName);
         });
+        it('should show a message telling the farmer to try again next month if the number of caps is  reached', () => {
+            state.vars.minimum_amount_paid = true;
+            CheckChickenCapByDistrict.mockReturnValue(false);
+            state.vars.max_chicken = number;
+            chickenServices.start(account, country);
+            expect(sayText).toHaveBeenCalledWith('We are very sorry, we have reached the limit of chickens for this month. Please try to confirm your chickens again next month!');
+        });
     });
 
+    describe('place Order Handler Success callback',()=>{
+        var callback;
+        beforeEach(() => {
+            chickenServices.registerHandlers();
+            callback = placeOrderHandler.getHandler.mock.calls[0][0];                
+        });
+        it('should show the possible number of chicken message and propmt for a number',()=>{
+            callback();
+            expect(sayText).toHaveBeenCalledWith(`Hello ${client.FirstName} `
+            +`you are eligible to purchase 2 - ${number} `
+            +'number of chickens. How many would you like to confirm? 0: Return home');
+            expect(promptDigits).toHaveBeenCalledWith(possibleOrderHandler.handlerName);
 
+        });
+    });
+   
+    describe('possible order handler success callback',()=>{
+        var callback;
+        beforeEach(() => {
+            chickenServices.registerHandlers();
+            callback = possibleOrderHandler.getHandler.mock.calls[0][0];                
+        });
+        it('should show a confirmation message with the number of chiken chosen and prompt for an answer',()=>{
+            state.vars.confirmed_number = 3;
+            callback();
+            expect(sayText).toHaveBeenCalledWith(`You are confirming ${ state.vars.confirmed_number}`+
+            ` chickens. Your total credit for chickens is ${ state.vars.confirmed_number *2400}`+
+            ' Rwf. Your chickens will be ready within 2 months! 1: Confirm 0: Return home');
+            expect(promptDigits).toHaveBeenCalledWith(changeOrderCofrm.handlerName);
+        });
+    });
+
+    describe('change order confirmation success callback',()=>{
+        var callback;
+        beforeAll(()=>{
+            project.initDataTableById.mockReturnValue(mockTable);
+            mockTable.queryRows.mockReturnValue(mockCursor);
+        });
+        beforeEach(() => {
+            chickenServices.registerHandlers();
+            callback = changeOrderCofrm.getHandler.mock.calls[0][0];                
+        });
+
+        it('shoud set the rows and save the client infos',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValue(mockRow);
+            callback();
+            expect(mockRow.vars.confirmed).toBe(1);
+            expect(mockRow.vars.first_name).toBe(client.FirstName);
+            expect(mockRow.vars.last_name).toBe(client.LastName);
+            expect(mockRow.vars.site).toBe(client.SiteName);
+            expect(mockRow.vars.district).toBe(client.DistrictName);
+            expect(mockRow.vars.group).toBe(client.GroupName);
+            expect(mockRow.vars.ordered_chickens).toBe(state.vars.confirmed_number);
+            expect(mockRow.save).toHaveBeenCalled();
+        });
+        it('should not save if no client is found in the db',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(false);
+            callback();
+            expect(mockRow.save).not.toHaveBeenCalled();
+
+        });
+    });
 });

@@ -15,6 +15,14 @@ module.exports = {
         'en': 'Sorry, you have not reached your minimum prepayment amount to confirm chickens. Please complete your prepayment if you want to confirm them.',
         'ki': 'Ihangane, Ntago wishyuye ubwishyu bwibanze busabwa kugirango wemeze inkoko. Ishyura ubwishyu bwibanze usabwa bwose niba ushaka kwemeza inkoko.'
     },
+    'chicken_confirmation_not_allowed': {
+        'en': 'Sorry, you did not order chickens so you are not allowed to confirm chickens. Order chickens next season!',
+        'ki': 'Ihangane, ntabwo watumije inkoko,ntiwemerewe kwemeza inkoko. uzazitumize mu gihembwe gitaha!'
+    },
+    'chicken_cap_reached': {
+        'en': 'We are very sorry, we have reached the limit of chickens for this month. Please try to confirm your chickens again next month!',
+        'ki': 'Mutwihanganire, twageze ku mubare ntarengwa w\'inkoko muri uku kwezi. Nyaboneka uzongere ugerageze mu kwezi gutaha! '
+    },
     'chicken_oder_out_of_bound': {
         'en': 'You must confirm a number between 2- $number. How many chickens would you like to confirm? 0: Back to main menu',
         'ki': 'Ihangane, wemerewe kwemeza inkoko ziri hagati ya 2 na $number gusa. Ongera ugerageze.0: Garuka inyuma'

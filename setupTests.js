@@ -12,6 +12,7 @@ global.project = {
     vars: {
         new_line: '~B',
         lang: 'en',
+        cor_lang: 'en',
         console_lang: 'en',
         elk_logs_base_url: 'https://example.logs.io'
     },
