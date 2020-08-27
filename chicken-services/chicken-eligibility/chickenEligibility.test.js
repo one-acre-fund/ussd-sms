@@ -1,5 +1,5 @@
 const Log = require('../../logger/elk/elk-logger');
-const chickenEligibility = require('./index');
+const chickenEligibility = require('./chickenEligibility');
 const {client}  = require('../test-client-data');
 
 jest.mock('../../logger/elk/elk-logger');
