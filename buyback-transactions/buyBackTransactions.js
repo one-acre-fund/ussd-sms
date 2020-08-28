@@ -2,14 +2,16 @@ var translations = require('./translations/index');
 var translator = require('../utils/translator/translator');
 var cropsHandler = require('./inputHandlers/cropsInputHandler');
 var varietiesHandler = require('./inputHandlers/varietiesInputHandler');
-// var kgsInputHandler = require('./inputHandlers/kgsInputHandler');
+var kgsInputHandler = require('./inputHandlers/kgsInputHandler');
+var phoneNumberInputHandler = require('./inputHandlers/phoneNumberHandler');
 
 var crops = {'1': 'Groundnuts', '2': 'Rice', '3': 'Pigeon peas'};
 
 function registerInputHandlers(){
     addInputHandler(cropsHandler.handlerName, cropsHandler.Handler);
-    addInputHandler(varietiesHandler.handlerName, varietiesHandler.Handler);
-    // addInputHandler(kgsInputHandler.handlerName, kgsInputHandler.Handler);
+    addInputHandler(varietiesHandler.handlerName, varietiesHandler.handler);
+    addInputHandler(kgsInputHandler.handlerName, kgsInputHandler.handler);
+    addInputHandler(phoneNumberInputHandler.handlerName, phoneNumberInputHandler.handler);
 }
 
 function start(){
