@@ -1,6 +1,7 @@
 module.exports = {
     '29646': {
         'name': 'Rwamagana',
+        '8': 10000,
         '9': 4000,
         '10': 5000,
         '11': 6500,
@@ -12,6 +13,7 @@ module.exports = {
     },
     '27646': {
         'name': 'Kayonza',
+        '8': 10000,
         '9': 4000,
         '10': 4000,
         '11': 4000,
@@ -22,6 +24,7 @@ module.exports = {
     },
     '23646': {
         'name': 'Ngoma',
+        '8': 10000,
         '9': 4000,
         '10': 6000,
         '11': 6000,
@@ -32,7 +35,7 @@ module.exports = {
     },
     '5646': {
         'name': 'Huye',
-        '8': 10,// for testing purposes. The system will go live in september 
+        '8': 10000,// for testing purposes. The system will go live in september 
         '9': 4000,
         '10': 4300,
         '11': 5600,
@@ -43,6 +46,7 @@ module.exports = {
     },
     '9646': {
         'name': 'Gisagara',
+        '8': 10000,
         '9': 4000,
         '10': 4300,
         '11': 5600,
@@ -53,6 +57,7 @@ module.exports = {
     },
     '3646': {
         'name': 'Karongi',
+        '8': 10000,
         '9': 3000,
         '10': 3000,
         '11': 3500,
@@ -63,6 +68,7 @@ module.exports = {
     },
     '4646': {
         'name': 'Rutsiro',
+        '8': 10000,
         '9': 3000,
         '10': 3000,
         '11': 4000,
@@ -73,6 +79,7 @@ module.exports = {
     },
     '2646': {
         'name': 'Rusizi',
+        '8': 10000,
         '9': 4000,
         '10': 5000,
         '11': 8004,
