@@ -51,6 +51,13 @@ service.vars.roster_read_key = project.vars.roster_read_key;
 service.vars.lr_2021_client_table_id = project.vars[env+'_lr_2021_client_table_id'];
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 
+if(env == 'prod'){
+    service.vars.topUpBundleTableId = 'DT891c89e9a82b6841';
+}
+else{
+    service.vars.topUpBundleTableId = 'DT545a7c5683114b75';
+}
+
 var MenuCount = 0;
 var MenuNext = false;
 var LocArray="";
