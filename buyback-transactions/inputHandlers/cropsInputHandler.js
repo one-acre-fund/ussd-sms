@@ -5,17 +5,19 @@ var varietiesHandler = require('./varietiesInputHandler');
 
 var cropsHandlerName = 'crops';
 
-function getVarietiesByCrop(crop) {
-    var varietiesTable = project.initDataTableById(service.vars.varieties_table_id);
+function getVarietiesByCrop(crop, table) {
+    var varietiesTable = project.initDataTableById(table);
     var varieties_cursor = varietiesTable.queryRows({
-        vars: {
+        'vars': {
             'crop': crop
         }
     });
+    console.log('cursor: ' + JSON.stringify(varieties_cursor));
     var varieties = {};
     var label = 1;
     while(varieties_cursor.hasNext()){
         //loop through crop varieties
+        console.log('reaching');
         var row = varieties_cursor.next();
         varieties[label] = {variety: row.vars.variety, price: row.vars.price_per_kg};
         label = label + 1;
@@ -34,7 +36,7 @@ module.exports = {
         if(crop) {
             state.vars.selected_crop = crop;
             // get the varieties by crop
-            var varieties = getVarietiesByCrop(crop);
+            var varieties = getVarietiesByCrop(crop, service.vars.varieties_table_id);
             if(Object.keys(varieties).length > 1){
                 state.vars.varieties = JSON.stringify(varieties);
                 var varietiesMenu = crop + ' Varieties\n';

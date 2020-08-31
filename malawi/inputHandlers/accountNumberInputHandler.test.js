@@ -19,8 +19,16 @@ describe('account number input handler', () => {
         expect(sayText).toHaveBeenCalledWith('Incorrect input. Please re-enter the account number (8 digits)');
     });
     it('should validate the registered account number successfully', () => {
-        getClient.mockReturnValue({client: {accountNumber: '12000123', name: 'Adonis Lags'}});
+        getClient.mockReturnValue({client: {
+            AccountNumber: '28951336',
+            ClientName: 'Ge, No',
+            FirstName: 'No',
+            LastName: 'Ge'}});
         accountNumberHandler('12000123');
-        expect(buybackTransactions.start).toHaveBeenCalled();
+        expect(buybackTransactions.start).toHaveBeenCalledWith({           
+            AccountNumber: '28951336',
+            ClientName: 'Ge, No',
+            FirstName: 'No',
+            LastName: 'Ge'});
     });
 });

@@ -29,4 +29,11 @@ describe('Kgs input handler', () => {
             maxDigits: 10
         });
     });
+
+    it('should save the kgs into the transaction volume state vaiable', () => {
+        state.vars.client = JSON.stringify({ClientName: 'Jon doe', BalanceHistory: [{balance: 4200}]});
+        state.vars.selected_variety = JSON.stringify({price_per_kg: 250, crop: 'rice', variety: 'inyombe'});
+        kgsInputHandler.handler(5);
+        expect(state.vars.transaction_volume).toBe(5);
+    });
 });
