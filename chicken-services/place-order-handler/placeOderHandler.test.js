@@ -1,28 +1,21 @@
-const {handlerName,getHandler} = require ('.');
+const {handlerName,getHandler} = require ('./placeOrderHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification'); 
-const mockClientName = [{FirstName: 'hello'}];
-const mockResponseName = JSON.stringify(mockClientName);
+var backToMain = require('../../rw-legacy/lib/backToMainMenu');
 
+jest.mock('../../rw-legacy/lib/backToMainMenu');
 jest.mock('../../notifications/elk-notification/elkNotification');
 describe('change_order_handler', () => {
-    var changeOrderHandler;
+
     var onPaymentValidated;
+    var changeOrderHandler;
     const minimum_amount_paid = true;
-    var name = 'hello';
-    var number = 10;
+
     beforeEach(() => {
         sayText.mockReset();
         JSON.parse = jest.fn();
         onPaymentValidated = jest.fn();
         state.vars.minimum_amount_paid = minimum_amount_paid;
-        state.vars.client_json = mockResponseName;
-        state.vars.chcken_nber = number;
-        changeOrderHandler = getHandler(onPaymentValidated);
-        JSON.parse = jest.fn().mockImplementationOnce(() => {
-            return {FirstName: name};
-        });
-        
-        
+        changeOrderHandler = getHandler(onPaymentValidated);     
     });
     it('should be a function', () => {
         expect(changeOrderHandler).toBeInstanceOf(Function);
@@ -30,6 +23,10 @@ describe('change_order_handler', () => {
     it('should call notifyELK ', () => {
         changeOrderHandler('1');
         expect(notifyELK).toHaveBeenCalled();
+    });
+    it('should return the user to main if 0 is selected', () => {
+        changeOrderHandler('0');
+        expect(backToMain).toHaveBeenCalled();
     });
     it('should show a message saying they don\'t meet requirements if repayment is small', () => {
         project.vars.lang = 'en';
@@ -43,22 +40,14 @@ describe('change_order_handler', () => {
         changeOrderHandler('1');
         expect(sayText).not.toHaveBeenCalled();
     });
-    it('should show a message for retry if is not zero or one', () => {
-        project.vars.lang = 'en';
-        changeOrderHandler('7');
-        expect(sayText).toHaveBeenCalledWith(`Invaid input, please try again.  Hello ${name} `
-        + `You have already confirmed ${number} `+
-        'number of chicken. 1: Change confirmation 0: Return home');
+    it('should call the onPaymentValidated handler if the repayment is satisfied', () => {
+        changeOrderHandler('1');
+        state.vars.minimum_amount_paid = true;
+        expect(onPaymentValidated).toBeCalled();
     });
     it('should show prompt for re-entry if unexpected input', () => {
         project.vars.lang = 'en';
         changeOrderHandler('7');
         expect(promptDigits).toHaveBeenCalledWith(handlerName);
     });
-    it('should call the onPaymentValidated handler if the repayment is satisfied', () => {
-        changeOrderHandler('1');
-        state.vars.minimum_amount_paid = true;
-        expect(onPaymentValidated).toBeCalled();
-    });
-
 });

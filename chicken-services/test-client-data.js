@@ -16,7 +16,7 @@ var client = {
     'GroupName': 'BIKUWERAKI',
     'SiteId': 22,
     'SiteName': 'Mafubira Buwekula',
-    'DistrictId': 2800,
+    'DistrictId': 546,
     'DistrictName': 'Jinja',
     'RegionId': 1800,
     'RegionName': 'South East',
