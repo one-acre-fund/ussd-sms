@@ -19,6 +19,7 @@ service.vars.roster_read_key = project.vars.roster_read_key;
 var translations = require('./translations/index');
 var translator = require('../utils/translator/translator');
 var lang = project.vars.lang;
+state.vars.lang = lang;
 var getMessage = translator(translations, lang);
 
 global.main = function() {

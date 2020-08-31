@@ -9,14 +9,19 @@ module.exports = {
         'en': '99) Kiswahili',
         'sw': '99) English'
     },
-    'services': {
+    'select_service': {
         'en-ke': 'Select service\n$Menu',
         'en': 'Select service\n$Menu',
         'sw': 'Chagua huduma\n$Menu'
     },
     'register': {
-        'en-ke': 'Register Client',
-        'en': 'Register Client',
-        'sw': 'Kusajili Mteja'
+        'en-ke': '$option) Register Client',
+        'en': '$option) Register Client',
+        'sw': '$option) Kusajili Mteja'
+    },
+    'invalid_input': {
+        'en-ke': 'invalid input\n$Menu',
+        'en': 'invalid input\n$Menu',
+        'sw': 'Nambari sio sahihi\n$Menu'
     }
 };
