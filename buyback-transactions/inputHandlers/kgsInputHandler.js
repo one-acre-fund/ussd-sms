@@ -11,6 +11,7 @@ module.exports = {
     
         var kgs = Math.round(input);
         if(kgs > 0){
+            state.vars.transaction_volume = kgs;
             var selected_variety = JSON.parse(state.vars.selected_variety);
             var client = JSON.parse(state.vars.client);
             var currentSeason = client.BalanceHistory[0];

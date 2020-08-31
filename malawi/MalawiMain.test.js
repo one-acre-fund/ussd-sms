@@ -10,6 +10,7 @@ describe('Malawi legacy', () => {
                 dev_roster_api_key: 'Sample API key',
                 roster_read_key: 'roster_Read_key',
                 dev_varieties_table_id: 'dev_varieties_table_id',
+                dev_buy_back_transactions_table_id: 'dev_buy_back_transactions_table_id',
                 lang: 'en-mw'
             }
         };
@@ -23,6 +24,7 @@ describe('Malawi legacy', () => {
         expect(service.vars.roster_api_key).toEqual('Sample API key');
         expect(service.vars.roster_read_key).toEqual('roster_Read_key');
         expect(service.vars.varieties_table_id).toEqual('dev_varieties_table_id');
+        expect(service.vars.buy_back_transactions_table_id).toEqual('dev_buy_back_transactions_table_id');
     });
 
     it('should start the main service and promt user for account number', () => {

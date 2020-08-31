@@ -14,10 +14,17 @@ function registerInputHandlers(){
     addInputHandler(phoneNumberInputHandler.handlerName, phoneNumberInputHandler.handler);
 }
 
-function start(){
+/**
+ * Starts the buyback transaction record
+ * @param {Object} client client object with details of a farmer in the session 
+ */
+function start(client){
     var lang = state.vars.lang;
     var getMessage = translator(translations, lang);
     state.vars.crops = JSON.stringify(crops);
+    state.vars.account_number = client.AccountNumber;
+    state.vars.first_name = client.FirstName;
+    state.vars.last_name = client.LastName;
     var cropsMenu = getMessage('crops', {}, lang);
     sayText(cropsMenu);
     promptDigits(cropsHandler.handlerName, {
