@@ -1,5 +1,6 @@
 const accountNumberInputHandler = require('./accountNumberInputHandler');
 var getClient = require('../../shared/rosterApi/getClient');
+var serviceHandler = require('./serviceInputHandler');
 
 jest.mock('../../shared/rosterApi/getClient');
 
@@ -39,6 +40,6 @@ describe('duka client', () => {
         state.vars.lang = 'en-ke';
         accountNumberInputHandler.handler('00');
         expect(sayText).toHaveBeenCalledWith('Select service\n1) Register Client');
-        expect(promptDigits).toHaveBeenCalledWith('select_service', {'maxDigits': 2, 'submitOnHash': false});
+        expect(promptDigits).toHaveBeenCalledWith(serviceHandler.handlerName, {'maxDigits': 2, 'submitOnHash': false});
     });
 });

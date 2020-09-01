@@ -1,6 +1,7 @@
 var translations = require('../translations/index');
 var translator = require('../../utils/translator/translator');
 var getClient = require('../../shared/rosterApi/getClient');
+var serviceHandler = require('./serviceInputHandler');
 
 var accountNumberHandlerName = 'account_number';
 
@@ -22,16 +23,18 @@ module.exports =
             var changeLang = getMessage('lang', {}, lang);
             var splashMenu = getMessage('splash', {}, lang); + changeLang;
             sayText(splashMenu);
-            promptDigits('account_number', {
+            promptDigits(accountNumberHandlerName, {
                 maxDigits: 8,
                 submitOnHash: false,
             });
         } else {
             var client = getClient(result, 'kenya');
             if(client) {
-                var mainMenu = getMessage('register', {'$option': 1}, lang);
-                sayText(getMessage('select_service', {'$Menu': mainMenu}, lang));
-                promptDigits('select_service', {
+                var options = getMessage('register', {'$option': 1}, lang);
+                var main_menu = getMessage('select_service', {'$Menu': options}, lang);
+                state.vars.main_menu = main_menu;
+                sayText(main_menu);
+                promptDigits(serviceHandler.handlerName, {
                     maxDigits: 2,
                     submitOnHash: false,
                 });
