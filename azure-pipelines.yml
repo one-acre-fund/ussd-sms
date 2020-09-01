@@ -26,7 +26,7 @@ steps:
 - script: npm run lint
   displayName: 'Run Eslint'
 
-- script: npm run test
+- script: npm test
   displayName: 'run tests and output coverage'
 
 - task: PublishCodeCoverageResults@1
