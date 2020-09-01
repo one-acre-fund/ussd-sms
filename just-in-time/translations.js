@@ -19,5 +19,13 @@ module.exports = {
     'bundle_title': {
         'en-ke': 'Select a product',
         'sw': 'Chagua product'
+    },
+    'order_placed': {
+        'en-ke': 'Order placed\n $orders \n 1) Add product\n 2) Finish ordering',
+        'sw': 'Bidhaa ulizo agiza\n $orders \n 1) Ongeza bidhaa\n 2) Maliza ombi'
+    },
+    'final_order_diplay': {
+        'en-ke': 'Order placed\n $orders \n1) Confirm order',
+        'sw': 'Bidhaa ulizo agiza\n $orders \n1) kudhibitisha'
     }
 };

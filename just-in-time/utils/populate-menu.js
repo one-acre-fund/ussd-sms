@@ -6,9 +6,9 @@ module.exports = function(lang, max_chars, content){
     
     console.log('lang is:' +lang);
     var translate =  createTranslator(translations, lang);
-    var prev_page = translate('prev_page');
-    var next_page = translate('next_page');
-    var title = translate('bundle_title');
+    var prev_page = translate('prev_page', {}, lang);
+    var next_page = translate('next_page', {}, lang);
+    var title = translate('bundle_title', {}, lang);
     var optionsLength = content.length;
     var finalMenu = title+'';
     var currentMenu = '';
