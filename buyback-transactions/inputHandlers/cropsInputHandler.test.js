@@ -12,7 +12,7 @@ describe('Crops input handler', () => {
     jest.spyOn(project, 'initDataTableById').mockReturnValue(mockTable);
 
     beforeAll(() => {
-        global.state = { vars: {lang: 'en'} };
+        global.state = { vars: {lang: 'en-mw'} };
     });
     beforeEach(() => {
         jest.resetModules();

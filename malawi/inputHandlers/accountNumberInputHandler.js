@@ -14,7 +14,6 @@ module.exports = function(input){
         });
     } else {
         // spin the buyback implementation
-        state.vars.client = JSON.stringify(client.client);
-        buybackTransactions.start();
+        buybackTransactions.start(client.client);
     } 
 };
