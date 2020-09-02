@@ -1089,7 +1089,7 @@ var CheckBalanceMenuText = function (Overpaid,Season,Credit,Paid,Balance){
 };
 
 var TrainingMenuText = function (){
-    if (GetLang()){sayText("1:Tree Transplanting\n2:Tree Bag Planting\n3:Tree Socketing\n4:Sorghum Weeding\n5:Maize Topdress\n6:Maize Intercrop\n7:Maize Harvest\n0:MORE")}
+    if (GetLang()){sayText("1:Tree Transplanting\n2:Tree Bag Planting\n3:Tree Socketing\n4:Sorghum Weeding\n5:Maize Topdress\n6:Maize Intercrop\n7:Maize Harvest\n8:Maize\n0:MORE")}
     else {sayText("1:Kupanda Miti\n2:Kupanda miti mifukoni\n3:Socketing Miti\n4:Kupalilia Wimbi\n5:TopDress\n6:Kupanda Mahindi/Maharagwe\n7:Kuvuna Mahindi\n0:Endelea")}
 };
 
@@ -1849,6 +1849,15 @@ addInputHandler('MainMenu', function(SplashMenu){
     else if(sessionMenu[SplashMenu-1].option_name == 'view_group_repayment'){
         // view repayment information
         groupRepaymentsModule.startGroupRepayments({lang: GetLang() ? 'en' : 'sw'});
+    }
+    else if(sessionMenu[SplashMenu-1].option_name == 'maize_recommendation'){
+        // start the maize recommendation
+        var lang;
+        if(GetLang()) {
+            lang = 'en-ke'
+        } else {
+            lang = 'sw'
+        }
     }
     else{
         var arrayLength = client.BalanceHistory.length;
