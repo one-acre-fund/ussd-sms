@@ -6,13 +6,19 @@ var bundleChoiceHandler = require('./bundle-choice-handler/bundleChoiceHandler')
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var addOrderHandler = require('./add-order-handler/addOrderHandler');
 var orderConfirmationHandler = require('./order-confirmation-handler/orderConfirmationHandler');
+var varietyChoiceHandler = require('./variety-choice-handler/varietyChoiceHandler');
+var varietyConfirmationHandler = require('./variety-confirmation-handler/varietyConfirmationHandler');
 var translate =  createTranslator(translations, project.vars.lang);
+
 module.exports = {
     registerHandlers: function (){
         addInputHandler(accountNumberHandler.handlerName, accountNumberHandler.getHandler(onAccountNumberValidated));
         addInputHandler(bundleChoiceHandler.handlerName, bundleChoiceHandler.getHandler(onBundleSelected));
         addInputHandler(addOrderHandler.handlerName, addOrderHandler.getHandler(onFinalizeOrder,displayBundles));
         addInputHandler(orderConfirmationHandler.handlerName, orderConfirmationHandler.getHandler(onOrderConfirmed));
+        addInputHandler(varietyChoiceHandler.handlerName, varietyChoiceHandler.getHandler(onVarietyChosen));
+        addInputHandler(varietyConfirmationHandler.handlerName, varietyConfirmationHandler.getHandler(onBundleSelected));
+        
     },
 
     start: function (account, country,lang) {
@@ -27,6 +33,7 @@ module.exports = {
     },
     //displayBundles: displayBundles() 
 };
+
 
 function onOrderConfirmed(){
     var client = JSON.parse(state.vars.topUpClient);
@@ -46,7 +53,17 @@ function onOrderConfirmed(){
         'clientBundles': requestBundles
     };
     var enrollOrder = require('../Roster-endpoints/enrollOrder');
-    enrollOrder(requestData);
+    if(enrollOrder(requestData)){
+        sayText(translate('final_message',{},state.vars.jitLang));
+    }
+}
+function onVarietyChosen(bundleInput){
+
+    console.log('varieties in onvarietychosen'+ JSON.stringify(bundleInput));
+    state.vars.chosenVariety = JSON.stringify(bundleInput);
+    console.log('varieties in onvarietychosen'+JSON.parse(state.vars.chosenVariety));
+    sayText(translate('variety_confirmation',{'$bundleName': bundleInput.bundleName, '$inputName': bundleInput.inputName},state.vars.jitLang));
+    promptDigits(varietyConfirmationHandler.handlerName);
 }
 function onFinalizeOrder(){
     var orderMessage = '';
@@ -54,15 +71,36 @@ function onFinalizeOrder(){
     if(state.vars.orders != ' '){
         allBundles = JSON.parse(state.vars.orders);
     }
-    
     for( var j = 0; j < allBundles.length; j++ ){
         orderMessage = orderMessage + allBundles[j].bundleName + ' ' + allBundles[j].price + '\n';
     }
-    sayText(translate('final_order_diplay',{'$orders': orderMessage },state.vars.jitLang));
+    sayText(translate('final_order_display',{'$orders': orderMessage },state.vars.jitLang));
     promptDigits(orderConfirmationHandler.handlerName);
 
 }
-function onBundleSelected(bundleId){
+function displayVariety(selectedBundle){
+
+    var populateMenu = require('./utils/populate-bundles');
+    var menu = populateMenu(state.vars.jitLang,140,selectedBundle,true);
+    console.log('menu##############'+menu);
+    if (typeof (menu) == 'string') {
+        global.sayText(menu);
+        state.vars.multiple_input_menus = 0;
+        state.vars.input_menu = menu;
+        state.vars.main_menu = menu;
+    }
+    else if (typeof (menu) == 'object') {
+        state.vars.input_menu_loc = 0; //watch for off by 1 errors - consider moving this to start at 1
+        state.vars.multiple_input_menus = 1;
+        state.vars.main_menu = menu[state.vars.input_menu_loc];
+        state.vars.input_menu = JSON.stringify(menu);
+        state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
+        global.sayText(menu[state.vars.input_menu_loc]);
+        state.vars.input_menu = JSON.stringify(menu);
+    }
+
+}
+function onBundleSelected(bundleId, varietychosen, bundleInputId){
     //TO DO: call order confirmaition
     console.log('selected bundle:'+ bundleId);
     var bundleInputs = JSON.parse(state.vars.bundleInputs);
@@ -73,9 +111,24 @@ function onBundleSelected(bundleId){
         }
     }
     if(selectedBundle.length > 1 ){
-        // Display the varieties(inputs)
+        if(varietychosen){
+            selectedBundle = [];
+            for(i = 0; i < bundleInputs.length; i++ ){
+                if( bundleInputs[i].bundleInputId == bundleInputId){
+                    selectedBundle.push(bundleInputs[i]);
+                }
+            }
+        }
+        else{
+            // Display the varieties(inputs)
+            state.vars.allVarieties = JSON.stringify(selectedBundle) ; 
+            console.log('selected varieties##################'+ JSON.stringify(selectedBundle));
+            displayVariety(selectedBundle);
+            console.log('all varieties##################'+ state.vars.allVarieties);
+            promptDigits(varietyChoiceHandler.handlerName);
+        }
     }
-    else{
+    if(selectedBundle.length == 1){
         var allBundles = [];
         if(state.vars.orders != ' '){
             allBundles = JSON.parse(state.vars.orders);
@@ -89,11 +142,17 @@ function onBundleSelected(bundleId){
             console.log('name######################:'+allBundles[j].bundleName);
             orderMessage = orderMessage + allBundles[j].bundleName + ' ' + allBundles[j].price + '\n';
         }
-        console.log('orders######################33:'+orderMessage);
+        console.log('orders######################33:'+ orderMessage);
         //Display confirmation message
         state.vars.orders = JSON.stringify(allBundles);
-        global.sayText(translate('order_placed', {'$orders': orderMessage}, state.vars.jitLang));
-        global.promptDigits(addOrderHandler.handlerName);
+        if(allBundles.length == 2){
+            sayText(translate('final_order_display',{'$orders': orderMessage },state.vars.jitLang));
+            promptDigits(orderConfirmationHandler.handlerName);
+        }
+        else{
+            global.sayText(translate('order_placed', {'$orders': orderMessage}, state.vars.jitLang));
+            global.promptDigits(addOrderHandler.handlerName);
+        }
     }
 
 }
@@ -129,33 +188,61 @@ function getBundlesInputs(districtId){
     var cursor = table.queryRows({'vars': query});
     while(cursor.hasNext()){
         var row = cursor.next();
-        var currentBundleInput = {bundleId: row.vars.bundleId, bundleInputId: row.vars.bundleInputId, bundleName: row.vars.bundle_name, price: row.vars.price};
+        var currentBundleInput = {bundleId: row.vars.bundleId, bundleInputId: row.vars.bundleInputId, bundleName: row.vars.bundle_name, price: row.vars.price, inputName: row.vars.input_name};
         bundleInputs.push(currentBundleInput);
         console.log('current row'+ JSON.stringify(currentBundleInput));
     }
     return bundleInputs;
 }
 function displayBundles(district){
-    console.log('district ID:'+district);
+    console.log('district ID:' + district);
     var bundleInputs = getBundlesInputs(district);
     state.vars.bundleInputs = JSON.stringify(bundleInputs);
     //console.log('bundleInputts:######'+state.vars.bundleInputs);
     var unique = [];
     var bundles = [];
+    var maizeBanedBundleIds= [];
+
+    // Check for maize bundle in the current order
+    if(state.vars.orders != ' '){
+
+        var maizeTable = project.initDataTableById(service.vars.maizeTableId);
+        var currentOrder = JSON.parse(state.vars.orders);
+        var maizeBundleIds = [];
+        var maizeCursor = maizeTable.queryRows(); 
+        while(maizeCursor.hasNext()){
+            var maizeRow = maizeCursor.next(); 
+            console.log('current ro3:$$$$$$$$$$44'+maizeRow.vars.bundleId);
+            maizeBundleIds.push(maizeRow.vars.bundleId);
+        }
+        console.log('bundles!!!!!!!!!!!!!!!!11:'+ JSON.stringify(maizeBundleIds));
+        console.log('current order%%%%%%%%%%%%%%%%%%%%%%%'+ JSON.stringify(currentOrder));
+        for (var k = 0; k < currentOrder; k++){
+            if(maizeBundleIds.indexOf(parseInt(currentOrder[k].bundleId)) != -1){
+                console.log('found one:$$$$$$$$$$'+ currentOrder[k].bundleId);
+                maizeBanedBundleIds = maizeBundleIds;
+            }
+        }
+        console.log('at the end :$$$$$$$$$$'+ JSON.stringify(maizeBanedBundleIds));
+        
+    }
     if(bundleInputs){
         //get Unique bundles
         for( var i = 0; i < bundleInputs.length; i++ ){
             if( !unique[bundleInputs[i].bundleId]){
-                bundles.push(bundleInputs[i]);
+                //check for not allowed bundles
+                if(maizeBanedBundleIds.indexOf(parseInt(bundleInputs[i].bundleId)) == -1){
+                    bundles.push(bundleInputs[i]);
+                }
                 unique[bundleInputs[i].bundleId] = 1;
             }
         }
 
     }
-   
+    
     state.vars.bundles = JSON.stringify(bundles);
     //console.log('bundles#############'+state.vars.bundles);
-    var populateMenu = require('./utils/populate-menu');
+    var populateMenu = require('./utils/populate-bundles');
     var menu = populateMenu(state.vars.jitLang,140,bundles);
     //console.log('menu##############'+menu);
     if (typeof (menu) == 'string') {

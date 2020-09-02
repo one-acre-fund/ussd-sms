@@ -53,9 +53,11 @@ var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 
 if(env == 'prod'){
     service.vars.topUpBundleTableId = 'DT891c89e9a82b6841';
+    service.vars.maizeTableId = 'DT4c3cd5c415c157d0';
 }
 else{
     service.vars.topUpBundleTableId = 'DT545a7c5683114b75';
+    service.vars.maizeTableId = 'DT950b2ac0dbb996de';
 }
 
 var MenuCount = 0;
