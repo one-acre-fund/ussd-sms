@@ -16,12 +16,7 @@ describe('Varieties input handler', () => {
         '3) Amanda\n' +
         '4) Kilombelo\n';
         varietiesInputHandler.handler('000');
-        expect(sayText).toHaveBeenCalledWith('invalid input try again\n' + 
-        'Rice Varieties\n' + 
-        '1) Singapusa\n' + 
-        '2) Tambala\n' + 
-        '3) Amanda\n' +
-        '4) Kilombelo\n');
+        expect(sayText).toHaveBeenCalledWith('invalid input try again\n' + state.vars.varieties_menu);
         expect(promptDigits).toHaveBeenCalledWith(varietiesInputHandler.handlerName, {
             submitOnHash: false,
             timeout: 5,

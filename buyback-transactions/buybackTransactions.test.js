@@ -8,6 +8,7 @@ var client = {
     'ClientName': 'Ge, No',
     'FirstName': 'No',
     'LastName': 'Ge',
+    'BalanceHistory': [{seasonName: '2020'}]
 };
 
 describe('Buyback transactions', () => {
@@ -36,6 +37,8 @@ describe('Buyback transactions', () => {
         expect(state.vars.account_number).toBe(client.AccountNumber);
         expect(state.vars.first_name).toBe(client.FirstName);
         expect(state.vars.last_name).toBe(client.LastName);
+        expect(state.vars.client_name).toBe(client.ClientName);
+        expect(state.vars.current_season).toBe('{"seasonName":"2020"}');
         expect(promptDigits).toHaveBeenCalledWith(cropsInputHandler.handlerName, {
             submitOnHash: false,
             timeout: 5,
