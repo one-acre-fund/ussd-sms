@@ -25,7 +25,6 @@ module.exports = {
             var row, final_msg, msg_route;
             if(cursor.hasNext()){
                 row = cursor.next();
-                var code = row.vars.confirmation_code;
                 row.vars.confirmed = 1;
                 row.vars.first_name = JSON.parse(state.vars.client_json).FirstName;
                 row.vars.last_name = JSON.parse(state.vars.client_json).LastName;
@@ -37,7 +36,7 @@ module.exports = {
                 row.vars.confirmed_chicken_in_R2 = 'true';
                 row.vars.confirmed_month = new Date().getMonth() + 1;
                 row.save();
-                final_msg = translate('chicken_ordering_final_msg',{'$number': state.vars.confirmed_number ,'$code': code });
+                final_msg = translate('chicken_ordering_final_msg',{'$number': state.vars.confirmed_number });
                 global.sayText(final_msg);  
                 msg_route = project.vars.sms_push_route;
                 project.sendMessage({ 'to_number': contact.phone_number, 'route_id': msg_route, 'content': final_msg }); 

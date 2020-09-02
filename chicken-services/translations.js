@@ -33,8 +33,8 @@ module.exports = {
         
     },
     'chicken_ordering_final_msg': {
-        'en': 'Congratulations, you have confirmed $number chickens. Your delivery code is $code. Bring this code on your day of delivery. Thank you for trusting TUBURA.',
-        'ki': 'Nibyiza, wemeje inkoko $number. Kode yawe yo mwifata ni $code uzazane iyi code kumunsi w\'ifata . Urakoze kwizera TUBURA.'
+        'en': 'Congratulations, you have confirmed $number chickens. Thank you for trusting TUBURA.',
+        'ki': 'Nibyiza, wemeje inkoko $number. Urakoze kwizera TUBURA.'
     },
     'client_not_found_in_table': {
         'en': 'Sorry, your account number is not found',
