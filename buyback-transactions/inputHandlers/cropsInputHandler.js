@@ -5,10 +5,10 @@ var varietiesHandler = require('./varietiesInputHandler');
 
 var cropsHandlerName = 'crops';
 
-function getVarietiesByCrop(crop) {
-    var varietiesTable = project.initDataTableById(service.vars.varieties_table_id);
+function getVarietiesByCrop(crop, table) {
+    var varietiesTable = project.getOrCreateDataTable(table);
     var varieties_cursor = varietiesTable.queryRows({
-        vars: {
+        'vars': {
             'crop': crop
         }
     });
@@ -34,7 +34,7 @@ module.exports = {
         if(crop) {
             state.vars.selected_crop = crop;
             // get the varieties by crop
-            var varieties = getVarietiesByCrop(crop);
+            var varieties = getVarietiesByCrop(crop, service.vars.varieties_table);
             if(Object.keys(varieties).length > 1){
                 state.vars.varieties = JSON.stringify(varieties);
                 var varietiesMenu = crop + ' Varieties\n';
@@ -49,6 +49,7 @@ module.exports = {
                     maxDigits: 1
                 });
             } else {
+                state.vars.selected_variety = JSON.stringify(varieties[1]);
                 sayText(getMessage('kgs', {}, lang));
                 promptDigits(kgsHandler.handlerName, {
                     submitOnHash: false,
