@@ -50,6 +50,9 @@
     ],
     "verbose": true
   },
+  "jest-junit": {
+    "outputName": "TEST-RESULTS.xml"
+  },
   "dependencies": {
     "moment": "^2.27.0",
     "underscore": "^1.6.0"
