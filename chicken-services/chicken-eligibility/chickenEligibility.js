@@ -1,12 +1,25 @@
-var Log = require('../../logger/elk/elk-logger');
+
 
 module.exports = function(chicken_table, acc_nber, client_json){
 
+    var chickenCursor = chicken_table.queryRows({'vars': {'account_number': acc_nber}});
+    var prepRequired = 0;
+    
+    if(chickenCursor.hasNext()){
+        var row = chickenCursor.next();
+        prepRequired = row.vars.prep_required;
+        state.vars.chcken_nber = row.vars.ordered_chickens || 0;
+        state.vars.farmer_name  = JSON.parse(state.vars.client_json).FirstName;
+
+    }
+    else{
+        state.vars.client_notfound = true;
+    }  
     //calculate the prepayment
     if(client_json.BalanceHistory.length>0){
         client_json.BalanceHistory = client_json.BalanceHistory[0];
     }
-    var prepayment_amount = client_json.BalanceHistory.TotalRepayment_IncludingOverpayments - client_json.BalanceHistory.TotalCredit;
+    var prepayment_amount = client_json.BalanceHistory.TotalRepayment_IncludingOverpayments - prepRequired;
     // if prepayment satisfies the mminimum condition( > than 2 chicken prepayment amount(2000))
     if(prepayment_amount >= 1000){
         state.vars.minimum_amount_paid = true;
@@ -23,33 +36,20 @@ module.exports = function(chicken_table, acc_nber, client_json){
     else{
         state.vars.minimum_amount_paid = false;
     }
-    var cursor = chicken_table.queryRows({'vars': {'account_number': acc_nber}});
-
-    if(cursor.hasNext()){
-        var row = cursor.next();
-        state.vars.chcken_nber = row.vars.ordered_chickens || 0;
-        state.vars.farmer_name  = JSON.parse(state.vars.client_json).FirstName;
-        //Did not roder any chicken return
-        if(state.vars.chcken_nber == 0){
-            return;
-        } 
-        else{
-            // If the client confirmed and just want to check
-            if(row.vars.confirmed == 1){
-                state.vars.confirmed_chicken = true;
-                return;
-            }
-            // If the client did not confirm or wants to change
-            else{
-                state.vars.confirmed_chicken = false;
-            }
-        } 
-    }
+    //Did not orsder any chicken return
+    if(state.vars.chcken_nber == 0){
+        return;
+    } 
     else{
-        state.vars.client_notfound = true;
-        var logger = new Log();
-        var logMessage = 'Client ' + client_json.FirstName + ' not found in chicken table';
-        logger.log(logMessage);
-    }  
+        // If the client confirmed and just want to check
+        if(row.vars.confirmed == 1){
+            state.vars.confirmed_chicken = true;
+            return;
+        }
+        // If the client did not confirm or wants to change
+        else{
+            state.vars.confirmed_chicken = false;
+        }
+    } 
 
 };

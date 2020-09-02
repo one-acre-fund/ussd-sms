@@ -13,11 +13,11 @@ describe('account_number_handler', () => {
     beforeAll(()=>{
         rosterAPI.authClient = jest.fn();
         rosterAPI.authClient.mockReturnValue(true);
+        onAccountNumberValidated = jest.fn();
+        accountNumberHandler = getHandler(onAccountNumberValidated);
     });
     beforeEach(() => {
         sayText.mockReset();
-        onAccountNumberValidated = jest.fn();
-        accountNumberHandler = getHandler(onAccountNumberValidated);
         rosterAPI.getClient = jest.fn();
         state.vars.country = 'KE';
         state.vars.jitLang = 'en-ke';
