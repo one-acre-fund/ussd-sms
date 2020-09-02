@@ -50,6 +50,7 @@ service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 service.vars.roster_read_key = project.vars.roster_read_key;
 service.vars.lr_2021_client_table_id = project.vars[env+'_lr_2021_client_table_id'];
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
+const triggerService = require('../maize-recommendation/triggerService');
 
 var MenuCount = 0;
 var MenuNext = false;
@@ -1852,12 +1853,14 @@ addInputHandler('MainMenu', function(SplashMenu){
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'maize_recommendation'){
         // start the maize recommendation
+        var maizeRecommendation = require('../maize-recommendation/triggerService')
         var lang;
         if(GetLang()) {
             lang = 'en-ke'
         } else {
             lang = 'sw'
         }
+        maizeRecommendation(lang, TrainingSelect, project.vars.maize_recommendation_service_id)
     }
     else{
         var arrayLength = client.BalanceHistory.length;
