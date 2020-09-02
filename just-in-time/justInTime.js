@@ -217,8 +217,8 @@ function displayBundles(district){
         }
         console.log('bundles!!!!!!!!!!!!!!!!11:'+ JSON.stringify(maizeBundleIds));
         console.log('current order%%%%%%%%%%%%%%%%%%%%%%%'+ JSON.stringify(currentOrder));
-        for (var k = 0; k < currentOrder; k++){
-            if(maizeBundleIds.indexOf(parseInt(currentOrder[k].bundleId)) != -1){
+        for (var k = 0; k < currentOrder.length; k++){
+            if(maizeBundleIds.indexOf(currentOrder[k].bundleId) != -1){
                 console.log('found one:$$$$$$$$$$'+ currentOrder[k].bundleId);
                 maizeBanedBundleIds = maizeBundleIds;
             }
@@ -231,7 +231,7 @@ function displayBundles(district){
         for( var i = 0; i < bundleInputs.length; i++ ){
             if( !unique[bundleInputs[i].bundleId]){
                 //check for not allowed bundles
-                if(maizeBanedBundleIds.indexOf(parseInt(bundleInputs[i].bundleId)) == -1){
+                if(maizeBanedBundleIds.indexOf(bundleInputs[i].bundleId) == -1){
                     bundles.push(bundleInputs[i]);
                 }
                 unique[bundleInputs[i].bundleId] = 1;
