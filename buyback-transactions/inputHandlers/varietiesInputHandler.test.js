@@ -3,7 +3,7 @@ var kgsHandler = require('./kgsInputHandler');
 
 describe('Varieties input handler', () => {
     beforeAll(() => {
-        global.state = { vars: {lang: 'en'} };
+        global.state = { vars: {lang: 'en-mw'} };
     });
     beforeEach(() => {
         jest.resetModules();
