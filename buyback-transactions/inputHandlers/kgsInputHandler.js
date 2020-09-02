@@ -13,11 +13,10 @@ module.exports = {
         if(kgs > 0){
             state.vars.transaction_volume = kgs;
             var selected_variety = JSON.parse(state.vars.selected_variety);
-            var client = JSON.parse(state.vars.client);
-            var currentSeason = client.BalanceHistory[0];
-            var clientName = client.ClientName;
-            var outStandingCredit = currentSeason.balance;
-            var payoutAmount = outStandingCredit - kgs * selected_variety.price_per_kg;
+            var currentSeason = JSON.parse(state.vars.current_season);
+            var clientName = state.vars.client_name;
+            var outStandingCredit = currentSeason.Balance;
+            var payoutAmount = outStandingCredit - kgs * selected_variety.price;
             var message = getMessage('payout_amount', {
                 '$clientName': clientName,
                 '$credit': outStandingCredit,

@@ -19,8 +19,9 @@ describe('Kgs input handler', () => {
     });
 
     it('should show the payout details and prompt for a mobile money registered phone number', () => {
-        state.vars.client = JSON.stringify({ClientName: 'Jon doe', BalanceHistory: [{balance: 4200}]});
-        state.vars.selected_variety = JSON.stringify({price_per_kg: 250, crop: 'rice', variety: 'inyombe'});
+        state.vars.current_season = JSON.stringify({Balance: 4200});
+        state.vars.client_name = 'Jon doe';
+        state.vars.selected_variety = JSON.stringify({price: 250, crop: 'rice', variety: 'inyombe'});
         kgsInputHandler.handler(5);
         expect(sayText).toHaveBeenCalledWith('The client Jon doe has got an oustanding credit of 4200 MWK. The payout amount will be 2950 MWK. Please enter the mobile money account number');
         expect(promptDigits).toHaveBeenCalledWith(phoneNumberHandler.handlerName, {
@@ -32,7 +33,7 @@ describe('Kgs input handler', () => {
 
     it('should save the kgs into the transaction volume state vaiable', () => {
         state.vars.client = JSON.stringify({ClientName: 'Jon doe', BalanceHistory: [{balance: 4200}]});
-        state.vars.selected_variety = JSON.stringify({price_per_kg: 250, crop: 'rice', variety: 'inyombe'});
+        state.vars.selected_variety = JSON.stringify({price: 250, crop: 'rice', variety: 'inyombe'});
         kgsInputHandler.handler(5);
         expect(state.vars.transaction_volume).toBe(5);
     });
