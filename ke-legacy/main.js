@@ -31,6 +31,7 @@ var createTranslator = require('../utils/translator/translator');
 //var rosterAPI = require('ext/Roster_v1_2_0/api');
 var rosterAPI = require('../rw-legacy/lib/roster/api');
 var defaultEnvironment;
+var slacLogger = require('../slack-logger/index')
 if(service.active){
     defaultEnvironment = 'prod';
 }else{
@@ -264,6 +265,7 @@ var TriggerTraining = function (ServiceID){
         });
     }
     catch(err){
+        slacLogger.log('Error triggering service: ' + ServiceID + JSON.stringify({error: err}));
         sendEmail("tom.vranken@oneacrefund.org", "URGENT - Service ID misconfiguration for aggr training", "Service ID: "+ ServiceID);
     }
 };
@@ -1090,7 +1092,7 @@ var CheckBalanceMenuText = function (Overpaid,Season,Credit,Paid,Balance){
 };
 
 var TrainingMenuText = function (){
-    if (GetLang()){sayText("1:Tree Transplanting\n2:Tree Bag Planting\n3:Tree Socketing\n4:Sorghum Weeding\n5:Maize Topdress\n6:Maize Intercrop\n7:Maize Harvest\n8:Maize\n0:MORE")}
+    if (GetLang()){sayText("1:Tree Transplanting\n2:Tree Bag Planting\n3:Tree Socketing\n4:Sorghum Weeding\n5:Maize Topdress\n6:Maize Intercrop\n7:Maize Harvest\n0:MORE")}
     else {sayText("1:Kupanda Miti\n2:Kupanda miti mifukoni\n3:Socketing Miti\n4:Kupalilia Wimbi\n5:TopDress\n6:Kupanda Mahindi/Maharagwe\n7:Kuvuna Mahindi\n0:Endelea")}
 };
 
