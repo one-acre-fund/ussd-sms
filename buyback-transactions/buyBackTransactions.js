@@ -25,6 +25,8 @@ function start(client){
     state.vars.account_number = client.AccountNumber;
     state.vars.first_name = client.FirstName;
     state.vars.last_name = client.LastName;
+    state.vars.client_name = client.ClientName;
+    state.vars.current_season = JSON.stringify(client.BalanceHistory[0]);
     var cropsMenu = getMessage('crops', {}, lang);
     sayText(cropsMenu);
     promptDigits(cropsHandler.handlerName, {

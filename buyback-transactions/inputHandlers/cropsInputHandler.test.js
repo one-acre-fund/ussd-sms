@@ -9,7 +9,7 @@ describe('Crops input handler', () => {
     const mockTable = { queryRows: jest.fn() };
     mockTable.queryRows.mockReturnValue(mockCursor);
     mockCursor.next.mockReturnValueOnce(mockRow);
-    jest.spyOn(project, 'initDataTableById').mockReturnValue(mockTable);
+    jest.spyOn(project, 'getOrCreateDataTable').mockReturnValue(mockTable);
 
     beforeAll(() => {
         global.state = { vars: {lang: 'en-mw'} };
@@ -32,6 +32,7 @@ describe('Crops input handler', () => {
         });
     });
     it('should prompt for varieties when the user chooses a crop with more than one varieties', () => {
+        service.vars.varieties_table = 'dev_varieties';
         mockCursor.hasNext.mockReturnValueOnce(true);
         mockRow ={vars: {variety: 'Tambala', price_per_kg: 250}};
         mockCursor.next.mockReturnValueOnce(mockRow);
@@ -39,6 +40,7 @@ describe('Crops input handler', () => {
         state.vars.crops = JSON.stringify({'1': 'Groundnuts', '2': 'Rice', '3': 'Pigeon peas'});
         cropsInputHandler.Handler('2'); 
         expect(state.vars.selected_crop).toBe('Rice');
+        expect(project.getOrCreateDataTable).toHaveBeenCalledWith(service.vars.varieties_table);
         expect(sayText).toHaveBeenCalledWith('Rice Varieties\n' + 
         '1) Singapusa\n' + 
         '2) Tambala\n');

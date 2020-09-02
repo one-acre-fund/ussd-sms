@@ -18,12 +18,13 @@ describe('change_order_handler', () => {
     });
     it('should return false if the number of caps in a district is equal to the number of chicken ordered', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(true);
+        mockRow.vars.ordered_chickens = 10000;
         mockCursor.next.mockReturnValueOnce(mockRow);
         var result = checkChickenCapByDistrict(5646,8);
         expect(result).toBeFalsy();
     });
     it('should return false if the number of caps in a district is 1 less to the number of chicken ordered', ()=>{
-        mockRow.vars.ordered_chickens = 9;
+        mockRow.vars.ordered_chickens = 9999;
         mockCursor.hasNext.mockReturnValueOnce(true);
         mockCursor.next.mockReturnValueOnce(mockRow);
         var result = checkChickenCapByDistrict(5646,8);
@@ -34,7 +35,7 @@ describe('change_order_handler', () => {
         mockCursor.hasNext.mockReturnValueOnce(true);
         mockCursor.next.mockReturnValueOnce(mockRow);
         var result = checkChickenCapByDistrict(5646,8);
-        expect(result).toEqual(4);
+        expect(result).toEqual(9994);
     });
     it('should return false if no caps were found', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(false);

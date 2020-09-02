@@ -28,7 +28,7 @@ describe('Phone number input handler', () => {
     });
 
     it('should save and confirm that the transaction is recorded once the phone number is valid', () => {
-        service.vars.buy_back_transactions_table_id = 'ITD-123';
+        service.vars.buyback_transactions_table = 'ITD-123';
         state.vars.selected_variety = JSON.stringify({variety: 'rice variery1'});
         contact.phone_number = '0553245234';
         state.vars.transaction_volume = 25;
@@ -38,7 +38,7 @@ describe('Phone number input handler', () => {
         state.vars.account_number = '12345678';
         const rowMock = {save: jest.fn()};
         const tableMock = {createRow: jest.fn(() => rowMock)};
-        jest.spyOn(project, 'initDataTableById').mockReturnValue(tableMock);
+        jest.spyOn(project, 'getOrCreateDataTable').mockReturnValue(tableMock);
         phoneNumberInputHandler.handler('0883245234');
         expect(tableMock.createRow).toBeCalledWith({'vars': {
             'account_number': state.vars.account_number,
@@ -50,6 +50,7 @@ describe('Phone number input handler', () => {
             'transaction_volume': state.vars.transaction_volume,
             'variety_type': 'rice variery1'}});
         expect(rowMock.save).toHaveBeenCalled();
+        expect(project.getOrCreateDataTable).toHaveBeenCalledWith(service.vars.buyback_transactions_table);
         expect(sayText).toHaveBeenCalledWith('Thank you. The transaction data has been recorded successfully. Please work with your agent to proceed with payment of the client');
         expect(stopRules).toHaveBeenCalled();
     });
