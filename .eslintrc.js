@@ -44,6 +44,9 @@ module.exports = {
         httpClient: 'readonly',
         sendEmail: 'readonly',
         PhoneNumber: 'readonly',
+        waitForResponse: 'readonly',
+        addResponseHandler: 'readonly',
+        addTimeoutHandler: 'readonly'
     },
     'overrides': [
         {
