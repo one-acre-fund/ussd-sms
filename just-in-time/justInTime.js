@@ -8,6 +8,7 @@ var addOrderHandler = require('./add-order-handler/addOrderHandler');
 var orderConfirmationHandler = require('./order-confirmation-handler/orderConfirmationHandler');
 var varietyChoiceHandler = require('./variety-choice-handler/varietyChoiceHandler');
 var varietyConfirmationHandler = require('./variety-confirmation-handler/varietyConfirmationHandler');
+var enrollOrder = require('../Roster-endpoints/enrollOrder');
 var translate =  createTranslator(translations, project.vars.lang);
 
 module.exports = {
@@ -52,10 +53,19 @@ function onOrderConfirmed(){
         'isGroupLeader': false,
         'clientBundles': requestBundles
     };
-    var enrollOrder = require('../Roster-endpoints/enrollOrder');
+   
     if(enrollOrder(requestData)){
-        sayText(translate('final_message',{},state.vars.jitLang));
+        var message = translate('final_message',{},state.vars.jitLang);
+        sayText(message);
+        project.sendMessage({
+            content: message, 
+            to_number: contact.phone_number
+        });
     }
+    else{
+        sayText(translate('enrollment_failed',{},state.vars.jitLang));
+    }
+    console.log(enrollOrder(requestData));
 }
 function onVarietyChosen(bundleInput){
 
@@ -90,11 +100,11 @@ function displayVariety(selectedBundle){
         state.vars.main_menu = menu;
     }
     else if (typeof (menu) == 'object') {
-        state.vars.input_menu_loc = 0; //watch for off by 1 errors - consider moving this to start at 1
+        state.vars.input_menu_loc = 0;
         state.vars.multiple_input_menus = 1;
         state.vars.main_menu = menu[state.vars.input_menu_loc];
         state.vars.input_menu = JSON.stringify(menu);
-        state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
+        state.vars.input_menu_length = Object.keys(menu).length;
         global.sayText(menu[state.vars.input_menu_loc]);
         state.vars.input_menu = JSON.stringify(menu);
     }
@@ -110,6 +120,7 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
             selectedBundle.push(bundleInputs[i]);
         }
     }
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1111'+ JSON.stringify(selectedBundle));
     if(selectedBundle.length > 1 ){
         if(varietychosen){
             selectedBundle = [];
@@ -198,7 +209,7 @@ function displayBundles(district){
     console.log('district ID:' + district);
     var bundleInputs = getBundlesInputs(district);
     state.vars.bundleInputs = JSON.stringify(bundleInputs);
-    //console.log('bundleInputts:######'+state.vars.bundleInputs);
+    console.log('bundleInputts:######'+state.vars.bundleInputs);
     var unique = [];
     var bundles = [];
     var maizeBanedBundleIds= [];
@@ -215,7 +226,7 @@ function displayBundles(district){
             console.log('current ro3:$$$$$$$$$$44'+maizeRow.vars.bundleId);
             maizeBundleIds.push(maizeRow.vars.bundleId);
         }
-        console.log('bundles!!!!!!!!!!!!!!!!11:'+ JSON.stringify(maizeBundleIds));
+        console.log('bundles!!!!!!!!!!!!!!!!:'+ JSON.stringify(maizeBundleIds));
         console.log('current order%%%%%%%%%%%%%%%%%%%%%%%'+ JSON.stringify(currentOrder));
         for (var k = 0; k < currentOrder.length; k++){
             if(maizeBundleIds.indexOf(currentOrder[k].bundleId) != -1){
@@ -241,10 +252,10 @@ function displayBundles(district){
     }
     
     state.vars.bundles = JSON.stringify(bundles);
-    //console.log('bundles#############'+state.vars.bundles);
+    console.log('bundles#############'+state.vars.bundles);
     var populateMenu = require('./utils/populate-bundles');
     var menu = populateMenu(state.vars.jitLang,140,bundles);
-    //console.log('menu##############'+menu);
+    console.log('menu##############'+menu);
     if (typeof (menu) == 'string') {
         global.sayText(menu);
         state.vars.multiple_input_menus = 0;

@@ -10,14 +10,13 @@ module.exports = function(lang, max_chars, content,isVariety){
     var next_page = translate('next_page', {}, lang);
     var title;
     if(isVariety){
-        title = translate('variety_title', {}, lang);
-        
+        title = translate('variety_title', {}, lang); 
     }
     else{
         title = translate('bundle_title', {}, lang);
     }
     var optionsLength = content.length;
-    var finalMenu = title + '';
+    var finalMenu = title + '\n';
     var currentMenu = '';
     var loc = 0;
     var counter = 1;

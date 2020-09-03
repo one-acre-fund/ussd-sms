@@ -39,5 +39,9 @@ module.exports = {
     'variety_confirmation': {
         'en-ke': 'Top-up with $bundleName and $inputName\n1) Confirm\n2) Cancel',
         'sw': '"Umeongeza  $bundleName na $inputName\n1) Thibitisha\n 2) Futa"'
+    },'enrollment_failed': {
+        'en-ke': 'Please try again later. Most people are applying right now!',
+        'sw': 'Tafadhali jaribu tena baada ya mda kidogo. Watu wengi wanatuma maombi kwa sasa!'
+
     }
 };

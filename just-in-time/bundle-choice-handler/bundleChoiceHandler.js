@@ -10,8 +10,8 @@ var isValidBundleInputChoice = function(input){
     bundles = JSON.parse(state.vars.bundles);
     console.log('bundle chosen##########:'+JSON.stringify(bundles) + ' length '+ input);
     chosenBundle = bundles[input-1];
-    console.log('bundle chosen:'+JSON.stringify(chosenBundle) + ' length '+ chosenBundle.length);
-    if(chosenBundle.length != 0){
+    //console.log('bundle chosen:'+JSON.stringify(chosenBundle) + ' length '+ chosenBundle.length);
+    if((chosenBundle) &&(chosenBundle.length != 0)){
         return true;
     }
     return false;
@@ -27,14 +27,14 @@ module.exports = {
                     state.vars.input_menu_loc = state.vars.input_menu_loc - 1;
                     var menu = JSON.parse(state.vars.input_menu)[state.vars.input_menu_loc];
                     global.sayText(menu);
-                    global.promptDigits(handlerName, {submitOnHash: true, maxDigits: 8, timeout: 5});
+                    global.promptDigits(handlerName);
                     return null;
                 }
                 else if (input == 77 && (state.vars.input_menu_loc < state.vars.input_menu_length - 1)) {
                     state.vars.input_menu_loc = state.vars.input_menu_loc + 1;
                     menu = JSON.parse(state.vars.input_menu)[state.vars.input_menu_loc];
                     global.sayText(menu);
-                    global.promptDigits(handlerName, {submitOnHash: true, maxDigits: 8, timeout: 5});
+                    global.promptDigits(handlerName);
                     return null;
                 }
             }
@@ -44,11 +44,6 @@ module.exports = {
                 console.log('has multiple');
                 onBundleSelected(chosenBundle.bundleId);
                 console.log('bundle Input selected--------:'+JSON.stringify(chosenBundle));
-            }
-            else{
-                console.log('nothing selected');
-                //global.sayText(translate('bundle_choice_handler',{},state.vars.jitLang));
-                //global.promptDigits(handlerName);
             }
         };
     }
