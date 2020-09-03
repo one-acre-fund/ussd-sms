@@ -1,4 +1,20 @@
  
+var defaultEnvironment;
+if(service.active){
+    defaultEnvironment = 'prod'
+}else{
+    defaultEnvironment = 'dev'
+}
+
+var env;
+if(service.vars.env === 'prod' || service.vars.env === 'dev'){
+    env = service.vars.env;
+}else{
+    env = defaultEnvironment;
+}
+
+var maize_recommendation_table = project.vars[env + '_maize_recommendation_table'];
+
 var translations = require('./translations/index');
 var translator = require('../utils/translator/translator');
 var districtResponseHandler = require('./responseHandlers/districtResponseHandler');

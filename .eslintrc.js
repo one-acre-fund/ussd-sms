@@ -47,7 +47,8 @@ module.exports = {
         waitForResponse: 'readonly',
         addResponseHandler: 'readonly',
         addTimeoutHandler: 'readonly',
-        content: 'readonly'
+        content: 'readonly',
+        sendReply: 'readonly'
     },
     'overrides': [
         {

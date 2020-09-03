@@ -44,5 +44,19 @@ module.exports = {
         'en-ke': 'OAF experts recommend: $recommendation',
         'sw': 'Wataalamu wa OAF wapendekeza: $recommendation'
     },
-    
+    'acres_options': {
+        'en': 'A. 1/4 acre\nB. 1/2 acre\nC. 3/4 acre\nD. 1 acre\nE. More than 1 acre',
+        'en-ke': 'A. 1/4 acre\nB. 1/2 acre\nC. 3/4 acre\nD. 1 acre\nE. More than 1 acre',
+        'sw': 'A. Ekari 1/4\nB. Ekari 1/2\nC. Ekari 3/4\nD. Ekari 1\nE. Zaidi ya ekari 1'
+    },
+    'maize_bags': {
+        'en': 'A. less than $bags bags\nB. Between $min_b - $max_b bags\nC. More than $min_c',
+        'en-ke': 'A. less than $bags bags\nB. Between $min_b - $max_b bags\nC. More than $min_c',
+        'sw': 'A. Chini ya gunia $bags\nB. Kati ya gunia $min_b - $max_b\nC. Zaidi ya gunia $min_c'
+    },
+    'time_planted': {
+        'en': 'A. Yes\nB. No',
+        'en-ke': 'A. Yes\nB. No',
+        'sw': 'A. Ndio\nB. La'
+    }
 };
