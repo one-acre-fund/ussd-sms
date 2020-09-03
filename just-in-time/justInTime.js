@@ -27,6 +27,7 @@ module.exports = {
         state.vars.account = account;
         state.vars.country = country;
         state.vars.jitLang = lang;
+        state.vars.orders = ' ';
         var translate =  createTranslator(translations, state.vars.jitLang);
         global.sayText(translate('account_number_handler',{},state.vars.jitLang));
         global.promptDigits(accountNumberHandler.handlerName);

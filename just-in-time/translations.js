@@ -37,10 +37,10 @@ module.exports = {
 
     },'prev_page': {
         'en-ke': '44)Previous page',
-        'sw': '44)Previous page'
+        'sw': '44)ukurasa uliopita'
     },
     'next_page': {
         'en-ke': '77)Next page',
-        'sw': '77)Next page'
+        'sw': '77)ukurasa unaofuata'
     }
 };
