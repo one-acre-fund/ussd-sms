@@ -46,7 +46,8 @@ module.exports = {
         PhoneNumber: 'readonly',
         waitForResponse: 'readonly',
         addResponseHandler: 'readonly',
-        addTimeoutHandler: 'readonly'
+        addTimeoutHandler: 'readonly',
+        content: 'readonly'
     },
     'overrides': [
         {

@@ -1,7 +1,8 @@
  
 var translations = require('./translations/index');
 var translator = require('../utils/translator/translator');
-    
+var districtResponseHandler = require('./responseHandlers/districtResponseHandler');
+
 var lang = contact.vars.lang;
 var getMessage = translator(translations, lang);
 var welcome_message = getMessage('welcome_message', {}, lang);
@@ -14,4 +15,4 @@ project.sendMulti({
     message_type: 'text'
 });
 
-waitForResponse('district');
+waitForResponse(districtResponseHandler.handlerName);
