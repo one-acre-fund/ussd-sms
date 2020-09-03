@@ -4,8 +4,7 @@ var Log = require('../logger/elk/elk-logger');
 jest.mock('../logger/elk/elk-logger');
 
 var mockResponse = {status: 201};
-//const mockRequestData = {'districtId': 1245, 'siteId': 78};
-//var mockUrl = 'http/example.com/api/USSDEnrollment/Enrollment/';
+
 describe('enroll order test',()=>{
 
     let mockLogger;
