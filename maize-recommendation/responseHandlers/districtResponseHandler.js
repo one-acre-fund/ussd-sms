@@ -1,5 +1,6 @@
 var translations = require('../translations/index');
 var translator = require('../../utils/translator/translator');
+var acresResponseHandler = require('./acresResponseHandler');
 
 var districtResponseHandlerName = 'district';
 module.exports = {
@@ -21,7 +22,8 @@ module.exports = {
                 var acres_options = getMessage('acres_options', {}, lang);
                 var acres_message = acres_title + acres_options;
                 sendReply(acres_message);
-                waitForResponse('acres');
+                state.vars.acres_message = acres_message;
+                waitForResponse(acresResponseHandler.handlerName);
             } else {
                 var promptDistrict = getMessage('invalid_district', {}, lang);
                 sendReply(promptDistrict);
