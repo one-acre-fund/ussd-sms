@@ -49,6 +49,8 @@ service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 service.vars.roster_read_key = project.vars.roster_read_key;
 service.vars.lr_2021_client_table_id = project.vars[env+'_lr_2021_client_table_id'];
+service.vars.registerEnrollEnd = project.vars[env+ 'registerEnrollEnd'];
+service.vars.registerEnrollStart = project.vars[env+ 'registerEnrollStart'];
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 
 if(env == 'prod'){
@@ -1794,6 +1796,12 @@ addInputHandler('MainMenu', function(SplashMenu){
         promptDigits("PaymentAmount", {submitOnHash: true, maxDigits: 5, timeout: 5});
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'register_client'){
+        state.vars.canEnroll = false;
+        registrationMenu();
+        promptDigits("registrationHandler", {submitOnHash: true, maxDigits: 10, timeout: 5});
+    }
+    else if(sessionMenu[SplashMenu-1].option_name == 'register_enroll_client'){
+        state.vars.canEnroll = true;
         registrationMenu();
         promptDigits("registrationHandler", {submitOnHash: true, maxDigits: 10, timeout: 5});
     }
