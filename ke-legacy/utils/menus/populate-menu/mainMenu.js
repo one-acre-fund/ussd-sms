@@ -89,5 +89,12 @@ module.exports = [
         'option_name': 'view_group_repayment',
         'end_date': project.vars.end_view_group_repayment,
         'start_date': project.vars.start_view_group_repayment
+    },
+    {
+        'en-ke': 'Maize Recommendations',
+        'sw': 'Maize Recommendations',
+        'option_name': 'maize_recommendation',
+        'end_date': project.vars.end_maize_recommendation,
+        'start_date': project.vars.start_maize_recommendation
     }
 ];
