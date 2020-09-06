@@ -1,9 +1,9 @@
  
 var defaultEnvironment;
 if(service.active){
-    defaultEnvironment = 'prod'
+    defaultEnvironment = 'prod';
 }else{
-    defaultEnvironment = 'dev'
+    defaultEnvironment = 'dev';
 }
 
 var env;
