@@ -10,7 +10,10 @@ describe('Maize recommendation', () => {
     });
 
     it('should send the welcome message and prompt for a district', () => {
+        project.vars.dev_maize_recommendation_table = 'maize_recommendation_table';
         contact.phone_number = '0555345';
+        var addResponseHandlers = require('./responseHandlers/addResponseHandlers');
+        jest.mock('./responseHandlers/addResponseHandlers');
         require('./maizeRecommendation');
         expect(project.sendMulti).toHaveBeenCalledWith({
             'message_type': 'text', 'messages': 
@@ -26,5 +29,6 @@ describe('Maize recommendation', () => {
                 ]
         });
         expect(waitForResponse).toHaveBeenCalledWith(districtResponseHandler.handlerName);
+        expect(addResponseHandlers).toHaveBeenCalledWith('en-ke', 'maize_recommendation_table');
     });
 });

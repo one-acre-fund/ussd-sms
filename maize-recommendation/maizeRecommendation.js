@@ -18,6 +18,7 @@ var maize_recommendation_table = project.vars[env + '_maize_recommendation_table
 var translations = require('./translations/index');
 var translator = require('../utils/translator/translator');
 var districtResponseHandler = require('./responseHandlers/districtResponseHandler');
+var addResponseHandlers = require('./responseHandlers/addResponseHandlers');
 
 var lang = contact.vars.lang;
 var getMessage = translator(translations, lang);
@@ -32,3 +33,4 @@ project.sendMulti({
 });
 
 waitForResponse(districtResponseHandler.handlerName);
+addResponseHandlers(lang, maize_recommendation_table);
