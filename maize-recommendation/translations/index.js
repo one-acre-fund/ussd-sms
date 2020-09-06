@@ -2,7 +2,7 @@ module.exports = {
     'message_notification': {
         'en': 'A SMS has been sent to your phone. Messages are free! But please delete unwanted SMS in your phone to make space for incoming.',
         'en-ke': 'A SMS has been sent to your phone. Messages are free! But please delete unwanted SMS in your phone to make space for incoming.',
-        'sw': 'A SMS has been sent to your phone. Messages are free! But please delete unwanted SMS in your phone to make space for incoming.'
+        'sw': 'Ujumbe wa mafunzo umetumwa kwa simu yako. Ujumbe wote ni bure! Kumbuka kufuta SMS usizohitaji ili uwe na nafasi ya kupata ujumbe zaidi.'
     },
     'welcome_message': {
         'en': 'Welcome to the OAF maize seed recommendation. Answer the questions to know the best maize variety for your farm.',
