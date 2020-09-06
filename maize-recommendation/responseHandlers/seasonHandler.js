@@ -1,10 +1,9 @@
 var translations = require('../translations/index');
 var translator = require('../../utils/translator/translator');
-var maizeResponseHandler = require('./maizeResponseHandler');
 
 var seasonResponseHandlerName = 'season';
 module.exports = {
-    handlerName: maizeResponseHandler,
+    handlerName: seasonResponseHandlerName,
     getHandler: function(lang, maize_recommendation_table) {
         return function() {
             var getMessage = translator(translations, lang);
