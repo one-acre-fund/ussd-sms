@@ -1,0 +1,955 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="401" failures="0" time="57.319">
+  <testsuite name="change_order_confirm" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:15" time="10.936" tests="7">
+    <testcase classname="change_order_confirm should be a function" name="change_order_confirm should be a function" time="0.006">
+    </testcase>
+    <testcase classname="change_order_confirm should call notifyELK " name="change_order_confirm should call notifyELK " time="0.003">
+    </testcase>
+    <testcase classname="change_order_confirm should return the user to main if 0 is selected" name="change_order_confirm should return the user to main if 0 is selected" time="0">
+    </testcase>
+    <testcase classname="change_order_confirm should show a message for retry if is not zero" name="change_order_confirm should show a message for retry if is not zero" time="0.004">
+    </testcase>
+    <testcase classname="change_order_confirm should show prompt for retry if is not zero" name="change_order_confirm should show prompt for retry if is not zero" time="0.001">
+    </testcase>
+    <testcase classname="change_order_confirm should call the onFinalized handler if successful" name="change_order_confirm should call the onFinalized handler if successful" time="0">
+    </testcase>
+    <testcase classname="change_order_confirm should display a message asking the client to try again later if the maximum number of chicken would be greater than the district cap when an order is confirmed" name="change_order_confirm should display a message asking the client to try again later if the maximum number of chicken would be greater than the district cap when an order is confirmed" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="change_order_handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:15" time="10.916" tests="8">
+    <testcase classname="change_order_handler should be a function" name="change_order_handler should be a function" time="0.006">
+    </testcase>
+    <testcase classname="change_order_handler should call notifyELK " name="change_order_handler should call notifyELK " time="0.002">
+    </testcase>
+    <testcase classname="change_order_handler should return the user to main if 0 is selected" name="change_order_handler should return the user to main if 0 is selected" time="0.003">
+    </testcase>
+    <testcase classname="change_order_handler should show a message saying they don&apos;t meet requirements if repayment is small" name="change_order_handler should show a message saying they don&apos;t meet requirements if repayment is small" time="0.004">
+    </testcase>
+    <testcase classname="change_order_handler should not show a message saying they don&apos;t meet requirements if repayment requirement is met" name="change_order_handler should not show a message saying they don&apos;t meet requirements if repayment requirement is met" time="0.004">
+    </testcase>
+    <testcase classname="change_order_handler should show a message for retry if is not zero or one" name="change_order_handler should show a message for retry if is not zero or one" time="0.001">
+    </testcase>
+    <testcase classname="change_order_handler should show prompt for re-entry if unexpected input" name="change_order_handler should show prompt for re-entry if unexpected input" time="0.001">
+    </testcase>
+    <testcase classname="change_order_handler should call the onPaymentValidated handler if the repayment is satisfied" name="change_order_handler should call the onPaymentValidated handler if the repayment is satisfied" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="ChickenServices" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:15" time="11.15" tests="19">
+    <testcase classname="ChickenServices should have a start function" name="ChickenServices should have a start function" time="0.006">
+    </testcase>
+    <testcase classname="ChickenServices should add change Order Cofirmation handler to input handlers" name="ChickenServices should add change Order Cofirmation handler to input handlers" time="0.005">
+    </testcase>
+    <testcase classname="ChickenServices should add changeOrderHandler to input handlers" name="ChickenServices should add changeOrderHandler to input handlers" time="0.001">
+    </testcase>
+    <testcase classname="ChickenServices should add placeOrderHanler to input handlers" name="ChickenServices should add placeOrderHanler to input handlers" time="0.001">
+    </testcase>
+    <testcase classname="ChickenServices should add possibleOrderHandler to input handlers" name="ChickenServices should add possibleOrderHandler to input handlers" time="0.001">
+    </testcase>
+    <testcase classname="ChickenServices start should set the  state vars to the provided account and country" name="ChickenServices start should set the  state vars to the provided account and country" time="0.089">
+    </testcase>
+    <testcase classname="ChickenServices start should call notifyELK " name="ChickenServices start should call notifyELK " time="0.003">
+    </testcase>
+    <testcase classname="ChickenServices start should show a place order chicken next season message if no chicken is ordered" name="ChickenServices start should show a place order chicken next season message if no chicken is ordered" time="0.002">
+    </testcase>
+    <testcase classname="ChickenServices start should show a change chicken message if chicken confimed" name="ChickenServices start should show a change chicken message if chicken confimed" time="0.001">
+    </testcase>
+    <testcase classname="ChickenServices start should prompt for changing order if chicken is aleady confirmed" name="ChickenServices start should prompt for changing order if chicken is aleady confirmed" time="0.001">
+    </testcase>
+    <testcase classname="ChickenServices start should show a chicken_no_minimum_prepayment message if client didn&apos;t meet minumum payment" name="ChickenServices start should show a chicken_no_minimum_prepayment message if client didn&apos;t meet minumum payment" time="0.001">
+    </testcase>
+    <testcase classname="ChickenServices start should not prompt for any digits if minimum payment is not met" name="ChickenServices start should not prompt for any digits if minimum payment is not met" time="0.001">
+    </testcase>
+    <testcase classname="ChickenServices start should show a chicken_possible_nber message if the client met minumum payment and the number of caps is not reached" name="ChickenServices start should show a chicken_possible_nber message if the client met minumum payment and the number of caps is not reached" time="0.007">
+    </testcase>
+    <testcase classname="ChickenServices start should call onPayment Validated if minimum payment is met and the number of caps is not reached" name="ChickenServices start should call onPayment Validated if minimum payment is met and the number of caps is not reached" time="0.004">
+    </testcase>
+    <testcase classname="ChickenServices start should show a message telling the farmer to try again next month if the number of caps is  reached" name="ChickenServices start should show a message telling the farmer to try again next month if the number of caps is  reached" time="0.008">
+    </testcase>
+    <testcase classname="ChickenServices place Order Handler Success callback should show the possible number of chicken message and propmt for a number" name="ChickenServices place Order Handler Success callback should show the possible number of chicken message and propmt for a number" time="0.002">
+    </testcase>
+    <testcase classname="ChickenServices possible order handler success callback should show a confirmation message with the number of chiken chosen and prompt for an answer" name="ChickenServices possible order handler success callback should show a confirmation message with the number of chiken chosen and prompt for an answer" time="0.003">
+    </testcase>
+    <testcase classname="ChickenServices change order confirmation success callback shoud set the rows and save the client infos" name="ChickenServices change order confirmation success callback shoud set the rows and save the client infos" time="0.016">
+    </testcase>
+    <testcase classname="ChickenServices change order confirmation success callback should not save if no client is found in the db" name="ChickenServices change order confirmation success callback should not save if no client is found in the db" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Phone number input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:28" time="0.665" tests="3">
+    <testcase classname="Phone number input handler should reprompt for phone number if input does not start with 088 or 099" name="Phone number input handler should reprompt for phone number if input does not start with 088 or 099" time="0.028">
+    </testcase>
+    <testcase classname="Phone number input handler should reprompt for phone number if input is not a 10 digits phone" name="Phone number input handler should reprompt for phone number if input is not a 10 digits phone" time="0.002">
+    </testcase>
+    <testcase classname="Phone number input handler should save and confirm that the transaction is recorded once the phone number is valid" name="Phone number input handler should save and confirm that the transaction is recorded once the phone number is valid" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="Malawi legacy" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:27" time="1.444" tests="3">
+    <testcase classname="Malawi legacy should setup the service variables" name="Malawi legacy should setup the service variables" time="0.157">
+    </testcase>
+    <testcase classname="Malawi legacy should start the main service and promt user for account number" name="Malawi legacy should start the main service and promt user for account number" time="0.056">
+    </testcase>
+    <testcase classname="Malawi legacy should register the account number input handler" name="Malawi legacy should register the account number input handler" time="0.047">
+    </testcase>
+  </testsuite>
+  <testsuite name="Tester pack" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:27" time="1.708" tests="2">
+    <testcase classname="Tester pack should start the tester pack confirmation" name="Tester pack should start the tester pack confirmation" time="0.009">
+    </testcase>
+    <testcase classname="Tester pack should register all input handlers" name="Tester pack should register all input handlers" time="0.954">
+    </testcase>
+  </testsuite>
+  <testsuite name="ChickenServices" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:29" time="0.795" tests="5">
+    <testcase classname="ChickenServices should be a function" name="ChickenServices should be a function" time="0.004">
+    </testcase>
+    <testcase classname="ChickenServices should only return the whole menu if the dates are satisfied" name="ChickenServices should only return the whole menu if the dates are satisfied" time="0.048">
+    </testcase>
+    <testcase classname="ChickenServices should not return an option that doesn&apos;t satisfy the date condition" name="ChickenServices should not return an option that doesn&apos;t satisfy the date condition" time="0.009">
+    </testcase>
+    <testcase classname="ChickenServices should return an object of all the options if the character is greater than 140 satisfy the date condition" name="ChickenServices should return an object of all the options if the character is greater than 140 satisfy the date condition" time="0.015">
+    </testcase>
+    <testcase classname="ChickenServices should return an object of only options that satisfy the date condition if the character is greater than 140" name="ChickenServices should return an object of only options that satisfy the date condition if the character is greater than 140" time="0.017">
+    </testcase>
+  </testsuite>
+  <testsuite name="clientRegistration" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:29" time="0.939" tests="13">
+    <testcase classname="clientRegistration should have a start function" name="clientRegistration should have a start function" time="0.006">
+    </testcase>
+    <testcase classname="clientRegistration start should set the  state vars to the provided account and country" name="clientRegistration start should set the  state vars to the provided account and country" time="0.004">
+    </testcase>
+    <testcase classname="clientRegistration start should call notifyELK on start function" name="clientRegistration start should call notifyELK on start function" time="0.006">
+    </testcase>
+    <testcase classname="clientRegistration start should call roster.authClient" name="clientRegistration start should call roster.authClient" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration start should call roster.getClinet if roster.authClient returns true" name="clientRegistration start should call roster.getClinet if roster.authClient returns true" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration start should send a message if loan is fully paid" name="clientRegistration start should send a message if loan is fully paid" time="0.039">
+    </testcase>
+    <testcase classname="clientRegistration start should send a message without FO contact if loan is fully paid and foinfo.phoneNumber is null" name="clientRegistration start should send a message without FO contact if loan is fully paid and foinfo.phoneNumber is null" time="0.005">
+    </testcase>
+    <testcase classname="clientRegistration start should show a message without FO contact if loan is fully paid and foinfo.phoneNumber is null" name="clientRegistration start should show a message without FO contact if loan is fully paid and foinfo.phoneNumber is null" time="0.002">
+    </testcase>
+    <testcase classname="clientRegistration start should send a message without FO contact if loan is fully paid and foinfo is null" name="clientRegistration start should send a message without FO contact if loan is fully paid and foinfo is null" time="0.002">
+    </testcase>
+    <testcase classname="clientRegistration start should show a message without FO contact if loan is fully paid and foinfo is null" name="clientRegistration start should show a message without FO contact if loan is fully paid and foinfo is null" time="0.002">
+    </testcase>
+    <testcase classname="clientRegistration start should save a row with client info if loan is fully paid" name="clientRegistration start should save a row with client info if loan is fully paid" time="0.002">
+    </testcase>
+    <testcase classname="clientRegistration start should display loan_payment_not_satisfied if the minimum loan is not satisfied " name="clientRegistration start should display loan_payment_not_satisfied if the minimum loan is not satisfied " time="0.037">
+    </testcase>
+    <testcase classname="clientRegistration start should display a message with an account number if a duplicate account number is found in the tables" name="clientRegistration start should display a message with an account number if a duplicate account number is found in the tables" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Build menu" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:30" time="0.466" tests="2">
+    <testcase classname="Build menu should return an array of menus when for many screens for characters &gt; 140" name="Build menu should return an array of menus when for many screens for characters &gt; 140" time="0.009">
+    </testcase>
+    <testcase classname="Build menu should return a string in case we have a single menu characters &lt;=140" name="Build menu should return a string in case we have a single menu characters &lt;=140" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="tester pack menu handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:30" time="0.601" tests="4">
+    <testcase classname="tester pack menu handler should prompt a user to choose a province once they select option (2)  for confirmation" name="tester pack menu handler should prompt a user to choose a province once they select option (2)  for confirmation" time="0.046">
+    </testcase>
+    <testcase classname="tester pack menu handler should prompt a user to choose a province again once there is no province match for their input" name="tester pack menu handler should prompt a user to choose a province again once there is no province match for their input" time="0.002">
+    </testcase>
+    <testcase classname="tester pack menu handler should prompt a user to enter village id once they select option (3)  for status" name="tester pack menu handler should prompt a user to enter village id once they select option (3)  for status" time="0.002">
+    </testcase>
+    <testcase classname="tester pack menu handler should prompt a user to enter village id once they select option (1)  for registration" name="tester pack menu handler should prompt a user to enter village id once they select option (1)  for registration" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="clientRegistration" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:29" time="1.39" tests="36">
+    <testcase classname="clientRegistration should have a start function" name="clientRegistration should have a start function" time="0.004">
+    </testcase>
+    <testcase classname="clientRegistration should add national Id Confirmation handler to input handlers" name="clientRegistration should add national Id Confirmation handler to input handlers" time="0.003">
+    </testcase>
+    <testcase classname="clientRegistration should add phone number Confirmation handler to input handlers" name="clientRegistration should add phone number Confirmation handler to input handlers" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration should add firstName handler to input handlers" name="clientRegistration should add firstName handler to input handlers" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration should add national Id handler to input handlers" name="clientRegistration should add national Id handler to input handlers" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration should add phone Number handler to input handlers" name="clientRegistration should add phone Number handler to input handlers" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration should add second Name handler to input handlers" name="clientRegistration should add second Name handler to input handlers" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration should add group leader question handler to input handlers" name="clientRegistration should add group leader question handler to input handlers" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration National Id Submission success callback should display a message with an account number if a duplicate national id is found in the tables" name="clientRegistration National Id Submission success callback should display a message with an account number if a duplicate national id is found in the tables" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration National Id Submission success callback should tell the client to confirm the national Id they have entered" name="clientRegistration National Id Submission success callback should tell the client to confirm the national Id they have entered" time="0">
+    </testcase>
+    <testcase classname="clientRegistration National Id Submission success callback should prompt for the client to confirm their national Id" name="clientRegistration National Id Submission success callback should prompt for the client to confirm their national Id" time="0.002">
+    </testcase>
+    <testcase classname="clientRegistration National Id confirmation success callback should tell the client to enter their first name after they confirm their ID" name="clientRegistration National Id confirmation success callback should tell the client to enter their first name after they confirm their ID" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration National Id confirmation success callback should prompt for the client for their first name" name="clientRegistration National Id confirmation success callback should prompt for the client for their first name" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration First name prompt success callback should tell the client to enter their last name after they have entered their first name" name="clientRegistration First name prompt success callback should tell the client to enter their last name after they have entered their first name" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration First name prompt success callback should prompt for the client for their last name" name="clientRegistration First name prompt success callback should prompt for the client for their last name" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration second name prompt success callback should tell the client to enter their phone number after they have entered their last name" name="clientRegistration second name prompt success callback should tell the client to enter their phone number after they have entered their last name" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration second name prompt success callback should prompt for the client for phone number" name="clientRegistration second name prompt success callback should prompt for the client for phone number" time="0">
+    </testcase>
+    <testcase classname="clientRegistration phone number prompt success callback should tell the client to confirm their phone number after they have entered it" name="clientRegistration phone number prompt success callback should tell the client to confirm their phone number after they have entered it" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration phone number prompt success callback should prompt to ask the user if the would like to be a GL" name="clientRegistration phone number prompt success callback should prompt to ask the user if the would like to be a GL" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration confirm phone number success callback should ask the client if they are willing to become a group leader after they have entered their last name" name="clientRegistration confirm phone number success callback should ask the client if they are willing to become a group leader after they have entered their last name" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration confirm phone number success callback should prompt the client for the group leader interest question" name="clientRegistration confirm phone number success callback should prompt the client for the group leader interest question" time="0">
+    </testcase>
+    <testcase classname="clientRegistration group leader question success callback should not send message or save a row if the returned JSON from registering the client is null " name="clientRegistration group leader question success callback should not send message or save a row if the returned JSON from registering the client is null " time="0.108">
+    </testcase>
+    <testcase classname="clientRegistration group leader question success callback should send a message containing the FO phone number to the Group leader phone number if the FO contact is available" name="clientRegistration group leader question success callback should send a message containing the FO phone number to the Group leader phone number if the FO contact is available" time="0.005">
+    </testcase>
+    <testcase classname="clientRegistration group leader question success callback should send a message containing the FO phone number to the new client phone number if the FO contact is available" name="clientRegistration group leader question success callback should send a message containing the FO phone number to the new client phone number if the FO contact is available" time="0.005">
+    </testcase>
+    <testcase classname="clientRegistration group leader question success callback should show a message containing the FO phone number if the FO contact is available" name="clientRegistration group leader question success callback should show a message containing the FO phone number if the FO contact is available" time="0.004">
+    </testcase>
+    <testcase classname="clientRegistration group leader question success callback should send a message with no FO phone number to the GL phone number if the FO phone is not available" name="clientRegistration group leader question success callback should send a message with no FO phone number to the GL phone number if the FO phone is not available" time="0.003">
+    </testcase>
+    <testcase classname="clientRegistration group leader question success callback should save a row in the datatables with clients information if registration is successful" name="clientRegistration group leader question success callback should save a row in the datatables with clients information if registration is successful" time="0.008">
+    </testcase>
+    <testcase classname="clientRegistration group leader question success callback should send a message with no FO phone number to the new client phone number if the FO phone is not available" name="clientRegistration group leader question success callback should send a message with no FO phone number to the new client phone number if the FO phone is not available" time="0.003">
+    </testcase>
+    <testcase classname="clientRegistration group leader question success callback should send a message with no FO phone number to the new client phone number if the FO phone number is not available" name="clientRegistration group leader question success callback should send a message with no FO phone number to the new client phone number if the FO phone number is not available" time="0.003">
+    </testcase>
+    <testcase classname="clientRegistration group leader question success callback should send a message with no FO phone number to the GL phone number if the FO contact is not available" name="clientRegistration group leader question success callback should send a message with no FO phone number to the GL phone number if the FO contact is not available" time="0.003">
+    </testcase>
+    <testcase classname="clientRegistration group leader question success callback should send a message with no FO phone number to the new client phone number if the FO phone is not available" name="clientRegistration group leader question success callback should send a message with no FO phone number to the new client phone number if the FO phone is not available" time="0.003">
+    </testcase>
+    <testcase classname="clientRegistration group leader question success callback should show a message with no FO phone number if the FO details is not available" name="clientRegistration group leader question success callback should show a message with no FO phone number if the FO details is not available" time="0.003">
+    </testcase>
+    <testcase classname="clientRegistration start should set the  state vars to the provided account and country" name="clientRegistration start should set the  state vars to the provided account and country" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration start should call notifyELK" name="clientRegistration start should call notifyELK" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration start should show a what is the farmer&apos;s national Id message" name="clientRegistration start should show a what is the farmer&apos;s national Id message" time="0.005">
+    </testcase>
+    <testcase classname="clientRegistration start should prompt for the farmer&apos;s national Id" name="clientRegistration start should prompt for the farmer&apos;s national Id" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="createTranslator" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:30" time="0.632" tests="13">
+    <testcase classname="createTranslator should be a function" name="createTranslator should be a function" time="0.003">
+    </testcase>
+    <testcase classname="createTranslator should throw an error if there is no translations object" name="createTranslator should throw an error if there is no translations object" time="0.007">
+    </testcase>
+    <testcase classname="createTranslator should throw an error if there is no default tranlation key" name="createTranslator should throw an error if there is no default tranlation key" time="0.001">
+    </testcase>
+    <testcase classname="createTranslator should return a translate function" name="createTranslator should return a translate function" time="0.001">
+    </testcase>
+    <testcase classname="createTranslator translate should return the default translation if no language is provided" name="createTranslator translate should return the default translation if no language is provided" time="0.002">
+    </testcase>
+    <testcase classname="createTranslator translate should return the selected language translation" name="createTranslator translate should return the selected language translation" time="0.001">
+    </testcase>
+    <testcase classname="createTranslator translate should return the language translation if the locale translation is unavailable" name="createTranslator translate should return the language translation if the locale translation is unavailable" time="0.001">
+    </testcase>
+    <testcase classname="createTranslator translate should return the language translation if the default is a locale translation that is unavailable" name="createTranslator translate should return the language translation if the default is a locale translation that is unavailable" time="0">
+    </testcase>
+    <testcase classname="createTranslator translate should throw an error if there is no text matching the translations  " name="createTranslator translate should throw an error if there is no text matching the translations  " time="0.001">
+    </testcase>
+    <testcase classname="createTranslator translate should return the default translation if non exists for the language provided" name="createTranslator translate should return the default translation if non exists for the language provided" time="0.001">
+    </testcase>
+    <testcase classname="createTranslator translate should throw an error if no translation exists in the default or given language" name="createTranslator translate should throw an error if no translation exists in the default or given language" time="0.007">
+    </testcase>
+    <testcase classname="createTranslator translate should replace template placeholders with corresponding values from options" name="createTranslator translate should replace template placeholders with corresponding values from options" time="0.001">
+    </testcase>
+    <testcase classname="createTranslator translate should replace template placeholders with corresponding values from options in locale translations" name="createTranslator translate should replace template placeholders with corresponding values from options in locale translations" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="tester pack menu handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:30" time="0.747" tests="2">
+    <testcase classname="tester pack menu handler should promt the user to select a province" name="tester pack menu handler should promt the user to select a province" time="0.008">
+    </testcase>
+    <testcase classname="tester pack menu handler should register input handlers" name="tester pack menu handler should register input handlers" time="0.119">
+    </testcase>
+  </testsuite>
+  <testsuite name="Back to group summary handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:31" time="0.756" tests="3">
+    <testcase classname="Back to group summary handler should register input handlers" name="Back to group summary handler should register input handlers" time="0.146">
+    </testcase>
+    <testcase classname="Back to group summary handler should start the group repayment session" name="Back to group summary handler should start the group repayment session" time="0.01">
+    </testcase>
+    <testcase classname="Back to group summary handler should call notifyELK" name="Back to group summary handler should call notifyELK" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="change_order_handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:31" time="0.627" tests="5">
+    <testcase classname="change_order_handler should be  function" name="change_order_handler should be  function" time="0.004">
+    </testcase>
+    <testcase classname="change_order_handler should return false if the number of caps in a district is equal to the number of chicken ordered" name="change_order_handler should return false if the number of caps in a district is equal to the number of chicken ordered" time="0.006">
+    </testcase>
+    <testcase classname="change_order_handler should return false if the number of caps in a district is 1 less to the number of chicken ordered" name="change_order_handler should return false if the number of caps in a district is 1 less to the number of chicken ordered" time="0.003">
+    </testcase>
+    <testcase classname="change_order_handler should return the number of possible chicken if the  number of caps in a district is less to the number of chicken ordered" name="change_order_handler should return the number of possible chicken if the  number of caps in a district is less to the number of chicken ordered" time="0.004">
+    </testcase>
+    <testcase classname="change_order_handler should return false if no caps were found" name="change_order_handler should return false if no caps were found" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="getTransactionHistory" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:31" time="0.624" tests="7">
+    <testcase classname="getTransactionHistory should be a function" name="getTransactionHistory should be a function" time="0.011">
+    </testcase>
+    <testcase classname="getTransactionHistory should call Http.request" name="getTransactionHistory should call Http.request" time="0.005">
+    </testcase>
+    <testcase classname="getTransactionHistory should return client repayments if the request is succesful" name="getTransactionHistory should return client repayments if the request is succesful" time="0.001">
+    </testcase>
+    <testcase classname="getTransactionHistory should log an error when the response code is not 200" name="getTransactionHistory should log an error when the response code is not 200" time="0.001">
+    </testcase>
+    <testcase classname="getTransactionHistory should return an empty array if the response code is not 200" name="getTransactionHistory should return an empty array if the response code is not 200" time="0.001">
+    </testcase>
+    <testcase classname="getTransactionHistory should log an error when the request throws an error" name="getTransactionHistory should log an error when the request throws an error" time="0.001">
+    </testcase>
+    <testcase classname="getTransactionHistory shoud return an empty array if the request throws an error" name="getTransactionHistory shoud return an empty array if the request throws an error" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="change_order_handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:32" time="0.667" tests="7">
+    <testcase classname="change_order_handler should be a function" name="change_order_handler should be a function" time="0.005">
+    </testcase>
+    <testcase classname="change_order_handler should call notifyELK " name="change_order_handler should call notifyELK " time="0.002">
+    </testcase>
+    <testcase classname="change_order_handler should return the user to main if 0 is selected" name="change_order_handler should return the user to main if 0 is selected" time="0.004">
+    </testcase>
+    <testcase classname="change_order_handler should show a message saying they don&apos;t meet requirements if repayment is small" name="change_order_handler should show a message saying they don&apos;t meet requirements if repayment is small" time="0.003">
+    </testcase>
+    <testcase classname="change_order_handler should not show a message saying they don&apos;t meet requirements if repayment requirement is met" name="change_order_handler should not show a message saying they don&apos;t meet requirements if repayment requirement is met" time="0.001">
+    </testcase>
+    <testcase classname="change_order_handler should call the onPaymentValidated handler if the repayment is satisfied" name="change_order_handler should call the onPaymentValidated handler if the repayment is satisfied" time="0">
+    </testcase>
+    <testcase classname="change_order_handler should show prompt for re-entry if unexpected input" name="change_order_handler should show prompt for re-entry if unexpected input" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Duka locator" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:32" time="0.706" tests="3">
+    <testcase classname="Duka locator should register input handlers" name="Duka locator should register input handlers" time="0.161">
+    </testcase>
+    <testcase classname="Duka locator should start the duka locator" name="Duka locator should start the duka locator" time="0.003">
+    </testcase>
+    <testcase classname="Duka locator should call notifyELK" name="Duka locator should call notifyELK" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="phone_number_handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:32" time="0.639" tests="6">
+    <testcase classname="phone_number_handler should be a function" name="phone_number_handler should be a function" time="0.007">
+    </testcase>
+    <testcase classname="phone_number_handler should call notifyELK " name="phone_number_handler should call notifyELK " time="0.013">
+    </testcase>
+    <testcase classname="phone_number_handler should not call onPhoneNumberValidated if input does not match a valid phone Number " name="phone_number_handler should not call onPhoneNumberValidated if input does not match a valid phone Number " time="0.001">
+    </testcase>
+    <testcase classname="phone_number_handler should show prompt message for retry if input is not a valid phone number" name="phone_number_handler should show prompt message for retry if input is not a valid phone number" time="0.002">
+    </testcase>
+    <testcase classname="phone_number_handler should call promptDigits for the phone number if the input is not a valid phone number format" name="phone_number_handler should call promptDigits for the phone number if the input is not a valid phone number format" time="0.001">
+    </testcase>
+    <testcase classname="phone_number_handler should call the onPhoneNumberValidated handler if the phone number is in correct format" name="phone_number_handler should call the onPhoneNumberValidated handler if the phone number is in correct format" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="confirm_national_id" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:32" time="0.613" tests="5">
+    <testcase classname="confirm_national_id should not call onNationalIdConfirmation if input is not 1 " name="confirm_national_id should not call onNationalIdConfirmation if input is not 1 " time="0.015">
+    </testcase>
+    <testcase classname="confirm_national_id should call notifyELK " name="confirm_national_id should call notifyELK " time="0.001">
+    </testcase>
+    <testcase classname="confirm_national_id should show prompt message for national ID input if input is not a valid national Id" name="confirm_national_id should show prompt message for national ID input if input is not a valid national Id" time="0.002">
+    </testcase>
+    <testcase classname="confirm_national_id should call promptDigits for the correct national ID if the input" name="confirm_national_id should call promptDigits for the correct national ID if the input" time="0.001">
+    </testcase>
+    <testcase classname="confirm_national_id should call onNationalIdConfirmation if input is  1 " name="confirm_national_id should call onNationalIdConfirmation if input is  1 " time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="getHandler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:33" time="0.628" tests="3">
+    <testcase classname="getHandler should return a function" name="getHandler should return a function" time="0.005">
+    </testcase>
+    <testcase classname="getHandler should call the ontransactionSelected callback when the returned value is called" name="getHandler should call the ontransactionSelected callback when the returned value is called" time="0.003">
+    </testcase>
+    <testcase classname="getHandler should call notifyELK" name="getHandler should call notifyELK" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="TransactionHistory" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:33" time="0.95" tests="21">
+    <testcase classname="TransactionHistory should have a start function" name="TransactionHistory should have a start function" time="0.004">
+    </testcase>
+    <testcase classname="TransactionHistory registerHandlers should add IdVerificationhandler to input handlers" name="TransactionHistory registerHandlers should add IdVerificationhandler to input handlers" time="0.003">
+    </testcase>
+    <testcase classname="TransactionHistory registerHandlers should get the niDVerification handler using the account number and country" name="TransactionHistory registerHandlers should get the niDVerification handler using the account number and country" time="0.001">
+    </testcase>
+    <testcase classname="TransactionHistory registerHandlers should add selectionhandler to inputHandlers" name="TransactionHistory registerHandlers should add selectionhandler to inputHandlers" time="0.001">
+    </testcase>
+    <testcase classname="TransactionHistory registerHandlers should add the backTolisthandler to inputHandlers" name="TransactionHistory registerHandlers should add the backTolisthandler to inputHandlers" time="0.001">
+    </testcase>
+    <testcase classname="TransactionHistory registerHandlers BackToList handler should call transactionview.list with transactions from the state object and  the page" name="TransactionHistory registerHandlers BackToList handler should call transactionview.list with transactions from the state object and  the page" time="0.001">
+    </testcase>
+    <testcase classname="TransactionHistory registerHandlers BackToList handler should prompt the user to select " name="TransactionHistory registerHandlers BackToList handler should prompt the user to select " time="0.001">
+    </testcase>
+    <testcase classname="TransactionHistory registerHandlers Id Verification success callback should list the transactions from getTransactions " name="TransactionHistory registerHandlers Id Verification success callback should list the transactions from getTransactions " time="0.002">
+    </testcase>
+    <testcase classname="TransactionHistory registerHandlers Id Verification success callback should prompt for the client to select a transaction " name="TransactionHistory registerHandlers Id Verification success callback should prompt for the client to select a transaction " time="0.001">
+    </testcase>
+    <testcase classname="TransactionHistory registerHandlers Selection Callback should show the selected transaction" name="TransactionHistory registerHandlers Selection Callback should show the selected transaction" time="0.004">
+    </testcase>
+    <testcase classname="TransactionHistory registerHandlers Selection Callback should show the next page when 99 is entered  " name="TransactionHistory registerHandlers Selection Callback should show the next page when 99 is entered  " time="0.002">
+    </testcase>
+    <testcase classname="TransactionHistory registerHandlers Selection Callback should not show individual transaction if 99 is entered " name="TransactionHistory registerHandlers Selection Callback should not show individual transaction if 99 is entered " time="0.001">
+    </testcase>
+    <testcase classname="TransactionHistory registerHandlers Selection Callback should prompt for the user to make another selection if the user navigates to the next page" name="TransactionHistory registerHandlers Selection Callback should prompt for the user to make another selection if the user navigates to the next page" time="0.001">
+    </testcase>
+    <testcase classname="TransactionHistory registerHandlers Selection Callback should not prompt for the user to make another selection if the user navigates to transaction detail view" name="TransactionHistory registerHandlers Selection Callback should not prompt for the user to make another selection if the user navigates to transaction detail view" time="0">
+    </testcase>
+    <testcase classname="TransactionHistory registerHandlers Selection Callback should show an error message if the user selects an out of range option" name="TransactionHistory registerHandlers Selection Callback should show an error message if the user selects an out of range option" time="0.002">
+    </testcase>
+    <testcase classname="TransactionHistory registerHandlers Selection Callback should show an error message if the user input is invalid" name="TransactionHistory registerHandlers Selection Callback should show an error message if the user input is invalid" time="0.001">
+    </testcase>
+    <testcase classname="TransactionHistory registerHandlers Selection Callback should prompt the client to enter make another selection if the first was invalid" name="TransactionHistory registerHandlers Selection Callback should prompt the client to enter make another selection if the first was invalid" time="0.001">
+    </testcase>
+    <testcase classname="TransactionHistory start should set the  state vars to the provided account and country" name="TransactionHistory start should set the  state vars to the provided account and country" time="0.003">
+    </testcase>
+    <testcase classname="TransactionHistory start should call notifyELk" name="TransactionHistory start should call notifyELk" time="0.001">
+    </testcase>
+    <testcase classname="TransactionHistory start should prompt for the last four digits of the national id" name="TransactionHistory start should prompt for the last four digits of the national id" time="0">
+    </testcase>
+    <testcase classname="TransactionHistory start should call prompt digits with &quot;last_four_nid_handler&quot;" name="TransactionHistory start should call prompt digits with &quot;last_four_nid_handler&quot;" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Varieties input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:33" time="0.511" tests="2">
+    <testcase classname="Varieties input handler should reprompt the user for a crop if their input doesn&apos;t match any variety" name="Varieties input handler should reprompt the user for a crop if their input doesn&apos;t match any variety" time="0.009">
+    </testcase>
+    <testcase classname="Varieties input handler should prompt for Kgs when the user chooses an existing variety" name="Varieties input handler should prompt for Kgs when the user chooses an existing variety" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="beyonicUpdateRetry" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:33" time="0.768" tests="16">
+    <testcase classname="beyonicUpdateRetry should call the production table if the environment is prod" name="beyonicUpdateRetry should call the production table if the environment is prod" time="0.072">
+    </testcase>
+    <testcase classname="beyonicUpdateRetry should call the dev table if the environment is dev" name="beyonicUpdateRetry should call the dev table if the environment is dev" time="0.008">
+    </testcase>
+    <testcase classname="beyonicUpdateRetry should set the default value to prod if the service is live and call Client portal 2.0" name="beyonicUpdateRetry should set the default value to prod if the service is live and call Client portal 2.0" time="0.006">
+    </testcase>
+    <testcase classname="beyonicUpdateRetry should set the default value to dev if the service is not live and call dev_Client portal 2.0" name="beyonicUpdateRetry should set the default value to dev if the service is not live and call dev_Client portal 2.0" time="0.007">
+    </testcase>
+    <testcase classname="beyonicUpdateRetry should set the updateReceived row in telerivet to done if no error is found and a row with UpdateReceived as no is found" name="beyonicUpdateRetry should set the updateReceived row in telerivet to done if no error is found and a row with UpdateReceived as no is found" time="0.01">
+    </testcase>
+    <testcase classname="beyonicUpdateRetry should send a message in english if an error is found and English is set to true" name="beyonicUpdateRetry should send a message in english if an error is found and English is set to true" time="0.009">
+    </testcase>
+    <testcase classname="beyonicUpdateRetry should send a message in swahili if an error is found and English is set to false " name="beyonicUpdateRetry should send a message in swahili if an error is found and English is set to false " time="0.008">
+    </testcase>
+    <testcase classname="beyonicUpdateRetry should save a row if the saved column on the contact is RETRYING on UpdateReceived" name="beyonicUpdateRetry should save a row if the saved column on the contact is RETRYING on UpdateReceived" time="0.019">
+    </testcase>
+    <testcase classname="beyonicUpdateRetry should send a message if the update is retrying and the sim is in the old sim card table with a the content saying they should upgrade(if swahili is set)" name="beyonicUpdateRetry should send a message if the update is retrying and the sim is in the old sim card table with a the content saying they should upgrade(if swahili is set)" time="0.008">
+    </testcase>
+    <testcase classname="beyonicUpdateRetry should send a message if the update is retrying and the sim is in the old sim card table with a message saying they should upgrade(if English is set)" name="beyonicUpdateRetry should send a message if the update is retrying and the sim is in the old sim card table with a message saying they should upgrade(if English is set)" time="0.013">
+    </testcase>
+    <testcase classname="beyonicUpdateRetry should send a message if the update is retrying and the sim is not in the old sim card table with a message sying they can&apos;t make a payment(in swahili)" name="beyonicUpdateRetry should send a message if the update is retrying and the sim is not in the old sim card table with a message sying they can&apos;t make a payment(in swahili)" time="0.007">
+    </testcase>
+    <testcase classname="beyonicUpdateRetry should send a message if the update is retrying and the sim is not in the old sim card table with a message sying they can&apos;t make a payment(in english)" name="beyonicUpdateRetry should send a message if the update is retrying and the sim is not in the old sim card table with a message sying they can&apos;t make a payment(in english)" time="0.006">
+    </testcase>
+    <testcase classname="beyonicUpdateRetry should send a message saying they try again if the update is retrying and other errors are found expect error1 and error2(in english)" name="beyonicUpdateRetry should send a message saying they try again if the update is retrying and other errors are found expect error1 and error2(in english)" time="0.008">
+    </testcase>
+    <testcase classname="beyonicUpdateRetry should send a message saying they try again if the update is retrying and other errors are found expect error1 and error2(in swahili)" name="beyonicUpdateRetry should send a message saying they try again if the update is retrying and other errors are found expect error1 and error2(in swahili)" time="0.013">
+    </testcase>
+    <testcase classname="beyonicUpdateRetry should console log if the status sent is instructions_sent" name="beyonicUpdateRetry should console log if the status sent is instructions_sent" time="0.006">
+    </testcase>
+    <testcase classname="beyonicUpdateRetry should send am email if the phone numbers are different" name="beyonicUpdateRetry should send am email if the phone numbers are different" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="Districts handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:34" time="0.567" tests="3">
+    <testcase classname="Districts handler should prompt a user to select a sector from a list of sectors that belongs to a selected district" name="Districts handler should prompt a user to select a sector from a list of sectors that belongs to a selected district" time="0.016">
+    </testcase>
+    <testcase classname="Districts handler should display a next page of districts when available and user selects 77" name="Districts handler should display a next page of districts when available and user selects 77" time="0.002">
+    </testcase>
+    <testcase classname="Districts handler should prompt a user for a retry when their input doesn&apos;t match any district" name="Districts handler should prompt a user for a retry when their input doesn&apos;t match any district" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Fetch client" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:34" time="0.483" tests="3">
+    <testcase classname="Fetch client it should fetch client successfully" name="Fetch client it should fetch client successfully" time="0.006">
+    </testcase>
+    <testcase classname="Fetch client it should handle the  http error with status code other than 200" name="Fetch client it should handle the  http error with status code other than 200" time="0.018">
+    </testcase>
+    <testcase classname="Fetch client it should handle the  unresolved promise error" name="Fetch client it should handle the  unresolved promise error" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="Mobile Money receipts" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:34" time="0.599" tests="2">
+    <testcase classname="Mobile Money receipts should send an updated receips message" name="Mobile Money receipts should send an updated receips message" time="0.092">
+    </testcase>
+    <testcase classname="Mobile Money receipts should email the testing partner" name="Mobile Money receipts should email the testing partner" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="Sectors handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:34" time="0.503" tests="3">
+    <testcase classname="Sectors handler should prompt a user for a cell when their input matches a stored sector" name="Sectors handler should prompt a user for a cell when their input matches a stored sector" time="0.01">
+    </testcase>
+    <testcase classname="Sectors handler should handle the option for next screen" name="Sectors handler should handle the option for next screen" time="0.002">
+    </testcase>
+    <testcase classname="Sectors handler should ask a user to retry once their input doesn&apos;t match any sector" name="Sectors handler should ask a user to retry once their input doesn&apos;t match any sector" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="County handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:35" time="0.503" tests="3">
+    <testcase classname="County handler should handle the county selected" name="County handler should handle the county selected" time="0.01">
+    </testcase>
+    <testcase classname="County handler should handle the invalid choice" name="County handler should handle the invalid choice" time="0.002">
+    </testcase>
+    <testcase classname="County handler should call notifyELK" name="County handler should call notifyELK" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Tester pack Status checking" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:35" time="0.467" tests="2">
+    <testcase classname="Tester pack Status checking should prompt for village id once tester pack status starts " name="Tester pack Status checking should prompt for village id once tester pack status starts " time="0.009">
+    </testcase>
+    <testcase classname="Tester pack Status checking should register all input handlers" name="Tester pack Status checking should register all input handlers" time="0.015">
+    </testcase>
+  </testsuite>
+  <testsuite name="clientRegistration" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:35" time="0.622" tests="8">
+    <testcase classname="clientRegistration should have a start function" name="clientRegistration should have a start function" time="0.003">
+    </testcase>
+    <testcase classname="clientRegistration should add the account number handler to input handlers" name="clientRegistration should add the account number handler to input handlers" time="0.01">
+    </testcase>
+    <testcase classname="clientRegistration Account number handler success callback should not display a message saying that the prepayment is not one if the prepayment consition is not met" name="clientRegistration Account number handler success callback should not display a message saying that the prepayment is not one if the prepayment consition is not met" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration Account number handler success callback should display a message saying that the prepayment condition is not satified if the remaining loan is greater than 500" name="clientRegistration Account number handler success callback should display a message saying that the prepayment condition is not satified if the remaining loan is greater than 500" time="0.002">
+    </testcase>
+    <testcase classname="clientRegistration start should set the  state vars to match the provided account and country" name="clientRegistration start should set the  state vars to match the provided account and country" time="0.002">
+    </testcase>
+    <testcase classname="clientRegistration start should call notifyELK" name="clientRegistration start should call notifyELK" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration start should show a message asking for the account number for the farmer to top up" name="clientRegistration start should show a message asking for the account number for the farmer to top up" time="0.001">
+    </testcase>
+    <testcase classname="clientRegistration start should prompt for the account number for the farmer to top up" name="clientRegistration start should prompt for the account number for the farmer to top up" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="registered and confirmed" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:35" time="0.556" tests="3">
+    <testcase classname="registered and confirmed should display a list of registered farmers when farmer promoter chooses 1" name="registered and confirmed should display a list of registered farmers when farmer promoter chooses 1" time="0.018">
+    </testcase>
+    <testcase classname="registered and confirmed should display a list of confirmed farmers when farmer promoter chooses 2" name="registered and confirmed should display a list of confirmed farmers when farmer promoter chooses 2" time="0.002">
+    </testcase>
+    <testcase classname="registered and confirmed should give farmer another try when their input doesn&apos;t match the given 1 and 2" name="registered and confirmed should give farmer another try when their input doesn&apos;t match the given 1 and 2" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Cell handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:35" time="0.52" tests="3">
+    <testcase classname="Cell handler should prompt the user to select a village once the input matches a stored cell" name="Cell handler should prompt the user to select a village once the input matches a stored cell" time="0.021">
+    </testcase>
+    <testcase classname="Cell handler should take the user to the next screen upon input of 77" name="Cell handler should take the user to the next screen upon input of 77" time="0.002">
+    </testcase>
+    <testcase classname="Cell handler should ask the user to retry when their input does&apos;t match any cell" name="Cell handler should ask the user to retry when their input does&apos;t match any cell" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Mobile Money receipts" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:36" time="0.57" tests="2">
+    <testcase classname="Mobile Money receipts should send a message to the contact number" name="Mobile Money receipts should send a message to the contact number" time="0.039">
+    </testcase>
+    <testcase classname="Mobile Money receipts Uganda should send the Uganda confirmation message if the country is Uganda" name="Mobile Money receipts Uganda should send the Uganda confirmation message if the country is Uganda" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="lastFourIdDigitsHandler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:36" time="0.476" tests="2">
+    <testcase classname="lastFourIdDigitsHandler should handle ask the farmer if they have received the pack once the input match the stored id" name="lastFourIdDigitsHandler should handle ask the farmer if they have received the pack once the input match the stored id" time="0.012">
+    </testcase>
+    <testcase classname="lastFourIdDigitsHandler should handle the option for next" name="lastFourIdDigitsHandler should handle the option for next" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="secondNameHandler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:36" time="0.435" tests="2">
+    <testcase classname="secondNameHandler should return a function" name="secondNameHandler should return a function" time="0.003">
+    </testcase>
+    <testcase classname="secondNameHandler should call the onSecondNameReceived callback when the returned value is called" name="secondNameHandler should call the onSecondNameReceived callback when the returned value is called" time="0.012">
+    </testcase>
+  </testsuite>
+  <testsuite name="province handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:36" time="0.513" tests="2">
+    <testcase classname="province handler should give farmer promoter a number of registered and confirmed farmers once the village Id is correct " name="province handler should give farmer promoter a number of registered and confirmed farmers once the village Id is correct " time="0.01">
+    </testcase>
+    <testcase classname="province handler should give farmer promoter another chance once the village id is incorect" name="province handler should give farmer promoter another chance once the village id is incorect" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="reception Handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:36" time="0.644" tests="11">
+    <testcase classname="reception Handler should change the value to true upon selection of 1" name="reception Handler should change the value to true upon selection of 1" time="0.01">
+    </testcase>
+    <testcase classname="reception Handler should handle the option for next" name="reception Handler should handle the option for next" time="0.004">
+    </testcase>
+    <testcase classname="reception Handler should tell the user to try again once they select an unlisted option" name="reception Handler should tell the user to try again once they select an unlisted option" time="0.007">
+    </testcase>
+    <testcase classname="reception Handler should change the value of client_received_tester_pack to no if the user chooses 2" name="reception Handler should change the value of client_received_tester_pack to no if the user chooses 2" time="0.006">
+    </testcase>
+    <testcase classname="reception Handler should change the value of client_received_tester_pack to yes if the client chooses 1" name="reception Handler should change the value of client_received_tester_pack to yes if the client chooses 1" time="0.006">
+    </testcase>
+    <testcase classname="reception Handler should change the time created for confirmation and last updated to now if the client chooses 1 and it&apos;s the first time" name="reception Handler should change the time created for confirmation and last updated to now if the client chooses 1 and it&apos;s the first time" time="0.006">
+    </testcase>
+    <testcase classname="reception Handler should change set the time created for confirmation and last updated to now if the client chooses 2 and it&apos;s the first time" name="reception Handler should change set the time created for confirmation and last updated to now if the client chooses 2 and it&apos;s the first time" time="0.005">
+    </testcase>
+    <testcase classname="reception Handler should change the time updated for confirmation to now if the client chooses 1 and it&apos;s not the first time" name="reception Handler should change the time updated for confirmation to now if the client chooses 1 and it&apos;s not the first time" time="0.004">
+    </testcase>
+    <testcase classname="reception Handler should change the time updated for confirmation to now if the client chooses 2 and it&apos;s not the first time" name="reception Handler should change the time updated for confirmation to now if the client chooses 2 and it&apos;s not the first time" time="0.004">
+    </testcase>
+    <testcase classname="reception Handler should change the time created and last updated for confirmation to now if the client chooses 2 and it&apos;s not the first time(undefined)" name="reception Handler should change the time created and last updated for confirmation to now if the client chooses 2 and it&apos;s not the first time(undefined)" time="0.005">
+    </testcase>
+    <testcase classname="reception Handler should change the time created and last updated for confirmation to now if the client chooses 2 and it&apos;s not the first time(undefined)" name="reception Handler should change the time created and last updated for confirmation to now if the client chooses 2 and it&apos;s not the first time(undefined)" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="Logger" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:36" time="0.694" tests="25">
+    <testcase classname="Logger should be a function" name="Logger should be a function" time="0.004">
+    </testcase>
+    <testcase classname="Logger should throw an error if called without a URL and without a project.vars.elk_logs_base_url" name="Logger should throw an error if called without a URL and without a project.vars.elk_logs_base_url" time="0.002">
+    </testcase>
+    <testcase classname="Logger should not throw an error if project.vars.elk_logs_base_url is set and it is initialised without a URl" name="Logger should not throw an error if project.vars.elk_logs_base_url is set and it is initialised without a URl" time="0.001">
+    </testcase>
+    <testcase classname="Logger should provide a log.log function" name="Logger should provide a log.log function" time="0.001">
+    </testcase>
+    <testcase classname="Logger should provide a log.warn function" name="Logger should provide a log.warn function" time="0">
+    </testcase>
+    <testcase classname="Logger should provide a log.error function" name="Logger should provide a log.error function" time="0">
+    </testcase>
+    <testcase classname="Logger logger.log should throw an error if there is no message provided" name="Logger logger.log should throw an error if there is no message provided" time="0.001">
+    </testcase>
+    <testcase classname="Logger logger.log should send a POST request with the baseURl and provided message" name="Logger logger.log should send a POST request with the baseURl and provided message" time="0.002">
+    </testcase>
+    <testcase classname="Logger logger.log should send a POST request with any provided tags" name="Logger logger.log should send a POST request with any provided tags" time="0.001">
+    </testcase>
+    <testcase classname="Logger logger.log should throw an error if the tags are not an array" name="Logger logger.log should throw an error if the tags are not an array" time="0.001">
+    </testcase>
+    <testcase classname="Logger logger.log should throw an error if the tags are not an array of strings" name="Logger logger.log should throw an error if the tags are not an array of strings" time="0">
+    </testcase>
+    <testcase classname="Logger logger.log should not crash if an empty array is provided as the tags" name="Logger logger.log should not crash if an empty array is provided as the tags" time="0.001">
+    </testcase>
+    <testcase classname="Logger logger.log should not crash if tags are undefined" name="Logger logger.log should not crash if tags are undefined" time="0.002">
+    </testcase>
+    <testcase classname="Logger logger.log should send a POST request with any provided tags and miscellaneous data" name="Logger logger.log should send a POST request with any provided tags and miscellaneous data" time="0.001">
+    </testcase>
+    <testcase classname="Logger logger.log should log to request logger if the returned status code is not 200" name="Logger logger.log should log to request logger if the returned status code is not 200" time="0">
+    </testcase>
+    <testcase classname="Logger logger.warn should throw an error if there is no message provided" name="Logger logger.warn should throw an error if there is no message provided" time="0">
+    </testcase>
+    <testcase classname="Logger logger.warn should send a POST request with the baseURl and provided message" name="Logger logger.warn should send a POST request with the baseURl and provided message" time="0.001">
+    </testcase>
+    <testcase classname="Logger logger.warn should send a POST request with any provided tags" name="Logger logger.warn should send a POST request with any provided tags" time="0.001">
+    </testcase>
+    <testcase classname="Logger logger.warn should throw an error if the tags are not an array" name="Logger logger.warn should throw an error if the tags are not an array" time="0.001">
+    </testcase>
+    <testcase classname="Logger logger.warn should send a POST request with any provided tags and miscellaneous data" name="Logger logger.warn should send a POST request with any provided tags and miscellaneous data" time="0.002">
+    </testcase>
+    <testcase classname="Logger logger.error should throw an error if there is no message provided" name="Logger logger.error should throw an error if there is no message provided" time="0.002">
+    </testcase>
+    <testcase classname="Logger logger.error should send a POST request with the baseURl and provided message" name="Logger logger.error should send a POST request with the baseURl and provided message" time="0.002">
+    </testcase>
+    <testcase classname="Logger logger.error should send a POST request with any provided tags" name="Logger logger.error should send a POST request with any provided tags" time="0.004">
+    </testcase>
+    <testcase classname="Logger logger.error should throw an error if the tags are not an array" name="Logger logger.error should throw an error if the tags are not an array" time="0.002">
+    </testcase>
+    <testcase classname="Logger logger.error should send a POST request with any provided tags and miscellaneous data" name="Logger logger.error should send a POST request with any provided tags and miscellaneous data" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="group_leader_question_handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:37" time="0.561" tests="6">
+    <testcase classname="group_leader_question_handler should be a function" name="group_leader_question_handler should be a function" time="0.005">
+    </testcase>
+    <testcase classname="group_leader_question_handler should call notifyELK " name="group_leader_question_handler should call notifyELK " time="0.002">
+    </testcase>
+    <testcase classname="group_leader_question_handler should not call onGroupLeaderQuestion if input is not 1 or 2" name="group_leader_question_handler should not call onGroupLeaderQuestion if input is not 1 or 2" time="0.001">
+    </testcase>
+    <testcase classname="group_leader_question_handler should set groupLeader state variable to true and call onGroupLeaderQuestion if input is 1" name="group_leader_question_handler should set groupLeader state variable to true and call onGroupLeaderQuestion if input is 1" time="0.003">
+    </testcase>
+    <testcase classname="group_leader_question_handler should set groupLeader state variable to false and call onGroupLeaderQuesion if the input is 2" name="group_leader_question_handler should set groupLeader state variable to false and call onGroupLeaderQuesion if the input is 2" time="0.002">
+    </testcase>
+    <testcase classname="group_leader_question_handler should reprompt the user with the message asking if they want to be a group eader if the input is not 1 or 2" name="group_leader_question_handler should reprompt the user with the message asking if they want to be a group eader if the input is not 1 or 2" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Last four nid digits input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:37" time="0.517" tests="3">
+    <testcase classname="Last four nid digits input handler should handle the correct input id" name="Last four nid digits input handler should handle the correct input id" time="0.015">
+    </testcase>
+    <testcase classname="Last four nid digits input handler should handle incorect input" name="Last four nid digits input handler should handle incorect input" time="0.002">
+    </testcase>
+    <testcase classname="Last four nid digits input handler should call notifyELK" name="Last four nid digits input handler should call notifyELK" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="province handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:37" time="0.53" tests="2">
+    <testcase classname="province handler should prompt for the user to select a district from a list of districts that belongs to a selected province" name="province handler should prompt for the user to select a district from a list of districts that belongs to a selected province" time="0.03">
+    </testcase>
+    <testcase classname="province handler shoult give another try for the user once the input doesn	 match any province" name="province handler shoult give another try for the user once the input doesn	 match any province" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="national_id_handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:38" time="0.525" tests="5">
+    <testcase classname="national_id_handler should not call onNationalIdValidated if input does not match a valid nationalID " name="national_id_handler should not call onNationalIdValidated if input does not match a valid nationalID " time="0.009">
+    </testcase>
+    <testcase classname="national_id_handler should call notifyELK " name="national_id_handler should call notifyELK " time="0.02">
+    </testcase>
+    <testcase classname="national_id_handler should show prompt message for retry if input is not a valid national Id" name="national_id_handler should show prompt message for retry if input is not a valid national Id" time="0.006">
+    </testcase>
+    <testcase classname="national_id_handler should call promptDigits for the correct national ID if the input is not a valid national Id" name="national_id_handler should call promptDigits for the correct national ID if the input is not a valid national Id" time="0.004">
+    </testcase>
+    <testcase classname="national_id_handler should call the onNationalIdValidated handler if the national Id is correct" name="national_id_handler should call the onNationalIdValidated handler if the national Id is correct" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Input handlers" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:38" time="0.577" tests="1">
+    <testcase classname="Input handlers should export all input handlers" name="Input handlers should export all input handlers" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="Tester pack" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:38" time="0.566" tests="1">
+    <testcase classname="Tester pack should start the tester pack registration and prompt for village id" name="Tester pack should start the tester pack registration and prompt for village id" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="get client" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:38" time="0.589" tests="3">
+    <testcase classname="get client should return a valid client" name="get client should return a valid client" time="0.007">
+    </testcase>
+    <testcase classname="get client should return error message if account number is not valid" name="get client should return error message if account number is not valid" time="0.002">
+    </testcase>
+    <testcase classname="get client should return error message if account number is not recorded in roster" name="get client should return error message if account number is not recorded in roster" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Buyback transactions" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:38" time="0.617" tests="2">
+    <testcase classname="Buyback transactions should register the input handlers" name="Buyback transactions should register the input handlers" time="0.017">
+    </testcase>
+    <testcase classname="Buyback transactions should show a list of crops and prompt the user to select one of the crops" name="Buyback transactions should show a list of crops and prompt the user to select one of the crops" time="0.014">
+    </testcase>
+  </testsuite>
+  <testsuite name="Fetch client" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:39" time="0.599" tests="3">
+    <testcase classname="Fetch client it should fetch data successfully" name="Fetch client it should fetch data successfully" time="0.005">
+    </testcase>
+    <testcase classname="Fetch client it should handle the  http error with status code other than 200" name="Fetch client it should handle the  http error with status code other than 200" time="0.035">
+    </testcase>
+    <testcase classname="Fetch client it should handle the  unresolved promise error" name="Fetch client it should handle the  unresolved promise error" time="0.013">
+    </testcase>
+  </testsuite>
+  <testsuite name="slack" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:39" time="0.517" tests="2">
+    <testcase classname="slack should have a log function" name="slack should have a log function" time="0.006">
+    </testcase>
+    <testcase classname="slack slack.log should make an http request" name="slack slack.log should make an http request" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="chicken_Eligibility" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:39" time="0.551" tests="10">
+    <testcase classname="chicken_Eligibility should not define confirmed_chicken variable if the client chicken number is zero" name="chicken_Eligibility should not define confirmed_chicken variable if the client chicken number is zero" time="0.004">
+    </testcase>
+    <testcase classname="chicken_Eligibility should set state.vars.client_notfound variable to not defined if the client is not found in the chicken table" name="chicken_Eligibility should set state.vars.client_notfound variable to not defined if the client is not found in the chicken table" time="0.001">
+    </testcase>
+    <testcase classname="chicken_Eligibility should set state.vars.client_notfound variable to true if the client is not found in the chicken table" name="chicken_Eligibility should set state.vars.client_notfound variable to true if the client is not found in the chicken table" time="0.001">
+    </testcase>
+    <testcase classname="chicken_Eligibility should set confirmed_chicken variable to true if the client chicken number is not zero and they already confirmed" name="chicken_Eligibility should set confirmed_chicken variable to true if the client chicken number is not zero and they already confirmed" time="0.001">
+    </testcase>
+    <testcase classname="chicken_Eligibility should set confirmed_chicken variable to false if the client chicken number is not zero and they have not confirmed" name="chicken_Eligibility should set confirmed_chicken variable to false if the client chicken number is not zero and they have not confirmed" time="0.001">
+    </testcase>
+    <testcase classname="chicken_Eligibility should define confirmed_chicken variable if the client chicken number is not zero and they have not confirmed" name="chicken_Eligibility should define confirmed_chicken variable if the client chicken number is not zero and they have not confirmed" time="0.001">
+    </testcase>
+    <testcase classname="chicken_Eligibility should set state.vars.minimum_amount_paid to true if  prepayment_amount is greater than 1000" name="chicken_Eligibility should set state.vars.minimum_amount_paid to true if  prepayment_amount is greater than 1000" time="0">
+    </testcase>
+    <testcase classname="chicken_Eligibility should set state.vars.max_chicken to 5 if prepayment_amount is greater than 7500" name="chicken_Eligibility should set state.vars.max_chicken to 5 if prepayment_amount is greater than 7500" time="0.001">
+    </testcase>
+    <testcase classname="chicken_Eligibility should set state.vars.max_chicken to the number of possible chicken given the prepayment_amount (if the prepayment is greater than 1000 and allows less than 5 possible chicken)" name="chicken_Eligibility should set state.vars.max_chicken to the number of possible chicken given the prepayment_amount (if the prepayment is greater than 1000 and allows less than 5 possible chicken)" time="0.001">
+    </testcase>
+    <testcase classname="chicken_Eligibility should set state.vars.minimum_amount_paid to False if prepayment_amount is less than 1000" name="chicken_Eligibility should set state.vars.minimum_amount_paid to False if prepayment_amount is less than 1000" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="show" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:40" time="0.595" tests="13">
+    <testcase classname="show shouldbe a function" name="show shouldbe a function" time="0.004">
+    </testcase>
+    <testcase classname="show in Rwanda English should show a given transaction with sayText in English" name="show in Rwanda English should show a given transaction with sayText in English" time="0.004">
+    </testcase>
+    <testcase classname="show in Rwanda English should call promptDigits with the given inputhadnler" name="show in Rwanda English should call promptDigits with the given inputhadnler" time="0.001">
+    </testcase>
+    <testcase classname="show in Rwanda Kinyarwada should show a given transaction with sayText in Kinyarwanda" name="show in Rwanda Kinyarwada should show a given transaction with sayText in Kinyarwanda" time="0.001">
+    </testcase>
+    <testcase classname="show in Kenya Swahili should show a given transaction with sayText in Swahili" name="show in Kenya Swahili should show a given transaction with sayText in Swahili" time="0.001">
+    </testcase>
+    <testcase classname="list should be a function" name="list should be a function" time="0.001">
+    </testcase>
+    <testcase classname="list in Rwanda English should list the first four if not given a page" name="list in Rwanda English should list the first four if not given a page" time="0.001">
+    </testcase>
+    <testcase classname="list in Rwanda English should list the second four if given a page number of 2 " name="list in Rwanda English should list the second four if given a page number of 2 " time="0.001">
+    </testcase>
+    <testcase classname="list in Rwanda English should show the error message if provided" name="list in Rwanda English should show the error message if provided" time="0.001">
+    </testcase>
+    <testcase classname="list in Kinyarwanda should list the first four if not given a page" name="list in Kinyarwanda should list the first four if not given a page" time="0">
+    </testcase>
+    <testcase classname="list in Kinyarwanda should list the second four if given a page number of 2 " name="list in Kinyarwanda should list the second four if given a page number of 2 " time="0">
+    </testcase>
+    <testcase classname="list in Swahilli should list the first four if not given a page" name="list in Swahilli should list the first four if not given a page" time="0.001">
+    </testcase>
+    <testcase classname="list in Swahilli should list the second four if given a page number of 2 " name="list in Swahilli should list the second four if given a page number of 2 " time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Farmer handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:40" time="0.485" tests="3">
+    <testcase classname="Farmer handler should ask the user for their last 4 nid digits once they select a farmer" name="Farmer handler should ask the user for their last 4 nid digits once they select a farmer" time="0.009">
+    </testcase>
+    <testcase classname="Farmer handler should display a next screen if the user selects 77" name="Farmer handler should display a next screen if the user selects 77" time="0.004">
+    </testcase>
+    <testcase classname="Farmer handler should ask the user to try again when their input doesn&apos; match any farmer" name="Farmer handler should ask the user to try again when their input doesn&apos; match any farmer" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="account_number_handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:40" time="0.533" tests="6">
+    <testcase classname="account_number_handler should call notifyELK " name="account_number_handler should call notifyELK " time="0.005">
+    </testcase>
+    <testcase classname="account_number_handler should  call onAccountNumberValidated if the provided account number is validated from roster and is in a the same group than as the GL" name="account_number_handler should  call onAccountNumberValidated if the provided account number is validated from roster and is in a the same group than as the GL" time="0.001">
+    </testcase>
+    <testcase classname="account_number_handler should not call onAccountNumberValidated if the provided account number is not valid from roster" name="account_number_handler should not call onAccountNumberValidated if the provided account number is not valid from roster" time="0.001">
+    </testcase>
+    <testcase classname="account_number_handler should not call onAccountNumberValidated if the provided account number is valid but is not in the same group as the one of GL" name="account_number_handler should not call onAccountNumberValidated if the provided account number is valid but is not in the same group as the one of GL" time="0.001">
+    </testcase>
+    <testcase classname="account_number_handler should prompt for retry if input is not a valid acount number from roster" name="account_number_handler should prompt for retry if input is not a valid acount number from roster" time="0.005">
+    </testcase>
+    <testcase classname="account_number_handler should prompt for retry if input is not valid account number from roster but in a different group from the group leader&apos;s" name="account_number_handler should prompt for retry if input is not valid account number from roster but in a different group from the group leader&apos;s" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Object keys filter" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:40" time="0.457" tests="1">
+    <testcase classname="Object keys filter should filer out the desired keys" name="Object keys filter should filer out the desired keys" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="getFoInfo" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:40" time="0.503" tests="5">
+    <testcase classname="getFoInfo should be a function" name="getFoInfo should be a function" time="0.007">
+    </testcase>
+    <testcase classname="getFoInfo should call Http.request" name="getFoInfo should call Http.request" time="0.025">
+    </testcase>
+    <testcase classname="getFoInfo should return Fo info if the request is succesful" name="getFoInfo should return Fo info if the request is succesful" time="0.001">
+    </testcase>
+    <testcase classname="getFoInfo should log a warning when the response code is not 200" name="getFoInfo should log a warning when the response code is not 200" time="0.001">
+    </testcase>
+    <testcase classname="getFoInfo should an error when the request throws an error" name="getFoInfo should an error when the request throws an error" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="idVerificationHandler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:41" time="0.541" tests="6">
+    <testcase classname="idVerificationHandler should be a function" name="idVerificationHandler should be a function" time="0.004">
+    </testcase>
+    <testcase classname="idVerificationHandler should get the client data with the account number" name="idVerificationHandler should get the client data with the account number" time="0.009">
+    </testcase>
+    <testcase classname="idVerificationHandler should call notifyELK" name="idVerificationHandler should call notifyELK" time="0.001">
+    </testcase>
+    <testcase classname="idVerificationHandler should show prompt message for retry if input does not match the last for digits of the NID" name="idVerificationHandler should show prompt message for retry if input does not match the last for digits of the NID" time="0.001">
+    </testcase>
+    <testcase classname="idVerificationHandler should call promptDigits for the correct last four digits of nid" name="idVerificationHandler should call promptDigits for the correct last four digits of nid" time="0.001">
+    </testcase>
+    <testcase classname="idVerificationHandler Withtransactionhistory should call the onValidated handler if successful" name="idVerificationHandler Withtransactionhistory should call the onValidated handler if successful" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="phone_number_handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:41" time="0.482" tests="6">
+    <testcase classname="phone_number_handler should be a function" name="phone_number_handler should be a function" time="0.013">
+    </testcase>
+    <testcase classname="phone_number_handler should not call onPhoneNumberConfirmed if input is not 1" name="phone_number_handler should not call onPhoneNumberConfirmed if input is not 1" time="0.001">
+    </testcase>
+    <testcase classname="phone_number_handler should call notifyELK " name="phone_number_handler should call notifyELK " time="0">
+    </testcase>
+    <testcase classname="phone_number_handler should show prompt message for phone number input if input is not 1" name="phone_number_handler should show prompt message for phone number input if input is not 1" time="0.003">
+    </testcase>
+    <testcase classname="phone_number_handler should call promptDigits for the phone number if the input is not 1" name="phone_number_handler should call promptDigits for the phone number if the input is not 1" time="0.002">
+    </testcase>
+    <testcase classname="phone_number_handler should call the onPhoneNumberConfirmed handler if the input is 1" name="phone_number_handler should call the onPhoneNumberConfirmed handler if the input is 1" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Kgs input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:41" time="0.489" tests="3">
+    <testcase classname="Kgs input handler should reprompt the user for kgs if their input is not valid" name="Kgs input handler should reprompt the user for kgs if their input is not valid" time="0.017">
+    </testcase>
+    <testcase classname="Kgs input handler should show the payout details and prompt for a mobile money registered phone number" name="Kgs input handler should show the payout details and prompt for a mobile money registered phone number" time="0.003">
+    </testcase>
+    <testcase classname="Kgs input handler should save the kgs into the transaction volume state vaiable" name="Kgs input handler should save the kgs into the transaction volume state vaiable" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="firstNameHandler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:41" time="0.492" tests="3">
+    <testcase classname="firstNameHandler should return a function" name="firstNameHandler should return a function" time="0.004">
+    </testcase>
+    <testcase classname="firstNameHandler should call notifyELK " name="firstNameHandler should call notifyELK " time="0.001">
+    </testcase>
+    <testcase classname="firstNameHandler should call the onFirstNameReceived callback when the returned value is called" name="firstNameHandler should call the onFirstNameReceived callback when the returned value is called" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="elkNotification" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:42" time="0.505" tests="3">
+    <testcase classname="elkNotification should be a function" name="elkNotification should be a function" time="0.007">
+    </testcase>
+    <testcase classname="elkNotification should call Http.request" name="elkNotification should call Http.request" time="0.005">
+    </testcase>
+    <testcase classname="elkNotification should call slack when the response code is not 200" name="elkNotification should call slack when the response code is not 200" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="region Handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:42" time="0.508" tests="4">
+    <testcase classname="region Handler should handle the region selected" name="region Handler should handle the region selected" time="0.018">
+    </testcase>
+    <testcase classname="region Handler should handle the invalid option" name="region Handler should handle the invalid option" time="0.003">
+    </testcase>
+    <testcase classname="region Handler should handle the not listed choice" name="region Handler should handle the not listed choice" time="0.002">
+    </testcase>
+    <testcase classname="region Handler should call notifyELK" name="region Handler should call notifyELK" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Back to group summary handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:42" time="0.525" tests="3">
+    <testcase classname="Back to group summary handler should take the user back to the group summary" name="Back to group summary handler should take the user back to the group summary" time="0.007">
+    </testcase>
+    <testcase classname="Back to group summary handler should handle the incorrect choice" name="Back to group summary handler should handle the incorrect choice" time="0.002">
+    </testcase>
+    <testcase classname="Back to group summary handler should call notifyELK" name="Back to group summary handler should call notifyELK" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="Contact duka agent input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:42" time="0.541" tests="3">
+    <testcase classname="Contact duka agent input handler should contact the duka agent" name="Contact duka agent input handler should contact the duka agent" time="0.008">
+    </testcase>
+    <testcase classname="Contact duka agent input handler should exit the menu on choice" name="Contact duka agent input handler should exit the menu on choice" time="0.002">
+    </testcase>
+    <testcase classname="Contact duka agent input handler should call ELK" name="Contact duka agent input handler should call ELK" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="account number input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:42" time="0.521" tests="2">
+    <testcase classname="account number input handler should reprompt for account number once the account number is invalid" name="account number input handler should reprompt for account number once the account number is invalid" time="0.018">
+    </testcase>
+    <testcase classname="account number input handler should validate the registered account number successfully" name="account number input handler should validate the registered account number successfully" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="requestLogger" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:43" time="0.499" tests="3">
+    <testcase classname="requestLogger should save to the http_response_logs table" name="requestLogger should save to the http_response_logs table" time="0.012">
+    </testcase>
+    <testcase classname="requestLogger should save the url, account number, status code and response content" name="requestLogger should save the url, account number, status code and response content" time="0.001">
+    </testcase>
+    <testcase classname="requestLogger should not crash if something goes wrong" name="requestLogger should not crash if something goes wrong" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="next page handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:43" time="0.413" tests="2">
+    <testcase classname="next page handler should take user on 77 to a next screen if it is available" name="next page handler should take user on 77 to a next screen if it is available" time="0.005">
+    </testcase>
+    <testcase classname="next page handler should prompt user to go to another page if it is available" name="next page handler should prompt user to go to another page if it is available" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Village handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:43" time="0.508" tests="4">
+    <testcase classname="Village handler should promt the user to select a farmer once the input matches an existinf village" name="Village handler should promt the user to select a farmer once the input matches an existinf village" time="0.015">
+    </testcase>
+    <testcase classname="Village handler should tell the user if there are no registered farmers in the selected village" name="Village handler should tell the user if there are no registered farmers in the selected village" time="0.003">
+    </testcase>
+    <testcase classname="Village handler should display a next page when a user inputs 77" name="Village handler should display a next page when a user inputs 77" time="0.002">
+    </testcase>
+    <testcase classname="Village handler should display a next page when a user inputs 77" name="Village handler should display a next page when a user inputs 77" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Back to group summary handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:43" time="0.479" tests="6">
+    <testcase classname="Back to group summary handler should take the user to the next screen on 77" name="Back to group summary handler should take the user to the next screen on 77" time="0.008">
+    </testcase>
+    <testcase classname="Back to group summary handler should take the user to the previous screen on 44" name="Back to group summary handler should take the user to the previous screen on 44" time="0.004">
+    </testcase>
+    <testcase classname="Back to group summary handler should take the user to the previous screen on 44" name="Back to group summary handler should take the user to the previous screen on 44" time="0.001">
+    </testcase>
+    <testcase classname="Back to group summary handler should display a single user details" name="Back to group summary handler should display a single user details" time="0.002">
+    </testcase>
+    <testcase classname="Back to group summary handler should handle an invalid selection on selection of non existing members and give a chance for retry" name="Back to group summary handler should handle an invalid selection on selection of non existing members and give a chance for retry" time="0.001">
+    </testcase>
+    <testcase classname="Back to group summary handler should call notifyELK" name="Back to group summary handler should call notifyELK" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="possible_order_handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:43" time="0.508" tests="5">
+    <testcase classname="possible_order_handler should be a function" name="possible_order_handler should be a function" time="0.004">
+    </testcase>
+    <testcase classname="possible_order_handler should call notifyELK " name="possible_order_handler should call notifyELK " time="0.002">
+    </testcase>
+    <testcase classname="possible_order_handler should show a message saying that showing the bounds of number of chickens if they are beyond it" name="possible_order_handler should show a message saying that showing the bounds of number of chickens if they are beyond it" time="0.003">
+    </testcase>
+    <testcase classname="possible_order_handler should call the onOrderingConfirmed handler if the repayment is satisfied(between 2 and max)" name="possible_order_handler should call the onOrderingConfirmed handler if the repayment is satisfied(between 2 and max)" time="0.001">
+    </testcase>
+    <testcase classname="possible_order_handler should show prompt for re-entry if unexpected input" name="possible_order_handler should show prompt for re-entry if unexpected input" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Generate Locations Menu" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:44" time="0.458" tests="2">
+    <testcase classname="Generate Locations Menu shoud create a menu" name="Generate Locations Menu shoud create a menu" time="0.006">
+    </testcase>
+    <testcase classname="Generate Locations Menu shoud create a multi screen menu for in case of many entries" name="Generate Locations Menu shoud create a multi screen menu for in case of many entries" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="getTranslations" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:44" time="0.415" tests="1">
+    <testcase classname="getTranslations should provide an english translation fron payment_receipt_ug" name="getTranslations should provide an english translation fron payment_receipt_ug" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="Crops input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:44" time="0.519" tests="3">
+    <testcase classname="Crops input handler should reprompt the user for a crop if their input doesn&apos;t match any crop" name="Crops input handler should reprompt the user for a crop if their input doesn&apos;t match any crop" time="0.007">
+    </testcase>
+    <testcase classname="Crops input handler should prompt for varieties when the user chooses a crop with more than one varieties" name="Crops input handler should prompt for varieties when the user chooses a crop with more than one varieties" time="0.003">
+    </testcase>
+    <testcase classname="Crops input handler should prompt user for Kgs to be sold once they select a crop other than rice" name="Crops input handler should prompt user for Kgs to be sold once they select a crop other than rice" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="Generate Locations Menu" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:44" time="0.466" tests="2">
+    <testcase classname="Generate Locations Menu shoud create a farmers menu" name="Generate Locations Menu shoud create a farmers menu" time="0.006">
+    </testcase>
+    <testcase classname="Generate Locations Menu should create multi screens menu for many entries" name="Generate Locations Menu should create multi screens menu for many entries" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Duka locator" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:44" time="0.486" tests="3">
+    <testcase classname="Duka locator should handle the duka selected" name="Duka locator should handle the duka selected" time="0.008">
+    </testcase>
+    <testcase classname="Duka locator should handle the invalid input" name="Duka locator should handle the invalid input" time="0.002">
+    </testcase>
+    <testcase classname="Duka locator should call notifyELK" name="Duka locator should call notifyELK" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="project variables validator" errors="0" failures="0" skipped="0" timestamp="2020-09-03T10:14:44" time="0.471" tests="2">
+    <testcase classname="project variables validator should log the error once some project variables are not set" name="project variables validator should log the error once some project variables are not set" time="0.007">
+    </testcase>
+    <testcase classname="project variables validator should not log once the project variable is set" name="project variables validator should not log once the project variable is set" time="0.001">
+    </testcase>
+  </testsuite>
+</testsuites>

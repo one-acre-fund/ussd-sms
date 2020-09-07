@@ -126,7 +126,7 @@ describe('ChickenServices', () => {
             state.vars.max_chicken = number;
             chickenServices.start(account, country);
             expect(sayText).toHaveBeenCalledWith(`Hello ${client.FirstName} `
-            +`you are eligible to purchase 2 - ${number} `
+            +`you are eligible to purchase ${number} `
             +'number of chickens. How many would you like to confirm? 0: Return home');
             expect(sayText).toHaveBeenCalledTimes(1);
         });
@@ -155,7 +155,7 @@ describe('ChickenServices', () => {
         it('should show the possible number of chicken message and propmt for a number',()=>{
             callback();
             expect(sayText).toHaveBeenCalledWith(`Hello ${client.FirstName} `
-            +`you are eligible to purchase 2 - ${number} `
+            +`you are eligible to purchase ${number} `
             +'number of chickens. How many would you like to confirm? 0: Return home');
             expect(promptDigits).toHaveBeenCalledWith(possibleOrderHandler.handlerName);
 
