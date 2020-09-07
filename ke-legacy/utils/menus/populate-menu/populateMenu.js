@@ -5,13 +5,14 @@ var translations = require('../../../translations/index');
 var CurrentSeasonName = '2020, Long Rain';
 
 var chosenMenu;
-// var IsPrePayTrialDistrict= function(){
-//     return false;
-//     //districtname = districtname.toLowerCase();
-//     //if (districtname == "nyando" || districtname == "kipkelion" || districtname == "chwele"){return true}
-//     //else {return false}
+var IsPrePayTrialDistrict= function(districtID){
+    console.log(districtID);
+    return false;
+    //districtname = districtname.toLowerCase();
+    //if (districtname == "nyando" || districtname == "kipkelion" || districtname == "chwele"){return true}
+    //else {return false}
 
-// };
+};
 var SHSActive = function (districtname){
     var Table = project.getOrCreateDataTable('SHS Districts');
     var Cursor = Table.queryRows({vars: {'districtname': districtname, 'active': '1'}});
@@ -38,11 +39,11 @@ var skipMenuOption = function(optionName){
         console.log('Failed because of dates-----------------'+optionMenu.option_name+ ' start:'+ Date.parse(new Date(String(optionMenu.start_date)))+ ' end: '+  Date.parse(new Date(String(optionMenu.end_date)))+ 'current'+ Date.parse(new Date()));
         return true;
     }
-    // else if(optionName == 'prepayment_amount'){
-    //     if(!(IsPrePayTrialDistrict(JSON.parse(state.vars.client).DistrictName))){
-    //         return true;
-    //     }
-    // }
+    else if(optionName == 'prepayment_amount'){
+        if(!(IsPrePayTrialDistrict(JSON.parse(state.vars.client).DistrictName))){
+            return true;
+        }
+    }
     else if(optionName == 'presticide_order'){
         if(!(EnrolledAndQualified(JSON.parse(state.vars.client)))){
             return true;

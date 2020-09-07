@@ -108,13 +108,17 @@ function saveClientInRoster(){
                 message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phoneNumber}, state.vars.reg_lang);
             }
             sayText(message);
-            var groupLeaderInterested;
+            var groupLeaderInterested = '1';
+            console.log('!!!!!'+groupLeaderInterested);
             if(state.vars.canEnroll){
-                groupLeaderInterested = false;
+                console.log('changing');
+                groupLeaderInterested = '0';
+                console.log('changing'+groupLeaderInterested);
             }
-            {
+            else {
                 groupLeaderInterested = state.vars.groupLeader;
             }
+            console.log('gl interested::::::::::::::::::::::::::::::::'+state.vars.canEnroll+ groupLeaderInterested);
             project.sendMessage({content: message, to_number: contact.phone_number});
             project.sendMessage({content: message, to_number: clientJSON.phoneNumber});
             var table = project.initDataTableById(service.vars.lr_2021_client_table_id);

@@ -305,6 +305,7 @@ describe('clientRegistration', () => {
             }));
         });
         it('should save a row in the datatables with clients information if registration is successful', () => {  
+            state.vars.canEnroll = false;
             state.vars.groupLeader = 1; 
             callback();
             expect(mockTable.createRow).toHaveBeenCalledWith({
@@ -320,6 +321,26 @@ describe('clientRegistration', () => {
                     'new_client': '1',
                     'gl_phone_number': contact.phone_number,
                     'gl_interested': state.vars.groupLeader
+                }
+            });
+            expect(mockRow.save).toHaveBeenCalled();
+        });
+        it('should save a row in the datatables with clients information if registration is successfull', () => {  
+            state.vars.canEnroll = true; 
+            callback();
+            expect(mockTable.createRow).toHaveBeenCalledWith({
+                'contact_id': contact.id,
+                'vars': {
+                    'account_number': client.AccountNumber,
+                    'national_id': client.NationalId,
+                    'client_phone_number': state.vars.phoneNumber,
+                    'first_name': client.FirstName,
+                    'last_name': client.LastName,
+                    'district': client.DistrictId,
+                    'site': client.SiteId,
+                    'new_client': '1',
+                    'gl_phone_number': contact.phone_number,
+                    'gl_interested': '0'
                 }
             });
             expect(mockRow.save).toHaveBeenCalled();
