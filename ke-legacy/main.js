@@ -31,6 +31,7 @@ var createTranslator = require('../utils/translator/translator');
 //var rosterAPI = require('ext/Roster_v1_2_0/api');
 var rosterAPI = require('../rw-legacy/lib/roster/api');
 var defaultEnvironment;
+var slacLogger = require('../slack-logger/index')
 if(service.active){
     defaultEnvironment = 'prod';
 }else{
@@ -52,6 +53,7 @@ service.vars.lr_2021_client_table_id = project.vars[env+'_lr_2021_client_table_i
 service.vars.registerEnrollEnd = project.vars[env+ 'registerEnrollEnd'];
 service.vars.registerEnrollStart = project.vars[env+ 'registerEnrollStart'];
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
+const triggerService = require('../maize-recommendation/triggerService');
 
 if(env == 'prod'){
     service.vars.topUpBundleTableId = 'DT891c89e9a82b6841';
@@ -278,6 +280,7 @@ var TriggerTraining = function (ServiceID){
         });
     }
     catch(err){
+        slacLogger.log('Error triggering service: ' + ServiceID + JSON.stringify({error: err}));
         sendEmail("tom.vranken@oneacrefund.org", "URGENT - Service ID misconfiguration for aggr training", "Service ID: "+ ServiceID);
     }
 };
@@ -1870,6 +1873,17 @@ addInputHandler('MainMenu', function(SplashMenu){
     else if(sessionMenu[SplashMenu-1].option_name == 'view_group_repayment'){
         // view repayment information
         groupRepaymentsModule.startGroupRepayments({lang: GetLang() ? 'en' : 'sw'});
+    }
+    else if(sessionMenu[SplashMenu-1].option_name == 'maize_recommendation'){
+        // start the maize recommendation
+        var maizeRecommendation = require('../maize-recommendation/triggerService')
+        var lang;
+        if(GetLang()) {
+            lang = 'en-ke'
+        } else {
+            lang = 'sw'
+        }
+        maizeRecommendation(lang, TriggerTraining, project.vars.maize_recommendation_service_id)
     }
     else{
         var arrayLength = client.BalanceHistory.length;
