@@ -48,5 +48,13 @@ module.exports = {
     'duplicate_national_id': {
         'en-ke': 'You have already enrolled this season and your account number is $AccountNumber. Reach out to your FO to help you add inputs to your order.',
         'sw': 'Tayari umesajiliwa mwaka huu na akauti namba yako ni $AccountNumber Tembelea mwalimu wako ili akusaidie kuongeza bidhaa unazotaka!'
+    },
+    'order_placed': {
+        'en-ke': 'Order placed\n $orders \n 1) Add product\n 2) Finish ordering',
+        'sw': 'Bidhaa ulizo agiza\n $orders \n 1) Ongeza bidhaa\n 2) Maliza ombi'
+    },
+    'final_order_display': {
+        'en-ke': 'Order placed\n $orders \n1) Confirm order',
+        'sw': 'Bidhaa ulizo agiza\n $orders \n1) kudhibitisha'
     }
 };

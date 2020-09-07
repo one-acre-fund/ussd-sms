@@ -56,10 +56,14 @@ var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 if(env == 'prod'){
     service.vars.topUpBundleTableId = 'DT891c89e9a82b6841';
     service.vars.maizeTableId = 'DT4c3cd5c415c157d0';
+    service.vars.maizeEnrollmentTableId = 'DT8e672319bead2161';
+    service.vars.enrollmentBundleTableId = 'DT21237e171411bce1';
 }
 else{
     service.vars.topUpBundleTableId = 'DT545a7c5683114b75';
     service.vars.maizeTableId = 'DT950b2ac0dbb996de';
+    service.vars.maizeEnrollmentTableId = 'DTd4cf7149a530dcbe';
+    service.vars.enrollmentBundleTableId = 'DTd4cf7149a530dcbe';
 }
 
 var MenuCount = 0;

@@ -28,7 +28,7 @@ const mockNationalIdHandler = jest.fn();
 const mockPhoneNumberHandler = jest.fn();
 const mockSecondNameHandler = jest.fn();
 const mockGroupLeaderQuestionHandler = jest.fn();
-var mockTable = { createRow: jest.fn()};
+var mockTable = { createRow: jest.fn(), queryRows: jest.fn()};
 var mockRow = {save: jest.fn()};
 
 const clientRegistration = require('./clientRegistration');
@@ -41,7 +41,9 @@ var foPhone = '0786192039';
 
 var mockedTable = { queryRows: jest.fn()};
 var mockedRow = {hasNext: jest.fn(), next: jest.fn(),vars: {'national_id': nationalId,'account_number': account}};
-
+var mockRows = [{vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}},{vars: {'bundleId': '-9009','bundleInputId': '-5709','bundle_name': 'third possible name bundle','price': '6251','input_name': 'third input'}},{vars: {'bundleId': '-1009','bundleInputId': '-8709','bundle_name': 'fourth possible name bundle','price': '5251','input_name': 'fourth input'}},{vars: {'bundleId': '-2009','bundleInputId': '-18909','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}}];
+var mockBundleRow = {vars: {'bundleId': '-3009','bundleInputId': '-12109','bundle_name': 'Knapsack Sprayer','price': '2251','input_name': 'Knapsack Sprayer'}};
+var mockMaizeRows = [{vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}},{vars: {'bundleId': '-9009','bundleInputId': '-5709','bundle_name': 'third possible name bundle','price': '6251','input_name': 'third input'}}];
 describe('clientRegistration', () => {
 
     it('should have a start function', () => {
@@ -177,7 +179,19 @@ describe('clientRegistration', () => {
     });
     describe('confirm phone number success callback', () => {
         var callback;
+        const mockCursor = { next: jest.fn(), 
+            hasNext: jest.fn()
+        };
+        beforeAll(()=>{
+            state.vars.client_json = JSON.stringify(client);
+            clientRegistration.start(account, country,reg_lang);
+            jest.clearAllMocks();
+            project.initDataTableById = jest.fn().mockReturnValue(mockTable);
+            mockTable.queryRows.mockReturnValue(mockCursor);
+            
+        });
         beforeEach(() => {
+            
             clientRegistration.registerHandlers();
             callback = confrmPhoneNumberHandler.getHandler.mock.calls[0][0];                
         });
@@ -188,6 +202,51 @@ describe('clientRegistration', () => {
         it('should prompt the client for the group leader interest question', () => {
             callback();
             expect(promptDigits).toHaveBeenCalledWith(groupLeaderQuestionHandler.handlerName);
+        });
+        it('should not prompt for group leader handler if the current menu allows enrolling',()=>{
+            state.vars.canEnroll = true;
+            callback();
+            expect(sayText).not.toHaveBeenCalledWith('Does the farmer want to be a Group Leader of a new group?\n1) Yes\n2) No');
+            expect(promptDigits).not.toHaveBeenCalledWith(groupLeaderQuestionHandler.handlerName);
+
+        });
+        it('should display the bundles if the menu choosed allow enrollment',()=>{
+            state.vars.canEnroll = true;
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[1]).mockReturnValueOnce(mockRows[2]);
+            callback();
+            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockBundleRow.vars.bundle_name}`+
+            ` ${mockBundleRow.vars.price}`+
+            `\n2) ${mockRows[0].vars.bundle_name}`+
+            ` ${mockRows[0].vars.price}`+
+            `\n3) ${mockRows[1].vars.bundle_name}`+
+            ` ${mockRows[1].vars.price}`+
+            '\n77)Next page');
+        });
+        it('should display only unique bundles(if two bundle inputs in the same bundle are found) and if the prepayment condition is satified ', () => {
+
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[3]);
+            callback();
+            expect(sayText).not.toHaveBeenCalledWith(expect.stringContaining('You do not qualify for a top up,'));
+            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockBundleRow.vars.bundle_name}`+
+            ` ${mockBundleRow.vars.price}`+
+            `\n2) ${mockRows[0].vars.bundle_name}`+
+            ` ${mockRows[0].vars.price}`+
+            '\n');
+        });
+        it('should remove maize bundles from the displayed bundles if the prepayment condition is satisfied and the client already choosed a maize bundle',()=>{
+            
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[1]).mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
+            state.vars.orders = JSON.stringify([mockMaizeRows[0]]);
+            callback();
+            expect(sayText).not.toHaveBeenCalledWith(expect.stringContaining('You do not qualify for a top up,'));
+            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockBundleRow.vars.bundle_name}`+
+            ` ${mockBundleRow.vars.price}`+
+            `\n2) ${mockRows[0].vars.bundle_name}`+
+            ` ${mockRows[0].vars.price}`+
+            '\n');
         });
     });
     describe('group leader question success callback', () => {
@@ -313,6 +372,7 @@ describe('clientRegistration', () => {
             state.vars.account = '';
             state.vars.country = '';
             state.vars.reg_lang = '';
+            
             clientRegistration.start(account, country,reg_lang);
             expect(state.vars).toMatchObject({account,country,reg_lang});
         });
