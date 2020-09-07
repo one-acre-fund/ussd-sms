@@ -48,17 +48,19 @@ describe('Logger', () => {
         });
         it('should send a POST request with the baseURl and provided message', () => {
             logger.log(message);
+            const expectedData = JSON.stringify({message, tags: [project.name, service.name]});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+'/telerivet-logs',{
                 method: 'POST',
-                data: {message, tags: [project.name, service.name]},
+                data: expectedData,
                 headers: {'Content-Type': 'application/json'}
             });
         });
         it('should send a POST request with any provided tags', () => {
             logger.log(message,{tags});
+            const expectedData = JSON.stringify({message,tags: [project.name, service.name, ...tags]});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+'/telerivet-logs',{
                 method: 'POST',
-                data: {message,tags: [project.name, service.name, ...tags]},
+                data: expectedData,
                 headers: {'Content-Type': 'application/json'}
             });
         });
@@ -76,25 +78,28 @@ describe('Logger', () => {
         });
         it('should not crash if an empty array is provided as the tags', () => {
             logger.log(message,{tags: []});
+            const expectedData = JSON.stringify({ message, tags: [project.name, service.name] });
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+'/telerivet-logs',{
                 method: 'POST',
-                data: {message,tags: [project.name, service.name]},
+                data: expectedData,
                 headers: {'Content-Type': 'application/json'}
             });
         });
         it('should not crash if tags are undefined', () => {
             logger.log(message,{tags: undefined});
+            const expectedData = JSON.stringify({message, tags: [project.name, service.name]});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+'/telerivet-logs',{
                 method: 'POST',
-                data: {message, tags: [project.name, service.name]},
+                data: expectedData,
                 headers: {'Content-Type': 'application/json'}
             });
         });
         it('should send a POST request with any provided tags and miscellaneous data', () => {
+            const expectedData = JSON.stringify({ message, data: otherData, tags: [project.name, service.name, ...tags]});
             logger.log(message,{tags,data: otherData});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+'/telerivet-logs',{
                 method: 'POST',
-                data: {message,tags: [project.name, service.name, ...tags], data: otherData},
+                data: expectedData,
                 headers: {'Content-Type': 'application/json'}
             });
         });
@@ -117,17 +122,19 @@ describe('Logger', () => {
         });
         it('should send a POST request with the baseURl and provided message', () => {
             logger.warn(message);
+            const expectedData = JSON.stringify({message, tags: [project.name, service.name]});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+warningLogPath,{
                 method: 'POST',
-                data: {message, tags: [project.name, service.name]},
+                data: expectedData,
                 headers: {'Content-Type': 'application/json'}
             });
         });
         it('should send a POST request with any provided tags', () => {
             logger.warn(message,{tags});
+            const expectedData = JSON.stringify({message,tags: [project.name, service.name, ...tags]});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+warningLogPath,{
                 method: 'POST',
-                data: {message,tags: [project.name, service.name, ...tags]},
+                data: expectedData,
                 headers: {'Content-Type': 'application/json'}
             });
         });
@@ -138,9 +145,10 @@ describe('Logger', () => {
         });
         it('should send a POST request with any provided tags and miscellaneous data', () => {
             logger.warn(message,{tags,data: otherData});
+            const expectedData = JSON.stringify({message,data: otherData,tags: [project.name, service.name, ...tags]});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+warningLogPath,{
                 method: 'POST',
-                data: {message,tags: [project.name, service.name, ...tags],data: otherData},
+                data: expectedData,
                 headers: {'Content-Type': 'application/json'}
             });
         });
@@ -157,17 +165,19 @@ describe('Logger', () => {
         });
         it('should send a POST request with the baseURl and provided message', () => {
             logger.error(message);
+            const expectedData = JSON.stringify({message, tags: [project.name, service.name]});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+errorLogPath,{
                 method: 'POST',
-                data: {message, tags: [project.name, service.name]},
+                data: expectedData,
                 headers: {'Content-Type': 'application/json'}
             });
         });
         it('should send a POST request with any provided tags', () => {
             logger.error(message,{tags});
+            const expectedData = JSON.stringify({message,tags: [project.name, service.name, ...tags]});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+errorLogPath,{
                 method: 'POST',
-                data: {message,tags: [project.name, service.name, ...tags]},
+                data: expectedData,
                 headers: {'Content-Type': 'application/json'}
             });
         });
@@ -178,9 +188,10 @@ describe('Logger', () => {
         });
         it('should send a POST request with any provided tags and miscellaneous data', () => {
             logger.error(message,{tags,data: otherData});
+            const expectedData = JSON.stringify({message,data: otherData,tags: [project.name, service.name, ...tags]});
             expect(httpClient.request).toHaveBeenCalledWith(baseURL+errorLogPath,{
                 method: 'POST',
-                data: {message,tags: [project.name, service.name, ...tags],data: otherData},
+                data: expectedData,
                 headers: {'Content-Type': 'application/json'}
             });
         });
