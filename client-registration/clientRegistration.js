@@ -12,6 +12,11 @@ var phoneNumberHandler = require('./phone-number-handler/phoneNumberHandler');
 var secondNameHandler = require('./second-name-handler/secondNameHandler');
 var groupLeaderQuestionHander = require('./group-leader-question-handler/groupLeaderQuestionHandler');
 var bundleChoiceHandler = require('../just-in-time/bundle-choice-handler/bundleChoiceHandler');
+var varietyChoiceHandler = require('../just-in-time/variety-choice-handler/varietyChoiceHandler');
+var orderConfirmationHandler = require('../just-in-time/order-confirmation-handler/orderConfirmationHandler');
+var addOrderHandler = require('../just-in-time/add-order-handler/addOrderHandler');
+var varietyConfirmationHandler = require('../just-in-time/variety-confirmation-handler/varietyConfirmationHandler');
+var enrollOrder = require('../Roster-endpoints/enrollOrder');
 module.exports = {
     registerHandlers: function (){
         
@@ -70,6 +75,10 @@ module.exports = {
         addInputHandler(secondNameHandler.handlerName, secondNameHandler.getHandler(onSecondNameReceived));
         addInputHandler(groupLeaderQuestionHander.handlerName, groupLeaderQuestionHander.getHandler(onGroupLeaderQuestion));
         addInputHandler(bundleChoiceHandler.handlerName, bundleChoiceHandler.getHandler(onBundleSelected));
+        addInputHandler(varietyChoiceHandler.handlerName, varietyChoiceHandler.getHandler(onVarietyChosen));
+        addInputHandler(orderConfirmationHandler.handlerName, orderConfirmationHandler.getHandler(onOrderConfirmed));
+        addInputHandler(addOrderHandler.handlerName, addOrderHandler.getHandler(onFinalizeOrder,displayBundles));
+        addInputHandler(varietyConfirmationHandler.handlerName, varietyConfirmationHandler.getHandler(onBundleSelected));
     },
     
 
@@ -97,7 +106,9 @@ function saveClientInRoster(){
     };
     try {
         var clientData = JSON.parse(rosterRegisterClient(clientJSON,state.vars.reg_lang));
+        
         if(clientData){
+            state.vars.newClient = JSON.stringify(clientData);
             var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
             var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
             var message;
@@ -108,17 +119,13 @@ function saveClientInRoster(){
                 message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phoneNumber}, state.vars.reg_lang);
             }
             sayText(message);
-            var groupLeaderInterested = '1';
-            console.log('!!!!!'+groupLeaderInterested);
+            var groupLeaderInterested;
             if(state.vars.canEnroll){
-                console.log('changing');
                 groupLeaderInterested = '0';
-                console.log('changing'+groupLeaderInterested);
             }
             else {
                 groupLeaderInterested = state.vars.groupLeader;
             }
-            console.log('gl interested::::::::::::::::::::::::::::::::'+state.vars.canEnroll+ groupLeaderInterested);
             project.sendMessage({content: message, to_number: contact.phone_number});
             project.sendMessage({content: message, to_number: clientJSON.phoneNumber});
             var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
@@ -171,6 +178,7 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
             state.vars.allVarieties = JSON.stringify(selectedBundle);
             displayVariety(selectedBundle);
             //TODO: prompt for varietie
+            global.promptDigits(varietyChoiceHandler.handlerName);
         }
     }
     if(selectedBundle.length == 1){
@@ -187,14 +195,71 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
         state.vars.orders = JSON.stringify(allBundles);
         if(allBundles.length == 3){
             sayText(translate('final_order_display',{'$orders': orderMessage }, state.vars.reg_lang));
-            //TODO: prompt for confirmation
+            global.promptDigits(orderConfirmationHandler.handlerName);
         }
         else{
             global.sayText(translate('order_placed', {'$orders': orderMessage}, state.vars.reg_lang));
-            //TODO: prompt for add order
+            global.promptDigits(addOrderHandler.handlerName);
+
         }
     }
 
+}
+function onVarietyChosen(bundleInput){
+    state.vars.chosenVariety = JSON.stringify(bundleInput);
+    console.log('varieties in onvarietychosen'+JSON.parse(state.vars.chosenVariety));
+    sayText(translate('variety_confirmation',{'$bundleName': bundleInput.bundleName, '$inputName': bundleInput.inputName},state.vars.reg_lang));
+    promptDigits(varietyConfirmationHandler.handlerName);
+}
+
+function onOrderConfirmed(){
+    var client = JSON.parse(state.vars.newClient);
+    var bundle = JSON.parse(state.vars.orders);
+    var requestBundles = [];
+    //var group_leader_check = require('../shared/rosterApi/checkForGroupLeader');
+    //var isGroupLeader = group_leader_check(client.DistrictId, client.ClientId);
+
+    for( var j = 0; j < bundle.length; j++ ){
+        var order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': 1, inputChoices: [parseInt(bundle[j].bundleInputId)] };
+        requestBundles.push(order);
+    }
+    var requestData = {
+        'districtId': client.DistrictId,
+        'siteId': client.SiteId,
+        'groupId': client.GroupId,
+        'accountNumber': client.AccountNumber,
+        'clientId': client.ClientId,
+        'isGroupLeader': 'false',
+        'clientBundles': requestBundles
+    };
+   
+    if(enrollOrder(requestData)){
+        var message = translate('final_message',{},state.vars.reg_lang);
+        sayText(message);
+        project.sendMessage({
+            content: message, 
+            to_number: contact.phone_number
+        });
+        project.sendMessage({
+            content: message, 
+            to_number: state.vars.phoneNumber
+        });
+    }
+    else{
+        sayText(translate('enrollment_failed',{},state.vars.reg_lang));
+    }
+}
+function onFinalizeOrder(){
+    var orderMessage = '';
+    var allBundles = [];
+    if(state.vars.orders != ' '){
+        allBundles = JSON.parse(state.vars.orders);
+    }
+    for( var j = 0; j < allBundles.length; j++ ){
+        orderMessage = orderMessage + allBundles[j].bundleName + ' ' + allBundles[j].price + '\n';
+    }
+    sayText(translate('final_order_display',{'$orders': orderMessage },state.vars.reg_lang));
+    promptDigits(orderConfirmationHandler.handlerName);
 }
 function displayBundles(district){
 

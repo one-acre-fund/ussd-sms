@@ -4,11 +4,16 @@ const firstNameHandler = require('./first-name-handler/firstNameHandler');
 const nationalIdHandler = require('./national-id-handler/nationalIdHandler');
 const phoneNumberHandler = require('./phone-number-handler/phoneNumberHandler');
 const secondNameHandler = require('./second-name-handler/secondNameHandler');
+var bundleChoiceHandler = require('../just-in-time/bundle-choice-handler/bundleChoiceHandler');
+var addOrderHandler = require('../just-in-time/add-order-handler/addOrderHandler');
+var varietyConfirmationHandler = require('../just-in-time/variety-confirmation-handler/varietyConfirmationHandler');
+var orderConfirmationHandler = require('../just-in-time/order-confirmation-handler/orderConfirmationHandler');
 var rosterRegisterClient = require('../rw-legacy/lib/roster/register-client');
 const groupLeaderQuestionHandler = require('./group-leader-question-handler/groupLeaderQuestionHandler');
 var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
 var {client}  = require('../client-enrollment/test-client-data'); 
 var notifyELK = require('../notifications/elk-notification/elkNotification');
+
 
 jest.mock('../rw-legacy/lib/roster/register-client');
 jest.mock('../notifications/elk-notification/elkNotification');
@@ -20,6 +25,10 @@ jest.mock('./national-id-handler/nationalIdHandler');
 jest.mock('./phone-number-handler/phoneNumberHandler');
 jest.mock('./second-name-handler/secondNameHandler');
 jest.mock('./group-leader-question-handler/groupLeaderQuestionHandler');
+jest.mock('../just-in-time/bundle-choice-handler/bundleChoiceHandler');
+jest.mock('../just-in-time/add-order-handler/addOrderHandler');
+jest.mock('../just-in-time/variety-confirmation-handler/varietyConfirmationHandler');
+jest.mock('../just-in-time/order-confirmation-handler/orderConfirmationHandler');
 
 const mockConfrmNationalIdHandler = jest.fn();
 const mockConfrmPhoneNumberHandler = jest.fn();
@@ -39,11 +48,14 @@ const nationalId = 12345678;
 const phone = '0786182099';
 var foPhone = '0786192039';
 
+
 var mockedTable = { queryRows: jest.fn()};
 var mockedRow = {hasNext: jest.fn(), next: jest.fn(),vars: {'national_id': nationalId,'account_number': account}};
 var mockRows = [{vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}},{vars: {'bundleId': '-9009','bundleInputId': '-5709','bundle_name': 'third possible name bundle','price': '6251','input_name': 'third input'}},{vars: {'bundleId': '-1009','bundleInputId': '-8709','bundle_name': 'fourth possible name bundle','price': '5251','input_name': 'fourth input'}},{vars: {'bundleId': '-2009','bundleInputId': '-18909','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}}];
 var mockBundleRow = {vars: {'bundleId': '-3009','bundleInputId': '-12109','bundle_name': 'Knapsack Sprayer','price': '2251','input_name': 'Knapsack Sprayer'}};
 var mockMaizeRows = [{vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}},{vars: {'bundleId': '-9009','bundleInputId': '-5709','bundle_name': 'third possible name bundle','price': '6251','input_name': 'third input'}}];
+var mockBundleInputs = [{'bundleId': '-2009','bundleInputId': '-1709','bundleName': 'Second possible name bundle','price': '2251','inputName': 'second input'},{'bundleId': '-9009','bundleInputId': '-5709','bundleName': 'third possible name bundle','price': '6251','inputName': 'third input'},{'bundleId': '-1009','bundleInputId': '-8709','bundleName': 'fourth possible name bundle','price': '5251','inputName': 'fourth input'},{'bundleId': '-2009','bundleInputId': '-18909','bundleName': 'Second possible name bundle','price': '2251','inputName': 'second input'}];
+var mockBundleInput = [{'bundleId': '-3009','bundleInputId': '-12109','bundleName': 'Knapsack Sprayer','price': '2251','inputName': 'Knapsack Sprayer'}];
 describe('clientRegistration', () => {
 
     it('should have a start function', () => {
@@ -385,6 +397,87 @@ describe('clientRegistration', () => {
             callback();
             expect(sayText).toHaveBeenCalledWith(`Thank you for expressing your interest to enroll with OAF. Your Account Number is: ${client.AccountNumber}`+
                 '. Your FO will reach out to you to add inputs to your order.');
+        });
+    });
+    describe('bundle Choice Handler successfull callback',()=>{
+        var callback;
+        beforeEach(() => {
+            clientRegistration.registerHandlers();
+            callback = bundleChoiceHandler.getHandler.mock.calls[0][0];    
+            state.vars.bundleInputs =  JSON.stringify(mockBundleInputs);      
+        });
+
+        it('should display the varieties for the bundle choosed, if the bundle has multiple varieties',()=>{
+            callback(mockBundleInputs[0].bundleId);
+            expect(sayText).toHaveBeenCalledWith(`Select seed variety\n1) ${mockBundleInputs[0].inputName}`+
+            `\n2) ${mockBundleInputs[3].inputName}`+
+            '\n');
+        });
+        it('should display the order placed by the user and prompt to add order or finalize order',()=>{
+            state.vars.bundleInputs =  JSON.stringify(mockBundleInput);  
+            state.vars.orders = ' ';
+            var orderMessage = mockBundleInput[0].bundleName + ' ' + mockBundleInput[0].price + '\n';
+            callback(mockBundleInput[0].bundleId);
+            expect(sayText).toHaveBeenCalledWith(`Order placed\n ${orderMessage}`+
+            ' \n 1) Add product\n 2) Finish ordering');
+            expect(promptDigits).toHaveBeenCalledWith(addOrderHandler.handlerName);
+        });
+
+    });
+    describe('variety Confirmation Handler successfull callback',()=>{
+        var callback;
+        beforeEach(() => {
+            clientRegistration.registerHandlers();
+            state.vars.orders = ' ';
+            callback = varietyConfirmationHandler.getHandler.mock.calls[0][0];    
+            state.vars.bundleInputs =  JSON.stringify(mockBundleInputs);        
+        });
+        it('should show the order placed',()=>{
+            callback(mockBundleInputs[3].bundleId,true,mockBundleInputs[3].bundleInputId);
+            var orderMessage = mockBundleInputs[3].bundleName + ' ' + mockBundleInputs[3].price + '\n';
+            expect(sayText).toHaveBeenCalledWith(`Order placed\n ${orderMessage}`+
+            ' \n 1) Add product\n 2) Finish ordering');
+
+        });
+
+    });
+    describe('add Order Handler successfull callback',()=>{
+        var callback;
+        beforeEach(() => {
+            clientRegistration.registerHandlers();
+            state.vars.orders = JSON.stringify(mockBundleInput);
+            callback = addOrderHandler.getHandler.mock.calls[0][0];          
+        });
+        it('should show the order placed',()=>{
+            callback();
+            var orderMessage = mockBundleInput[0].bundleName + ' ' + mockBundleInput[0].price + '\n';
+            expect(sayText).toHaveBeenCalledWith(`Order placed\n ${orderMessage}`+
+            ' \n1) Confirm order');
+        });
+    });
+    describe('order Confirmation Handler successfull callback',()=>{
+        var callback;
+        beforeAll(()=>{
+            state.vars.orders = JSON.stringify([mockMaizeRows[0]]);
+            state.vars.newClient = JSON.stringify(client);
+        });
+        beforeEach(() => {
+            clientRegistration.registerHandlers();
+            callback = orderConfirmationHandler.getHandler.mock.calls[0][0];           
+        });
+
+        it('should display a message confirming the order is complete if the order is saved in roster',()=>{
+            httpClient.request.mockReturnValue({status: 201});
+            contact.phone_number = phone;
+            var message = 'Thank you for placing your Just in Time Top-up order.';
+            callback();
+            expect(sayText).toHaveBeenCalledWith('Thank you for placing your Just in Time Top-up order.');
+            expect(project.sendMessage).toHaveBeenCalledWith({content: message, to_number: phone});
+        });
+        it('should display a message asking the user to try again later the order is not saved in roster',()=>{
+            httpClient.request.mockReturnValue({status: 500});
+            callback();
+            expect(sayText).toHaveBeenCalledWith('Please try again later. Most people are applying right now!');
         });
     });
 

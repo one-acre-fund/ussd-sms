@@ -56,5 +56,14 @@ module.exports = {
     'final_order_display': {
         'en-ke': 'Order placed\n $orders \n1) Confirm order',
         'sw': 'Bidhaa ulizo agiza\n $orders \n1) kudhibitisha'
+    },
+    'final_message': {
+        'en-ke': 'Thank you for placing your Just in Time Top-up order.',
+        'sw': 'Asante kwa kutuma maombi yako ya Just in Time Top-up.'
+    },
+    'enrollment_failed': {
+        'en-ke': 'Please try again later. Most people are applying right now!',
+        'sw': 'Tafadhali jaribu tena baada ya mda kidogo. Watu wengi wanatuma maombi kwa sasa!'
+
     }
 };
