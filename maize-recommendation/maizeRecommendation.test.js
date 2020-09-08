@@ -15,7 +15,6 @@ describe('Maize recommendation', () => {
         var addResponseHandlers = require('./responseHandlers/addResponseHandlers');
         jest.mock('./responseHandlers/addResponseHandlers');
         require('./maizeRecommendation');
-        global.main();
         expect(project.sendMulti).toHaveBeenCalledWith({
             'message_type': 'text', 'messages': 
                 [
