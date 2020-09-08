@@ -15,7 +15,7 @@ var bundleChoiceHandler = require('./bundle-choice-handler/bundleChoiceHandler')
 var varietyChoiceHandler = require('./variety-choice-handler/varietyChoiceHandler');
 var orderConfirmationHandler = require('../just-in-time/order-confirmation-handler/orderConfirmationHandler');
 var addOrderHandler = require('../just-in-time/add-order-handler/addOrderHandler');
-var varietyConfirmationHandler = require('../just-in-time/variety-confirmation-handler/varietyConfirmationHandler');
+var varietyConfirmationHandler = require('./variety-confirmation-handler/varietyConfirmationHandler');
 var enrollOrder = require('../Roster-endpoints/enrollOrder');
 module.exports = {
     registerHandlers: function (){
