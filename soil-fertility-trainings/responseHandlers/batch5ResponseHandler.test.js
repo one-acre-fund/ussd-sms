@@ -1,7 +1,7 @@
 const batch5ResponseHandler = require('./batch5ResponseHandler');
 const batch6ResponseHandler = require('./batch6ResponseHandler');
 
-describe('batch1 messages response handler', () => {
+describe('batch 5 messages response handler', () => {
     it('should tell ask the user reply with A or B once the response was otherwise ', () => {
         var lang = 'en-ke';
         global.content = 'K';

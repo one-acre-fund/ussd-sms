@@ -1,7 +1,7 @@
 const batch3ResponseHandler = require('./batch3ResponseHandler');
 const batch4ResponseHandler = require('./batch4ResponseHandler');
 
-describe('batch1 messages response handler', () => {
+describe('batch 3 messages response handler', () => {
     it('should send all 10 batch 4 messages once the user responds to the batch 3 messages', () => {
         var lang = 'en-ke';
         var batch2Handler = batch3ResponseHandler.getHandler(lang);
