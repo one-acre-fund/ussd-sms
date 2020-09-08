@@ -25,12 +25,13 @@ var getMessage = translator(translations, lang);
 var welcome_message = getMessage('welcome_message', {}, lang);
 var promptDistrict = getMessage('district', {}, lang);
 
-project.sendMulti({
-    messages: [
-        {content: welcome_message, to_number: contact.phone_number}, 
-        {content: promptDistrict, to_number: contact.phone_number}], 
-    message_type: 'text'
-});
-
-waitForResponse(districtResponseHandler.handlerName);
+global.main = function() {
+    project.sendMulti({
+        messages: [
+            {content: welcome_message, to_number: contact.phone_number}, 
+            {content: promptDistrict, to_number: contact.phone_number}], 
+        message_type: 'text'
+    });
+    waitForResponse(districtResponseHandler.handlerName);
+};
 addResponseHandlers(lang, maize_recommendation_table);
