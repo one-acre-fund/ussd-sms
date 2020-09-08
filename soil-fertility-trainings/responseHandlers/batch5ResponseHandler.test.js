@@ -17,7 +17,7 @@ describe('batch1 messages response handler', () => {
         var batch5Handler = batch5ResponseHandler.getHandler(lang);
         batch5Handler();
         expect(sendReply).toHaveBeenNthCalledWith(1, 'That\'s correct! We rotate our crops to prevent disease building up on our soil and have bigger harvests!');
-        expect(waitForResponse).toHaveBeenCalledWith('batch6ResponseHandler.handlerName');
+        expect(waitForResponse).toHaveBeenCalledWith(batch6ResponseHandler.handlerName);
     });
 
     it('should tell the user that the answer is incorrect once the user responds with b and give them a right solution', () => {
