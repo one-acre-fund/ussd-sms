@@ -1,3 +1,5 @@
+var Batch1ResponseHandler = require('./responseHandlers/batch1ResponseHandler');
+
 describe('soil fertility training', () => {
     beforeAll(() => {
         global.contact = {vars: {lang: 'en-ke'}};
@@ -14,6 +16,6 @@ describe('soil fertility training', () => {
             {'content': 'Today we are going learn how to get the best harvest from your soils. Healthy soils give great harvest! Soil is gold!', 'to_number': '0555345'}, 
             {'content': 'Each type of crop needs a different mix of nutrients for great harvests. Healthy soils provide a complete range of nutrients to plants.', 'to_number': '0555345'}
         ]});
-        expect(waitForResponse).toHaveBeenCalledWith('sms_1_response');
+        expect(waitForResponse).toHaveBeenCalledWith(Batch1ResponseHandler.handlerName);
     });
 });
