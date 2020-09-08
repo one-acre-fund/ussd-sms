@@ -14,7 +14,14 @@ if(service.vars.env === 'prod' || service.vars.env === 'dev'){
 
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key']; 
-service.vars.inputTableId = 'DTe0cd7f4439c55c3f';
+if(service.vars.env == 'prod'){
+    service.vars.inputTableId = 'DT21237e171411bce1';
+
+}
+else{
+    service.vars.inputTableId = 'DTe0cd7f4439c55c3f';
+
+}
 
 var districts = require('./KenyaAllDistricts');
 var updateBundlesHelperFunctions= require('./updateBundlesHelperFunctions');
