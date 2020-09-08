@@ -1,39 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="10" failures="0" time="5.049">
-  <testsuite name="batch 6 messages response handler" errors="0" failures="0" skipped="0" timestamp="2020-09-08T10:43:56" time="0.926" tests="1">
-    <testcase classname="batch 6 messages response handler should send all 4 batch 6 messages once the user responds to the batch 5 messages" name="batch 6 messages response handler should send all 4 batch 6 messages once the user responds to the batch 5 messages" time="0.005">
-    </testcase>
-  </testsuite>
-  <testsuite name="soil fertility training" errors="0" failures="0" skipped="0" timestamp="2020-09-08T10:43:57" time="0.327" tests="1">
-    <testcase classname="soil fertility training should send the 1. batch messages" name="soil fertility training should send the 1. batch messages" time="0.043">
-    </testcase>
-  </testsuite>
-  <testsuite name="batch 7 messages response handler" errors="0" failures="0" skipped="0" timestamp="2020-09-08T10:43:56" time="1.509" tests="1">
-    <testcase classname="batch 7 messages response handler should send all 2 batch 7 messages once the user responds to the batch 5 messages" name="batch 7 messages response handler should send all 2 batch 7 messages once the user responds to the batch 5 messages" time="0.004">
-    </testcase>
-  </testsuite>
-  <testsuite name="batch1 messages response handler" errors="0" failures="0" skipped="0" timestamp="2020-09-08T10:43:58" time="0.35" tests="3">
-    <testcase classname="batch1 messages response handler should tell ask the user reply with A or B once the response was otherwise " name="batch1 messages response handler should tell ask the user reply with A or B once the response was otherwise " time="0.006">
-    </testcase>
-    <testcase classname="batch1 messages response handler should tell the user that the answer is correct once the user responds with a" name="batch1 messages response handler should tell the user that the answer is correct once the user responds with a" time="0">
-    </testcase>
-    <testcase classname="batch1 messages response handler should tell the user that the answer is incorrect once the user responds with b and give them a right solution" name="batch1 messages response handler should tell the user that the answer is incorrect once the user responds with b and give them a right solution" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="batch1 messages response handler" errors="0" failures="0" skipped="0" timestamp="2020-09-08T10:43:58" time="0.329" tests="1">
-    <testcase classname="batch1 messages response handler should send all 5 batch 5 messages once the user responds to the batch 4 messages" name="batch1 messages response handler should send all 5 batch 5 messages once the user responds to the batch 4 messages" time="0.008">
-    </testcase>
-  </testsuite>
-  <testsuite name="batch1 messages response handler" errors="0" failures="0" skipped="0" timestamp="2020-09-08T10:43:58" time="0.3" tests="1">
-    <testcase classname="batch1 messages response handler should send all 5 batch 3 messages once the user responds to the batch 2 messages" name="batch1 messages response handler should send all 5 batch 3 messages once the user responds to the batch 2 messages" time="0.005">
-    </testcase>
-  </testsuite>
-  <testsuite name="batch1 messages response handler" errors="0" failures="0" skipped="0" timestamp="2020-09-08T10:43:58" time="0.308" tests="1">
-    <testcase classname="batch1 messages response handler should send all 10 batch 4 messages once the user responds to the batch 3 messages" name="batch1 messages response handler should send all 10 batch 4 messages once the user responds to the batch 3 messages" time="0.016">
-    </testcase>
-  </testsuite>
-  <testsuite name="batch1 messages response handler" errors="0" failures="0" skipped="0" timestamp="2020-09-08T10:43:58" time="0.263" tests="1">
-    <testcase classname="batch1 messages response handler should send all 2 messages once the user responds to the batch 1 messages" name="batch1 messages response handler should send all 2 messages once the user responds to the batch 1 messages" time="0.004">
+<testsuites name="jest tests" tests="1" failures="0" time="2.082">
+  <testsuite name="registering response handlers" errors="0" failures="0" skipped="0" timestamp="2020-09-08T11:05:02" time="0.978" tests="1">
+    <testcase classname="registering response handlers should match all response handlers to their response handler names" name="registering response handlers should match all response handlers to their response handler names" time="0.011">
     </testcase>
   </testsuite>
 </testsuites>
