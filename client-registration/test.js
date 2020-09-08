@@ -48,7 +48,6 @@ const nationalId = 12345678;
 const phone = '0786182099';
 var foPhone = '0786192039';
 
-
 var mockedTable = { queryRows: jest.fn()};
 var mockedRow = {hasNext: jest.fn(), next: jest.fn(),vars: {'national_id': nationalId,'account_number': account}};
 var mockRows = [{vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}},{vars: {'bundleId': '-9009','bundleInputId': '-5709','bundle_name': 'third possible name bundle','price': '6251','input_name': 'third input'}},{vars: {'bundleId': '-1009','bundleInputId': '-8709','bundle_name': 'fourth possible name bundle','price': '5251','input_name': 'fourth input'}},{vars: {'bundleId': '-2009','bundleInputId': '-18909','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}}];
@@ -196,6 +195,7 @@ describe('clientRegistration', () => {
         };
         beforeAll(()=>{
             state.vars.client_json = JSON.stringify(client);
+            state.vars.newClient = JSON.stringify(client);
             clientRegistration.start(account, country,reg_lang);
             jest.clearAllMocks();
             project.initDataTableById = jest.fn().mockReturnValue(mockTable);
@@ -273,6 +273,7 @@ describe('clientRegistration', () => {
             state.vars.phoneNumber = '0789777767';
             getFOInfo.mockImplementation(() => {return {'firstName': 'sabin','lastName': 'sheja','phoneNumber': foPhone};});
             state.vars.client_json = JSON.stringify(client);
+            state.vars.newClient = JSON.stringify(client);
             rosterRegisterClient.mockImplementation(()=>{return JSON.stringify(client);});
         });
         beforeEach(() => {

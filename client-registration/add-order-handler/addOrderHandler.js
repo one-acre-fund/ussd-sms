@@ -7,7 +7,7 @@ module.exports = {
         return function (input) {
             notifyELK();
             if(input == 1){
-                displayBundles(JSON.parse(state.vars.topUpClient).DistrictId);
+                displayBundles(JSON.parse(state.vars.newClient).DistrictId);
                 global.promptDigits(bundleChoiceHandler.handlerName);
             }
             else if(input == 2){

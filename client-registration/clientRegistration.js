@@ -56,7 +56,7 @@ module.exports = {
             if(state.vars.canEnroll){
                 //display bundles
                 saveClientInRoster();
-                displayBundles(JSON.parse(state.vars.client_json).DistrictId); 
+                displayBundles(JSON.parse(state.vars.newClient).DistrictId); 
                 global.promptDigits(bundleChoiceHandler.handlerName);
             }
             else{

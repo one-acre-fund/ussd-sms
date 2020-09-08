@@ -14,7 +14,7 @@ describe('account_number_handler', () => {
         onFinalizeOrder = jest.fn();
         displayBundles = jest.fn();
         addOrderHandler = getHandler(onFinalizeOrder, displayBundles);
-        state.vars.topUpClient = JSON.stringify(client);
+        state.vars.newClient = JSON.stringify(client);
 
     });
 
