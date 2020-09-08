@@ -35,3 +35,4 @@ global.main = function() {
     waitForResponse(districtResponseHandler.handlerName);
 };
 addResponseHandlers(lang, maize_recommendation_table);
+ 
