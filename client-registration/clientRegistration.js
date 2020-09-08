@@ -213,6 +213,7 @@ function onVarietyChosen(bundleInput){
 
 function onOrderConfirmed(){
     var client = JSON.parse(state.vars.newClient);
+    var glClient = JSON.parse(state.vars.client_json);
     var bundle = JSON.parse(state.vars.orders);
     var requestBundles = [];
     //var group_leader_check = require('../shared/rosterApi/checkForGroupLeader');
@@ -225,7 +226,7 @@ function onOrderConfirmed(){
     var requestData = {
         'districtId': client.DistrictId,
         'siteId': client.SiteId,
-        'groupId': client.GroupId,
+        'groupId': glClient.GroupId,
         'accountNumber': client.AccountNumber,
         'clientId': client.ClientId,
         'isGroupLeader': 'false',
