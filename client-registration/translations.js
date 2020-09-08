@@ -58,8 +58,8 @@ module.exports = {
         'sw': 'Bidhaa ulizo agiza\n $orders \n1) kudhibitisha'
     },
     'final_message': {
-        'en-ke': 'Thank you for placing your Just in Time Top-up order.',
-        'sw': 'Asante kwa kutuma maombi yako ya Just in Time Top-up.'
+        'en-ke': 'Thanks for ordering $products . Make sure you pay at least Ksh 500 qualification amount to receive input on input delivery day.',
+        'sw': 'Asante kwa kujisajili na $produts . Hakikisha umelipa shilingi 500 au zaidi ilikupokea bidhaa siku yakupokea pembejeo.'
     },
     'enrollment_failed': {
         'en-ke': 'Please try again later. Most people are applying right now!',

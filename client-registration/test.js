@@ -459,10 +459,11 @@ describe('clientRegistration', () => {
     describe('order Confirmation Handler successfull callback',()=>{
         var callback;
         beforeAll(()=>{
-            state.vars.orders = JSON.stringify([mockMaizeRows[0]]);
+            state.vars.orders = JSON.stringify(mockBundleInput);
             state.vars.newClient = JSON.stringify(client);
         });
         beforeEach(() => {
+            
             clientRegistration.registerHandlers();
             callback = orderConfirmationHandler.getHandler.mock.calls[0][0];           
         });
@@ -470,9 +471,10 @@ describe('clientRegistration', () => {
         it('should display a message confirming the order is complete if the order is saved in roster',()=>{
             httpClient.request.mockReturnValue({status: 201});
             contact.phone_number = phone;
-            var message = 'Thank you for placing your Just in Time Top-up order.';
+            var message = `Thanks for ordering ${mockBundleInput[0].bundleName}`+
+            ` ${mockBundleInput[0].price}  `+'. Make sure you pay at least Ksh 500 qualification amount to receive input on input delivery day.';
             callback();
-            expect(sayText).toHaveBeenCalledWith('Thank you for placing your Just in Time Top-up order.');
+            expect(sayText).toHaveBeenCalledWith(message);
             expect(project.sendMessage).toHaveBeenCalledWith({content: message, to_number: phone});
         });
         it('should display a message asking the user to try again later the order is not saved in roster',()=>{

@@ -232,9 +232,13 @@ function onOrderConfirmed(){
         'isGroupLeader': 'false',
         'clientBundles': requestBundles
     };
-   
+    var orderPlaced = JSON.parse(state.vars.orders);
+    var orderPlacedMessage = '';
+    for( var m = 0; m < orderPlaced.length; m++ ){
+        orderPlacedMessage = orderPlacedMessage + orderPlaced[m].bundleName + ' ' + orderPlaced[m].price + ' ';
+    } 
     if(enrollOrder(requestData)){
-        var message = translate('final_message',{},state.vars.reg_lang);
+        var message = translate('final_message',{'$products': orderPlacedMessage},state.vars.reg_lang);
         global.sayText(message);
         project.sendMessage({
             content: message, 
