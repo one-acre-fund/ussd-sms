@@ -1,4 +1,9 @@
 module.exports = {
+    'message_notification': {
+        'en-ke': 'A training SMS has been sent to your phone. Messages are free! But please delete unwanted SMS in your phone to make space for incoming.',
+        'en': 'A training SMS has been sent to your phone. Messages are free! But please delete unwanted SMS in your phone to make space for incoming.',
+        'sw': 'Ujumbe wa mafunzo umetumwa kwa simu yako. SMS zote ni bure! Kumbuka kufuta SMS usizohitaji ili uwe na nafasi ya kupata ujumbe zaidi.'
+    },
     'sms-1.1': {
         'en-ke': 'Today we are going learn how to get the best harvest from your soils. Healthy soils give great harvest! Soil is gold!',
         'en': 'Today we are going learn how to get the best harvest from your soils. Healthy soils give great harvest! Soil is gold!',
@@ -6,7 +11,7 @@ module.exports = {
     },
     'sms-1.2': {
         'en-ke': 'Each type of crop needs a different mix of nutrients for great harvests. Healthy soils provide a complete range of nutrients to plants.',
-        'en': 'Each type of crop needs a different mix of nutrients for great harvests. Healthy soils provide a complete range of nutrients to plants. ',
+        'en': 'Each type of crop needs a different mix of nutrients for great harvests. Healthy soils provide a complete range of nutrients to plants.',
         'sw': 'Komposti imejaa chakula kizuri kwa mimea yako, itakayo kuwezesha kuwa na mavuno bora. Tumia komposti nyingi, kadri uwezavyo!'
     },
     'sms-2.1': {
@@ -65,8 +70,8 @@ module.exports = {
         'sw': 'Komposti imejaa chakula kizuri kwa mimea yako, itakayo kuwezesha kuwa na mavuno bora. Tumia komposti nyingi, kadri uwezavyo!'
     },
     'sms-4.3': {
-        'en-ke': 'To create compost piles you will need maize stalks, green materials like green leaves and grass, cow or chicken manure and urine and water. ',
-        'en': 'To create compost piles you will need maize stalks, green materials like green leaves and grass, cow or chicken manure and urine and water. ',
+        'en-ke': 'To create compost piles you will need maize stalks, green materials like green leaves and grass, cow or chicken manure and urine and water.',
+        'en': 'To create compost piles you will need maize stalks, green materials like green leaves and grass, cow or chicken manure and urine and water.',
         'sw': 'Kuunda marundo ya komposti, utahitaji mabua ya mahindi, majani mabichi na nyasi, samadi na mkojo wa ng\'ombe na kuku, na maji '
     },
     'sms-4.4': {
@@ -75,8 +80,8 @@ module.exports = {
         'sw': '1. Kata mabua ya mahindi kadri iwezekanavyo.\n2. Tumia mabua yaliyokatwa kuunda safu ya kwanza ya komposti yako. Uwe na urefu wa kiuno chako'
     },
     'sms-4.5': {
-        'en-ke': '3. Add as much green plant material (fresh grass, green leaves, weeds, etc.) to the rows as possible. This speeds up decomposition. ',
-        'en': '3. Add as much green plant material (fresh grass, green leaves, weeds, etc.) to the rows as possible. This speeds up decomposition. ',
+        'en-ke': '3. Add as much green plant material (fresh grass, green leaves, weeds, etc.) to the rows as possible. This speeds up decomposition.',
+        'en': '3. Add as much green plant material (fresh grass, green leaves, weeds, etc.) to the rows as possible. This speeds up decomposition.',
         'sw': '3. Ongeza sehemu nyingi za kijani za mimea (nyasi, majani mabichi, magugu n.k.) kwa rundo iwezekanavyo. Hii hurahisisha komposti kuoza'
     },
     'sms-4.6': {
@@ -90,8 +95,8 @@ module.exports = {
         'sw': '5. Mwishowe, funika rundo na safu nyembamba (1/2 ya kidole gumba) ya udongo mzuri ili kuzuia maji ya mvua kuosha komposti'
     },
     'sms-4.8': {
-        'en-ke': '6. Water until there is good moisture in the middle of the pile (it should always be moist but not wet). ',
-        'en': '6. Water until there is good moisture in the middle of the pile (it should always be moist but not wet). ',
+        'en-ke': '6. Water until there is good moisture in the middle of the pile (it should always be moist but not wet).',
+        'en': '6. Water until there is good moisture in the middle of the pile (it should always be moist but not wet).',
         'sw': '6. Nyunyiza maji hadi sehemu ya kati ya rundo iwe na unyevu wa kutosha. Inafaa iwe na unyevu kiasi kila mara, isiwe na maji kupita kiasi'
     },
     'sms-4.9': {
@@ -115,8 +120,8 @@ module.exports = {
         'sw': 'Unaweza kupanda mimea hii pamoja na mahindi msimu  wa mvua  mrefu, au kufuatanisha aina tofauti za mimea kila msimu'
     },
     'sms-5.3': {
-        'en-ke': 'To practice crop rotation, avoid planting the same crop on the same piece of land every year. Rotate legumes with cereals like maize. ',
-        'en': 'To practice crop rotation, avoid planting the same crop on the same piece of land every year. Rotate legumes with cereals like maize. ',
+        'en-ke': 'To practice crop rotation, avoid planting the same crop on the same piece of land every year. Rotate legumes with cereals like maize.',
+        'en': 'To practice crop rotation, avoid planting the same crop on the same piece of land every year. Rotate legumes with cereals like maize.',
         'sw': 'Fuatanisha aina tofauti za mazao kila mwaka inavyofaa.  Panda mazao aina ya maharagwe baada ya mazao ya nafaka kama mahindi '
     },
     'sms-5.4': {
@@ -135,8 +140,8 @@ module.exports = {
         'sw': 'Sahihi! Tunafuatanisha aina tofauti ya mimea ili kuzuia wadudu na magonjwa kwa udongo na kupata mavuno makubwa!'
     },
     'sms-5.7': {
-        'en-ke': 'That\'s incorrect. We rotate our crops to prevent disease building up on our soil and have bigger harvests! ',
-        'en': 'That\'s incorrect. We rotate our crops to prevent disease building up on our soil and have bigger harvests! ',
+        'en-ke': 'That\'s incorrect. We rotate our crops to prevent disease building up on our soil and have bigger harvests!',
+        'en': 'That\'s incorrect. We rotate our crops to prevent disease building up on our soil and have bigger harvests!',
         'sw': 'Sio sahihi.Tunafuatanisha aina tofauti ya mimea ili kuzuia wadudu na magonjwa kwa udongo na kupata mavuno makubwa!'
     },
     'sms-6.1': {

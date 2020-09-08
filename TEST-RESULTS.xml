@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="1" failures="0" time="3.72">
+  <testsuite name="soil fertility training service service" errors="0" failures="0" skipped="0" timestamp="2020-09-08T05:35:31" time="1.593" tests="1">
+    <testcase classname="soil fertility training service service it should start the service" name="soil fertility training service service it should start the service" time="0.012">
+    </testcase>
+  </testsuite>
+</testsuites>
