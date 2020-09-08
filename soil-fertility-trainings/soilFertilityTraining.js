@@ -16,7 +16,7 @@ console.log(env);
 
 var translations = require('./translations/index');
 var translator = require('../utils/translator/translator');
-// var addResponseHandlers = require('./responseHandlers/addResponseHandlers');
+var addResponseHandlers = require('./responseHandlers/addResponseHandlers');
 var Batch1ResponseHandler = require('./responseHandlers/batch1ResponseHandler');
 
 var lang = contact.vars.lang;
@@ -31,4 +31,4 @@ global.main = function() {
     waitForResponse(Batch1ResponseHandler.handlerName);
 };
 
-// addResponseHandlers(lang);
+addResponseHandlers(lang);

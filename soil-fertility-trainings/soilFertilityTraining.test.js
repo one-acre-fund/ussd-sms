@@ -9,6 +9,8 @@ describe('soil fertility training', () => {
     });
 
     it('should send the 1. batch messages', () => {
+        var addResponseHandlers = require('./responseHandlers/addResponseHandlers');
+        jest.mock('./responseHandlers/addResponseHandlers');
         contact.phone_number = '0555345';
         require('./soilFertilityTraining');
         global.main();
@@ -17,5 +19,6 @@ describe('soil fertility training', () => {
             {'content': 'Each type of crop needs a different mix of nutrients for great harvests. Healthy soils provide a complete range of nutrients to plants.', 'to_number': '0555345'}
         ]});
         expect(waitForResponse).toHaveBeenCalledWith(Batch1ResponseHandler.handlerName);
+        expect(addResponseHandlers).toHaveBeenCalledWith(contact.vars.lang);
     });
 });
