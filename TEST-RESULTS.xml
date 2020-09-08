@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="1" failures="0" time="3.72">
-  <testsuite name="soil fertility training service service" errors="0" failures="0" skipped="0" timestamp="2020-09-08T05:35:31" time="1.593" tests="1">
-    <testcase classname="soil fertility training service service it should start the service" name="soil fertility training service service it should start the service" time="0.012">
+<testsuites name="jest tests" tests="1" failures="0" time="3.466">
+  <testsuite name="soil fertility training" errors="0" failures="0" skipped="0" timestamp="2020-09-08T06:00:29" time="1.287" tests="1">
+    <testcase classname="soil fertility training should send the 1. batch messages" name="soil fertility training should send the 1. batch messages" time="0.036">
     </testcase>
   </testsuite>
 </testsuites>
