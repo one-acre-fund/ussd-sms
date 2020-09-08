@@ -1,4 +1,4 @@
-var handlerName = 'bundle_choice_handler';
+var handlerName = 'b_choice_handler_enr';
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 var bundles,chosenBundle =[];

@@ -1,4 +1,4 @@
-var handlerName = 'add_order_handler';
+var handlerName = 'add_order_handler_enr';
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 var bundleChoiceHandler = require('../bundle-choice-handler/bundleChoiceHandler');
 module.exports = {

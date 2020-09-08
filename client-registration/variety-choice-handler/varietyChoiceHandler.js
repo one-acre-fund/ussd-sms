@@ -1,4 +1,4 @@
-var handlerName = 'variety_choice_handler';
+var handlerName = 'v_choice_handler_enr';
 
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 var chosenInput = [];
