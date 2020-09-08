@@ -65,5 +65,24 @@ module.exports = {
         'en-ke': 'Please try again later. Most people are applying right now!',
         'sw': 'Tafadhali jaribu tena baada ya mda kidogo. Watu wengi wanatuma maombi kwa sasa!'
 
+    },
+    'variety_confirmation': {
+        'en-ke': 'Top-up with $bundleName and $inputName\n1) Confirm\n2) Cancel',
+        'sw': '"Umeongeza  $bundleName na $inputName\n1) Thibitisha\n 2) Futa"'
+    },
+    'bundle_title': {
+        'en-ke': 'Select a product',
+        'sw': 'Chagua product'
+    },
+    'variety_title': {
+        'en-ke': 'Select seed variety',
+        'sw': 'Chagua mbegu'
+    },'prev_page': {
+        'en-ke': '44)Previous page',
+        'sw': '44)ukurasa uliopita'
+    },
+    'next_page': {
+        'en-ke': '77)Next page',
+        'sw': '77)ukurasa unaofuata'
     }
 };

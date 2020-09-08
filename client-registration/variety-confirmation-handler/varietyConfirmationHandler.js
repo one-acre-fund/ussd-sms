@@ -1,4 +1,4 @@
-var handlerName = 'variety_confirmation_handler_enrollment';
+var handlerName = 'v_confirm_handler_enr';
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 module.exports = {
     handlerName: handlerName,
