@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="1" failures="0" time="2.082">
-  <testsuite name="registering response handlers" errors="0" failures="0" skipped="0" timestamp="2020-09-08T11:05:02" time="0.978" tests="1">
-    <testcase classname="registering response handlers should match all response handlers to their response handler names" name="registering response handlers should match all response handlers to their response handler names" time="0.011">
+<testsuites name="jest tests" tests="1" failures="0" time="3.681">
+  <testsuite name="soil fertility training" errors="0" failures="0" skipped="0" timestamp="2020-09-08T11:12:05" time="1.636" tests="1">
+    <testcase classname="soil fertility training should send the 1. batch messages" name="soil fertility training should send the 1. batch messages" time="0.056">
     </testcase>
   </testsuite>
 </testsuites>
