@@ -50,8 +50,8 @@ service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 service.vars.roster_read_key = project.vars.roster_read_key;
 service.vars.lr_2021_client_table_id = project.vars[env+'_lr_2021_client_table_id'];
-service.vars.registerEnrollEnd = project.vars[env+ 'registerEnrollEnd'];
-service.vars.registerEnrollStart = project.vars[env+ 'registerEnrollStart'];
+service.vars.registerEnrollEnd = env+ '_registerEnrollEnd';
+service.vars.registerEnrollStart = env+ '_registerEnrollStart';
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 const triggerService = require('../maize-recommendation/triggerService');
 
@@ -65,7 +65,7 @@ else{
     service.vars.topUpBundleTableId = 'DT545a7c5683114b75';
     service.vars.maizeTableId = 'DT950b2ac0dbb996de';
     service.vars.maizeEnrollmentTableId = 'DTd4cf7149a530dcbe';
-    service.vars.enrollmentBundleTableId = 'DTd4cf7149a530dcbe';
+    service.vars.enrollmentBundleTableId = 'DTe0cd7f4439c55c3f';
 }
 
 var MenuCount = 0;

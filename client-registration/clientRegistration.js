@@ -57,7 +57,7 @@ module.exports = {
                 //display bundles
                 saveClientInRoster();
                 displayBundles(JSON.parse(state.vars.client_json).DistrictId); 
-                promptDigits(bundleChoiceHandler.handlerName);
+                global.promptDigits(bundleChoiceHandler.handlerName);
             }
             else{
                 global.sayText(translate('reg_group_leader_question',{},state.vars.reg_lang));
@@ -154,7 +154,6 @@ function saveClientInRoster(){
 }
 function onBundleSelected(bundleId, varietychosen, bundleInputId){
 
-
     var bundleInputs = JSON.parse(state.vars.bundleInputs);
     var selectedBundle = [];
     for( var i = 0; i < bundleInputs.length; i++ ){
@@ -194,7 +193,7 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
         //Display confirmation message
         state.vars.orders = JSON.stringify(allBundles);
         if(allBundles.length == 3){
-            sayText(translate('final_order_display',{'$orders': orderMessage }, state.vars.reg_lang));
+            global.sayText(translate('final_order_display',{'$orders': orderMessage }, state.vars.reg_lang));
             global.promptDigits(orderConfirmationHandler.handlerName);
         }
         else{
@@ -208,8 +207,8 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
 function onVarietyChosen(bundleInput){
     state.vars.chosenVariety = JSON.stringify(bundleInput);
     console.log('varieties in onvarietychosen'+JSON.parse(state.vars.chosenVariety));
-    sayText(translate('variety_confirmation',{'$bundleName': bundleInput.bundleName, '$inputName': bundleInput.inputName},state.vars.reg_lang));
-    promptDigits(varietyConfirmationHandler.handlerName);
+    global.sayText(translate('variety_confirmation',{'$bundleName': bundleInput.bundleName, '$inputName': bundleInput.inputName},state.vars.reg_lang));
+    global.promptDigits(varietyConfirmationHandler.handlerName);
 }
 
 function onOrderConfirmed(){
@@ -235,7 +234,7 @@ function onOrderConfirmed(){
    
     if(enrollOrder(requestData)){
         var message = translate('final_message',{},state.vars.reg_lang);
-        sayText(message);
+        global.sayText(message);
         project.sendMessage({
             content: message, 
             to_number: contact.phone_number
@@ -246,7 +245,7 @@ function onOrderConfirmed(){
         });
     }
     else{
-        sayText(translate('enrollment_failed',{},state.vars.reg_lang));
+        global.sayText(translate('enrollment_failed',{},state.vars.reg_lang));
     }
 }
 function onFinalizeOrder(){
@@ -258,8 +257,8 @@ function onFinalizeOrder(){
     for( var j = 0; j < allBundles.length; j++ ){
         orderMessage = orderMessage + allBundles[j].bundleName + ' ' + allBundles[j].price + '\n';
     }
-    sayText(translate('final_order_display',{'$orders': orderMessage },state.vars.reg_lang));
-    promptDigits(orderConfirmationHandler.handlerName);
+    global.sayText(translate('final_order_display',{'$orders': orderMessage },state.vars.reg_lang));
+    global.promptDigits(orderConfirmationHandler.handlerName);
 }
 function displayBundles(district){
 
