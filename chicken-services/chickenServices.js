@@ -11,7 +11,7 @@ var notifyELK = require('../notifications/elk-notification/elkNotification');
 module.exports = {
     registerHandlers: function (){
         function onPaymentValidated(){
-            global.sayText(translate('chicken_possible_nber',{'$name': JSON.parse(state.vars.client_json).FirstName,'$min': 2, '$max': state.vars.max_chicken}));
+            global.sayText(translate('chicken_possible_nber',{'$name': JSON.parse(state.vars.client_json).FirstName, '$max': state.vars.max_chicken}));
             global.promptDigits(possibleOrderHandler.handlerName);
         }
         function onOrderingConfirmed(){

@@ -5,11 +5,11 @@ module.exports = {
     },
     'chicken_already_confirmed': {
         'en': 'Hello $name You have already confirmed $number number of chicken. 1: Change confirmation 0: Return home',
-        'ki': 'Mwaramutse $name Mumaze kwemeza $number umubare w\'inkoko. 1: Hindura ibyowemeje 0: Garuka inyuma'
+        'ki': 'Mwaramutse $name Mumaze kwemeza umubare w\'inkoko $number .\n1: Hindura ibyo wemeje\n0: Subira inyuma'
     },
     'chicken_possible_nber': {
-        'en': 'Hello $name you are eligible to purchase $min - $max number of chickens. How many would you like to confirm? 0: Return home',
-        'ki': 'Muraho $name wemerewe inkoko ziri hagati ya $min na $max . Ni inkoko zingahe ushaka kwemeza ? 0: Garuka inyuma'
+        'en': 'Hello $name you are eligible to purchase $max number of chickens. How many would you like to confirm? 0: Return home',
+        'ki': 'Muraho $name wemerewe inkoko $max . Ni inkoko zingahe ushaka kwemeza ? \n0: Subira inyuma'
     },
     'chicken_no_minimum_prepayment': {
         'en': 'Sorry, you have not reached your minimum prepayment amount to confirm chickens. Please complete your prepayment if you want to confirm them.',
@@ -29,7 +29,7 @@ module.exports = {
     },
     'chicken_final_confrm': {
         'en': 'You are confirming $number chickens. Your total credit for chickens is $price Rwf. Your chickens will be ready within 2 months! 1: Confirm 0: Return home',
-        'ki': 'Urikwemeza inkoko $number. Ideni ryawe yose ry\' inkoko ni $price Rwf. Inkoko zawe zizaboneka nyuma yamezi 2! 1: Emeza 0: Garuka inyuma'
+        'ki': 'Ugiye kwemeza inkoko $number . Ideni ryawe ryose ry\'nkoko ni Frw $price. Inkoko zawe zizaboneka mu kwezi gutaha!\n1: Emeza\n0: Subira inyuma'
         
     },
     'chicken_ordering_final_msg': {
