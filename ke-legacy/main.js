@@ -50,16 +50,22 @@ service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 service.vars.roster_read_key = project.vars.roster_read_key;
 service.vars.lr_2021_client_table_id = project.vars[env+'_lr_2021_client_table_id'];
+service.vars.registerEnrollEnd = env+ '_registerEnrollEnd';
+service.vars.registerEnrollStart = env+ '_registerEnrollStart';
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 const triggerService = require('../maize-recommendation/triggerService');
 
 if(env == 'prod'){
     service.vars.topUpBundleTableId = 'DT891c89e9a82b6841';
     service.vars.maizeTableId = 'DT4c3cd5c415c157d0';
+    service.vars.maizeEnrollmentTableId = 'DT8e672319bead2161';
+    service.vars.enrollmentBundleTableId = 'DT21237e171411bce1';
 }
 else{
     service.vars.topUpBundleTableId = 'DT545a7c5683114b75';
     service.vars.maizeTableId = 'DT950b2ac0dbb996de';
+    service.vars.maizeEnrollmentTableId = 'DTd4cf7149a530dcbe';
+    service.vars.enrollmentBundleTableId = 'DTe0cd7f4439c55c3f';
 }
 
 var MenuCount = 0;
@@ -1797,6 +1803,12 @@ addInputHandler('MainMenu', function(SplashMenu){
         promptDigits("PaymentAmount", {submitOnHash: true, maxDigits: 5, timeout: 5});
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'register_client'){
+        state.vars.canEnroll = false;
+        registrationMenu();
+        promptDigits("registrationHandler", {submitOnHash: true, maxDigits: 10, timeout: 5});
+    }
+    else if(sessionMenu[SplashMenu-1].option_name == 'register_enroll_client'){
+        state.vars.canEnroll = true;
         registrationMenu();
         promptDigits("registrationHandler", {submitOnHash: true, maxDigits: 10, timeout: 5});
     }
