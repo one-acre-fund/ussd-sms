@@ -1,7 +1,8 @@
 var {handlerName,getHandler} = require('./varietyChoiceHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
-jest.fn('../../notifications/elk-notification/elkNotification');
+jest.mock('../../notifications/elk-notification/elkNotification');
+
 httpClient.request.mockReturnValue({status: 200});
 describe('order confirmation handler test', ()=>{
 
@@ -17,7 +18,7 @@ describe('order confirmation handler test', ()=>{
 
     it('should call ELK',()=>{
         varietyChoiceHandler();
-        expect(notifyELK).toHaveBeenCalled;
+        expect(notifyELK).toHaveBeenCalled();
     });
     it('should call on variety choice handler function if the input from the user correspond to a valid bundle',()=>{
         state.vars.multiple_input_menus = false;

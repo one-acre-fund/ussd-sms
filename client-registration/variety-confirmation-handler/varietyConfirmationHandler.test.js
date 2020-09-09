@@ -2,7 +2,7 @@ var {getHandler} = require('./varietyConfirmationHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 httpClient.request.mockReturnValue({status: 200});
-jest.fn('../../notifications/elk-notification/elkNotification');
+jest.mock('../../notifications/elk-notification/elkNotification');
 describe('order confirmation handler test', ()=>{
 
     var varietyConfirmationHandler;
@@ -15,7 +15,7 @@ describe('order confirmation handler test', ()=>{
 
     it('should call ELK',()=>{
         varietyConfirmationHandler();
-        expect(notifyELK).toHaveBeenCalled;
+        expect(notifyELK).toHaveBeenCalled();
     });
     it('should call on bundle selected function if the user chooses 1',()=>{
         varietyConfirmationHandler(1);
