@@ -11,7 +11,7 @@ module.exports = {
         if(phoneValid){
             var mobile_money_phone = phoneValid[0];
             var selected_variety = JSON.parse(state.vars.selected_variety);
-            var buyback_transactions_table = project.initDataTableById(service.vars.buy_back_transactions_table_id);
+            var buyback_transactions_table = project.getOrCreateDataTable(service.vars.buyback_transactions_table);
             var buyback_transaction_row = buyback_transactions_table.createRow({
                 vars: {
                     'mobile_money_phone': mobile_money_phone,

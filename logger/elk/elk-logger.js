@@ -20,7 +20,7 @@ function sendRequest(baseURL, path, msg, options) {
     var url = baseURL + path;
     var response = httpClient.request(baseURL + path, {
         method: 'POST', 
-        data: data,
+        data: JSON.stringify(data),
         headers: {'Content-Type': 'application/json'}
     });
     if(response && response.status !== 200){

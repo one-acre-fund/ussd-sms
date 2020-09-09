@@ -13,8 +13,7 @@ describe('project variables validator', () => {
         project.vars.roster_read_key = 'dev_roster_read_key';
         projectVariablesValidator('dev');
         expect(logger.log).toHaveBeenCalledWith('Malawi: project variable: server_name is not set');
-        expect(logger.log).toHaveBeenCalledWith('Malawi: project variable: roster_api_key is not set');
-        expect(logger.log).toHaveBeenCalledWith('Malawi: project variable: buy_back_transactions_table_id is not set');
+        expect(logger.log).toHaveBeenCalledWith('Malawi: project variable: buyback_transactions_table is not set');
         expect(logger.log).toHaveBeenCalledWith('Malawi: project variable: project_name is not set');
         expect(logger.log).toHaveBeenCalledWith('Malawi: project variable: service_name is not set');
     });
