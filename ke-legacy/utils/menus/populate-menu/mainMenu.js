@@ -19,6 +19,13 @@ module.exports = [
         'option_name': 'register_client',
         'end_date': project.vars.end_register_client,
         'start_date': project.vars.start_register_client
+    },
+    {
+        'en-ke': 'Register client',
+        'sw': 'Sajili Mkulima',
+        'option_name': 'register_enroll_client',
+        'end_date': project.vars[service.vars.registerEnrollEnd],
+        'start_date': project.vars[service.vars.registerEnrollStart]
     },{
         'en-ke': 'Top up',
         'sw': 'Ongeza Bibhaa',
@@ -89,5 +96,12 @@ module.exports = [
         'option_name': 'view_group_repayment',
         'end_date': project.vars.end_view_group_repayment,
         'start_date': project.vars.start_view_group_repayment
+    },
+    {
+        'en-ke': 'Maize Recommendations',
+        'sw': 'Maize Recommendations',
+        'option_name': 'maize_recommendation',
+        'end_date': project.vars.end_maize_recommendation,
+        'start_date': project.vars.start_maize_recommendation
     }
 ];

@@ -48,5 +48,41 @@ module.exports = {
     'duplicate_national_id': {
         'en-ke': 'You have already enrolled this season and your account number is $AccountNumber. Reach out to your FO to help you add inputs to your order.',
         'sw': 'Tayari umesajiliwa mwaka huu na akauti namba yako ni $AccountNumber Tembelea mwalimu wako ili akusaidie kuongeza bidhaa unazotaka!'
+    },
+    'order_placed': {
+        'en-ke': 'Order placed\n $orders \n 1) Add product\n 2) Finish ordering',
+        'sw': 'Bidhaa ulizo agiza\n $orders \n 1) Ongeza bidhaa\n 2) Maliza ombi'
+    },
+    'final_order_display': {
+        'en-ke': 'Order placed\n $orders \n1) Confirm order',
+        'sw': 'Bidhaa ulizo agiza\n $orders \n1) kudhibitisha'
+    },
+    'final_message': {
+        'en-ke': 'Thanks for ordering $products . Make sure you pay at least Ksh 500 qualification amount to receive input on input delivery day.',
+        'sw': 'Asante kwa kujisajili na $produts . Hakikisha umelipa shilingi 500 au zaidi ilikupokea bidhaa siku yakupokea pembejeo.'
+    },
+    'enrollment_failed': {
+        'en-ke': 'Please try again later. Most people are applying right now!',
+        'sw': 'Tafadhali jaribu tena baada ya mda kidogo. Watu wengi wanatuma maombi kwa sasa!'
+
+    },
+    'variety_confirmation': {
+        'en-ke': 'Top-up with $bundleName and $inputName\n1) Confirm\n2) Cancel',
+        'sw': '"Umeongeza  $bundleName na $inputName\n1) Thibitisha\n 2) Futa"'
+    },
+    'bundle_title': {
+        'en-ke': 'Select a product',
+        'sw': 'Chagua product'
+    },
+    'variety_title': {
+        'en-ke': 'Select seed variety',
+        'sw': 'Chagua mbegu'
+    },'prev_page': {
+        'en-ke': '44)Previous page',
+        'sw': '44)ukurasa uliopita'
+    },
+    'next_page': {
+        'en-ke': '77)Next page',
+        'sw': '77)ukurasa unaofuata'
     }
 };
