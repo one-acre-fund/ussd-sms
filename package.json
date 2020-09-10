@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --colors --coverage --coverageReporters=cobertura",
+    "test": "jest --colors --coverage",
     "test:watch": "jest --colors --watch",
     "lint": "eslint . --ignore-pattern '/*-legacy/*'",
     "lint:fix": "eslint . --fix --ignore-pattern '/*-legacy/*'"
@@ -38,10 +38,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 87.65,
-        "functions": 97.17,
-        "lines": 93.17,
-        "statements": 93.2
+        "branches": 88.85,
+        "functions": 99.43,
+        "lines": 96.91,
+        "statements": 96.94
       }
     },
     "reporters": [
