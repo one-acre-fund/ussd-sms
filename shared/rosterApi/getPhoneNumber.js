@@ -1,10 +1,11 @@
-var logger = require('../../slack-logger/index');
+var Log = require('../../logger/elk/elk-logger');
 
 /**
  * Returns the phone number
  * @param {String} globalClientId global client id
  */
 module.exports = function getPhoneNumber(account_number, country) {
+    var logger = new Log();
     var fullUrl = service.vars.server_name + '/Api/sms/PhoneNumbers/?account=' + account_number + '&country=' + country;
     var opts = { headers: {} };
     opts.headers['Authorization'] = 'ApiKey ' + service.vars.roster_read_key;
@@ -19,9 +20,9 @@ module.exports = function getPhoneNumber(account_number, country) {
         else {
             console.log('Error while fetching client phone number');
             console.log(JSON.stringify(response));
-            logger.log('Error while fetching client phone number' + JSON.stringify(response));
+            logger.error('Error while fetching client phone number', {data: JSON.stringify(response)});
         }
     } catch (error) {
-        logger.log('Error: ' + JSON.stringify(error));
+        logger.error('API Error while fetching client phone number', {data: JSON.stringify(error)});
     }
 };

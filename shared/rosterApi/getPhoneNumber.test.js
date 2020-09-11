@@ -1,14 +1,20 @@
 const getPhoneNumber = require('./getPhoneNumber');
-var logger = require('../../slack-logger/index');
+var logger = require('../../logger/elk/elk-logger');
 
-jest.mock('../../slack-logger/index');
+jest.mock('../../logger/elk/elk-logger');
 
 describe('Fetch Phone Number', () => {
     beforeAll(() => {
         global.state = { vars: {lang: 'en'} };
-        jest.spyOn(logger, 'log');
     });
+    let mockLogger;
     beforeEach(() => {
+        service.vars.server_name = 'http/example.com';
+        mockLogger = {
+            error: jest.fn(),
+            warn: jest.fn()
+        };
+        logger.mockReturnValue(mockLogger);
         jest.resetModules();
     });
     it('it should fetch phone number successfully', () => {
@@ -23,13 +29,13 @@ describe('Fetch Phone Number', () => {
         jest.spyOn(httpClient, 'request').mockReturnValueOnce({status: 400, content});
         const result = getPhoneNumber('27362ad-adf4-2fa-sdf2-2');
         expect(result).toEqual(undefined);
-        expect(logger.log).toHaveBeenCalledWith('Error while fetching client phone number{"status":400,"content":"{}"}');
+        expect(mockLogger.error).toHaveBeenCalledWith('Error while fetching client phone number', {'data': '{"status":400,"content":"{}"}'});
     });
 
     it('it should handle the  unresolved promise error', () => {
         jest.spyOn(httpClient, 'request').mockReturnValueOnce(new Error('Error'));
         const result = getPhoneNumber('27362ad-adf4-2fa-sdf2-2');
         expect(result).toEqual(undefined);
-        expect(logger.log).toHaveBeenCalledWith('Error while fetching client phone number{}');
+        expect(mockLogger.error).toHaveBeenCalledWith('Error while fetching client phone number', {'data': '{}'});
     });
 });
