@@ -29,6 +29,7 @@ var rosterAPI = require('../rw-legacy/lib/roster/api');
 var slacLogger = require('../slack-logger/index');
 var dukaClient = require('../duka-client/dukaClient');
 var isCreditOfficer = require('../duka-client/checkCreditOfficer');
+var shsWarranty = require('../shs-warranty/shs-warranty');
 if(service.active){
     defaultEnvironment = 'prod';
 }else{
@@ -144,7 +145,7 @@ var GetBalance = function (client, season){
     var arrayLength = client.BalanceHistory.length;
     for (var i = 0; i < arrayLength; i++) {
         if (client.BalanceHistory[i].SeasonName ==season){balance = client.BalanceHistory[i].Balance;}}
-    return balance;    
+    return balance;
 };
 var GetRepaid = function (client, season){
     var repaid = 0;
@@ -243,7 +244,7 @@ var TriggerTraining = function (ServiceID){
     try{
         var service = project.initServiceById(ServiceID);
         service.invoke({
-            context: 'contact', 
+            context: 'contact',
             contact_id: contact.id
         });
     }
@@ -353,7 +354,7 @@ var FAWProcessCancel= function(accnum, CancelAmount){
         }
     }
 };
-    
+
 
 var FAWCreateOrder = function(client, order){
     var table = project.getOrCreateDataTable('FAWOrders');
@@ -374,7 +375,7 @@ var EnrolledAndQualified = function (client){
     var arrayLength = client.BalanceHistory.length;
     var Valid = false;
     for (var i = 0; i < arrayLength; i++) {
-        if (client.BalanceHistory[i].SeasonName == CurrentSeasonName){    
+        if (client.BalanceHistory[i].SeasonName == CurrentSeasonName){
             if(client.BalanceHistory[i].TotalCredit> 0){Valid = true;}
         }
     }
@@ -458,8 +459,8 @@ var JITTUGetOrderOptions = function (client){
                 JITTUOrdersAvailable.push(JITTU_order);
             }
             else{console.log(JITBundleOptions[i].bundlename+ 'Not Available');}
-        }    
-    }   
+        }
+    }
     state.vars.JITTUOrdersAvailable = JSON.stringify(JITTUOrdersAvailable);
     console.log(state.vars.JITTUOrdersAvailable);
     return JITTUOrdersAvailable;
@@ -531,7 +532,7 @@ var JITTUCreateOrder = function(client,bundle,variety){
             'GlobalClientId': client.GlobalClientId,
             'FirstName': client.FirstName,
             'LastName': client.LastName,
-            'CreditCycleName': CurrentSeasonName, 
+            'CreditCycleName': CurrentSeasonName,
             'accnum': client.AccountNumber,
             'bundlename': bundle.bundlename,
             'variety': variety,
@@ -562,8 +563,8 @@ var JITEGetOrderOptions = function (){
                 JITEOrdersAvailable.push(JITE_order);
             }
             else{console.log(JITBundleOptions[i].bundlename+ 'Not Available');}
-        }    
-    }   
+        }
+    }
     state.vars.JITEOrdersAvailable = JSON.stringify(JITEOrdersAvailable);
     return JITEOrdersAvailable;
 };
@@ -618,7 +619,7 @@ var JITUpdateWarehouse = function (warehousename,bundlename,variety){
                 VarStockRow.vars.quantityordered = JITEOrderCount*JITBundleOptions[i].unitnumber + JITTUOrderCount*JITBundleOptions[i].unitnumber;
                 VarStockRow.save();
             }
-            
+
             else{
                 sendEmail('charles.lipeyah@oneacrefund.org ', 'JIT Data error', 'No stock record found for '+  variety+ 'in warehouse '+ warehousename+ 'Check here to verify https://telerivet.com/p/0c6396c9/data/JIT_20Warehouse_20varieties' );
             }
@@ -676,11 +677,11 @@ var SHSValidateSerial = function(accountnumber,serialnumber, type){
     }
 };
 var SHSRegThisSeason= function(accountnumber){
-    var OrderTable = project.getOrCreateDataTable('SHS Orders');    
+    var OrderTable = project.getOrCreateDataTable('SHS Orders');
     var  OrderCursor = OrderTable.queryRows({vars: {'accountnumber': accountnumber, 'season': CurrentSeasonName}});
     var OrderCount = OrderCursor.count();
     console.log('Allowed orders this season: '+OrderCount);
-    
+
     var table = project.getOrCreateDataTable('SHS Serial Numbers');
     var  Cursor = table.queryRows({vars: {'accountnumber': accountnumber, 'season': CurrentSeasonName}});
     console.log('Registered SHSes this season: '+Cursor.count());
@@ -715,7 +716,7 @@ var GetSHSDetails = function(accountnumber, serialnumber, type){
             var SerialReturn = {
                 'Status': 'Found',
                 'ActivationCode': SerialRow.vars.activation_code,
-                'UnlockCode': SerialRow.vars.unlockcode, 
+                'UnlockCode': SerialRow.vars.unlockcode,
                 'season': SerialRow.vars.season
             };
             return SerialReturn;
@@ -742,7 +743,7 @@ var GetSerialForClient = function (accountnumber){
             'SerialNumber': row.vars.serial_number,
             'Season': row.vars.season,
         };
-        SerialList.push(Serial); 
+        SerialList.push(Serial);
     }
     return SerialList;
 };
@@ -780,7 +781,7 @@ var CallBackTimeCheck = function(accountnumber, type, hours){
     var cursor = ticketTable.queryRows({
         vars: {'account_number': accountnumber, 'call_category': type}
     });
-    
+
     cursor.limit(1);
     if (cursor.hasNext()){
         var row = cursor.next();
@@ -823,7 +824,7 @@ var HospitalTownsRetrieve = function(regionid){
     var  LocMenu = '' ;
     var LocTable = project.getOrCreateDataTable('Hospital_Towns');
     var TownList = LocTable.queryRows({vars: {'regionid': regionid}});
-    var TownArray = []; 
+    var TownArray = [];
     while (TownList.hasNext()) {
         var TownRow = TownList.next();
         var Location = {
@@ -831,7 +832,7 @@ var HospitalTownsRetrieve = function(regionid){
             'ID': TownRow.vars.id,
             'Menu': TownRow.vars.id.substring(regionid.length+1)
         };
-        TownArray.push(Location); 
+        TownArray.push(Location);
     }
     TownArray.sort(function(a, b){return a.Menu-b.Menu;});
     state.vars.LocArray = JSON.stringify(TownArray);
@@ -875,7 +876,7 @@ var HospitalsRetrieve = function(townid){
     var  HospitalList = LocTable.queryRows({vars: {'townid': townid}});
     HospitalList.limit(50);
     console.log(HospitalList.count());
-    var HospitalArray = []; 
+    var HospitalArray = [];
     while (HospitalList.hasNext()) {
         var HosRow = HospitalList.next();
         var Location = {
@@ -883,7 +884,7 @@ var HospitalsRetrieve = function(townid){
             'ID': HosRow.vars.id,
             'Menu': HosRow.vars.id.substring(townid.length+1)
         };
-        HospitalArray.push(Location); 
+        HospitalArray.push(Location);
     }
     HospitalArray.sort(function(a, b){return a.Menu-b.Menu;});
     console.log(JSON.stringify(HospitalArray));
@@ -1059,7 +1060,7 @@ var PrepaymentNotEnrolledText = function(){
 var PrepaymentMenuText = function(prepayment, paid){
     console.log('Already paid: '+paid);
     if(prepayment == 'Error'){
-        
+
         if (GetLang()){sayText('An error occured.\n1) Back to menu');}
         else {sayText('Kosa limetokea.\n1) Rudi kwenye menyu');}
     }
@@ -1141,17 +1142,17 @@ var SHSCodeSMS = function(shscode){
     else {SMSText = 'Kodi ya taa yako ni: '+shscode;}
 
     project.scheduleMessage({
-        message_type: 'service', 
-        to_number: contact.phone_number, 
+        message_type: 'service',
+        to_number: contact.phone_number,
         start_time_offset: 0,
         service_id: 'SV44cdffa755e06381',
         vars: {content: SMSText}
     });
-  
+
 };
 // FAW
 var FAWMaxOrderText = function(numberordered){
-    
+
     console.log('allowed to cancel: '+state.vars.FAWAllowcancel);
     if(state.vars.FAWAllowcancel){
         if (GetLang()){sayText('Sorry, you have already ordered '+numberordered+' pesticide bottles. You are not allowed to order more.\n9) Cancel order');}
@@ -1162,7 +1163,7 @@ var FAWMaxOrderText = function(numberordered){
         else {sayText('Samahani, umeshatuma ombi la chupa '+numberordered+' za dawa. Hauruhusiwi kuagiza zaidi\n1) Rudi mwanzo wa menu');}
     }
 
-    
+
 };
 var FAWInactiveText = function(){
     if (GetLang()){sayText('Orders for Radiant are currently closed. You can buy the pesticide from your agrovet. Remember to use a different pesticide each season');}
@@ -1216,8 +1217,8 @@ var FAWSuccessSMS = function(order){
     if (GetLang()){SMStext = 'Thanks for ordering '+ order+ ' bottles. Your FO will deliver the pesticide within a few weeks. An amount of '+Credit+' KSH will be added to your credit.';}
     // Please use scheduled message function for PUSH SMSes from the USSD service to make sure that the traffic pops up in the dashboard here: https://telerivet.com/p/0c6396c9/message_stats?cumulative=false&field=count&rollup=day&groups=main.series.service%2Cmain.series.type%2Cmain.series.direction&start_date=6.4.2020&end_date=6.5.2020 This is used for budgetting
     project.scheduleMessage({
-        message_type: 'service', 
-        to_number: contact.phone_number, 
+        message_type: 'service',
+        to_number: contact.phone_number,
         start_time_offset: 0,
         service_id: 'SV6033c380e37b7d11',
         vars: {content: SMStext}
@@ -1252,7 +1253,7 @@ var JITBundleSelectText = function(bundleoptions){
 var JITTUOrderOverviewSMS= function(orderoverview, accountnumber, phonenumber){
     var OrderOverviewText = '';
     if (GetLang()) {OrderOverviewText = 'Orders added to account: '+ accountnumber+':\n';}
-    else {OrderOverviewText =  'Bidhaa zilizo ongezwa kwa akauti: '+ accountnumber+': \n';} 
+    else {OrderOverviewText =  'Bidhaa zilizo ongezwa kwa akauti: '+ accountnumber+': \n';}
     var NumberOrders = orderoverview.length;
     for (var i = 0; i < NumberOrders; i++) {
         if (GetLang()) {
@@ -1264,8 +1265,8 @@ var JITTUOrderOverviewSMS= function(orderoverview, accountnumber, phonenumber){
     }
     // Please use scheduled message function for PUSH SMSes from the USSD service to make sure that the traffic pops up in the dashboard here: https://telerivet.com/p/0c6396c9/message_stats?cumulative=false&field=count&rollup=day&groups=main.series.service%2Cmain.series.type%2Cmain.series.direction&start_date=6.4.2020&end_date=6.5.2020 This is used for budgetting
     project.scheduleMessage({
-        message_type: 'service', 
-        to_number: phonenumber, 
+        message_type: 'service',
+        to_number: phonenumber,
         start_time_offset: 0,
         service_id: 'SVd95696157d97757d',
         vars: {content: OrderOverviewText}
@@ -1384,17 +1385,17 @@ var JITEOrderConfrimSMS = function(phonenumber, bundlename,variety){
     else {SMSText='Asante kwa kujisajili na '+bundlename+ ' na '+ variety+'. Hakikisha umelipa shilingi 500 ilikupokea bidhaa siku yakupokea pembejeo.';}
     // Please use scheduled message function for PUSH SMSes from the USSD service to make sure that the traffic pops up in the dashboard here: https://telerivet.com/p/0c6396c9/message_stats?cumulative=false&field=count&rollup=day&groups=main.series.service%2Cmain.series.type%2Cmain.series.direction&start_date=6.4.2020&end_date=6.5.2020 This is used for budgetting
     project.scheduleMessage({
-        message_type: 'service', 
-        to_number: phonenumber, 
+        message_type: 'service',
+        to_number: phonenumber,
         start_time_offset: 0,
         service_id: 'SVd95696157d97757d',
         vars: {content: SMSText}
     });
-    
+
 };
 var JITEOrdeCloseText = function(){
     if (GetLang()){sayText('Thanks for enrolling with One Acre Fund through Just in Time.');}
-    else {sayText('Asante kwa kujisajili na One acre Fund kupitia Just in Time.');}    
+    else {sayText('Asante kwa kujisajili na One acre Fund kupitia Just in Time.');}
 };
 // FO Locator
 var FOLocatorRegionText = function (){
@@ -1562,6 +1563,7 @@ global.main = function () {
 
 // load input handlers
 dukaLocator.registerDukaLocatorHandlers({lang: GetLang() ? 'en' : 'sw'});
+shsWarranty.registerHandlers();
 transactionHistory.registerHandlers();
 clientRegistration.registerHandlers();
 justInTime.registerHandlers();
@@ -1598,7 +1600,7 @@ addInputHandler('SplashMenu', function(SplashMenu) {
             console.log('SuccessFully Validated against Roster');
             client = RosterClientGet(ClientAccNum);
             try {
-                state.vars.client_json = JSON.stringify(client);                
+                state.vars.client_json = JSON.stringify(client);
             } catch (error) {
                 state.vars.client_json = JSON.stringify(reduceClientSize(client));
             }
@@ -1788,6 +1790,9 @@ addInputHandler('MainMenu', function(SplashMenu){
         }
         maizeRecommendation(lang, project.vars.maize_recommendation_service_id);
     }
+    else if(sessionMenu[SplashMenu-1].option_name == 'warranty'){
+        shsWarranty.start();
+    }
     else{
         var arrayLength = client.BalanceHistory.length;
         var Balance = '';
@@ -1832,7 +1837,7 @@ addInputHandler('ContinueToPayment', function() {
     client = JSON.parse(state.vars.client);
     PaymentMenuText (client);
     promptDigits('PaymentAmount', {submitOnHash: true, maxDigits: 5, timeout: 5});
-    
+
 });
 addInputHandler('PaymentAmount', function(PaymentAmount) {
     LogSessionID();
@@ -1894,8 +1899,8 @@ addInputHandler('confirmNationalIdHanlder', function(input){
             state.vars.FOPN = row.vars.FOPhoneNumber;
             var FarmerSMSContent = FOLocatorFarmerSMS();
             project.scheduleMessage({
-                message_type: 'service', 
-                to_number: contact.phone_number, 
+                message_type: 'service',
+                to_number: contact.phone_number,
                 start_time_offset: 0,
                 service_id: 'SVc758c8b7ad90dd27',
                 vars: {content: FarmerSMSContent}
@@ -1983,7 +1988,7 @@ addInputHandler('FOLocCounty', function(County) {
             LocMenu = '' ;
             var LocTable = project.getOrCreateDataTable('FO_Locator_SubCounties');
             var SubCountyList = LocTable.queryRows({vars: {'countyid': CountyID}});
-            var SubCountyArray = []; 
+            var SubCountyArray = [];
             while (SubCountyList.hasNext()) {
                 var SubCountyRow = SubCountyList.next();
                 var Location = {
@@ -1991,7 +1996,7 @@ addInputHandler('FOLocCounty', function(County) {
                     'ID': SubCountyRow.vars.subcountyid,
                     'Menu': SubCountyRow.vars.subcountyid.substring(CountyID.length+1)
                 };
-                SubCountyArray.push(Location); 
+                SubCountyArray.push(Location);
             }
             SubCountyArray.sort(function(a, b){return a.Menu-b.Menu;});
             state.vars.LocArray = JSON.stringify(SubCountyArray);
@@ -2044,7 +2049,7 @@ addInputHandler('FOLocSubCounty', function(SubCounty) {
             LocMenu = '';
             var LocTable = project.getOrCreateDataTable('FO_Locator_Wards');
             var WardList = LocTable.queryRows({vars: {'subcountyid': SubCountyID}});
-            var WardArray = []; 
+            var WardArray = [];
             while (WardList.hasNext()) {
                 var WardRow = WardList.next();
                 var Location = {
@@ -2052,7 +2057,7 @@ addInputHandler('FOLocSubCounty', function(SubCounty) {
                     'Name': WardRow.vars.wardname,
                     'ID': WardRow.vars.wardid
                 };
-                WardArray.push(Location); 
+                WardArray.push(Location);
             }
             WardArray.sort(function(a, b){return a.Menu-b.Menu;});
             state.vars.LocArray = JSON.stringify(WardArray);
@@ -2076,7 +2081,7 @@ addInputHandler('FOLocSubCounty', function(SubCounty) {
         }
         else {
             FOLocatorSubCountyText(state.vars.LocMenu);
-            promptDigits('FOLocSubCounty', {submitOnHash: true, maxDigits: 2, timeout: 5});            
+            promptDigits('FOLocSubCounty', {submitOnHash: true, maxDigits: 2, timeout: 5});
         }
     }
 });
@@ -2108,7 +2113,7 @@ addInputHandler('FOLocWard', function(Ward) {
                 var SiteList = LocTable.queryRows({vars: {'subcountyid': state.vars.SubCountyID}});
             }
             else{SiteList = LocTable.queryRows({vars: {'wardid': LocID}});}
-            var SiteArray = []; 
+            var SiteArray = [];
             while (SiteList.hasNext()) {
                 var SiteRow = SiteList.next();
                 var menu = '';
@@ -2119,7 +2124,7 @@ addInputHandler('FOLocWard', function(Ward) {
                     'Name': SiteRow.vars.sitename,
                     'ID': SiteRow.vars.siteid
                 };
-                SiteArray.push(Location); 
+                SiteArray.push(Location);
             }
             SiteArray.sort(function(a, b){return a.Menu-b.Menu;});
             state.vars.LocArray = JSON.stringify(SiteArray);
@@ -2197,8 +2202,8 @@ addInputHandler('FOLocConfrim', function(Confirm) {
         // Please use scheduled message function for PUSH SMSes from the USSD service to make sure that the traffic pops up in the dashboard here: https://telerivet.com/p/0c6396c9/message_stats?cumulative=false&field=count&rollup=day&groups=main.series.service%2Cmain.series.type%2Cmain.series.direction&start_date=6.4.2020&end_date=6.5.2020 This is used for budgetting
         var FarmerSMSContent = FOLocatorFarmerSMS();
         project.scheduleMessage({
-            message_type: 'service', 
-            to_number: contact.phone_number, 
+            message_type: 'service',
+            to_number: contact.phone_number,
             start_time_offset: 0,
             service_id: 'SVc758c8b7ad90dd27',
             vars: {content: FarmerSMSContent}
@@ -2206,8 +2211,8 @@ addInputHandler('FOLocConfrim', function(Confirm) {
 
         var FOSMSContent = FOLocatorFOSMS();
         project.scheduleMessage({
-            message_type: 'service', 
-            to_number: state.vars.FOPN, 
+            message_type: 'service',
+            to_number: state.vars.FOPN,
             start_time_offset: 0,
             service_id: 'SVc758c8b7ad90dd27',
             vars: {content: FOSMSContent}
@@ -2701,7 +2706,7 @@ addInputHandler('SolarMenu', function(Menu){
                 }
             }
         }
-        else{    
+        else{
             SHSSerialText();
             promptDigits('SerialCode', {submitOnHash: true, maxDigits: 10, timeout: 5});
         }
@@ -3004,9 +3009,9 @@ addInputHandler('StaffMenu', function(input) {
     //}
     else{
         StaffMenuText();
-        promptDigits('StaffMenu', {submitOnHash: true, maxDigits: 1, timeout: 5}); 
+        promptDigits('StaffMenu', {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
-    
+
 });
 
 addInputHandler('DaySelect', function(input) {
@@ -3144,14 +3149,14 @@ addInputHandler('CallCenterMenu', function(input) {
     };
     if(input in menu_options){
         var sub = 'Call back requested for: ' + menu_options[input] +' account number : '+ client.AccountNumber;
-        
+
         if(CallBackTimeCheck(client.AccountNumber, sub, 48)){
             CallMeBackDuplicateText();
             hangUp();
         }
         else{
             var create_zd_ticket = require('ext/zd-tr/lib/create-ticket');
-        
+
             if(create_zd_ticket(client.AccountNumber, sub, contact.phone_number)){
                 console.log('created_ticket!');
                 CallMeBackConfirmText();
@@ -3184,25 +3189,25 @@ addInputHandler('TrainingSelect', function(input) {
         client = 'Non Client';
         contact.vars.accountnumber = 'Non Client';
         contact.save();
-    }   
+    }
     InteractionCounter('TrainingSelect');
-    
+
     if (input == 0 ){
         TrainingMenuNextText();
         promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
-    
+
     else if (input == 6){
 
         var Random = Math.random();
         console.log(Random);
-        
+
         if (Random > 0.25){
             console.log('triggered default');
             TriggerTraining('SVc03fa156b80cc6a4');
         }
-        else {TriggerTraining('SV672cd762c6389124');} 
-    
+        else {TriggerTraining('SV672cd762c6389124');}
+
         TrainingTriggeredText();
     }
     else if (input == 1){
@@ -3261,8 +3266,8 @@ addInputHandler('TrainingPlatformSelect', function(input) {
         if (GetLang()){
 
             project.scheduleMessage({
-                message_type: 'call', 
-                to_number: contact.phone_number, 
+                message_type: 'call',
+                to_number: contact.phone_number,
                 start_time_offset: 0,
                 service_id: 'SV40cc89e83d0e5810',
                 route_id: 'PN54d237477649c512'
@@ -3270,8 +3275,8 @@ addInputHandler('TrainingPlatformSelect', function(input) {
         }
         else {
             project.scheduleMessage({
-                message_type: 'call', 
-                to_number: contact.phone_number, 
+                message_type: 'call',
+                to_number: contact.phone_number,
                 start_time_offset: 0,
                 service_id: 'SV6b002eba0603b476',
                 route_id: 'PN54d237477649c512'

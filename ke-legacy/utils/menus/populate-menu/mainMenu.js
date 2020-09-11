@@ -103,5 +103,12 @@ module.exports = [
         'option_name': 'maize_recommendation',
         'end_date': project.vars.end_maize_recommendation,
         'start_date': project.vars.start_maize_recommendation
+    },
+    {
+        'en-ke': 'Warranty',
+        'sw': 'Waraanty',
+        'option_name': 'warranty',
+        'end_date': 'December 31, 2100',
+        'start_date': 'December 31, 2019'
     }
 ];
