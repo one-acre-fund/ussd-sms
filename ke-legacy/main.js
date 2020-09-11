@@ -62,7 +62,6 @@ else{
 }
 
 var MenuCount = 0;
-var MenuNext = false;
 var LocArray='';
 var ClientAccNum = '';
 var CurrentSeasonName = '2020, Long Rain';
@@ -256,24 +255,7 @@ var LocationNotKnown = function (Location){
         hangUp();
     }
 };
-var LocationNext = function (){
-    LocArray = JSON.parse(state.vars.LocArray);
-    state.vars.MenuNext = false;
-    MenuText ='';
-    var LocMenu = '';
-    for (var i = state.vars.MenuCount; i < LocArray.length; i++) {
-        var MenuText =LocMenu + LocArray[i].Menu+ ') ' + LocArray[i].Name+'\n';
-        if(MenuText.length < 65){LocMenu = MenuText;}
-        else{
-            MenuCount = i;
-            state.vars.MenuCount = i;
-            state.vars.MenuNext = true;
-            if (GetLang()){LocMenu= LocMenu+'N) Next';}
-            else {LocMenu= LocMenu+'n) Ukurasa Ufwatao';}
-            i = 9999;}
-    }
-    return LocMenu;
-};
+
 var FOLocatorNextSelect = function(Location){
     if (Location == 'n' || Location == 'N' || Location =='00'){console.log('Fo locator Next selected');return true;}
     else {return false;}
@@ -852,7 +834,6 @@ var HospitalTownsRetrieve = function(regionid){
     console.log(JSON.stringify(TownArray));
     LocMenu = '';
     MenuCount = 0;
-    MenuNext = false;
 
     for (var i = MenuCount; i < TownArray.length; i++) {
         console.log('Building menu text');
@@ -905,7 +886,6 @@ var HospitalsRetrieve = function(townid){
     state.vars.LocArray = JSON.stringify(HospitalArray);
     LocMenu = '';
     MenuCount = 0;
-    MenuNext = false;
     for (var i = MenuCount; i < HospitalArray.length; i++) {
         var MenuText = LocMenu + HospitalArray[i].Menu+ ') '+ HospitalArray[i].Name+'\n';
         console.log(MenuText.length);
@@ -1239,11 +1219,6 @@ var FAWSuccessSMS = function(order){
         vars: {content: SMStext}
     });
 
-};
-// JIT TU
-var JITTUNotEnrolled = function(){
-    if (GetLang()){sayText('Farmer is not enrolled this season. Please try again\n1)Back to menu');}
-    else {sayText('Mkulima hajaandikishwa muhula huu. Tafadhali jaribu tena\n1) Rudi kwa menu');}
 };
 var JITTUAccNumNotValidText = function(){
     if (GetLang()){sayText('Account number is not valid. Please try again\n1)Back to menu');}
