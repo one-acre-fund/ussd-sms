@@ -51,6 +51,10 @@ module.exports = {
         'en-ke': 'You entered $national_id ID\n',
         'sw': ''
     },
+    'enter_national_id': {
+        'en-ke': 'Enter client national ID\n',
+        'sw': ''
+    },
     'phone_number_confirm': {
         'en-ke': 'You entered phone number $phone_number\n',
         'sw': ''

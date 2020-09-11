@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="2" failures="0" time="2.849">
-  <testsuite name="Check credit officer" errors="0" failures="0" skipped="0" timestamp="2020-09-09T07:57:28" time="1.18" tests="2">
-    <testcase classname="Check credit officer should return false once the user is not in the lookup table" name="Check credit officer should return false once the user is not in the lookup table" time="0.005">
+<testsuites name="jest tests" tests="6" failures="0" time="4.663">
+  <testsuite name="Farmer&apos; account number input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-11T07:29:25" time="1.501" tests="6">
+    <testcase classname="Farmer&apos; account number input handler should prompt for the client&apos;s national id when the the chooses 0 for registering a new client" name="Farmer&apos; account number input handler should prompt for the client&apos;s national id when the the chooses 0 for registering a new client" time="0.006">
     </testcase>
-    <testcase classname="Check credit officer should return false once the user is not in the lookup table" name="Check credit officer should return false once the user is not in the lookup table" time="0">
+    <testcase classname="Farmer&apos; account number input handler should register the user to a duka diistrict account once they already have an account number with OAF, and prompt them for an invoice id" name="Farmer&apos; account number input handler should register the user to a duka diistrict account once they already have an account number with OAF, and prompt them for an invoice id" time="0.002">
+    </testcase>
+    <testcase classname="Farmer&apos; account number input handler should reprompt for an account number once the user is not found in roster" name="Farmer&apos; account number input handler should reprompt for an account number once the user is not found in roster" time="0.001">
+    </testcase>
+    <testcase classname="Farmer&apos; account number input handler should notify the user if the farmer&apos; account is a non duka client and prompt them to register or enter a new account" name="Farmer&apos; account number input handler should notify the user if the farmer&apos; account is a non duka client and prompt them to register or enter a new account" time="0.002">
+    </testcase>
+    <testcase classname="Farmer&apos; account number input handler should notify the user if the duka client&apos;s account number has outstanding credit" name="Farmer&apos; account number input handler should notify the user if the duka client&apos;s account number has outstanding credit" time="0.002">
+    </testcase>
+    <testcase classname="Farmer&apos; account number input handler should the user for invoice id if the duka client&apos;s account number has no outstanding credit" name="Farmer&apos; account number input handler should the user for invoice id if the duka client&apos;s account number has no outstanding credit" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>
