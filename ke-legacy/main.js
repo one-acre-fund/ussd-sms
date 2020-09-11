@@ -25,10 +25,6 @@ var transactionHistory = require('../transaction-history/transactionHistory');
 var clientRegistration = require('../client-registration/clientRegistration');
 var clientEnrollment = require('../client-enrollment/clientEnrollment');
 var justInTime = require('../just-in-time/justInTime');
-// Setting global variables!
-var translations = require('./translations/index');
-var createTranslator = require('../utils/translator/translator');
-//var rosterAPI = require('ext/Roster_v1_2_0/api');
 var rosterAPI = require('../rw-legacy/lib/roster/api');
 var defaultEnvironment;
 var slacLogger = require('../slack-logger/index');
@@ -53,7 +49,6 @@ service.vars.lr_2021_client_table_id = project.vars[env+'_lr_2021_client_table_i
 service.vars.registerEnrollEnd = env+ '_registerEnrollEnd';
 service.vars.registerEnrollStart = env+ '_registerEnrollStart';
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
-var triggerService = require('../maize-recommendation/triggerService');
 
 if(env == 'prod'){
     service.vars.topUpBundleTableId = 'DT891c89e9a82b6841';
@@ -71,11 +66,7 @@ else{
 var MenuCount = 0;
 var MenuNext = false;
 var LocArray='';
-var SiteName = '';
-var RouteIDPush = 'PNb0b7354798b84c85';
-var RouteIDInteractive = '';
 var ClientAccNum = '';
-var FOLocatorSiteName = '';
 var CurrentSeasonName = '2020, Long Rain';
 var LastSeason = '2019, Long Rain';
 var client = '';
@@ -138,7 +129,6 @@ var InteractionCounter = function(input){
         else{state.vars.InteractionCount = state.vars.InteractionCount +1;}
         call.vars.InteractionCount = state.vars.InteractionCount;
         if (typeof(input) !== 'undefined') {
-            var Now = moment().format('X');
             var varString = 'call.vars.TimeStamp_'+input+'= Now';
             eval(varString);
         }
@@ -147,13 +137,6 @@ var InteractionCounter = function(input){
         console.log('Error occurred in interaction counter');
     }
     notifyELK();
-};
-var IsGl = function(accnum){
-    var GLTable = project.getOrCreateDataTable('GroupLeaders');
-    var GLCursor = GLTable.queryRows({vars: {'accountnumber': accnum}});
-    if(GLCursor.count()>0){state.vars.IsGL = true;}
-    else {state.vars.IsGL = false;}
-    return state.vars.IsGL;
 };
 var GetBalance = function (client, season){
     var balance = 0;
@@ -173,21 +156,6 @@ var GetRepaid = function (client, season){
 var ValidPN = function(phonenumber){
     if (phonenumber.length === 10 && phonenumber.substring(0, 2)=='07'){return true;}
     else {return false;}
-};
-var IsJITTUDistrict = function (districtname){
-    console.log('Checking if district is in JITTU scope: '+ districtname);
-    var JITTable = project.getOrCreateDataTable('JIT_Districts');
-    DistictCursor = JITTable.queryRows({vars: {'districtname': districtname, 'topup': '1'}});
-    if(DistictCursor.count() > 0){state.vars.JITTUDistrict = true;}
-    else {state.vars.JITTUDistrict = false;}
-    return state.vars.JITTUDistrict;
-};
-var IsJITEDistrict = function (districtname){
-    var JITTable = project.getOrCreateDataTable('JIT_Districts');
-    DistictCursor = JITTable.queryRows({vars: {'districtname': districtname, 'enrollment': '1'}});
-    if(DistictCursor.count() > 0){state.vars.JITEdistrict = true;}
-    else {state.vars.JITEdistrict = false;}
-    return state.vars.JITEdistrict;
 };
 var LogSessionID = function(){
     console.log('Unique session id: '+call.id);
@@ -318,17 +286,7 @@ var ValNationalID = function(input){
     if (NumChar == 7 || NumChar == 8){return true;}
     else {return false;}
 };
-var SiteLockVal = function(SiteName, DistrictName){
-    var SiteLockingTable = project.getOrCreateDataTable('JIT_SiteLocking');
-    var SiteLockingCursor = SiteLockingTable.queryRows({vars: {'districtname': DistrictName,'sitename': SiteName}});
-    SiteLockingCursor.limit(1);
-    if (SiteLockingCursor.hasNext()) {
-        var SiteLockingRow = SiteLockingCursor.next();
-        return SiteLockingRow.vars.locked;
-    }
-    else {return false;}
-};
-var IsPrePayTrialDistrict = function (districtname){
+var IsPrePayTrialDistrict = function (){
     return false;
     //districtname = districtname.toLowerCase();
     //if (districtname == "nyando" || districtname == "kipkelion" || districtname == "chwele"){return true}
@@ -684,12 +642,6 @@ var JITUpdateWarehouse = function (warehousename,bundlename,variety){
         }
     }
 };
-var SHSActive = function (districtname){
-    var Table = project.getOrCreateDataTable('SHS Districts');
-    Cursor = Table.queryRows({vars: {'districtname': districtname, 'active': '1'}});
-    if (Cursor.count()>0){return true;}
-    else {return false;}
-};
 var SHSValidateReg = function(client, seasonname){
     var valid = false;
     var OrdersTable = project.getOrCreateDataTable('SHS orders');
@@ -730,7 +682,6 @@ var SHSValidateSerial = function(accountnumber,serialnumber, type){
         console.log('Status for SHS serial number validate: '+status);
         return status;
     };
-    var status = '';
     var Serialtable = project.getOrCreateDataTable('SHS Serial Numbers');
     if (typeof type === 'undefined' || type == ''){
         SerialCursor = Serialtable.queryRows({vars: {'serial_number': serialnumber, 'season': CurrentSeasonName}});
@@ -859,26 +810,6 @@ var CallBackTimeCheck = function(accountnumber, type, hours){
 
 };
 
-var CallBackCreate = function(client,phonenumberCB,type){
-    //var CEEmail = "support@oneacrefund-ke.zendesk.com";
-    //var Subject = "Call back requested for: "+type+" accountnumber :"+ client.AccountNumber;
-    //var Body = "call back number: "+ phonenumberCB+ "\n issuetype: "+ type+ "\nFull name: "+client.ClientName+"\n Account number: "+ client.AccountNumber+ "\nDistrict: "+ client.DistrictName+ "\nSite: "+ client.SiteName+ "\nGroup: "+ client.GroupName;
-    //sendEmail(CEEmail, Subject, Body);
-    //sendEmail("tom.vranken@oneacrefund.org", Subject, Body);
-    var Table = project.getOrCreateDataTable('CallBackUSSD');
-    // Create row
-    var Row = Table.createRow({
-        vars: {
-            'Accountnumber': client.AccountNumber,
-            'Type': type,
-            'Phonenumber': phonenumberCB,
-            'FullName': client.ClientName,
-            'DistrictName': client.DistrictName,
-            'SiteName': client.SiteName
-        }
-    });
-    Row.save();
-};
 
 var StaffCallBackCreate = function(phonenumberCB,type,Body){
     var CEEmail = 'support@oneacrefund-ke.zendesk.com';
@@ -993,12 +924,6 @@ var HospitalsRetrieve = function(townid){
     }
     return LocMenu;
 };
-var InsuranceActive = function (districtname){
-    var Table = project.getOrCreateDataTable('District Service access');
-    Cursor = Table.queryRows({vars: {'districtname': districtname, 'insurance': '1'}});
-    if (Cursor.count()>0){return true;}
-    else {return false;}
-};
 var ValidPayRollID = function(payrollid){
     var Table = project.getOrCreateDataTable('Staff');
     Cursor = Table.queryRows({vars: {'payrollid': payrollid}});
@@ -1047,8 +972,7 @@ var SplashMenuFailure = function (){
     if (GetLang()){sayText('Incorrect input. Please enter the 8 digit account number you use for repayment\nPress 0 if you do not have an OAF account\n99) Swahili');}
     else {sayText('Nambari sio sahihi. Tafadhali ingiza nambari 8 za akaunti yako ambayo unatumia kufanya malipo.\nBonyeza 0 kama hauna akaunti ya OAF\n99) English');}
 };
-var MenuText = '';
-var MainMenuText = function(client){
+var MainMenuText = function(){
     var populateMainMenu = require('./utils/menus/populate-menu/populateMenu');
     var menu = populateMainMenu(state.vars.lang, 140,true);
     if (typeof (menu) == 'string') {
@@ -1235,7 +1159,7 @@ var SHSCodeSMS = function(shscode){
     if (GetLang()) {SMSText = 'Your solar code is: '+shscode;}
     else {SMSText = 'Kodi ya taa yako ni: '+shscode;}
 
-    var sent_msg = project.scheduleMessage({
+    project.scheduleMessage({
         message_type: 'service', 
         to_number: contact.phone_number, 
         start_time_offset: 0,
@@ -1290,7 +1214,6 @@ var FAWCancelConfirmText = function(CancelAmount){
 };
 
 var FAWConfirmText = function (order){
-    var Credit = order* FAWUnitPrice;
     if (GetLang()){sayText('Please confirm of '+ order+ ' bottles.\n1) Confirm\n9) Back to main');}
     else {sayText('Tafadhali Hakikisha ni chupa '+ order+ ' ya dawa.\n1) Hakikisha\n9) Rudi mwanzo wa menu');}
 };
@@ -1310,9 +1233,8 @@ var FAWSuccessSMS = function(order){
     var Credit = order* FAWUnitPrice;
     var SMStext = 'Asante kwa kuagiza chupa '+ order+ '. Mwalimu wako atakuletea dawa zako kwa wiki chache zijazo. Kiasi cha KSH '+Credit+' kitaongezwa kwa mkopo wako.';
     if (GetLang()){SMStext = 'Thanks for ordering '+ order+ ' bottles. Your FO will deliver the pesticide within a few weeks. An amount of '+Credit+' KSH will be added to your credit.';}
-    var Label = project.getOrCreateLabel('FAW Order Confirm');
     // Please use scheduled message function for PUSH SMSes from the USSD service to make sure that the traffic pops up in the dashboard here: https://telerivet.com/p/0c6396c9/message_stats?cumulative=false&field=count&rollup=day&groups=main.series.service%2Cmain.series.type%2Cmain.series.direction&start_date=6.4.2020&end_date=6.5.2020 This is used for budgetting
-    var sent_msg = project.scheduleMessage({
+    project.scheduleMessage({
         message_type: 'service', 
         to_number: contact.phone_number, 
         start_time_offset: 0,
@@ -1322,14 +1244,6 @@ var FAWSuccessSMS = function(order){
 
 };
 // JIT TU
-var JITTUSiteLockedText = function(){
-    if (GetLang()){sayText('We do not accept any orders anymore.\nReply with accountnumber to view order\n1) Back to menu');}
-    else {sayText('Hatukubali agizo ya bidhaa yoyote tena.Jibu na nambari ya akaunti kuangalia agizo\n1) Rudi kwa menu');}
-};
-var JITTUAccNumText = function(){
-    if (GetLang()){sayText('Please reply with the account number of the farmer who want to top-up.');}
-    else {sayText('Tafadhali jibu na nambari ya akaunti ya mkulima kuongeza bidhaa.');}
-};
 var JITTUNotEnrolled = function(){
     if (GetLang()){sayText('Farmer is not enrolled this season. Please try again\n1)Back to menu');}
     else {sayText('Mkulima hajaandikishwa muhula huu. Tafadhali jaribu tena\n1) Rudi kwa menu');}
@@ -1372,9 +1286,8 @@ var JITTUOrderOverviewSMS= function(orderoverview, accountnumber, phonenumber){
             OrderOverviewText = OrderOverviewText+ orderoverview[i].nameSW+ ' - '+ orderoverview[i].price+'KSH\n';
         }
     }
-    var Label = project.getOrCreateLabel('JIT-TU OrderOverview');
     // Please use scheduled message function for PUSH SMSes from the USSD service to make sure that the traffic pops up in the dashboard here: https://telerivet.com/p/0c6396c9/message_stats?cumulative=false&field=count&rollup=day&groups=main.series.service%2Cmain.series.type%2Cmain.series.direction&start_date=6.4.2020&end_date=6.5.2020 This is used for budgetting
-    var scheduled_msg = project.scheduleMessage({
+    project.scheduleMessage({
         message_type: 'service', 
         to_number: phonenumber, 
         start_time_offset: 0,
@@ -1437,10 +1350,6 @@ var JITTUOrderedText = function (){
     else {sayText('Asante kwa kutuma maombi yako ya Just in Time Top-up.');}
 };
 // JIT E
-var JITEAccNumText = function(){
-    if (GetLang()){sayText('Please reply with the account number of the farmer who want to enroll\n0) For new client.');}
-    else {sayText('Tafadhali jibu na nambari ya akaunti ya mkulima anayetaka kujiandikisha.\n0) kwa mkulima mgeni');}
-};
 var JITEAccNumNotValidText = function(){
     if (GetLang()){sayText('Not valid\nPlease reply with the account number of the farmer\n0) For new client.');}
     else {sayText('Sio sahihi\nTafadhali jibu na nambari ya akaunti ya mkulima\n0) kwa mkulima mgeni');}
@@ -1481,10 +1390,6 @@ var JITENationalInvalidText = function(){
     if (GetLang()){sayText('Invalid entry.\nPlease enter a valid national id.');}
     else {sayText('Usajili usiosahihi\nTafadhali weka nambari sahihi ya kitambulisho');}
 };
-var JITESiteLockedText = function(){
-    if (GetLang()){sayText('As the delivery date is approaching we do not accept any orders anymore.\n1) Back to menu');}
-    else {sayText('Wakati wa kupokea bidhaa unapowadia hatukubali tena agizo ya bidhaa yoyote\n1) Rudi kwa menu');}
-};
 var JITEAlreadyOrderedText = function(){
     if (GetLang()){sayText('This person already placed an order.\n1) Back to menu');}
     else {sayText('Mtu huyu tayari ameweka agizo/ ameitisha bidhaa\n1) Rudi kwa menu');}
@@ -1497,9 +1402,8 @@ var JITEOrderConfrimSMS = function(phonenumber, bundlename,variety){
     var SMSText = '';
     if (GetLang()){SMSText='Thanks for ordering '+bundlename+ ' of seed type '+ variety+'. Make sure you pay KSH 500 qualification amount to receive input on input delivery day.';}
     else {SMSText='Asante kwa kujisajili na '+bundlename+ ' na '+ variety+'. Hakikisha umelipa shilingi 500 ilikupokea bidhaa siku yakupokea pembejeo.';}
-    var Label = project.getOrCreateLabel('JIT-E confirm');
     // Please use scheduled message function for PUSH SMSes from the USSD service to make sure that the traffic pops up in the dashboard here: https://telerivet.com/p/0c6396c9/message_stats?cumulative=false&field=count&rollup=day&groups=main.series.service%2Cmain.series.type%2Cmain.series.direction&start_date=6.4.2020&end_date=6.5.2020 This is used for budgetting
-    var scheduled_msg = project.scheduleMessage({
+    project.scheduleMessage({
         message_type: 'service', 
         to_number: phonenumber, 
         start_time_offset: 0,
@@ -1642,7 +1546,7 @@ var StaffDayAmountText = function(){
 var StaffConfrimAbsenceText = function(name){
     sayText('Thank you '+name+' for reporting your work absence. You will receive an email confirmation shortly with further instructions. We wish you well.');
 };
-var StaffCallForAbsenceText = function(name){
+var StaffCallForAbsenceText = function(){
     sayText('For absences of more than 3 days, notify your manager directly or an HR representative through the Staff Support Line at 800 720 377. We wish you well.');
 };
 
@@ -1653,9 +1557,6 @@ var StaffConfrimAbsenceEmail = function(email, firstname, startday, amount){
     var subject = 'Absence request received';
     var body = 'Hello '+firstname+'\n\nThank you for using our USSD Staff Menu to report your unexpected absence from work, beginning '+startdaydesc+' and expected to last '+amount+' days. Per HR policy, you must also alert your manager of your absence as soon as possible, and submit a Leave Form upon return to work.\n\nIf you have any questions or concerns about this or any other HR-related matter, please don\'t hesitate to call the OAF Staff Support Line at 0800 720 377.\n\nTogether in Service,\n\nKenya HR';
     sendEmail(email, subject, body);
-};
-var StaffConfrimAbsenceEmailHR = function(){
-    console.log('Pending foprmat');
 };
 var registrationMenu= function(){
     if (GetLang()){sayText('Please reply with the account number of the farmer\n0) For new client.');}
@@ -1916,14 +1817,14 @@ addInputHandler('MainMenu', function(SplashMenu){
         promptDigits('ContinueToPayment', {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
 });
-addInputHandler('BackToMain', function(input) {
+addInputHandler('BackToMain', function() {
     LogSessionID();
     InteractionCounter('BackToMain');
     var client = JSON.parse(state.vars.client);
     MainMenuText (client);
     promptDigits('MainMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
 });
-addInputHandler('ContinueToPayment', function(ContinueToPayment) {
+addInputHandler('ContinueToPayment', function() {
     LogSessionID();
     InteractionCounter('ContinueToPayment');
     client = JSON.parse(state.vars.client);
@@ -2248,10 +2149,9 @@ addInputHandler('FOLocConfrim', function(Confirm) {
     LogSessionID();
     InteractionCounter('FOLocConfrim');
     if (Confirm == '1'){
-        var FOLocatorLabel = project.getOrCreateLabel('FO Locator');
         // Please use scheduled message function for PUSH SMSes from the USSD service to make sure that the traffic pops up in the dashboard here: https://telerivet.com/p/0c6396c9/message_stats?cumulative=false&field=count&rollup=day&groups=main.series.service%2Cmain.series.type%2Cmain.series.direction&start_date=6.4.2020&end_date=6.5.2020 This is used for budgetting
         var FarmerSMSContent = FOLocatorFarmerSMS();
-        var sent_msg_farmer = project.scheduleMessage({
+        project.scheduleMessage({
             message_type: 'service', 
             to_number: contact.phone_number, 
             start_time_offset: 0,
@@ -2260,7 +2160,7 @@ addInputHandler('FOLocConfrim', function(Confirm) {
         });
 
         var FOSMSContent = FOLocatorFOSMS();
-        var sent_msg_fo = project.scheduleMessage({
+        project.scheduleMessage({
             message_type: 'service', 
             to_number: state.vars.FOPN, 
             start_time_offset: 0,
@@ -2508,13 +2408,13 @@ addInputHandler('JITEAccNum', function(JITE_AccNum){
         }
     }
 });
-addInputHandler('JITEFirstName', function(JITE_FirstName){
+addInputHandler('JITEFirstName', function(){
     LogSessionID();
     InteractionCounter('JITEFirstName');
     JITELastNameText();
     promptDigits('JITESecondName', {submitOnHash: true, maxDigits: 10, timeout: 5});
 });
-addInputHandler('JITESecondName', function(JITE_SecondName){
+addInputHandler('JITESecondName', function(){
     LogSessionID();
     InteractionCounter('JITESecondName');
     JITENationalIDText();
@@ -2902,7 +2802,7 @@ addInputHandler('SerialCode', function(Serial){
         promptDigits('SerialCode', {submitOnHash: true, maxDigits: 10, timeout: 5});
     }
 });
-addInputHandler('SHSCodeContinue', function(Input){
+addInputHandler('SHSCodeContinue', function(){
     LogSessionID();
     InteractionCounter('SHSCodeContinue');
     var client = JSON.parse(state.vars.client);
@@ -3313,7 +3213,7 @@ addInputHandler('TrainingPlatformSelect', function(input) {
         hangUp();
         if (GetLang()){
 
-            var IVR_Call_EN = project.scheduleMessage({
+            project.scheduleMessage({
                 message_type: 'call', 
                 to_number: contact.phone_number, 
                 start_time_offset: 0,
@@ -3322,7 +3222,7 @@ addInputHandler('TrainingPlatformSelect', function(input) {
             });
         }
         else {
-            var IVR_Call_SW = project.scheduleMessage({
+            project.scheduleMessage({
                 message_type: 'call', 
                 to_number: contact.phone_number, 
                 start_time_offset: 0,
