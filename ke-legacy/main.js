@@ -26,7 +26,6 @@ var clientRegistration = require('../client-registration/clientRegistration');
 var clientEnrollment = require('../client-enrollment/clientEnrollment');
 var justInTime = require('../just-in-time/justInTime');
 var rosterAPI = require('../rw-legacy/lib/roster/api');
-var defaultEnvironment;
 var slacLogger = require('../slack-logger/index');
 if(service.active){
     defaultEnvironment = 'prod';
@@ -34,7 +33,6 @@ if(service.active){
     defaultEnvironment = 'dev';
 }
 
-var env = defaultEnvironment;
 if(service.vars.env === 'prod' || service.vars.env === 'dev'){
     env = service.vars.env;
 }else{
@@ -200,8 +198,7 @@ var RosterClientVal = function (AccNum){
         if (AccNum.length == 8){
             rosterAPI.verbose = true;
             //rosterAPI.dataTableAttach();
-            response = rosterAPI.authClient(AccNum,'KE');
-            return response;
+            return rosterAPI.authClient(AccNum,'KE');
         }
         else {
             return false;
@@ -263,7 +260,7 @@ var LocationNext = function (){
     LocArray = JSON.parse(state.vars.LocArray);
     state.vars.MenuNext = false;
     MenuText ='';
-    LocMenu = '';
+    var LocMenu = '';
     for (var i = state.vars.MenuCount; i < LocArray.length; i++) {
         var MenuText =LocMenu + LocArray[i].Menu+ ') ' + LocArray[i].Name+'\n';
         if(MenuText.length < 65){LocMenu = MenuText;}
@@ -293,11 +290,11 @@ var IsPrePayTrialDistrict = function (){
     //else {return false}
 };
 var GetPrepaymentAmount = function(client){
-    ClientDistrict = client.DistrictName.toLowerCase();
+    var ClientDistrict = client.DistrictName.toLowerCase();
     var prepay = IsPrePayTrialDistrict(ClientDistrict);
     if (prepay){
         var PrePayTable = project.getOrCreateDataTable('PrePayment_IndividualAmounts');
-        PrePayCursor = PrePayTable.queryRows({vars: {'accnum': client.AccountNumber}});
+        var PrePayCursor = PrePayTable.queryRows({vars: {'accnum': client.AccountNumber}});
         PrePayCursor.limit(1);
         if (PrePayCursor.hasNext()) {
             var PrePayRow = PrePayCursor.next();
@@ -311,7 +308,7 @@ var GetPrepaymentAmount = function(client){
 };
 var FAWActive = function (districtname){
     var Table = project.getOrCreateDataTable('FAW Districts');
-    Cursor = Table.queryRows({vars: {'districtname': districtname, 'active': '1'}});
+    var Cursor = Table.queryRows({vars: {'districtname': districtname, 'active': '1'}});
     if (Cursor.count()>0){return true;}
     else {return false;}
 };
@@ -362,7 +359,7 @@ var FAWProcessCancel= function(accnum, CancelAmount){
             break;
         }
         else{
-            var NewQuantity = row.vars.bundlequantity - ToCancelCount;
+            NewQuantity = row.vars.bundlequantity - ToCancelCount;
             row.vars.changenote = 'Quantity changed from '+row.vars.bundlequantity+' to '+ NewQuantity+' on '+now;
             row.vars.bundlequantity = NewQuantity;
             ToCancelCount = ToCancelCount - row.vars.bundlequantity;
@@ -399,7 +396,7 @@ var EnrolledAndQualified = function (client){
 };
 var JITTUCheckPreviousOrder = function(BundleOption, accnum){
     var JITTUOrdersTable = project.getOrCreateDataTable('JITTU_Orders');
-    JITTUOrderPrimaryCursor = JITTUOrdersTable.queryRows({vars: {'bundlename': BundleOption.bundlename ,'accnum': accnum }});
+    var JITTUOrderPrimaryCursor = JITTUOrdersTable.queryRows({vars: {'bundlename': BundleOption.bundlename ,'accnum': accnum }});
     if (JITTUOrderPrimaryCursor.count()>0){return true;}
     else {return false;}
 };
@@ -408,7 +405,7 @@ var JITTUCheckSecondairyOrder = function(BundleOption, accnum){
     var checkrelated = false;
     for (var i = 0; i < BundleOption.relatedbundles.length; i++) {
         var RelatedBundleName = BundleOption.relatedbundles[i].bundlename;
-        JITTUOrderRelatedCursor = JITTUOrdersTable.queryRows({vars: {'bundlename': RelatedBundleName ,'accnum': accnum }});
+        var JITTUOrderRelatedCursor = JITTUOrdersTable.queryRows({vars: {'bundlename': RelatedBundleName ,'accnum': accnum }});
         if (JITTUOrderRelatedCursor.count()>0){checkrelated = true;}
     }
     return checkrelated;
@@ -416,7 +413,7 @@ var JITTUCheckSecondairyOrder = function(BundleOption, accnum){
 var JITCheckStockAvailable = function(warehousename, bundlename, checkvarieties){
     var AvailableStock = 0;
     var JITWarehouseTable = project.getOrCreateDataTable('JIT Warehouse stock');
-    JITWarehouseCursor = JITWarehouseTable.queryRows({vars: {'warehousename': warehousename,'bundlename': bundlename}});
+    var JITWarehouseCursor = JITWarehouseTable.queryRows({vars: {'warehousename': warehousename,'bundlename': bundlename}});
     JITWarehouseCursor.limit(1);
     if (JITWarehouseCursor.count()>0){
         var valid = false;
@@ -425,7 +422,7 @@ var JITCheckStockAvailable = function(warehousename, bundlename, checkvarieties)
         }
         else {valid = true;}
         if (valid){
-            JITWarehouseRow = JITWarehouseCursor.next();
+            var JITWarehouseRow = JITWarehouseCursor.next();
             AvailableStock = JITWarehouseRow.vars.quanityavailable - JITWarehouseRow.vars.quanityordered;
         }
     }
@@ -434,16 +431,16 @@ var JITCheckStockAvailable = function(warehousename, bundlename, checkvarieties)
 };
 var JITTUGetOrderCount = function(accnum){
     var JITTUOrdersTable = project.getOrCreateDataTable('JITTU_Orders');
-    JITTUOrderCursor = JITTUOrdersTable.queryRows({vars: {'accnum': accnum }});
+    var JITTUOrderCursor = JITTUOrdersTable.queryRows({vars: {'accnum': accnum }});
     return JITTUOrderCursor.count();
 };
 var JITgetWarehouse = function(districtname){
     var JITDistrictTable = project.getOrCreateDataTable('JIT_Districts');
-    JITTUDistrictCursor = JITDistrictTable.queryRows({vars: {'districtname': districtname}});
+    var JITTUDistrictCursor = JITDistrictTable.queryRows({vars: {'districtname': districtname}});
     JITTUDistrictCursor.limit(1);
     var warehousename = false;
     if (JITTUDistrictCursor.count()>0){
-        JITTUDistrictkRow = JITTUDistrictCursor.next();
+        var JITTUDistrictkRow = JITTUDistrictCursor.next();
         warehousename = JITTUDistrictkRow.vars.warehouse;
     }
     return warehousename;
@@ -500,14 +497,14 @@ var JITTURetrieveOrders = function (accnum){
 var JITECheckPreviousAccNum = function (accnum){
     var PreviousOrder = false;
     var JITETable = project.getOrCreateDataTable('JITE_Orders');
-    JITECursor = JITETable.queryRows({vars: {'accountnumber': accnum}});
+    var JITECursor = JITETable.queryRows({vars: {'accountnumber': accnum}});
     if (JITECursor.count()>0){PreviousOrder = true;}
     return PreviousOrder;
 };
 var JITECheckPreviousNationalID = function (nationalid){
     var PreviousOrder = false;
     var JITETable = project.getOrCreateDataTable('JITE_Orders');
-    JITECursor = JITETable.queryRows({vars: {'nationalid': nationalid}});
+    var JITECursor = JITETable.queryRows({vars: {'nationalid': nationalid}});
     if (JITECursor.count()>0){PreviousOrder = true;}
     return PreviousOrder;
 };
@@ -526,7 +523,7 @@ var JITTUOrderOverview = function (JIT_client){
 };
 var JITGetVarieties = function(warehousename){
     var JITVarietiesTable = project.getOrCreateDataTable('JIT Warehouse varieties');
-    JITVarietiesCursor = JITVarietiesTable.queryRows({vars: {'warehousename': warehousename}});
+    var JITVarietiesCursor = JITVarietiesTable.queryRows({vars: {'warehousename': warehousename}});
     var varieties = [];
     while (JITVarietiesCursor.hasNext()){
         var VarietyRow = JITVarietiesCursor.next();
@@ -608,17 +605,17 @@ var JITECreateOrder = function (accnum,firstname, lastname,nationalid, GLclient,
 };
 var JITUpdateWarehouse = function (warehousename,bundlename,variety){
     var table = project.getOrCreateDataTable('JIT Warehouse stock');
-    StockCursor = table.queryRows({vars: {'bundlename': bundlename, 'warehousename': warehousename}});
+    var StockCursor = table.queryRows({vars: {'bundlename': bundlename, 'warehousename': warehousename}});
     StockCursor.limit(1);
     var JITTUOrderCount = 0;
     var JITEOrderCount = 0;
     if (StockCursor.hasNext()){
-        StockRow = StockCursor.next();
+        var  StockRow = StockCursor.next();
         var JITETable = project.getOrCreateDataTable('JITE_Orders');
-        JITECursor = JITETable.queryRows({vars: {'bundlename': bundlename, 'warehousename': warehousename}});
+        var JITECursor = JITETable.queryRows({vars: {'bundlename': bundlename, 'warehousename': warehousename}});
         JITEOrderCount = JITECursor.count();
         var JITTUTable = project.getOrCreateDataTable('JITTU_Orders');
-        JITTUCursor = JITTUTable.queryRows({vars: {'bundlename': bundlename, 'warehousename': warehousename}});
+        var  JITTUCursor = JITTUTable.queryRows({vars: {'bundlename': bundlename, 'warehousename': warehousename}});
         JITTUOrderCount = JITTUCursor.count();
         StockRow.vars.quanityordered = JITEOrderCount+ JITTUOrderCount;
         StockRow.save();
@@ -628,10 +625,10 @@ var JITUpdateWarehouse = function (warehousename,bundlename,variety){
         console.log(JITBundleOptions[i].bundlename);
         if (JITBundleOptions[i].bundlename == bundlename && JITBundleOptions[i].variety === true){
             var VarTable = project.getOrCreateDataTable('JIT Warehouse varieties');
-            VarStockCursor = VarTable.queryRows({vars: {'variety': variety, 'warehousename': warehousename}});
+            var VarStockCursor = VarTable.queryRows({vars: {'variety': variety, 'warehousename': warehousename}});
             VarStockCursor.limit(1);
             if (VarStockCursor.hasNext()){
-                VarStockRow = VarStockCursor.next();
+                var  VarStockRow = VarStockCursor.next();
                 VarStockRow.vars.quantityordered = JITEOrderCount*JITBundleOptions[i].unitnumber + JITTUOrderCount*JITBundleOptions[i].unitnumber;
                 VarStockRow.save();
             }
@@ -645,7 +642,7 @@ var JITUpdateWarehouse = function (warehousename,bundlename,variety){
 var SHSValidateReg = function(client, seasonname){
     var valid = false;
     var OrdersTable = project.getOrCreateDataTable('SHS orders');
-    OrderCursor = OrdersTable.queryRows({vars: {'accountnumber': client.AccountNumber, 'season': seasonname}});
+    var  OrderCursor = OrdersTable.queryRows({vars: {'accountnumber': client.AccountNumber, 'season': seasonname}});
     if (OrderCursor.count()>0){
         valid = true;
         var SHSTypeArray = [];
@@ -668,7 +665,7 @@ var SHSValidateSerial = function(accountnumber,serialnumber, type){
         var status = '';
         if (SerialCursor.count() === 0){status = 'NotFound';}
         else if (SerialCursor.count() === 1){
-            SerialRow = SerialCursor.next();
+            var SerialRow = SerialCursor.next();
             state.vars.SHS_Type = SerialRow.vars.shs_type;
             if (SerialRow.vars.assigned){
                 if (SerialRow.vars.accountnumber == accountnumber){status = 'RegAccNum';}
@@ -684,7 +681,7 @@ var SHSValidateSerial = function(accountnumber,serialnumber, type){
     };
     var Serialtable = project.getOrCreateDataTable('SHS Serial Numbers');
     if (typeof type === 'undefined' || type == ''){
-        SerialCursor = Serialtable.queryRows({vars: {'serial_number': serialnumber, 'season': CurrentSeasonName}});
+        var SerialCursor = Serialtable.queryRows({vars: {'serial_number': serialnumber, 'season': CurrentSeasonName}});
         return CheckStatus(SerialCursor);
     }
     else {
@@ -694,19 +691,19 @@ var SHSValidateSerial = function(accountnumber,serialnumber, type){
 };
 var SHSRegThisSeason= function(accountnumber){
     var OrderTable = project.getOrCreateDataTable('SHS Orders');    
-    OrderCursor = OrderTable.queryRows({vars: {'accountnumber': accountnumber, 'season': CurrentSeasonName}});
+    var  OrderCursor = OrderTable.queryRows({vars: {'accountnumber': accountnumber, 'season': CurrentSeasonName}});
     var OrderCount = OrderCursor.count();
     console.log('Allowed orders this season: '+OrderCount);
     
     var table = project.getOrCreateDataTable('SHS Serial Numbers');
-    Cursor = table.queryRows({vars: {'accountnumber': accountnumber, 'season': CurrentSeasonName}});
+    var  Cursor = table.queryRows({vars: {'accountnumber': accountnumber, 'season': CurrentSeasonName}});
     console.log('Registered SHSes this season: '+Cursor.count());
     if(Cursor.count() >= OrderCount){return true;}
     else {return false;}
 };
 var SHSRegSerial = function(client,serialnumber, type){
     var RegSerial = function (SerialCursor, client){
-        SerialRow = SerialCursor.next();
+        var SerialRow = SerialCursor.next();
         SerialRow.vars.accountnumber = client.AccountNumber;
         SerialRow.vars.date_assigned = moment().format('DD-MM-YYYY');
         SerialRow.vars.district = client.DistrictName;
@@ -717,7 +714,7 @@ var SHSRegSerial = function(client,serialnumber, type){
     };
     var Serialtable = project.getOrCreateDataTable('SHS Serial Numbers');
     if (typeof type === 'undefined'){
-        SerialCursor = Serialtable.queryRows({vars: {'serial_number': serialnumber}});
+        var SerialCursor = Serialtable.queryRows({vars: {'serial_number': serialnumber}});
         RegSerial(SerialCursor, client);
     }
     else {
@@ -728,7 +725,7 @@ var SHSRegSerial = function(client,serialnumber, type){
 var GetSHSDetails = function(accountnumber, serialnumber, type){
     var SerialInfo = function (SerialCursor){
         if (SerialCursor.hasNext()){
-            SerialRow = SerialCursor.next();
+            var SerialRow = SerialCursor.next();
             var SerialReturn = {
                 'Status': 'Found',
                 'ActivationCode': SerialRow.vars.activation_code,
@@ -741,7 +738,7 @@ var GetSHSDetails = function(accountnumber, serialnumber, type){
     };
     var Serialtable = project.getOrCreateDataTable('SHS Serial Numbers');
     if (typeof type === 'undefined'){
-        SerialCursor = Serialtable.queryRows({vars: {'serial_number': serialnumber,'accountnumber': accountnumber }});
+        var  SerialCursor = Serialtable.queryRows({vars: {'serial_number': serialnumber,'accountnumber': accountnumber }});
         return SerialInfo(SerialCursor);
     }
     else {
@@ -751,7 +748,7 @@ var GetSHSDetails = function(accountnumber, serialnumber, type){
 };
 var GetSerialForClient = function (accountnumber){
     var table = project.getOrCreateDataTable('SHS Serial Numbers');
-    Cursor = table.queryRows({vars: {'accountnumber': accountnumber}});
+    var Cursor = table.queryRows({vars: {'accountnumber': accountnumber}});
     var SerialList = [];
     while (Cursor.hasNext()) {
         var row = Cursor.next();
@@ -794,7 +791,7 @@ var SHSShowCode = function(client,serial,type){
 
 var CallBackTimeCheck = function(accountnumber, type, hours){
     var ticketTable = project.getOrCreateDataTable('CallBackUSSD');
-    cursor = ticketTable.queryRows({
+    var cursor = ticketTable.queryRows({
         vars: {'account_number': accountnumber, 'call_category': type}
     });
     
@@ -821,7 +818,7 @@ var LocationNext = function (){
     console.log(state.vars.LocArray);
     state.vars.MenuNext = false;
     MenuText ='';
-    LocMenu = '';
+    var  LocMenu = '';
     for (var i = state.vars.MenuCount; i < LocArray.length; i++) {
         var MenuText =LocMenu + LocArray[i].Menu+ ') ' + LocArray[i].Name+'\n';
         if(MenuText.length < 110){LocMenu = MenuText;}
@@ -837,9 +834,9 @@ var LocationNext = function (){
     return LocMenu;
 };
 var HospitalTownsRetrieve = function(regionid){
-    LocMenu = '' ;
+    var  LocMenu = '' ;
     var LocTable = project.getOrCreateDataTable('Hospital_Towns');
-    TownList = LocTable.queryRows({vars: {'regionid': regionid}});
+    var TownList = LocTable.queryRows({vars: {'regionid': regionid}});
     var TownArray = []; 
     while (TownList.hasNext()) {
         var TownRow = TownList.next();
@@ -876,7 +873,7 @@ var HospitalTownsRetrieve = function(regionid){
     return LocMenu;
 };
 var ValidateHostitalInput = function(input){
-    LocValid = false;
+    var LocValid = false;
     LocArray = JSON.parse(state.vars.LocArray);
     console.log(LocArray);
     for (var i = 0; i < LocArray.length; i++) {
@@ -888,9 +885,9 @@ var ValidateHostitalInput = function(input){
     return LocValid;
 };
 var HospitalsRetrieve = function(townid){
-    LocMenu = '' ;
+    var LocMenu = '' ;
     var LocTable = project.getOrCreateDataTable('Hospital_Hospitals');
-    HospitalList = LocTable.queryRows({vars: {'townid': townid}});
+    var  HospitalList = LocTable.queryRows({vars: {'townid': townid}});
     HospitalList.limit(50);
     console.log(HospitalList.count());
     var HospitalArray = []; 
@@ -926,7 +923,7 @@ var HospitalsRetrieve = function(townid){
 };
 var ValidPayRollID = function(payrollid){
     var Table = project.getOrCreateDataTable('Staff');
-    Cursor = Table.queryRows({vars: {'payrollid': payrollid}});
+    var Cursor = Table.queryRows({vars: {'payrollid': payrollid}});
     if (Cursor.count()>0){return true;}
     else {return false;}
 };
@@ -934,7 +931,7 @@ var ValidPayRollID = function(payrollid){
 var GetStaffDetails = function(payrollid){
     console.log('Retrieving details for payroll id: '+ payrollid);
     var Table = project.getOrCreateDataTable('Staff');
-    Cursor = Table.queryRows({vars: {'payrollid': payrollid}});
+    var  Cursor = Table.queryRows({vars: {'payrollid': payrollid}});
     Cursor.limit(1);
     if (Cursor.hasNext()){
         var Row = Cursor.next();
@@ -1480,56 +1477,56 @@ var StaffPayrollText = function(){
     sayText('Please enter you 5 digit payroll ID');
 };
 var StaffTabletIssueText = function(){
-    Text = 'Affected part?\n1) FS App\n2) ME App\n3) G suite\n4)Tablet hardware\n5) Tablet system down CE support';
+    var Text = 'Affected part?\n1) FS App\n2) ME App\n3) G suite\n4)Tablet hardware\n5) Tablet system down CE support';
     state.vars.IssueLevel2Ques = Text;
     sayText(Text);
 };
 var StaffFSAppIssueText = function(){
-    Text = '1) Log in Issue\n2)Wrong/Missing Clients/Payments\n3) CRPR Data Not Updating\n4)Configure with google\n5)Displays error message';
+    var Text = '1) Log in Issue\n2)Wrong/Missing Clients/Payments\n3) CRPR Data Not Updating\n4)Configure with google\n5)Displays error message';
     state.vars.IssueLevel3Ques = Text;
     sayText(Text);
 };
 var StaffMEAppIssueText = function(){
-    Text = '1) Incorrect Input Bundles/Pricing\n2) App missing\n3) Displays error message\n4)Cannot select site/district)\n5)Cannot Sync/no Button';
+    var Text = '1) Incorrect Input Bundles/Pricing\n2) App missing\n3) Displays error message\n4)Cannot select site/district)\n5)Cannot Sync/no Button';
     state.vars.IssueLevel3Ques = Text;
     sayText(Text);
 };
 var StaffGSuiteIssueText = function(){
-    Text = '1) G Suite Gmail/Chrome/Google play services stopping\n2) Forms requiring permission to open\n3) Gmail password reset\n4) Not receiving emails';
+    var Text = '1) G Suite Gmail/Chrome/Google play services stopping\n2) Forms requiring permission to open\n3) Gmail password reset\n4) Not receiving emails';
     state.vars.IssueLevel3Ques = Text;
     sayText(Text);
 };
 var StaffTabletHardwareIssueText = function(){
-    Text = '1) Tablet/accessory physical Damage\n2) Tablet Won\'t Charge or power\n3) Stolen tablet/tablet accessory';
+    var Text = '1) Tablet/accessory physical Damage\n2) Tablet Won\'t Charge or power\n3) Stolen tablet/tablet accessory';
     state.vars.IssueLevel3Ques = Text;
     sayText(Text);
 };
 var StaffTabletDownIssueText = function(){
-    Text = '1) Need report via email\n2) FO/FM Promoted \n3) Data bundle Expired/Runs Out\n4) Tablet Network Issues\n5) FO/FM Transferring\n6) Have no tablet';
+    var Text = '1) Need report via email\n2) FO/FM Promoted \n3) Data bundle Expired/Runs Out\n4) Tablet Network Issues\n5) FO/FM Transferring\n6) Have no tablet';
     state.vars.IssueLevel3Ques = Text;
     sayText(Text);
 };
 
 var StaffRosterIssueText = function(){
-    Text = 'What Roster issue are you experiencing?\n1) Site repayments issue\n2) Site delivery issue\n3) Site enrollment issue';
+    var Text = 'What Roster issue are you experiencing?\n1) Site repayments issue\n2) Site delivery issue\n3) Site enrollment issue';
     state.vars.IssueLevel2Ques = Text;
     sayText(Text);
 };
 
 var StaffSiteRepayIssueText = function(){
-    Text = '1) Track missing payments\n2) Payment transfer';
+    var Text = '1) Track missing payments\n2) Payment transfer';
     state.vars.IssueLevel3Ques = Text;
     sayText(Text);
 };
 
 var StaffSiteDeliveryIssueText = function(){
-    Text = '1) Enrolled clients missing on IDS\n2) Missing inputs\n3) Wrong inputs';
+    var Text = '1) Enrolled clients missing on IDS\n2) Missing inputs\n3) Wrong inputs';
     state.vars.IssueLevel3Ques = Text;
     sayText(Text);
 };
 
 var StaffTabletRosterText = function(){
-    Text = '1) Enrollment app not syncing\n2) Wrongly banned group\n3) Wrongly dropped group\n4) GL change reques';
+    var Text = '1) Enrollment app not syncing\n2) Wrongly banned group\n3) Wrongly dropped group\n4) GL change reques';
     state.vars.IssueLevel3Ques = Text;
     sayText(Text);
 };
@@ -1635,7 +1632,7 @@ addInputHandler('NonClientMenu', function(input) {
         }
         else if (input == 77 && (state.vars.input_menu_loc < state.vars.input_menu_length - 1)) {
             state.vars.input_menu_loc = state.vars.input_menu_loc + 1;
-            var menu = JSON.parse(state.vars.input_menu)[state.vars.input_menu_loc];
+            menu = JSON.parse(state.vars.input_menu)[state.vars.input_menu_loc];
             sayText(menu);
             promptDigits('MainMenu', {submitOnHash: true, maxDigits: 8, timeout: 5});
             return null;
@@ -1682,7 +1679,7 @@ addInputHandler('MainMenu', function(SplashMenu){
         }
         else if (SplashMenu == 77 && (state.vars.input_menu_loc < state.vars.input_menu_length - 1)) {
             state.vars.input_menu_loc = state.vars.input_menu_loc + 1;
-            var menu = JSON.parse(state.vars.input_menu)[state.vars.input_menu_loc];
+            menu = JSON.parse(state.vars.input_menu)[state.vars.input_menu_loc];
             sayText(menu);
             promptDigits('MainMenu', {submitOnHash: true, maxDigits: 8, timeout: 5});
             return null;
@@ -1873,7 +1870,7 @@ addInputHandler('FOLocRegion', function(Region) {
     LocationNotKnown(Region);
     if (Region ==1 || Region == 2 || Region == 3 || Region == 4){
         var LocTable = project.getOrCreateDataTable('FO_Locator_Counties');
-        CountyList = LocTable.queryRows({vars: {'regionid': Region}});
+        var CountyList = LocTable.queryRows({vars: {'regionid': Region}});
         var CountyArray = [];
         while (CountyList.hasNext()) {
             var CountyRow = CountyList.next();
@@ -1921,8 +1918,8 @@ addInputHandler('FOLocCounty', function(County) {
         promptDigits('FOLocCounty', {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
     else {
-        LocValid = false;
-        CountyArray = JSON.parse(state.vars.LocArray);
+        var  LocValid = false;
+        var CountyArray = JSON.parse(state.vars.LocArray);
         var CountyID = '';
         for (var i = 0; i < CountyArray.length; i++) {
             if (CountyArray[i].Menu == County) {
@@ -1934,7 +1931,7 @@ addInputHandler('FOLocCounty', function(County) {
         if (LocValid){
             LocMenu = '' ;
             var LocTable = project.getOrCreateDataTable('FO_Locator_SubCounties');
-            SubCountyList = LocTable.queryRows({vars: {'countyid': CountyID}});
+            var SubCountyList = LocTable.queryRows({vars: {'countyid': CountyID}});
             var SubCountyArray = []; 
             while (SubCountyList.hasNext()) {
                 var SubCountyRow = SubCountyList.next();
@@ -1949,8 +1946,7 @@ addInputHandler('FOLocCounty', function(County) {
             state.vars.LocArray = JSON.stringify(SubCountyArray);
             LocMenu = '';
             MenuCount = 0;
-            MenuNext = false;
-            for (var i = MenuCount; i < SubCountyArray.length; i++) {
+            for ( i = MenuCount; i < SubCountyArray.length; i++) {
                 var MenuText = LocMenu + SubCountyArray[i].Menu+ ') '+ SubCountyArray[i].Name+'\n';
                 if(MenuText.length < 65){LocMenu = MenuText;}
                 else{
@@ -1983,8 +1979,8 @@ addInputHandler('FOLocSubCounty', function(SubCounty) {
         promptDigits('FOLocSubCounty', {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
     else {
-        LocValid = false;
-        SubCountyArray = JSON.parse(state.vars.LocArray);
+        var LocValid = false;
+        var SubCountyArray = JSON.parse(state.vars.LocArray);
         var SubCountyID = '';
         for (var i = 0; i < SubCountyArray.length; i++) {
             if (SubCountyArray[i].Menu == SubCounty) {
@@ -1996,7 +1992,7 @@ addInputHandler('FOLocSubCounty', function(SubCounty) {
         if (LocValid){
             LocMenu = '';
             var LocTable = project.getOrCreateDataTable('FO_Locator_Wards');
-            WardList = LocTable.queryRows({vars: {'subcountyid': SubCountyID}});
+            var WardList = LocTable.queryRows({vars: {'subcountyid': SubCountyID}});
             var WardArray = []; 
             while (WardList.hasNext()) {
                 var WardRow = WardList.next();
@@ -2011,17 +2007,16 @@ addInputHandler('FOLocSubCounty', function(SubCounty) {
             state.vars.LocArray = JSON.stringify(WardArray);
             LocMenu = '';
             MenuCount = 0;
-            MenuNext = false;
-            for (var i = MenuCount; i < WardArray.length; i++) {
-                var MenuText =LocMenu + WardArray[i].Menu+ ') ' + WardArray[i].Name+'\n';
+            for (var j = MenuCount; j < WardArray.length; j++) {
+                var MenuText =LocMenu + WardArray[j].Menu+ ') ' + WardArray[j].Name+'\n';
                 if(MenuText.length < 65){LocMenu = MenuText;}
                 else{
-                    MenuCount = i;
-                    state.vars.MenuCount = i;
+                    MenuCount = j;
+                    state.vars.MenuCount = j;
                     state.vars.MenuNext = true;
                     if (GetLang()){LocMenu= LocMenu+'N) Next';}
                     else {LocMenu = LocMenu+'n) Ukurasa Ufwatao';}
-                    i = 9999;
+                    j = 9999;
                 }
             }
             state.vars.LocMenu = LocMenu;
@@ -2046,20 +2041,19 @@ addInputHandler('FOLocWard', function(Ward) {
         promptDigits('FOLocWard', {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
     else {
-        WardArray = JSON.parse(state.vars.LocArray);
+        var WardArray = JSON.parse(state.vars.LocArray);
         var LocID = '';
-        for (var i = 0; i < WardArray.length; i++) {
-            if (WardArray[i].Menu == Ward) {
+        for (var j = 0; j < WardArray.length; j++) {
+            if (WardArray[j].Menu == Ward) {
                 LocValid = true;
-                LocID = WardArray[i].ID;
+                LocID = WardArray[j].ID;
             }
         }
         if (LocValid || Ward.toLowerCase() == 'a'|| Ward =='*'){
             LocMenu = '';
             var LocTable = project.getOrCreateDataTable('FO_Locator_Sites');
             if (Ward.toLowerCase() == 'a'|| Ward =='*'){
-                LocId = state.vars.SubCountyID;
-                SiteList = LocTable.queryRows({vars: {'subcountyid': state.vars.SubCountyID}});
+                var SiteList = LocTable.queryRows({vars: {'subcountyid': state.vars.SubCountyID}});
             }
             else{SiteList = LocTable.queryRows({vars: {'wardid': LocID}});}
             var SiteArray = []; 
@@ -2079,7 +2073,6 @@ addInputHandler('FOLocWard', function(Ward) {
             state.vars.LocArray = JSON.stringify(SiteArray);
             LocMenu = '';
             MenuCount = 0;
-            MenuNext = false;
             for (var i = MenuCount; i < SiteArray.length; i++) {
                 var MenuText =LocMenu + SiteArray[i].Menu+ ') ' + SiteArray[i].Name+'\n';
                 if(MenuText.length < 65){LocMenu = MenuText;}
@@ -2115,7 +2108,7 @@ addInputHandler('FOLocSite', function(Site) {
         promptDigits('FOLocSite', {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
     else {
-        SiteArray = JSON.parse(state.vars.LocArray);
+        var SiteArray = JSON.parse(state.vars.LocArray);
         for (var i = 0; i < SiteArray.length; i++) {
             if (SiteArray[i].Menu == Site) {
                 SiteID = SiteArray[i].ID;
@@ -2127,7 +2120,7 @@ addInputHandler('FOLocSite', function(Site) {
         if (LocValid){
             console.log('Seaching site with ID '+SiteID);
             var table = project.getOrCreateDataTable('FO_Locator_Sites');
-            cursor = table.queryRows({vars: {'siteid': SiteID}});
+            var cursor = table.queryRows({vars: {'siteid': SiteID}});
             cursor.limit(1);
             console.log('Number of results: '+cursor.count());
             var row = cursor.next();
@@ -2201,7 +2194,7 @@ addInputHandler('JITTUAccNum', function(JITTUAccNum) {
     }
     else{
         if(RosterClientVal(JITTUAccNum)){
-            JIT_client = RosterClientGet(JITTUAccNum);
+            var JIT_client = RosterClientGet(JITTUAccNum);
             state.vars.JIT_client = JSON.stringify(TrimClientJSON(JIT_client));
             client = JSON.parse(state.vars.client);
             if (client.GroupId == JIT_client.GroupId){
@@ -2247,7 +2240,7 @@ addInputHandler('JITTUBundleSelect', function(BundleSelect){
         for (var i = 0; i < bundleoptions.length; i++) {
             var MenuNumber = i+1;
             if(BundleSelect == MenuNumber){
-                JIT_client = JSON.parse(state.vars.JIT_client);
+                var  JIT_client = JSON.parse(state.vars.JIT_client);
                 ValidOption = true;
                 state.vars.bundleselect = JSON.stringify(bundleoptions[i]);
                 if (bundleoptions[i].variety== true){
@@ -2294,9 +2287,9 @@ addInputHandler('JITTUVarietySelect', function(VarietySelected) {
             promptDigits('JITTUConfirm', {submitOnHash: true, maxDigits: 1, timeout: 5});
         }
         else {
-            JIT_client = JSON.parse(state.vars.JIT_client);
+            var JIT_client = JSON.parse(state.vars.JIT_client);
             var warehousename = JITgetWarehouse(JIT_client.DistrictName);
-            var varieties = JITGetVarieties(warehousename);
+            varieties = JITGetVarieties(warehousename);
             JITTUVarietySelectText(varieties);
             promptDigits('JITTUVarietySelect', {submitOnHash: true, maxDigits: 1, timeout: 5});
         }
@@ -2312,7 +2305,7 @@ addInputHandler('JITTUConfirm', function(Confirm){
         promptDigits('MainMenu', {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
     else if(Confirm == '1'){
-        JIT_client = JSON.parse(state.vars.JIT_client);
+        var JIT_client = JSON.parse(state.vars.JIT_client);
         var warehousename = JITgetWarehouse(JIT_client.DistrictName);
         JITTUCreateOrder(JIT_client,bundleSelected, state.vars.variety);
         JITUpdateWarehouse(warehousename,bundleSelected.bundlename, state.vars.variety);
@@ -2372,7 +2365,7 @@ addInputHandler('JITEAccNum', function(JITE_AccNum){
         else {
             if (RosterClientVal(JITE_AccNum)){
                 console.log('SuccessFully Validated against Roster');
-                JITE_client = RosterClientGet(JITE_AccNum);
+                var JITE_client = RosterClientGet(JITE_AccNum);
                 client = JSON.parse(state.vars.client);
                 var NotBanned = true;
                 if (GetBalance(JITE_client, LastSeason)>0){NotBanned = false;}
@@ -2391,7 +2384,7 @@ addInputHandler('JITEAccNum', function(JITE_AccNum){
                     }
                     else {
                         state.vars.JITE_client = JSON.stringify(TrimClientJSON(JITE_client));
-                        var JITEOrderOptions = JITEGetOrderOptions();
+                        JITEOrderOptions = JITEGetOrderOptions();
                         JITEBundleSelectText(JITEOrderOptions);
                         promptDigits('JITEBundleSelect', {submitOnHash: true, maxDigits: 1, timeout: 5});
                     }
@@ -2516,7 +2509,7 @@ addInputHandler('JITEConfirm', function(Confirm){
         var Phonenumber = Confirm;
         var ValidPhone =  ValidPN(Phonenumber);
         if (ValidPhone){
-            variety = state.vars.variety;
+            var variety = state.vars.variety;
             var bundleselected = JSON.parse(state.vars.JITEbundleselect);
             var GLclient = JSON.parse(state.vars.client);
             var warehousename = JITgetWarehouse(GLclient.DistrictName);
@@ -2528,7 +2521,7 @@ addInputHandler('JITEConfirm', function(Confirm){
         }
         else {
             variety = state.vars.variety;
-            var bundleselected = JSON.parse(state.vars.JITEbundleselect);
+            bundleselected = JSON.parse(state.vars.JITEbundleselect);
             JITEOrderConfrimText(bundleselected.bundlename,variety);
             promptDigits('JITEConfirm', {submitOnHash: true, maxDigits: 10, timeout: 5});
         }
@@ -2690,7 +2683,7 @@ addInputHandler('SerialRegister', function(Serial){
         }
         else{
             console.log('Checking Serial number disregarding SHS type');
-            var Status = SHSValidateSerial (client.AccountNumber,Serial);
+            Status = SHSValidateSerial (client.AccountNumber,Serial);
         }
 
         if(Status == 'RegAccNum'){
@@ -2847,7 +2840,7 @@ addInputHandler('CallBackPN', function(Input){
     }
     else {
 
-        var sub = 'Call back requested for: ' + state.vars.issuetype +' account number : '+ client.AccountNumber+ 'With phonenumber: '+  Input;
+        sub = 'Call back requested for: ' + state.vars.issuetype +' account number : '+ client.AccountNumber+ 'With phonenumber: '+  Input;
         if(create_zd_ticket(client.AccountNumber, sub, Input)){
             console.log('created_ticket!');
             CallMeBackConfirmText();
@@ -3134,7 +3127,7 @@ addInputHandler('TrainingSelect', function(input) {
     }
     catch(err){
         console.log('non client trigger');
-        var client = 'Non Client';
+        client = 'Non Client';
         contact.vars.accountnumber = 'Non Client';
         contact.save();
     }   
