@@ -63,3 +63,4 @@ global.addResponseHandler = jest.fn();
 global.addTimeoutHandler = jest.fn();
 global.content = null;
 global.sendReply = jest.fn();
+project.initServiceById = jest.fn();
