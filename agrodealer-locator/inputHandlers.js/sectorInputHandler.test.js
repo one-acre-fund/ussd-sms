@@ -27,10 +27,11 @@ describe.each(['en', 'ki'])('Sectors input handler in (%s)', (lang) => {
         state.vars.sectors_screens = JSON.stringify({'1': 'screen 1', '2': 'screen 2'});
         contact.phone_number = '787664527';
         const aggroDealerRow = {vars: {
-            name: 'Tyrion',
+            agrodealer_name: 'Tyrion',
             cell: 'Kingslanding',
             credit_days: 'Monday, Wednesday',
-            officer_phone: '788535221'
+            officer_phone: '788535221',
+            officer_name: 'Jamie Lanyster'
         }};
         const table = {queryRows: jest.fn()};
         const cursor = {hasNext: jest.fn(() => true), next: jest.fn(() => aggroDealerRow)};
@@ -39,7 +40,7 @@ describe.each(['en', 'ki'])('Sectors input handler in (%s)', (lang) => {
         state.vars.current_sectors_screen = 1;
         handler(1);
         const smsToFarmer = {
-            en: 'Tyrion is your nearest One Acre Fund Agrodealer partner shop. They are located in Kingslanding and offer credit and training on Monday, Wednesday. For more information you can contact your Shop Officer Tyrion on 788535221 or your Village Leader.',
+            en: 'Tyrion is your nearest One Acre Fund Agrodealer partner shop. They are located in Kingslanding and offer credit and training on Monday, Wednesday. For more information you can contact your Shop Officer Jamie Lanyster on 788535221 or your Village Leader.',
             ki: ''
         };
         const smsToOfficer = {

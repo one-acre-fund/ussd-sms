@@ -23,7 +23,8 @@ module.exports = {
                 if(cursor.hasNext()) {
                     var row = cursor.next();
                     var messageToFarmer = getMessage('sms_to_farmer', {
-                        '$agrodealer_name': row.vars.name,
+                        '$agrodealer_name': row.vars.agrodealer_name,
+                        '$officer_name': row.vars.officer_name,
                         '$cell': row.vars.cell,
                         '$credit_days': row.vars.credit_days,
                         '$officer_phone': row.vars.officer_phone

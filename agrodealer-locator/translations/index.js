@@ -8,7 +8,7 @@ module.exports = {
         'ki': '$label) $option\n'
     },
     'sms_to_farmer': {
-        'en': '$agrodealer_name is your nearest One Acre Fund Agrodealer partner shop. They are located in $cell and offer credit and training on $credit_days. For more information you can contact your Shop Officer $agrodealer_name on $officer_phone or your Village Leader.',
+        'en': '$agrodealer_name is your nearest One Acre Fund Agrodealer partner shop. They are located in $cell and offer credit and training on $credit_days. For more information you can contact your Shop Officer $officer_name on $officer_phone or your Village Leader.',
         'ki': ''
     },
     'sms_to_officer': {
