@@ -18,7 +18,7 @@ describe.each(['en', 'ki'])('Districts input handler in (%s)', (lang) => {
 
     it('should tell the user if their district is not supported --' + lang, () => {
         const noDistrictMessage = {'en': 'We do not currently have an agrodealer partner shop located in your District',
-            'ki': ''};
+            'ki': 'We do not currently have an agrodealer partner shop located in your District'};
         const displayDistricts = jest.fn();
         const getSectors = jest.fn();
         const agrodealers_address_table = 'agrodealers_address_table';
