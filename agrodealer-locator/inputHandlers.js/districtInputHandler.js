@@ -23,7 +23,7 @@ module.exports = {
             var getMessage = translator(translations, lang);
             var district = districts[input.toString().trim()];
             if(district) {
-                var sectorsObject = getSectors(district, agrodealers_address_table);
+                var sectorsObject = getSectors(district, agrodealers_address_table, lang);
                 var screens = sectorsObject.screens;
                 var sectorsList = sectorsObject.list;
                 state.vars.sectors_list = JSON.stringify(sectorsList);

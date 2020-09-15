@@ -39,7 +39,7 @@ describe.each(['en', 'ki'])('Districts input handler in (%s)', (lang) => {
         const agrodealers_address_table = 'agrodealers_address_table';
         const handler = districtsInputHandler.getHandler(lang, displayDistricts, getSectors, agrodealers_address_table);
         handler(1);
-        expect(getSectors).toHaveBeenCalledWith('Gakenke', 'agrodealers_address_table');
+        expect(getSectors).toHaveBeenCalledWith('Gakenke', 'agrodealers_address_table', lang);
         expect(sayText).toHaveBeenCalledWith('1) Sector1\n2) Sector2');
         expect(promptDigits).toHaveBeenCalledWith(sectorsInputHandler.handlerName);
         expect(state.vars.sectors_list).toEqual('{"1":"Sector1","2":"Sector2","3":"Sector3","4":"Sector4"}');
