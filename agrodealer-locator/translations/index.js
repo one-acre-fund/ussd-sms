@@ -20,7 +20,11 @@ module.exports = {
         'ki': ''
     },
     'sectors_title': {
-        'en': '$district: Please select the Sector you live in.\n$Menu',
-        'ki': '$district: Hitamo umurege utuyemo\n$Menu'
+        'en': '$district: Please select the Sector you live in.\n',
+        'ki': '$district: Hitamo umurege utuyemo\n'
+    },
+    'next': {
+        'en': '77) next',
+        'ki': '77) komeza'
     }
 };
