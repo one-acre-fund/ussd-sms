@@ -13,6 +13,7 @@ function displayDistricts(lang) {
         '2': 'Kayonza',
         '3': 'Rwamagana',
         '4': 'Gicumbi',
+        '5': 'My District is not listed'
     };
     var message = '';
     Object.keys(districts).map(function(label) {

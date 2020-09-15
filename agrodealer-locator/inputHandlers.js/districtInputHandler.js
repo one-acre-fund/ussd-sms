@@ -22,6 +22,7 @@ module.exports = {
         return function(input) {
             var getMessage = translator(translations, lang);
             var district = districts[input.toString().trim()];
+            console.log('>>>>>>>>district ' + district);
             if(district) {
                 var sectorsObject = getSectors(district, agrodealers_address_table, lang);
                 var screens = sectorsObject.screens;
@@ -33,6 +34,7 @@ module.exports = {
                 sayText(screens[state.vars.current_sectors_screen]);
                 promptDigits(sectorsInputHandler.handlerName);
             } else if(input == 5) {
+                console.log(JSON.stringify({n: getMessage('invalid_district', {}, lang)}));
                 sayText(getMessage('invalid_district', {}, lang));
                 stopRules();
                 return;
