@@ -31,7 +31,6 @@ else{
 
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
-var agrodealerLocator = require('../agrodealer-locator/agrodealerLocator');
  
 // load in necessary functions
 var msgs = require('./lib/msg-retrieve'); // global message handler
@@ -44,6 +43,7 @@ var renew_code = require('./lib/psh-renew-code');
 var serial_no_check = require('./lib/psh-serial-verify');
 var slack = require('../slack-logger/index');
 var notiFYELK = require('../notifications/elk-notification/elkNotification');
+var agrodealerLocator = require('../agrodealer-locator/agrodealerLocator');
 // set various constants
 var settings_table = project.getOrCreateDataTable('ussd_settings');
 const max_digits_for_account_number = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits_an'}}).next().vars.value);

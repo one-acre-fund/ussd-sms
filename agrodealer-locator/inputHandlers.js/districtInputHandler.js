@@ -12,17 +12,10 @@ var districts = {
 
 module.exports = {
     handlerName: handlerName,
-    /**
-     * Input handler for the districts
-     * @param {String} lang language to be used for translations
-     * @param {Function} displayDistricts function that displays districts screen
-     * @param {Function} displaySectors function to display the sectors screen
-     */
     getHandler: function(lang, displayDistricts, getSectors, agrodealers_address_table) {
         return function(input) {
             var getMessage = translator(translations, lang);
             var district = districts[input.toString().trim()];
-            console.log('>>>>>>>>district ' + district);
             if(district) {
                 var sectorsObject = getSectors(district, agrodealers_address_table, lang);
                 var screens = sectorsObject.screens;
@@ -31,18 +24,16 @@ module.exports = {
                 state.vars.current_sectors_screen = 1;
                 state.vars.sectors_screens = JSON.stringify(screens);
                 state.vars.selected_district = district;
-                sayText(screens[state.vars.current_sectors_screen]);
-                promptDigits(sectorsInputHandler.handlerName);
+                global.sayText(screens[state.vars.current_sectors_screen]);
+                global.promptDigits(sectorsInputHandler.handlerName);
             } else if(input == 5) {
-                console.log(JSON.stringify({n: getMessage('invalid_district', {}, lang)}));
-                sayText(getMessage('invalid_district', {}, lang));
-                stopRules();
-                return;
+                var message = getMessage('invalid_district', {}, lang);
+                global.sayText(message);
+                global.stopRules();
             } else {
-                displayDistricts();
-                promptDigits(handlerName);
-                return;
+                displayDistricts(lang);
+                global.promptDigits(handlerName);
             }
         };
-    }
+    },
 };

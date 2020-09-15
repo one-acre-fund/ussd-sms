@@ -3,6 +3,7 @@ var translator = require('../utils/translator/translator');
 
 
 module.exports = function(district, agrodealers_address_table, lang) {
+    console.log('district: ' + district + ' table: ' + agrodealers_address_table + ' lang: ' + lang);
     var getMessage = translator(translations, lang);
     var table = project.getOrCreateDataTable(agrodealers_address_table);
     var cursor = table.queryRows({vars: {'district': district}});

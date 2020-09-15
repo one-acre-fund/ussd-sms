@@ -23,17 +23,14 @@ function displayDistricts(lang) {
     sayText(menu);
 }
 
-function registerInputHandlers(lang, agrodealers_address_table) {
-    addInputHandler(districtsInputHandler.handlerName, districtsInputHandler.getHandler(lang, displayDistricts, getSectors, agrodealers_address_table));
-    addInputHandler(sectorsInputHandler.handlerName, sectorsInputHandler.getHandler(lang, agrodealers_address_table));
-}
-
-function start(lang) {
-    displayDistricts(lang);
-    promptDigits(districtsInputHandler.handlerName);
-}
 
 module.exports = {
-    registerInputHandlers: registerInputHandlers,
-    start: start
+    registerInputHandlers: function(lang, agrodealers_address_table) {
+        addInputHandler(districtsInputHandler.handlerName, districtsInputHandler.getHandler(lang, displayDistricts, getSectors, agrodealers_address_table));
+        addInputHandler(sectorsInputHandler.handlerName, sectorsInputHandler.getHandler(lang, agrodealers_address_table));
+    },
+    start: function(lang) {
+        displayDistricts(lang);
+        promptDigits(districtsInputHandler.handlerName);
+    }
 };

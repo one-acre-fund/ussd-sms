@@ -31,18 +31,18 @@ module.exports = {
                     }, lang);
 
                     var messageToOfficer = getMessage('sms_to_officer', {'$client_phone': contact.phone_number}, lang);
-                    sayText(messageToFarmer);
+                    global.sayText(messageToFarmer);
                     project.sendMulti({message_type: 'text', messages: [{content: messageToFarmer, to_number: row.vars.officer_phone},
                         {content: messageToOfficer, to_number: contact.phone_number}]});
                 }
             } else if(input.toString().trim() == 77 && screens[state.vars.current_sectors_screen + 1]) {
                 var nextScreen = state.vars.current_sectors_screen + 1;
                 state.vars.current_sectors_screen = nextScreen;
-                sayText(screens[nextScreen]);
-                promptDigits(handlerName);
+                global.sayText(screens[nextScreen]);
+                global.promptDigits(handlerName);
             } else {
-                sayText(screens[state.vars.current_sectors_screen]);
-                promptDigits(handlerName);
+                global.sayText(screens[state.vars.current_sectors_screen]);
+                global.promptDigits(handlerName);
             }
         };
     }
