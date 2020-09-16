@@ -16,6 +16,7 @@ var varietyChoiceHandler = require('./variety-choice-handler/varietyChoiceHandle
 var orderConfirmationHandler = require('./order-confirmation-handler/orderConfirmationHandler');
 var addOrderHandler = require('./add-order-handler/addOrderHandler');
 var varietyConfirmationHandler = require('./variety-confirmation-handler/varietyConfirmationHandler');
+var groupCodeHandler = require('./group-code-handler/groupCodeHandler');
 var enrollOrder = require('../Roster-endpoints/enrollOrder');
 module.exports = {
     registerHandlers: function (){
@@ -53,16 +54,47 @@ module.exports = {
             global.promptDigits(confirmPhoneNumberHandler.handlerName);
         }
         function onPhoneNumberConfirmed(){
-            if(state.vars.canEnroll){
-                //display bundles
-                saveClientInRoster();
-                displayBundles(JSON.parse(state.vars.newClient).DistrictId); 
-                global.promptDigits(bundleChoiceHandler.handlerName);
+            if(state.vars.country == 'RW'){
+                global.sayText(translate('enter_group_code',{},state.vars.reg_lang));
+                global.promptDigits(groupCodeHandler.handlerName);
             }
             else{
-                global.sayText(translate('reg_group_leader_question',{},state.vars.reg_lang));
-                global.promptDigits(groupLeaderQuestionHander.handlerName);
+                if(state.vars.canEnroll){
+                    //display bundles
+                    saveClientInRoster();
+                    displayBundles(JSON.parse(state.vars.newClient).DistrictId); 
+                    global.promptDigits(bundleChoiceHandler.handlerName);
+                }
+                else{
+                    global.sayText(translate('reg_group_leader_question',{},state.vars.reg_lang));
+                    global.promptDigits(groupLeaderQuestionHander.handlerName);
+                }
             }
+        }
+        function onGroupCodeValidated(groupInfo){
+
+            var clientJSON = {
+                'districtId': groupInfo.DistrictId,
+                'siteId': groupInfo.SiteId,
+                'groupId': groupInfo.GroupId,
+                'firstName': state.vars.firstName,
+                'lastName': state.vars.lastName,
+                'nationalIdNumber': state.vars.nationalId,
+                'phoneNumber': state.vars.phoneNumber
+            };
+            try {
+                var clientData = JSON.parse(rosterRegisterClient(clientJSON,state.vars.reg_lang));
+                
+                if(clientData){
+                    var message = translate('enr_reg_complete',{'$ACCOUNT_NUMBER': clientData.AccountNumber},state.vars.reg_lang);
+                    project.sendMessage({content: message, to_number: contact.phone_number});
+                    project.sendMessage({content: message, to_number: clientJSON.phoneNumber});
+
+                }
+            }catch (e){
+                console.log('error getting account number from roster' + e);
+            }
+
         }
         function onGroupLeaderQuestion(){
             saveClientInRoster();
@@ -79,6 +111,7 @@ module.exports = {
         addInputHandler(orderConfirmationHandler.handlerName, orderConfirmationHandler.getHandler(onOrderConfirmed));
         addInputHandler(addOrderHandler.handlerName, addOrderHandler.getHandler(onFinalizeOrder,displayBundles));
         addInputHandler(varietyConfirmationHandler.handlerName, varietyConfirmationHandler.getHandler(onBundleSelected));
+        addInputHandler(groupCodeHandler.handlerName, groupCodeHandler.getHandler(onGroupCodeValidated));
     },
     
 

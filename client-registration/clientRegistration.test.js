@@ -13,6 +13,7 @@ const groupLeaderQuestionHandler = require('./group-leader-question-handler/grou
 var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
 var {client}  = require('../client-enrollment/test-client-data'); 
 var notifyELK = require('../notifications/elk-notification/elkNotification');
+var groupCodeHandler = require('./group-code-handler/groupCodeHandler');
 
 
 jest.mock('../rw-legacy/lib/roster/register-client');
@@ -29,6 +30,7 @@ jest.mock('./bundle-choice-handler/bundleChoiceHandler');
 jest.mock('./add-order-handler/addOrderHandler');
 jest.mock('./variety-confirmation-handler/varietyConfirmationHandler');
 jest.mock('./order-confirmation-handler/orderConfirmationHandler');
+jest.mock('./group-code-handler/groupCodeHandler');
 
 const mockConfrmNationalIdHandler = jest.fn();
 const mockConfrmPhoneNumberHandler = jest.fn();
@@ -37,6 +39,7 @@ const mockNationalIdHandler = jest.fn();
 const mockPhoneNumberHandler = jest.fn();
 const mockSecondNameHandler = jest.fn();
 const mockGroupLeaderQuestionHandler = jest.fn();
+const mockGroupCodeHandler = jest.fn();
 var mockTable = { createRow: jest.fn(), queryRows: jest.fn()};
 var mockRow = {save: jest.fn()};
 
@@ -68,12 +71,17 @@ describe('clientRegistration', () => {
         phoneNumberHandler.getHandler.mockReturnValue(mockPhoneNumberHandler);
         secondNameHandler.getHandler.mockReturnValue(mockSecondNameHandler);
         groupLeaderQuestionHandler.getHandler.mockReturnValue(mockGroupLeaderQuestionHandler);
+        groupCodeHandler.getHandler.mockReturnValue(mockGroupCodeHandler);
         state.vars.reg_lang ='en-ke';
     });
 
     it('should add national Id Confirmation handler to input handlers', () => {
         clientRegistration.registerHandlers();
         expect(addInputHandler).toHaveBeenCalledWith(confrmNationalIdHandler.handlerName, confrmNationalIdHandler.getHandler());            
+    });
+    it('should add phone number Confirmation handler to input handlers', () => {
+        clientRegistration.registerHandlers();
+        expect(addInputHandler).toHaveBeenCalledWith(groupCodeHandler.handlerName, groupCodeHandler.getHandler());            
     });
     it('should add phone number Confirmation handler to input handlers', () => {
         clientRegistration.registerHandlers();
@@ -207,6 +215,7 @@ describe('clientRegistration', () => {
             clientRegistration.registerHandlers();
             callback = confrmPhoneNumberHandler.getHandler.mock.calls[0][0];                
         });
+        
         it('should ask the client if they are willing to become a group leader after they have entered their last name', () => {
             callback();
             expect(sayText).toHaveBeenCalledWith('Does the farmer want to be a Group Leader of a new group?\n1) Yes\n2) No');
@@ -260,6 +269,56 @@ describe('clientRegistration', () => {
             ` ${mockRows[0].vars.price}`+
             '\n');
         });
+        it('should prompt the client for the group code if the country is RW', () => {
+            state.vars.country = 'RW';
+            callback();
+            expect(sayText).toHaveBeenCalledWith('Enter GL code');
+            expect(promptDigits).toHaveBeenCalledWith(groupCodeHandler.handlerName);
+        });
+    });
+    describe('group code handler success callback',() =>{
+        var callback;
+        var groupInfo =  {'districtId': client.DistrictId,'siteId': client.SiteId,'groupId': client.GroupId};
+        beforeAll(()=>{
+            rosterRegisterClient.mockImplementation(()=>{return JSON.stringify(client);});
+        });
+        beforeEach(()=>{
+            clientRegistration.registerHandlers();
+            callback = groupCodeHandler.getHandler.mock.calls[0][0];
+        });
+        it('should call roster endpoint with the given client information',()=>{
+            var clientInfo = {
+                'districtId': groupInfo.DistrictId,
+                'siteId': groupInfo.SiteId,
+                'groupId': groupInfo.GroupId,
+                'firstName': state.vars.firstName,
+                'lastName': state.vars.lastName,
+                'nationalIdNumber': state.vars.nationalId,
+                'phoneNumber': state.vars.phoneNumber
+            };
+            callback(groupInfo);
+            expect(rosterRegisterClient).toHaveBeenCalledWith(clientInfo,state.vars.reg_lang);
+        });
+        it('should send a message to the phone saved during registration as client phone with the account number',()=>{
+            state.vars.phoneNumber = '0786231234';
+            callback(groupInfo);
+            expect(project.sendMessage).toHaveBeenCalledWith(expect.objectContaining({
+                content: `Thank you for enrolling with TUBURA! Your account number is ${client.AccountNumber}`+
+                '. Please save this!',
+                to_number: state.vars.phoneNumber
+            }));
+            
+        });
+        it('should send a message to the phone  used for registration with the account number',()=>{
+            contact.phone_number = '0786231234';
+            callback(groupInfo);
+            expect(project.sendMessage).toHaveBeenCalledWith(expect.objectContaining({
+                content: `Thank you for enrolling with TUBURA! Your account number is ${client.AccountNumber}`+
+                '. Please save this!', 
+                to_number: contact.phone_number 
+            }));
+        });
+
     });
     describe('group leader question success callback', () => {
         var callback;
@@ -398,6 +457,19 @@ describe('clientRegistration', () => {
             callback();
             expect(sayText).toHaveBeenCalledWith(`Thank you for expressing your interest to enroll with OAF. Your Account Number is: ${client.AccountNumber}`+
                 '. Your FO will reach out to you to add inputs to your order.');
+        });
+        it('should call roster endpoint with the given client information',()=>{
+            var clientInfo = {
+                'districtId': client.DistrictId,
+                'siteId': client.SiteId,
+                'groupId': client.GroupId,
+                'firstName': state.vars.firstName,
+                'lastName': state.vars.lastName,
+                'nationalIdNumber': state.vars.nationalId,
+                'phoneNumber': state.vars.phoneNumber
+            };
+            callback();
+            expect(rosterRegisterClient).toHaveBeenCalledWith(clientInfo,state.vars.reg_lang);
         });
     });
     describe('bundle Choice Handler successfull callback',()=>{
