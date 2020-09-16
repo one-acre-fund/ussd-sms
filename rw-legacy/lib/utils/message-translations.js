@@ -707,6 +707,10 @@ module.exports = {
         "en": "Welcome to TUBURA. Please enter your account number",
         "ki": "Murakaza neza muri TUBURA. Andika nimero ya konti y'umuhinzi",
     },
+    "main_menu":{
+        'en': 'Welcome to One Acre Fund Tubura.\n0) Not currently a client\n1) Already a client',
+        'ki': 'Urakaza neza muri Tubura. Andika\n0) Niba udasanzwe uri umukiriya wa Tubura\n1) Niba usanzwe uri umukiriya wa Tubura'
+    },
     "ENR_FINALIZE_TERMS_AND_CONDITION": {
         "en": "I enroll in TUBURA by agreeing on TUBURA loan Terms and Conditions and I will sign it on the day of input pickup. ~B 1) Continue ~B 2) Quit",
         "ki": "Niyandikishije muri TUBURA nemeye amabwiriza n'amategeko agenga ideni rya TUBURA nkazayasinya kumunsi w'ifata ry'inyongeramusaruro. ~B 1) Gukomeza ~B 2)Gusohoka",

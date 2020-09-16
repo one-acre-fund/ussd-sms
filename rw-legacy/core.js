@@ -74,7 +74,7 @@ const chickenServices = require('../chicken-services/chickenServices');
 var transactionHistory = require('../transaction-history/transactionHistory');
 var groupRepaymentsModule = require('../group-repayments/groupRepayments');
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
-
+var clientRegistration = require('../client-registration/clientRegistration');
 //options
 const lang = project.vars.cor_lang;
 const max_digits_for_input = project.vars.max_digits; //only for testing
@@ -90,15 +90,38 @@ const max_digits_for_pn = project.vars.max_digits_pn;
 const max_digits_for_glus = project.vars.max_digits_glvv;
 const max_digits_for_name = project.vars.max_digits_name;
 const inputHandlers = {}
+clientRegistration.registerHandlers();
 
 global.main = function () {
-    sayText(msgs('cor_enr_main_splash',{},lang));
-    promptDigits('account_number_splash', {
+    sayText(msgs('main_menu',{},lang));
+    promptDigits('main_menu_splash', {
         'submitOnHash': false,
         'maxDigits': max_digits_for_account_number,
         'timeout': timeout_length
     });
 };
+
+addInputHandler('main_menu_splash',function(input){
+    if(input == 0){
+        clientRegistration.start(0,'RW',lang);
+    }
+    else if (input == 1){
+        sayText(msgs('cor_enr_main_splash',{},lang));
+        promptDigits('account_number_splash', {
+            'submitOnHash': false,
+            'maxDigits': max_digits_for_account_number,
+            'timeout': timeout_length
+        });
+    }
+    else{
+        sayText(msgs('main_menu',{},lang));
+        promptDigits('main_menu_splash', {
+            'submitOnHash': false,
+            'maxDigits': max_digits_for_account_number,
+            'timeout': timeout_length
+        });
+    }
+});
 
 /*
 input handlers - one per response variable
