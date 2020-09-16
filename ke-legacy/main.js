@@ -1791,7 +1791,7 @@ addInputHandler('MainMenu', function(SplashMenu){
         maizeRecommendation(lang, project.vars.maize_recommendation_service_id);
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'warranty'){
-        shsWarranty.start();
+        shsWarranty.start(state.vars.lang);
     }
     else{
         var arrayLength = client.BalanceHistory.length;
