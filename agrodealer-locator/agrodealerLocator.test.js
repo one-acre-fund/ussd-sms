@@ -23,14 +23,12 @@ describe.each(['en', 'ki'])('Agro dealer locator in (%s)', (lang) => {
         '1) Gakenke\n' +
         '2) Kayonza\n' +
         '3) Rwamagana\n' +
-        '4) Gicumbi\n' + 
-        '5) My District is not listed\n',
+        '4) My District is not listed\n',
         'en': 'To find a One Acre Fund Agrodealer Partner near you, select District\n' +
     '1) Gakenke\n' +
     '2) Kayonza\n' +
     '3) Rwamagana\n' +
-    '4) Gicumbi\n' +
-    '5) My District is not listed\n'};
+    '4) My District is not listed\n'};
         agrodealerLocator.start(lang);
         expect(sayText).toHaveBeenCalledWith(screen[lang]);
         expect(promptDigits).toHaveBeenCalledWith(districtsInputHandler.handlerName);

@@ -6,8 +6,7 @@ var handlerName = 'pshops_locator_district_handler';
 var districts = {
     '1': 'Gakenke',
     '2': 'Kayonza',
-    '3': 'Rwamagana',
-    '4': 'Gicumbi',
+    '3': 'Rwamagana'
 };
 
 module.exports = {
@@ -26,7 +25,7 @@ module.exports = {
                 state.vars.selected_district = district;
                 global.sayText(screens[state.vars.current_sectors_screen]);
                 global.promptDigits(sectorsInputHandler.handlerName);
-            } else if(input == 5) {
+            } else if(input == 4) {
                 var message = getMessage('invalid_district', {}, lang);
                 global.sayText(message);
                 global.stopRules();

@@ -42,11 +42,11 @@ describe.each(['en', 'ki'])('Sectors input handler in (%s)', (lang) => {
         handler(1);
         const smsToFarmer = {
             en: 'Tyrion is your nearest One Acre Fund Agrodealer partner shop. They are located in Kingslanding and offer credit and training on Monday, Wednesday. For more information you can contact your Shop Officer Jamie Lanyster on 788535221 or your Village Leader.',
-            ki: 'Tyrion is your nearest One Acre Fund Agrodealer partner shop. They are located in Kingslanding and offer credit and training on Kuwambere, Kuwagatatu. For more information you can contact your Shop Officer Jamie Lanyster on 788535221 or your Village Leader.'
+            ki: 'Tyrion ni agrodealer ufite iduka rikorana . Aherereye mu Kingslanding atanga ideni n\'amahugurwa kuri iyi minsi y\'icyumweru Kuwambere, Kuwagatatu. Ku bindi bisobanura wahamagara Shop Officer Jamie Lanyster kuri 788535221 cyangwa umukuru w\'umudugudu wawe.'
         };
         const smsToOfficer = {
             en: 'There is a potential client with phonenumber 787664527. Please call them back to follow up. Thanks',
-            ki: 'There is a potential client with phonenumber 787664527. Please call them back to follow up. Thanks'
+            ki: 'Hari  umuntu ushobora kuba umukiriya ufite numero ya telefoni 787664527. Umuhamagare umukurikirane. Urakoze.'
         };
         expect(project.sendMulti).toHaveBeenCalledWith({'message_type': 'text', 'messages': [{'content': smsToFarmer[lang], 'to_number': '788535221'}, {'content': smsToOfficer[lang], 'to_number': '787664527'}]});
         expect(sayText).toHaveBeenCalledWith(smsToFarmer[lang]);

@@ -23,7 +23,7 @@ describe.each(['en', 'ki'])('Districts input handler in (%s)', (lang) => {
         const getSectors = jest.fn();
         const agrodealers_address_table = 'agrodealers_address_table';
         const handler = districtsInputHandler.getHandler(lang, displayDistricts, getSectors, agrodealers_address_table);
-        handler(5);
+        handler(4);
         expect(sayText).toHaveBeenCalledWith(noDistrictMessage[lang]);
         expect(stopRules).toHaveBeenCalled();
     });
