@@ -29,7 +29,8 @@ describe.each(['en', 'ki'])('Sectors input handler in (%s)', (lang) => {
         const aggroDealerRow = {vars: {
             agrodealer_name: 'Tyrion',
             cell: 'Kingslanding',
-            credit_days: 'Monday, Wednesday',
+            credit_days_en: 'Monday, Wednesday',
+            credit_days_ki: 'Kuwambere, Kuwagatatu',
             officer_phone: '788535221',
             officer_name: 'Jamie Lanyster'
         }};
@@ -41,7 +42,7 @@ describe.each(['en', 'ki'])('Sectors input handler in (%s)', (lang) => {
         handler(1);
         const smsToFarmer = {
             en: 'Tyrion is your nearest One Acre Fund Agrodealer partner shop. They are located in Kingslanding and offer credit and training on Monday, Wednesday. For more information you can contact your Shop Officer Jamie Lanyster on 788535221 or your Village Leader.',
-            ki: 'Tyrion is your nearest One Acre Fund Agrodealer partner shop. They are located in Kingslanding and offer credit and training on Monday, Wednesday. For more information you can contact your Shop Officer Jamie Lanyster on 788535221 or your Village Leader.'
+            ki: 'Tyrion is your nearest One Acre Fund Agrodealer partner shop. They are located in Kingslanding and offer credit and training on Kuwambere, Kuwagatatu. For more information you can contact your Shop Officer Jamie Lanyster on 788535221 or your Village Leader.'
         };
         const smsToOfficer = {
             en: 'There is a potential client with phonenumber 787664527. Please call them back to follow up. Thanks',

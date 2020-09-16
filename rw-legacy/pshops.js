@@ -20,15 +20,14 @@ if(env === 'prod'){
     service.vars.activation_code_table = 'ActivationCodes';
     service.vars.serial_number_table = 'SerialNumberTable';
     service.vars.pShop_main_menu = 'pshop_main_menu';
-    service.vars.agrodealers_address_table = 'agrodealers_address_table'
 }
 else{
     service.vars.activation_code_table = 'dev_ActivationCodes';
     service.vars.serial_number_table = 'dev_SerialNumberTable';
     service.vars.pShop_main_menu = 'dev_pshop_main_menu';
-    service.vars.agrodealers_address_table = 'dev_agrodealers_address_table';
 }
 
+service.vars.agrodealers_address_table = 'agrodealers_address_table'
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
  

@@ -26,7 +26,7 @@ module.exports = {
                         '$agrodealer_name': row.vars.agrodealer_name,
                         '$officer_name': row.vars.officer_name,
                         '$cell': row.vars.cell,
-                        '$credit_days': row.vars.credit_days,
+                        '$credit_days': row.vars['credit_days_' + lang],
                         '$officer_phone': row.vars.officer_phone
                     }, lang);
 
