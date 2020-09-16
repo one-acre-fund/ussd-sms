@@ -39,5 +39,10 @@ describe('possible_order_handler', () => {
         possibleOrderHandler('12');
         expect(promptDigits).toHaveBeenCalledWith(handlerName);
     });
+    it('should show prompt for re-entry if unexpected input(containing decimals)', () => {
+        project.vars.lang = 'en';
+        possibleOrderHandler('3.5');
+        expect(promptDigits).toHaveBeenCalledWith(handlerName);
+    });
 });
 
