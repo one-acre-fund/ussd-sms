@@ -39,6 +39,7 @@ module.exports = {
         service: 'readonly',
         project: 'readonly',
         addInputHandler: 'readonly',
+        hangUp: 'readonly',
         stopRules: 'readonly',
         httpClient: 'readonly',
         sendEmail: 'readonly',
