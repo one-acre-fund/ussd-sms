@@ -64,11 +64,10 @@ var extensionTable =  project.initDataTableById(service.vars.extensionTableId);
 
 // display welcome message and prompt user to choose their survey (AMA1, AMA2, GUS)
 global.main = function(){
-    sayText(msgs('ext_main_splash'));
     var menu = populate_menu(extension_main_menu_table, lang);
     if (typeof (menu) == 'string') {
         state.vars.current_menu_str = menu;
-        sayText(menu);
+        sayText(msgs('ext_main_splash')+menu);
         state.vars.multiple_input_menus = 0;
         state.vars.input_menu = menu;
         promptDigits('ext_main_splash', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
@@ -78,7 +77,7 @@ global.main = function(){
         state.vars.multiple_input_menus = 1;
         state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
         state.vars.current_menu_str = menu[state.vars.input_menu_loc];
-        sayText(menu[state.vars.input_menu_loc]);
+        sayText(msgs('ext_main_splash')+menu[state.vars.input_menu_loc]);
         state.vars.input_menu = JSON.stringify(menu);
         promptDigits('ext_main_splash', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
     }

@@ -10,7 +10,6 @@ module.exports = function(chicken_table, acc_nber, client_json){
         prepRequired = row.vars.prep_required;
         state.vars.chcken_nber = row.vars.ordered_chickens || 0;
         state.vars.farmer_name  = JSON.parse(state.vars.client_json).FirstName;
-
     }
     else{
         state.vars.client_notfound = true;
@@ -33,6 +32,9 @@ module.exports = function(chicken_table, acc_nber, client_json){
         // else calculate the client's possible maximum
         else{
             state.vars.max_chicken = prepayment_amount / 500;
+        }
+        if(state.vars.max_chicken > state.vars.chcken_nber ){
+            state.vars.max_chicken  = state.vars.chcken_nber;
         }
     }
     //doesn't satify the minimum amount
