@@ -2022,6 +2022,7 @@ addInputHandler('FOLocWard', function(Ward) {
             if (WardArray[j].Menu == Ward) {
                 LocValid = true;
                 LocID = WardArray[j].ID;
+                state.vars.FOLocatorWardName = WardArray[j].Name;
             }
         }
         if (LocValid || Ward.toLowerCase() == 'a'|| Ward =='*'){
@@ -2141,6 +2142,7 @@ addInputHandler('FOLocConfrim', function(Confirm) {
             vars: {
                 ProspectPN: contact.phone_number,
                 SiteName: state.vars.FOLocatorSiteName,
+                WardName: state.vars.FOLocatorWardName,
                 FOName: state.vars.FOName,
                 FOPhoneNumber: state.vars.FOPN 
             }
