@@ -27,6 +27,8 @@ var clientEnrollment = require('../client-enrollment/clientEnrollment');
 var justInTime = require('../just-in-time/justInTime');
 var rosterAPI = require('../rw-legacy/lib/roster/api');
 var slacLogger = require('../slack-logger/index');
+var dukaClient = require('../duka-client/dukaClient');
+var isCreditOfficer = require('../duka-client/checkCreditOfficer');
 if(service.active){
     defaultEnvironment = 'prod';
 }else{
@@ -47,6 +49,7 @@ service.vars.lr_2021_client_table_id = project.vars[env+'_lr_2021_client_table_i
 service.vars.registerEnrollEnd = env+ '_registerEnrollEnd';
 service.vars.registerEnrollStart = env+ '_registerEnrollStart';
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
+service.vars.credit_officers_table = 'credit_officers_table';
 
 if(env == 'prod'){
     service.vars.topUpBundleTableId = 'DT891c89e9a82b6841';
@@ -1588,6 +1591,7 @@ addInputHandler('SplashMenu', function(SplashMenu) {
         promptDigits('StaffPayRoll', {submitOnHash: true, maxDigits: 5, timeout: 5});
     }
     else {
+
         if (RosterClientVal(ClientAccNum)){
             console.log('SuccessFully Validated against Roster');
             client = RosterClientGet(ClientAccNum);
@@ -1606,6 +1610,8 @@ addInputHandler('SplashMenu', function(SplashMenu) {
             state.vars.account_number = client.AccountNumber;
             MainMenuText(client);
             promptDigits('MainMenu', {submitOnHash: true, maxDigits: 8, timeout: 5});
+        } if(isCreditOfficer(ClientAccNum, service.vars.credit_officers_table)) {
+            dukaClient.start(GetLang() ? 'en' : 'sw');
         }
         else{
             console.log('account number not valid');
