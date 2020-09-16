@@ -6,6 +6,7 @@ jest.mock('../../notifications/elk-notification/elkNotification');
 describe('phone_number_handler', () => {
     var phoneNumberHandler;
     var onPhoneNumberValidated;
+    var validRwandaPhoneNumber = '0786235296';
     beforeEach(() => {
         sayText.mockReset();
         onPhoneNumberValidated = jest.fn();
@@ -35,6 +36,12 @@ describe('phone_number_handler', () => {
     it('should call the onPhoneNumberValidated handler if the phone number is in correct format', () => {
         phoneNumberHandler('0786991098');
         expect(onPhoneNumberValidated).toHaveBeenCalledWith('0786991098');
+    });
+
+    it('should call the onPhoneNumberValidated handler if the phone number is in correct format and the country is Rwanda', () => {
+        state.vars.country = 'RW';
+        phoneNumberHandler(validRwandaPhoneNumber);
+        expect(onPhoneNumberValidated).toHaveBeenCalledWith(validRwandaPhoneNumber);
     });
 
 });
