@@ -275,12 +275,14 @@ describe('clientRegistration', () => {
             expect(sayText).toHaveBeenCalledWith('Enter GL code');
             expect(promptDigits).toHaveBeenCalledWith(groupCodeHandler.handlerName);
         });
+        
     });
     describe('group code handler success callback',() =>{
         var callback;
         var groupInfo =  {'districtId': client.DistrictId,'siteId': client.SiteId,'groupId': client.GroupId};
         beforeAll(()=>{
             rosterRegisterClient.mockImplementation(()=>{return JSON.stringify(client);});
+            mockTable.createRow.mockReturnValue(mockRow);
         });
         beforeEach(()=>{
             clientRegistration.registerHandlers();
@@ -317,6 +319,25 @@ describe('clientRegistration', () => {
                 '. Please save this!', 
                 to_number: contact.phone_number 
             }));
+        });
+        it('should save a row in the datatables with clients information if registration is successful', () => {  
+            state.vars.country = 'RW';
+            callback(groupInfo);
+            expect(mockTable.createRow).toHaveBeenCalledWith({
+                'contact_id': contact.id,
+                'vars': {
+                    'account_number': client.AccountNumber,
+                    'national_id': client.NationalId,
+                    'client_phone_number': state.vars.phoneNumber,
+                    'first_name': client.FirstName,
+                    'last_name': client.LastName,
+                    'district': client.DistrictId,
+                    'site': client.SiteId,
+                    'new_client': '1',
+                    'registering_phone_number': contact.phone_number,
+                }
+            });
+            expect(mockRow.save).toHaveBeenCalled();
         });
 
     });

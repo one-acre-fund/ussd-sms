@@ -32,8 +32,9 @@ if(env === 'prod'){
     service.vars.client_enrollment_table_id = project.vars.client_enrollment_data_id;
     service.vars.market_access_table_id = 'DT278868f96626c4b0';
     service.vars.Valid_Serial_Number_table = 'Valid_Serial_Number';
-    service.vars.chicken_table_id = 'DT588706b3a7513443'
-    account_splash_menu_name = 'core_enr_splash_menu'
+    service.vars.chicken_table_id = 'DT588706b3a7513443';
+    account_splash_menu_name = 'core_enr_splash_menu';
+    service.vars.rw_reg_client_table_id = 'DT29e542bf090b050f';
 }else{
     service.vars.season_clients_table = 'dev_' + project.vars.season_clients_table;
     service.vars.client_enrollment_table = 'dev_' + project.vars.client_enrollment_data;
@@ -46,7 +47,8 @@ if(env === 'prod'){
     service.vars.Valid_Serial_Number_table = 'dev_Valid_Serial_Number';
     account_splash_menu_name = 'dev_core_enr_splash_menu'
     account_splash_menu_name = 'dev_core_enr_splash_menu';
-    service.vars.chicken_table_id = 'DT8c3e091b499f1726'
+    service.vars.chicken_table_id = 'DT8c3e091b499f1726';
+    service.vars.rw_reg_client_table_id = 'DT41914a4d2dc6a29f';
 }
 
 var client_table = project.initDataTableById(service.vars['21a_client_data_id']);

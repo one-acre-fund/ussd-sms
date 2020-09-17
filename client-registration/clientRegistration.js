@@ -22,7 +22,13 @@ module.exports = {
     registerHandlers: function (){
         
         function onNationalIdValidated(nationalId){
-            var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
+            var table;
+            if(state.vars.country == 'RW'){
+                table = project.initDataTableById(service.vars.rw_reg_client_table_id);
+            }
+            else{
+                table = project.initDataTableById(service.vars.lr_2021_client_table_id);
+            }
             var rows = table.queryRows({'vars': {'national_id': nationalId}});
             if(rows.hasNext()){
                 var row = rows.next();
@@ -72,7 +78,6 @@ module.exports = {
             }
         }
         function onGroupCodeValidated(groupInfo){
-
             var clientJSON = {
                 'districtId': groupInfo.DistrictId,
                 'siteId': groupInfo.SiteId,
@@ -89,7 +94,23 @@ module.exports = {
                     var message = translate('enr_reg_complete',{'$ACCOUNT_NUMBER': clientData.AccountNumber},state.vars.reg_lang);
                     project.sendMessage({content: message, to_number: contact.phone_number});
                     project.sendMessage({content: message, to_number: clientJSON.phoneNumber});
+                    var table = project.initDataTableById(service.vars.rw_reg_client_table_id);
+                    var row = table.createRow({
+                        'contact_id': contact.id,
+                        vars: {
+                            'account_number': clientData.AccountNumber,
+                            'national_id': clientData.NationalId,
+                            'client_phone_number': clientJSON.phoneNumber,
+                            'first_name': clientData.FirstName,
+                            'last_name': clientData.LastName,
+                            'district': clientData.DistrictId,
+                            'site': clientData.SiteId,
+                            'new_client': '1',
+                            'registering_phone_number': contact.phone_number,
 
+                        }
+                    });
+                    row.save();
                 }
             }catch (e){
                 console.log('error getting account number from roster' + e);
