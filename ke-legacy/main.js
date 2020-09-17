@@ -1637,7 +1637,7 @@ addInputHandler('NonClientMenu', function(input) {
     }
     else if(sessionMenu[input-1].option_name == 'find_oaf_contact'){
         EnterNationalIdText();
-        promptDigits('FONationaIdHandler', {submitOnHash: true, maxDigits: 1, timeout: 5});
+        promptDigits('FONationaIdHandler', {submitOnHash: true, maxDigits: 8, timeout: 5});
     }
     else if(sessionMenu[input-1].option_name == 'trainings'){
         TrainingMenuText();
@@ -1857,10 +1857,10 @@ addInputHandler('FONationaIdHandler', function( nationaId){
     if(ValNationalID(nationaId)){
         state.vars.nationalId = nationaId;
         ConfirmNationalIdText(nationaId);
-        promptDigits('confirmNationalIdHanlder', {submitOnHash: true, maxDigits: 5, timeout: 5});
+        promptDigits('confirmNationalIdHanlder', {submitOnHash: true, maxDigits: 8, timeout: 5});
     }else{
         NationalInvalidText();
-        promptDigits('FONationaIdHandler', {submitOnHash: true, maxDigits: 5, timeout: 5});
+        promptDigits('FONationaIdHandler', {submitOnHash: true, maxDigits: 8, timeout: 5});
     }
 
 });
@@ -1869,11 +1869,11 @@ addInputHandler('confirmNationalIdHanlder', function(input){
     InteractionCounter('confirmNationalIdHanlder');
     if(input == 1){
         FOLocatorRegionText();
-        promptDigits('FOLocRegion', {submitOnHash: true, maxDigits: 1, timeout: 5});
+        promptDigits('FOLocRegion', {submitOnHash: true, maxDigits: 8, timeout: 5});
     }
     else if (input == 2 ){
         EnterNationalIdText();
-        promptDigits('FONationaIdHandler', {submitOnHash: true, maxDigits: 1, timeout: 5});
+        promptDigits('FONationaIdHandler', {submitOnHash: true, maxDigits: 8, timeout: 5});
     }
     else{
         ConfirmNationalIdText(state.vars.nationalId);
