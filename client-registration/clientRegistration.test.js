@@ -412,6 +412,8 @@ describe('clientRegistration', () => {
                     'last_name': client.LastName,
                     'district': client.DistrictId,
                     'site': client.SiteId,
+                    'district_name': client.DistrictName,
+                    'site_name': client.SiteName,
                     'new_client': '1',
                     'gl_phone_number': contact.phone_number,
                     'gl_interested': state.vars.groupLeader
@@ -432,6 +434,8 @@ describe('clientRegistration', () => {
                     'last_name': client.LastName,
                     'district': client.DistrictId,
                     'site': client.SiteId,
+                    'district_name': client.DistrictName,
+                    'site_name': client.SiteName,
                     'new_client': '1',
                     'gl_phone_number': contact.phone_number,
                     'gl_interested': '0'

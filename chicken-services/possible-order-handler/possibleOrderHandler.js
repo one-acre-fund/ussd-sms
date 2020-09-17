@@ -8,7 +8,7 @@ module.exports = {
     getHandler: function(onOrderingConfirmed){
         notifyELK();
         return function(input){
-            if((input >= 2) && (input <= state.vars.max_chicken)){
+            if(((input - Math.floor(input)) == 0) && (input >= 2) && (input <= state.vars.max_chicken)){
                 state.vars.confirmed_number = input;
                 onOrderingConfirmed();
             }

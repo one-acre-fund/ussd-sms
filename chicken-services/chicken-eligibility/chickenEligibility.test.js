@@ -55,36 +55,38 @@ describe('chicken_Eligibility', () => {
     });
     it('should define confirmed_chicken variable if the client chicken number is not zero and they have not confirmed', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(true);
-        mockRow ={vars: { ordered_Chickens: 4, confirmed: 0}};
+        mockRow ={vars: { ordered_chickens: 4, confirmed: 0}};
         mockCursor.next.mockReturnValueOnce(mockRow);
         chickenEligibility(mockTable,client.AccountNumber,client);
         expect(state.vars.confirmed_chicken).toBeDefined();
     });
     it('should set state.vars.minimum_amount_paid to true if  prepayment_amount is greater than 1000', ()=>{
-        mockCursor.hasNext.mockReturnValueOnce(false);
+        mockCursor.hasNext.mockReturnValueOnce(true);
         client.BalanceHistory.TotalRepayment_IncludingOverpayments = 10000;
-        client.BalanceHistory.TotalCredit = 2000;
+        mockRow.vars.prep_required = 0;
+        mockCursor.next.mockReturnValueOnce(mockRow);
         chickenEligibility(mockTable,client.AccountNumber,client);
         expect(state.vars.minimum_amount_paid).toBeTruthy();
     });
-    it('should set state.vars.max_chicken to 5 if prepayment_amount is greater than 7500', ()=>{
-        mockCursor.hasNext.mockReturnValueOnce(false);
+    it('should set state.vars.max_chicken to 4 if prepayment_amount is greater than 7500 but the client ordered less than the maximum number of chickens that can be ordered', ()=>{
+        mockCursor.hasNext.mockReturnValueOnce(true);
+        var new_row ={vars: { ordered_chickens: 4, confirmed: 0,prep_required: 2000}};
         client.BalanceHistory.TotalRepayment_IncludingOverpayments = 10000;
-        client.BalanceHistory.TotalCredit = 2000;
+        mockCursor.next.mockReturnValueOnce(new_row);
         chickenEligibility(mockTable,client.AccountNumber,client);
-        expect(state.vars.max_chicken).toBe(5);
+        expect(state.vars.max_chicken).toBe(4);
     });
     it('should set state.vars.max_chicken to the number of possible chicken given the prepayment_amount (if the prepayment is greater than 1000 and allows less than 5 possible chicken)', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(true);
-        mockRow ={vars: { ordered_Chickens: 4, confirmed: 0,prep_required: 2000}};
+        var new_row ={vars: { ordered_chickens: 4, confirmed: 0,prep_required: 2000}};
         client.BalanceHistory.TotalRepayment_IncludingOverpayments = 4000;
-        mockCursor.next.mockReturnValueOnce(mockRow);
+        mockCursor.next.mockReturnValueOnce(new_row);
         chickenEligibility(mockTable,client.AccountNumber,client);
         expect(state.vars.max_chicken).toBe(4);
     });
     it('should set state.vars.minimum_amount_paid to False if prepayment_amount is less than 1000', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(true);
-        mockRow ={vars: { ordered_Chickens: 4, confirmed: 0,prep_required: 2000}};
+        mockRow ={vars: { ordered_chickens: 4, confirmed: 0,prep_required: 2000}};
         client.BalanceHistory.TotalRepayment_IncludingOverpayments = 2500;
         mockCursor.next.mockReturnValueOnce(mockRow);
         chickenEligibility(mockTable,client.AccountNumber,client);

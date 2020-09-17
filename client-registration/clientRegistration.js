@@ -195,6 +195,8 @@ function saveClientInRoster(){
                     'last_name': clientData.LastName,
                     'district': clientData.DistrictId,
                     'site': clientData.SiteId,
+                    'district_name': client.DistrictName,
+                    'site_name': client.SiteName,
                     'new_client': '1',
                     'gl_interested': groupLeaderInterested,
                     'gl_phone_number': contact.phone_number,
