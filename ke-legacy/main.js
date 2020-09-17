@@ -1402,8 +1402,8 @@ var EnterNationalIdText = function(){
     else {sayText('Weka nambari ya kitambulisho ya mkulima?');}
 };
 var ConfirmNationalIdText = function(id){
-    if (GetLang()){sayText('You enter'+ id +' ID. Enter\n1) To confirm or \n2) To try again.');}
-    else {sayText('Umeweka nambari ya kitambulisho'+ id +'. Weka\n1) kudhibitisha au \n2) kujaribu tena.');}
+    if (GetLang()){sayText('You enter '+ id +' ID. Enter\n1) To confirm or \n2) To try again.');}
+    else {sayText('Umeweka nambari ya kitambulisho '+ id +'. Weka\n1) kudhibitisha au \n2) kujaribu tena.');}
 };
 var LocationNotKnownText = function(){
     if (GetLang()){sayText('Sorry OAF does not work in your area');}
