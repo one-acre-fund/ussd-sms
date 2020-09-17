@@ -1,4 +1,4 @@
-describe('mobile money repayments', () => {
+describe('mobile money repayments using', () => {
     beforeAll(() => {
         global.state = { vars: {} };
         contact.phone_number = '0755432334';
@@ -14,7 +14,6 @@ describe('mobile money repayments', () => {
         const getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
         jest.mock('../shared/rosterApi/getPhoneNumber');
         getPhoneNumber.mockReturnValueOnce([ {PhoneNumber: '05423827342', IsInactive: true}, {PhoneNumber: '075342312', IsInactive: false}]);
-
         contact.vars = {
             accountnumber: '3033-cf74-f94a',
             lastTransactionAmount: 500,
@@ -37,17 +36,21 @@ describe('mobile money repayments', () => {
                 ]
             })
         };
+        jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'shs notification'});
+        jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'lang'});
+        jest.spyOn(project, 'getOrCreateLabel').mockReturnValue({});
         require('./repayments');
         expect(getPhoneNumber).toHaveBeenCalledWith('10049849', 'kenya');
         expect(project.sendMessage).toHaveBeenCalledWith({'content': 'Thank you for finishing up your loan, you can now get your permanent code to unlock your solar home system by dialing *689#',
-            'to_number': '075342312'});
-        expect(project.sendMessage).not.toHaveBeenCalledWith({'content': 'Thank you for finishing up your loan, you can now get your permanent code to unlock your solar home system by dialing *689#',
-            'to_number': '05423827342'});
+            'to_number': '075342312', 'label_ids': ['shs notification', 'lang']});
     });
 
     it('should send a message once there is an over payment', () => {
         jest.spyOn(project, 'getOrCreateDataTable').mockReturnValueOnce(mockedTable);
-        
+        jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'lang'});
+        jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'MM receipt'});
+        jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'Business Operations'});
+        jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'Overpaid'});
         contact.vars = {
             accountnumber: '3033-cf74-f94a',
             lastTransactionAmount: 3000,
@@ -70,13 +73,21 @@ describe('mobile money repayments', () => {
         };
         require('./repayments');
         expect(project.sendMessage).toHaveBeenCalledWith({'content': 'Je-3033-cf74-f94a You completed your current loan. Last Payment: KSh 3000. Receipt number 5beb94c0-3033-cf74-f94a. Total Paid toward your next loan: Ksh 2000.',
-            'to_number': '0755432334'});
+            'to_number': '0755432334', 'label_ids': [
+                'lang',
+                'MM receipt',
+                'Business Operations',
+                'Overpaid',
+            ]});
     });
 
     it('should send a message in swahili once there is no data in the EnglishDistricts', () => {
         mockedRow.hasNext = jest.fn(() => false);
         jest.spyOn(project, 'getOrCreateDataTable').mockReturnValueOnce(mockedTable);
-        
+        jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'lang'});
+        jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'MM receipt'});
+        jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'Business Operations'});
+        jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'Overpaid'});
         contact.vars = {
             accountnumber: '3033-cf74-f94a',
             lastTransactionAmount: 3000,
@@ -99,7 +110,12 @@ describe('mobile money repayments', () => {
         };
         require('./repayments');
         expect(project.sendMessage).toHaveBeenCalledWith({'content': 'Je-3033-cf74-f94a Ulikamilisha malipo ya mkopo wa sasa. Malipo ya mwisho: KSh 3000. Nambari ya risiti 5beb94c0-3033-cf74-f94a. Malipo kwa ujumla kulipia mkopo unaofuata KSh 2000.',
-            'to_number': '0755432334'});
+            'to_number': '0755432334', 'label_ids': [
+                'lang',
+                'MM receipt',
+                'Business Operations',
+                'Overpaid',
+            ]});
     });
 
     it('should log an error once the phone number is not found', () => {
