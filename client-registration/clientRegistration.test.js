@@ -279,7 +279,7 @@ describe('clientRegistration', () => {
     });
     describe('group code handler success callback',() =>{
         var callback;
-        var groupInfo =  {'districtId': client.DistrictId,'siteId': client.SiteId,'groupId': client.GroupId};
+        var groupInfo =  {'districtId': client.districtId,'siteId': client.siteId,'groupId': client.groupId};
         beforeAll(()=>{
             rosterRegisterClient.mockImplementation(()=>{return JSON.stringify(client);});
             mockTable.createRow.mockReturnValue(mockRow);
@@ -290,9 +290,9 @@ describe('clientRegistration', () => {
         });
         it('should call roster endpoint with the given client information',()=>{
             var clientInfo = {
-                'districtId': groupInfo.DistrictId,
-                'siteId': groupInfo.SiteId,
-                'groupId': groupInfo.GroupId,
+                'districtId': groupInfo.districtId,
+                'siteId': groupInfo.siteId,
+                'groupId': groupInfo.groupId,
                 'firstName': state.vars.firstName,
                 'lastName': state.vars.lastName,
                 'nationalIdNumber': state.vars.nationalId,

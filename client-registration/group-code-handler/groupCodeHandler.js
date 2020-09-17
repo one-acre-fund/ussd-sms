@@ -46,6 +46,7 @@ module.exports = {
             if(isNaN(groupInfo.districtId) || isNaN(groupInfo.siteId) || isNaN(groupInfo.groupId)){
                 global.sayText(translate('enter_group_code',{},state.vars.reg_lang));
                 global.promptDigits(handlerName);
+                
             }
             else{
                 onGroupCodeValidated(groupInfo);

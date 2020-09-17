@@ -79,21 +79,23 @@ module.exports = {
         }
         function onGroupCodeValidated(groupInfo){
             var clientJSON = {
-                'districtId': groupInfo.DistrictId,
-                'siteId': groupInfo.SiteId,
-                'groupId': groupInfo.GroupId,
+                'districtId': groupInfo.districtId,
+                'siteId': groupInfo.siteId,
+                'groupId': groupInfo.groupId,
                 'firstName': state.vars.firstName,
                 'lastName': state.vars.lastName,
                 'nationalIdNumber': state.vars.nationalId,
                 'phoneNumber': state.vars.phoneNumber
             };
             try {
+
                 var clientData = JSON.parse(rosterRegisterClient(clientJSON,state.vars.reg_lang));
                 
                 if(clientData){
                     var message = translate('enr_reg_complete',{'$ACCOUNT_NUMBER': clientData.AccountNumber},state.vars.reg_lang);
-                    project.sendMessage({content: message, to_number: contact.phone_number});
-                    project.sendMessage({content: message, to_number: clientJSON.phoneNumber});
+                    var msg_route = project.vars.sms_push_route;
+                    project.sendMessage({ 'to_number': clientJSON.phoneNumber, 'route_id': msg_route, 'content': message });
+                    project.sendMessage({ 'to_number': contact.phone_number, 'route_id': msg_route, 'content': message });
                     var table = project.initDataTableById(service.vars.rw_reg_client_table_id);
                     var row = table.createRow({
                         'contact_id': contact.id,
