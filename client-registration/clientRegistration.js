@@ -107,7 +107,7 @@ module.exports = {
                             'site': clientData.SiteId,
                             'new_client': '1',
                             'registering_phone_number': contact.phone_number,
-
+                            'groupId': clientJSON.GroupId,
                         }
                     });
                     row.save();

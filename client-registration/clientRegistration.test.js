@@ -335,6 +335,7 @@ describe('clientRegistration', () => {
                     'site': client.SiteId,
                     'new_client': '1',
                     'registering_phone_number': contact.phone_number,
+                    'groupId': groupInfo.GroupId
                 }
             });
             expect(mockRow.save).toHaveBeenCalled();
