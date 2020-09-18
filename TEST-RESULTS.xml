@@ -1,27 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="10" failures="0" time="2.952">
-  <testsuite name="duka client Registration using (en-ke)" errors="0" failures="0" skipped="0" timestamp="2020-09-18T07:24:25" time="0.841" tests="4">
-    <testcase classname="duka client Registration using (en-ke) should register all the registration input handlers --en-ke" name="duka client Registration using (en-ke) should register all the registration input handlers --en-ke" time="0.007">
+<testsuites name="jest tests" tests="16" failures="0" time="3.572">
+  <testsuite name="national id input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-18T09:08:52" time="1.371" tests="6">
+    <testcase classname="national id input handler should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (12345678)" name="national id input handler should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (12345678)" time="0.007">
+    </testcase>
+    <testcase classname="national id input handler should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (1234567)" name="national id input handler should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (1234567)" time="0.001">
+    </testcase>
+    <testcase classname="national id input handler should reprompt the user for the national id once the id is invalid" name="national id input handler should reprompt the user for the national id once the id is invalid" time="0.008">
+    </testcase>
+    <testcase classname="national id input handler should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (12345678)" name="national id input handler should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (12345678)" time="0.002">
+    </testcase>
+    <testcase classname="national id input handler should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (1234567)" name="national id input handler should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (1234567)" time="0.001">
+    </testcase>
+    <testcase classname="national id input handler should reprompt the user for the national id once the id is invalid" name="national id input handler should reprompt the user for the national id once the id is invalid" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Farmer&apos; account number input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-18T09:08:52" time="1.44" tests="6">
+    <testcase classname="Farmer&apos; account number input handler should prompt for the client&apos;s national id when the the chooses 0 for registering a new client" name="Farmer&apos; account number input handler should prompt for the client&apos;s national id when the the chooses 0 for registering a new client" time="0.009">
+    </testcase>
+    <testcase classname="Farmer&apos; account number input handler should register the user to a duka district account once they already have an account number with OAF, and prompt them for an invoice id" name="Farmer&apos; account number input handler should register the user to a duka district account once they already have an account number with OAF, and prompt them for an invoice id" time="0.004">
+    </testcase>
+    <testcase classname="Farmer&apos; account number input handler should reprompt for an account number once the user is not found in roster" name="Farmer&apos; account number input handler should reprompt for an account number once the user is not found in roster" time="0.002">
+    </testcase>
+    <testcase classname="Farmer&apos; account number input handler should notify the user if the farmer&apos; account is a non duka client and prompt them to register or enter a new account" name="Farmer&apos; account number input handler should notify the user if the farmer&apos; account is a non duka client and prompt them to register or enter a new account" time="0.002">
+    </testcase>
+    <testcase classname="Farmer&apos; account number input handler should notify the user if the duka client&apos;s account number has outstanding credit" name="Farmer&apos; account number input handler should notify the user if the duka client&apos;s account number has outstanding credit" time="0.003">
+    </testcase>
+    <testcase classname="Farmer&apos; account number input handler should the user for invoice id if the duka client&apos;s account number has no outstanding credit" name="Farmer&apos; account number input handler should the user for invoice id if the duka client&apos;s account number has no outstanding credit" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="duka client Registration using (en-ke)" errors="0" failures="0" skipped="0" timestamp="2020-09-18T09:08:53" time="0.263" tests="4">
+    <testcase classname="duka client Registration using (en-ke) should register all the registration input handlers --en-ke" name="duka client Registration using (en-ke) should register all the registration input handlers --en-ke" time="0.003">
     </testcase>
     <testcase classname="duka client Registration using (en-ke) should prompt the user for the account number on start --en-ke" name="duka client Registration using (en-ke) should prompt the user for the account number on start --en-ke" time="0.001">
     </testcase>
     <testcase classname="duka client Registration using (sw) should register all the registration input handlers --sw" name="duka client Registration using (sw) should register all the registration input handlers --sw" time="0.001">
     </testcase>
     <testcase classname="duka client Registration using (sw) should prompt the user for the account number on start --sw" name="duka client Registration using (sw) should prompt the user for the account number on start --sw" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="Farmer&apos; account number input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-18T07:24:25" time="0.9" tests="6">
-    <testcase classname="Farmer&apos; account number input handler should prompt for the client&apos;s national id when the the chooses 0 for registering a new client" name="Farmer&apos; account number input handler should prompt for the client&apos;s national id when the the chooses 0 for registering a new client" time="0.007">
-    </testcase>
-    <testcase classname="Farmer&apos; account number input handler should register the user to a duka district account once they already have an account number with OAF, and prompt them for an invoice id" name="Farmer&apos; account number input handler should register the user to a duka district account once they already have an account number with OAF, and prompt them for an invoice id" time="0.017">
-    </testcase>
-    <testcase classname="Farmer&apos; account number input handler should reprompt for an account number once the user is not found in roster" name="Farmer&apos; account number input handler should reprompt for an account number once the user is not found in roster" time="0.002">
-    </testcase>
-    <testcase classname="Farmer&apos; account number input handler should notify the user if the farmer&apos; account is a non duka client and prompt them to register or enter a new account" name="Farmer&apos; account number input handler should notify the user if the farmer&apos; account is a non duka client and prompt them to register or enter a new account" time="0.002">
-    </testcase>
-    <testcase classname="Farmer&apos; account number input handler should notify the user if the duka client&apos;s account number has outstanding credit" name="Farmer&apos; account number input handler should notify the user if the duka client&apos;s account number has outstanding credit" time="0.005">
-    </testcase>
-    <testcase classname="Farmer&apos; account number input handler should the user for invoice id if the duka client&apos;s account number has no outstanding credit" name="Farmer&apos; account number input handler should the user for invoice id if the duka client&apos;s account number has no outstanding credit" time="0.002">
     </testcase>
   </testsuite>
 </testsuites>

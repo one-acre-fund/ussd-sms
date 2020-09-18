@@ -3,6 +3,7 @@ var translator = require('../../../utils/translator/translator');
 var getClient = require('../../../shared/rosterApi/getClient');
 var getPhoneNumbers = require('../../../shared/rosterApi/getPhoneNumber');
 var registerClient = require('../../../shared/rosterApi/registerClient');
+var nationalIdInputHandler = require('./nationalIdInputHandler');
 
 var handlerName = 'dukaClientAccNumOrnewClient'; 
 
@@ -73,8 +74,9 @@ module.exports = {
                 }
                 var message = getMessage('enter_national_id');
                 global.sayText(message);
-                global.promptDigits('duka_client_nid', {
+                global.promptDigits(nationalIdInputHandler.handlerName, {
                     submitOnHash: false,
+                    maxDigits: 8
                 });
             } else {
                 var accountNumber = input.trim();

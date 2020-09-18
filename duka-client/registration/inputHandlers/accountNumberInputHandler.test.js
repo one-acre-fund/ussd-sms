@@ -2,6 +2,7 @@ const accountNumberInputHandler = require('./accountNumberInputHandler');
 const getClient = require('../../../shared/rosterApi/getClient');
 var registerClient = require('../../../shared/rosterApi/registerClient');
 var getPhoneNumbers = require('../../../shared/rosterApi/getPhoneNumber');
+var nationalIdInputHandler = require('./nationalIdInputHandler');
 
 jest.mock('../../../shared/rosterApi/getClient');
 jest.mock('../../../shared/rosterApi/registerClient');
@@ -36,7 +37,7 @@ describe('Farmer\' account number input handler', () => {
         const accountNumberHandler = accountNumberInputHandler.getHandler('en-ke', 'dev_credit_officers_table', {});
         accountNumberHandler(0);
         expect(sayText).toHaveBeenCalledWith('Enter client national ID\n');
-        expect(promptDigits).toHaveBeenCalledWith( 'duka_client_nid', {'submitOnHash': false});
+        expect(promptDigits).toHaveBeenCalledWith(nationalIdInputHandler.handlerName, {'submitOnHash': false, maxDigits: 8});
     });
 
     it('should register the user to a duka district account once they already have an account number with OAF, and prompt them for an invoice id', () => {
