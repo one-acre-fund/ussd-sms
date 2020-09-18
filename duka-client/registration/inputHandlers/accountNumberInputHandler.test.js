@@ -1,11 +1,35 @@
 const accountNumberInputHandler = require('./accountNumberInputHandler');
 const getClient = require('../../../shared/rosterApi/getClient');
+var registerClient = require('../../../shared/rosterApi/registerClient');
+var getPhoneNumbers = require('../../../shared/rosterApi/getPhoneNumber');
 
 jest.mock('../../../shared/rosterApi/getClient');
+jest.mock('../../../shared/rosterApi/registerClient');
+jest.mock('../../../shared/rosterApi/getPhoneNumber');
 
 describe('Farmer\' account number input handler', () => {
     beforeEach(() => {
         jest.resetModules();
+        getPhoneNumbers.mockReturnValueOnce([
+            {
+                'EntityType': 'ClientPhoneNumber',
+                'ClientPhoneNumberId': 'e5bf8dc8-7aea-e911-80c6-14dda9d516dc',
+                'GlobalClientId': '93737ec5-e90a-3397-2bb3-49cf1fd9d030',
+                'PhoneNumberTypeId': 0,
+                'PhoneNumber': '0722979024',
+                'IsInactive': false,
+                'InactiveDate': null
+            },
+            {
+                'EntityType': 'ClientPhoneNumber',
+                'ClientPhoneNumberId': 'e7bf8dc8-7aea-e911-80c6-14dda9d516dc',
+                'GlobalClientId': '93737ec5-e90a-3397-2bb3-49cf1fd9d030',
+                'PhoneNumberTypeId': 1,
+                'PhoneNumber': '0722979025',
+                'IsInactive': false,
+                'InactiveDate': null
+            }
+        ]);
     });
 
     it('should prompt for the client\'s national id when the the chooses 0 for registering a new client', () => {
@@ -15,7 +39,7 @@ describe('Farmer\' account number input handler', () => {
         expect(promptDigits).toHaveBeenCalledWith( 'duka_client_nid', {'submitOnHash': false});
     });
 
-    it('should register the user to a duka diistrict account once they already have an account number with OAF, and prompt them for an invoice id', () => {
+    it('should register the user to a duka district account once they already have an account number with OAF, and prompt them for an invoice id', () => {
         state.vars.dcr_duka_client = JSON.stringify({
             FirstName: 'client.FirstName',
             LastName: 'client.LastName',
@@ -23,6 +47,7 @@ describe('Farmer\' account number input handler', () => {
             site: 'credit_officer_details.site',
             district: 'credit_officer_details.district'
         });
+        registerClient.mockReturnValueOnce({});
         const accountNumberHandler = accountNumberInputHandler.getHandler('en-ke', 'dev_credit_officers_table', {});
         accountNumberHandler(0);
         expect(sayText).toHaveBeenCalledWith('Please reply with the client\'s Erply Invoice ID');
@@ -42,18 +67,17 @@ describe('Farmer\' account number input handler', () => {
             DistrictName: 'non-duka-district',
             FirstName: 'Aria',
             LastName: 'Stark',
+            NationalId: '3984752948'
         };
-        contact.phone_number = '0722334535';
         getClient.mockReturnValueOnce(clientWithNonDukaDistrict);
         const cursor = {hasNext: jest.fn()};
         const table = {queryRows: jest.fn(() => cursor)};
         jest.spyOn(cursor, 'hasNext').mockReturnValueOnce(false);
         jest.spyOn(project, 'getOrCreateDataTable').mockReturnValueOnce(table);
-
         const accountNumberHandler = accountNumberInputHandler.getHandler('en-ke', 'dev_credit_officers_table', {});
         accountNumberHandler('12345678');
         expect(sayText).toHaveBeenCalledWith('You\'ve entered an account number for a non-duka account. Enter your duka account number or 0 to register as a duka client.');
-        expect(state.vars.dcr_duka_client).toEqual('{"FirstName":"Aria","LastName":"Stark","PhoneNumber":"0722334535"}');
+        expect(state.vars.dcr_duka_client).toEqual('{"firstName":"Aria","lastName":"Stark","phoneNumber":"0722979024","nationalIdNumber":"DUKA-3984752948"}');
         expect(promptDigits).toHaveBeenCalledWith(accountNumberInputHandler.handlerName, {'submitOnHash': false}); 
     });
 

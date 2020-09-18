@@ -4,7 +4,7 @@ var getClient = require('../../../shared/rosterApi/getClient');
 var getPhoneNumbers = require('../../../shared/rosterApi/getPhoneNumber');
 var registerClient = require('../../../shared/rosterApi/registerClient');
 
-var handlerName = 'dukaClientAccNumOrnewClient';
+var handlerName = 'dukaClientAccNumOrnewClient'; 
 
 function isADukaClient(district, credit_officers_table) {
     var table = project.getOrCreateDataTable(credit_officers_table);
