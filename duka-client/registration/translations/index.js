@@ -47,7 +47,7 @@ module.exports = {
         'en-ke': 'You entered invoice ID $invoice_id\n',
         'sw': 'Uliingiza nambari $invoice_id ya invoice. Ingiza\n'
     },
-    'account_number_confirm': {
+    'national_id_confirm': {
         'en-ke': 'You entered $national_id ID\n',
         'sw': 'Ingiza nambari $national_id ya kitamburisho. Ingiza\n'
     },
