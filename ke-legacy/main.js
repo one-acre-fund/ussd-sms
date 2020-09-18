@@ -1868,8 +1868,25 @@ addInputHandler('confirmNationalIdHanlder', function(input){
     LogSessionID();
     InteractionCounter('confirmNationalIdHanlder');
     if(input == 1){
-        FOLocatorRegionText();
-        promptDigits('FOLocRegion', {submitOnHash: true, maxDigits: 8, timeout: 5});
+        var ProspectTable = project.getOrCreateDataTable('FO_Locator_Prospects');
+        var cursor = ProspectTable.queryRows({ 'vars': {'NationalId': state.vars.nationalId }});
+        if(cursor.hasNext()){
+            var row = cursor.next();
+            state.vars.FOName = row.vars.FOName;
+            state.vars.FOPN = row.vars.FOPhoneNumber;
+            var FarmerSMSContent = FOLocatorFarmerSMS();
+            project.scheduleMessage({
+                message_type: 'service', 
+                to_number: contact.phone_number, 
+                start_time_offset: 0,
+                service_id: 'SVc758c8b7ad90dd27',
+                vars: {content: FarmerSMSContent}
+            });
+        }
+        else{
+            FOLocatorRegionText();
+            promptDigits('FOLocRegion', {submitOnHash: true, maxDigits: 8, timeout: 5});
+        }
     }
     else if (input == 2 ){
         EnterNationalIdText();
