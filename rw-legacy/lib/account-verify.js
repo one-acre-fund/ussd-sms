@@ -1,6 +1,12 @@
 /*
 main function for interacting with Roster API and retrieving client JSONs
 */
+function reduceSize(client) {
+    var cloned = _.clone(client);
+    cloned.AccountHistory = client.AccountHistory.slice(0,3);
+    cloned.BalanceHistory = client.BalanceHistory.slice(0,3);
+    return cloned;
+}
 
 module.exports = function(account_number){
     console.log('###verifying Account Number: '+account_number);
@@ -15,7 +21,11 @@ module.exports = function(account_number){
         var client_auth = api.authClient(account_number, country);
         if(client_auth){
             client = api.getClient(account_number);
-            state.vars.client_json = JSON.stringify(client);
+            try {
+                state.vars.client_json = JSON.stringify(client);                
+            } catch (error) {
+                state.vars.client_json = JSON.stringify(reduceSize(client));
+            }
             console.log('####clientJSON: '+JSON.stringify(client));
             
             state.vars.client_name = client.ClientName;
