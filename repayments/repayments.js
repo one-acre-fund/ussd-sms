@@ -75,7 +75,9 @@ if(balance <= 0) {
         project.sendMessage({
             content: shsNotification,
             to_number: active_phone_numbers[0].PhoneNumber,
-            label_ids: [shsNotificationLabel.id, shsLanguageLabel.id]
+            label_ids: [shsNotificationLabel.id, shsLanguageLabel.id],
+            route_id: project.vars.repayments_sms_route,
+            message_type: 'sms'
         });
     } else {
         logger.log('error in shs notification: could not get a to_phone number from roster');
@@ -113,5 +115,7 @@ repaymentsLabels.map(function(repaymentLabel){
 project.sendMessage({
     content: mmReceipt,
     to_number: contact.phone_number,
-    label_ids: repaymentLabelIds
+    label_ids: repaymentLabelIds,
+    route_id: project.vars.repayments_sms_route,
+    message_type: 'sms'
 });
