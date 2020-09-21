@@ -2,6 +2,7 @@
 var phoneNumberInputHandler = require('./phoneNumberInputHandler');
 var translations = require('../translations/index');
 var translator = require('../../../utils/translator/translator');
+var firstNameInputHandler = require('./firstNameInputHandler');
 
 var handlerName = 'duka_client_registration_phone_number_confirm';
 
@@ -12,7 +13,7 @@ module.exports = {
             var getMessage = translator(translations, lang);
             if(input == 1) {
                 global.sayText(getMessage('enter_first_name', {}, lang));
-                global.promptDigits('duka_client_registration_first_name');
+                global.promptDigits(firstNameInputHandler.handlerName);
             } else if(input == 2) {
                 global.sayText(getMessage('enter_phone', {}, lang));
                 global.promptDigits(phoneNumberInputHandler.handlerName);
