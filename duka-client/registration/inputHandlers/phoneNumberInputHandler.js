@@ -1,6 +1,7 @@
 var translations = require('../translations/index');
 var translator = require('../../../utils/translator/translator');
-// var confirmNidInputHandler = require('./confirmNidInputHandler');
+var confirmPhoneNumberInputHandler = require('./confirmPhoneNumberInputHandler');
+
 var handlerName = 'duka_client_registration_phone_number';
 
 module.exports = {
@@ -14,7 +15,7 @@ module.exports = {
                 state.vars.duka_client_phone_number = phoneNumber;
                 var phoneNumberConfirmPromptMessage = phoneNumberConfirm + getMessage('confirm_or_try', {}, lang);
                 global.sayText(phoneNumberConfirmPromptMessage);
-                global.promptDigits('duka_client_registration_phone_number_confirm');
+                global.promptDigits(confirmPhoneNumberInputHandler.handlerName);
             } else {
                 var message = getMessage('enter_phone');
                 global.sayText(message);

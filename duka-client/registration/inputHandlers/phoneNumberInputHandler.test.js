@@ -1,4 +1,5 @@
 const phoneNumberInputHandler = require('./phoneNumberInputHandler');
+var confirmPhoneNumberInputHandler = require('./confirmPhoneNumberInputHandler');
 
 describe.each(['en-ke', 'sw'])('phone number input handler', (lang) => {
     it('should prompt the user for first name once the phone number is valid', () => {
@@ -14,7 +15,7 @@ describe.each(['en-ke', 'sw'])('phone number input handler', (lang) => {
         phoneNumberHandler('07620475911');
         expect(sayText).toHaveBeenCalledWith(message[lang]);
         expect(state.vars.duka_client_phone_number).toEqual('07620475911');
-        expect(promptDigits).toHaveBeenCalledWith('duka_client_registration_phone_number_confirm');
+        expect(promptDigits).toHaveBeenCalledWith(confirmPhoneNumberInputHandler.handlerName);
     });
 
     it('should reprompt the user for the phone number once the phone is invalid', () => {

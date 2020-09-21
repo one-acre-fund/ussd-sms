@@ -1,61 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="24" failures="0" time="4.822">
-  <testsuite name="Farmer&apos; account number input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-21T04:25:25" time="1.025" tests="6">
-    <testcase classname="Farmer&apos; account number input handler should prompt for the client&apos;s national id when the the chooses 0 for registering a new client" name="Farmer&apos; account number input handler should prompt for the client&apos;s national id when the the chooses 0 for registering a new client" time="0.008">
+<testsuites name="jest tests" tests="6" failures="0" time="0.727">
+  <testsuite name="confirm phone number input handler using (en-ke)" errors="0" failures="0" skipped="0" timestamp="2020-09-21T05:01:41" time="0.668" tests="6">
+    <testcase classname="confirm phone number input handler using (en-ke) should prompt for first name once the user chooses 1 --en-ke" name="confirm phone number input handler using (en-ke) should prompt for first name once the user chooses 1 --en-ke" time="0.04">
     </testcase>
-    <testcase classname="Farmer&apos; account number input handler should register the user to a duka district account once they already have an account number with OAF, and prompt them for an invoice id" name="Farmer&apos; account number input handler should register the user to a duka district account once they already have an account number with OAF, and prompt them for an invoice id" time="0.002">
+    <testcase classname="confirm phone number input handler using (en-ke) should prompt for the phone number once the user chooses 2 --en-ke" name="confirm phone number input handler using (en-ke) should prompt for the phone number once the user chooses 2 --en-ke" time="0.008">
     </testcase>
-    <testcase classname="Farmer&apos; account number input handler should reprompt for an account number once the user is not found in roster" name="Farmer&apos; account number input handler should reprompt for an account number once the user is not found in roster" time="0.002">
+    <testcase classname="confirm phone number input handler using (en-ke) should reprompt for the phone number confirmation once the user chooses otherwise --en-ke" name="confirm phone number input handler using (en-ke) should reprompt for the phone number confirmation once the user chooses otherwise --en-ke" time="0.001">
     </testcase>
-    <testcase classname="Farmer&apos; account number input handler should notify the user if the farmer&apos; account is a non duka client and prompt them to register or enter a new account" name="Farmer&apos; account number input handler should notify the user if the farmer&apos; account is a non duka client and prompt them to register or enter a new account" time="0.003">
+    <testcase classname="confirm phone number input handler using (sw) should prompt for first name once the user chooses 1 --sw" name="confirm phone number input handler using (sw) should prompt for first name once the user chooses 1 --sw" time="0.001">
     </testcase>
-    <testcase classname="Farmer&apos; account number input handler should notify the user if the duka client&apos;s account number has outstanding credit" name="Farmer&apos; account number input handler should notify the user if the duka client&apos;s account number has outstanding credit" time="0.008">
+    <testcase classname="confirm phone number input handler using (sw) should prompt for the phone number once the user chooses 2 --sw" name="confirm phone number input handler using (sw) should prompt for the phone number once the user chooses 2 --sw" time="0.001">
     </testcase>
-    <testcase classname="Farmer&apos; account number input handler should the user for invoice id if the duka client&apos;s account number has no outstanding credit" name="Farmer&apos; account number input handler should the user for invoice id if the duka client&apos;s account number has no outstanding credit" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="duka client Registration using (en-ke)" errors="0" failures="0" skipped="0" timestamp="2020-09-21T04:25:26" time="0.364" tests="4">
-    <testcase classname="duka client Registration using (en-ke) should register all the registration input handlers --en-ke" name="duka client Registration using (en-ke) should register all the registration input handlers --en-ke" time="0.006">
-    </testcase>
-    <testcase classname="duka client Registration using (en-ke) should prompt the user for the account number on start --en-ke" name="duka client Registration using (en-ke) should prompt the user for the account number on start --en-ke" time="0.001">
-    </testcase>
-    <testcase classname="duka client Registration using (sw) should register all the registration input handlers --sw" name="duka client Registration using (sw) should register all the registration input handlers --sw" time="0.001">
-    </testcase>
-    <testcase classname="duka client Registration using (sw) should prompt the user for the account number on start --sw" name="duka client Registration using (sw) should prompt the user for the account number on start --sw" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="confirm national id input handler using (en-ke)" errors="0" failures="0" skipped="0" timestamp="2020-09-21T04:25:25" time="1.743" tests="4">
-    <testcase classname="confirm national id input handler using (en-ke) should prompt for phone number once the user chooses 1 --en-ke" name="confirm national id input handler using (en-ke) should prompt for phone number once the user chooses 1 --en-ke" time="0.007">
-    </testcase>
-    <testcase classname="confirm national id input handler using (en-ke) should reprompt for the national id if the user selects 2" name="confirm national id input handler using (en-ke) should reprompt for the national id if the user selects 2" time="0.002">
-    </testcase>
-    <testcase classname="confirm national id input handler using (sw) should prompt for phone number once the user chooses 1 --sw" name="confirm national id input handler using (sw) should prompt for phone number once the user chooses 1 --sw" time="0.001">
-    </testcase>
-    <testcase classname="confirm national id input handler using (sw) should reprompt for the national id if the user selects 2" name="confirm national id input handler using (sw) should reprompt for the national id if the user selects 2" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="phone number input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-21T04:25:26" time="0.492" tests="4">
-    <testcase classname="phone number input handler should prompt the user for first name once the phone number is valid" name="phone number input handler should prompt the user for first name once the phone number is valid" time="0.007">
-    </testcase>
-    <testcase classname="phone number input handler should reprompt the user for the phone number once the phone is invalid" name="phone number input handler should reprompt the user for the phone number once the phone is invalid" time="0.002">
-    </testcase>
-    <testcase classname="phone number input handler should prompt the user for first name once the phone number is valid" name="phone number input handler should prompt the user for first name once the phone number is valid" time="0.003">
-    </testcase>
-    <testcase classname="phone number input handler should reprompt the user for the phone number once the phone is invalid" name="phone number input handler should reprompt the user for the phone number once the phone is invalid" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="national id input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-21T04:25:27" time="0.429" tests="6">
-    <testcase classname="national id input handler should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (12345678)" name="national id input handler should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (12345678)" time="0.008">
-    </testcase>
-    <testcase classname="national id input handler should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (1234567)" name="national id input handler should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (1234567)" time="0.001">
-    </testcase>
-    <testcase classname="national id input handler should reprompt the user for the national id once the id is invalid" name="national id input handler should reprompt the user for the national id once the id is invalid" time="0.002">
-    </testcase>
-    <testcase classname="national id input handler should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (12345678)" name="national id input handler should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (12345678)" time="0.002">
-    </testcase>
-    <testcase classname="national id input handler should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (1234567)" name="national id input handler should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (1234567)" time="0.001">
-    </testcase>
-    <testcase classname="national id input handler should reprompt the user for the national id once the id is invalid" name="national id input handler should reprompt the user for the national id once the id is invalid" time="0.001">
+    <testcase classname="confirm phone number input handler using (sw) should reprompt for the phone number confirmation once the user chooses otherwise --sw" name="confirm phone number input handler using (sw) should reprompt for the phone number confirmation once the user chooses otherwise --sw" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>
