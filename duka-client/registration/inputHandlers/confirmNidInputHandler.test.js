@@ -1,5 +1,6 @@
 const confirmNidInputHandler = require('./confirmNidInputHandler');
 var nationalIdInputHandler = require('./nationalIdInputHandler');
+var phoneNumberInputHandler = require('./phoneNumberInputHandler');
 
 describe.each(['en-ke', 'sw'])('confirm national id input handler using (%s)', (lang) => {
     it('should prompt for phone number once the user chooses 1 --' + lang, () => {
@@ -10,7 +11,7 @@ describe.each(['en-ke', 'sw'])('confirm national id input handler using (%s)', (
             'sw': 'Ingiza nambari ya simu ya mteja'
         };
         expect(sayText).toHaveBeenCalledWith(message[lang]);
-        expect(promptDigits).toHaveBeenCalledWith('duka_client_registration_phone_number');
+        expect(promptDigits).toHaveBeenCalledWith(phoneNumberInputHandler.handlerName);
     });
 
     it('should reprompt for the national id if the user selects 2', () => {
