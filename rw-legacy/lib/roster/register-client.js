@@ -36,6 +36,7 @@ module.exports = function (clientJSON, lang) {
     
     try {
         response = httpClient.request(fullUrl, opts);
+        console.log('url:'+fullUrl+ ' options: '+ JSON.stringify(opts));
         var msgs = require('../msg-retrieve');
         if (response.status == 200) {
             return response.content;
@@ -56,6 +57,7 @@ module.exports = function (clientJSON, lang) {
         }
     } catch (e) {
         if(logger) logger.error('Error Registering a new Client',{tags: [service.vars.env],data: {error: e,response: response}});
+        console.log('Error Registering a new Client'+ e + JSON.stringify(response));
     }
 
 };

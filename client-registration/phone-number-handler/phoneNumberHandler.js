@@ -4,7 +4,7 @@ var translate =  createTranslator(translations, state.vars.reg_lang ||'en-ke');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 var isPhoneNumberValid = function(phoneNumber){
     // Valid for Kenya
-    if(state.vars.country == 'ke'){
+    if(state.vars.country == 'ke' || state.vars.country == 'RW'){
         if (phoneNumber.length === 10 && phoneNumber.substring(0, 2)=='07'){
             return true;
         }
