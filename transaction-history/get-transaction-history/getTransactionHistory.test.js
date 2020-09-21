@@ -74,5 +74,12 @@ describe('getTransactionHistory', () => {
         const result = getTransactionHistory(mockClient);
         expect(result).toEqual([]);
     });
+    it('should return only the first 20 items if the response content contains more than that', () => {
+        const mockLongResponse = Array.from(Array(40).keys());
+        httpClient.request.mockReturnValueOnce({status: 200, content: JSON.stringify(mockLongResponse)});
+        const result = getTransactionHistory(mockClient);
+        expect(result).toEqual(mockLongResponse.slice(0,20));
+        expect(result).toHaveLength(20);
+    });
 
 });
