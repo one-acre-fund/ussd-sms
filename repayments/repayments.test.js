@@ -2,6 +2,7 @@ describe('mobile money repayments using', () => {
     beforeAll(() => {
         global.state = { vars: {} };
         contact.phone_number = '0755432334';
+        project.vars.repayments_sms_route = '12345';
     });
     beforeEach(() => {
         jest.resetModules();
@@ -42,7 +43,8 @@ describe('mobile money repayments using', () => {
         require('./repayments');
         expect(getPhoneNumber).toHaveBeenCalledWith('10049849', 'kenya');
         expect(project.sendMessage).toHaveBeenCalledWith({'content': 'Thank you for finishing up your loan, you can now get your permanent code to unlock your solar home system by dialing *689#',
-            'to_number': '075342312', 'label_ids': ['shs notification', 'lang']});
+            'to_number': '075342312', 'label_ids': ['shs notification', 'lang'], 'message_type': 'sms',
+            'route_id': '12345'});
     });
 
     it('should send a message once there is an over payment', () => {
@@ -78,7 +80,8 @@ describe('mobile money repayments using', () => {
                 'MM receipt',
                 'Business Operations',
                 'Overpaid',
-            ]});
+            ], 'message_type': 'sms',
+            'route_id': '12345'});
     });
 
     it('should send a message in swahili once there is no data in the EnglishDistricts', () => {
@@ -115,7 +118,8 @@ describe('mobile money repayments using', () => {
                 'MM receipt',
                 'Business Operations',
                 'Overpaid',
-            ]});
+            ], 'message_type': 'sms',
+            'route_id': '12345'});
     });
 
     it('should log an error once the phone number is not found', () => {
