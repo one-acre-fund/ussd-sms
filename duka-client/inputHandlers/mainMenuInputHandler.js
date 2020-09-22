@@ -1,14 +1,13 @@
-var translations = require('../translations/index');
-var translator = require('../../utils/translator/translator');
+var registration = require('../registration/registration');
 
-var handlerName = 'main_menu';
+var handlerName = 'duka_client_registration_main_menu';
 
 module.exports = {
     handlerName: handlerName,
     getHandler: function(lang) {
         return function(input) {
             if(input == 1) {
-                // start call the registration input handler
+                registration.start(lang);
             } else {
                 sayText(state.vars.main_menu);
                 promptDigits(handlerName, {
