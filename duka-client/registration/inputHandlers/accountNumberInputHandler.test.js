@@ -3,14 +3,15 @@ const getClient = require('../../../shared/rosterApi/getClient');
 var registerClient = require('../../../shared/rosterApi/registerClient');
 var getPhoneNumbers = require('../../../shared/rosterApi/getPhoneNumber');
 var nationalIdInputHandler = require('./nationalIdInputHandler');
+var invoiceIdInputHandler = require('./invoiceIdInputHandler');
 
 jest.mock('../../../shared/rosterApi/getClient');
 jest.mock('../../../shared/rosterApi/registerClient');
 jest.mock('../../../shared/rosterApi/getPhoneNumber');
 
-describe('Farmer\' account number input handler', () => {
+describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) => {
     beforeEach(() => {
-        jest.resetModules();
+        jest.resetAllMocks();
         getPhoneNumbers.mockReturnValueOnce([
             {
                 'EntityType': 'ClientPhoneNumber',
@@ -31,12 +32,17 @@ describe('Farmer\' account number input handler', () => {
                 'InactiveDate': null
             }
         ]);
+        state.vars = {};
     });
 
     it('should prompt for the client\'s national id when the the chooses 0 for registering a new client', () => {
-        const accountNumberHandler = accountNumberInputHandler.getHandler('en-ke', 'dev_credit_officers_table', {});
+        const accountNumberHandler = accountNumberInputHandler.getHandler(lang, 'dev_credit_officers_table', {});
+        const messages = {
+            'en-ke': 'Enter client national ID\n',
+            'sw': 'Ingiza nambari ya kitambulisho cha kitaifa cha mteja\n'
+        };
         accountNumberHandler(0);
-        expect(sayText).toHaveBeenCalledWith('Enter client national ID\n');
+        expect(sayText).toHaveBeenCalledWith(messages[lang]);
         expect(promptDigits).toHaveBeenCalledWith(nationalIdInputHandler.handlerName, {'submitOnHash': false, maxDigits: 8});
     });
 
@@ -48,18 +54,44 @@ describe('Farmer\' account number input handler', () => {
             site: 'credit_officer_details.site',
             district: 'credit_officer_details.district'
         });
+        const messages = {
+            'en-ke': 'Please reply with the client\'s Erply Invoice ID',
+            'sw': 'Tafadhali jibu na Kitambulisho cha mteja cha Erply Invoice'
+        };
         registerClient.mockReturnValueOnce({});
-        const accountNumberHandler = accountNumberInputHandler.getHandler('en-ke', 'dev_credit_officers_table', {});
+        const accountNumberHandler = accountNumberInputHandler.getHandler(lang, 'dev_credit_officers_table', {});
         accountNumberHandler(0);
-        expect(sayText).toHaveBeenCalledWith('Please reply with the client\'s Erply Invoice ID');
-        expect(promptDigits).toHaveBeenCalledWith( 'dcr_invoice_id', {'submitOnHash': false}); 
+        expect(sayText).toHaveBeenCalledWith(messages[lang]);
+        expect(promptDigits).toHaveBeenCalledWith( invoiceIdInputHandler.handlerName, {'submitOnHash': false}); 
+    });
+
+    it('should reprompt for the account number once the user is not successfully registered', () => {
+        state.vars.dcr_duka_client = JSON.stringify({
+            FirstName: 'client.FirstName',
+            LastName: 'client.LastName',
+            PhoneNumber: 'client.PhoneNumber',
+            site: 'credit_officer_details.site',
+            district: 'credit_officer_details.district'
+        });
+        const accountNumberHandler = accountNumberInputHandler.getHandler(lang, 'dev_credit_officers_table', {});
+        const messages = {
+            'en-ke': 'You\'ve entered an account number for a non-duka account. Enter your duka account number or 0 to register as a duka client.',
+            'sw': 'Umeingiza nambari ya akaunti isiyo ya duka. Ingiza nambari yako ya akaunti ya duka au \'0\' ili ujiandikishe kama mteja wa duka.'
+        };
+        accountNumberHandler(0);
+        expect(sayText).toHaveBeenCalledWith(messages[lang]);
+        expect(promptDigits).toHaveBeenCalledWith(accountNumberInputHandler.handlerName, {'submitOnHash': false}); 
     });
 
     it('should reprompt for an account number once the user is not found in roster', () => {
         getClient.mockReturnValueOnce(null);
-        const accountNumberHandler = accountNumberInputHandler.getHandler('en-ke', 'dev_credit_officers_table', {});
+        const accountNumberHandler = accountNumberInputHandler.getHandler(lang, 'dev_credit_officers_table', {});
+        const messages = {
+            'en-ke': 'Please reply with the account number of the farmer\n"0" for new client.',
+            'sw': 'Tafadhali jibu na nambari ya akaunti ya mkulima\n"0" kwa mteja mpya.'
+        };
         accountNumberHandler('12345678');
-        expect(sayText).toHaveBeenCalledWith('Please reply with the account number of the farmer\n"0" for new client.');
+        expect(sayText).toHaveBeenCalledWith(messages[lang]);
         expect(promptDigits).toHaveBeenCalledWith(accountNumberInputHandler.handlerName, {'submitOnHash': false});
     });
 
@@ -75,9 +107,13 @@ describe('Farmer\' account number input handler', () => {
         const table = {queryRows: jest.fn(() => cursor)};
         jest.spyOn(cursor, 'hasNext').mockReturnValueOnce(false);
         jest.spyOn(project, 'getOrCreateDataTable').mockReturnValueOnce(table);
-        const accountNumberHandler = accountNumberInputHandler.getHandler('en-ke', 'dev_credit_officers_table', {});
+        const accountNumberHandler = accountNumberInputHandler.getHandler(lang, 'dev_credit_officers_table', {});
+        const messages = {
+            'en-ke': 'You\'ve entered an account number for a non-duka account. Enter your duka account number or 0 to register as a duka client.',
+            'sw': 'Umeingiza nambari ya akaunti isiyo ya duka. Ingiza nambari yako ya akaunti ya duka au \'0\' ili ujiandikishe kama mteja wa duka.'
+        };
         accountNumberHandler('12345678');
-        expect(sayText).toHaveBeenCalledWith('You\'ve entered an account number for a non-duka account. Enter your duka account number or 0 to register as a duka client.');
+        expect(sayText).toHaveBeenCalledWith(messages[lang]);
         expect(state.vars.dcr_duka_client).toEqual('{"firstName":"Aria","lastName":"Stark","phoneNumber":"0722979024","nationalIdNumber":"DUKA-3984752948"}');
         expect(promptDigits).toHaveBeenCalledWith(accountNumberInputHandler.handlerName, {'submitOnHash': false}); 
     });
@@ -100,9 +136,14 @@ describe('Farmer\' account number input handler', () => {
         jest.spyOn(cursor, 'hasNext').mockReturnValueOnce(true);
         jest.spyOn(project, 'getOrCreateDataTable').mockReturnValueOnce(table);
 
-        const accountNumberHandler = accountNumberInputHandler.getHandler('en-ke', 'dev_credit_officers_table', {});
+        const messages = {
+            'en-ke': 'You have a Duka credit account with an outstanding credit balance of 7780. Please complete your loan in order to take another one.',
+            'sw': 'Una akaunti ya mkopo ya Duka na salio bora la mkopo la X. Tafadhali kamilisha mkopo wako ili uchukue nyingine.'
+        };
+
+        const accountNumberHandler = accountNumberInputHandler.getHandler(lang, 'dev_credit_officers_table', {});
         accountNumberHandler('12345678');
-        expect(sayText).toHaveBeenCalledWith('You have a Duka credit account with an outstanding credit balance of 7780. Please complete your loan in order to take another one.');
+        expect(sayText).toHaveBeenCalledWith(messages[lang]);
         expect(stopRules).toHaveBeenCalled();
     });
 
@@ -123,10 +164,13 @@ describe('Farmer\' account number input handler', () => {
         const table = {queryRows: jest.fn(() => cursor)};
         jest.spyOn(cursor, 'hasNext').mockReturnValueOnce(true);
         jest.spyOn(project, 'getOrCreateDataTable').mockReturnValueOnce(table);
-
-        const accountNumberHandler = accountNumberInputHandler.getHandler('en-ke', 'dev_credit_officers_table', {});
+        const messages = {
+            'en-ke': 'Please reply with the client\'s Erply Invoice ID',
+            'sw': 'Tafadhali jibu na Kitambulisho cha mteja cha Erply Invoice'
+        };
+        const accountNumberHandler = accountNumberInputHandler.getHandler(lang, 'dev_credit_officers_table', {});
         accountNumberHandler('12345678');
-        expect(sayText).toHaveBeenCalledWith('Please reply with the client\'s Erply Invoice ID');
-        expect(promptDigits).toHaveBeenCalledWith('dcr_invoice_id', {'submitOnHash': false});
+        expect(sayText).toHaveBeenCalledWith(messages[lang]);
+        expect(promptDigits).toHaveBeenCalledWith(invoiceIdInputHandler.handlerName, {'submitOnHash': false});
     });
 });
