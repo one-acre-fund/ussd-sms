@@ -1563,6 +1563,13 @@ clientRegistration.registerHandlers();
 justInTime.registerHandlers();
 groupRepaymentsModule.registerGroupRepaymentHandlers({lang: GetLang() ? 'en' : 'sw', main_menu: state.vars.main_menu, main_menu_handler: 'MainMenu'});
 
+
+function reduceClientSize(client) {
+    var cloned = _.clone(client);
+    cloned.AccountHistory = client.AccountHistory.slice(0,3);
+    cloned.BalanceHistory = client.BalanceHistory.slice(0,3);
+    return cloned;
+}
 addInputHandler('SplashMenu', function(SplashMenu) {
     LogSessionID();
     InteractionCounter('SplashMenu');
@@ -1584,8 +1591,11 @@ addInputHandler('SplashMenu', function(SplashMenu) {
         if (RosterClientVal(ClientAccNum)){
             console.log('SuccessFully Validated against Roster');
             client = RosterClientGet(ClientAccNum);
-            //console.log('Client JSON******************************'+JSON.stringify(client)+'******************');
-            state.vars.client_json = JSON.stringify(client);
+            try {
+                state.vars.client_json = JSON.stringify(client);                
+            } catch (error) {
+                state.vars.client_json = JSON.stringify(reduceClientSize(client));
+            }
             // check for group leader
             var isGroupLeader = checkGroupLeader(client.DistrictId, client.ClientId);
             state.vars.isGroupLeader = isGroupLeader;
