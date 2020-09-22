@@ -140,22 +140,14 @@ module.exports = function(){
 
     opts.method = 'POST';
     opts.data = dataJSON;
-    var response = httpClient.request(url,opts);
-    var table = project.initDataTableById(project.vars.elk_request_table_id);
-    var row = table.createRow({
-        'contact_id': contact.id,
-        'from_number': contact.from_number,
-        'name': contact.name,
-        'message_id': message.id,
-        'response': JSON.stringify(response),
-        'vars': {
-            'requests': JSON.stringify(opts),
+    try{
+        var response = httpClient.request(url,opts);
+        if(response.status != 200){
+            console.log('error sending data to ELK');
+            slack.log('Failed to send ELK notification :'+ JSON.stringify(response) +JSON.stringify(opts));
         }
-    });
-    row.save();
-    if(response.status != 200){
-        console.log('error sending data to ELK');
-        slack.log('Failed to send ELK notification :'+ JSON.stringify(response) +JSON.stringify(opts));
     }
-
+    catch(e){
+        slack.log('Failed to save request:'+ JSON.stringify(opts.data));
+    }
 };

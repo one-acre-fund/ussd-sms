@@ -25,14 +25,4 @@ describe('elkNotification', () => {
         elkNotify();
         expect(slack.log).toHaveBeenCalledWith(expect.stringContaining('Failed to send ELK notification :'));
     });
-    it('should save a row with the requests',()=>{
-        httpClient.request.mockReturnValueOnce(mockBadResponse);
-        elkNotify();
-        expect(mockTable.createRow).toHaveBeenCalledWith(expect.objectContaining({'contact_id': contact.id,
-            'from_number': contact.from_number,
-            'name': contact.name,
-            'response': JSON.stringify(mockBadResponse)
-        }));
-        expect(mockRow.save).toHaveBeenCalled();
-    });
 });
