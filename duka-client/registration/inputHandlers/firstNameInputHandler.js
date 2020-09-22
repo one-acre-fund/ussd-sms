@@ -10,7 +10,7 @@ module.exports = {
         return function(input) {
             var getMessage = translator(translations, lang);
             state.vars.duka_client_first_name = input;
-            var secondNamePrompt = getMessage('enter_second_name');
+            var secondNamePrompt = getMessage('enter_second_name', {}, lang);
             global.sayText(secondNamePrompt);
             global.promptDigits(secondNameInputHandler.handlerName);
         };
