@@ -24,4 +24,20 @@ describe.each(['en-ke', 'sw'])('confirm national id input handler using (%s)', (
         expect(sayText).toHaveBeenCalledWith(message[lang]);
         expect(promptDigits).toHaveBeenCalledWith(nationalIdInputHandler.handlerName);
     });
+
+    it('should reprompt for the national id confirmation if the user selects an invalid option', () => {
+        const confirmHandler = confirmNidInputHandler.getHandler(lang);
+        state.vars.duka_client_nid = '12345678';
+        confirmHandler('000');
+        const message = {
+            'en-ke': 'You entered 12345678 ID\n' +
+            '1) To confirm\n' +
+            '2) To try again.',
+            'sw': 'Ingiza nambari 12345678 ya kitamburisho. Ingiza\n' +
+            '1) Kudhibitisha\n' +
+            '2) Kujaribu tena.'
+        };
+        expect(sayText).toHaveBeenCalledWith(message[lang]);
+        expect(promptDigits).toHaveBeenCalledWith(confirmNidInputHandler.handlerName);
+    });
 });
