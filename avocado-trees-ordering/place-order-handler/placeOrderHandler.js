@@ -6,7 +6,7 @@ var translate =  createTranslator(translations, project.vars.cor_lang);
 var avocadoEligibility = require('../avocado-eligibility/avocadoEligibility');
 
 function isOrderEligible(input){
-    var avocado_table = project.initDataTableById(service.vars.chicken_table_id);
+    var avocado_table = project.initDataTableById(service.vars.avocado_table_id);
     var eligibility = avocadoEligibility(avocado_table, state.vars.account,JSON.parse(state.vars.client_json));
     if(eligibility){
         if(input <= eligibility.possibleTrees){

@@ -101,11 +101,11 @@ describe('avocadoServices',()=>{
         mockTable.queryRows.mockReturnValue(mockCursor);
         mockCursor.hasNext.mockReturnValue(true);
         var mockRow;
-        var requestBundles = {
+        var requestBundles = [{
             'bundleId': '-3217',
             'bundleQuantity': quantity,
             'inputChoices': [-13392]
-        };
+        }];
         beforeAll(()=>{
             state.vars.orderedNumber = quantity;
             state.vars.client_json = JSON.stringify(client);
@@ -128,7 +128,7 @@ describe('avocadoServices',()=>{
             client.GroupId = null;
             state.vars.client_json = JSON.stringify(client);
             var new_Group = 30;
-            mockRow ={vars: { groupId: new_Group, a_avokaqty: 3}};
+            mockRow ={vars: { groupId: new_Group, a_avokaqty: 3}, save: jest.fn()};
             mockCursor.next.mockReturnValue(mockRow);
             callback();
             expect(enrollOrder).toHaveBeenCalledWith({'districtId': client.DistrictId,

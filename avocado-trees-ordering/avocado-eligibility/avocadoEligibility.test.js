@@ -26,36 +26,42 @@ describe('avocado_Eligibility', () => {
         mockCursor.hasNext.mockReturnValueOnce(true);
         client.BalanceHistory.TotalRepayment_IncludingOverpayments = 5000;
         mockRow ={vars: { a_avokaqty: 0, prepay: 1000}};
+        var balances = client.BalanceHistory.TotalRepayment_IncludingOverpayments - mockRow.vars.prepay;
+        var trees = balances / 500;
         mockCursor.next.mockReturnValueOnce(mockRow);
         var result = avocadoEligibility(mockTable,client.AccountNumber,client);
         expect(result).toEqual(({
-            possibleTrees: 8,
-            balance: 5000,
-            orderedAvocado: 0
+            possibleTrees: trees,
+            balance: balances,
+            orderedAvocado: mockRow.vars.a_avokaqty
         }));
     });
     it('should return the correct number of possible trees if the client ordered between 1-10 trees((prepayment_amount - 1000) / 500)', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(true);
         client.BalanceHistory.TotalRepayment_IncludingOverpayments = 5000;
         mockRow ={vars: { a_avokaqty: 4, prepay: 1000}};
+        var balance = client.BalanceHistory.TotalRepayment_IncludingOverpayments - mockRow.vars.prepay;
+        var trees = (balance - 1000) / 500; 
         mockCursor.next.mockReturnValueOnce(mockRow);
         var result = avocadoEligibility(mockTable,client.AccountNumber,client);
         expect(result).toEqual(({
-            possibleTrees: 6,
-            balance: 5000,
-            orderedAvocado: 4
+            possibleTrees: trees,
+            balance: balance,
+            orderedAvocado: mockRow.vars.a_avokaqty
         }));
     });
     it('should return the correct number of possible trees if the client ordered between above 10 trees((prepayment_amount - 1500) / 500)', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(true);
         client.BalanceHistory.TotalRepayment_IncludingOverpayments = 5000;
         mockRow ={vars: { a_avokaqty: 14, prepay: 1000}};
+        var balance = client.BalanceHistory.TotalRepayment_IncludingOverpayments - mockRow.vars.prepay;
+        var trees = (balance - 1500) / 500; 
         mockCursor.next.mockReturnValueOnce(mockRow);
         var result = avocadoEligibility(mockTable,client.AccountNumber,client);
         expect(result).toEqual(({
-            possibleTrees: 5,
-            balance: 5000,
-            orderedAvocado: 14
+            possibleTrees: trees,
+            balance: balance,
+            orderedAvocado: mockRow.vars.a_avokaqty
         }));
     });
 });

@@ -46,11 +46,11 @@ function onOrderPlaced(input){
 function onOrderConfirmed(){
 
     //enroll order
-    var requestBundles = {
+    var requestBundles = [{
         'bundleId': '-3217',
         'bundleQuantity': state.vars.orderedNumber,
         'inputChoices': [-13392]
-    };
+    }];
     var client = JSON.parse(state.vars.client_json);
     var groupId = client.GroupId;
     if(groupId == null){
@@ -76,12 +76,13 @@ function onOrderConfirmed(){
     };
     if(enrollOrder(requestData)){
         var avocado_table = project.initDataTableById(service.vars.avocado_table_id);
-        var avocadoCursor = avocado_table.queryRows({'vars': {'account_number': client.AccountNumber}});
+        var avocadoCursor = avocado_table.queryRows({'vars': {'account_number': state.vars.account}});
         if(avocadoCursor.hasNext()){
             var avocadoRow = avocadoCursor.next();
             avocadoRow.vars.a_avokaqty = state.vars.orderedNumber;
-
-        }
+            avocadoRow.vars.confirmed = '1';
+            avocadoRow.save();
+        }  
         var message = translate('final_message',{'$number': state.vars.orderedNumber},state.vars.lang);
         global.sayText(message);
         var msg_route = project.vars.sms_push_route;

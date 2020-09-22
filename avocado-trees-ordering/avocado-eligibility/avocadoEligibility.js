@@ -30,7 +30,7 @@ module.exports = function(table, acc_nber, client_json){
     
     return { 
         possibleTrees: numberOfTreesPossible,
-        balance: client_json.BalanceHistory.TotalRepayment_IncludingOverpayments,
+        balance: prepayment_amount,
         orderedAvocado: orderedAvocado
     };
     
