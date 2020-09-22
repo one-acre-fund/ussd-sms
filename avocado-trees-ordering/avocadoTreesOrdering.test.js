@@ -64,6 +64,16 @@ describe('avocadoServices',()=>{
             `, so you are qualified to order up to ${possibleTree}`+
             ' trees.  Please remember, new avocado clients must order at least 3 trees. How many would you like to order? Reply with the number of trees you want to order\n99) Return to main menu');
         });
+        it('should display prepayment not satified if the possible nuber of tree is less than 3',()=>{
+            avocadoEligibility.mockReturnValue({'balance': balance, 'possibleTrees': 2});
+            avocadoTreesOrdering.start(account, country,lang);
+            expect(sayText).toHaveBeenCalledWith('You do not yet qualify for ordering trees. Pay at least 500 Frw per each tree you want to order and then try your order again.');
+        });
+        it('should display an error message if the client is not found in the table',()=>{
+            avocadoEligibility.mockReturnValue(false);
+            avocadoTreesOrdering.start(account, country,lang);
+            expect(sayText).toHaveBeenCalledWith('Sorry, your account number is not found');
+        });
     });
     describe('place order successful callback',()=>{
         var callback;
@@ -92,9 +102,9 @@ describe('avocadoServices',()=>{
         mockCursor.hasNext.mockReturnValue(true);
         var mockRow;
         var requestBundles = {
-            'bundleId': '-2983',
+            'bundleId': '-3217',
             'bundleQuantity': quantity,
-            'inputChoices': [-12625]
+            'inputChoices': [-13392]
         };
         beforeAll(()=>{
             state.vars.orderedNumber = quantity;

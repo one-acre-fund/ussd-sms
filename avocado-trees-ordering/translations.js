@@ -9,7 +9,7 @@ module.exports = {
     },
     'mimimun_not_reached': {
         'en': 'You have ordered too few avocados, the minimum you can order is 3, please order at least 3',
-        'ki': 'Watumije avoka nkeye cyane, avoka ziri munsi ya avoka 3 ntago byemewe kuzitumiza. Subira inyuma wandikemo umubare uri hejuru y\'eshatu.'
+        'ki': 'Watumije avoka nkeye cyane, avoka ziri munsi ya avoka 3 ntago byemewe kuzitumiza. Andika byibuze gatatu kuzamuka.'
     },
     'confirm_order': {
         'en': 'You ordered $number number of avocados\n1) Confirm\n2) Change order\n3) Cancel',
@@ -22,5 +22,13 @@ module.exports = {
     'order_not_finalized': {
         'en': 'Ordering not finalized. Try again later',
         'ki': 'Itumiza ntago ryemejwe. Mwongere mugerageze',
+    },
+    'client_not_found_in_table': {
+        'en': 'Sorry, your account number is not found',
+        'ki': 'mwihangane, nomero ya konti ntibashije kuboneka'
+    },
+    'client_not_eligible': {
+        'en': 'You do not yet qualify for ordering trees. Pay at least 500 Frw per each tree you want to order and then try your order again.',
+        'ki': 'Ntago uremererwa gutumiza Avoka. Ishyura byibuze amafaranga 500 Rwf kuri buri giti ushaka gutumiza ubone kwongera gutumiza.'
     },
 };

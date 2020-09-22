@@ -23,10 +23,16 @@ module.exports = {
         state.vars.possibleTrees = JSON.stringify(possibleTrees);
         
         if(possibleTrees){
-            if(possibleTrees.possibleTrees > 3){
+            if(possibleTrees.possibleTrees >= 3){
                 global.sayText(translate('eligible_repayment_message',{'$amount': possibleTrees.balance,'$number': possibleTrees.possibleTrees},state.vars.lang));
                 global.promptDigits(placeOrderHandler.handlerName);
             } 
+            else{
+                global.sayText(translate('client_not_eligible',{},state.vars.lang));
+            }
+        }
+        else{
+            global.sayText(translate('client_not_found_in_table',{},state.vars.lang));
         }
     }
 };
@@ -41,9 +47,9 @@ function onOrderConfirmed(){
 
     //enroll order
     var requestBundles = {
-        'bundleId': '-2983',
+        'bundleId': '-3217',
         'bundleQuantity': state.vars.orderedNumber,
-        'inputChoices': [-12625]
+        'inputChoices': [-13392]
     };
     var client = JSON.parse(state.vars.client_json);
     var groupId = client.GroupId;
