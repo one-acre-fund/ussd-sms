@@ -3,9 +3,9 @@ var translator = require('../utils/translator/translator');
 var mainMenuInputHandler = require('./inputHandlers/mainMenuInputHandler');
 var registration = require('./registration/registration');
 
-function registerInputHandlers(lang, credit_officers_table, duka_clients_table) {
+function registerInputHandlers(lang, duka_clients_table) {
     addInputHandler(mainMenuInputHandler.handlerName, mainMenuInputHandler.getHandler(lang));
-    registration.registerInputHandlers(lang, credit_officers_table, duka_clients_table);
+    registration.registerInputHandlers(lang, duka_clients_table);
 }
 
 function start(lang, credit_officer_details) {

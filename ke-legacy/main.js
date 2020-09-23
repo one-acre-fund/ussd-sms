@@ -1566,7 +1566,7 @@ transactionHistory.registerHandlers();
 clientRegistration.registerHandlers();
 justInTime.registerHandlers();
 groupRepaymentsModule.registerGroupRepaymentHandlers({lang: GetLang() ? 'en' : 'sw', main_menu: state.vars.main_menu, main_menu_handler: 'MainMenu'});
-dukaClient.registerInputHandlers(GetLang() ? 'en-ke' : 'sw', service.vars.credit_officers_table, service.vars.duka_clients_table);
+dukaClient.registerInputHandlers(GetLang() ? 'en-ke' : 'sw', service.vars.duka_clients_table);
 
 
 function reduceClientSize(client) {

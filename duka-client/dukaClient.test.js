@@ -16,8 +16,8 @@ describe.each(['en-ke', 'sw'])('duka client entry using (%s)', (lang) => {
         const mainMenuHandler = jest.fn();
         jest.spyOn(registration, 'registerInputHandlers');
         jest.spyOn(mainMenuInputHandler, 'getHandler').mockReturnValue(mainMenuHandler);
-        dukaClient.registerInputHandlers(lang, 'credit_officers_table', 'duka_clients_table');
+        dukaClient.registerInputHandlers(lang, 'duka_clients_table');
         expect(addInputHandler).toHaveBeenCalledWith(mainMenuInputHandler.handlerName, mainMenuHandler);
-        expect(registration.registerInputHandlers).toHaveBeenCalledWith(lang, 'credit_officers_table', 'duka_clients_table');
+        expect(registration.registerInputHandlers).toHaveBeenCalledWith(lang, 'duka_clients_table');
     });
 });

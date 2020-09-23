@@ -8,21 +8,6 @@ var invoiceIdInputHandler = require('./invoiceIdInputHandler');
 
 var handlerName = 'DCAccNumOrnewClient'; 
 
-function isADukaClient(district, credit_officers_table) {
-    var table = project.getOrCreateDataTable(credit_officers_table);
-    var cursor = table.queryRows({
-        vars: {
-            district: district
-        }
-    });
-    
-    if(cursor.hasNext()) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 function getActivePhoneNumber(accNum, country) {
     var phoneNumbers = getPhoneNumbers(accNum, country);
     var activePhoneNumber = phoneNumbers.filter(function(record) {
@@ -49,7 +34,7 @@ function OutstandingCredit(BalanceHistory){
 
 module.exports = {
     handlerName: handlerName,
-    getHandler: function(lang, credit_officers_table) {
+    getHandler: function(lang) {
         return function(input) {
             var getMessage = translator(translations, lang);
             if(input == 0) {
@@ -84,9 +69,8 @@ module.exports = {
                 if(client) {
                     // client has an account registered in roster
                     var phone_number = getActivePhoneNumber(accountNumber, country);
-                    client.PhoneNumber = phone_number; // keep the session phone at the moment
-                    var district = client.DistrictName;
-                    if(isADukaClient(district, credit_officers_table)){
+                    client.PhoneNumber = phone_number;
+                    if(client.SiteName == 'Duka'){
                         var outStandingCredit = OutstandingCredit(client.BalanceHistory);
                         if(outStandingCredit > 0) {
                             // if has an out standing credit, ask them to pay the remaining amount
