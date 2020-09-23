@@ -1,7 +1,7 @@
 var {handlerName,getHandler} = require('./varietyChoiceHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
-jest.fn('../../notifications/elk-notification/elkNotification');
+jest.mock('../../notifications/elk-notification/elkNotification');
 httpClient.request.mockReturnValue({status: 200});
 describe('order confirmation handler test', ()=>{
 

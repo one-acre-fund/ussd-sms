@@ -4,7 +4,14 @@ const slack = require('../../slack-logger/index');
 jest.mock('../../slack-logger');
 const mockGoodResponse = {response: {status: 200}};
 const mockBadResponse = {response: {status: 404}};
+var mockTable ={createRow: jest.fn()};
+var mockRow ={save: jest.fn()};
 describe('elkNotification', () => {
+    beforeAll(()=>{
+        project.vars.elk_request_table_id ='1213';
+        project.initDataTableById.mockReturnValue(mockTable);
+        mockTable.createRow.mockReturnValue(mockRow);
+    });
     it('should be a function', () => {
         expect(elkNotify).toBeInstanceOf(Function);
     });

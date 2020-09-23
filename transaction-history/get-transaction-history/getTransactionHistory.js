@@ -12,7 +12,7 @@ module.exports = function (client) {
         var response = httpClient.request(fullUrl, opts);
         if (response.status == 200) {
             var data = JSON.parse(response.content);
-            return data;
+            return data.slice(0,20);
         }
         else {
             logger = new Log();
