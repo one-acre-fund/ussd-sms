@@ -49,7 +49,7 @@ function OutstandingCredit(BalanceHistory){
 
 module.exports = {
     handlerName: handlerName,
-    getHandler: function(lang, credit_officers_table, credit_officer_details) {
+    getHandler: function(lang, credit_officers_table) {
         return function(input) {
             var getMessage = translator(translations, lang);
             if(input == 0) {
@@ -103,6 +103,7 @@ module.exports = {
                         }
                     } else {
                         var nonDukaAccountMessage = getMessage('non_duka_account', {}, lang);
+                        var credit_officer_details = JSON.parse(state.vars.credit_officer_details);
                         var dukaClient = {
                             firstName: client.FirstName,
                             lastName: client.LastName,
