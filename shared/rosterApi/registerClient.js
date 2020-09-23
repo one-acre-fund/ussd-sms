@@ -20,8 +20,10 @@ module.exports = function registerClient(clientJSON) {
         }
         else {
             logger.error('Error while registering user', {data: JSON.stringify(response)});
+            console.log('Error while registering user' + JSON.stringify({response: response, opts: opts}));
         }
     } catch (error) {
         logger.error('API Error while registering user', {data: JSON.stringify(error)});
+        console.log('API Error while registering user' + JSON.stringify({error: error, opts: opts}));
     }
 };
