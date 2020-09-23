@@ -50,6 +50,7 @@ service.vars.registerEnrollEnd = env+ '_registerEnrollEnd';
 service.vars.registerEnrollStart = env+ '_registerEnrollStart';
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 service.vars.credit_officers_table = 'credit_officers_table';
+service.vars.duka_clients_table = env + '_duka_client_registration';
 
 if(env == 'prod'){
     service.vars.topUpBundleTableId = 'DT891c89e9a82b6841';
@@ -1565,6 +1566,7 @@ transactionHistory.registerHandlers();
 clientRegistration.registerHandlers();
 justInTime.registerHandlers();
 groupRepaymentsModule.registerGroupRepaymentHandlers({lang: GetLang() ? 'en' : 'sw', main_menu: state.vars.main_menu, main_menu_handler: 'MainMenu'});
+dukaClient.registerInputHandlers(GetLang() ? 'en-ke' : 'sw', service.vars.credit_officers_table, service.vars.duka_clients_table);
 
 
 function reduceClientSize(client) {
@@ -1591,7 +1593,7 @@ addInputHandler('SplashMenu', function(SplashMenu) {
         promptDigits('StaffPayRoll', {submitOnHash: true, maxDigits: 5, timeout: 5});
     }
     else {
-
+        var creditOfficerDetails = isCreditOfficer(ClientAccNum, service.vars.credit_officers_table);
         if (RosterClientVal(ClientAccNum)){
             console.log('SuccessFully Validated against Roster');
             client = RosterClientGet(ClientAccNum);
@@ -1610,8 +1612,8 @@ addInputHandler('SplashMenu', function(SplashMenu) {
             state.vars.account_number = client.AccountNumber;
             MainMenuText(client);
             promptDigits('MainMenu', {submitOnHash: true, maxDigits: 8, timeout: 5});
-        } if(isCreditOfficer(ClientAccNum, service.vars.credit_officers_table)) {
-            dukaClient.start(GetLang() ? 'en' : 'sw');
+        } if(creditOfficerDetails) {
+            dukaClient.start(GetLang() ? 'en-ke' : 'sw', creditOfficerDetails);
         }
         else{
             console.log('account number not valid');
