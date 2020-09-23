@@ -1,9 +1,11 @@
 var translations = require('./translations/index');
 var translator = require('../utils/translator/translator');
 var mainMenuInputHandler = require('./inputHandlers/mainMenuInputHandler');
+var registration = require('./registration/registration');
 
-function registerInputHandlers(lang) {
+function registerInputHandlers(lang, credit_officers_table) {
     addInputHandler(mainMenuInputHandler.handlerName, mainMenuInputHandler.getHandler(lang));
+    registration.registerInputHandlers(lang, credit_officers_table);
 }
 
 function start(lang) {

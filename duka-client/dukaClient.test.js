@@ -1,5 +1,6 @@
 const dukaClient = require('./dukaClient');
 const mainMenuInputHandler = require('./inputHandlers/mainMenuInputHandler');
+var registration = require('./registration/registration');
 
 describe.each(['en-ke', 'sw'])('duka client entry using (%s)', (lang) => {
     it('start the application', () => {
@@ -12,8 +13,10 @@ describe.each(['en-ke', 'sw'])('duka client entry using (%s)', (lang) => {
 
     it('should register all input handlers', () => {
         const mainMenuHandler = jest.fn();
+        jest.spyOn(registration, 'registerInputHandlers');
         jest.spyOn(mainMenuInputHandler, 'getHandler').mockReturnValue(mainMenuHandler);
-        dukaClient.registerInputHandlers(lang);
+        dukaClient.registerInputHandlers(lang, 'credit_officers_table');
         expect(addInputHandler).toHaveBeenCalledWith(mainMenuInputHandler.handlerName, mainMenuHandler);
+        expect(registration.registerInputHandlers).toHaveBeenCalledWith(lang, 'credit_officers_table');
     });
 });
