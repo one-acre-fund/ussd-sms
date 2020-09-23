@@ -975,7 +975,6 @@ var MainMenuTextWithMsg = function (msg) {
     }
     var menu = populateMainMenu(state.vars.lang, 140 - (msg.length + 1), true);
     if (typeof (menu) == 'string') {
-        console.log(msg + "\n" + menu);
         sayText(msg + "\n" + menu);
         state.vars.multiple_input_menus = 0;
         state.vars.main_menu = menu;
@@ -985,7 +984,6 @@ var MainMenuTextWithMsg = function (msg) {
         state.vars.input_menu_loc = 0; //watch for off by 1 errors - consider moving this to start at 1
         state.vars.multiple_input_menus = 1;
         state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
-        console.log(msg + "\n" + menu[state.vars.input_menu_loc]);
         sayText(msg + "\n" + menu[state.vars.input_menu_loc]);
         state.vars.main_menu = menu[state.vars.input_menu_loc];
         state.vars.input_menu = JSON.stringify(menu);
@@ -1006,6 +1004,27 @@ var NonClientMenuText = function (){
         state.vars.main_menu = menu[state.vars.input_menu_loc];
         state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
         sayText(menu[state.vars.input_menu_loc]);
+        state.vars.input_menu = JSON.stringify(menu);
+    }
+};
+var NonClientMenuTextWithMsg = function (msg) {
+    var populateMainMenu = require('./utils/menus/populate-menu/populateMenu');
+    if (msg.length > 50) {
+        msg = msg.substr(0, 50)
+    }
+    var menu = populateMainMenu(state.vars.lang, 140 - (msg.length - 1), false);
+    if (typeof (menu) == 'string') {
+        sayText(msg + "\n" + menu);
+        state.vars.multiple_input_menus = 0;
+        state.vars.input_menu = menu;
+        state.vars.main_menu = menu;
+    }
+    else if (typeof (menu) == 'object') {
+        state.vars.input_menu_loc = 0; //watch for off by 1 errors - consider moving this to start at 1
+        state.vars.multiple_input_menus = 1;
+        state.vars.main_menu = menu[state.vars.input_menu_loc];
+        state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
+        sayText(msg + "\n" + menu[state.vars.input_menu_loc]);
         state.vars.input_menu = JSON.stringify(menu);
     }
 };
@@ -1668,6 +1687,10 @@ addInputHandler('NonClientMenu', function(input) {
         NonClientMenuText();
         promptDigits('NonClientMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
+    else if (!sessionMenu[input - 1]) {
+        NonClientMenuTextWithMsg("Incorrect input");
+        promptDigits('NonClientMenu', { submitOnHash: true, maxDigits: 2, timeout: 5 });
+    }
     else if(sessionMenu[input-1].option_name == 'find_oaf_contact'){
         EnterNationalIdText();
         promptDigits('FONationaIdHandler', {submitOnHash: true, maxDigits: 8, timeout: 5});
@@ -1717,7 +1740,7 @@ addInputHandler('MainMenu', function(SplashMenu){
     }
     else if (!sessionMenu[SplashMenu - 1]) {
         MainMenuTextWithMsg("Incorrect input", client);
-        promptDigits('MainMenu', { submitOnHash: true, maxDigits: 2, timeout: 5 })
+        promptDigits('MainMenu', { submitOnHash: true, maxDigits: 8, timeout: 5 })
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'make_payment'){
         client = JSON.parse(state.vars.client);
