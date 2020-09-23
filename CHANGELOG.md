@@ -1,8 +1,6 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
-## *Unreleased*
-
 ## 2020-09-23
 ### Added
 
