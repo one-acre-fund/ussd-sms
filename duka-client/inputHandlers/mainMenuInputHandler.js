@@ -1,6 +1,6 @@
 var registration = require('../registration/registration');
 
-var handlerName = 'duka_client_registration_main_menu';
+var handlerName = 'dcr_main_menu';
 
 module.exports = {
     handlerName: handlerName,

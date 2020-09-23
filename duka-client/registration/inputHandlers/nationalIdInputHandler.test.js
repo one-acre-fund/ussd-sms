@@ -1,4 +1,5 @@
 const nationalIdInputHandler = require('./nationalIdInputHandler');
+const confirmNidInputHandler = require('./confirmNidInputHandler');
 
 describe.each(['en-ke', 'sw'])('national id input handler', (lang) => {
     it.each(['12345678', '1234567'])('should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (%s)', (nid) => {
@@ -10,7 +11,7 @@ describe.each(['en-ke', 'sw'])('national id input handler', (lang) => {
         nationalIdHandler(nid);
         expect(sayText).toHaveBeenCalledWith(message[lang]);
         expect(state.vars.duka_client_nid).toEqual(nid);
-        expect(promptDigits).toHaveBeenCalledWith('duka_client_registration_nationalId_handler_confirm');
+        expect(promptDigits).toHaveBeenCalledWith(confirmNidInputHandler.handlerName);
     });
 
     it('should reprompt the user for the national id once the id is invalid', () => {

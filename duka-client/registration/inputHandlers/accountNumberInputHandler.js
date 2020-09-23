@@ -6,7 +6,7 @@ var registerClient = require('../../../shared/rosterApi/registerClient');
 var nationalIdInputHandler = require('./nationalIdInputHandler');
 var invoiceIdInputHandler = require('./invoiceIdInputHandler');
 
-var handlerName = 'dukaClientAccNumOrnewClient'; 
+var handlerName = 'DCAccNumOrnewClient'; 
 
 function isADukaClient(district, credit_officers_table) {
     var table = project.getOrCreateDataTable(credit_officers_table);

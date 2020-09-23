@@ -5,7 +5,7 @@ var translator = require('../../../utils/translator/translator');
 var registerClient = require('../../../shared/rosterApi/registerClient');
 var logger = require('../../../logger/elk/elk-logger');
 
-var handlerName = 'duka_client_registration_first_second_name_confirm';
+var handlerName = 'dcr_first_second_name_confirm';
 
 module.exports = {
     handlerName: handlerName,

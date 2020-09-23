@@ -4,7 +4,7 @@ var translations = require('../translations/index');
 var translator = require('../../../utils/translator/translator');
 var firstNameInputHandler = require('./firstNameInputHandler');
 
-var handlerName = 'duka_client_registration_phone_number_confirm';
+var handlerName = 'dcr_phone_number_confirm';
 
 module.exports = {
     handlerName: handlerName,

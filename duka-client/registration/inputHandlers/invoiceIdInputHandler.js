@@ -2,7 +2,7 @@ var translations = require('../translations/index');
 var translator = require('../../../utils/translator/translator');
 var confirmInvoiceIdInputHandler = require('./confirmInvoiceIdInputHandler');
 
-var handlerName = 'duka_client_registration_invoice_id';
+var handlerName = 'dcr_invoice_id';
 
 module.exports = {
     handlerName: handlerName,

@@ -3,7 +3,7 @@ var translator = require('../../../utils/translator/translator');
 var nationalIdInputHandler = require('./nationalIdInputHandler');
 var phoneNumberInputHandler = require('./phoneNumberInputHandler');
 
-var handlerName = 'duka_client_registration_nationalId_handler_confirm';
+var handlerName = 'dcr_nationalId_handler_confirm';
 
 module.exports = {
     handlerName: handlerName,

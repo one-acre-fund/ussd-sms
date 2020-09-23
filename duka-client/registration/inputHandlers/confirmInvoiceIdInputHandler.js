@@ -3,7 +3,7 @@ var translator = require('../../../utils/translator/translator');
 var confirmFirstSecondName = require('./confirmFirstSecondNameInputHandler');
 
 
-var handlerName = 'duka_client_registration_invoice_id_confirm';
+var handlerName = 'dcr_invoice_id_confirm';
 
 module.exports = {
     handlerName: handlerName,

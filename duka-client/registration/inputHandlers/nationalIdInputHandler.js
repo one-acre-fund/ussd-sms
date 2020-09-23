@@ -1,7 +1,7 @@
 var translations = require('../translations/index');
 var translator = require('../../../utils/translator/translator');
 var confirmNidInputHandler = require('./confirmNidInputHandler');
-var handlerName = 'duka_client_registration_nationalId_handler';
+var handlerName = 'dcr_nationalId_handler';
 
 module.exports = {
     handlerName: handlerName,
