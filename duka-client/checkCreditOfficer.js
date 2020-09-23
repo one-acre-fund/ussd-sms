@@ -11,8 +11,13 @@ module.exports = function(officerId, clientsTable) {
     }});
 
     if(cursor.hasNext()) {
-        return true;
+        var row = cursor.next();
+        var creditOfficerDetails = {
+            district_id: row.vars.district_id,
+            site_id: row.vars.site_id
+        };
+        return creditOfficerDetails;
     } else {
-        return false;
+        return null;
     }
 };

@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="4" failures="0" time="0.761">
-  <testsuite name="duka client entry using (en-ke)" errors="0" failures="0" skipped="0" timestamp="2020-09-23T05:36:32" time="0.711" tests="4">
-    <testcase classname="duka client entry using (en-ke) start the application" name="duka client entry using (en-ke) start the application" time="0.004">
+<testsuites name="jest tests" tests="2" failures="0" time="3.133">
+  <testsuite name="Check credit officer" errors="0" failures="0" skipped="0" timestamp="2020-09-23T06:03:00" time="1.051" tests="2">
+    <testcase classname="Check credit officer should return false once the user is not in the lookup table" name="Check credit officer should return false once the user is not in the lookup table" time="0.004">
     </testcase>
-    <testcase classname="duka client entry using (en-ke) should register all input handlers" name="duka client entry using (en-ke) should register all input handlers" time="0.003">
-    </testcase>
-    <testcase classname="duka client entry using (sw) start the application" name="duka client entry using (sw) start the application" time="0.007">
-    </testcase>
-    <testcase classname="duka client entry using (sw) should register all input handlers" name="duka client entry using (sw) should register all input handlers" time="0.001">
+    <testcase classname="Check credit officer should return false once the user is not in the lookup table" name="Check credit officer should return false once the user is not in the lookup table" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>
