@@ -42,6 +42,11 @@ module.exports = {
                     var dcr_duka_client = JSON.parse(state.vars.dcr_duka_client);
                     var registeredClient = registerClient(dcr_duka_client);
                     if(registeredClient) {
+                        if(state.vars.dcr_credit > 0) {
+                            global.sayText(getMessage('outstanding_balance', {'$balance': state.vars.dcr_credit}, lang));
+                            global.stopRules();
+                            return;
+                        }
                         global.sayText(getMessage('enter_invoice_id', {}, lang));
                         global.promptDigits(invoiceIdInputHandler.handlerName, {
                             submitOnHash: false
@@ -70,8 +75,9 @@ module.exports = {
                     // client has an account registered in roster
                     var phone_number = getActivePhoneNumber(accountNumber, country);
                     client.PhoneNumber = phone_number;
+                    var outStandingCredit = OutstandingCredit(client.BalanceHistory);
+                    state.vars.dcr_credit = outStandingCredit;
                     if(client.SiteName == 'Duka'){
-                        var outStandingCredit = OutstandingCredit(client.BalanceHistory);
                         if(outStandingCredit > 0) {
                             // if has an out standing credit, ask them to pay the remaining amount
                             global.sayText(getMessage('outstanding_balance', {'$balance': outStandingCredit}, lang));

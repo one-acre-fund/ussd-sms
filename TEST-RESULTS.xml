@@ -1,59 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="24" failures="0" time="3.636">
-  <testsuite name="duka client Registration using (en-ke)" errors="0" failures="0" skipped="0" timestamp="2020-09-23T07:59:15" time="0.871" tests="4">
-    <testcase classname="duka client Registration using (en-ke) should register all the registration input handlers --en-ke" name="duka client Registration using (en-ke) should register all the registration input handlers --en-ke" time="0.009">
+<testsuites name="jest tests" tests="26" failures="0" time="4.382">
+  <testsuite name="duka client Registration using (en-ke)" errors="0" failures="0" skipped="0" timestamp="2020-09-23T08:28:07" time="0.992" tests="4">
+    <testcase classname="duka client Registration using (en-ke) should register all the registration input handlers --en-ke" name="duka client Registration using (en-ke) should register all the registration input handlers --en-ke" time="0.011">
     </testcase>
-    <testcase classname="duka client Registration using (en-ke) should prompt the user for the account number on start --en-ke" name="duka client Registration using (en-ke) should prompt the user for the account number on start --en-ke" time="0">
+    <testcase classname="duka client Registration using (en-ke) should prompt the user for the account number on start --en-ke" name="duka client Registration using (en-ke) should prompt the user for the account number on start --en-ke" time="0.002">
     </testcase>
-    <testcase classname="duka client Registration using (sw) should register all the registration input handlers --sw" name="duka client Registration using (sw) should register all the registration input handlers --sw" time="0.006">
+    <testcase classname="duka client Registration using (sw) should register all the registration input handlers --sw" name="duka client Registration using (sw) should register all the registration input handlers --sw" time="0.008">
     </testcase>
     <testcase classname="duka client Registration using (sw) should prompt the user for the account number on start --sw" name="duka client Registration using (sw) should prompt the user for the account number on start --sw" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="duka client entry using (en-ke)" errors="0" failures="0" skipped="0" timestamp="2020-09-23T07:59:15" time="0.87" tests="4">
-    <testcase classname="duka client entry using (en-ke) start the application" name="duka client entry using (en-ke) start the application" time="0.005">
+  <testsuite name="main menu input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-23T08:28:08" time="0.305" tests="2">
+    <testcase classname="main menu input handler should reprompt for choosing a service once the user chooses a wrong option" name="main menu input handler should reprompt for choosing a service once the user chooses a wrong option" time="0.006">
     </testcase>
-    <testcase classname="duka client entry using (en-ke) should register all input handlers" name="duka client entry using (en-ke) should register all input handlers" time="0.001">
-    </testcase>
-    <testcase classname="duka client entry using (sw) start the application" name="duka client entry using (sw) start the application" time="0">
-    </testcase>
-    <testcase classname="duka client entry using (sw) should register all input handlers" name="duka client entry using (sw) should register all input handlers" time="0.001">
+    <testcase classname="main menu input handler should start the registration once the user chooses 1" name="main menu input handler should start the registration once the user chooses 1" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="main menu input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-23T07:59:16" time="0.289" tests="2">
-    <testcase classname="main menu input handler should reprompt for choosing a service once the user chooses a wrong option" name="main menu input handler should reprompt for choosing a service once the user chooses a wrong option" time="0.005">
-    </testcase>
-    <testcase classname="main menu input handler should start the registration once the user chooses 1" name="main menu input handler should start the registration once the user chooses 1" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="Farmer&apos; account number input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-23T07:59:16" time="0.357" tests="14">
-    <testcase classname="Farmer&apos; account number input handler should prompt for the client&apos;s national id when the the chooses 0 for registering a new client" name="Farmer&apos; account number input handler should prompt for the client&apos;s national id when the the chooses 0 for registering a new client" time="0.017">
+  <testsuite name="Farmer&apos; account number input handler" errors="0" failures="0" skipped="0" timestamp="2020-09-23T08:28:07" time="1.795" tests="16">
+    <testcase classname="Farmer&apos; account number input handler should prompt for the client&apos;s national id when the the chooses 0 for registering a new client" name="Farmer&apos; account number input handler should prompt for the client&apos;s national id when the the chooses 0 for registering a new client" time="0.007">
     </testcase>
     <testcase classname="Farmer&apos; account number input handler should register the user to a duka district account once they already have an account number with OAF, and prompt them for an invoice id" name="Farmer&apos; account number input handler should register the user to a duka district account once they already have an account number with OAF, and prompt them for an invoice id" time="0.001">
+    </testcase>
+    <testcase classname="Farmer&apos; account number input handler should register the user to a duka district account once they already have an account number with OAF, and ask them to complete their debt once they have an outstanding credit" name="Farmer&apos; account number input handler should register the user to a duka district account once they already have an account number with OAF, and ask them to complete their debt once they have an outstanding credit" time="0.002">
     </testcase>
     <testcase classname="Farmer&apos; account number input handler should reprompt for the account number once the user is not successfully registered" name="Farmer&apos; account number input handler should reprompt for the account number once the user is not successfully registered" time="0.001">
     </testcase>
     <testcase classname="Farmer&apos; account number input handler should reprompt for an account number once the user is not found in roster" name="Farmer&apos; account number input handler should reprompt for an account number once the user is not found in roster" time="0.001">
     </testcase>
-    <testcase classname="Farmer&apos; account number input handler should notify the user if the farmer&apos; account is a non duka client and prompt them to register or enter a new account" name="Farmer&apos; account number input handler should notify the user if the farmer&apos; account is a non duka client and prompt them to register or enter a new account" time="0.001">
+    <testcase classname="Farmer&apos; account number input handler should notify the user if the farmer&apos; account is a non duka client and prompt them to register or enter a new account" name="Farmer&apos; account number input handler should notify the user if the farmer&apos; account is a non duka client and prompt them to register or enter a new account" time="0.002">
     </testcase>
     <testcase classname="Farmer&apos; account number input handler should notify the user if the duka client&apos;s account number has outstanding credit" name="Farmer&apos; account number input handler should notify the user if the duka client&apos;s account number has outstanding credit" time="0.001">
     </testcase>
-    <testcase classname="Farmer&apos; account number input handler should the user for invoice id if the duka client&apos;s account number has no outstanding credit" name="Farmer&apos; account number input handler should the user for invoice id if the duka client&apos;s account number has no outstanding credit" time="0.002">
+    <testcase classname="Farmer&apos; account number input handler should the user for invoice id if the duka client&apos;s account number has no outstanding credit" name="Farmer&apos; account number input handler should the user for invoice id if the duka client&apos;s account number has no outstanding credit" time="0.001">
     </testcase>
     <testcase classname="Farmer&apos; account number input handler should prompt for the client&apos;s national id when the the chooses 0 for registering a new client" name="Farmer&apos; account number input handler should prompt for the client&apos;s national id when the the chooses 0 for registering a new client" time="0.001">
     </testcase>
     <testcase classname="Farmer&apos; account number input handler should register the user to a duka district account once they already have an account number with OAF, and prompt them for an invoice id" name="Farmer&apos; account number input handler should register the user to a duka district account once they already have an account number with OAF, and prompt them for an invoice id" time="0.001">
     </testcase>
-    <testcase classname="Farmer&apos; account number input handler should reprompt for the account number once the user is not successfully registered" name="Farmer&apos; account number input handler should reprompt for the account number once the user is not successfully registered" time="0">
+    <testcase classname="Farmer&apos; account number input handler should register the user to a duka district account once they already have an account number with OAF, and ask them to complete their debt once they have an outstanding credit" name="Farmer&apos; account number input handler should register the user to a duka district account once they already have an account number with OAF, and ask them to complete their debt once they have an outstanding credit" time="0.001">
+    </testcase>
+    <testcase classname="Farmer&apos; account number input handler should reprompt for the account number once the user is not successfully registered" name="Farmer&apos; account number input handler should reprompt for the account number once the user is not successfully registered" time="0.001">
     </testcase>
     <testcase classname="Farmer&apos; account number input handler should reprompt for an account number once the user is not found in roster" name="Farmer&apos; account number input handler should reprompt for an account number once the user is not found in roster" time="0.001">
     </testcase>
-    <testcase classname="Farmer&apos; account number input handler should notify the user if the farmer&apos; account is a non duka client and prompt them to register or enter a new account" name="Farmer&apos; account number input handler should notify the user if the farmer&apos; account is a non duka client and prompt them to register or enter a new account" time="0.001">
+    <testcase classname="Farmer&apos; account number input handler should notify the user if the farmer&apos; account is a non duka client and prompt them to register or enter a new account" name="Farmer&apos; account number input handler should notify the user if the farmer&apos; account is a non duka client and prompt them to register or enter a new account" time="0.002">
     </testcase>
-    <testcase classname="Farmer&apos; account number input handler should notify the user if the duka client&apos;s account number has outstanding credit" name="Farmer&apos; account number input handler should notify the user if the duka client&apos;s account number has outstanding credit" time="0.002">
+    <testcase classname="Farmer&apos; account number input handler should notify the user if the duka client&apos;s account number has outstanding credit" name="Farmer&apos; account number input handler should notify the user if the duka client&apos;s account number has outstanding credit" time="0.001">
     </testcase>
     <testcase classname="Farmer&apos; account number input handler should the user for invoice id if the duka client&apos;s account number has no outstanding credit" name="Farmer&apos; account number input handler should the user for invoice id if the duka client&apos;s account number has no outstanding credit" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="duka client entry using (en-ke)" errors="0" failures="0" skipped="0" timestamp="2020-09-23T08:28:09" time="0.353" tests="4">
+    <testcase classname="duka client entry using (en-ke) start the application" name="duka client entry using (en-ke) start the application" time="0.004">
+    </testcase>
+    <testcase classname="duka client entry using (en-ke) should register all input handlers" name="duka client entry using (en-ke) should register all input handlers" time="0.002">
+    </testcase>
+    <testcase classname="duka client entry using (sw) start the application" name="duka client entry using (sw) start the application" time="0.003">
+    </testcase>
+    <testcase classname="duka client entry using (sw) should register all input handlers" name="duka client entry using (sw) should register all input handlers" time="0">
     </testcase>
   </testsuite>
 </testsuites>
