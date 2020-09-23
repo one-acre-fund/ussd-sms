@@ -148,9 +148,14 @@ function onOrderConfirmed(){
         'isGroupLeader': isGroupLeader,
         'clientBundles': requestBundles
     };
-   
+    var orderPlacedMessage = '';
     if(enrollOrder(requestData)){
-        var message = translate('final_message',{},state.vars.jitLang);
+        var orderPlaced = JSON.parse(state.vars.orders);
+        console.log(orderPlaced);
+        for( var m = 0; m < orderPlaced.length; m++ ){
+            orderPlacedMessage = orderPlacedMessage + orderPlaced[m].bundleName + ' ' + orderPlaced[m].price + ' ';
+        } 
+        var message = translate('final_message',{'$products': orderPlacedMessage},state.vars.jitLang);
         sayText(message);
         project.sendMessage({
             content: message, 

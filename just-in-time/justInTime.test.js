@@ -183,8 +183,10 @@ describe('clientRegistration', () => {
     });
     describe('order Confirmation Handler successfull callback',()=>{
         var callback;
+        var orders = [{'bundleName': 'Maize','price': 1000},{'bundleName': 'Pesticide','price': 3000}];
+        var ordersMessage = orders[0].bundleName + ' ' + orders[0].price + ' '+orders[1].bundleName + ' ' + orders[1].price+' ';
         beforeAll(()=>{
-            state.vars.orders = JSON.stringify([mockMaizeRows[0]]);
+            state.vars.orders = JSON.stringify(orders);
         });
         beforeEach(() => {
             justInTime.registerHandlers();
@@ -194,18 +196,20 @@ describe('clientRegistration', () => {
         it('should send a message confirming the order is complete if the order is saved in roster',()=>{
             httpClient.request.mockReturnValue({status: 201});
             contact.phone_number = phoneNumber;
-            var message = 'Thank you for placing your Just in Time Top-up order.';
+            var message = `Thanks for ordering ${ordersMessage}`+
+            '. Thank you for topping-up through JiT.';
             callback();
-            expect(sayText).toHaveBeenCalledWith('Thank you for placing your Just in Time Top-up order.');
+            expect(sayText).toHaveBeenCalledWith(message);
             expect(project.sendMessage).toHaveBeenCalledWith({content: message, to_number: phoneNumber});
         });
         it('should send a message to the stored client\'s phone confirming the order is complete if the order is saved in roster',()=>{
             var inactive_number = {'PhoneNumber': '0786182098', 'IsInactive': false};
             var active_number ={'PhoneNumber': '0786182098', 'IsInactive': true};
             getPhoneNumber.mockReturnValue([inactive_number, active_number]);
-            var message = 'Thank you for placing your Just in Time Top-up order.';
+            var message = `Thanks for ordering ${ordersMessage}`+
+            '. Thank you for topping-up through JiT.';
             callback();
-            expect(sayText).toHaveBeenCalledWith('Thank you for placing your Just in Time Top-up order.');
+            expect(sayText).toHaveBeenCalledWith(message);
             expect(project.sendMessage).toHaveBeenCalledWith({content: message, to_number: active_number.PhoneNumber});
         });
         it('should display a message asking the user to try again later the order is not saved in roster',()=>{

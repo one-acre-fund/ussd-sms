@@ -25,8 +25,8 @@ module.exports = {
         'sw': 'Bidhaa ulizo agiza\n $orders \n1) kudhibitisha'
     },
     'final_message': {
-        'en-ke': 'Thank you for placing your Just in Time Top-up order.',
-        'sw': 'Asante kwa kutuma maombi yako ya Just in Time Top-up.'
+        'en-ke': 'Thanks for ordering $products. Thank you for topping-up through JiT.',
+        'sw': 'Asante kwa kujisajili na $produts. Asante kwa kutuma maombi yako ya Just in Time Top-up.'
     },
     'variety_confirmation': {
         'en-ke': 'Top-up with $bundleName and $inputName\n1) Confirm\n2) Cancel',
