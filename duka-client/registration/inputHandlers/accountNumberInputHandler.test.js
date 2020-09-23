@@ -49,9 +49,9 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
 
     it('should register the user to a duka district account once they already have an account number with OAF, and prompt them for an invoice id', () => {
         state.vars.dcr_duka_client = JSON.stringify({
-            FirstName: 'client.FirstName',
-            LastName: 'client.LastName',
-            PhoneNumber: 'client.PhoneNumber',
+            firstName: 'client.FirstName',
+            lastName: 'client.LastName',
+            phoneNumber: '07887654376',
             site: 'credit_officer_details.site',
             district: 'credit_officer_details.district'
         });
@@ -59,9 +59,14 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
             'en-ke': 'Please reply with the client\'s Erply Invoice ID',
             'sw': 'Tafadhali jibu na Kitambulisho cha mteja cha Erply Invoice'
         };
-        registerClient.mockReturnValueOnce({});
+        const sms = {
+            'en-ke': 'Thank you for registering with OAF. Your Account Number is 27507544. The Duka team will help you complete your loan.',
+            'sw': 'Asante kwa kusajili na OAF. Nambari yako ya Akaunti ni 27507544. Timu ya Duka itakusaidia kumaliza mkopo wako'
+        };
+        registerClient.mockReturnValueOnce({'AccountNumber': '27507544'});
         const accountNumberHandler = accountNumberInputHandler.getHandler(lang);
         accountNumberHandler(0);
+        expect(project.sendMessage).toHaveBeenCalledWith({'content': sms[lang], 'to_number': '07887654376'});
         expect(sayText).toHaveBeenCalledWith(messages[lang]);
         expect(promptDigits).toHaveBeenCalledWith( invoiceIdInputHandler.handlerName, {'submitOnHash': false}); 
     });

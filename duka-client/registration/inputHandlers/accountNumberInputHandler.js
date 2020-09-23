@@ -42,6 +42,11 @@ module.exports = {
                     var dcr_duka_client = JSON.parse(state.vars.dcr_duka_client);
                     var registeredClient = registerClient(dcr_duka_client);
                     if(registeredClient) {
+                        var messageToClient = getMessage('thanks_for_registering', {'$account_number': registeredClient.AccountNumber}, lang);
+                        project.sendMessage({
+                            content: messageToClient, 
+                            to_number: dcr_duka_client.phoneNumber
+                        });
                         if(state.vars.dcr_credit > 0) {
                             global.sayText(getMessage('outstanding_balance', {'$balance': state.vars.dcr_credit}, lang));
                             global.stopRules();
