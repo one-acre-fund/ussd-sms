@@ -1,7 +1,7 @@
 const confirmFirstSecondNameInputHandler = require('./confirmFirstSecondNameInputHandler');
 // var nationalIdInputHandler = require('./nationalIdInputHandler');
 const firstNameInputHandler = require('./firstNameInputHandler');
-const phoneNumberInputHandler = require('./phoneNumberInputHandler');
+// const phoneNumberInputHandler = require('./phoneNumberInputHandler');
 const registerClient = require('../../../shared/rosterApi/registerClient');
 var logger = require('../../../logger/elk/elk-logger');
 
@@ -9,6 +9,9 @@ jest.mock('../../../shared/rosterApi/registerClient');
 jest.mock('../../../logger/elk/elk-logger');
 
 describe.each(['en-ke', 'sw'])('confirm first and second name using (%s)', (lang) => {
+    beforeEach(() => {
+        state.vars.credit_officer_details = JSON.stringify({district_id: '5', site_id: '6'});
+    });
     it('should prompt for first name once the user chooses 2 --' + lang, () => {
         const confirmHandler = confirmFirstSecondNameInputHandler.getHandler(lang);
         confirmHandler(2);
@@ -38,7 +41,7 @@ describe.each(['en-ke', 'sw'])('confirm first and second name using (%s)', (lang
     });
 
     it('should register the client and save their data into a dataTable once the user chooses 1 --' + lang, () => {
-        const confirmHandler = confirmFirstSecondNameInputHandler.getHandler(lang, {district_id: '5', site_id: '6'}, 'duka_clients_table');
+        const confirmHandler = confirmFirstSecondNameInputHandler.getHandler(lang, 'duka_clients_table');
         state.vars.duka_client_first_name = 'Jamie';
         state.vars.duka_client_second_name = 'Fox';
         state.vars.duka_client_nid = '12345678';
@@ -64,7 +67,7 @@ describe.each(['en-ke', 'sw'])('confirm first and second name using (%s)', (lang
     });
 
     it('should send an error once the registration fails --' + lang, () => {
-        const confirmHandler = confirmFirstSecondNameInputHandler.getHandler(lang, {district_id: '5', site_id: '6'}, 'duka_clients_table');
+        const confirmHandler = confirmFirstSecondNameInputHandler.getHandler(lang, 'duka_clients_table');
         state.vars.duka_client_first_name = 'Jamie';
         state.vars.duka_client_second_name = 'Fox';
         state.vars.duka_client_nid = '12345678';

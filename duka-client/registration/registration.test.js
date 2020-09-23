@@ -35,7 +35,7 @@ describe.each(['en-ke', 'sw'])('duka client Registration using (%s)', (lang) => 
         jest.spyOn(nationalIdInputHandler, 'getHandler').mockReturnValueOnce(nationalIdHandler);
 
 
-        registration.registerInputHandlers(lang, 'credit_officers_table', {});
+        registration.registerInputHandlers(lang, 'credit_officers_table', 'duka_clients_table');
 
         expect(addInputHandler).toHaveBeenCalledWith(accountNumberInputHandler.handlerName, accountNumberHandler);
         expect(addInputHandler).toHaveBeenCalledWith(confirmFirstSecondNameInputHandler.handlerName, confirmFirstSecondNameHandler);
@@ -49,8 +49,8 @@ describe.each(['en-ke', 'sw'])('duka client Registration using (%s)', (lang) => 
         expect(addInputHandler).toHaveBeenCalledWith(nationalIdInputHandler.handlerName, nationalIdHandler);
 
         expect(accountNumberInputHandler.getHandler).toHaveBeenCalledWith(lang, 'credit_officers_table');
-        expect(confirmFirstSecondNameInputHandler.getHandler).toHaveBeenCalledWith(lang, {}, 'credit_officers_table');
-        expect(confirmInvoiceInputHandler.getHandler).toHaveBeenCalledWith(lang, 'credit_officers_table');
+        expect(confirmFirstSecondNameInputHandler.getHandler).toHaveBeenCalledWith(lang, 'duka_clients_table');
+        expect(confirmInvoiceInputHandler.getHandler).toHaveBeenCalledWith(lang, 'duka_clients_table');
         expect(confirmNidInputHandler.getHandler).toHaveBeenCalledWith(lang);
         expect(confirmPhoneInputHandler.getHandler).toHaveBeenCalledWith(lang);
         expect(firstNameInputHandler.getHandler).toHaveBeenCalledWith(lang);

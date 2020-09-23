@@ -9,10 +9,11 @@ var handlerName = 'duka_client_registration_first_second_name_confirm';
 
 module.exports = {
     handlerName: handlerName,
-    getHandler: function(lang, officer_details, duka_clients_table) {
+    getHandler: function(lang, duka_clients_table) {
         return function(input) {
             var getMessage = translator(translations, lang);
             if(input == 1) {
+                var officer_details = JSON.parse(state.vars.credit_officer_details);
                 var clientData = {
                     districtId: officer_details.district_id,
                     siteId: officer_details.site_id,
