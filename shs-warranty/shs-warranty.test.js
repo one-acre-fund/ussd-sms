@@ -13,9 +13,11 @@ describe('shsWarrantty', () => {
     });
     describe('registerHandlers', () => {
         it('should register a serialNumberHandler', () => {
+            const server = 'https://example.com';
             const mockHandler = jest.fn();
             SerialNumberHandler.getHandler.mockReturnValue(mockHandler);
-            shsWarranty.registerHandlers();
+            shsWarranty.registerHandlers(server);
+            expect(SerialNumberHandler.getHandler).toHaveBeenCalledWith(server);
             expect(addInputHandler).toHaveBeenCalledWith(SerialNumberHandler.name, mockHandler);
         });
     });

@@ -1563,7 +1563,7 @@ global.main = function () {
 
 // load input handlers
 dukaLocator.registerDukaLocatorHandlers({lang: GetLang() ? 'en' : 'sw'});
-shsWarranty.registerHandlers();
+shsWarranty.registerHandlers(service.vars.server_name);
 transactionHistory.registerHandlers();
 clientRegistration.registerHandlers();
 justInTime.registerHandlers();
