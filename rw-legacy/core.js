@@ -21,6 +21,7 @@ service.vars.ussd_settings_table_id = 'DT1f9908b578f65458';
 service.vars.groupCodes_id = 'DTf1ac46f52abd0c5e';
 service.vars.currency = 'RwF';
 service.vars.roster_read_key = project.vars.roster_read_key;
+
 var account_splash_menu_name = '';
 if(env === 'prod'){
     service.vars.season_clients_table = project.vars.season_clients_table;
@@ -34,6 +35,7 @@ if(env === 'prod'){
     service.vars.Valid_Serial_Number_table = 'Valid_Serial_Number';
     service.vars.chicken_table_id = 'DT588706b3a7513443';
     account_splash_menu_name = 'core_enr_splash_menu';
+    service.vars.avocado_table_id = 'DT864c12fe76c43eaf';
     service.vars.rw_reg_client_table_id = 'DT29e542bf090b050f';
 }else{
     service.vars.season_clients_table = 'dev_' + project.vars.season_clients_table;
@@ -45,8 +47,10 @@ if(env === 'prod'){
     service.vars.client_enrollment_table_id = project.vars.dev_client_enrollment_data_id;
     service.vars.market_access_table_id = 'DT627b1e89d0150102';
     service.vars.Valid_Serial_Number_table = 'dev_Valid_Serial_Number';
-    account_splash_menu_name = 'dev_core_enr_splash_menu'
     account_splash_menu_name = 'dev_core_enr_splash_menu';
+    account_splash_menu_name = 'dev_core_enr_splash_menu';
+    service.vars.chicken_table_id = 'DT8c3e091b499f1726';
+    service.vars.avocado_table_id = 'DT32fb8b273aacf654';
     service.vars.chicken_table_id = 'DT8c3e091b499f1726';
     service.vars.rw_reg_client_table_id = 'DT41914a4d2dc6a29f';
 }
@@ -76,6 +80,7 @@ const chickenServices = require('../chicken-services/chickenServices');
 var transactionHistory = require('../transaction-history/transactionHistory');
 var groupRepaymentsModule = require('../group-repayments/groupRepayments');
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
+var avocadoTreesOrdering = require('../avocado-trees-ordering/avocadoTreesOrdering');
 var clientRegistration = require('../client-registration/clientRegistration');
 //options
 const lang = project.vars.cor_lang;
@@ -186,6 +191,7 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
 
 chickenServices.registerHandlers();
 transactionHistory.registerHandlers();
+avocadoTreesOrdering.registerHandlers();
 
 addInputHandler('cor_menu_select', function (input) {
     notifyELK();
@@ -423,6 +429,9 @@ addInputHandler('cor_menu_select', function (input) {
         }
     } else if(selection == 'view_group_repayment' && state.vars.isGroupLeader) {
         groupRepaymentsModule.startGroupRepayments({lang: lang});
+    }
+    else if(selection == 'avocado_trees_ordering') {
+        avocadoTreesOrdering.start(state.vars.account_number,'rw',lang);
     }
     else {
         var current_menu = msgs(selection, {}, lang);
