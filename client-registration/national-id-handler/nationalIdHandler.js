@@ -10,6 +10,9 @@ var isNationalIdValid= function(nId){
         console.log('called true');
         if (idLength == 7 || idLength == 8){return true;}
     }
+    else if(state.vars.country == 'RW'){
+        if(idLength == 16){return true;}
+    }
     console.log('called false');
     return false;
 };

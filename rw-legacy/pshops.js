@@ -27,9 +27,9 @@ else{
     service.vars.pShop_main_menu = 'dev_pshop_main_menu';
 }
 
+service.vars.agrodealers_address_table = 'agrodealers_address_table'
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
-
  
 // load in necessary functions
 var msgs = require('./lib/msg-retrieve'); // global message handler
@@ -42,6 +42,7 @@ var renew_code = require('./lib/psh-renew-code');
 var serial_no_check = require('./lib/psh-serial-verify');
 var slack = require('../slack-logger/index');
 var notiFYELK = require('../notifications/elk-notification/elkNotification');
+var agrodealerLocator = require('../agrodealer-locator/agrodealerLocator');
 // set various constants
 var settings_table = project.getOrCreateDataTable('ussd_settings');
 const max_digits_for_account_number = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits_an'}}).next().vars.value);
@@ -60,13 +61,16 @@ global.main = function() {
                                             'maxDigits'    : max_digits_for_account_number,
                                             'timeout'      : timeout_length });
 }
-
+agrodealerLocator.registerInputHandlers(lang, service.vars.agrodealers_address_table);
 // input handler for account number
 addInputHandler('account_number_splash', function(accnum){
     notiFYELK();
     try{
     // if account number is valid, save it as a state variable and display main menu
-        if(check_account_no(accnum)){ 
+        if(accnum.toString().trim() == 0) {
+            agrodealerLocator.start(lang);
+        }
+        else if(check_account_no(accnum)){ 
             state.vars.accnum = accnum;
             var menu = populate_menu(menuTable, lang);
             state.vars.current_menu_str = menu;

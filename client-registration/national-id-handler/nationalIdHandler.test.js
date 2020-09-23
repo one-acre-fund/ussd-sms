@@ -2,6 +2,8 @@ const {handlerName, getHandler} = require ('./nationalIdHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 jest.mock('../../notifications/elk-notification/elkNotification');
+
+var validRwandaNationalId = '1199780036907365';
 describe('national_id_handler', () => {
     var idVerificationHandler;
     var onNationalIdValidated;
@@ -28,9 +30,22 @@ describe('national_id_handler', () => {
         idVerificationHandler('000');
         expect(promptDigits).toHaveBeenCalledWith(handlerName);
     });
-    it('should call the onNationalIdValidated handler if the national Id is correct', () => {
+    it('should call the onNationalIdValidated handler if the national Id is correct(8 or 7 digits and the country is Kenya)', () => {
         idVerificationHandler('1234567');
         expect(onNationalIdValidated).toHaveBeenCalledWith('1234567');
     });
+
+    it('should call the onNationalIdValidated handler if the national Id is correct(16 digits and the country is Rwanda)', () => {
+        state.vars.country = 'RW';
+        idVerificationHandler(validRwandaNationalId);
+        expect(onNationalIdValidated).toHaveBeenCalledWith(validRwandaNationalId);
+    });
+    it('should call reprompt for national ID and not call the onNationalIdValidated handler, if the national Id is not correct(16 digits and the country is Rwanda)', () => {
+        idVerificationHandler(0);
+        expect(sayText).toHaveBeenCalledWith('Invalid entry. Please enter a valid national id.');
+        expect(promptDigits).toHaveBeenCalledWith(handlerName);
+        expect(onNationalIdValidated).not.toHaveBeenCalled();
+    });
+
 
 });

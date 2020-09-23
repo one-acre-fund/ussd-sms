@@ -16,12 +16,19 @@ var varietyChoiceHandler = require('./variety-choice-handler/varietyChoiceHandle
 var orderConfirmationHandler = require('./order-confirmation-handler/orderConfirmationHandler');
 var addOrderHandler = require('./add-order-handler/addOrderHandler');
 var varietyConfirmationHandler = require('./variety-confirmation-handler/varietyConfirmationHandler');
+var groupCodeHandler = require('./group-code-handler/groupCodeHandler');
 var enrollOrder = require('../Roster-endpoints/enrollOrder');
 module.exports = {
     registerHandlers: function (){
         
         function onNationalIdValidated(nationalId){
-            var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
+            var table;
+            if(state.vars.country == 'RW'){
+                table = project.initDataTableById(service.vars.rw_reg_client_table_id);
+            }
+            else{
+                table = project.initDataTableById(service.vars.lr_2021_client_table_id);
+            }
             var rows = table.queryRows({'vars': {'national_id': nationalId}});
             if(rows.hasNext()){
                 var row = rows.next();
@@ -53,16 +60,64 @@ module.exports = {
             global.promptDigits(confirmPhoneNumberHandler.handlerName);
         }
         function onPhoneNumberConfirmed(){
-            if(state.vars.canEnroll){
-                //display bundles
-                saveClientInRoster();
-                displayBundles(JSON.parse(state.vars.newClient).DistrictId); 
-                global.promptDigits(bundleChoiceHandler.handlerName);
+            if(state.vars.country == 'RW'){
+                global.sayText(translate('enter_group_code',{},state.vars.reg_lang));
+                global.promptDigits(groupCodeHandler.handlerName);
             }
             else{
-                global.sayText(translate('reg_group_leader_question',{},state.vars.reg_lang));
-                global.promptDigits(groupLeaderQuestionHander.handlerName);
+                if(state.vars.canEnroll){
+                    //display bundles
+                    saveClientInRoster();
+                    displayBundles(JSON.parse(state.vars.newClient).DistrictId); 
+                    global.promptDigits(bundleChoiceHandler.handlerName);
+                }
+                else{
+                    global.sayText(translate('reg_group_leader_question',{},state.vars.reg_lang));
+                    global.promptDigits(groupLeaderQuestionHander.handlerName);
+                }
             }
+        }
+        function onGroupCodeValidated(groupInfo){
+            var clientJSON = {
+                'districtId': groupInfo.districtId,
+                'siteId': groupInfo.siteId,
+                'groupId': groupInfo.groupId,
+                'firstName': state.vars.firstName,
+                'lastName': state.vars.lastName,
+                'nationalIdNumber': state.vars.nationalId,
+                'phoneNumber': state.vars.phoneNumber
+            };
+            try {
+
+                var clientData = JSON.parse(rosterRegisterClient(clientJSON,state.vars.reg_lang));
+                
+                if(clientData){
+                    var message = translate('enr_reg_complete',{'$ACCOUNT_NUMBER': clientData.AccountNumber},state.vars.reg_lang);
+                    var msg_route = project.vars.sms_push_route;
+                    project.sendMessage({ 'to_number': clientJSON.phoneNumber, 'route_id': msg_route, 'content': message });
+                    project.sendMessage({ 'to_number': contact.phone_number, 'route_id': msg_route, 'content': message });
+                    var table = project.initDataTableById(service.vars.rw_reg_client_table_id);
+                    var row = table.createRow({
+                        'contact_id': contact.id,
+                        vars: {
+                            'account_number': clientData.AccountNumber,
+                            'national_id': clientData.NationalId,
+                            'client_phone_number': clientJSON.phoneNumber,
+                            'first_name': clientData.FirstName,
+                            'last_name': clientData.LastName,
+                            'district': clientData.DistrictId,
+                            'site': clientData.SiteId,
+                            'new_client': '1',
+                            'registering_phone_number': contact.phone_number,
+                            'groupId': clientJSON.GroupId,
+                        }
+                    });
+                    row.save();
+                }
+            }catch (e){
+                console.log('error getting account number from roster' + e);
+            }
+
         }
         function onGroupLeaderQuestion(){
             saveClientInRoster();
@@ -79,6 +134,7 @@ module.exports = {
         addInputHandler(orderConfirmationHandler.handlerName, orderConfirmationHandler.getHandler(onOrderConfirmed));
         addInputHandler(addOrderHandler.handlerName, addOrderHandler.getHandler(onFinalizeOrder,displayBundles));
         addInputHandler(varietyConfirmationHandler.handlerName, varietyConfirmationHandler.getHandler(onBundleSelected));
+        addInputHandler(groupCodeHandler.handlerName, groupCodeHandler.getHandler(onGroupCodeValidated));
     },
     
 
