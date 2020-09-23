@@ -5,6 +5,7 @@ const orderConfirmationHandler = require('./order-confirmation-handler/orderConf
 const varietyChoiceHandler = require('./variety-choice-handler/varietyChoiceHandler');
 const varietyConfirmationHandler = require('./variety-confirmation-handler/varietyConfirmationHandler');
 const justInTime = require('./justInTime');
+var getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
 var {client}  = require('../client-enrollment/test-client-data');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 
@@ -15,6 +16,7 @@ jest.mock('./add-order-handler/addOrderHandler');
 jest.mock('./order-confirmation-handler/orderConfirmationHandler');
 jest.mock('./variety-choice-handler/varietyChoiceHandler');
 jest.mock('./variety-confirmation-handler/varietyConfirmationHandler');
+jest.mock('../shared/rosterApi/getPhoneNumber');
 
 const mockAccountNumberHandler = jest.fn();
 const mockBundleChoiceHandler = jest.fn();
@@ -189,13 +191,22 @@ describe('clientRegistration', () => {
             callback = orderConfirmationHandler.getHandler.mock.calls[0][0];           
         });
 
-        it('should display a message confirming the order is complete if the order is saved in roster',()=>{
+        it('should send a message confirming the order is complete if the order is saved in roster',()=>{
             httpClient.request.mockReturnValue({status: 201});
             contact.phone_number = phoneNumber;
             var message = 'Thank you for placing your Just in Time Top-up order.';
             callback();
             expect(sayText).toHaveBeenCalledWith('Thank you for placing your Just in Time Top-up order.');
             expect(project.sendMessage).toHaveBeenCalledWith({content: message, to_number: phoneNumber});
+        });
+        it('should send a message to the stored client\'s phone confirming the order is complete if the order is saved in roster',()=>{
+            var inactive_number = {'PhoneNumber': '0786182098', 'IsInactive': false};
+            var active_number ={'PhoneNumber': '0786182098', 'IsInactive': true};
+            getPhoneNumber.mockReturnValue([inactive_number, active_number]);
+            var message = 'Thank you for placing your Just in Time Top-up order.';
+            callback();
+            expect(sayText).toHaveBeenCalledWith('Thank you for placing your Just in Time Top-up order.');
+            expect(project.sendMessage).toHaveBeenCalledWith({content: message, to_number: active_number.PhoneNumber});
         });
         it('should display a message asking the user to try again later the order is not saved in roster',()=>{
             httpClient.request.mockReturnValue({status: 500});

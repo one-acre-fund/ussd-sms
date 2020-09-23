@@ -10,6 +10,7 @@ var orderConfirmationHandler = require('./order-confirmation-handler/orderConfir
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var enrollOrder = require('../Roster-endpoints/enrollOrder');
 var translate =  createTranslator(translations, project.vars.lang);
+var getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
 
 module.exports = {
     registerHandlers: function (){
@@ -155,6 +156,16 @@ function onOrderConfirmed(){
             content: message, 
             to_number: contact.phone_number
         });
+        var phone_numbers = getPhoneNumber(client.AccountNumber, client.CountryName);
+        if(phone_numbers) {
+            var active_phone_numbers = phone_numbers.filter(function(phone_number) {
+                return !phone_number.IsInactive;
+            });
+            project.sendMessage({
+                content: message,
+                to_number: active_phone_numbers[0].PhoneNumber,
+            });
+        }
     }
     else{
         sayText(translate('enrollment_failed',{},state.vars.jitLang));
