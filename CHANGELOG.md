@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 ## *Unreleased*
 
 ## 2020-09-23
-## Added
+### Added
 
 * [SER-209](https://oneacrefund.atlassian.net/browse/SER-209) As a client, I want to add avocado trees to my order, so that I can plant a high-impact product
 
