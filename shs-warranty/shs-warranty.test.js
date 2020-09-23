@@ -24,8 +24,12 @@ describe('shsWarrantty', () => {
             'en-ke': 'Enter the Serial number of your ProductEnter the Serial number of your Product',
             sw: 'Weka Serial number ya Bidhaa yako'
         };
+        const gcid = 'some-user-global-client-id';
         beforeEach(() => {
-            shsWarranty.start(lang);            
+            shsWarranty.start(lang, gcid);            
+        });
+        it('should set the globalCLientID in state variables', () => {
+            expect(global.state.vars.GlobalClientId).toEqual(gcid);
         });
         it('should show the serial number prompt message in '+lang, () => {
             expect(sayText).toHaveBeenCalledWith(serialNumberPromptMessage[lang]);               

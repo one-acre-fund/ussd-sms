@@ -6,7 +6,8 @@ var shsWarranty = {
     registerHandlers: function () {
         addInputHandler(SerialNumberHandler.name, SerialNumberHandler.getHandler());
     },
-    start: function (lang) {
+    start: function (lang, GlobalClientId) {
+        global.state.vars.GlobalClientId = GlobalClientId;
         var translate = createTranslator(translations,lang);
         sayText(translate('Serial-Number-Prompt'));
         promptDigits(SerialNumberHandler.name);
