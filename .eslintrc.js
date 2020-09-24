@@ -45,8 +45,6 @@ module.exports = {
         sendEmail: 'readonly',
         PhoneNumber: 'readonly',
         waitForResponse: 'readonly',
-        addResponseHandler: 'readonly',
-        addTimeoutHandler: 'readonly',
         content: 'readonly',
         sendReply: 'readonly'
     },
