@@ -151,7 +151,21 @@ module.exports = function(){
     }
     catch(e){
         var log = new Log();
-        log.error('Failed to send a request for notify ELK:', {data: e});
-        console.log('Error sending a request for notify ELK' + e);
+        log.error('Failed to send a request on 1st attempt to notify ELK:', {data: e});
+        console.log('Error sending a request on 1st attempt to notify ELK' + e);
+        try{
+            var newResponse = httpClient.request(url,opts);
+            if(newResponse.status != 200){
+                var loger = new Log();
+                console.log('bad response sending data to ELK');
+                loger.warn('Failed to send ELK notification :',{data: response});
+            }
+
+        }catch(e){
+            global.sendEmail('sabin.sheja@oneacrefund.org', e);
+            var logging = new Log();
+            logging.error('Failed to send a request on the last attempt for notify ELK:', {data: e});
+            console.log('Error sending a request for notify ELK' + e);
+        }
     }
 };

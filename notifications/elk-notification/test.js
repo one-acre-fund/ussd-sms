@@ -39,6 +39,18 @@ describe('elkNotification', () => {
         const error = new Error('Failed to notify');
         httpClient.request.mockImplementationOnce(()=>{throw error;});
         elkNotify();
-        expect(mockLogger.error).toHaveBeenCalledWith('Failed to send a request for notify ELK:',{ data: error});
+        expect(mockLogger.error).toHaveBeenCalledWith('Failed to send a request on 1st attempt to notify ELK:',{ data: error});
+    });
+    it('should send another request if the first one fails to respond',()=>{
+        const error = new Error('Failed to respond');
+        httpClient.request.mockImplementationOnce(()=>{throw error;});
+        elkNotify();
+        expect(httpClient.request).toHaveBeenCalledTimes(2);
+    });
+    it('should log the error the second error if it occurs ',()=>{
+        const error = new Error('Failed to notify');
+        httpClient.request.mockImplementationOnce(()=>{throw error;}).mockImplementationOnce(()=>{throw error;});
+        elkNotify();
+        expect(mockLogger.error).toHaveBeenCalledWith('Failed to send a request on the last attempt for notify ELK:',{ data: error});
     });
 });
