@@ -1,6 +1,6 @@
 var translations = require('../translations/index');
 var translator = require('../../../utils/translator/translator');
-var invoiceIdInputHandler = require('./invoiceIdInputHandler');
+var notifyElk = require('../../../notifications/elk-notification/elkNotification');
 
 var handlerName = 'dcr_secondName';
 
@@ -8,6 +8,8 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(lang) {
         return function(input) {
+            notifyElk();
+            var invoiceIdInputHandler = require('./invoiceIdInputHandler');
             var getMessage = translator(translations, lang);
             state.vars.duka_client_second_name = input;
             var promptInvoiceIdMessage = getMessage('enter_invoice_id', {}, lang);
