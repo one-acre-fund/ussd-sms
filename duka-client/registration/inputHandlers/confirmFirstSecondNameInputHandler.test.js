@@ -4,14 +4,23 @@ const firstNameInputHandler = require('./firstNameInputHandler');
 // const phoneNumberInputHandler = require('./phoneNumberInputHandler');
 const registerClient = require('../../../shared/rosterApi/registerClient');
 var logger = require('../../../logger/elk/elk-logger');
+const notifyElk = require('../../../notifications/elk-notification/elkNotification');
 
 jest.mock('../../../shared/rosterApi/registerClient');
 jest.mock('../../../logger/elk/elk-logger');
+jest.mock('../../../notifications/elk-notification/elkNotification');
 
 describe.each(['en-ke', 'sw'])('confirm first and second name using (%s)', (lang) => {
     beforeEach(() => {
         state.vars.credit_officer_details = JSON.stringify({district_id: '5', site_id: '6'});
     });
+
+    it('should call the elk', () => {
+        const confirmHandler = confirmFirstSecondNameInputHandler.getHandler(lang);
+        confirmHandler(2);
+        expect(notifyElk).toHaveBeenCalled();
+    });
+
     it('should prompt for first name once the user chooses 2 --' + lang, () => {
         const confirmHandler = confirmFirstSecondNameInputHandler.getHandler(lang);
         confirmHandler(2);

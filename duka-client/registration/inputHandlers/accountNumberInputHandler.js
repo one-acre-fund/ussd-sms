@@ -5,6 +5,7 @@ var getPhoneNumbers = require('../../../shared/rosterApi/getPhoneNumber');
 var registerClient = require('../../../shared/rosterApi/registerClient');
 var nationalIdInputHandler = require('./nationalIdInputHandler');
 var invoiceIdInputHandler = require('./invoiceIdInputHandler');
+var notifyElk = require('../../../notifications/elk-notification/elkNotification');
 
 var handlerName = 'DCAccNumOrnewClient'; 
 
@@ -36,6 +37,7 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(lang) {
         return function(input) {
+            notifyElk();
             var getMessage = translator(translations, lang);
             if(input == 0) {
                 if(state.vars.dcr_duka_client) {

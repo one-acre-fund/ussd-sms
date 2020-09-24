@@ -1,13 +1,15 @@
 const accountNumberInputHandler = require('./accountNumberInputHandler');
 const getClient = require('../../../shared/rosterApi/getClient');
-var registerClient = require('../../../shared/rosterApi/registerClient');
-var getPhoneNumbers = require('../../../shared/rosterApi/getPhoneNumber');
-var nationalIdInputHandler = require('./nationalIdInputHandler');
-var invoiceIdInputHandler = require('./invoiceIdInputHandler');
+const registerClient = require('../../../shared/rosterApi/registerClient');
+const getPhoneNumbers = require('../../../shared/rosterApi/getPhoneNumber');
+const nationalIdInputHandler = require('./nationalIdInputHandler');
+const invoiceIdInputHandler = require('./invoiceIdInputHandler');
+const notifyElk = require('../../../notifications/elk-notification/elkNotification');
 
 jest.mock('../../../shared/rosterApi/getClient');
 jest.mock('../../../shared/rosterApi/registerClient');
 jest.mock('../../../shared/rosterApi/getPhoneNumber');
+jest.mock('../../../notifications/elk-notification/elkNotification');
 
 describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) => {
     beforeEach(() => {
@@ -34,6 +36,12 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
         ]);
         state.vars = {};
         state.vars.credit_officer_details = JSON.stringify({site_id: '123', district_id: '321'});
+    });
+
+    it('should call the elk', () => {
+        const accountNumberHandler = accountNumberInputHandler.getHandler(lang);
+        accountNumberHandler(0);
+        expect(notifyElk).toHaveBeenCalled();
     });
 
     it('should prompt for the client\'s national id when the the chooses 0 for registering a new client', () => {

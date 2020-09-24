@@ -1,9 +1,9 @@
 
-var firstNameInputHandler = require('./firstNameInputHandler');
 var translations = require('../translations/index');
 var translator = require('../../../utils/translator/translator');
 var registerClient = require('../../../shared/rosterApi/registerClient');
 var logger = require('../../../logger/elk/elk-logger');
+var notifyElk = require('../../../notifications/elk-notification/elkNotification');
 
 var handlerName = 'dcr_first_second_name_confirm';
 
@@ -11,6 +11,7 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(lang, duka_clients_table) {
         return function(input) {
+            notifyElk();
             var getMessage = translator(translations, lang);
             if(input == 1) {
                 var officer_details = JSON.parse(state.vars.credit_officer_details);
@@ -46,6 +47,7 @@ module.exports = {
                     Log.error('Unable to register a duka client');
                 }
             } else if(input == 2) {
+                var firstNameInputHandler = require('./firstNameInputHandler');
                 global.sayText(getMessage('enter_first_name', {}, lang));
                 global.promptDigits(firstNameInputHandler.handlerName);
             } else {
