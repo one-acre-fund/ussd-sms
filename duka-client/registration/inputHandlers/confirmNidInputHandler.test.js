@@ -1,8 +1,18 @@
 const confirmNidInputHandler = require('./confirmNidInputHandler');
-var nationalIdInputHandler = require('./nationalIdInputHandler');
-var phoneNumberInputHandler = require('./phoneNumberInputHandler');
+const nationalIdInputHandler = require('./nationalIdInputHandler');
+const phoneNumberInputHandler = require('./phoneNumberInputHandler');
+const notifyElk = require('../../../notifications/elk-notification/elkNotification');
+
+jest.mock('../../../notifications/elk-notification/elkNotification');
 
 describe.each(['en-ke', 'sw'])('confirm national id input handler using (%s)', (lang) => {
+
+    it('should send the elk notification', () => {
+        const confirmHandler = confirmNidInputHandler.getHandler(lang);
+        confirmHandler(1);
+        expect(notifyElk).toHaveBeenCalled();
+    });
+
     it('should prompt for phone number once the user chooses 1 --' + lang, () => {
         const confirmHandler = confirmNidInputHandler.getHandler(lang);
         confirmHandler(1);

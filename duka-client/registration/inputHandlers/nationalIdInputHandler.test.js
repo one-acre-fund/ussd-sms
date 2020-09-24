@@ -1,7 +1,16 @@
 const nationalIdInputHandler = require('./nationalIdInputHandler');
 const confirmNidInputHandler = require('./confirmNidInputHandler');
+const notifyElk = require('../../../notifications/elk-notification/elkNotification');
+
+jest.mock('../../../notifications/elk-notification/elkNotification');
 
 describe.each(['en-ke', 'sw'])('national id input handler', (lang) => {
+    it('should send the elk notification', () => {
+        const nationalIdHandler = nationalIdInputHandler.getHandler(lang);
+        nationalIdHandler('12345678');
+        expect(notifyElk).toHaveBeenCalled();
+    });
+
     it.each(['12345678', '1234567'])('should prompt the user for comfirmation once the national id is valid.(8 or 7 digits) using (%s)', (nid) => {
         const nationalIdHandler = nationalIdInputHandler.getHandler(lang);
         const message = {

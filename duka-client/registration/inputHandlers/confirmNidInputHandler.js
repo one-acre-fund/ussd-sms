@@ -1,7 +1,6 @@
 var translations = require('../translations/index');
 var translator = require('../../../utils/translator/translator');
-var nationalIdInputHandler = require('./nationalIdInputHandler');
-var phoneNumberInputHandler = require('./phoneNumberInputHandler');
+var notifyElk = require('../../../notifications/elk-notification/elkNotification');
 
 var handlerName = 'dcr_nationalId_handler_confirm';
 
@@ -9,11 +8,14 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(lang) {
         return function(input) {
+            notifyElk();
             var getMessage = translator(translations, lang);
             if(input == 1) {
+                var phoneNumberInputHandler = require('./phoneNumberInputHandler');
                 global.sayText(getMessage('enter_phone', {}, lang));
                 global.promptDigits(phoneNumberInputHandler.handlerName);
             } else if(input == 2) {
+                var nationalIdInputHandler = require('./nationalIdInputHandler');
                 global.sayText(getMessage('enter_national_id', {}, lang));
                 global.promptDigits(nationalIdInputHandler.handlerName);
             } else {
