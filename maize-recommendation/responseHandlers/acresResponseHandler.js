@@ -2,7 +2,7 @@ var translations = require('../translations/index');
 var translator = require('../../utils/translator/translator');
 var maizeResponseHandler = require('./maizeResponseHandler');
 
-var acresHandlerName = 'acres';
+var acresHandlerName = 'maize_rec_acres';
 var bags_of_maize = {
     '4.1': {
         '$min_a': 4,
@@ -59,13 +59,13 @@ module.exports = {
                 message = bags_per_acre_title + options;
             } else {
                 // reprompt for acres
-                sendReply(state.vars.acres_message);
-                waitForResponse(acresHandlerName);
+                global.sendReply(state.vars.acres_message);
+                global.waitForResponse(acresHandlerName);
                 return;
             }
             state.vars.maize_message = message;
-            sendReply(message);
-            waitForResponse(maizeResponseHandler.handlerName);
+            global.sendReply(message);
+            global.waitForResponse(maizeResponseHandler.handlerName);
         };
     } 
 };
