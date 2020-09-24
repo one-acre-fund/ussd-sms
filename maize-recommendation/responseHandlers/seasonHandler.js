@@ -1,7 +1,7 @@
 var translations = require('../translations/index');
 var translator = require('../../utils/translator/translator');
 
-var seasonResponseHandlerName = 'season';
+var seasonResponseHandlerName = 'maize_rec_season';
 module.exports = {
     handlerName: seasonResponseHandlerName,
     getHandler: function(lang, maize_recommendation_table) {
@@ -29,22 +29,22 @@ module.exports = {
             if(seasonConfirmation == 'A') {
                 if(state.vars.bags == 'B') {
                     recommendation = getMessage('experts_recommendation', {'$recommendation': medium_productivity}, lang);
-                    sendReply(recommendation);
+                    global.sendReply(recommendation);
                 } else {
                     recommendation = getMessage('experts_recommendation', {'$recommendation': high_productivity}, lang);
-                    sendReply(recommendation);
+                    global.sendReply(recommendation);
                 }
             } else if(seasonConfirmation == 'B') {
                 if(state.vars.bags == 'B') {
                     recommendation = getMessage('experts_recommendation', {'$recommendation': low_productivity}, lang);
-                    sendReply(recommendation);
+                    global.sendReply(recommendation);
                 } else {
                     recommendation = getMessage('experts_recommendation', {'$recommendation': medium_productivity}, lang);
-                    sendReply(recommendation);
+                    global.sendReply(recommendation);
                 }
             } else {
-                sendReply(state.vars.bags_message);
-                waitForResponse(seasonResponseHandlerName);
+                global.sendReply(state.vars.bags_message);
+                global.waitForResponse(seasonResponseHandlerName);
             }
         };
     }
