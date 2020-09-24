@@ -1778,7 +1778,7 @@ addInputHandler('MainMenu', function(SplashMenu){
         } else {
             lang = 'sw';
         }
-        maizeRecommendation(lang, project.vars.maize_recommendation_service_id)
+        maizeRecommendation(lang, project.vars.maize_recommendation_service_id);
     }
     else{
         var arrayLength = client.BalanceHistory.length;

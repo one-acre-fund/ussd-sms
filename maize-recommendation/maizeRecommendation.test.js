@@ -12,7 +12,6 @@ describe.each(['en-ke', 'sw'])('Maize recommendation using (%s)', (lang) => {
     it('should send the welcome message and prompt for a district', () => {
         project.vars.dev_maize_recommendation_table = 'maize_recommendation_table';
         contact.phone_number = '0555345';
-        jest.mock('./responseHandlers/addResponseHandlers');
         var result = require('./maizeRecommendation')();
         var messages = [{
             'en-ke': 'Welcome to the OAF maize seed recommendation. Answer the questions to know the best maize variety for your farm.',
@@ -37,5 +36,30 @@ describe.each(['en-ke', 'sw'])('Maize recommendation using (%s)', (lang) => {
         });
         expect(result).toEqual({'maize_recommendation_table': 'maize_recommendation_table', lang});
         expect(waitForResponse).toHaveBeenCalledWith(districtResponseHandler.handlerName);
+    });
+});
+
+describe('checking for environment variables', () => {
+    beforeAll(() => {
+        global.contact = {vars: {lang: 'en-ke'}};
+        service.vars = {};
+    });
+    beforeEach(() => {
+        jest.resetModules();
+    });
+    it('should use a production environment once the service is live', () => {
+        service.active = true;
+        project.vars.prod_maize_recommendation_table = 'production maize_recommendation_table';
+        contact.phone_number = '0555345';
+        var result = require('./maizeRecommendation')();
+        expect(result.maize_recommendation_table).toEqual('production maize_recommendation_table');
+    });
+
+    it('should use a development environment once the service is not live', () => {
+        service.active = false;
+        project.vars.dev_maize_recommendation_table = 'develoment maize_recommendation_table';
+        contact.phone_number = '0555345';
+        var result = require('./maizeRecommendation')();
+        expect(result.maize_recommendation_table).toEqual('develoment maize_recommendation_table');
     });
 });
