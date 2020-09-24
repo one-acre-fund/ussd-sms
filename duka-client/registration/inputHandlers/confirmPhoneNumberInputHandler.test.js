@@ -1,8 +1,18 @@
 const confirmPhoneNumberInputHandler = require('./confirmPhoneNumberInputHandler');
 const phoneNumberInputHandler = require('./phoneNumberInputHandler');
 const firstNameInputHandler = require('./firstNameInputHandler');
+const notifyElk = require('../../../notifications/elk-notification/elkNotification');
+
+jest.mock('../../../notifications/elk-notification/elkNotification');
 
 describe.each(['en-ke', 'sw'])('confirm phone number input handler using (%s)', (lang) => {
+   
+    it('should send the elk notification', () => {
+        const confirmHandler = confirmPhoneNumberInputHandler.getHandler(lang);
+        confirmHandler(1);
+        expect(notifyElk).toHaveBeenCalled();
+    });
+    
     it('should prompt for first name once the user chooses 1 --' + lang, () => {
         const confirmHandler = confirmPhoneNumberInputHandler.getHandler(lang);
         confirmHandler(1);
