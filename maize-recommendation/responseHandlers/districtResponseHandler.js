@@ -2,7 +2,7 @@ var translations = require('../translations/index');
 var translator = require('../../utils/translator/translator');
 var acresResponseHandler = require('./acresResponseHandler');
 
-var districtResponseHandlerName = 'district';
+var districtResponseHandlerName = 'maize_rec_district';
 module.exports = {
     handlerName: districtResponseHandlerName,
     getHandler: function(lang, maize_recommendation_table) {
@@ -21,12 +21,12 @@ module.exports = {
                 var acres_title = getMessage('acres_title', {}, lang);
                 var acres_options = getMessage('acres_options', {}, lang);
                 var acres_message = acres_title + acres_options;
-                sendReply(acres_message);
+                global.sendReply(acres_message);
                 state.vars.acres_message = acres_message;
-                waitForResponse(acresResponseHandler.handlerName);
+                global.waitForResponse(acresResponseHandler.handlerName);
             } else {
                 var promptDistrict = getMessage('invalid_district', {}, lang);
-                sendReply(promptDistrict);
+                global.sendReply(promptDistrict);
             }
         };
     }
