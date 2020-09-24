@@ -1,11 +1,21 @@
 const invoiceIdInputHandler = require('./invoiceIdInputHandler');
 const confirmFirstSecondName = require('./confirmFirstSecondNameInputHandler');
 const confirmInvoiceInputHandler = require('./confirmInvoiceIdInputHandler');
+const notifyElk = require('../../../notifications/elk-notification/elkNotification');
 
+jest.mock('../../../notifications/elk-notification/elkNotification');
 describe.each(['en-ke', 'sw'])('confirm invoice input handler using (%s)', (lang) => {
     beforeEach(() => {
         state.vars = {};
     });
+
+    it('should call the elk', () => {
+        const handler = confirmInvoiceInputHandler.getHandler(lang);
+        state.vars.duka_client_invoice_id = 'DTX009S';
+        handler('00');
+        expect(notifyElk).toHaveBeenCalled();
+    });
+
     it('should reprompt for invoice confirmation when a user enters an invalid option --' + lang, () => {
         const handler = confirmInvoiceInputHandler.getHandler(lang);
         state.vars.duka_client_invoice_id = 'DTX009S';

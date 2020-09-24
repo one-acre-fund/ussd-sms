@@ -1,7 +1,6 @@
 var translations = require('../translations/index');
 var translator = require('../../../utils/translator/translator');
-var confirmFirstSecondName = require('./confirmFirstSecondNameInputHandler');
-
+var notifyElk = require('../../../notifications/elk-notification/elkNotification');
 
 var handlerName = 'dcr_invoice_id_confirm';
 
@@ -9,9 +8,11 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(lang, duka_clients_table) {
         return function(input) {
+            notifyElk();
             var getMessage = translator(translations, lang);
             if(input == 1) {
                 if(state.vars.duka_client_first_name) {
+                    var confirmFirstSecondName = require('./confirmFirstSecondNameInputHandler');
                     var confirmNamesMessageTitle = getMessage('first_sencond_name_confirm', {
                         '$first_name': state.vars.duka_client_first_name,
                         '$second_name': state.vars.duka_client_second_name
