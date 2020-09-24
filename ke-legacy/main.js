@@ -1362,6 +1362,10 @@ var JITENationalInvalidText = function(){
     if (GetLang()){sayText('Invalid entry.\nPlease enter a valid national id.');}
     else {sayText('Usajili usiosahihi\nTafadhali weka nambari sahihi ya kitambulisho');}
 };
+var NationalInvalidText = function(){
+    if (GetLang()){sayText('Invalid entry.\nPlease enter a valid national id.');}
+    else {sayText('Usajili usiosahihi\nTafadhali weka nambari sahihi ya kitambulisho');}
+};
 var JITEAlreadyOrderedText = function(){
     if (GetLang()){sayText('This person already placed an order.\n1) Back to menu');}
     else {sayText('Mtu huyu tayari ameweka agizo/ ameitisha bidhaa\n1) Rudi kwa menu');}
@@ -1390,8 +1394,16 @@ var JITEOrdeCloseText = function(){
 };
 // FO Locator
 var FOLocatorRegionText = function (){
-    if (GetLang()){sayText('To find your Field Officer Select region\n1) Central\n2) Nyanza\n3) Rift Valley\n4) Western\n#) My region is not listed');}
-    else {sayText('Kupata afisa wa nyanjani, chagua Mkoa wako\n1) Central\n2) Nyanza\n3) Rift Valley\n4) Western\n#) Mkoa wangu hauko kwenye orodha');}
+    if (GetLang()){sayText('To learn more we will connect you with a staff near you. Select Province\n1) Central\n2) Nyanza\n3) Rift Valley\n4) Western\n#)  My province is not in the list');}
+    else {sayText('Kwa maelezo zaidi tutakuelekeza na mfanya kazi aliye karibu nawe. Chagua wilaya.\n1) Central\n2) Nyanza\n3) Rift Valley\n4) Western\n#)  Wilaya yangu haipo hapa');}
+};
+var EnterNationalIdText = function(){
+    if (GetLang()){sayText('What is your national ID?');}
+    else {sayText('Weka nambari ya kitambulisho ya mkulima?');}
+};
+var ConfirmNationalIdText = function(id){
+    if (GetLang()){sayText('You enter '+ id +' ID. Enter\n1) To confirm or \n2) To try again.');}
+    else {sayText('Umeweka nambari ya kitambulisho '+ id +'. Weka\n1) kudhibitisha au \n2) kujaribu tena.');}
 };
 var LocationNotKnownText = function(){
     if (GetLang()){sayText('Sorry OAF does not work in your area');}
@@ -1551,6 +1563,13 @@ clientRegistration.registerHandlers();
 justInTime.registerHandlers();
 groupRepaymentsModule.registerGroupRepaymentHandlers({lang: GetLang() ? 'en' : 'sw', main_menu: state.vars.main_menu, main_menu_handler: 'MainMenu'});
 
+
+function reduceClientSize(client) {
+    var cloned = _.clone(client);
+    cloned.AccountHistory = client.AccountHistory.slice(0,3);
+    cloned.BalanceHistory = client.BalanceHistory.slice(0,3);
+    return cloned;
+}
 addInputHandler('SplashMenu', function(SplashMenu) {
     LogSessionID();
     InteractionCounter('SplashMenu');
@@ -1572,8 +1591,11 @@ addInputHandler('SplashMenu', function(SplashMenu) {
         if (RosterClientVal(ClientAccNum)){
             console.log('SuccessFully Validated against Roster');
             client = RosterClientGet(ClientAccNum);
-            //console.log('Client JSON******************************'+JSON.stringify(client)+'******************');
-            state.vars.client_json = JSON.stringify(client);
+            try {
+                state.vars.client_json = JSON.stringify(client);                
+            } catch (error) {
+                state.vars.client_json = JSON.stringify(reduceClientSize(client));
+            }
             // check for group leader
             var isGroupLeader = checkGroupLeader(client.DistrictId, client.ClientId);
             state.vars.isGroupLeader = isGroupLeader;
@@ -1624,8 +1646,8 @@ addInputHandler('NonClientMenu', function(input) {
         promptDigits('NonClientMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
     else if(sessionMenu[input-1].option_name == 'find_oaf_contact'){
-        FOLocatorRegionText();
-        promptDigits('FOLocRegion', {submitOnHash: true, maxDigits: 1, timeout: 5});
+        EnterNationalIdText();
+        promptDigits('FONationaIdHandler', {submitOnHash: true, maxDigits: 8, timeout: 5});
     }
     else if(sessionMenu[input-1].option_name == 'trainings'){
         TrainingMenuText();
@@ -1837,6 +1859,52 @@ addInputHandler('PaymentAmount', function(PaymentAmount) {
     else{
         PaymentRetryText();
         promptDigits('PaymentAmount', {submitOnHash: true, maxDigits: 5, timeout: 5});
+    }
+});
+addInputHandler('FONationaIdHandler', function( nationaId){
+    LogSessionID();
+    InteractionCounter('FONationaIdHandler');
+    if(ValNationalID(nationaId)){
+        state.vars.nationalId = nationaId;
+        ConfirmNationalIdText(nationaId);
+        promptDigits('confirmNationalIdHanlder', {submitOnHash: true, maxDigits: 8, timeout: 5});
+    }else{
+        NationalInvalidText();
+        promptDigits('FONationaIdHandler', {submitOnHash: true, maxDigits: 8, timeout: 5});
+    }
+
+});
+addInputHandler('confirmNationalIdHanlder', function(input){
+    LogSessionID();
+    InteractionCounter('confirmNationalIdHanlder');
+    if(input == 1){
+        var ProspectTable = project.getOrCreateDataTable('FO_Locator_Prospects');
+        var cursor = ProspectTable.queryRows({ 'vars': {'NationalId': state.vars.nationalId }});
+        if(cursor.hasNext()){
+            var row = cursor.next();
+            state.vars.FOName = row.vars.FOName;
+            state.vars.FOPN = row.vars.FOPhoneNumber;
+            var FarmerSMSContent = FOLocatorFarmerSMS();
+            project.scheduleMessage({
+                message_type: 'service', 
+                to_number: contact.phone_number, 
+                start_time_offset: 0,
+                service_id: 'SVc758c8b7ad90dd27',
+                vars: {content: FarmerSMSContent}
+            });
+        }
+        else{
+            FOLocatorRegionText();
+            promptDigits('FOLocRegion', {submitOnHash: true, maxDigits: 8, timeout: 5});
+        }
+    }
+    else if (input == 2 ){
+        EnterNationalIdText();
+        promptDigits('FONationaIdHandler', {submitOnHash: true, maxDigits: 8, timeout: 5});
+    }
+    else{
+        ConfirmNationalIdText(state.vars.nationalId);
+        promptDigits('confirmNationalIdHanlder', {submitOnHash: true, maxDigits: 5, timeout: 5});
     }
 });
 addInputHandler('FOLocRegion', function(Region) {
@@ -2144,7 +2212,8 @@ addInputHandler('FOLocConfrim', function(Confirm) {
                 SiteName: state.vars.FOLocatorSiteName,
                 WardName: state.vars.FOLocatorWardName,
                 FOName: state.vars.FOName,
-                FOPhoneNumber: state.vars.FOPN 
+                FOPhoneNumber: state.vars.FOPN,
+                NationalId: state.vars.nationalId
             }
         });
         ProspectRow.save();

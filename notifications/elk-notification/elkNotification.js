@@ -140,10 +140,14 @@ module.exports = function(){
 
     opts.method = 'POST';
     opts.data = dataJSON;
-    var response = httpClient.request(url,opts);
-    if(response.status != 200){
-        console.log('error sending data to ELK');
-        slack.log('Failed to send ELK notification :'+ JSON.stringify(response));
+    try{
+        var response = httpClient.request(url,opts);
+        if(response.status != 200){
+            console.log('error sending data to ELK');
+            slack.log('Failed to send ELK notification :'+ JSON.stringify(response) +JSON.stringify(opts));
+        }
     }
-
+    catch(e){
+        slack.log('Failed to save request:'+ JSON.stringify(opts.data));
+    }
 };

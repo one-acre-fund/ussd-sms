@@ -42,7 +42,8 @@ if (DistrictCursor.hasNext()) {
     state.vars.lang = 'sw';
     state.vars.English = '0';
 }
-var getMessage = translator(translations, state.vars.lang);
+var lang = state.vars.lang;
+var getMessage = translator(translations, lang);
 
 // This script prepares the balance information
 var arrayLength = client.BalanceHistory.length;
@@ -57,10 +58,16 @@ for (var i = 0; i < arrayLength; i++) {
         balance = balance + client.BalanceHistory[i].Balance;
     }
 }
+var languagesLabels = {
+    'sw': 'Swahili',
+    'en-ke': 'English'
+};
 var phone_numbers = getPhoneNumber(client.AccountNumber, client.CountryName);
 if(balance <= 0) {
+    var shsNotificationLabel = project.getOrCreateLabel('shs notification');
+    var shsLanguageLabel = project.getOrCreateLabel(languagesLabels[lang]);
     // if the user has paid all credit or over paid
-    var shsNotification = getMessage('shs_notification', {}, state.vars.lang);
+    var shsNotification = getMessage('shs_notification', {}, lang);
     if(phone_numbers) {
         var active_phone_numbers = phone_numbers.filter(function(phone_number) {
             return !phone_number.IsInactive;
@@ -68,14 +75,17 @@ if(balance <= 0) {
         project.sendMessage({
             content: shsNotification,
             to_number: active_phone_numbers[0].PhoneNumber,
+            label_ids: [shsNotificationLabel.id, shsLanguageLabel.id],
+            route_id: project.vars.repayments_sms_route,
+            message_type: 'sms'
         });
     } else {
         logger.log('error in shs notification: could not get a to_phone number from roster');
     }
 }
 var mmReceipt = '';
-    
 
+var repaymentsLabels = [languagesLabels[lang], 'MM receipt', 'Business Operations'];
 if (client.BalanceHistory[0].TotalRepayment_IncludingOverpayments > client.BalanceHistory[0].TotalCredit){
     var OverpaidAmount = client.BalanceHistory[0].TotalRepayment_IncludingOverpayments - client.BalanceHistory[0].TotalCredit;
     mmReceipt = getMessage('mm_receipt_over_paid', {
@@ -84,7 +94,8 @@ if (client.BalanceHistory[0].TotalRepayment_IncludingOverpayments > client.Balan
         '$lastTransactionAmount': contact.vars.lastTransactionAmount,
         '$lastTransactionId': contact.vars.lastTransactionId,
         '$OverpaidAmount': OverpaidAmount
-    }, state.vars.lang);
+    }, lang);
+    repaymentsLabels.push('Overpaid');
 }else{
     mmReceipt = getMessage('mm_receipt', {
         '$FirstName': client.FirstName,
@@ -93,11 +104,18 @@ if (client.BalanceHistory[0].TotalRepayment_IncludingOverpayments > client.Balan
         '$lastTransactionId': contact.vars.lastTransactionId,
         '$paid': paid,
         '$balance': balance
-    }, state.vars.lang);
+    }, lang);
 }
+var repaymentLabelIds = [];
+repaymentsLabels.map(function(repaymentLabel){
+    var label = project.getOrCreateLabel(repaymentLabel);
+    repaymentLabelIds.push(label.id);
+});
 
 project.sendMessage({
     content: mmReceipt,
     to_number: contact.phone_number,
+    label_ids: repaymentLabelIds,
+    route_id: project.vars.repayments_sms_route,
+    message_type: 'sms'
 });
-
