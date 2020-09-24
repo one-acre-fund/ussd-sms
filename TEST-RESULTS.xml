@@ -1,9 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="2" failures="0" time="2.986">
-  <testsuite name="Maize recommendation using (en-ke)" errors="0" failures="0" skipped="0" timestamp="2020-09-24T06:54:32" time="1.158" tests="2">
-    <testcase classname="Maize recommendation using (en-ke) should send the welcome message and prompt for a district" name="Maize recommendation using (en-ke) should send the welcome message and prompt for a district" time="0.01">
+<testsuites name="jest tests" tests="15" failures="0" time="3.827">
+  <testsuite name="Maize response handler" errors="0" failures="0" skipped="0" timestamp="2020-09-24T08:12:02" time="0.971" tests="4">
+    <testcase classname="Maize response handler should reprompt for the maize bags once the input is invalid" name="Maize response handler should reprompt for the maize bags once the input is invalid" time="0.004">
     </testcase>
-    <testcase classname="Maize recommendation using (sw) should send the welcome message and prompt for a district" name="Maize recommendation using (sw) should send the welcome message and prompt for a district" time="0.004">
+    <testcase classname="Maize response handler should send a low productivity recommendation message once user chooses A" name="Maize response handler should send a low productivity recommendation message once user chooses A" time="0.001">
+    </testcase>
+    <testcase classname="Maize response handler should prompt for the season comfirmation once the user chooses b" name="Maize response handler should prompt for the season comfirmation once the user chooses b" time="0.001">
+    </testcase>
+    <testcase classname="Maize response handler should prompt for the season comfirmation once the user chooses c" name="Maize response handler should prompt for the season comfirmation once the user chooses c" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="acres response handler" errors="0" failures="0" skipped="0" timestamp="2020-09-24T08:12:02" time="0.996" tests="6">
+    <testcase classname="acres response handler should ask the user to try again once the input is invalid" name="acres response handler should ask the user to try again once the input is invalid" time="0.005">
+    </testcase>
+    <testcase classname="acres response handler should ask for bags of maize once the input is A" name="acres response handler should ask for bags of maize once the input is A" time="0.001">
+    </testcase>
+    <testcase classname="acres response handler should ask for bags of maize once the input is B" name="acres response handler should ask for bags of maize once the input is B" time="0.001">
+    </testcase>
+    <testcase classname="acres response handler should ask for bags of maize once the input is B" name="acres response handler should ask for bags of maize once the input is B" time="0.001">
+    </testcase>
+    <testcase classname="acres response handler should ask for bags of maize per acre once the input is D" name="acres response handler should ask for bags of maize per acre once the input is D" time="0.002">
+    </testcase>
+    <testcase classname="acres response handler should ask for bags of maize per acre once the input is E" name="acres response handler should ask for bags of maize per acre once the input is E" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Maize recommendation using (en-ke)" errors="0" failures="0" skipped="0" timestamp="2020-09-24T08:12:03" time="0.261" tests="2">
+    <testcase classname="Maize recommendation using (en-ke) should send the welcome message and prompt for a district" name="Maize recommendation using (en-ke) should send the welcome message and prompt for a district" time="0.011">
+    </testcase>
+    <testcase classname="Maize recommendation using (sw) should send the welcome message and prompt for a district" name="Maize recommendation using (sw) should send the welcome message and prompt for a district" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="registering response handlers" errors="0" failures="0" skipped="0" timestamp="2020-09-24T08:12:03" time="0.242" tests="1">
+    <testcase classname="registering response handlers should match all response handlers to their response handler names" name="registering response handlers should match all response handlers to their response handler names" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="District response handler" errors="0" failures="0" skipped="0" timestamp="2020-09-24T08:12:03" time="0.59" tests="2">
+    <testcase classname="District response handler should ask the user to try again the ussd once the district is not found" name="District response handler should ask the user to try again the ussd once the district is not found" time="0.003">
+    </testcase>
+    <testcase classname="District response handler should prompt for acres planted per farm once the district is found" name="District response handler should prompt for acres planted per farm once the district is found" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>

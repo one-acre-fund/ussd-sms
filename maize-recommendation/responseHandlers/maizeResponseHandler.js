@@ -2,7 +2,7 @@ var translations = require('../translations/index');
 var translator = require('../../utils/translator/translator');
 var seasonHandler = require('./seasonHandler');
 
-var maizeResponseHandlerName = 'maize_bags';
+var maizeResponseHandlerName = 'maize_rec_maize_bags';
 module.exports = {
     handlerName: maizeResponseHandlerName,
     getHandler: function(lang, maize_recommendation_table) {
@@ -20,7 +20,7 @@ module.exports = {
                 if(row.hasNext()) {
                     var record = row.next();
                     low_productivity = record.vars.low_productivity;
-                    sendReply(low_productivity);
+                    global.sendReply(low_productivity);
                 }
             } else if(maizeBags == 'B' || maizeBags == 'C') {
                 state.vars.bags = maizeBags;
@@ -28,11 +28,11 @@ module.exports = {
                 var options = getMessage('time_planted', {}, lang);
                 var message = maize_title + options;
                 state.vars.bags_message = message;
-                sendReply(message);
-                waitForResponse(seasonHandler.handlerName);
+                global.sendReply(message);
+                global.waitForResponse(seasonHandler.handlerName);
             } else {
-                sendReply(state.vars.acres_message);
-                waitForResponse(maizeResponseHandlerName);
+                global.sendReply(state.vars.acres_message);
+                global.waitForResponse(maizeResponseHandlerName);
             }
         };
     }

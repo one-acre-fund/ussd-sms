@@ -1,4 +1,5 @@
 var districtResponseHandler = require('./districtResponseHandler');
+var acresResponseHandler = require('./acresResponseHandler');
 
 describe('District response handler', () => {
 
@@ -38,6 +39,6 @@ describe('District response handler', () => {
         'C. 3/4 acre\n' +
         'D. 1 acre\n' +
         'E. More than 1 acre');
-        expect(waitForResponse).toHaveBeenCalledWith('acres');
+        expect(waitForResponse).toHaveBeenCalledWith(acresResponseHandler.handlerName);
     });
 });
