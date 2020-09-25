@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 ## Added
 
 * [SER-209](https://oneacrefund.atlassian.net/browse/SER-209) As a client, I want to add avocado trees to my order, so that I can plant a high-impact product
+* [SER-206](https://oneacrefund.atlassian.net/browse/SER-206) As a credit officer, I want to register clients so that their purchase can be recorded in Roster
+* [SER-221](https://oneacrefund.atlassian.net/browse/SER-221) Create a data table in Telerivet that stores a client's account number and invoice ID
 
 ## Changed
 
