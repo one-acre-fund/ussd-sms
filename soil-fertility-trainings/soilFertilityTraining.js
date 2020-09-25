@@ -1,32 +1,33 @@
-var defaultEnvironment;
-if(service.active){
-    defaultEnvironment = 'prod';
-}else{
-    defaultEnvironment = 'dev';
-}
 
-var env;
-if(service.vars.env === 'prod' || service.vars.env === 'dev'){
-    env = service.vars.env;
-}else{
-    env = defaultEnvironment;
-}
+module.exports = function() {
+    var defaultEnvironment;
+    if(service.active){
+        defaultEnvironment = 'prod';
+    }else{
+        defaultEnvironment = 'dev';
+    }
 
-console.log(env);
+    var env;
+    if(service.vars.env === 'prod' || service.vars.env === 'dev'){
+        env = service.vars.env;
+    }else{
+        env = defaultEnvironment;
+    }
 
-var translations = require('./translations/index');
-var translator = require('../utils/translator/translator');
-var addResponseHandlers = require('./responseHandlers/addResponseHandlers');
-var Batch1ResponseHandler = require('./responseHandlers/batch1ResponseHandler');
+    console.log(env);
 
-var lang = contact.vars.lang;
-var getMessage = translator(translations, lang);
-project.sendMulti({
-    messages: [
-        {content: getMessage('sms-1.1', {}, lang), to_number: contact.phone_number}, 
-        {content: getMessage('sms-1.2', {}, lang), to_number: contact.phone_number}], 
-    message_type: 'text'
-});
-waitForResponse(Batch1ResponseHandler.handlerName);
+    var translations = require('./translations/index');
+    var translator = require('../utils/translator/translator');
+    var Batch1ResponseHandler = require('./responseHandlers/batch1ResponseHandler');
 
-addResponseHandlers(lang);
+    var lang = contact.vars.lang;
+    var getMessage = translator(translations, lang);
+    project.sendMulti({
+        messages: [
+            {content: getMessage('sms-1.1', {}, lang), to_number: contact.phone_number}, 
+            {content: getMessage('sms-1.2', {}, lang), to_number: contact.phone_number}], 
+        message_type: 'text'
+    });
+    global.waitForResponse(Batch1ResponseHandler.handlerName);
+    return lang;
+};

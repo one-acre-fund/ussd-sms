@@ -10,6 +10,7 @@ var translator = require('../utils/translator/translator');
 module.exports = function(lang, trigger, serviceId) {
     var getMessage = translator(translations, lang);
     var message = getMessage('message_notification', {}, lang);
+    contact.vars.lang = lang;
     sayText(message);
     trigger(serviceId);
     stopRules();
