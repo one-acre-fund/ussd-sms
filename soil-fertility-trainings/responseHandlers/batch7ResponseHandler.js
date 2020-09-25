@@ -12,7 +12,7 @@ module.exports = {
             var messages = ['sms-7.1', 'sms-7.2'];
 
             messages.forEach(function(message) {
-                sendReply(getMessage(message, {}, lang));
+                global.sendReply(getMessage(message, {}, lang));
             });
         };
     }
