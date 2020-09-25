@@ -58,3 +58,7 @@ global.project.getOrCreateLabel = jest.fn();
 global.project.sendMessage = jest.fn();
 global.sendEmail = jest.fn();
 project.getOrCreateDataTable = jest.fn();
+global.waitForResponse = jest.fn();
+global.content = null;
+global.sendReply = jest.fn();
+project.initServiceById = jest.fn();

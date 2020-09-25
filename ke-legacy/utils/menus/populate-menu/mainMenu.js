@@ -99,7 +99,7 @@ module.exports = [
     },
     {
         'en-ke': 'Maize Recommendations',
-        'sw': 'Maize Recommendations',
+        'sw': 'Ushauri wa aina ya mahindi',
         'option_name': 'maize_recommendation',
         'end_date': project.vars.end_maize_recommendation,
         'start_date': project.vars.start_maize_recommendation
