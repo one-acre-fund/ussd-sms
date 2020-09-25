@@ -1030,8 +1030,8 @@ var NonClientMenuTextWithMsg = function (msg) {
 };
 
 var PaymentMenuText = function (client){
-    var repaid = GetRepaid (client, client.BalanceHistory[0].SeasonName);
-    var balance = GetBalance(client, client.BalanceHistory[0].SeasonName);
+    var repaid = client.BalanceHistory.length > 0 ? GetRepaid (client, client.BalanceHistory[0].SeasonName) : 0;
+    var balance = client.BalanceHistory.length > 0 ? GetBalance(client, client.BalanceHistory[0].SeasonName) : 0;
     if (GetLang()){sayText('You are paying into account number '+client.AccountNumber+' Total Repaid '+repaid+', Bal '+balance+'.Please reply with the amount you want to pay');}
     else {sayText('Unafanya malipo kwa hii akaunti '+client.AccountNumber+' Jumla ya malipo '+repaid+', Salio '+balance+'.Tafadhali weka kiasi unachotaka kulipa');}
 };
