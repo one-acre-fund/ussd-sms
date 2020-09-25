@@ -10,6 +10,7 @@ var orderConfirmationHandler = require('./order-confirmation-handler/orderConfir
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var enrollOrder = require('../Roster-endpoints/enrollOrder');
 var translate =  createTranslator(translations, project.vars.lang);
+var getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
 
 module.exports = {
     registerHandlers: function (){
@@ -147,14 +148,29 @@ function onOrderConfirmed(){
         'isGroupLeader': isGroupLeader,
         'clientBundles': requestBundles
     };
-   
+    var orderPlacedMessage = '';
     if(enrollOrder(requestData)){
-        var message = translate('final_message',{},state.vars.jitLang);
+        var orderPlaced = JSON.parse(state.vars.orders);
+        console.log(orderPlaced);
+        for( var m = 0; m < orderPlaced.length; m++ ){
+            orderPlacedMessage = orderPlacedMessage + orderPlaced[m].bundleName + ' ' + orderPlaced[m].price + ' ';
+        } 
+        var message = translate('final_message',{'$products': orderPlacedMessage},state.vars.jitLang);
         sayText(message);
         project.sendMessage({
             content: message, 
             to_number: contact.phone_number
         });
+        var phone_numbers = getPhoneNumber(client.AccountNumber, client.CountryName);
+        if(phone_numbers) {
+            var active_phone_numbers = phone_numbers.filter(function(phone_number) {
+                return !phone_number.IsInactive;
+            });
+            project.sendMessage({
+                content: message,
+                to_number: active_phone_numbers[0].PhoneNumber,
+            });
+        }
     }
     else{
         sayText(translate('enrollment_failed',{},state.vars.jitLang));
