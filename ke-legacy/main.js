@@ -942,8 +942,8 @@ var StaffCreateRequest = function(payrollid,startday,amount){
 
 //MAIN FUNCTIONS OR GENERIC TEXT
 var SplashMenuText = function (){
-    if (GetLang()){sayText('Welcome to the OAF portal. Please enter the 8 digit account number you use for repayment\nPress 0 if you do not have an OAF account\n99) Swahili');}
-    else {sayText('Karibu kwenye huduma ya One Acre Fund. Tafadhali bonyenza nambari zako 8 za akaunti. \nBonyeza 0 kama hauna akaunti ya OAF\n99) English');}
+    if (GetLang()){sayText('Welcome to the One Acre Fund Portal. Press 0 if you do not have One Acre Fund account.If you have an account, please enter the 8 digit account number you use for repayment.99)Kiswahili');}
+    else {sayText('Karibu One Acre Fund. Bonyeza 0 kama hauna akauti namba ya One Acre Fund.Kama uko na akauti namba, Tafadhali weka numbari yako ya akaunti ya nambari nane unayotumia  kufanya malipo.99) English');}
 };
 var SplashMenuFailure = function (){
     if (GetLang()){sayText('Incorrect input. Please enter the 8 digit account number you use for repayment\nPress 0 if you do not have an OAF account\n99) Swahili');}
@@ -971,11 +971,11 @@ var MainMenuText = function(){
 var MainMenuTextWithMsg = function (msg) {
     var populateMainMenu = require('./utils/menus/populate-menu/populateMenu');
     if (msg.length > 50) {
-        msg = msg.substr(0, 50)
+        msg = msg.substr(0, 50);
     }
     var menu = populateMainMenu(state.vars.lang, 140 - (msg.length + 1), true);
     if (typeof (menu) == 'string') {
-        sayText(msg + "\n" + menu);
+        sayText(msg + '\n' + menu);
         state.vars.multiple_input_menus = 0;
         state.vars.main_menu = menu;
         state.vars.input_menu = menu;
@@ -984,7 +984,7 @@ var MainMenuTextWithMsg = function (msg) {
         state.vars.input_menu_loc = 0; //watch for off by 1 errors - consider moving this to start at 1
         state.vars.multiple_input_menus = 1;
         state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
-        sayText(msg + "\n" + menu[state.vars.input_menu_loc]);
+        sayText(msg + '\n' + menu[state.vars.input_menu_loc]);
         state.vars.main_menu = menu[state.vars.input_menu_loc];
         state.vars.input_menu = JSON.stringify(menu);
     }
@@ -1010,11 +1010,11 @@ var NonClientMenuText = function (){
 var NonClientMenuTextWithMsg = function (msg) {
     var populateMainMenu = require('./utils/menus/populate-menu/populateMenu');
     if (msg.length > 50) {
-        msg = msg.substr(0, 50)
+        msg = msg.substr(0, 50);
     }
     var menu = populateMainMenu(state.vars.lang, 140 - (msg.length - 1), false);
     if (typeof (menu) == 'string') {
-        sayText(msg + "\n" + menu);
+        sayText(msg + '\n' + menu);
         state.vars.multiple_input_menus = 0;
         state.vars.input_menu = menu;
         state.vars.main_menu = menu;
@@ -1024,7 +1024,7 @@ var NonClientMenuTextWithMsg = function (msg) {
         state.vars.multiple_input_menus = 1;
         state.vars.main_menu = menu[state.vars.input_menu_loc];
         state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
-        sayText(msg + "\n" + menu[state.vars.input_menu_loc]);
+        sayText(msg + '\n' + menu[state.vars.input_menu_loc]);
         state.vars.input_menu = JSON.stringify(menu);
     }
 };
@@ -1146,6 +1146,7 @@ var SHSRegOtherText= function(){
     if (GetLang()){sayText('This SHS is already registered to somebody else\n9) Back to main\n99) Report issue');}
     else {sayText('Taa hii Imesajiliwa na mkulima mwingine\n9) Rudi Hadi Mwanzo\n99) Kwa shida Yoyote');}
 };
+
 var SHSTypeText = function(){
 
     var SHSTypeArray = JSON.parse(state.vars.SHS_Type);
@@ -1404,10 +1405,6 @@ var JITENationalInvalidText = function(){
     if (GetLang()){sayText('Invalid entry.\nPlease enter a valid national id.');}
     else {sayText('Usajili usiosahihi\nTafadhali weka nambari sahihi ya kitambulisho');}
 };
-var NationalInvalidText = function(){
-    if (GetLang()){sayText('Invalid entry.\nPlease enter a valid national id.');}
-    else {sayText('Usajili usiosahihi\nTafadhali weka nambari sahihi ya kitambulisho');}
-};
 var JITEAlreadyOrderedText = function(){
     if (GetLang()){sayText('This person already placed an order.\n1) Back to menu');}
     else {sayText('Mtu huyu tayari ameweka agizo/ ameitisha bidhaa\n1) Rudi kwa menu');}
@@ -1435,36 +1432,33 @@ var JITEOrdeCloseText = function(){
     else {sayText('Asante kwa kujisajili na One acre Fund kupitia Just in Time.');}    
 };
 // FO Locator
+var CallMeBackFOLOcatorConfirmText = function(){
+    if (GetLang()){sayText('Thank you for your interest to join One Acre Fund. We will be calling you back in 24 hours');}
+    else {sayText('Asante kwa kuonesha nia ya kujisajili na OAF. Utapokea simu kwa muda usio zidi masaa ishirini na nne (24hrs)');}
+
+};
 var FOLocatorRegionText = function (){
-    if (GetLang()){sayText('To learn more we will connect you with a staff near you. Select Province\n1) Central\n2) Nyanza\n3) Rift Valley\n4) Western\n#)  My province is not in the list');}
-    else {sayText('Kwa maelezo zaidi tutakuelekeza na mfanya kazi aliye karibu nawe. Chagua wilaya.\n1) Central\n2) Nyanza\n3) Rift Valley\n4) Western\n#)  Wilaya yangu haipo hapa');}
-};
-var EnterNationalIdText = function(){
-    if (GetLang()){sayText('What is your national ID?');}
-    else {sayText('Weka nambari ya kitambulisho ya mkulima?');}
-};
-var ConfirmNationalIdText = function(id){
-    if (GetLang()){sayText('You enter '+ id +' ID. Enter\n1) To confirm or \n2) To try again.');}
-    else {sayText('Umeweka nambari ya kitambulisho '+ id +'. Weka\n1) kudhibitisha au \n2) kujaribu tena.');}
+    if (GetLang()){sayText('To learn more we will connect you with a staff near you. Select Province\n1) Central\n2) Nyanza\n3) Rift Valley\n4) Western\n0)  My province is not in the list');}
+    else {sayText('Kwa maelezo zaidi tutakuelekeza na mfanya kazi aliye karibu nawe. Chagua wilaya.\n1) Central\n2) Nyanza\n3) Rift Valley\n4) Western\n0)  Wilaya yangu haipo hapa');}
 };
 var LocationNotKnownText = function(){
     if (GetLang()){sayText('Sorry OAF does not work in your area');}
     else {sayText('Samahani, OAF haiko kwenye eneo lako');}
 };
 var FOLocatorCountyText = function(LocMenu){
-    if (GetLang()){sayText('Which county are you in?\n'+LocMenu+'\n#) My county is not listed');}
+    if (GetLang()){sayText('Which county are you in?\n'+LocMenu+'\n0) My county is not listed');}
     else {sayText('Chagua Kata yako\n'+LocMenu+'\n#) Kata yangu haiko kwenye orodha');}
 };
 var FOLocatorSubCountyText = function(LocMenu){
-    if (GetLang()){sayText('Which sub county are you in?\n'+LocMenu+'\n#) My subcounty is not listed');}
+    if (GetLang()){sayText('Which sub county are you in?\n'+LocMenu+'\n0) My subcounty is not listed');}
     else {sayText('Chagua Kataa Ndogo yako\n'+LocMenu+'\n#) Kataa Ndogo yangu haiko kwenye orodha');}
 };
 var FOLocatorWardText = function(LocMenu){
-    if (GetLang()){sayText('Which Ward are you in?\n'+LocMenu+'\na) Go to OAF Sites\n#) My ward is not listed');}
+    if (GetLang()){sayText('Which Ward are you in?\n'+LocMenu+'\na) Go to OAF Sites\n0) My ward is not listed');}
     else {sayText('Chagua Wadi yako\n'+LocMenu+'\na) Chagua OAF site\n#) Wadi yangu haiko kwenye orodha');}
 };
 var FOLocatorSiteText = function(LocMenu){
-    if (GetLang()){sayText('Which ONE ACRE FUND site are you in?\n'+LocMenu+'\n#) My site is not listed');}
+    if (GetLang()){sayText('Which ONE ACRE FUND site are you in?\n'+LocMenu+'\n0) My site is not listed');}
     else {sayText('Chagua site yako\n'+LocMenu+'\n#) Site yangu haiko kwenye orodha');}
 };
 var FOLocatorConfirmText = function(){
@@ -1688,12 +1682,12 @@ addInputHandler('NonClientMenu', function(input) {
         promptDigits('NonClientMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
     else if (!sessionMenu[input - 1]) {
-        NonClientMenuTextWithMsg("Incorrect input");
+        NonClientMenuTextWithMsg('Incorrect input');
         promptDigits('NonClientMenu', { submitOnHash: true, maxDigits: 2, timeout: 5 });
     }
     else if(sessionMenu[input-1].option_name == 'find_oaf_contact'){
-        EnterNationalIdText();
-        promptDigits('FONationaIdHandler', {submitOnHash: true, maxDigits: 8, timeout: 5});
+        FOLocatorRegionText();
+        promptDigits('FOLocRegion', {submitOnHash: true, maxDigits: 8, timeout: 5});
     }
     else if(sessionMenu[input-1].option_name == 'trainings'){
         TrainingMenuText();
@@ -1739,8 +1733,8 @@ addInputHandler('MainMenu', function(SplashMenu){
         promptDigits('MainMenu', {submitOnHash: true, maxDigits: 8, timeout: 5});
     }
     else if (!sessionMenu[SplashMenu - 1]) {
-        MainMenuTextWithMsg("Incorrect input", client);
-        promptDigits('MainMenu', { submitOnHash: true, maxDigits: 8, timeout: 5 })
+        MainMenuTextWithMsg('Incorrect input', client);
+        promptDigits('MainMenu', { submitOnHash: true, maxDigits: 8, timeout: 5 });
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'make_payment'){
         client = JSON.parse(state.vars.client);
@@ -1909,52 +1903,6 @@ addInputHandler('PaymentAmount', function(PaymentAmount) {
     else{
         PaymentRetryText();
         promptDigits('PaymentAmount', {submitOnHash: true, maxDigits: 5, timeout: 5});
-    }
-});
-addInputHandler('FONationaIdHandler', function( nationaId){
-    LogSessionID();
-    InteractionCounter('FONationaIdHandler');
-    if(ValNationalID(nationaId)){
-        state.vars.nationalId = nationaId;
-        ConfirmNationalIdText(nationaId);
-        promptDigits('confirmNationalIdHanlder', {submitOnHash: true, maxDigits: 8, timeout: 5});
-    }else{
-        NationalInvalidText();
-        promptDigits('FONationaIdHandler', {submitOnHash: true, maxDigits: 8, timeout: 5});
-    }
-
-});
-addInputHandler('confirmNationalIdHanlder', function(input){
-    LogSessionID();
-    InteractionCounter('confirmNationalIdHanlder');
-    if(input == 1){
-        var ProspectTable = project.getOrCreateDataTable('FO_Locator_Prospects');
-        var cursor = ProspectTable.queryRows({ 'vars': {'NationalId': state.vars.nationalId }});
-        if(cursor.hasNext()){
-            var row = cursor.next();
-            state.vars.FOName = row.vars.FOName;
-            state.vars.FOPN = row.vars.FOPhoneNumber;
-            var FarmerSMSContent = FOLocatorFarmerSMS();
-            project.scheduleMessage({
-                message_type: 'service', 
-                to_number: contact.phone_number, 
-                start_time_offset: 0,
-                service_id: 'SVc758c8b7ad90dd27',
-                vars: {content: FarmerSMSContent}
-            });
-        }
-        else{
-            FOLocatorRegionText();
-            promptDigits('FOLocRegion', {submitOnHash: true, maxDigits: 8, timeout: 5});
-        }
-    }
-    else if (input == 2 ){
-        EnterNationalIdText();
-        promptDigits('FONationaIdHandler', {submitOnHash: true, maxDigits: 8, timeout: 5});
-    }
-    else{
-        ConfirmNationalIdText(state.vars.nationalId);
-        promptDigits('confirmNationalIdHanlder', {submitOnHash: true, maxDigits: 5, timeout: 5});
     }
 });
 addInputHandler('FOLocRegion', function(Region) {
@@ -2193,7 +2141,24 @@ addInputHandler('FOLocSite', function(Site) {
     LogSessionID();
     InteractionCounter('FOLocSite');
     var LocValid = false;
-    LocationNotKnown(Site);
+    if(Site == 0 || Site == '#'){
+        var reason = 'Site not known to non client on FO Locator';
+        var sub = 'Call back requested for: ' + reason +' phone number: '+ contact.phone_number;  
+        var create_zd_ticket = require('ext/zd-tr/lib/create-ticket');
+    
+        if(create_zd_ticket(contact.phone_number, sub, contact.phone_number)){
+            console.log('created_ticket!');
+            CallMeBackFOLOcatorConfirmText();
+            hangUp();
+        }
+        else{
+            console.log('create_ticket failed on ' + contact.phone_number);
+            FOLocatorSiteText(state.vars.LocMenu);
+            promptDigits('FOLocSite', {submitOnHash: true, maxDigits: 2, timeout: 5});
+        }
+    
+        stopRules();
+    }
     var SiteID = '';
     var NextSelected = FOLocatorNextSelect(Site);
     if (state.vars.MenuNext && NextSelected){
@@ -2262,8 +2227,7 @@ addInputHandler('FOLocConfrim', function(Confirm) {
                 SiteName: state.vars.FOLocatorSiteName,
                 WardName: state.vars.FOLocatorWardName,
                 FOName: state.vars.FOName,
-                FOPhoneNumber: state.vars.FOPN,
-                NationalId: state.vars.nationalId
+                FOPhoneNumber: state.vars.FOPN
             }
         });
         ProspectRow.save();
