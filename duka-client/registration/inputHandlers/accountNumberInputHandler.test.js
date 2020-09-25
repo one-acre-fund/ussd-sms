@@ -77,6 +77,8 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
         expect(project.sendMessage).toHaveBeenCalledWith({'content': sms[lang], 'to_number': '07887654376'});
         expect(sayText).toHaveBeenCalledWith(messages[lang]);
         expect(promptDigits).toHaveBeenCalledWith( invoiceIdInputHandler.handlerName, {'submitOnHash': false}); 
+        expect(state.vars.account_number).toEqual('27507544');
+        expect(state.vars.phone_number).toEqual('07887654376');
     });
 
     it('should register the user to a duka district account once they already have an account number with OAF, and ask them to complete their debt once they have an outstanding credit', () => {

@@ -54,6 +54,8 @@ module.exports = {
                             global.stopRules();
                             return;
                         }
+                        state.vars.account_number = registeredClient.AccountNumber;
+                        state.vars.phone_number = dcr_duka_client.phoneNumber;
                         global.sayText(getMessage('enter_invoice_id', {}, lang));
                         global.promptDigits(invoiceIdInputHandler.handlerName, {
                             submitOnHash: false
