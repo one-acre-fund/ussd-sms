@@ -9,7 +9,6 @@ describe('soil fertility training', () => {
     });
 
     it('should send the 1. batch messages', () => {
-        jest.mock('./responseHandlers/addResponseHandlers');
         contact.phone_number = '0555345';
         var lang = require('./soilFertilityTraining')();
         expect(project.sendMulti).toHaveBeenCalledWith({'message_type': 'text', 'messages': [
