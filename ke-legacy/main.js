@@ -26,7 +26,9 @@ var clientRegistration = require('../client-registration/clientRegistration');
 var clientEnrollment = require('../client-enrollment/clientEnrollment');
 var justInTime = require('../just-in-time/justInTime');
 var rosterAPI = require('../rw-legacy/lib/roster/api');
-var slacLogger = require('../slack-logger/index');
+var slackLogger = require('../slack-logger/index');
+var Log = require('../logger/elk/elk-logger');
+var logger = new Log();
 if(service.active){
     defaultEnvironment = 'prod';
 }else{
@@ -210,14 +212,8 @@ var RosterClientGet = function (AccNum){
     client = rosterAPI.getClient(AccNum,'KE');
     return client;
 };
-var ErrorEmail = function (Subject, Body){
-    sendEmail('tom.vranken@oneacrefund.org', Subject, Body);
-    sendEmail('rodgers.kweyuh@oneacrefund.org:', Subject, Body);
-    sendEmail('charles.lipeyah@oneacrefund.org', Subject, Body);
-    sendEmail('rodrigo.zuolo@oneacrefund.org', Subject, Body);
-    sendEmail('larkin.crain@oneacrefund.org', Subject, Body);
-    sendEmail('marisa.bhargava@oneacrefund.org', Subject, Body);
-};
+
+
 var RosterColRequest = function (AccNum,Amount){
     rosterAPI.verbose = true;
     //rosterAPI.dataTableAttach();
@@ -232,6 +228,14 @@ var RosterColRequest = function (AccNum,Amount){
     else {console.log(colResult.Description + 'Try again');}
     call.vars.colreqTimeStamp = moment().format('X');
     notifyELK();
+    if(!colResult.Success){
+        try {
+            throw new Error('KE USD Collection RequestKE USD Collection Request failed');
+        } catch (error) {
+            logger.error(error.message,{data: colResult});
+            slackLogger.log(error.message+ '>'+JSON.stringify(error)+'\n>'+JSON.stringify(colResult));
+        }
+    }
     return colResult.Success;
 };
 
@@ -244,7 +248,7 @@ var TriggerTraining = function (ServiceID){
         });
     }
     catch(err){
-        slacLogger.log('Error triggering service: ' + ServiceID + JSON.stringify({error: err}));
+        slackLogger.log('Error triggering service: ' + ServiceID + JSON.stringify({error: err}));
         sendEmail('tom.vranken@oneacrefund.org', 'URGENT - Service ID misconfiguration for aggr training', 'Service ID: '+ ServiceID);
     }
 };
@@ -1896,7 +1900,9 @@ addInputHandler('PaymentAmount', function(PaymentAmount) {
             call.vars.ColStatus = 'Failed';
             notifyELK();
             PaymentFailureText();
-            ErrorEmail('KE USSD Collection request failure','Acc num: '+client.AccountNumber+'\nAmount: '+ PaymentAmount+ '\nPhonenumber: '+call.from_number);
+            slackLogger.log(
+                '*KE USSD Collection request failure*\n'+ 'Acc num: '+client.AccountNumber+'\nAmount: '+ PaymentAmount+ '\nPhonenumber: '+call.from_number
+            );
             hangUp();
         }
     }
