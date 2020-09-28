@@ -3278,7 +3278,7 @@ addInputHandler('TrainingSelect', function(input) {
             lang = 'sw';
         }
         var TriggersoilTraining = require('../soil-fertility-trainings/triggerService');
-        TriggersoilTraining(lang, TriggerTraining, project.vars.soil_training_service_id);
+        TriggersoilTraining(lang, project.vars.soil_training_service_id);
     }
     else{
         TrainingMenuText();
