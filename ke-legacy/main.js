@@ -946,8 +946,9 @@ var StaffCreateRequest = function(payrollid,startday,amount){
 
 //MAIN FUNCTIONS OR GENERIC TEXT
 var SplashMenuText = function (){
-    if (GetLang()){sayText('Welcome to the One Acre Fund Portal. Press 0 if you do not have One Acre Fund account.If you have an account, please enter the 8 digit account number you use for repayment.99)Kiswahili');}
-    else {sayText('Karibu One Acre Fund. Bonyeza 0 kama hauna akauti namba ya One Acre Fund.Kama uko na akauti namba, Tafadhali weka numbari yako ya akaunti ya nambari nane unayotumia  kufanya malipo.99) English');}
+    if (GetLang()){sayText('Welcome to the One Acre Fund Portal. Press 0 if you do not have One Acre Fund account.If you have an account, Please enter your 8-digit account number 99)Kiswahili');}
+    else {sayText('Karibu One Acre Fund. Bonyeza 0 kama hauna nambari ya akaunti ya One Acre Fund.Kama uko na akaunti ya One Acre Fund, tafadhali weka nambari yako ya akaunti unayotumia. 99) English');}
+    
 };
 var SplashMenuFailure = function (){
     if (GetLang()){sayText('Incorrect input. Please enter the 8 digit account number you use for repayment\nPress 0 if you do not have an OAF account\n99) Swahili');}
@@ -1443,7 +1444,7 @@ var CallMeBackFOLOcatorConfirmText = function(){
 };
 var FOLocatorRegionText = function (){
     if (GetLang()){sayText('To learn more we will connect you with a staff near you. Select Province\n1) Central\n2) Nyanza\n3) Rift Valley\n4) Western\n0)  My province is not in the list');}
-    else {sayText('Kwa maelezo zaidi tutakuelekeza na mfanya kazi aliye karibu nawe. Chagua wilaya.\n1) Central\n2) Nyanza\n3) Rift Valley\n4) Western\n0)  Wilaya yangu haipo hapa');}
+    else {sayText('Kwa maelezo zaidi tutakuelekeza kwa mfanya kazi aliye karibu nawe. Chagua wilaya.\n1) Central\n2) Nyanza\n3) Rift Valley\n4) Western\n0) Wilaya yangu haipo hapa');}
 };
 var LocationNotKnownText = function(){
     if (GetLang()){sayText('Sorry OAF does not work in your area');}
