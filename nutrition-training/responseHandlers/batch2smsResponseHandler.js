@@ -1,7 +1,7 @@
 var translations = require('../translations/index');
 var translator = require('../../utils/translator/translator');
 
-var handlerName = '1.7sms';
+var handlerName = 'nutrition_batch2';
 
 module.exports = {
     handlerName: handlerName,
@@ -9,13 +9,15 @@ module.exports = {
         return function() {
             var choice = content && content.toUpperCase().trim();
             var getMessage = translator(translations, lang);
-            var messageLabels;
+            var messageLabels = ['sms_1.9', 'sms_2.1', 'sms_2.2'];
             if(choice == 'A') {
-                messageLabels = ['sms_1.7', 'sms_1.9', 'sms_2.1', 'sms_2.2'];
-            } else if(choice == 'B') {
-                messageLabels[0] = 'sms_1.8';
+                messageLabels.unshift('sms_1.7');
+            } else if(choice == 'B' || choice == 'C') {
+                messageLabels.unshift('sms_1.8');
             } else {
-                messageLabels = ['sms_1.7', 'sms_1.9', 'sms_2.1', 'sms_2.2'];
+                global.sendReply(getMessage('invalid_choice', {}, lang));
+                global.waitForResponse('nutrition_batch1');
+                return;
             }
             messageLabels.forEach(function(label) {
                 global.sendReply(getMessage(label, {}, lang));
