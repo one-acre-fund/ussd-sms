@@ -10,6 +10,7 @@ module.exports = function(lang, serviceId) {
     var getMessage = translator(translations, lang);
     var message = getMessage('message_notification', {}, lang);
     sayText(message);
+    contact.vars.lang = lang;
     triggerService(serviceId, {
         context: 'contact', 
         contact_id: contact.id
