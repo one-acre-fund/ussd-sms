@@ -101,6 +101,7 @@ clientRegistration.registerHandlers();
 
 global.main = function () {
     sayText(msgs('main_menu',{},lang));
+    console.log('!!!!!!!!!!!!!!!!main!!!!!!!!!!!!!!!!!!!!!!!!!!');
     promptDigits('main_menu_splash', {
         'submitOnHash': false,
         'maxDigits': max_digits_for_account_number,
@@ -109,10 +110,15 @@ global.main = function () {
 };
 
 addInputHandler('main_menu_splash',function(input){
-    if(input == 0){
+    input = String(input.replace(/\D/g, ''));
+    if(input == '0'){
+        console.log('passed!!!!!!!!!!!!!!!!!!!!!!!!!!');
         clientRegistration.start(0,'RW',lang);
+        console.log('!!!!!!!!!!!!!!!!11should not get here!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        stopRules();
+        console.log('!!!!!!!!!!!!!!!!11should not get here toooo!!!!!!!!!!!!!!!!!!!!!!!!!!');
     }
-    else if (input == 1){
+    else if(input == 1){
         sayText(msgs('cor_enr_main_splash',{},lang));
         promptDigits('account_number_splash', {
             'submitOnHash': false,
@@ -121,6 +127,7 @@ addInputHandler('main_menu_splash',function(input){
         });
     }
     else{
+        console.log('failed!!!!!!!!!!!!!!!!!!!!!!!!!!');
         sayText(msgs('main_menu',{},lang));
         promptDigits('main_menu_splash', {
             'submitOnHash': false,
