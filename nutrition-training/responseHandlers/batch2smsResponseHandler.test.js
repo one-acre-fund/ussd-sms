@@ -1,4 +1,4 @@
-var sms1_7ResponseHandler = require('./batch2smsResponseHandler');
+var batch2smsHandler = require('./batch2smsResponseHandler');
 
 describe.each(['en-ke', 'sw'])('1.7 sms response handler using (%s) ', (lang) => {
     beforeEach(() => {
@@ -6,17 +6,18 @@ describe.each(['en-ke', 'sw'])('1.7 sms response handler using (%s) ', (lang) =>
     });
 
     it('it should reprompt for the batch 2 response if the response is invalid --' + lang, () => {
-        const handler = sms1_7ResponseHandler.getHandler(lang);
+        const handler = batch2smsHandler.getHandler(lang);
         const messages = {
             'en-ke': 'Reply with a or b to answer',
             'sw': 'Chagua a au b kujibu!'
         };
         handler();
         expect(sendReply).toHaveBeenCalledWith(messages[lang]);
+        expect(waitForResponse).toHaveBeenCalledWith(batch2smsHandler.handlerName);
     });
 
     it('should send the 1.7 feedback once the user responds with A --' + lang, () => {
-        const handler = sms1_7ResponseHandler.getHandler(lang);
+        const handler = batch2smsHandler.getHandler(lang);
         global.content = 'A';
 
         const messages = [{
@@ -36,7 +37,7 @@ describe.each(['en-ke', 'sw'])('1.7 sms response handler using (%s) ', (lang) =>
     });
 
     it.each(['b', 'c'])('should send the 1.8 feedback once the user responds with (%s)--' + lang, (choice) => {
-        const handler = sms1_7ResponseHandler.getHandler(lang);
+        const handler = batch2smsHandler.getHandler(lang);
         global.content = choice;
 
         const messages = [{

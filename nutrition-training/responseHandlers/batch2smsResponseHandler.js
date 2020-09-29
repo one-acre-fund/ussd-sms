@@ -16,7 +16,7 @@ module.exports = {
                 messageLabels.unshift('sms_1.8');
             } else {
                 global.sendReply(getMessage('invalid_choice', {}, lang));
-                global.waitForResponse('nutrition_batch1');
+                global.waitForResponse(handlerName);
                 return;
             }
             messageLabels.forEach(function(label) {
