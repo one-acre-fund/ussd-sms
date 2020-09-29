@@ -825,6 +825,7 @@ addInputHandler('enr_reg_start', inputHandlers['registration_start']);
 addInputHandler('enr_nid_client_confirmation', function (input) {
     notifyELK();
     state.vars.current_step = 'enr_nid_client_confirmation';
+    
     input = String(input.replace(/\D/g, ''));
 
     if (input == 99) {
@@ -917,6 +918,7 @@ addInputHandler('enr_nid_client_confirmation', function (input) {
 
 
 inputHandlers['name1InputHandler'] = function (input) {
+    input = input.replace(/[^a-zA-Z]/gi, '');
     notifyELK();
     state.vars.current_step = 'enr_name_1';
     if (input == 99) {
@@ -944,6 +946,7 @@ inputHandlers['name1InputHandler'] = function (input) {
 addInputHandler('enr_name_1', inputHandlers['name1InputHandler']);
 
 inputHandlers['name2InputHandler'] = function (input) {
+    input = input.replace(/[^a-zA-Z]/gi, '');
     notifyELK();
     state.vars.current_step = 'enr_name_2';
     if (input == 99) {

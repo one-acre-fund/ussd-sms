@@ -5,6 +5,7 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(onFirstNameReceived){
         return function (input) {
+            input = input.replace(/[^a-zA-Z]/gi, '');
             notifyELK();
             onFirstNameReceived(input);
         };
