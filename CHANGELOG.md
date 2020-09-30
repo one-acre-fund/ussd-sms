@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## *Unreleased*
 
+## 2020-09-30
+### Added
+*[SER-255] (https://oneacrefund.atlassian.net/browse/SER-255)Re-configuration of October chicken USSD confirmation service - kenya
+Replaced the chicken cup number
+
+
 ## 2020-09-24
 ### Added
 
