@@ -14,11 +14,12 @@ describe('avocado_Eligibility', () => {
     beforeEach(() => {
         sayText.mockClear();
         promptDigits.mockClear();
+        project.initDataTableById.mockReturnValue(mockTable);
         
     });
 
     it('should return false if the client is not found in the table', ()=>{
-        mockCursor.hasNext.mockReturnValueOnce(false);
+        mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(false);
         var result = avocadoEligibility(mockTable,client.AccountNumber,client);
         expect(result).toBeFalsy();
     });
@@ -62,6 +63,15 @@ describe('avocado_Eligibility', () => {
             possibleTrees: trees,
             balance: balance,
             orderedAvocado: mockRow.vars.a_avokaqty
+        }));
+    });
+    it('should check on the new client table if the new client is not found in the clients table ', ()=>{
+        mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(true);
+        var result = avocadoEligibility(mockTable,client.AccountNumber,client);
+        expect(result).toEqual(({
+            possibleTrees: 50,
+            balance: 0,
+            orderedAvocado: 0
         }));
     });
 });
