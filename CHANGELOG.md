@@ -1,6 +1,11 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## 2020-09-29
+### Added
+
+[SER-244](https://oneacrefund.atlassian.net/browse/SER-244)Make sure new clients can't register with special characters in their names
+
 
 ## 2020-09-23
 ### Added

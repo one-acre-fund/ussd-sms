@@ -13,8 +13,14 @@ describe('firstNameHandler', () => {
         expect(getHandler(onFirstNameReceived)).toBeInstanceOf(Function);
     });
     it('should call notifyELK ', () => {
-        firstNameHandler();
+        firstNameHandler('hello');
         expect(notifyELK).toHaveBeenCalled();
+    });
+    it('should remove special characters from the name', () => {
+        const handler  = getHandler(onFirstNameReceived);
+        const mockInput = 'hellO1 \' `*1& ^_ ';
+        handler(mockInput);
+        expect(onFirstNameReceived).toHaveBeenCalledWith('hellO');
     });
     it('should call the onFirstNameReceived callback when the returned value is called', () => {
         const handler  = getHandler(onFirstNameReceived);
