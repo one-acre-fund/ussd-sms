@@ -1051,13 +1051,24 @@ var CheckBalanceMenuText = function (Overpaid,Season,Credit,Paid,Balance){
 };
 
 var TrainingMenuText = function (){
-    if (GetLang()){sayText('1:Tree Transplanting\n2:Tree Bag Planting\n3:Tree Socketing\n4:Sorghum Weeding\n5:Maize Topdress\n6:Maize Intercrop\n7:Maize Harvest\n0:MORE');}
-    else {sayText('1:Kupanda Miti\n2:Kupanda miti mifukoni\n3:Socketing Miti\n4:Kupalilia Wimbi\n5:TopDress\n6:Kupanda Mahindi/Maharagwe\n7:Kuvuna Mahindi\n0:Endelea');}
+    var trainingsCreateMenu = require('../kenya-trainings-menu/createMenu');
+    var lang = GetLang() ? 'en-ke' : 'sw';
+    var trainingsMenu = trainingsCreateMenu(lang);
+    var trainingsOptions = trainingsMenu.optionValues;
+    var trainingsScreens = trainingsMenu.screens;
+    state.vars.trainings_options = JSON.stringify(trainingsOptions);
+    state.vars.trainings_screens = JSON.stringify(trainingsScreens);
+    state.vars.current_trainings_screens = 1;
+    sayText(trainingsScreens[state.vars.current_trainings_screens]);
 };
 
 var TrainingMenuNextText = function (){
-    if (GetLang()){sayText('8: Pest Mitigation\n9: Vegetables\n10: Tatu Hadi Tatu\n11: Soil Fertility\n12: Dietary Diversity (Nutrition)');}
-    else {sayText('8: Wadudu/Magonjwa\n9: Kupanda Mboga\n10: Tatu Hadi Tatu\n11: Udongo bora ulio na afya na rotuba\12: Lishe Bora');}
+    var trainingsScreens = JSON.parse(state.vars.trainings_screens);
+    var currentTrainingScreen = state.vars.current_trainings_screens + 1;
+    if(trainingsScreens[currentTrainingScreen]) {
+        state.vars.current_trainings_screens = currentTrainingScreen;
+        sayText(trainingsScreens[currentTrainingScreen]);
+    }
 };
 
 var TrainingPlatSelectText = function (){
