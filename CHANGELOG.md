@@ -1,9 +1,8 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
-## *Unreleased*
 
-## 2020-09-30
+## 2020-09-23
 ### Added
 *[SER-255] (https://oneacrefund.atlassian.net/browse/SER-255)Re-configuration of October chicken USSD confirmation service - kenya
 Replaced the chicken cup number
