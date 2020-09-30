@@ -13,6 +13,14 @@ All notable changes to this project will be documented in this file.
 Replaced the chicken cup number
 
 
+## 2020-09-29
+### Changed
+
+*[SER-244](https://oneacrefund.atlassian.net/browse/SER-244) Make sure new clients can't register with special characters in their names
+changed the duka registration service to validate names so that no special characters be sent
+
+
+
 ## 2020-09-24
 ### Added
 
