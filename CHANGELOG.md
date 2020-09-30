@@ -1,7 +1,17 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
-## *Unreleased*
+## 2020-09-29
+### Added
+
+[SER-244](https://oneacrefund.atlassian.net/browse/SER-244)Make sure new clients can't register with special characters in their names
+
+
+## 2020-09-23
+### Added
+*[SER-255] (https://oneacrefund.atlassian.net/browse/SER-255)Re-configuration of October chicken USSD confirmation service - kenya
+Replaced the chicken cup number
+
 
 ## 2020-09-29
 ### Changed
