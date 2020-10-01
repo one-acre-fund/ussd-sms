@@ -1053,7 +1053,8 @@ var CheckBalanceMenuText = function (Overpaid,Season,Credit,Paid,Balance){
 var TrainingMenuText = function (){
     var trainingsCreateMenu = require('../kenya-trainings-menu/createMenu');
     var lang = GetLang() ? 'en-ke' : 'sw';
-    var trainingsMenu = trainingsCreateMenu(lang);
+    var client = state.vars.client && JSON.parse(state.vars.client);
+    var trainingsMenu = trainingsCreateMenu(lang, 'Restricted sites from nutrition training', client);
     var trainingsOptions = trainingsMenu.optionValues;
     var trainingsScreens = trainingsMenu.screens;
     state.vars.trainings_options = JSON.stringify(trainingsOptions);
@@ -3217,13 +3218,13 @@ addInputHandler('TrainingSelect', function(input) {
         contact.save();
     }
     InteractionCounter('TrainingSelect');
-
+    var trainingsOptions = JSON.parse(state.vars.trainings_options);
+    
     if (input == 0 ){
         TrainingMenuNextText();
         promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
-
-    else if (input == 6){
+    else if (trainingsOptions[input] == 'maize_intercorp'){
 
         var Random = Math.random();
         console.log(Random);
@@ -3236,42 +3237,43 @@ addInputHandler('TrainingSelect', function(input) {
 
         TrainingTriggeredText();
     }
-    else if (input == 1){
+    else if (trainingsOptions[input] == 'tree_transplanting'){
         TriggerTraining('SV87c0c32ff5e3ebaa');
         TrainingTriggeredText();
     }
-    else if (input == 2){
+    else if (trainingsOptions[input] == 'tree_bag_planting'){
         TriggerTraining('SV647a6f30fad7625d');
         TrainingTriggeredText();
     }
-    else if (input == 3){
+    else if (trainingsOptions[input] == 'tree_socketing'){
         TriggerTraining('SV8419e6228a23cec2');
         TrainingTriggeredText();
     }
-    else if (input == 4){
+    else if (trainingsOptions[input] == 'sorghum_weeding'){
         TriggerTraining('SV7aa1486d6be8ae59');
         TrainingTriggeredText();
     }
-    else if (input == 5){
+    else if (trainingsOptions[input] == 'maize_topdress'){
         TriggerTraining('SVffc2c4aa2be69ab5');
         TrainingTriggeredText();
     }
-    else if (input == 7){
+    else if (trainingsOptions[input] == 'maize_harvest'){
         TriggerTraining('SV72a3bbd1d14b037b');
         TrainingTriggeredText();
     }
-    else if (input == 8){
+    else if (trainingsOptions[input] == 'pest_mitigation'){
         TriggerTraining('SV6d234d3094715099');
         TrainingTriggeredText();
     }
-    else if (input == 9){
+    else if (trainingsOptions[input] == 'vegetables'){
         TrainingPlatSelectText();
         promptDigits('TrainingPlatformSelect', {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
-    else if (input == 10){
+    else if (trainingsOptions[input] == 'tatu_hadi_tatu'){
         TriggerTraining('SV1a959518b783e17f');
         TrainingTriggeredText();
-    } else if(input == 11) {
+    } else if (trainingsOptions[input] == 'nutrition_training') {
+        // trigger the nutrition training 
         var lang;
         if(GetLang()) {
             lang = 'en-ke';
