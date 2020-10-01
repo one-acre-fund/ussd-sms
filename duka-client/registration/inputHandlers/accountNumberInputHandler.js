@@ -49,6 +49,7 @@ module.exports = {
                             content: messageToClient, 
                             to_number: dcr_duka_client.phoneNumber
                         });
+                        console.log('duka client registered. Sent message: ' + messageToClient + ' to: ' + JSON.stringify(dcr_duka_client));
                         if(state.vars.dcr_credit > 0) {
                             global.sayText(getMessage('outstanding_balance', {'$balance': state.vars.dcr_credit}, lang));
                             global.stopRules();
@@ -62,6 +63,7 @@ module.exports = {
                         });
                         return;
                     } else {
+                        // get client from duka
                         var nonDukaAccountMessagereprompt = getMessage('non_duka_account', {}, lang);
                         global.sayText(nonDukaAccountMessagereprompt);
                         global.promptDigits(handlerName, {
@@ -95,7 +97,7 @@ module.exports = {
                             state.vars.account_number = accountNumber;
                             state.vars.phone_number = client.PhoneNumber;
                             // has paid everything
-                            global.sayText(getMessage('enter_invoice_id', {}, lang));
+                            global.sayText(getMessage('already_duka_client', {}, lang));
                             global.promptDigits(invoiceIdInputHandler.handlerName, {
                                 submitOnHash: false
                             });
