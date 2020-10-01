@@ -1,6 +1,11 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## 2020-10-01
+### Fixed
+[SER-256](https://oneacrefund.atlassian.net/browse/SER-256) USSD Client Registration menu not working - KE
+Added an else to if to make sure the menu is beaving normally
+
 ## 2020-09-29
 ### Added
 

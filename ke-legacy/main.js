@@ -1655,7 +1655,8 @@ addInputHandler('SplashMenu', function(SplashMenu) {
             state.vars.account_number = client.AccountNumber;
             MainMenuText(client);
             promptDigits('MainMenu', {submitOnHash: true, maxDigits: 8, timeout: 5});
-        } if(creditOfficerDetails) {
+        } 
+        else if(creditOfficerDetails) {
             dukaClient.start(GetLang() ? 'en-ke' : 'sw', creditOfficerDetails);
         }
         else{
