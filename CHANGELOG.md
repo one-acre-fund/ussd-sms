@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## *Unreleased*
 
+## 2020-10-01
+### Changed
+
+* [SER-209] (https://oneacrefund.atlassian.net/browse/SER-209) https://oneacrefund.atlassian.net/browse/SER-209
+
+new clients are not in the avocado orders, ass a result, then can't place avocado orders. The change is to allow them to enroll up to 50 trees. 
+
+
 ## 2020-09-30
 ### Changed
 

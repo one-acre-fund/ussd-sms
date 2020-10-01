@@ -10,7 +10,6 @@ module.exports = function(table, acc_nber, client_json){
     }
     else{
         //check if it's a new client
-        //var acoda
         //display client not found
         var new_client_table = project.initDataTableById(service.vars.rw_reg_client_table_id);
         var cursor = new_client_table.queryRows({'vars': {'account_number': acc_nber}});
