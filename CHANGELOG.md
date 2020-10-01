@@ -6,9 +6,16 @@ All notable changes to this project will be documented in this file.
 ## 2020-10-01
 ### Changed
 
-* [SER-209] (https://oneacrefund.atlassian.net/browse/SER-209) https://oneacrefund.atlassian.net/browse/SER-209
+* [SER-209] (https://oneacrefund.atlassian.net/browse/SER-209) As a client, I want to add avocado trees to my order, so that I can plant a high-impact product
+
 
 new clients are not in the avocado orders, ass a result, then can't place avocado orders. The change is to allow them to enroll up to 50 trees. 
+
+### Fixed
+*[SER-208] (https://oneacrefund.atlassian.net/browse/SER-208) As a non-client, I want to register via USSD, so that I can purchase avocado trees through OAF
+
+fixed a bug for not saving the group id on registration for Rwanda and dislay a message after the completion of registration 
+
 
 
 ## 2020-09-30

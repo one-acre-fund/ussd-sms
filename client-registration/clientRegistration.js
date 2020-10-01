@@ -94,6 +94,7 @@ module.exports = {
                 if(clientData){
                     var message = translate('enr_reg_complete',{'$ACCOUNT_NUMBER': clientData.AccountNumber},state.vars.reg_lang);
                     var msg_route = project.vars.sms_push_route;
+                    sayText(message);
                     project.sendMessage({ 'to_number': clientJSON.phoneNumber, 'route_id': msg_route, 'content': message });
                     project.sendMessage({ 'to_number': contact.phone_number, 'route_id': msg_route, 'content': message });
                     var table = project.initDataTableById(service.vars.rw_reg_client_table_id);
@@ -109,7 +110,7 @@ module.exports = {
                             'site': clientData.SiteId,
                             'new_client': '1',
                             'registering_phone_number': contact.phone_number,
-                            'groupId': clientJSON.GroupId,
+                            'groupId': clientJSON.groupId,
                         }
                     });
                     row.save();
@@ -174,7 +175,7 @@ function saveClientInRoster(){
             else{
                 message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phoneNumber}, state.vars.reg_lang);
             }
-            sayText(message);
+            global.sayText(message);
             var groupLeaderInterested;
             if(state.vars.canEnroll){
                 groupLeaderInterested = '0';
