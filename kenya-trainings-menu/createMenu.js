@@ -1,11 +1,16 @@
 var options = require('./options');
+var siteCanAccessNutrition = require('./siteCanAccessNutrition');
 
-module.exports = function (lang) {
+module.exports = function (lang, districtsTableName, client) {
     var optionNames = Object.keys(options);
 
+    var canAccessNutrition = siteCanAccessNutrition(districtsTableName, client);
     // gather the options to skip conditionally
     var optionsToSkip = [];
 
+    if(!canAccessNutrition) {
+        optionsToSkip.push('nutrition_training');
+    }
     // remove the mentioned options to skip
     var allowedOptions = optionNames.filter(function(allowedOptionName) {
         return optionsToSkip.indexOf(allowedOptionName) == -1;
