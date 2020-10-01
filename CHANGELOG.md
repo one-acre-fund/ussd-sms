@@ -16,14 +16,6 @@ new clients are not in the avocado orders, ass a result, then can't place avocad
 
 fixed a bug for not saving the group id on registration for Rwanda and dislay a message after the completion of registration 
 
-
-
-## 2020-09-30
-### Changed
-
-* [SER-209](https://oneacrefund.atlassian.net/browse/SER-209) As a client, I want to add avocado trees to my order, so that I can plant a high-impact product
-updated the avocado service to allow newly registered client to place an order
-
 ## 2020-09-24
 ### Added
 
