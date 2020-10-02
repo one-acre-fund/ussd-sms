@@ -13,7 +13,7 @@ describe.each(['en-ke', 'sw'])('first name input handler', (lang) => {
         handler('Jamie \' `*1& ^_ ');
         expect(notifyElk).toHaveBeenCalled();
         expect(sayText).toHaveBeenCalledWith(message[lang]);
-        expect(state.vars.duka_client_first_name).toEqual('Jamie');
+        expect(state.vars.duka_client_first_name).toEqual('Jamie1');
         expect(promptDigits).toHaveBeenCalledWith(secondNameInputHandler.handlerName);
     });
 });

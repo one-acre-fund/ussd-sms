@@ -193,8 +193,8 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
         contact.phone_number = '0722334535';
         getClient.mockReturnValueOnce(clientWithDukaDistrict);
         const messages = {
-            'en-ke': 'Please reply with the client\'s Erply Invoice ID',
-            'sw': 'Tafadhali jibu na Kitambulisho cha mteja cha Erply Invoice'
+            'en-ke': 'You\'re already registered for a duka district. Please enter the client\'s invoice ID.',
+            'sw': 'Umesajiliwa kwa wilaya ya duka. Tafadhali ingiza nambari ya Invoice ya mteja'
         };
         const accountNumberHandler = accountNumberInputHandler.getHandler(lang, 'dev_credit_officers_table');
         accountNumberHandler('12345678');

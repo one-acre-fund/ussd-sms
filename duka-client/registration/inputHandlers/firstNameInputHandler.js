@@ -8,7 +8,7 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(lang) {
         return function(input) {
-            input = input.replace(/[^a-zA-Z]/gi, '');
+            input = input.replace(/[^a-zA-Z0-9]/gi, '');
             notifyElk();
             var secondNameInputHandler = require('./secondNameInputHandler');
             var getMessage = translator(translations, lang);
