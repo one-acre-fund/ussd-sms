@@ -12,6 +12,7 @@ Before the newly registered client could not place an order because of their acc
 [SER-208](https://oneacrefund.atlassian.net/browse/SER-208) As a non-client, I want to register via USSD, so that I can purchase avocado trees through OAF
 
 Before the groupId was not saved in the registration table. this fixes it
+fixed the main menu issue, 0 is not recognized as an input for the first menu, replaced the option 0 with 1 and 1 with 2 on the first menu
 
 ## 2020-10-01
 ### Fixed
