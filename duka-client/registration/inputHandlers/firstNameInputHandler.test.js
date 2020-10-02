@@ -10,7 +10,7 @@ describe.each(['en-ke', 'sw'])('first name input handler', (lang) => {
             'sw': 'Tafadhali jibu na jina la pili la mteja.',
             'en-ke': 'Please reply with the second name of the client.'
         };
-        handler('Jamie');
+        handler('Jamie \' `*1& ^_ ');
         expect(notifyElk).toHaveBeenCalled();
         expect(sayText).toHaveBeenCalledWith(message[lang]);
         expect(state.vars.duka_client_first_name).toEqual('Jamie');

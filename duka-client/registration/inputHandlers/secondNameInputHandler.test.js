@@ -11,7 +11,7 @@ describe.each(['en-ke', 'sw'])('first name input handler', (lang) => {
             'en-ke': 'Please reply with the client\'s Erply Invoice ID'
         };
         state.vars.duka_client_first_name = 'Jamie';
-        handler('Fox');
+        handler('Fox \' `*1& ^_ ');
         expect(notifyElk).toHaveBeenCalled();
         expect(sayText).toHaveBeenCalledWith(message[lang]);
         expect(state.vars.duka_client_second_name).toEqual('Fox');

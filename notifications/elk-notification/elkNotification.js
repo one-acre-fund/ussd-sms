@@ -90,7 +90,8 @@
 */
 /* global message*/
 
-var slack = require('../../slack-logger/index');
+
+var Log = require('../../logger/elk/elk-logger');
 module.exports = function(){
     var url = 'https://elk.operations.oneacrefund.org:8080/telerivet';
     var opts = {};
@@ -143,11 +144,28 @@ module.exports = function(){
     try{
         var response = httpClient.request(url,opts);
         if(response.status != 200){
-            console.log('error sending data to ELK');
-            slack.log('Failed to send ELK notification :'+ JSON.stringify(response) +JSON.stringify(opts));
+            var logger = new Log();
+            console.log('bad response sending data to ELK');
+            logger.warn('Failed to send ELK notification :',{data: response});
         }
     }
     catch(e){
-        slack.log('Failed to save request:'+ JSON.stringify(opts.data));
+        var log = new Log();
+        log.error('Failed to send a request on 1st attempt to notify ELK:', {data: e});
+        console.log('Error sending a request on 1st attempt to notify ELK' + e);
+        try{
+            var newResponse = httpClient.request(url,opts);
+            if(newResponse.status != 200){
+                var loger = new Log();
+                console.log('bad response sending data to ELK');
+                loger.warn('Failed to send ELK notification :',{data: response});
+            }
+
+        }catch(e){
+            global.sendEmail('sabin.sheja@oneacrefund.org', e);
+            var logging = new Log();
+            logging.error('Failed to send a request on the last attempt for notify ELK:', {data: e});
+            console.log('Error sending a request for notify ELK' + e);
+        }
     }
 };
