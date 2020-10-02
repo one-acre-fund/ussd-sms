@@ -99,20 +99,28 @@ const max_digits_for_name = project.vars.max_digits_name;
 const inputHandlers = {}
 clientRegistration.registerHandlers();
 
+/*
 global.main = function () {
-    sayText(msgs('main_menu',{},lang));
-    promptDigits('main_menu_splash', {
-        'submitOnHash': false,
-        'maxDigits': max_digits_for_account_number,
-        'timeout': timeout_length
-    });
+    sayText(msgs('cor_main_splash'));
+    promptDigits('main_menu_splash', { 'submitOnHash' : false,
+                                            'maxDigits'    : max_digits_for_account_number,
+                                            'timeout'      : 180 });
 };
-
+*/
+global.main = function () {
+    sayText('hello');
+    promptDigits('main_menu_splash', { 'submitOnHash' : false,
+                                            'maxDigits'    : max_digits_for_account_number,
+                                            'timeout'      : 180 });
+};
 addInputHandler('main_menu_splash',function(input){
-    if(input == 0){
+
+    input = String(input.replace(/\D/g, ''));
+    console.log('the entered input is'+ input);
+    if(input == 1){
         clientRegistration.start(0,'RW',lang);
     }
-    else if (input == 1){
+    else if (input == 0){
         sayText(msgs('cor_enr_main_splash',{},lang));
         promptDigits('account_number_splash', {
             'submitOnHash': false,
