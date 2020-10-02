@@ -66,5 +66,13 @@ module.exports = {
     'successfull_transaction': {
         'en-ke': 'You have successfully recorded your transaction.',
         'sw': 'Umekamilisha mafanikio ya ununuzi wako.'
+    },
+    'already_duka_client': {
+        'en-ke': 'You\'re already registered for a duka district. Please enter the client\'s invoice ID.',
+        'sw': 'Umesajiliwa kwa wilaya ya duka. Tafadhali ingiza nambari ya Invoice ya mteja'
+    },
+    'duka_client_already_created': {
+        'en-ke': 'You\'re already registered for a duka district. Please enter the client\'s duka account',
+        'sw': 'Umesajiliwa kwa wilaya ya duka. Tafadhali ingiza nambari ya Akaunti ya duka'
     }
 };

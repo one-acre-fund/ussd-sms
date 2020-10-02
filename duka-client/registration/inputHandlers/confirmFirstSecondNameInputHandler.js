@@ -41,6 +41,7 @@ module.exports = {
                         content: messageToClient, 
                         to_number: state.vars.duka_client_phone_number
                     });
+                    console.log('duka client registered. Sent message: ' + messageToClient + ' to: ' + state.vars.duka_client_phone_number);
                     global.stopRules();
                 } else {
                     var Log = new logger();

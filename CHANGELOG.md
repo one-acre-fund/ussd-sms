@@ -1,6 +1,10 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## 2020-10-02
+### Fixed
+[SER-258](https://oneacrefund.atlassian.net/browse/SER-258) Duka Registration users not receiving SMSs
+When registering a new user, account number SMSs are not sent to clients.
 
 ## 2020-10-02
 ### Fixed
@@ -12,7 +16,6 @@ Before the newly registered client could not place an order because of their acc
 [SER-208](https://oneacrefund.atlassian.net/browse/SER-208) As a non-client, I want to register via USSD, so that I can purchase avocado trees through OAF
 
 Before the groupId was not saved in the registration table. this fixes it
-fixed the main menu issue, 0 is not recognized as an input for the first menu, replaced the option 0 with 1 and 1 with 2 on the first menu
 
 ## 2020-10-01
 ### Fixed
