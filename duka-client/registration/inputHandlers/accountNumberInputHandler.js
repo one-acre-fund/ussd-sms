@@ -63,8 +63,7 @@ module.exports = {
                         });
                         return;
                     } else {
-                        // get client from duka
-                        var nonDukaAccountMessagereprompt = getMessage('non_duka_account', {}, lang);
+                        var nonDukaAccountMessagereprompt = getMessage('duka_client_already_created', {}, lang);
                         global.sayText(nonDukaAccountMessagereprompt);
                         global.promptDigits(handlerName, {
                             submitOnHash: false,

@@ -111,8 +111,8 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
         });
         const accountNumberHandler = accountNumberInputHandler.getHandler(lang);
         const messages = {
-            'en-ke': 'You\'ve entered an account number for a non-duka account. Enter your duka account number or 0 to register as a duka client.',
-            'sw': 'Umeingiza nambari ya akaunti isiyo ya duka. Ingiza nambari yako ya akaunti ya duka au \'0\' ili ujiandikishe kama mteja wa duka.'
+            'en-ke': 'You\'re already registered for a duka district. Please enter the client\'s duka account',
+            'sw': 'Umesajiliwa kwa wilaya ya duka. Tafadhali ingiza nambari ya Akaunti ya duka'
         };
         accountNumberHandler(0);
         expect(sayText).toHaveBeenCalledWith(messages[lang]);
