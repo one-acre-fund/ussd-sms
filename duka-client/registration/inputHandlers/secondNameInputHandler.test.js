@@ -14,7 +14,7 @@ describe.each(['en-ke', 'sw'])('first name input handler', (lang) => {
         handler('Fox \' `*1& ^_ ');
         expect(notifyElk).toHaveBeenCalled();
         expect(sayText).toHaveBeenCalledWith(message[lang]);
-        expect(state.vars.duka_client_second_name).toEqual('Fox');
+        expect(state.vars.duka_client_second_name).toEqual('Fox1');
         expect(promptDigits).toHaveBeenCalledWith(invoiceIdInputHandler.handlerName);
     });
 });
