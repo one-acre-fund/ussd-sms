@@ -9,8 +9,23 @@ module.exports = function(table, acc_nber, client_json){
         orderedAvocado = row.vars.a_avokaqty;
     }
     else{
+        //check if it's a new client
         //display client not found
-        return false;
+        var new_client_table = project.initDataTableById(service.vars.rw_reg_client_table_id);
+        var cursor = new_client_table.queryRows({'vars': {'account_number': acc_nber}});
+        if(cursor.hasNext()){
+            return { 
+                possibleTrees: 50,
+                balance: 0,
+                orderedAvocado: 0
+            };
+
+        }
+        else{
+            return false;
+
+        }
+        
     }
     // Get the last season's balance
     if(client_json.BalanceHistory.length > 0){
