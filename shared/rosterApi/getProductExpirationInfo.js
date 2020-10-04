@@ -17,6 +17,7 @@ module.exports = function getProductExpirationInfo(clientID, serialNumber) {
         var response = httpClient.request(fullUrl, opts);
         if (response.status == 200) {
             var data = JSON.parse(response.content);
+            console.log(data);
             return data;
         }
         else {
