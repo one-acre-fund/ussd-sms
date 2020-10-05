@@ -11,9 +11,16 @@ module.exports = {
             var getMessage = translator(translations, lang);
             var messages = ['sms-4.1', 'sms-4.2', 'sms-4.3', 'sms-4.4', 'sms-4.5', 'sms-4.6', 'sms-4.7', 'sms-4.8', 'sms-4.9', 'sms-4.01'];
 
-            messages.forEach(function(message) {
-                global.sendReply(getMessage(message, {}, lang));
-            });
+            global.sendReply(getMessage(messages[0], {}, lang));
+            global.sendReply(getMessage(messages[1], {}, lang));
+            global.sendReply(getMessage(messages[2], {}, lang));
+            global.sendReply(getMessage(messages[3], {}, lang));
+            global.sendReply(getMessage(messages[4], {}, lang));
+            global.sendReply(getMessage(messages[5], {}, lang));
+            global.sendReply(getMessage(messages[6], {}, lang));
+            global.sendReply(getMessage(messages[7], {}, lang));
+            global.sendReply(getMessage(messages[8], {}, lang));
+            global.sendReply(getMessage(messages[9], {}, lang));
 
             global.waitForResponse(batch4ResponseHandler.handlerName);
         };
