@@ -1,6 +1,11 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## 2020-10-05
+### Added
+
+[SER-17](https://oneacrefund.atlassian.net/browse/SER-17) - Add check shs warranty expiration.
+
 ## 2020-10-02
 ### Fixed
 [SER-258](https://oneacrefund.atlassian.net/browse/SER-258) Duka Registration users not receiving SMSs
