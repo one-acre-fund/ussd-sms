@@ -10,10 +10,10 @@ module.exports = {
 
             var getMessage = translator(translations, lang);
             var messages = ['sms-7.1', 'sms-7.2'];
-
-            messages.forEach(function(message) {
-                global.sendReply(getMessage(message, {}, lang));
-            });
+            
+            global.sendReply(getMessage(messages[0], {}, lang));
+            global.sendReply(getMessage(messages[1], {}, lang));
+            
         };
     }
 };
