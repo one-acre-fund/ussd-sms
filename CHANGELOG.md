@@ -1,6 +1,11 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## 2020-10-05
+### Changed
+
+[SER-260] (https://oneacrefund.atlassian.net/browse/SER-260) Update landing page menu
+
 ## 2020-10-02
 ### Fixed
 [SER-258](https://oneacrefund.atlassian.net/browse/SER-258) Duka Registration users not receiving SMSs
