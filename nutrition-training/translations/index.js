@@ -24,7 +24,7 @@ module.exports = {
         'sw': 'Sahihi! maharagwe, mayai, omena na mboga za majani (managu) vina madini ya kuongeza damu. Madini haya hufanya mtoto wako kuwa mwerevu!'
     },
     'sms_1.4': {
-        'en-ke': 'Actually, beans have the most iron. Ugali/Rice make you full but do not contain enough iron to prevent anemia and imrove health',
+        'en-ke': 'Actually, beans have the most iron. Ugali/Rice make you full but do not contain enough iron to prevent anemia and improve health',
         'sw': 'Maharagwe yana madini ya kuongeza damu. Ugali / Mchele hauna madini ya kuongeza damu vya kutosha kuzuia upungufu wa damu mwilini'
     },
     'sms_1.5': {
@@ -64,7 +64,7 @@ module.exports = {
         'sw': '(6/6)Hongera! Umemaliza mafunzo ya lishe bora! ZIngatia masomo haya kwa familia yako ili wawe na afya nzuri!'
     },
     'invalid_choice': {
-        'en-ke': 'Reply with a or b to answer',
-        'sw': 'Chagua a au b kujibu!'
+        'en-ke': 'Reply with a, b or c to answer',
+        'sw': 'Chagua a, b au c kujibu!'
     }
 };
