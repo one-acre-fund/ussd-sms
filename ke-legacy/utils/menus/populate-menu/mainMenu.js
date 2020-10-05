@@ -106,7 +106,7 @@ module.exports = [
     },
     {
         'en-ke': 'Check SHS warranty expiration',
-        'sw': 'Ushauri wa aina ya mahindi',
+        'sw': 'Tarehe ya mwisho ya warranty',
         'option_name': 'warranty_expiration',
         'end_date': project.vars.end_warranty_expiration,
         'start_date': project.vars.start_warranty_expiration
