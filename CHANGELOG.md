@@ -25,6 +25,7 @@ check if the account number is nan before displaying it to the user
 
 ### Added
 
+[SER-218](https://oneacrefund.atlassian.net/browse/SER-218) As a client, I want to access a soil training, so that I understand how to maintain healthy soil
 [SER-17](https://oneacrefund.atlassian.net/browse/SER-17) - Add check shs warranty expiration.
 
 ## 2020-10-02
