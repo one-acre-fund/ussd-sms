@@ -96,11 +96,12 @@ describe('avocadoServices',()=>{
         const mockCursor = { next: jest.fn(), 
             hasNext: jest.fn()
         };
-        const mockTable = { queryRows: jest.fn() };
+        const mockTable = { queryRows: jest.fn(), createRow: jest.fn() };
         project.initDataTableById.mockReturnValue(mockTable);
         mockTable.queryRows.mockReturnValue(mockCursor);
         mockCursor.hasNext.mockReturnValue(true);
-        var mockRow;
+        var mockRow = {save: jest.fn()};
+        mockTable.createRow.mockReturnValue(mockRow);
         var requestBundles = [{
             'bundleId': '-3217',
             'bundleQuantity': quantity,
@@ -124,6 +125,7 @@ describe('avocadoServices',()=>{
                 'isGroupLeader': 'false',
                 'clientBundles': requestBundles});
         });
+       
         it('should call enroll order with the request data if the client is new( groupId is null)',()=>{
             client.GroupId = null;
             state.vars.client_json = JSON.stringify(client);
@@ -151,6 +153,16 @@ describe('avocadoServices',()=>{
             expect(sayText).toHaveBeenCalledWith(message);
             expect( project.sendMessage).toHaveBeenCalledWith({'to_number': contact.phone_number, 'route_id': 111,'content': message});
         });
+        it('should create a row if the the client is new and their info is not found on the orders table',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(true);
+            callback();
+            expect(mockTable.createRow).toHaveBeenCalledWith({vars: {
+                'a_avokaqty': state.vars.orderedNumber,
+                'account_number': state.vars.account,
+                'confirmed': '1'
+            }});
+
+        });
         it('should diplay an error message saying enrollment not complete if an error occurs',()=>{
             enrollOrder.mockReturnValue(false);
             callback();
@@ -163,5 +175,6 @@ describe('avocadoServices',()=>{
             callback();
             expect(sayText).toHaveBeenCalledWith('Ordering not finalized. Try again later');
         });
+
     });
 });

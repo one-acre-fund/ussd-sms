@@ -103,16 +103,19 @@ global.main = function () {
     sayText(msgs('main_menu',{},lang));
     promptDigits('main_menu_splash', {
         'submitOnHash': false,
-        'maxDigits': max_digits_for_account_number,
+        'maxDigits': 2,
         'timeout': timeout_length
     });
 };
 
 addInputHandler('main_menu_splash',function(input){
-    if(input == 0){
+    notifyELK();
+    input = String(input.replace(/\D/g, ''));
+    if(input == 1){
         clientRegistration.start(0,'RW',lang);
+        stopRules();
     }
-    else if (input == 1){
+    else if(input == 2){
         sayText(msgs('cor_enr_main_splash',{},lang));
         promptDigits('account_number_splash', {
             'submitOnHash': false,
@@ -124,7 +127,7 @@ addInputHandler('main_menu_splash',function(input){
         sayText(msgs('main_menu',{},lang));
         promptDigits('main_menu_splash', {
             'submitOnHash': false,
-            'maxDigits': max_digits_for_account_number,
+            'maxDigits': 2,
             'timeout': timeout_length
         });
     }

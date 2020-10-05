@@ -82,6 +82,16 @@ function onOrderConfirmed(){
             avocadoRow.vars.a_avokaqty = state.vars.orderedNumber;
             avocadoRow.vars.confirmed = '1';
             avocadoRow.save();
+        }
+        else{
+            var new_avocado_row = avocado_table.createRow({
+                vars: {
+                    'a_avokaqty': state.vars.orderedNumber,
+                    'account_number': state.vars.account,
+                    'confirmed': '1'
+                }
+            });
+            new_avocado_row.save();
         }  
         var message = translate('final_message',{'$number': state.vars.orderedNumber},state.vars.lang);
         global.sayText(message);

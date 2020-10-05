@@ -1,6 +1,27 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## 2020-10-02
+### Fixed
+[SER-258](https://oneacrefund.atlassian.net/browse/SER-258) Duka Registration users not receiving SMSs
+When registering a new user, account number SMSs are not sent to clients.
+
+## 2020-10-02
+### Fixed
+
+[SER-209] (https://oneacrefund.atlassian.net/browse/SER-209) As a client, I want to add avocado trees to my order, so that I can plant a high-impact product
+
+Before the newly registered client could not place an order because of their account numbers are not in the client's ordered avocado table. This fixes it and saves a row on the table after registration
+
+[SER-208](https://oneacrefund.atlassian.net/browse/SER-208) As a non-client, I want to register via USSD, so that I can purchase avocado trees through OAF
+
+Before the groupId was not saved in the registration table. this fixes it
+
+## 2020-10-01
+### Fixed
+[SER-256](https://oneacrefund.atlassian.net/browse/SER-256) USSD Client Registration menu not working - KE
+Added an else to if to make sure the menu is beaving normally
+
 ## 2020-09-29
 ### Added
 
@@ -18,8 +39,6 @@ Replaced the chicken cup number
 
 *[SER-244](https://oneacrefund.atlassian.net/browse/SER-244) Make sure new clients can't register with special characters in their names
 changed the duka registration service to validate names so that no special characters be sent
-
-
 
 ## 2020-09-24
 ### Added

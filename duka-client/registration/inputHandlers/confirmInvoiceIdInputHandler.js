@@ -11,6 +11,7 @@ module.exports = {
             notifyElk();
             var getMessage = translator(translations, lang);
             if(input == 1) {
+                console.log('state variables: ==>' + JSON.stringify(state.vars));
                 if(state.vars.duka_client_first_name) {
                     var confirmFirstSecondName = require('./confirmFirstSecondNameInputHandler');
                     var confirmNamesMessageTitle = getMessage('first_sencond_name_confirm', {
