@@ -103,5 +103,12 @@ module.exports = [
         'option_name': 'maize_recommendation',
         'end_date': project.vars.end_maize_recommendation,
         'start_date': project.vars.start_maize_recommendation
+    },
+    {
+        'en-ke': 'Check SHS warranty expiration',
+        'sw': 'Tarehe ya mwisho ya warranty',
+        'option_name': 'warranty_expiration',
+        'end_date': project.vars.end_warranty_expiration,
+        'start_date': project.vars.start_warranty_expiration
     }
 ];
