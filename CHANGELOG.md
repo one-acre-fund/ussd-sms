@@ -1,6 +1,11 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## 2020-10-06
+### Added
+
+[SER-268](https://oneacrefund.atlassian.net/secure/RapidBoard.jspa?rapidView=83&selectedIssue=SER-268) - Add a column to save the difference in the avocado intead of overwriting the old One
+
 ## 2020-10-05
 ### Added
 

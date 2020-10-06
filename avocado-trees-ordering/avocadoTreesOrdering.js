@@ -79,14 +79,14 @@ function onOrderConfirmed(){
         var avocadoCursor = avocado_table.queryRows({'vars': {'account_number': state.vars.account}});
         if(avocadoCursor.hasNext()){
             var avocadoRow = avocadoCursor.next();
-            avocadoRow.vars.a_avokaqty = state.vars.orderedNumber;
+            avocadoRow.vars.avoka_jit = (state.vars.orderedNumber - avocadoRow.vars.a_avokaqty);
             avocadoRow.vars.confirmed = '1';
             avocadoRow.save();
         }
         else{
             var new_avocado_row = avocado_table.createRow({
                 vars: {
-                    'a_avokaqty': state.vars.orderedNumber,
+                    'avoka_jit': state.vars.orderedNumber,
                     'account_number': state.vars.account,
                     'confirmed': '1'
                 }

@@ -157,7 +157,7 @@ describe('avocadoServices',()=>{
             mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(true);
             callback();
             expect(mockTable.createRow).toHaveBeenCalledWith({vars: {
-                'a_avokaqty': state.vars.orderedNumber,
+                'avoka_jit': state.vars.orderedNumber,
                 'account_number': state.vars.account,
                 'confirmed': '1'
             }});
