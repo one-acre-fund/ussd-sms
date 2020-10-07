@@ -34,17 +34,7 @@ var warrantyExpiration = require('../warranty-expiration/warrantyExpiration');
 var slackLogger = require('../slack-logger/index');
 var Log = require('../logger/elk/elk-logger');
 var logger = new Log();
-if(service.active){
-    defaultEnvironment = 'prod';
-}else{
-    defaultEnvironment = 'dev';
-}
 
-if(service.vars.env === 'prod' || service.vars.env === 'dev'){
-    env = service.vars.env;
-}else{
-    env = defaultEnvironment;
-}
 var dukaLocator = require('../duka-locator/index');
 var groupRepaymentsModule = require('../group-repayments/groupRepayments');
 service.vars.server_name = project.vars[env+'_server_name'];
