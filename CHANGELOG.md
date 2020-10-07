@@ -1,6 +1,13 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+
+## 2020-10-07
+### Fixed
+
+[THD-3213] (https://oneacrefund.atlassian.net/browse/THD-3213) Wrong Account Generation
+check if the account number is nan before displaying it to the user
+
 ## 2020-10-05
 ### Changed
 
