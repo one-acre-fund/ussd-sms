@@ -1,12 +1,17 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
-
 ## 2020-10-08
 ### Fixed
 
 [THD-3170] (https://oneacrefund.atlassian.net/browse/THD-3170) - Include two confirmation SMSes for the USSD Registration service
 fixed the issue of sending sms with FO contact when available
+
+## 2020-10-07
+### Fixed
+
+[THD-3213] (https://oneacrefund.atlassian.net/browse/THD-3213) Wrong Account Generation
+check if the account number is nan before displaying it to the user
 
 ## 2020-10-06
 ### Added
@@ -14,6 +19,10 @@ fixed the issue of sending sms with FO contact when available
 [SER-268](https://oneacrefund.atlassian.net/secure/RapidBoard.jspa?rapidView=83&selectedIssue=SER-268) - Add a column to save the difference in the avocado intead of overwriting the old One
 
 ## 2020-10-05
+### Changed
+
+[SER-260] (https://oneacrefund.atlassian.net/browse/SER-260) Update landing page menu
+
 ### Added
 
 [SER-17](https://oneacrefund.atlassian.net/browse/SER-17) - Add check shs warranty expiration.
