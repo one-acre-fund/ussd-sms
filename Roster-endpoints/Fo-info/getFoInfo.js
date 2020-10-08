@@ -11,7 +11,7 @@ module.exports = function (districtId,siteId) {
     try {
         response = httpClient.request(fullUrl, opts);
         if (response.status == 200) {
-            return response.content;
+            return JSON.parse(response.content);
         }
         else {
             var logger = new Log();
