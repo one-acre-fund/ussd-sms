@@ -1036,12 +1036,12 @@ var PaymentMenuText = function (client){
     if (GetLang()){sayText('You are paying into account number '+client.AccountNumber+' Total Repaid '+repaid+', Bal '+balance+'.Please reply with the amount you want to pay');}
     else {sayText('Unafanya malipo kwa hii akaunti '+client.AccountNumber+' Jumla ya malipo '+repaid+', Salio '+balance+'.Tafadhali weka kiasi unachotaka kulipa');}
 };
-var CheckBalanceMenuText = function (Overpaid,Season,Credit,Paid,Balance){
+var CheckBalanceMenuText = function (healthyPathDetails, Overpaid,Season,Credit,Paid,Balance){
     var getHealthyPathMessage = require('../healthy-path/balance/healthyPathOnBalance');
     var balanceMenu = '';
     var healthyPathMessage = '';
     if (GetLang()){
-        healthyPathMessage = getHealthyPathMessage(Credit, Paid, 'en');
+        healthyPathMessage = getHealthyPathMessage(healthyPathDetails.seasonId, healthyPathDetails.countryId, healthyPathDetails.districtId, Credit, Paid, 'en');
         if(Overpaid){
             balanceMenu = Season+':\nPaid: '+Paid+'\nTotal credit: '+Credit+'\nOver payment: '+Balance+ '\n' + healthyPathMessage + '1 - Make payment';
         }else {
@@ -1885,7 +1885,15 @@ addInputHandler('MainMenu', function(SplashMenu){
                 }
             }
         }
-        CheckBalanceMenuText (Overpaid,Season,Credit,Paid,Balance);
+        var mostRecentSeason = client.BalanceHistory[0];
+        var healthyPathDetails = {
+            countryId: client.CountryId,
+            districtId: client.DistrictId
+        };
+        if (mostRecentSeason) {
+            healthyPathDetails.seasonId = client.SeasonId;
+        }
+        CheckBalanceMenuText (healthyPathDetails, Overpaid,Season,Credit,Paid,Balance);
         promptDigits('ContinueToPayment', {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
 });

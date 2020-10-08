@@ -5,6 +5,9 @@ var fetchHealthyPathPercentage = require('../utils/getHealthyPathPercentage');
 
 /**
  * generates a healthy path message to append on balance screen
+ * @param {Number} SeasonId season id
+ * @param {Number} CountryId country id
+ * @param {Number} DistrictId district id 
  * @param {Number} credit the total credit
  * @param {Number} repaid the total repaid
  * @param {String} lang the language to be used 
