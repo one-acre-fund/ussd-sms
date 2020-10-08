@@ -953,8 +953,8 @@ var StaffCreateRequest = function(payrollid,startday,amount){
 
 //MAIN FUNCTIONS OR GENERIC TEXT
 var SplashMenuText = function (){
-    if (GetLang()){sayText('Welcome to the One Acre Fund Portal. Press 0 if you do not have One Acre Fund account.If you have an account, Please enter your 8-digit account number 99)Kiswahili');}
-    else {sayText('Karibu One Acre Fund. Bonyeza 0 kama hauna nambari ya akaunti ya One Acre Fund.Kama uko na akaunti ya One Acre Fund, tafadhali weka nambari yako ya akaunti unayotumia. 99) English');}
+    if (GetLang()){sayText('Welcome to the One Acre Fund. Press 0 if you do not have One Acre Fund account.If you have an account, Please enter your 8-digit account number 99) Swahili');}
+    else {sayText('Karibu One Acre Fund. Bonyeza 0 kama hauna nambari ya akaunti ya One Acre Fund.Kama uko na akaunti ya One Acre Fund, Weka nambari ya akaunti yako 99) English');}
 
 };
 var SplashMenuFailure = function (){
@@ -1657,7 +1657,7 @@ addInputHandler('SplashMenu', function(SplashMenu) {
             state.vars.account_number = client.AccountNumber;
             MainMenuText(client);
             promptDigits('MainMenu', {submitOnHash: true, maxDigits: 8, timeout: 5});
-        } 
+        }
         else if(creditOfficerDetails) {
             dukaClient.start(GetLang() ? 'en-ke' : 'sw', creditOfficerDetails);
         }
