@@ -168,6 +168,9 @@ function saveClientInRoster(){
             state.vars.newClient = JSON.stringify(clientData);
             var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
             var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
+            console.log('FO info-------here------------'+foInfo);
+            console.log('FO info-------here------------'+typeof(foInfo));
+            console.log('FO contact-------------------'+JSON.parse(foInfo).phoneNumber);
             var message;
             if((foInfo == null) || (foInfo.phoneNumber == null || foInfo.phoneNumber == undefined)){
                 message = translate('reg_complete_message_no_phone' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);

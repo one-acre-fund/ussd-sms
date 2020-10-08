@@ -11,15 +11,18 @@ module.exports = function (districtId,siteId) {
     try {
         response = httpClient.request(fullUrl, opts);
         if (response.status == 200) {
+            console.log('success!!!!!!!!!'+ JSON.stringify(response.content));
             return response.content;
         }
         else {
+            console.log('failed!!!!!!!!!'+ JSON.stringify(response.content));
             var logger = new Log();
             logger.warn('Failed to get Fo info',{data: response});
             stopRules();
             return null;
         }
     } catch (e) {
+        console.log('nope!!!!!!!!!'+e);
         var log = new Log();
         log.error('Failed to get Fo info', {data: e});
     }  
