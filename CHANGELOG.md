@@ -1,6 +1,14 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+
+## 2020-10-05
+### Fixed
+
+[THD-3170] (https://oneacrefund.atlassian.net/browse/THD-3170) - Include two confirmation SMSes for the USSD Registration service
+fixed the issue of sending sms with FO contact when available
+
+
 ## 2020-10-05
 ### Added
 

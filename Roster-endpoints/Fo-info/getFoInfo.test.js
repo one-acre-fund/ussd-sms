@@ -35,7 +35,7 @@ describe('getFoInfo', () => {
         );
     });
     it('should return Fo info if the request is succesful', () => {
-        httpClient.request.mockReturnValueOnce({status: 200, content: mockResult});
+        httpClient.request.mockReturnValueOnce({status: 200, content: JSON.stringify(mockResult)});
         const result = getFoInfo(mockRequestData.districtId,mockRequestData.siteId);
         expect(result).toEqual(mockResult);
     });
