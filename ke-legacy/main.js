@@ -1891,7 +1891,7 @@ addInputHandler('MainMenu', function(SplashMenu){
             districtId: client.DistrictId
         };
         if (mostRecentSeason) {
-            healthyPathDetails.seasonId = client.SeasonId;
+            healthyPathDetails.seasonId = mostRecentSeason.SeasonId;
         }
         CheckBalanceMenuText (healthyPathDetails, Overpaid,Season,Credit,Paid,Balance);
         promptDigits('ContinueToPayment', {submitOnHash: true, maxDigits: 1, timeout: 5});

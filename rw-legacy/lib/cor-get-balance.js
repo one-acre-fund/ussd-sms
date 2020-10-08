@@ -117,8 +117,18 @@ module.exports = function(client, lang){
         console.log(error);
     }
     */
-   var healthyPathMessage = healthyPath(credit, paid, lang);
-   console.log('healthy path: >>>>>' + healthyPathMessage);
+   // SeasonId: number, CountryId: number, DistrictId: number,
+   var mostRecentSeason = client.BalanceHistory[0];
+   var hpd = {
+       countryId: client.CountryId,
+       districtId: client.DistrictId
+   };
+   if (mostRecentSeason) {
+    hpd.seasonId = mostRecentSeason.SeasonId;
+   }
+
+   var healthyPathMessage = healthyPath(hpd.seasonId, hpd.countryId, hpd.districtId, credit, paid, lang);
+
     return {'$CLIENT_NAME' : client.ClientName,
             '$PAID'        : paid,
             '$BALANCE'     : balance,
