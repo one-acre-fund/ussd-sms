@@ -1,7 +1,7 @@
 var calculateHealthyPath = require('../utils/healthyPathCalculator');
 var translations = require('../translations/index');
 var translator = require('../../utils/translator/translator');
-var fetchHealthyPath = require('../utils/fetchHealthyPathData');
+var fetchHealthyPath = require('../utils/getHealthyPathPercentage');
 
 /**
  * generates a healthy path message to append on balance screen
