@@ -13,6 +13,20 @@ module.exports = {
             
             global.sendReply(getMessage(messages[0], {}, lang));
             global.sendReply(getMessage(messages[1], {}, lang));
+            project.sendMulti({
+                messages: [
+                    {
+                        'content': getMessage(messages[0], {}, lang),
+                        'to_number': contact.phone_number,
+                        'priority': 2,
+                    },
+                    {
+                        'content': getMessage(messages[1], {}, lang),
+                        'to_number': contact.phone_number,
+                        'priority': 1,
+                    },
+                ]
+            });
             
         };
     }
