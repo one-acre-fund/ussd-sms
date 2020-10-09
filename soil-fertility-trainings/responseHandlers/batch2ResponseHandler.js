@@ -11,12 +11,6 @@ module.exports = {
             var getMessage = translator(translations, lang);
             var messages = ['sms-3.1', 'sms-3.2', 'sms-3.3', 'sms-3.4', 'sms-3.5'];
 
-            global.sendReply(getMessage(messages[0], {}, lang));
-            global.sendReply(getMessage(messages[1], {}, lang));
-            global.sendReply(getMessage(messages[2], {}, lang));
-            global.sendReply(getMessage(messages[3], {}, lang));
-            global.sendReply(getMessage(messages[4], {}, lang));
-
             project.sendMulti({
                 messages: [{
                     'content': getMessage(messages[0], {}, lang),
