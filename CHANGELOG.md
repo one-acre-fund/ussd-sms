@@ -1,6 +1,12 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## 2020-10-09
+### Fixed
+
+[THD-3213] (https://oneacrefund.atlassian.net/browse/THD-3213) Wrong Account Generation
+Updated the the registration service to match it's endpoint. AccountNumber is now returned as a key value pair instead of just a string when there is a national Id conflict 
+
 ## 2020-10-08
 ### Fixed
 

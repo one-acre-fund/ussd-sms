@@ -43,19 +43,27 @@ module.exports = function (clientJSON, lang) {
         }
         else if (response.status == 409) {
             logResponse(fullUrl, response);
-            var accountNumber = parseInt(response.content.replace(/\"/g, ' '));
-            if((isNaN(accountNumber)) || (accountNumber == null) || (typeof(accountNumber) == undefined)){
+            //If the account number is returned in the content, return it to the user
+            if(JSON.parse(response.content).AccountNumber){
+                var accountNumber = parseInt(JSON.parse(response.content).AccountNumber.replace(/\"/g, ' '));
+                if((isNaN(accountNumber)) || (accountNumber == null) || (typeof(accountNumber) == undefined)){
+                    sayText(msgs('FAILURE_REGISTERING', {}, lang));
+                    if(logger) logger.warn('Error Registering a new Client',{tags: [service.vars.env],data: response});
+                    stopRules();
+                    return null;
+                }
+                else{
+                    sayText(msgs('enrolled_national_id', {'$AccountNumber': accountNumber}, lang));
+                    stopRules();
+                    return null;
+                }
+            }  
+            else{
                 sayText(msgs('FAILURE_REGISTERING', {}, lang));
                 if(logger) logger.warn('Error Registering a new Client',{tags: [service.vars.env],data: response});
                 stopRules();
                 return null;
-            }
-            else{
-                sayText(msgs('enrolled_national_id', {'$AccountNumber': accountNumber}, lang));
-                stopRules();
-                return null;
-            }
-            
+            }  
         }
         else {
             logResponse(fullUrl, response);
