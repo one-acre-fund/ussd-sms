@@ -70,7 +70,7 @@ function core_prepayment_calc(client_row, input_menu_name){
     throw 'Passing on prepayment for the moment here';
 }
 
-module.exports = function(account_number, input_menu_name, an_table, lang, max_chars, displaying){ //here there be tygers
+module.exports = function(account_number, input_menu_name, an_table, lang, max_chars){ //here there be tygers
     var get_client = require('./enr-retrieve-client-row');
     var client = get_client(account_number, an_table);
     max_chars = max_chars || 130;
@@ -95,61 +95,51 @@ module.exports = function(account_number, input_menu_name, an_table, lang, max_c
     }
     var name_str = client.vars.name1 + ' ' + client.vars.name2;
     var client_name = state.vars.client_name || name_str;
-    var outstr = client_name + ' ' + pre_str + '\n';
+    var outstr = client_name + ' ' + pre_str +'\n';
     var outobj = {}
     var loc = 0;
+    var hasNoOrder = true;
     for(prod in products){
         var prod_row = input_table.queryRows({'vars' : {'bundle_name' : prod}}).next();
         var bundle_name = prod_row.vars['bundle_name'].replace(/ /g,"_");
         if(parseFloat(client.vars[bundle_name]) > 0){
+            hasNoOrder = false;
             var tempstr = prod_row.vars[lang]+':'+client.vars[bundle_name]+' ' +prod_row.vars.unit+' - '+(parseFloat(client.vars[bundle_name])*parseFloat(prod_row.vars.price))+'RWF';
-            console.log('%%%%%'+tempstr);
             var currentMenu = outstr + tempstr  + '\n';
             if(currentMenu.length < max_chars){
                 outstr =  outstr + tempstr  + '\n';
             }
             else{
                 outobj[loc] = outstr +'\n'+ next_page;
-                outstr = prev_page + '\n' + tempstr  + '\n';
+                outstr = prev_page + '\n' + tempstr;
                 loc = loc + 1;
             }
         }
+    }
+    if(hasNoOrder){
+        return null;
     }
     var end_review_msg = msgs('end_review_msg',{},lang);
     if(Object.keys(outobj).length > 0){
-        console.log('--------------------'+JSON.stringify(outobj));
-        if(displaying && ((outstr + '\n' + end_review_msg).length) > max_chars){
+        if(((outstr + '\n' + end_review_msg).length) > max_chars){
             outobj[loc] = outstr + '\n' + next_page;
             loc = loc + 1;
-            outobj[loc] = prev_page + end_review_msg
+            outobj[loc] = prev_page +'\n'+ end_review_msg;
         }
         else{
-            outobj[loc] = outstr;
+            outobj[loc] = outstr + '\n' + end_review_msg;
         }
-        console.log('--------------------'+JSON.stringify(outobj));
         return outobj;
     }
     else if(outstr.length > 0){
-        console.log('--------------------'+outstr);
-        if(displaying){
-            if((outstr + '\n'+ end_review_msg).length > max_chars){
-                outobj[loc] = outstr + '\n' + next_page;
-                loc = loc + 1;
-                outobj[loc] = prev_page + end_review_msg;
-                console.log('***********************'+JSON.stringify(outobj));
-                return outobj;
-            }
-            else{
-                console.log('--------------------'+ utstr + '\n' + end_review_msg);
-                return outstr + '\n' + end_review_msg;
-            }
-        }else{
-            console.log('--------------------'+outstr);
-            return outstr;
+        if((outstr + '\n'+ end_review_msg).length > max_chars){
+            outobj[loc] = outstr + '\n' + next_page;
+            loc = loc + 1;
+            outobj[loc] = prev_page +'\n'+ end_review_msg;
+            return outobj;
         }
-    }
-    else{
-        var msgs = require('./msg-retrieve');
-        return msgs('enr_empty_order_review', {}, lang);
+        else{
+            return outstr + '\n' + end_review_msg;
+        }
     }
 };

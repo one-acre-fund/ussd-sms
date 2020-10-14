@@ -825,10 +825,15 @@ module.exports = {
     'enrolled_national_id':{
         'en': 'Thank you for expressing your interest to enroll with OAF. Your Account Number is: $AccountNumber .Your FO will reach out to you to add inputs to your order.',
         'en-ke': 'Thank you for expressing your interest to enroll with OAF. Your Account Number is: $AccountNumber .Your FO will reach out to you to add inputs to your order.',
-        'sw': 'Asante kwa nia ya kujiandikisha na OAF. Nambari yako ya akaunti ni: $AccountNumber. Mwalimu wa nyanjani atawasiliana na wewe ili uchagua bidhaa.'
+        'sw': 'Asante kwa nia ya kujiandikisha na OAF. Nambari yako ya akaunti ni: $AccountNumber. Mwalimu wa nyanjani atawasiliana na wewe ili uchagua bidhaa.',
+        'ki': 'numero y\'irangamuntu yanyu yanditse kuri konte ya TUBURA: $AccountNumber . Mukoreshe iyo mutumiza' 
     },
     'end_review_msg':{
-        'en': '1. Place order\n2. Review and confirm order',
-        'ki': '1. Tumiza\n2. Suzuma unemeze ibyo watumije'
+        'en': '1)Choose another bundle/order\n2)Confirm order\n3) go back',
+        'ki':'1)Hitamo ikindi utumiza\n2)Emeza gutumiza\n3)Subira ahabanza'
+    },
+    'no_produts_msg':{
+        'en': 'No order placed so far\n1)Choose a bundle/order\n3) go back',
+        'ki':'Ntacyo uratumiza\n1) Tumiza\n3)Subira ahabanza '
     }
 }

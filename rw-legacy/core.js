@@ -388,7 +388,7 @@ addInputHandler('cor_menu_select', function (input) {
         get_time();
     }
     else if (selection === 'enr_order_review_start') {
-        var client = get_client(state.vars.account_number, an_pool);
+        var client = get_client(state.vars.account_number, an_pool,true);
         if (client === null || client.vars.registered === 0) {
             sayText(msgs('account_number_not_found', {}, lang));
             contact.vars.account_failures = contact.vars.account_failures + 1;
@@ -397,8 +397,13 @@ addInputHandler('cor_menu_select', function (input) {
         else {
             var prod_menu_select = require('./lib/enr-select-product-menu');
             var gen_input_review = require('./lib/enr-gen-order-review'); //todo: add prepayment calc
-            var input_review_menu = gen_input_review(state.vars.account_number, service.vars.input21ATable, an_pool, lang, true);
-            if (typeof (input_review_menu) == 'string') {
+            var input_review_menu = gen_input_review(state.vars.account_number, service.vars.input21ATable, an_pool, lang);
+            if(input_review_menu == null){
+                var review_msg = msgs('no_produts_msg',{},lang);
+                sayText(review_msg);
+                promptDigits('enr_order_review_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            }
+            else if (typeof (input_review_menu) == 'string') {
                 sayText(input_review_menu);
                 state.vars.multiple_review_menus = 0;
                 state.vars.review_menu = input_review_menu;
@@ -930,6 +935,7 @@ addInputHandler('enr_nid_client_confirmation', function (input) {
 inputHandlers['name1InputHandler'] = function (input) {
     notifyELK();
     if(input == '33'){
+        var confirmation_menu = msgs('enr_confirmation_menu', {}, lang);
         var current_menu = msgs('enr_nid_client_confirmation', { '$ENR_NID_CONFIRM':  state.vars.reg_nid, '$ENR_CONFIRMATION_MENU': confirmation_menu }, lang);
         state.vars.current_menu_str = current_menu;
         sayText(current_menu);
@@ -967,6 +973,7 @@ inputHandlers['name2InputHandler'] = function (input) {
     if(input == '33'){
         sayText(msgs('enr_name_1', {}, lang));
         promptDigits('enr_name_1', { 'submitOnHash': false, 'maxDigits': max_digits_for_name, 'timeout': timeout_length });
+        return;
     }
     input = input.replace(/[^a-zA-Z]/gi, '');
     state.vars.current_step = 'enr_name_2';
@@ -1133,7 +1140,8 @@ addInputHandler('reg_group_constitution_confirm',function(input){
                 return null;
             }
         }
-        if(client_log_result !=null){
+        if(client_log_result != null){
+            regSessionManager.clear(contact.phone_number);
             //check if group leader here
             var gl_check = require('./lib/enr-group-leader-check');
             var is_gl = gl_check(state.vars.account_number, state.vars.glus, an_pool, glus_pool);
@@ -1525,6 +1533,68 @@ addInputHandler('enr_order_review_continue', function (input) {
         return null;
     }
     else if(input == 1){
+        state.vars.multiple_input_menus = 1;
+        var client = get_client(state.vars.account_number, an_pool, true);
+        if (client === null || client.vars.registered == 0) {
+            sayText(msgs('account_number_not_found', {}, lang));
+            contact.vars.account_failures = contact.vars.account_failures + 1;
+            promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
+        }
+        var get_district_bundles = require('./lib/get-district-bundles')
+        get_district_bundles(state.vars.client_districtId);
+        if (client.vars.finalized == 1 && client.vars.geo !== 'Ruhango') { //fix next tine for generallity
+            sayText(msgs('enr_order_already_finalized', {}, lang));
+            promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+        }
+        else if (client.vars.registered == 1) {
+            // if client does not have a glvv id entered, prompt them to enter it before continuing
+            var glvv_check = client.vars.glus || state.vars.glus;
+            if (glvv_check == null || glvv_check == 0) {
+                sayText(msgs('enr_missing_glvv', {}, lang));
+                promptDigits('enr_glvv_id', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
+                return null;
+            }
+            // save glvv in client row
+            client.vars.glus = state.vars.glus;
+            client.save();
+            // check if client is a group leader
+            var gl_check = require('./lib/enr-group-leader-check');
+            var is_gl = gl_check(state.vars.account_number, state.vars.glus, an_pool, glus_pool);
+            // continue with order steps
+            state.vars.session_authorized = true;
+            state.vars.session_account_number = state.vars.account_number;
+            state.vars.client_geo = client.vars.geo;
+            //var prod_menu_select = require('./lib/enr-select-product-menu');
+            //var product_menu_table_name = prod_menu_select(state.vars.client_geo, geo_menu_map);
+            var product_menu_table_name = service.vars.input21ATable;
+            state.vars.product_menu_table_name = product_menu_table_name;
+            var populate_district_inputs_menu = require('./lib/populate-input-menu-by-district');
+            var menu = populate_district_inputs_menu(lang);
+            if (typeof (menu) == 'string') {
+                state.vars.current_menu_str = menu;
+                sayText(menu);
+                state.vars.multiple_input_menus = 0;
+                state.vars.input_menu = menu;
+                promptDigits('enr_input_splash', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            }
+            else if (typeof (menu) == 'object') {
+                state.vars.input_menu_loc = 0; //watch for off by 1 errors - consider moving this to start at 1
+                state.vars.multiple_input_menus = 1;
+                state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
+                state.vars.current_menu_str = menu[state.vars.input_menu_loc];
+                sayText(menu[state.vars.input_menu_loc]);
+                state.vars.input_menu = JSON.stringify(menu);
+                promptDigits('enr_input_splash', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            }
+        }
+        else {
+            sayText(msgs('account_number_not_found', {}, lang));
+            contact.vars.account_failures = contact.vars.account_failures + 1;
+            promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
+        }
+
+    }
+    else if(input == 2){
         var client = get_client(state.vars.account_number, an_pool);
         if (client == null || client.vars.registered == 0) {
             sayText(msgs('account_number_not_found', {}, lang));
