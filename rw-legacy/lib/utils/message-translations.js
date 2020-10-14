@@ -826,5 +826,9 @@ module.exports = {
         'en': 'Thank you for expressing your interest to enroll with OAF. Your Account Number is: $AccountNumber .Your FO will reach out to you to add inputs to your order.',
         'en-ke': 'Thank you for expressing your interest to enroll with OAF. Your Account Number is: $AccountNumber .Your FO will reach out to you to add inputs to your order.',
         'sw': 'Asante kwa nia ya kujiandikisha na OAF. Nambari yako ya akaunti ni: $AccountNumber. Mwalimu wa nyanjani atawasiliana na wewe ili uchagua bidhaa.'
+    },
+    'end_review_msg':{
+        'en': '1. Place order\n2. Review and confirm order',
+        'ki': '1. Tumiza\n2. Suzuma unemeze ibyo watumije'
     }
 }

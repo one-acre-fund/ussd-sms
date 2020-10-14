@@ -834,6 +834,7 @@ addInputHandler('enr_nid_client_confirmation', function (input) {
         state.vars.current_menu_str = current_menu;
         sayText(current_menu);
         promptDigits('enr_reg_start', { 'submitOnHash': false, 'maxDigits': max_digits_for_nid, 'timeout': timeout_length });
+        return;
     }
     state.vars.current_step = 'enr_nid_client_confirmation';
     input = String(input.replace(/\D/g, ''));
@@ -933,6 +934,7 @@ inputHandlers['name1InputHandler'] = function (input) {
         state.vars.current_menu_str = current_menu;
         sayText(current_menu);
         promptDigits('enr_nid_client_confirmation', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+        return;
     }
     input = input.replace(/[^a-zA-Z]/gi, '');
     state.vars.current_step = 'enr_name_1';
@@ -997,6 +999,7 @@ inputHandlers['phoneInputHandler'] = function (input) {
     if(input == '33'){
         sayText(msgs('enr_name_2', {}, lang));
         promptDigits('enr_name_2', { 'submitOnHash': false, 'maxDigits': max_digits_for_name, 'timeout': timeout_length });
+        return;
     }
     state.vars.current_step = 'enr_pn';
     input = input.replace(/\D/g, '');
@@ -1027,6 +1030,7 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
     if(input == '33'){
         sayText(msgs('enr_pn', {}, lang));
         promptDigits('enr_pn', { 'submitOnHash': false, 'maxDigits': max_digits_for_pn, 'timeout': timeout_length });
+        return;
     }
     state.vars.current_step = 'enr_glus';
     if (input == 99) {
@@ -1078,6 +1082,7 @@ addInputHandler('enr_group_id_confirmation', function (input) { //enr group lead
     if(input == '33'){
         sayText(msgs('enr_glus', {}, lang));
         promptDigits('enr_glus', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
+        return;
     }
     state.vars.current_step = 'enr_glus';
     input = input.replace(/\W/g, '');

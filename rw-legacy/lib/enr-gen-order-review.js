@@ -79,7 +79,6 @@ module.exports = function(account_number, input_menu_name, an_table, lang, max_c
     var msgs = require('./msg-retrieve');
     var next_page = msgs('next_page',{},lang);
     var prev_page = msgs('prev_page',{},lang);
-    var 
     var pre_str = ''
     try{
         var prepayment = repayment_calc_options[input_menu_name](client, input_menu_name);
@@ -103,38 +102,49 @@ module.exports = function(account_number, input_menu_name, an_table, lang, max_c
         var prod_row = input_table.queryRows({'vars' : {'bundle_name' : prod}}).next();
         var bundle_name = prod_row.vars['bundle_name'].replace(/ /g,"_");
         if(parseFloat(client.vars[bundle_name]) > 0){
-            tempstr = prod_row.vars[lang]+':'+client.vars[bundle_name]+' ' +prod_row.vars.unit+' - '+(parseFloat(client.vars[bundle_name])*parseFloat(prod_row.vars.price))+'RWF';
-            if((outstr + tempstr + next_page).length > max_chars){
-                outobj[loc] = outstr + '\n' + next_page;
-                outstr = prev_page + tempstr;
-                loc = loc + 1;
+            var tempstr = prod_row.vars[lang]+':'+client.vars[bundle_name]+' ' +prod_row.vars.unit+' - '+(parseFloat(client.vars[bundle_name])*parseFloat(prod_row.vars.price))+'RWF';
+            console.log('%%%%%'+tempstr);
+            var currentMenu = outstr + tempstr  + '\n';
+            if(currentMenu.length < max_chars){
+                outstr =  outstr + tempstr  + '\n';
             }
             else{
-                outstr = outstr + '\n' + tempstr;
+                outobj[loc] = outstr +'\n'+ next_page;
+                outstr = prev_page + '\n' + tempstr  + '\n';
+                loc = loc + 1;
             }
         }
     }
+    var end_review_msg = msgs('end_review_msg',{},lang);
     if(Object.keys(outobj).length > 0){
-        if(displaying && (outstr + '\n' + end_review_msg).length > max_chars){
+        console.log('--------------------'+JSON.stringify(outobj));
+        if(displaying && ((outstr + '\n' + end_review_msg).length) > max_chars){
             outobj[loc] = outstr + '\n' + next_page;
-            outobj[++loc] = prev_page + end_review_msg
+            loc = loc + 1;
+            outobj[loc] = prev_page + end_review_msg
         }
         else{
             outobj[loc] = outstr;
         }
+        console.log('--------------------'+JSON.stringify(outobj));
         return outobj;
     }
     else if(outstr.length > 0){
+        console.log('--------------------'+outstr);
         if(displaying){
             if((outstr + '\n'+ end_review_msg).length > max_chars){
                 outobj[loc] = outstr + '\n' + next_page;
-                outobj[++loc] = prev_page + end_review_msg;
+                loc = loc + 1;
+                outobj[loc] = prev_page + end_review_msg;
+                console.log('***********************'+JSON.stringify(outobj));
                 return outobj;
             }
             else{
+                console.log('--------------------'+ utstr + '\n' + end_review_msg);
                 return outstr + '\n' + end_review_msg;
             }
         }else{
+            console.log('--------------------'+outstr);
             return outstr;
         }
     }
