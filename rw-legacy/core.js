@@ -397,16 +397,18 @@ addInputHandler('cor_menu_select', function (input) {
         else {
             var prod_menu_select = require('./lib/enr-select-product-menu');
             var gen_input_review = require('./lib/enr-gen-order-review'); //todo: add prepayment calc
-            var input_review_menu = gen_input_review(state.vars.account_number, service.vars.input21ATable, an_pool, lang);
+            var input_review_menu = gen_input_review(state.vars.account_number, service.vars.input21ATable, an_pool, lang, true);
             if (typeof (input_review_menu) == 'string') {
                 sayText(input_review_menu);
-                promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+                state.vars.multiple_review_menus = 0;
+                state.vars.review_menu = input_review_menu;
+                promptDigits('enr_order_review_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
             }
             else {
-                state.vars.multiple_review_frames = 1;
-                state.vars.review_frame_loc = 0;
-                state.vars.review_frame_length = Object.keys(input_review_menu).length;
-                state.vars.current_review_str = input_review_menu[state.vars.review_frame_loc];
+                state.vars.multiple_review_menus = 1;
+                state.vars.review_menu_loc = 0;
+                state.vars.review_menu_length= Object.keys(input_review_menu).length;
+                state.vars.current_review_str = input_review_menu[state.vars.review_menu_loc];
                 sayText(state.vars.current_review_str);
                 state.vars.review_menu = JSON.stringify(input_review_menu);
                 promptDigits('enr_order_review_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
@@ -1517,15 +1519,59 @@ addInputHandler('enr_order_review_continue', function (input) {
         stopRules();
         return null;
     }
-    else if (state.vars.review_frame_loc < state.vars.review_frame_length - 1) { //watch for off by 1 errors
-        state.vars.review_frame_loc = state.vars.review_frame_loc + 1;
-        var input_review_menu = JSON.parse(state.vars.review_menu);
-        state.vars.current_review_str = input_review_menu[state.vars.review_frame_loc];
-        sayText(state.vars.current_review_str);
-        promptDigits('enr_order_review_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+    else if(input == 1){
+        var client = get_client(state.vars.account_number, an_pool);
+        if (client == null || client.vars.registered == 0) {
+            sayText(msgs('account_number_not_found', {}, lang));
+            contact.vars.account_failures = contact.vars.account_failures + 1;
+            promptDigits(state.vars.current_step, { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+        }
+        else if (client.vars.finalized !== 1 || client.vars.finalized === undefined) {
+            state.vars.session_account_number = state.vars.account_number;
+            sayText(msgs('ENR_FINALIZE_TERMS_AND_CONDITION'),{},lang);
+            promptDigits('enr_terms_and_conditions', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            
+        }
+        else if (client.vars.finalized == 1) {
+            sayText(msgs('enr_already_finalized', {}, lang));
+            promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+        }
     }
+    else if(input == 3){
+            sayText(state.vars.main_menu);
+            promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+        }
+    else if (state.vars.multiple_review_menus) {
+        if (input == 44 && state.vars.review_menu_loc > 0) {
+            state.vars.review_menu_loc = state.vars.review_menu_loc - 1;
+            var menu = JSON.parse(state.vars.review_menu)[state.vars.review_menu_loc];
+            sayText(menu);
+            promptDigits('enr_order_review_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            return null;
+        }
+        else if (input == 77 && (state.vars.review_menu_loc < state.vars.review_menu_length - 1)) {
+            state.vars.review_menu_loc = state.vars.review_menu_loc + 1;
+            menu = JSON.parse(state.vars.review_menu)[state.vars.review_menu_loc];
+            sayText(menu);
+            promptDigits('enr_order_review_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            return null;
+        }
+        else if (input == 44 && state.vars.review_menu_loc == 0) {
+            sayText(state.vars.main_menu);
+            promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            return null;
+        }
+    }
+    // else if (state.vars.review_frame_loc < state.vars.review_frame_length - 1) { //watch for off by 1 errors
+    //     state.vars.review_frame_loc = state.vars.review_frame_loc + 1;
+    //     var input_review_menu = JSON.parse(state.vars.review_menu);
+    //     state.vars.current_review_str = input_review_menu[state.vars.review_frame_loc];
+    //     sayText(state.vars.current_review_str);
+    //     promptDigits('enr_order_review_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+    // }
     else {
-        promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+        sayText(state.vars.main_menu);
+        promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
     }
     get_time();
 });

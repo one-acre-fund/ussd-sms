@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 [SER-262] (https://oneacrefund.atlassian.net/browse/SER-262) - RW USSD enrollment - Optimize backward navigation
 
+### Added
+[SER-263] (https://oneacrefund.atlassian.net/browse/SER-263) - RW USSD enrollment - Change the flow by reducing steps
+
 ## 2020-10-08
 ### Fixed
 

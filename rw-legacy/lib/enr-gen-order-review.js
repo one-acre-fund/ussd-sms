@@ -70,16 +70,16 @@ function core_prepayment_calc(client_row, input_menu_name){
     throw 'Passing on prepayment for the moment here';
 }
 
-module.exports = function(account_number, input_menu_name, an_table, lang, max_chars){ //here there be tygers
+module.exports = function(account_number, input_menu_name, an_table, lang, max_chars, displaying){ //here there be tygers
     var get_client = require('./enr-retrieve-client-row');
     var client = get_client(account_number, an_table);
     max_chars = max_chars || 130;
-    var next_prev_tab_name = project.vars.next_page_table_name;
-    var next_prev_tab = project.getOrCreateDataTable(next_prev_tab_name);
-    var next_page = next_prev_tab.queryRows({'vars' : {'name' : 'next_page'}}).next().vars[lang] || '77) Next';
     var input_table = project.getOrCreateDataTable(input_menu_name);
     var products = input_table.countRowsByValue('bundle_name');
     var msgs = require('./msg-retrieve');
+    var next_page = msgs('next_page',{},lang);
+    var prev_page = msgs('prev_page',{},lang);
+    var 
     var pre_str = ''
     try{
         var prepayment = repayment_calc_options[input_menu_name](client, input_menu_name);
@@ -96,7 +96,7 @@ module.exports = function(account_number, input_menu_name, an_table, lang, max_c
     }
     var name_str = client.vars.name1 + ' ' + client.vars.name2;
     var client_name = state.vars.client_name || name_str;
-    var outstr = client_name + '\n' + pre_str + '\n';
+    var outstr = client_name + ' ' + pre_str + '\n';
     var outobj = {}
     var loc = 0;
     for(prod in products){
@@ -106,7 +106,7 @@ module.exports = function(account_number, input_menu_name, an_table, lang, max_c
             tempstr = prod_row.vars[lang]+':'+client.vars[bundle_name]+' ' +prod_row.vars.unit+' - '+(parseFloat(client.vars[bundle_name])*parseFloat(prod_row.vars.price))+'RWF';
             if((outstr + tempstr + next_page).length > max_chars){
                 outobj[loc] = outstr + '\n' + next_page;
-                outstr = tempstr;
+                outstr = prev_page + tempstr;
                 loc = loc + 1;
             }
             else{
@@ -115,11 +115,28 @@ module.exports = function(account_number, input_menu_name, an_table, lang, max_c
         }
     }
     if(Object.keys(outobj).length > 0){
-        outobj[loc] = outstr + '\n' + next_page
+        if(displaying && (outstr + '\n' + end_review_msg).length > max_chars){
+            outobj[loc] = outstr + '\n' + next_page;
+            outobj[++loc] = prev_page + end_review_msg
+        }
+        else{
+            outobj[loc] = outstr;
+        }
         return outobj;
     }
     else if(outstr.length > 0){
-        return outstr;
+        if(displaying){
+            if((outstr + '\n'+ end_review_msg).length > max_chars){
+                outobj[loc] = outstr + '\n' + next_page;
+                outobj[++loc] = prev_page + end_review_msg;
+                return outobj;
+            }
+            else{
+                return outstr + '\n' + end_review_msg;
+            }
+        }else{
+            return outstr;
+        }
     }
     else{
         var msgs = require('./msg-retrieve');
