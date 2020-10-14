@@ -10,34 +10,14 @@ module.exports = {
             var batch3ResponseHandler = require('./batch3ResponseHandler');
             var getMessage = translator(translations, lang);
             var messages = ['sms-3.1', 'sms-3.2', 'sms-3.3', 'sms-3.4', 'sms-3.5'];
-
-            project.sendMulti({
-                messages: [{
-                    'content': getMessage(messages[0], {}, lang),
-                    'to_number': contact.phone_number,
-                    'priority': 2,
-                },
-                {
-                    'content': getMessage(messages[1], {}, lang),
-                    'to_number': contact.phone_number,
-                    'priority': 2,
-                },
-                {
-                    'content': getMessage(messages[2], {}, lang),
-                    'to_number': contact.phone_number,
-                    'priority': 2,
-                },
-                {
-                    'content': getMessage(messages[3], {}, lang),
-                    'to_number': contact.phone_number,
-                    'priority': 2,
-                },
-                {
-                    'content': getMessage(messages[4], {}, lang),
-                    'to_number': contact.phone_number,
-                    'priority': 2,
-                }]
-
+            var start_time_offset = 0;
+            messages.forEach(function(message) {
+                project.scheduleMessage({
+                    content: getMessage(message, {}, lang),
+                    to_number: contact.phone_number,
+                    start_time_offset: start_time_offset
+                });
+                start_time_offset +=15;
             });
 
             global.waitForResponse(batch3ResponseHandler.handlerName);
