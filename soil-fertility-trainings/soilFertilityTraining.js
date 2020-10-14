@@ -22,11 +22,15 @@ module.exports = function() {
 
     var lang = contact.vars.lang;
     var getMessage = translator(translations, lang);
-    project.sendMulti({
-        messages: [
-            {content: getMessage('sms-1.1', {}, lang), to_number: contact.phone_number}, 
-            {content: getMessage('sms-1.2', {}, lang), to_number: contact.phone_number}], 
-        message_type: 'text'
+    var messages = ['sms-1.1', 'sms-1.2'];
+    var start_time_offset = 0;
+    messages.forEach(function(message) {
+        project.scheduleMessage({
+            content: getMessage(message, {}, lang),
+            to_number: contact.phone_number,
+            start_time_offset: start_time_offset
+        });
+        start_time_offset +=15;
     });
     global.waitForResponse(Batch1ResponseHandler.handlerName);
     return lang;

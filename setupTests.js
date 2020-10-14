@@ -62,3 +62,4 @@ global.waitForResponse = jest.fn();
 global.content = null;
 global.sendReply = jest.fn();
 project.initServiceById = jest.fn();
+project.scheduleMessage = jest.fn()
