@@ -100,38 +100,38 @@ const inputHandlers = {}
 clientRegistration.registerHandlers();
 
 global.main = function () {
-    sayText(msgs('main_menu',{},lang));
-    promptDigits('main_menu_splash', {
+    sayText(msgs('cor_enr_main_splash',{},lang));
+    promptDigits('account_number_splash', {
         'submitOnHash': false,
         'maxDigits': 2,
         'timeout': timeout_length
     });
 };
 
-addInputHandler('main_menu_splash',function(input){
-    notifyELK();
-    input = String(input.replace(/\D/g, ''));
-    if(input == 1){
-        clientRegistration.start(0,'RW',lang);
-        stopRules();
-    }
-    else if(input == 2){
-        sayText(msgs('cor_enr_main_splash',{},lang));
-        promptDigits('account_number_splash', {
-            'submitOnHash': false,
-            'maxDigits': max_digits_for_account_number,
-            'timeout': timeout_length
-        });
-    }
-    else{
-        sayText(msgs('main_menu',{},lang));
-        promptDigits('main_menu_splash', {
-            'submitOnHash': false,
-            'maxDigits': 2,
-            'timeout': timeout_length
-        });
-    }
-});
+// addInputHandler('main_menu_splash',function(input){
+//     notifyELK();
+//     input = String(input.replace(/\D/g, ''));
+//     if(input == 1){
+//         clientRegistration.start(0,'RW',lang);
+//         stopRules();
+//     }
+//     else if(input == 2){
+//         sayText(msgs('cor_enr_main_splash',{},lang));
+//         promptDigits('account_number_splash', {
+//             'submitOnHash': false,
+//             'maxDigits': max_digits_for_account_number,
+//             'timeout': timeout_length
+//         });
+//     }
+//     else{
+//         sayText(msgs('main_menu',{},lang));
+//         promptDigits('main_menu_splash', {
+//             'submitOnHash': false,
+//             'maxDigits': 2,
+//             'timeout': timeout_length
+//         });
+//     }
+// });
 
 /*
 input handlers - one per response variable
@@ -139,16 +139,16 @@ input handlers - one per response variable
 addInputHandler('account_number_splash', function (input) { //acount_number_splash input handler - main input handler for initial splash
     notifyELK();
     var response = input.replace(/\D/g, '');
-    // if (response == 1) {
-    //     const resumedSession = regSessionManager.resume(contact.phone_number, inputHandlers);
-    //     if(!resumedSession){
-    //         var current_menu = msgs('enr_reg_start', {}, lang);
-    //         state.vars.current_menu_str = current_menu;
-    //         sayText(current_menu);
-    //         promptDigits('enr_reg_start', { 'submitOnHash': false, 'maxDigits': max_digits_for_nid, 'timeout': timeout_length });
-    //     }
-    // }
-    //else {
+    if (response == 1) {
+        const resumedSession = regSessionManager.resume(contact.phone_number, inputHandlers);
+        if(!resumedSession){
+            var current_menu = msgs('enr_reg_start', {}, lang);
+            state.vars.current_menu_str = current_menu;
+            sayText(current_menu);
+            promptDigits('enr_reg_start', { 'submitOnHash': false, 'maxDigits': max_digits_for_nid, 'timeout': timeout_length });
+        }
+    }
+    else {
         try {
             var verify = require('./lib/account-verify')
             var client_verified = verify(response);
@@ -189,7 +189,7 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             admin_alert('Error on USSD test integration : ' + error + '\nAccount number: ' + response, "ERROR, ERROR, ERROR", 'marisa')
             stopRules();
         }
-    //}
+    }
 });
 
 chickenServices.registerHandlers();
