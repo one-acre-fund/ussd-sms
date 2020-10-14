@@ -827,10 +827,14 @@ addInputHandler('enr_reg_start', inputHandlers['registration_start']);
 // Checking confirmation from the user
 addInputHandler('enr_nid_client_confirmation', function (input) {
     notifyELK();
+    if(input == '33'){
+        var current_menu = msgs('enr_reg_start', {}, lang);
+        state.vars.current_menu_str = current_menu;
+        sayText(current_menu);
+        promptDigits('enr_reg_start', { 'submitOnHash': false, 'maxDigits': max_digits_for_nid, 'timeout': timeout_length });
+    }
     state.vars.current_step = 'enr_nid_client_confirmation';
-    
     input = String(input.replace(/\D/g, ''));
-
     if (input == 99) {
         sayText(msgs('exit', {}, lang));
         stopRules();
@@ -921,8 +925,14 @@ addInputHandler('enr_nid_client_confirmation', function (input) {
 
 
 inputHandlers['name1InputHandler'] = function (input) {
-    input = input.replace(/[^a-zA-Z]/gi, '');
     notifyELK();
+    if(input == '33'){
+        var current_menu = msgs('enr_nid_client_confirmation', { '$ENR_NID_CONFIRM':  state.vars.reg_nid, '$ENR_CONFIRMATION_MENU': confirmation_menu }, lang);
+        state.vars.current_menu_str = current_menu;
+        sayText(current_menu);
+        promptDigits('enr_nid_client_confirmation', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+    }
+    input = input.replace(/[^a-zA-Z]/gi, '');
     state.vars.current_step = 'enr_name_1';
     if (input == 99) {
         regSessionManager.clear(contact.phone_number);
@@ -949,8 +959,12 @@ inputHandlers['name1InputHandler'] = function (input) {
 addInputHandler('enr_name_1', inputHandlers['name1InputHandler']);
 
 inputHandlers['name2InputHandler'] = function (input) {
-    input = input.replace(/[^a-zA-Z]/gi, '');
     notifyELK();
+    if(input == '33'){
+        sayText(msgs('enr_name_1', {}, lang));
+        promptDigits('enr_name_1', { 'submitOnHash': false, 'maxDigits': max_digits_for_name, 'timeout': timeout_length });
+    }
+    input = input.replace(/[^a-zA-Z]/gi, '');
     state.vars.current_step = 'enr_name_2';
     if (input == 99) {
         regSessionManager.clear(contact.phone_number);
@@ -978,6 +992,10 @@ addInputHandler('enr_name_2', inputHandlers['name2InputHandler']);
 
 inputHandlers['phoneInputHandler'] = function (input) {
     notifyELK();
+    if(input == '33'){
+        sayText(msgs('enr_name_2', {}, lang));
+        promptDigits('enr_name_2', { 'submitOnHash': false, 'maxDigits': max_digits_for_name, 'timeout': timeout_length });
+    }
     state.vars.current_step = 'enr_pn';
     input = input.replace(/\D/g, '');
     var check_pn = require('./lib/phone-format-check');
@@ -1004,6 +1022,10 @@ addInputHandler('enr_pn', inputHandlers['phoneInputHandler']);
 inputHandlers['groupCodeInputHandler'] = function (input) {
     notifyELK();
     //input = input.replace(/\W/g, '');
+    if(input == '33'){
+        sayText(msgs('enr_pn', {}, lang));
+        promptDigits('enr_pn', { 'submitOnHash': false, 'maxDigits': max_digits_for_pn, 'timeout': timeout_length });
+    }
     state.vars.current_step = 'enr_glus';
     if (input == 99) {
         regSessionManager.clear(contact.phone_number);
@@ -1051,6 +1073,10 @@ addInputHandler('enr_glus', inputHandlers['groupCodeInputHandler']);
 
 addInputHandler('enr_group_id_confirmation', function (input) { //enr group leader / umudugudu support id step. last registration step
     notifyELK();
+    if(input == '33'){
+        sayText(msgs('enr_glus', {}, lang));
+        promptDigits('enr_glus', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
+    }
     state.vars.current_step = 'enr_glus';
     input = input.replace(/\W/g, '');
     if (input == 99) {

@@ -1,6 +1,10 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## 2020-10-14
+### Added
+[SER-262] (https://oneacrefund.atlassian.net/browse/SER-262) - RW USSD enrollment - Optimize backward navigation
+
 ## 2020-10-08
 ### Fixed
 
