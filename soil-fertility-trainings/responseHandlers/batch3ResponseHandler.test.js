@@ -45,7 +45,7 @@ describe('batch 3 messages response handler', () => {
                 'to_number': '0780475911',
                 'start_time_offset': 120,});
         expect(project.scheduleMessage).toHaveBeenCalledWith(
-            {'content': 'Once ready, you can mix your compost into the field at second ploughing. Always use both compost and fertiliser for the biggest harvest!!',
+            {'content': 'Once ready, you can mix your compost into the field at second ploughing. Always use both compost and fertiliser for the biggest harvest!! respond with "continue" for next message',
                 'to_number': '0780475911',
                 'start_time_offset': 135,});
         expect(waitForResponse).toHaveBeenCalledWith(batch4ResponseHandler.handlerName);

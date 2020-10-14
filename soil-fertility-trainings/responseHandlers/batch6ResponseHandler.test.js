@@ -21,7 +21,7 @@ describe('batch 6 messages response handler', () => {
                 'to_number': '0780475911',
                 'start_time_offset': 30,});
         expect(project.scheduleMessage).toHaveBeenCalledWith(
-            {'content': 'To correct soil acidity, Apply compost, Control erosion and Apply lime (soil improver). Talk to your FO to purchase lime for your farm!',
+            {'content': 'To correct soil acidity, Apply compost, Control erosion and Apply lime (soil improver). Talk to your FO to purchase lime for your farm! respond with "continue" for next message',
                 'to_number': '0780475911',
                 'start_time_offset': 45,});
         expect(waitForResponse).toHaveBeenCalledWith(batch7ResponseHandler.handlerName);

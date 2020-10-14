@@ -10,9 +10,9 @@ module.exports = {
         'sw': 'Komposti ndio njia bora zaidi ni kuunda mbolea asili. Hii ni  mchanganyiko wa mchanga, sehemu za mimea  kama matawi, mabua, na samadi'
     },
     'sms-1.2': {
-        'en-ke': 'Each type of crop needs a different mix of nutrients for great harvests. Healthy soils provide a complete range of nutrients to plants.',
-        'en': 'Each type of crop needs a different mix of nutrients for great harvests. Healthy soils provide a complete range of nutrients to plants.',
-        'sw': 'Komposti imejaa chakula kizuri kwa mimea yako, itakayo kuwezesha kuwa na mavuno bora. Tumia komposti nyingi, kadri uwezavyo!'
+        'en-ke': 'Each type of crop needs a different mix of nutrients for great harvests. Healthy soils provide a complete range of nutrients to plants. respond with "continue" for next message',
+        'en': 'Each type of crop needs a different mix of nutrients for great harvests. Healthy soils provide a complete range of nutrients to plants. respond with "continue" for next message',
+        'sw': 'Komposti imejaa chakula kizuri kwa mimea yako, itakayo kuwezesha kuwa na mavuno bora. Tumia komposti nyingi, kadri uwezavyo! jibu na "endelea" kwa ujumbe unaofuata'
     },
     'sms-2.1': {
         'en-ke': 'First, let\'s learn about the different types of soils. Every type of soil is made up of three main parts: sand, silt and clay.',
@@ -30,9 +30,9 @@ module.exports = {
         'sw': 'Udongo wenye  changarawe zaidi hupoteza maji haraka, na ina rotuba kidogo. Udongo wenye mchanga wa mfinyanzi zaidi huhifadhi maji'
     },
     'sms-2.4': {
-        'en-ke': 'All types of soils need to be improved for you to have great harvests. You can improve your soil by adding organic matter!',
-        'en': 'All types of soils need to be improved for you to have great harvests. You can improve your soil by adding organic matter!',
-        'sw': 'Aina zote za udongo zinafaa kuboreshwa ili kupata mavuno bora. Unaweza kuboresha udongo wako kwa kuongeza mbolea ya taka!'
+        'en-ke': 'All types of soils need to be improved for you to have great harvests. You can improve your soil by adding organic matter! respond with "continue" for next message',
+        'en': 'All types of soils need to be improved for you to have great harvests. You can improve your soil by adding organic matter! respond with "continue" for next message',
+        'sw': 'Aina zote za udongo zinafaa kuboreshwa ili kupata mavuno bora. Unaweza kuboresha udongo wako kwa kuongeza mbolea ya taka! jibu na "endelea" kwa ujumbe unaofuata'
     },
     'sms-3.1': {
         'en-ke': 'Soil organic matter is made of plant and animal material put back into the soil. Examples are animal waste, plant residues and compost.',
@@ -55,9 +55,9 @@ module.exports = {
         'sw': 'Kumbuka, tofauti na mbolea ya duka, mbolea taka hukaa kwa udongo kwa miaka mingi. Hii ni uboreshaji wa muda mrefu na ya kudumu!'
     },
     'sms-3.5': {
-        'en-ke': 'There are many ways to improve your soil organic matter. We will learn about composting, crop rotation, planting legumes and using lime.',
-        'en': 'There are many ways to improve your soil organic matter. We will learn about composting, crop rotation, planting legumes and using lime.',
-        'sw': 'Kuna njia nyingi za kuboresha mbolea asili kwa udongo. Tutajifunza kuhusu komposti, kupanda mazao tofauti, kupanda kunde, kutumia chokaa'
+        'en-ke': 'There are many ways to improve your soil organic matter. We will learn about composting, crop rotation, planting legumes and using lime. respond with "continue" for next message',
+        'en': 'There are many ways to improve your soil organic matter. We will learn about composting, crop rotation, planting legumes and using lime. respond with "continue" for next message',
+        'sw': 'Kuna njia nyingi za kuboresha mbolea asili kwa udongo. Tutajifunza kuhusu komposti, kupanda mazao tofauti, kupanda kunde, kutumia chokaa. jibu na "endelea" kwa ujumbe unaofuata'
     },
     'sms-4.1': {
         'en-ke': 'The best way to create organic matter is composting. Compost is a mixture of soil, leaves, stalks, other plant material and animal manure',
@@ -105,9 +105,9 @@ module.exports = {
         'sw': 'Geuza komposti yako angalau mara moja kwa mwezi. Tumia komposti ikiwa na rangi ya kahawia, na yenye harufu ya mchanga, bila matawi mabichi'
     },
     'sms-4.01': {
-        'en-ke': 'Once ready, you can mix your compost into the field at second ploughing. Always use both compost and fertiliser for the biggest harvest!!',
-        'en': 'Once ready, you can mix your compost into the field at second ploughing. Always use both compost and fertiliser for the biggest harvest!!',
-        'sw': 'Komposti ikiwa tayari, unaweza kuchanganya na  udongo unapolima kwa mara ya pili. Tumia  komposti na mbolea kwa mavuno makubwa zaidi!!'
+        'en-ke': 'Once ready, you can mix your compost into the field at second ploughing. Always use both compost and fertiliser for the biggest harvest!! respond with "continue" for next message',
+        'en': 'Once ready, you can mix your compost into the field at second ploughing. Always use both compost and fertiliser for the biggest harvest!! respond with "continue" for next message',
+        'sw': 'Komposti ikiwa tayari, unaweza kuchanganya na  udongo unapolima kwa mara ya pili. Tumia  komposti na mbolea kwa mavuno makubwa zaidi!!  jibu na "endelea" kwa ujumbe unaofuata'
     },
     'sms-5.1': {
         'en-ke': 'You can also improve the quality of soil by planting legumes like beans, groundnuts, that put nutrients to your soil when they are growing.',
@@ -135,14 +135,14 @@ module.exports = {
         'sw': '"Kwa nini unafaa kufuatanisha aina tofauti ya mimea?\nA. Kuzuia wadudu na magonjwa kwa udongo, kwa mavuno makubwa.\nB. Kupunguza afya ya udongo"'
     },
     'sms-5.6': {
-        'en-ke': 'That\'s correct! We rotate our crops to prevent disease building up on our soil and have bigger harvests!',
-        'en': 'That\'s correct! We rotate our crops to prevent disease building up on our soil and have bigger harvests!',
-        'sw': 'Sahihi! Tunafuatanisha aina tofauti ya mimea ili kuzuia wadudu na magonjwa kwa udongo na kupata mavuno makubwa!'
+        'en-ke': 'That\'s correct! We rotate our crops to prevent disease building up on our soil and have bigger harvests! respond with "continue" for next message',
+        'en': 'That\'s correct! We rotate our crops to prevent disease building up on our soil and have bigger harvests! respond with "continue" for next message',
+        'sw': 'Sahihi! Tunafuatanisha aina tofauti ya mimea ili kuzuia wadudu na magonjwa kwa udongo na kupata mavuno makubwa! jibu na "endelea" kwa ujumbe unaofuata'
     },
     'sms-5.7': {
-        'en-ke': 'That\'s incorrect. We rotate our crops to prevent disease building up on our soil and have bigger harvests!',
-        'en': 'That\'s incorrect. We rotate our crops to prevent disease building up on our soil and have bigger harvests!',
-        'sw': 'Sio sahihi.Tunafuatanisha aina tofauti ya mimea ili kuzuia wadudu na magonjwa kwa udongo na kupata mavuno makubwa!'
+        'en-ke': 'That\'s incorrect. We rotate our crops to prevent disease building up on our soil and have bigger harvests! respond with "continue" for next message',
+        'en': 'That\'s incorrect. We rotate our crops to prevent disease building up on our soil and have bigger harvests! respond with "continue" for next message',
+        'sw': 'Sio sahihi.Tunafuatanisha aina tofauti ya mimea ili kuzuia wadudu na magonjwa kwa udongo na kupata mavuno makubwa! jibu na "endelea" kwa ujumbe unaofuata'
     },
     'sms-6.1': {
         'en-ke': 'For healthier soil, manage soil acidity. Soil acidity is a condition that makes it difficult for plants to access the proper nutrients.',
@@ -160,9 +160,9 @@ module.exports = {
         'sw': 'Ishara ya asidi nyingi kwa udongo ni mavuno duni, mimea kuwa manjano hata baada ya kuweka mbolea na hukabiliwa zaidi na wadudu na magonjwa'
     },
     'sms-6.4': {
-        'en-ke': 'To correct soil acidity, Apply compost, Control erosion and Apply lime (soil improver). Talk to your FO to purchase lime for your farm!',
-        'en': 'To correct soil acidity, Apply compost, Control erosion and Apply lime (soil improver). Talk to your FO to purchase lime for your farm!',
-        'sw': 'Ili kurekebisha asidi ya udongo, weka komposti na chokaa (lime), dhibiti mmomonyoko. Zungumuza na FO ili kununua chokaa kwa shamba lako!'
+        'en-ke': 'To correct soil acidity, Apply compost, Control erosion and Apply lime (soil improver). Talk to your FO to purchase lime for your farm! respond with "continue" for next message',
+        'en': 'To correct soil acidity, Apply compost, Control erosion and Apply lime (soil improver). Talk to your FO to purchase lime for your farm! respond with "continue" for next message',
+        'sw': 'Ili kurekebisha asidi ya udongo, weka komposti na chokaa (lime), dhibiti mmomonyoko. Zungumuza na FO ili kununua chokaa kwa shamba lako! jibu na "endelea" kwa ujumbe unaofuata'
     },
     'sms-7.1': {
         'en-ke': 'Protect your organic matter! Never burn anything or let animals eat too many plants on your land. Prevent erosion. Soil is gold!',

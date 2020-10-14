@@ -24,7 +24,7 @@ describe('batch 2 messages response handler', () => {
                 'to_number': '0780475911',
                 'start_time_offset': 45,});
         expect(project.scheduleMessage).toHaveBeenCalledWith(
-            {'content': 'There are many ways to improve your soil organic matter. We will learn about composting, crop rotation, planting legumes and using lime.',
+            {'content': 'There are many ways to improve your soil organic matter. We will learn about composting, crop rotation, planting legumes and using lime. respond with "continue" for next message',
                 'to_number': '0780475911',
                 'start_time_offset': 60,});
         expect(waitForResponse).toHaveBeenCalledWith(batch3ResponseHandler.handlerName);

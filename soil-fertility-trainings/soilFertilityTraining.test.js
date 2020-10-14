@@ -16,7 +16,7 @@ describe('soil fertility training', () => {
                 'start_time_offset': 0,
                 'to_number': '0555345'});
         expect(project.scheduleMessage).toHaveBeenCalledWith(
-            {'content': 'Each type of crop needs a different mix of nutrients for great harvests. Healthy soils provide a complete range of nutrients to plants.',
+            {'content': 'Each type of crop needs a different mix of nutrients for great harvests. Healthy soils provide a complete range of nutrients to plants. respond with "continue" for next message',
                 'start_time_offset': 15,
                 'to_number': '0555345'});
         expect(waitForResponse).toHaveBeenCalledWith(Batch1ResponseHandler.handlerName);

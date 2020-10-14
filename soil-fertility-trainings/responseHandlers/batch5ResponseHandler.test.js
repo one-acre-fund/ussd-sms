@@ -16,7 +16,7 @@ describe('batch 5 messages response handler', () => {
         global.content = ' a ';
         var batch5Handler = batch5ResponseHandler.getHandler(lang);
         batch5Handler();
-        expect(sendReply).toHaveBeenNthCalledWith(1, 'That\'s correct! We rotate our crops to prevent disease building up on our soil and have bigger harvests!');
+        expect(sendReply).toHaveBeenNthCalledWith(1, 'That\'s correct! We rotate our crops to prevent disease building up on our soil and have bigger harvests! respond with "continue" for next message');
         expect(waitForResponse).toHaveBeenCalledWith(batch6ResponseHandler.handlerName);
     });
 
@@ -25,7 +25,7 @@ describe('batch 5 messages response handler', () => {
         global.content = 'B';
         var batch5Handler = batch5ResponseHandler.getHandler(lang);
         batch5Handler();
-        expect(sendReply).toHaveBeenNthCalledWith(1, 'That\'s incorrect. We rotate our crops to prevent disease building up on our soil and have bigger harvests!');
+        expect(sendReply).toHaveBeenNthCalledWith(1, 'That\'s incorrect. We rotate our crops to prevent disease building up on our soil and have bigger harvests! respond with "continue" for next message');
         expect(waitForResponse).toHaveBeenCalledWith(batch6ResponseHandler.handlerName);
     });
 });
