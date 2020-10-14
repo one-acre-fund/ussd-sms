@@ -1,5 +1,7 @@
 var translator = require('../utils/translator/translator');
 var translations = require('./translations/index');
+var getHealthyPathPercentage = require('../healthy-path/utils/getHealthyPathPercentage');
+var calculateHealthyPath= require('../healthy-path/utils/healthyPathCalculator');
 
 var getMessage = translator(translations, 'ki');
 // This script parses client info
@@ -21,6 +23,12 @@ for (var i = 0; i < arrayLength; i++) {
         paid = paid + client.BalanceHistory[i] && client.BalanceHistory[i].TotalRepayment_IncludingOverpayments;
     }
 }
+
+// calculating the healthy path
+var BalanceHistory = client.BalanceHistory[0];
+var healthyPathPercentage = getHealthyPathPercentage(BalanceHistory && BalanceHistory.SeasonId, client.CountryId, client.DistrictId);
+var healthyPath = calculateHealthyPath(healthyPathPercentage, BalanceHistory && BalanceHistory.TotalCredit, BalanceHistory && BalanceHistory.TotalRepayment_IncludingOverpayments);
+var hp_dist = healthyPath < 0 || !healthyPath ? '' : getMessage('hp_dist', {'$hp_dist': healthyPath}, 'ki');
 
 // sending the actual mm receipt
 var transactionLog = '';
@@ -57,6 +65,7 @@ if(paid == 0) {
     }, 'en');
 }
 var mmReceiptLabel = project.getOrCreateLabel('MM receipt');
+receipt = receipt + hp_dist;
 console.log(transactionLog);
 project.sendMessage({
     content: receipt, 

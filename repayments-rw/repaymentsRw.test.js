@@ -1,9 +1,13 @@
 
 var clientMock1 = {
     LastName: 'Jeofrey',
+    CountryId: 789,
+    DistrictId: 456,
     BalanceHistory: [{
         TotalRepayment_IncludingOverpayments: 150,
-        SeasonName: '2019'
+        SeasonName: '2019',
+        SeasonId: 123,
+        TotalCredit: 500
     }]
 };
 
@@ -22,6 +26,9 @@ describe('Rwandan repayments', () => {
     });
 
     it('should send the repayment message once the repaid is zero', () => {
+        const getHealthyPathPercentage = require('../healthy-path/utils/getHealthyPathPercentage');
+        jest.mock('../healthy-path/utils/getHealthyPathPercentage');
+        getHealthyPathPercentage.mockReturnValueOnce(0.9);
         contact.vars = {
             client: JSON.stringify(clientMock1),
             lastTransactionAmount: 250,
@@ -36,10 +43,11 @@ describe('Rwandan repayments', () => {
         'No y\'igikorwa: 123\n' +
         'No ya konti: 12345678\n' +
         'ayishyuwe yose 19A+B: 150 RWF\n' +
-        'Kanda *801*0# for more information', 'label_ids': ['123'], 'to_number': '0788445637'});
+        'Kanda *801*0# for more information\n' + 
+        'Pay 300 to stay on the healthy path.' , 'label_ids': ['123'], 'to_number': '0788445637'});
     });
 
-    it('should send the repayment message once the season name is not 2019', () => {
+    it('should send the repayment message once there are seasons with balance', () => {
         contact.vars = {
             client: JSON.stringify(clientMock2),
             lastTransactionAmount: 320,
