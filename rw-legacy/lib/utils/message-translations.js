@@ -705,7 +705,7 @@ module.exports = {
     },
     "cor_enr_main_splash": {
         "en": "Welcome to TUBURA. Please enter your account number or 1 to regiter",
-        "ki": "Murakaza neza muri TUBURA. Andika nimero ya konti y'umuhinzi cyangwa 1 kiyandikisha",
+        "ki": "Murakaza neza muri TUBURA. Andika nimero ya konti y'umuhinzi cyangwa 1 kwiyandikisha",
     },
     "main_menu":{
         'en': 'Welcome to One Acre Fund Tubura.\n1) Not currently a client\n2) Already a client',

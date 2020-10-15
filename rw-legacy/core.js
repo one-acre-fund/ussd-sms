@@ -864,6 +864,7 @@ addInputHandler('enr_nid_client_confirmation', function (input) {
         // TODO Add this handler to the resume checkpoint with this input
         var is_already_reg = require('./lib/enr-check-dup-nid');
         if (is_already_reg(state.vars.reg_nid, an_pool)) {
+            regSessionManager.clear(contact.phone_number);
             var get_client_by_nid = require('./lib/dpm-get-client-by-nid');
             var client = get_client_by_nid(state.vars.reg_nid, an_pool);
             var enr_msg = msgs('enr_reg_complete', { '$ACCOUNT_NUMBER': client.account_number, '$NAME': client.name1 + ' ' + client.name2 }, lang)
@@ -1054,7 +1055,7 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
         state.vars.glus = input;
         // checking and retreiving info about the entered id
         var groupCheck = require('./lib/enr-check-gid');
-        var group_information = groupCheck(input, 'group_codes', lang);
+        var group_information = groupCheck(input);
         // if the info about the id is not null, ask for confirmation with the group info
         if (group_information != null) {
 
@@ -1067,11 +1068,10 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
             }     
             else{   
             regSessionManager.save(contact.phone_number, state.vars, 'groupCodeInputHandler', input);
-            var confirmation_menu = msgs('enr_confirmation_menu', {}, lang);
-            var current_menu = msgs('enr_group_id_confirmation', { '$ENR_GROUP_ID': input, '$LOCATION_INFO': group_information, '$ENR_CONFIRMATION_MENU': confirmation_menu }, lang);
+            var current_menu = msgs('enr-group-constitution-approvement',{},lang);
             state.vars.current_menu_str = current_menu;
             sayText(current_menu);
-            promptDigits('enr_group_id_confirmation', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            promptDigits('reg_group_constitution_confirm',{ 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
             }
         }
         // if the group id is not valid, prompt them again
@@ -1084,6 +1084,7 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
 };
 addInputHandler('enr_glus', inputHandlers['groupCodeInputHandler']);
 
+//not currenty active
 addInputHandler('enr_group_id_confirmation', function (input) { //enr group leader / umudugudu support id step. last registration step
     notifyELK();
     if(input == '33'){
@@ -1121,6 +1122,11 @@ addInputHandler('enr_group_id_confirmation', function (input) { //enr group lead
 
 addInputHandler('reg_group_constitution_confirm',function(input){
     notifyELK();
+    if(input == '33'){
+        sayText(msgs('enr_glus', {}, lang));
+        promptDigits('enr_glus', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
+        return;
+    }
     input = input.replace(/\W/g, '');
     if (input == 99) {        
         regSessionManager.clear(contact.phone_number);
@@ -1256,7 +1262,7 @@ addInputHandler('enr_glvv_id', function (input) {
     //var check_glus = require('./lib/enr-check-glus');
     input = input.replace(/\W/g, ''); //added some quick sanitation to this input
     var groupCheck = require('./lib/enr-check-gid');
-    state.vars.group_information = groupCheck(input, 'group_codes', lang);
+    state.vars.group_information = groupCheck(input);
 
     if (state.vars.group_information != null) {
 
@@ -1267,11 +1273,9 @@ addInputHandler('enr_glvv_id', function (input) {
             return null;
         }
         else{
-            var confirmation_menu = msgs('enr_confirmation_menu', {}, lang);
-            var current_menu = msgs('enr_group_id_confirmation', { '$ENR_GROUP_ID': input, '$LOCATION_INFO': state.vars.group_information, '$ENR_CONFIRMATION_MENU': confirmation_menu }, lang);
-            state.vars.current_menu_str = current_menu;
-            sayText(current_menu);
-            promptDigits('enr_glvv_id_confirmation', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            sayText(msgs('enr-group-constitution-approvement'),{},lang);
+            promptDigits('group_constitution_handler', { 'submitOnHash': false, 'maxDigits': 1, 'timeout': timeout_length });
+            return null;
         }
     }
     // if the group id is not valid, prompt them again
@@ -1283,6 +1287,7 @@ addInputHandler('enr_glvv_id', function (input) {
 
 });
 
+//not currently in use
 addInputHandler('enr_glvv_id_confirmation', function (input) {
     notifyELK();
     input = input.replace(/\W/g, '');
