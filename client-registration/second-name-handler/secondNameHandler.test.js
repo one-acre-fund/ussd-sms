@@ -17,19 +17,26 @@ describe('secondNameHandler', () => {
         handler(mockInput);
         expect(onSecondNameReceived).toHaveBeenCalledWith('hellO');
     });
-    it('should revert to default for empty name', () => {
+    it('should revert to default for empty name in RW', () => {
         state.vars.country = 'RW';
         const handler  = getHandler(onSecondNameReceived);
         const mockInput = '';
         handler(mockInput);
         expect(onSecondNameReceived).toHaveBeenCalledWith(defaultSecondName);
     });
-    it('should revert to default for only special character names', () => {
+    it('should revert to default for only special character names in RW', () => {
         state.vars.country = 'RW';
         const handler  = getHandler(onSecondNameReceived);
         const mockInput = '\' `*1& ^_ ';
         handler(mockInput);
         expect(onSecondNameReceived).toHaveBeenCalledWith(defaultSecondName);
+    });
+    it('should remove special characters from the name in RW', () => {
+        state.vars.country = 'RW';
+        const handler  = getHandler(onSecondNameReceived);
+        const mockInput = 'hellO1 \' `*1& ^_ ';
+        handler(mockInput);
+        expect(onSecondNameReceived).toHaveBeenCalledWith('hellO');
     });
     it('should call the onSecondNameReceived callback when the returned value is called', () => {
         const handler  = getHandler(onSecondNameReceived);
