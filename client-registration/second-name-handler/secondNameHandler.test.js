@@ -1,5 +1,7 @@
 const {getHandler} = require('./secondNameHandler');
 
+const defaultSecondName = 'XXXXXXX';
+
 describe('secondNameHandler', () => {
     let onSecondNameReceived;
     beforeEach(() => {
@@ -15,7 +17,20 @@ describe('secondNameHandler', () => {
         handler(mockInput);
         expect(onSecondNameReceived).toHaveBeenCalledWith('hellO');
     });
-    
+    it('should revert to default for empty name', () => {
+        state.vars.country = 'RW';
+        const handler  = getHandler(onSecondNameReceived);
+        const mockInput = '';
+        handler(mockInput);
+        expect(onSecondNameReceived).toHaveBeenCalledWith(defaultSecondName);
+    });
+    it('should revert to default for only special character names', () => {
+        state.vars.country = 'RW';
+        const handler  = getHandler(onSecondNameReceived);
+        const mockInput = '\' `*1& ^_ ';
+        handler(mockInput);
+        expect(onSecondNameReceived).toHaveBeenCalledWith(defaultSecondName);
+    });
     it('should call the onSecondNameReceived callback when the returned value is called', () => {
         const handler  = getHandler(onSecondNameReceived);
         const mockInput = 'hello';

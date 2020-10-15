@@ -5,6 +5,9 @@ module.exports = {
     getHandler: function(onSecondNameReceived){
         return function (input) {
             input = input.replace(/[^a-zA-Z]/gi, '');
+            if (state.vars.country == 'RW' && !input) {
+                input = 'XXXXXXX';
+            }
             onSecondNameReceived(input);
         };
     }
