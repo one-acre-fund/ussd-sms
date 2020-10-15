@@ -949,7 +949,7 @@ inputHandlers['name1InputHandler'] = function (input) {
 addInputHandler('enr_name_1', inputHandlers['name1InputHandler']);
 
 inputHandlers['name2InputHandler'] = function (input) {
-    input = input.replace(/[^a-zA-Z]/gi, '');
+    input = input.replace(/[^a-zA-Z0-9]/gi, '');
     notifyELK();
     state.vars.current_step = 'enr_name_2';
     if (input == 99) {
@@ -958,20 +958,16 @@ inputHandlers['name2InputHandler'] = function (input) {
         stopRules();
         return null;
     }
-    input = input.replace(/[^a-z_]/ig, '');
+    input = input.replace(/[^a-zA-Z0-9_]/ig, '');
     if (contact.phone_number == '5550123') { // allows for testing on the online testing env
         input = 'TestSecondName';
     }
-    if (input === undefined || input == '') {
-        sayText(msgs('enr_invalid_name_input', {}, lang));
-        promptDigits('enr_name_2', { 'submitOnHash': false, 'maxDigits': max_digits_for_name, 'timeout': timeout_length });
-    }
-    else {
-        regSessionManager.save(contact.phone_number, state.vars, 'name2InputHandler', input);
-        state.vars.reg_name_2 = input;
-        sayText(msgs('enr_pn', {}, lang));
-        promptDigits('enr_pn', { 'submitOnHash': false, 'maxDigits': max_digits_for_pn, 'timeout': timeout_length });
-    }
+    input = input ? input : 'XXXXXXX';
+
+    regSessionManager.save(contact.phone_number, state.vars, 'name2InputHandler', input);
+    state.vars.reg_name_2 = input;
+    sayText(msgs('enr_pn', {}, lang));
+    promptDigits('enr_pn', { 'submitOnHash': false, 'maxDigits': max_digits_for_pn, 'timeout': timeout_length });
     get_time();
 };
 addInputHandler('enr_name_2', inputHandlers['name2InputHandler']);
