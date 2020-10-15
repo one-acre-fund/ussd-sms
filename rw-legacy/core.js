@@ -1502,6 +1502,44 @@ addInputHandler('enr_input_order_continue', function (input) {
         stopRules();
         return null;
     }
+    else if(input == 2){
+        var client = get_client(state.vars.account_number, an_pool,true);
+        if (client === null || client.vars.registered === 0) {
+            sayText(msgs('account_number_not_found', {}, lang));
+            contact.vars.account_failures = contact.vars.account_failures + 1;
+            promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+        }
+        else {
+            var gen_input_review = require('./lib/enr-gen-order-review'); //todo: add prepayment calc
+            var input_review_menu = gen_input_review(state.vars.account_number, service.vars.input21ATable, an_pool, lang);
+            if(input_review_menu == null){
+                var review_msg = msgs('no_produts_msg',{},lang);
+                sayText(review_msg);
+                promptDigits('enr_order_review_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            }
+            else if (typeof (input_review_menu) == 'string') {
+                sayText(input_review_menu);
+                state.vars.multiple_review_menus = 0;
+                state.vars.review_menu = input_review_menu;
+                promptDigits('enr_order_review_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            }
+            else {
+                state.vars.multiple_review_menus = 1;
+                state.vars.review_menu_loc = 0;
+                state.vars.review_menu_length= Object.keys(input_review_menu).length;
+                state.vars.current_review_str = input_review_menu[state.vars.review_menu_loc];
+                sayText(state.vars.current_review_str);
+                state.vars.review_menu = JSON.stringify(input_review_menu);
+                promptDigits('enr_order_review_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            }
+        }
+
+    }
+    else if(input == 3){
+        sayText(state.vars.main_menu);
+        promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+
+    }
     else {
         if (state.vars.multiple_input_menus) {
             var menu = JSON.parse(state.vars.input_menu)[0];

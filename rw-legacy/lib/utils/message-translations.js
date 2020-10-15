@@ -345,7 +345,7 @@ module.exports = {
     },
     "enr_confirm_input_order": {
         "en": "You are ordering $QUANTITY $UNIT of $NAME. This will ad $TOTAL_PRICE to your credit.~B1) Confirm~B44)Go Back",
-        "ki": "Utumije $QUANTITY $UNIT ya $NAME.Ibi bizongera $TOTAL_PRICE ku ideni ryawe~B1)Komeza~B99)Gusohoka",
+        "ki": "Utumije $QUANTITY $UNIT ya $NAME.Ibi bizongera $TOTAL_PRICE ku ideni ryawe~B1)Komeza~B99)Gusohoka~B44)Gusubira inyuma",
     },
     "enr_glus_retrieved": {
         "en": "your glus is $GLUS",
@@ -368,8 +368,8 @@ module.exports = {
         "ki": "Umubare uhisemo ntabwo ushoboka,Ongera uhitemo neza",
     },
     "enr_input_order_success": {
-        "en": "Order successfully placed~B1)Continue~B99)Exit",
-        "ki": "Itumiza ryawe rigenze neza~B1)Komeza~B99)Gusohoka",
+        "en": "Order successfully placed~B1)Continue ordering~B2)confirm order~B3)Main menu~B99)Exit",
+        "ki": "Itumiza ryawe rigenze neza~B1)Komeza gutumiza~B2)Suzuma unemeze ibyo watumije~B3)Ahabanza~B99)Gusohoka",
     },
     "enr_empy_order_review": {
         "en": "no order yet placed~B1)Continue~B99)Exit",
@@ -712,8 +712,8 @@ module.exports = {
         'ki': 'Urakaza neza muri Tubura. Andika\n1) Niba udasanzwe uri umukiriya wa Tubura\n2) Niba usanzwe uri umukiriya wa Tubura'
     },
     "ENR_FINALIZE_TERMS_AND_CONDITION": {
-        "en": "I enroll in TUBURA by agreeing on TUBURA loan Terms and Conditions and I will sign it on the day of input pickup. ~B 1) Continue ~B 2) Quit",
-        "ki": "Niyandikishije muri TUBURA nemeye amabwiriza n'amategeko agenga ideni rya TUBURA nkazayasinya kumunsi w'ifata ry'inyongeramusaruro. ~B 1) Gukomeza ~B 2)Gusohoka",
+        "en": "I enroll in TUBURA by agreeing on TUBURA loan Terms and Conditions and I will sign it on the day of input pickup.1) Continue ~B 2) Quit",
+        "ki": "Niyandikishije muri TUBURA nemeye amabwiriza n'amategeko agenga ideni rya TUBURA nkazayasinya kumunsi w'ifata ry'inyongeramusaruro.1) Gukomeza ~B 2)Gusohoka",
     },
     "FAILURE_REGISTERING": {
         'en': 'Registration failed. Please try again later',
