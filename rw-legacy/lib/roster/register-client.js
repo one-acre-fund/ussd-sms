@@ -45,7 +45,9 @@ module.exports = function (clientJSON, lang) {
             logResponse(fullUrl, response);
             //If the account number is returned in the content, return it to the user
             if(JSON.parse(response.content).AccountNumber){
+                console.log('content: '+response.content);
                 var accountNumber = parseInt(JSON.parse(response.content).AccountNumber.replace(/\"/g, ' '));
+                console.log('account  number'+accountNumber);
                 if((isNaN(accountNumber)) || (accountNumber == null) || (typeof(accountNumber) == undefined)){
                     sayText(msgs('FAILURE_REGISTERING', {}, lang));
                     if(logger) logger.warn('Error Registering a new Client',{tags: [service.vars.env],data: response});
@@ -53,6 +55,7 @@ module.exports = function (clientJSON, lang) {
                     return null;
                 }
                 else{
+                    console.log('mesage'+msgs('enrolled_national_id', {'$AccountNumber': accountNumber}, lang));
                     sayText(msgs('enrolled_national_id', {'$AccountNumber': accountNumber}, lang));
                     stopRules();
                     return null;
