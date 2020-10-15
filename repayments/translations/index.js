@@ -17,6 +17,6 @@ module.exports = {
     'hp_dist': {
         'en': ' Pay $hp_dist to stay on the healthy path.',
         'en-ke': ' Pay $hp_dist to stay on the healthy path.',
-        'sw': ' Lipa $hp_dist ili usalie kwenye njia nzuri.'
+        'sw': 'Lipa $hp_dist ili ubaki kwenye njia salama ya malipo'
     }
 };

@@ -9,6 +9,6 @@ module.exports = {
     },
     'hp_dist': {
         'en': '\nPay $hp_dist to stay on the healthy path.',
-        'ki': '\nPay $hp_dist to stay on the healthy path.',
+        'ki': '\nIshyura $hp_dist ugume murongo mwiza w\'ubwishyu\n',
     }
 };

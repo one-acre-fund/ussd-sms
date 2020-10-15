@@ -44,7 +44,7 @@ describe('Rwandan repayments', () => {
         'No ya konti: 12345678\n' +
         'ayishyuwe yose 19A+B: 150 RWF\n' +
         'Kanda *801*0# for more information\n' + 
-        'Pay 300 to stay on the healthy path.' , 'label_ids': ['123'], 'to_number': '0788445637'});
+        'Ishyura 300 ugume murongo mwiza w\'ubwishyu\n' , 'label_ids': ['123'], 'to_number': '0788445637'});
     });
 
     it('should send the repayment message once there are seasons with balance', () => {

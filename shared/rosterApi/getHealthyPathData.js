@@ -12,10 +12,12 @@ module.exports = function GetHealthyPathData(SeasonId, CountryId, DistrictId) {
     var opts = { headers: {} };
     opts.headers['Content-Type'] = 'application/json';
     opts.method = 'GET';
+    console.log(JSON.stringify(opts) + '\n url: ' + fullUrl);
     try {
         var response = httpClient.request(fullUrl, opts);
         if (response.status == 200) {
             var data = JSON.parse(response.content);
+            console.log('CONTENT: ' + response.content);
             return data;
         }
         else {
@@ -24,6 +26,7 @@ module.exports = function GetHealthyPathData(SeasonId, CountryId, DistrictId) {
             logger.error('Error while fetching healthy path data', {data: JSON.stringify(response)});
         }
     } catch (error) {
+        console.log('API Error while fetching healthy path data' + {data: JSON.stringify(error)});
         logger.error('API Error while fetching healthy path data', {data: JSON.stringify(error)});
     }
 };

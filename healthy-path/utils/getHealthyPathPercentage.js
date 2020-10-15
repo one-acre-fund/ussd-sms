@@ -16,11 +16,14 @@ module.exports = function(SeasonId, CountryId, DistrictId) {
             var endDate     = moment(entry.EndDate);
             return compareDate >= startDate && compareDate <= endDate;
         });
+        console.log('healthy path: ' + JSON.stringify({hpd: currentWeekHealthyPathData}));
         if(currentWeekHealthyPathData[0]) {
             return currentWeekHealthyPathData[0].HealthyPathTarget;
         }
+        console.log('API returned empty healthy path or an error during week number calculation' + JSON.stringify({content: healthyPathData}));
         slack.log('API returned empty healthy path or an error during week number calculation' + JSON.stringify({content: healthyPathData}));
     } catch(error) {
+        console.log('error===>' + JSON.stringify({error: error}));
         slack.log(error);
     }
 };

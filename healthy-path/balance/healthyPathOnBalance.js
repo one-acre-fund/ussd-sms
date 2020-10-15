@@ -18,9 +18,9 @@ module.exports = function(SeasonId, CountryId, DistrictId, credit, repaid, lang)
     var healthyPathDistance = calculateHealthyPath(hp_percentage, credit, repaid);
     var status = '';
     if(healthyPathDistance > 0) {
-        status = 'below';
+        status = getMessage('status_below', {}, lang);
     } else {
-        status = 'above';
+        status = getMessage('status_above', {}, lang);
     }
     var message = getMessage('healthy_path_balance', {'$HP_DIST': Math.abs(healthyPathDistance), '$status': status}, lang);
     return message;
