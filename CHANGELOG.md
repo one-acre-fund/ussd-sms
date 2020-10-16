@@ -1,12 +1,15 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
-## 2020-10-14
+## 2020-10-16
 ### Added
 [SER-262] (https://oneacrefund.atlassian.net/browse/SER-262) - RW USSD enrollment - Optimize backward navigation
 
 ### Added
 [SER-263] (https://oneacrefund.atlassian.net/browse/SER-263) - RW USSD enrollment - Change the flow by reducing steps
+
+### Added
+[SER-218](https://oneacrefund.atlassian.net/browse/SER-218) As a client, I want to access a soil training, so that I understand how to maintain healthy soil
 
 ## 2020-10-09
 ### Fixed
