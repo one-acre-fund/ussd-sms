@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 [SER-218](https://oneacrefund.atlassian.net/browse/SER-218) As a client, I want to access a soil training, so that I understand how to maintain healthy soil
+[SER-274] (https://oneacrefund.atlassian.net/browse/SER-274) - Add layaway to the USSD enrollment app for the Dukas
 
 ## 2020-10-09
 ### Fixed
