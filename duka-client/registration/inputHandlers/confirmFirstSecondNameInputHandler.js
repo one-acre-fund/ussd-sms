@@ -20,7 +20,7 @@ module.exports = {
                     siteId: officer_details.site_id,
                     firstName: state.vars.duka_client_first_name,
                     lastName: state.vars.duka_client_second_name,
-                    nationalIdNumber: 'DUKA-' + state.vars.duka_client_nid,
+                    nationalIdNumber: state.vars.duka_client_nid,
                     phoneNumber: state.vars.duka_client_phone_number
                 };
                 var enrolledClient = registerClient(clientData);
