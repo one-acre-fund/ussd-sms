@@ -4,7 +4,7 @@ var getClient = require('../../../shared/rosterApi/getClient');
 var getPhoneNumbers = require('../../../shared/rosterApi/getPhoneNumber');
 var registerClient = require('../../../shared/rosterApi/registerClient');
 var nationalIdInputHandler = require('./nationalIdInputHandler');
-var invoiceIdInputHandler = require('./invoiceIdInputHandler');
+var transactionTypeInputHandler = require('./transactionTypeInputHandler');
 var notifyElk = require('../../../notifications/elk-notification/elkNotification');
 
 var handlerName = 'DCAccNumOrnewClient'; 
@@ -57,8 +57,8 @@ module.exports = {
                         }
                         state.vars.account_number = registeredClient.AccountNumber;
                         state.vars.phone_number = dcr_duka_client.phoneNumber;
-                        global.sayText(getMessage('enter_invoice_id', {}, lang));
-                        global.promptDigits(invoiceIdInputHandler.handlerName, {
+                        global.sayText(getMessage('transaction_type', {}, lang));
+                        global.promptDigits(transactionTypeInputHandler.handlerName, {
                             submitOnHash: false
                         });
                         return;
@@ -96,8 +96,8 @@ module.exports = {
                             state.vars.account_number = accountNumber;
                             state.vars.phone_number = client.PhoneNumber;
                             // has paid everything
-                            global.sayText(getMessage('already_duka_client', {}, lang));
-                            global.promptDigits(invoiceIdInputHandler.handlerName, {
+                            global.sayText(getMessage('transaction_type', {}, lang));
+                            global.promptDigits(transactionTypeInputHandler.handlerName, {
                                 submitOnHash: false
                             });
                         }

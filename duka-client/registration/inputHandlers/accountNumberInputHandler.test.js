@@ -3,7 +3,7 @@ const getClient = require('../../../shared/rosterApi/getClient');
 const registerClient = require('../../../shared/rosterApi/registerClient');
 const getPhoneNumbers = require('../../../shared/rosterApi/getPhoneNumber');
 const nationalIdInputHandler = require('./nationalIdInputHandler');
-const invoiceIdInputHandler = require('./invoiceIdInputHandler');
+var transactionTypeInputHandler = require('./transactionTypeInputHandler');
 const notifyElk = require('../../../notifications/elk-notification/elkNotification');
 
 jest.mock('../../../shared/rosterApi/getClient');
@@ -64,8 +64,8 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
             district: 'credit_officer_details.district'
         });
         const messages = {
-            'en-ke': 'Please reply with the client\'s Erply Invoice ID',
-            'sw': 'Tafadhali jibu na Kitambulisho cha mteja cha Erply Invoice'
+            'en-ke': 'Is this a credit or layaway transaction?\n1) Credit\n2) Layaway',
+            'sw': 'Je hii ni shughuli ya mkopo wa Credit au Layaway?\n1) Credit\n2) Layaway'
         };
         const sms = {
             'en-ke': 'Thank you for registering with OAF. Your Account Number is 27507544. The Duka team will help you complete your loan.',
@@ -76,7 +76,7 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
         accountNumberHandler(0);
         expect(project.sendMessage).toHaveBeenCalledWith({'content': sms[lang], 'to_number': '07887654376'});
         expect(sayText).toHaveBeenCalledWith(messages[lang]);
-        expect(promptDigits).toHaveBeenCalledWith( invoiceIdInputHandler.handlerName, {'submitOnHash': false}); 
+        expect(promptDigits).toHaveBeenCalledWith( transactionTypeInputHandler.handlerName, {'submitOnHash': false}); 
         expect(state.vars.account_number).toEqual('27507544');
         expect(state.vars.phone_number).toEqual('07887654376');
     });
@@ -193,12 +193,12 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
         contact.phone_number = '0722334535';
         getClient.mockReturnValueOnce(clientWithDukaDistrict);
         const messages = {
-            'en-ke': 'You\'re already registered for a duka district. Please enter the client\'s invoice ID.',
-            'sw': 'Umesajiliwa kwa wilaya ya duka. Tafadhali ingiza nambari ya Invoice ya mteja'
+            'en-ke': 'Is this a credit or layaway transaction?\n1) Credit\n2) Layaway',
+            'sw': 'Je hii ni shughuli ya mkopo wa Credit au Layaway?\n1) Credit\n2) Layaway'
         };
         const accountNumberHandler = accountNumberInputHandler.getHandler(lang, 'dev_credit_officers_table');
         accountNumberHandler('12345678');
         expect(sayText).toHaveBeenCalledWith(messages[lang]);
-        expect(promptDigits).toHaveBeenCalledWith(invoiceIdInputHandler.handlerName, {'submitOnHash': false});
+        expect(promptDigits).toHaveBeenCalledWith(transactionTypeInputHandler.handlerName, {'submitOnHash': false});
     });
 });
