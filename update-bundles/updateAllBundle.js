@@ -14,18 +14,16 @@ if(service.vars.env === 'prod' || service.vars.env === 'dev'){
 
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key']; 
-
 if(service.vars.env == 'prod'){
-    service.vars.inputTableId = 'DT891c89e9a82b6841';
+    service.vars.inputTableId = 'DT21237e171411bce1';
 
 }
 else{
-    service.vars.inputTableId = 'DT545a7c5683114b75';
+    service.vars.inputTableId = 'DTe0cd7f4439c55c3f';
 
 }
 
-
-var districts = require('./topUpKenyaDistricts');
+var districts = require('./KenyaAllDistricts');
 var updateBundlesHelperFunctions= require('./updateBundlesHelperFunctions');
 
 global.main= function(){
@@ -47,8 +45,9 @@ var inputHanlder = function(input){
             districtBundles = updateBundlesHelperFunctions.fetchDistrictBundles(district);
             updateBundlesHelperFunctions.processBundles(districtBundles, district);
             console.log('#################################District: '+district+'finished#######################');
+            console.log(input);
         });
-        console.log(state.vars.counter +' '+ input);
+        console.log(state.vars.counter);
         state.vars.counter = (state.vars.counter) + 3;
         console.log(state.vars.counter);
         sayText('press any key to continue');
@@ -70,8 +69,9 @@ var inputHanlderTwo = function(input){
             districtBundles = updateBundlesHelperFunctions.fetchDistrictBundles(district);
             updateBundlesHelperFunctions.processBundles(districtBundles, district);
             console.log('#################################District: '+district+'finished#######################');
+            console.log(input);
         });
-        console.log(state.vars.counter + ' '+ input);
+        console.log(state.vars.counter);
         state.vars.counter = (state.vars.counter) + 3;
         console.log(state.vars.counter);
         sayText('press any key to continue');
