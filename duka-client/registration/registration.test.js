@@ -9,6 +9,7 @@ var secondNameInputHandler = require('./inputHandlers/secondNameInputHandler');
 var phoneNumberInputHandler = require('./inputHandlers/phoneNumberInputHandler');
 var invoiceInputHandler = require('./inputHandlers/invoiceIdInputHandler');
 var nationalIdInputHandler = require('./inputHandlers/nationalIdInputHandler');
+var transactionTypeInputHandler = require('./inputHandlers/transactionTypeInputHandler');
 
 describe.each(['en-ke', 'sw'])('duka client Registration using (%s)', (lang) => {
     it('should register all the registration input handlers --' + lang, () => {
@@ -22,6 +23,7 @@ describe.each(['en-ke', 'sw'])('duka client Registration using (%s)', (lang) => 
         var phoneNumberHandler = jest.fn();
         var invoiceHandler = jest.fn();
         var nationalIdHandler = jest.fn();
+        var transactionTypeHandler = jest.fn();
         
         jest.spyOn(accountNumberInputHandler, 'getHandler').mockReturnValueOnce(accountNumberHandler);
         jest.spyOn(confirmFirstSecondNameInputHandler, 'getHandler').mockReturnValueOnce(confirmFirstSecondNameHandler);
@@ -33,11 +35,13 @@ describe.each(['en-ke', 'sw'])('duka client Registration using (%s)', (lang) => 
         jest.spyOn(phoneNumberInputHandler, 'getHandler').mockReturnValueOnce(phoneNumberHandler);
         jest.spyOn(invoiceInputHandler, 'getHandler').mockReturnValueOnce(invoiceHandler);
         jest.spyOn(nationalIdInputHandler, 'getHandler').mockReturnValueOnce(nationalIdHandler);
+        jest.spyOn(transactionTypeInputHandler, 'getHandler').mockReturnValueOnce(transactionTypeHandler);
 
 
         registration.registerInputHandlers(lang, 'duka_clients_table');
 
         expect(addInputHandler).toHaveBeenCalledWith(accountNumberInputHandler.handlerName, accountNumberHandler);
+        expect(addInputHandler).toHaveBeenCalledWith(transactionTypeInputHandler.handlerName, transactionTypeHandler);
         expect(addInputHandler).toHaveBeenCalledWith(confirmFirstSecondNameInputHandler.handlerName, confirmFirstSecondNameHandler);
         expect(addInputHandler).toHaveBeenCalledWith(confirmInvoiceInputHandler.handlerName, confirmInvoiceHandler);
         expect(addInputHandler).toHaveBeenCalledWith(confirmNidInputHandler.handlerName, confirmNidHandler);

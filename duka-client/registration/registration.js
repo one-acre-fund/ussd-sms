@@ -10,9 +10,11 @@ var secondNameInputHandler = require('./inputHandlers/secondNameInputHandler');
 var phoneNumberInputHandler = require('./inputHandlers/phoneNumberInputHandler');
 var invoiceInputHandler = require('./inputHandlers/invoiceIdInputHandler');
 var nationalIdInputHandler = require('./inputHandlers/nationalIdInputHandler');
+var transactionTypeInputHandler = require('./inputHandlers/transactionTypeInputHandler');
 
 function registerInputHandlers(lang, duka_clients_table) {
     addInputHandler(accountNumberInputHandler.handlerName, accountNumberInputHandler.getHandler(lang));
+    addInputHandler(transactionTypeInputHandler.handlerName, transactionTypeInputHandler.getHandler(lang));
     addInputHandler(confirmFirstSecondNameInputHandler.handlerName, confirmFirstSecondNameInputHandler.getHandler(lang,  duka_clients_table));
     addInputHandler(confirmInvoiceInputHandler.handlerName, confirmInvoiceInputHandler.getHandler(lang,  duka_clients_table));
     addInputHandler(confirmNidInputHandler.handlerName, confirmNidInputHandler.getHandler(lang));
