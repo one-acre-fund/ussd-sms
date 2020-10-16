@@ -32,7 +32,8 @@ module.exports = {
                         vars: {
                             'invoice_id': state.vars.duka_client_invoice_id,
                             'account_number': accountNumber,
-                            'phone_number': state.vars.duka_client_phone_number
+                            'phone_number': state.vars.duka_client_phone_number,
+                            'transaction_type': state.vars.transaction_type
                         }
                     });
                     row.save();
