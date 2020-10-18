@@ -9,18 +9,24 @@ module.exports = {
         return function() {
             var choice = content && content.toUpperCase().trim();
             var getMessage = translator(translations, lang);
-            var messageLabels = ['sms_1.9', 'sms_2.1', 'sms_2.2'];
+            var messages = ['sms_1.9', 'sms_2.1', 'sms_2.2'];
             if(choice == 'A') {
-                messageLabels.unshift('sms_1.7');
+                messages.unshift('sms_1.7');
             } else if(choice == 'B' || choice == 'C') {
-                messageLabels.unshift('sms_1.8');
+                messages.unshift('sms_1.8');
             } else {
                 global.sendReply(getMessage('invalid_choice', {}, lang));
                 global.waitForResponse(handlerName);
                 return;
             }
-            messageLabels.forEach(function(label) {
-                global.sendReply(getMessage(label, {}, lang));
+            var start_time_offset = 0;
+            messages.forEach(function(message) {
+                project.scheduleMessage({
+                    content: getMessage(message, {}, lang),
+                    to_number: contact.phone_number,
+                    start_time_offset: start_time_offset
+                });
+                start_time_offset +=15;
             });
         };
     }

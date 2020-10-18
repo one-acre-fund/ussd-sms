@@ -3,6 +3,7 @@ var batch2smsHandler = require('./batch2smsResponseHandler');
 describe.each(['en-ke', 'sw'])('1.7 sms response handler using (%s) ', (lang) => {
     beforeEach(() => {
         global.content = null;
+        contact.phone_number = '0788665432';
     });
 
     it('it should reprompt for the batch 2 response if the response is invalid --' + lang, () => {
@@ -31,9 +32,12 @@ describe.each(['en-ke', 'sw'])('1.7 sms response handler using (%s) ', (lang) =>
             'sw': '(5/6)Unaweza kupata mayai, maharagwe na mboga kutoka shamba lako na kuokoa pesa! Panda maharagwe na ufuge kuku wa mayai. '
         }];
         handler();
-        expect(sendReply).toHaveBeenCalledWith(messages[0][lang]);
-        expect(sendReply).toHaveBeenCalledWith(messages[0][lang]);
-        expect(sendReply).toHaveBeenCalledWith(messages[0][lang]);
+        expect(project.scheduleMessage).toHaveBeenNthCalledWith(1, {'content': messages[0][lang], 'start_time_offset': 0, 
+            'to_number': '0788665432'});
+        expect(project.scheduleMessage).toHaveBeenNthCalledWith(2, {'content': messages[1][lang], 'start_time_offset': 15, 
+            'to_number': '0788665432'});
+        expect(project.scheduleMessage).toHaveBeenNthCalledWith(3, {'content': messages[2][lang], 'start_time_offset': 30, 
+            'to_number': '0788665432'});
     });
 
     it.each(['b', 'c'])('should send the 1.8 feedback once the user responds with (%s)--' + lang, (choice) => {
@@ -51,8 +55,11 @@ describe.each(['en-ke', 'sw'])('1.7 sms response handler using (%s) ', (lang) =>
             'sw': '(5/6)Unaweza kupata mayai, maharagwe na mboga kutoka shamba lako na kuokoa pesa! Panda maharagwe na ufuge kuku wa mayai. '
         }];
         handler();
-        expect(sendReply).toHaveBeenCalledWith(messages[0][lang]);
-        expect(sendReply).toHaveBeenCalledWith(messages[0][lang]);
-        expect(sendReply).toHaveBeenCalledWith(messages[0][lang]);
+        expect(project.scheduleMessage).toHaveBeenNthCalledWith(1, {'content': messages[0][lang], 'start_time_offset': 0, 
+            'to_number': '0788665432'});
+        expect(project.scheduleMessage).toHaveBeenNthCalledWith(2, {'content': messages[1][lang], 'start_time_offset': 15, 
+            'to_number': '0788665432'});
+        expect(project.scheduleMessage).toHaveBeenNthCalledWith(3, {'content': messages[2][lang], 'start_time_offset': 30, 
+            'to_number': '0788665432'});
     });
 });
