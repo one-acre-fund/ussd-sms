@@ -4,6 +4,7 @@ const batch2_smsHandler = require('./batch2smsResponseHandler');
 describe.each(['en-ke', 'sw'])('batch1 sms response handler using (%s) ', (lang) => {
     beforeEach(() => {
         global.content = null;
+        contact.phone_number = '0788665432';
     });
 
     it('it should reprompt for the batch 1 response if the response is invalid --' + lang, () => {
@@ -36,8 +37,10 @@ describe.each(['en-ke', 'sw'])('batch1 sms response handler using (%s) ', (lang)
             'Jibu na a, b au c'
         }];
         handler();
-        expect(sendReply).toHaveBeenCalledWith(messages[0][lang]);
-        expect(sendReply).toHaveBeenCalledWith(messages[0][lang]);
+        expect(project.scheduleMessage).toHaveBeenNthCalledWith(1, {'content': messages[0][lang], 'start_time_offset': 0, 
+            'to_number': '0788665432'});
+        expect(project.scheduleMessage).toHaveBeenNthCalledWith(2, {'content': messages[1][lang], 'start_time_offset': 15, 
+            'to_number': '0788665432'});
     });
 
     it.each(['b', 'c'])('should send the 1.4, 1.5 and 1.6 feedback once the user responds with (%s) --' + lang, (choice) => {
@@ -63,9 +66,12 @@ describe.each(['en-ke', 'sw'])('batch1 sms response handler using (%s) ', (lang)
             'Jibu na a, b au c'
         }];
         handler();
-        expect(sendReply).toHaveBeenCalledWith(messages[0][lang]);
-        expect(sendReply).toHaveBeenCalledWith(messages[0][lang]);
-        expect(sendReply).toHaveBeenCalledWith(messages[0][lang]);
+        expect(project.scheduleMessage).toHaveBeenNthCalledWith(1, {'content': messages[0][lang], 'start_time_offset': 0, 
+            'to_number': '0788665432'});
+        expect(project.scheduleMessage).toHaveBeenNthCalledWith(2, {'content': messages[1][lang], 'start_time_offset': 15, 
+            'to_number': '0788665432'});
+        expect(project.scheduleMessage).toHaveBeenNthCalledWith(3, {'content': messages[2][lang], 'start_time_offset': 30, 
+            'to_number': '0788665432'});
     });
 
     it.each(['b', 'c'])('it should prompt for batch 2 response if the user responds with  %s--' + lang, (choice) => {

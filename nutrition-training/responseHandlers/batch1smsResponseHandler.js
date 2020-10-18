@@ -10,18 +10,24 @@ module.exports = {
             var batch2_smsHandler = require('./batch2smsResponseHandler');
             var choice = content && content.toUpperCase().trim();
             var getMessage = translator(translations, lang);
-            var messageLabels;
+            var messages;
             if(choice == 'A') {
-                messageLabels = ['sms_1.3', 'sms_1.6'];
+                messages = ['sms_1.3', 'sms_1.6'];
             } else if(choice == 'B' || choice == 'C') {
-                messageLabels = ['sms_1.4', 'sms_1.5', 'sms_1.6'];
+                messages = ['sms_1.4', 'sms_1.5', 'sms_1.6'];
             } else {
                 global.sendReply(getMessage('invalid_choice', {}, lang));
                 global.waitForResponse(handlerName);
                 return;
             }
-            messageLabels.forEach(function(label) {
-                global.sendReply(getMessage(label, {}, lang));
+            var start_time_offset = 0;
+            messages.forEach(function(message) {
+                project.scheduleMessage({
+                    content: getMessage(message, {}, lang),
+                    to_number: contact.phone_number,
+                    start_time_offset: start_time_offset
+                });
+                start_time_offset +=15;
             });
             global.waitForResponse(batch2_smsHandler.handlerName);
         };
