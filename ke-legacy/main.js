@@ -3272,7 +3272,11 @@ addInputHandler('TrainingSelect', function(input) {
     else if (trainingsOptions[input] == 'tatu_hadi_tatu'){
         TriggerTraining('SV1a959518b783e17f');
         TrainingTriggeredText();
-    } else if (trainingsOptions[input] == 'nutrition_training') {
+    } else if(trainingsOptions[input] == 'nutrition_training') {
+        var nutritionTraining = require('../nutrition-training/triggerService');
+        nutritionTraining(GetLang()? 'en-ke' : 'sw', project.vars.nutrition_training_service);
+    }
+    else if (trainingsOptions[input] == 'soil_fertillity') {
         // trigger the nutrition training 
         var lang;
         if(GetLang()) {
@@ -3285,9 +3289,6 @@ addInputHandler('TrainingSelect', function(input) {
     } else if(input == 12) {
         var nutritionTraining  = require('../nutrition-training/triggerService');
         nutritionTraining(GetLang() ? 'en-ke' : 'sw', project.vars.nutrition_training_service);
-    }
-    else if(input == 12) {
-        nutritionTraining(GetLang()? 'en-ke' : 'sw', project.vars.nutrition_training_service);
     }
 });
 

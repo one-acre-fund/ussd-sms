@@ -39,6 +39,10 @@ module.exports = {
         'en-ke': 'Tatu Hadi Tatu\n',
         'sw': 'Tatu Hadi Tatu\n'
     },
+    'soil_training': {
+        'en-ke': 'Soil Fertility\n',
+        'sw': 'Udongo bora ulio na afya na rotuba\n'
+    },
     'nutrition_training': {
         'en-ke': 'Dietary Diversity (Nutrition)\n',
         'sw': 'Lishe Bora\n'
