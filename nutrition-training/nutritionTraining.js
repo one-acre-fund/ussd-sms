@@ -6,14 +6,14 @@ module.exports = function(lang) {
     var getMessage = translator(translations, lang);
 
     var messages = ['sms_1.1', 'sms_1.2'];
-    project.sendMulti({
-        messages: [{
-            'content': getMessage(messages[0], {}, lang),
-            'to_number': contact.phone_number
-        }, {
-            'content': getMessage(messages[1], {}, lang),
-            'to_number': contact.phone_number
-        }]
+    var start_time_offset = 0;
+    messages.forEach(function(message) {
+        project.scheduleMessage({
+            content: getMessage(message, {}, lang),
+            to_number: contact.phone_number,
+            start_time_offset: start_time_offset
+        });
+        start_time_offset +=15;
     });
 
     global.waitForResponse(batch1smsResponseHandler.handlerName);
