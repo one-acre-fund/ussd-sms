@@ -1,6 +1,11 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## 2020-10-19
+### Fixed
+
+[SER-264] (https://oneacrefund.atlassian.net/browse/SER-264) - RW USSD enrollment - Update translations for menus and notifications
+
 ## 2020-10-16
 ### Added
 

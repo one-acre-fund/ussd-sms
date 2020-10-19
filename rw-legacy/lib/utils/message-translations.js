@@ -727,7 +727,7 @@ module.exports = {
     },
     "enr-group-constitution-approvement": {
         "en": "I understood Group Constitution rules and I agree to follow them. I will sign these rules on input pickup day. Reply 1 to continue",
-        "ki": "Numvise amategeko agenga itsinda kandi nemeye kuyakurikiza.Nzasinya ayo mategeko kumunsi w'ifata ry'inyongeramusaruro.Subiza 1 gukomeza",
+        "ki": "Nemeye gukurikiza amategeko y'itsinda. Nzayashyiraho umukono ku munsi wo gufata inyongeramusaruro. Subiza 1 gukomeza",
     },
     "FAILURE_REGISTERING_NATIONAL_ID_CONFLICT": {
         "en": "Your national id is already registered",
