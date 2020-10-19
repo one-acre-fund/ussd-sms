@@ -1,6 +1,11 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## 2020-10-19
+### Fixed
+
+[SER-264] (https://oneacrefund.atlassian.net/browse/SER-264) - RW USSD enrollment - Update translations for menus and notifications
+
 ## 2020-10-16
 ### Added
 [SER-262] (https://oneacrefund.atlassian.net/browse/SER-262) - RW USSD enrollment - Optimize backward navigation
@@ -10,6 +15,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 [SER-218](https://oneacrefund.atlassian.net/browse/SER-218) As a client, I want to access a soil training, so that I understand how to maintain healthy soil
+[SER-274] (https://oneacrefund.atlassian.net/browse/SER-274) - Add layaway to the USSD enrollment app for the Dukas
 
 ## 2020-10-09
 ### Fixed
