@@ -20,7 +20,7 @@ module.exports = {
                     siteId: officer_details.site_id,
                     firstName: state.vars.duka_client_first_name,
                     lastName: state.vars.duka_client_second_name,
-                    nationalIdNumber: 'DUKA-' + state.vars.duka_client_nid,
+                    nationalIdNumber: state.vars.duka_client_nid,
                     phoneNumber: state.vars.duka_client_phone_number
                 };
                 var enrolledClient = registerClient(clientData);
@@ -32,7 +32,8 @@ module.exports = {
                         vars: {
                             'invoice_id': state.vars.duka_client_invoice_id,
                             'account_number': accountNumber,
-                            'phone_number': state.vars.duka_client_phone_number
+                            'phone_number': state.vars.duka_client_phone_number,
+                            'transaction_type': state.vars.transaction_type
                         }
                     });
                     row.save();
