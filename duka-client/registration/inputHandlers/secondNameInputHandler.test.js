@@ -1,5 +1,5 @@
 const secondNameInputHandler = require('./secondNameInputHandler');
-const invoiceIdInputHandler = require('./invoiceIdInputHandler');
+var transactionTypeInputHandler = require('./transactionTypeInputHandler');
 const notifyElk = require('../../../notifications/elk-notification/elkNotification');
 
 jest.mock('../../../notifications/elk-notification/elkNotification');
@@ -7,15 +7,15 @@ describe.each(['en-ke', 'sw'])('first name input handler', (lang) => {
     it('should prompt the user for invoice id if the second name is valid', () => {
         const handler = secondNameInputHandler.getHandler(lang);
         const message = {
-            'sw': 'Tafadhali jibu na Kitambulisho cha mteja cha Erply Invoice',
-            'en-ke': 'Please reply with the client\'s Erply Invoice ID'
+            'sw': 'Je hii ni shughuli ya mkopo wa Credit au Layaway?\n1) Credit\n2) Layaway',
+            'en-ke': 'Is this a credit or layaway transaction?\n1) Credit\n2) Layaway'
         };
         state.vars.duka_client_first_name = 'Jamie';
         handler('Fox \' `*1& ^_ ');
         expect(notifyElk).toHaveBeenCalled();
         expect(sayText).toHaveBeenCalledWith(message[lang]);
         expect(state.vars.duka_client_second_name).toEqual('Fox1');
-        expect(promptDigits).toHaveBeenCalledWith(invoiceIdInputHandler.handlerName);
+        expect(promptDigits).toHaveBeenCalledWith(transactionTypeInputHandler.handlerName);
     });
 
     

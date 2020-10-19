@@ -74,5 +74,9 @@ module.exports = {
     'duka_client_already_created': {
         'en-ke': 'You\'re already registered for a duka district. Please enter the client\'s duka account',
         'sw': 'Umesajiliwa kwa wilaya ya duka. Tafadhali ingiza nambari ya Akaunti ya duka'
+    },
+    'transaction_type': {
+        'en-ke': 'Is this a credit or layaway transaction?\n1) Credit\n2) Layaway',
+        'sw': 'Je hii ni shughuli ya mkopo wa Credit au Layaway?\n1) Credit\n2) Layaway'
     }
 };

@@ -10,7 +10,7 @@ module.exports = {
         return function(input) {
             input = input.replace(/[^a-zA-Z0-9]/gi, '');
             notifyElk();
-            var invoiceIdInputHandler = require('./invoiceIdInputHandler');
+            var transactionTypeInputHandler = require('./transactionTypeInputHandler');
             var getMessage = translator(translations, lang);
 
             if(!input) {
@@ -19,9 +19,9 @@ module.exports = {
                 return;
             }
             state.vars.duka_client_second_name = input;
-            var promptInvoiceIdMessage = getMessage('enter_invoice_id', {}, lang);
+            var promptInvoiceIdMessage = getMessage('transaction_type', {}, lang);
             global.sayText(promptInvoiceIdMessage);
-            global.promptDigits(invoiceIdInputHandler.handlerName);
+            global.promptDigits(transactionTypeInputHandler.handlerName);
         };
     }
 };
