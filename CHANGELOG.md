@@ -1,6 +1,11 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## 2020-10-20
+### Added
+
+* [SER-217](https://oneacrefund.atlassian.net/browse/SER-227) As a client, I want to access a nutrition training, so that I can improve the health of my family 
+
 ## 2020-10-19
 ### Fixed
 
@@ -83,10 +88,6 @@ Replaced the chicken cup number
 *[SER-244](https://oneacrefund.atlassian.net/browse/SER-244) Make sure new clients can't register with special characters in their names
 changed the duka registration service to validate names so that no special characters be sent
 
-## 2020-09-29
-### Added
-
-* [SER-217](https://oneacrefund.atlassian.net/browse/SER-227) As a client, I want to access a nutrition training, so that I can improve the health of my family
 
 ## 2020-09-24
 ### Added
