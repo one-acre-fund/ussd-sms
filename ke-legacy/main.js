@@ -34,17 +34,7 @@ var warrantyExpiration = require('../warranty-expiration/warrantyExpiration');
 var slackLogger = require('../slack-logger/index');
 var Log = require('../logger/elk/elk-logger');
 var logger = new Log();
-if(service.active){
-    defaultEnvironment = 'prod';
-}else{
-    defaultEnvironment = 'dev';
-}
 
-if(service.vars.env === 'prod' || service.vars.env === 'dev'){
-    env = service.vars.env;
-}else{
-    env = defaultEnvironment;
-}
 var dukaLocator = require('../duka-locator/index');
 var groupRepaymentsModule = require('../group-repayments/groupRepayments');
 service.vars.server_name = project.vars[env+'_server_name'];
@@ -1067,8 +1057,8 @@ var TrainingMenuText = function (){
 };
 
 var TrainingMenuNextText = function (){
-    if (GetLang()){sayText('8: Pest Mitigation\n9: Vegetables\n10: Tatu Hadi Tatu');}
-    else {sayText('8: Wadudu/Magonjwa\n9: Kupanda Mboga\n10: Tatu Hadi Tatu');}
+    if (GetLang()){sayText('8: Pest Mitigation\n9: Vegetables\n10: Tatu Hadi Tatu\n11: Soil Fertility');}
+    else {sayText('8: Wadudu/Magonjwa\n9: Kupanda Mboga\n10: Tatu Hadi Tatu\n11: Udongo bora ulio na afya na rotuba');}
 };
 
 var TrainingPlatSelectText = function (){
@@ -1774,6 +1764,7 @@ addInputHandler('MainMenu', function(SplashMenu){
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'trainings'){
         TrainingMenuText();
+        promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'transaction_history'){
         transactionHistory.start(client.AccountNumber, 'ke');
@@ -3269,6 +3260,15 @@ addInputHandler('TrainingSelect', function(input) {
     else if (input == 10){
         TriggerTraining('SV1a959518b783e17f');
         TrainingTriggeredText();
+    } else if(input == 11) {
+        var lang;
+        if(GetLang()) {
+            lang = 'en-ke';
+        } else {
+            lang = 'sw';
+        }
+        var TriggersoilTraining = require('../soil-fertility-trainings/triggerService');
+        TriggersoilTraining(lang, project.vars.soil_training_service_id);
     }
     else{
         TrainingMenuText();
