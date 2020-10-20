@@ -3286,9 +3286,9 @@ addInputHandler('TrainingSelect', function(input) {
         }
         var TriggersoilTraining = require('../soil-fertility-trainings/triggerService');
         TriggersoilTraining(lang, project.vars.soil_training_service_id);
-    } else if(input == 12) {
-        var nutritionTraining  = require('../nutrition-training/triggerService');
-        nutritionTraining(GetLang() ? 'en-ke' : 'sw', project.vars.nutrition_training_service);
+    } else{	
+        TrainingMenuText();	
+        promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});	
     }
 });
 
