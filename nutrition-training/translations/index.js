@@ -8,7 +8,7 @@ module.exports = {
         'sw': '(1/6) Leo tutasoma juu ya lishe bora.Lishe bora huzuia upungufu wa damu mwilini/ damu dhaifu na inaboresha nguvu na afya ya familia nzima!'
     },
     'sms_1.2': {
-        'en-ke': '(2/6) Which of the following foods has the most iron?' + 
+        'en-ke': '(2/6) Which of the following foods has the most iron?\n' + 
         'a. Beans\n' + 
         'b. Ugali\n' + 
         'c. Rice\n' + 
