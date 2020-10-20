@@ -74,12 +74,11 @@ module.exports = function(account_number, input_menu_name, an_table, lang, max_c
     var get_client = require('./enr-retrieve-client-row');
     var client = get_client(account_number, an_table);
     max_chars = max_chars || 130;
-    var next_prev_tab_name = project.vars.next_page_table_name;
-    var next_prev_tab = project.getOrCreateDataTable(next_prev_tab_name);
-    var next_page = next_prev_tab.queryRows({'vars' : {'name' : 'next_page'}}).next().vars[lang] || '77) Next';
     var input_table = project.getOrCreateDataTable(input_menu_name);
     var products = input_table.countRowsByValue('bundle_name');
     var msgs = require('./msg-retrieve');
+    var next_page = msgs('next_page',{},lang);
+    var prev_page = msgs('prev_page',{},lang);
     var pre_str = ''
     try{
         var prepayment = repayment_calc_options[input_menu_name](client, input_menu_name);
@@ -96,33 +95,51 @@ module.exports = function(account_number, input_menu_name, an_table, lang, max_c
     }
     var name_str = client.vars.name1 + ' ' + client.vars.name2;
     var client_name = state.vars.client_name || name_str;
-    var outstr = client_name + '\n' + pre_str + '\n';
+    var outstr = client_name + ' ' + pre_str +'\n';
     var outobj = {}
     var loc = 0;
+    var hasNoOrder = true;
     for(prod in products){
         var prod_row = input_table.queryRows({'vars' : {'bundle_name' : prod}}).next();
         var bundle_name = prod_row.vars['bundle_name'].replace(/ /g,"_");
         if(parseFloat(client.vars[bundle_name]) > 0){
-            tempstr = prod_row.vars[lang]+':'+client.vars[bundle_name]+' ' +prod_row.vars.unit+' - '+(parseFloat(client.vars[bundle_name])*parseFloat(prod_row.vars.price))+'RWF';
-            if((outstr + tempstr + next_page).length > max_chars){
-                outobj[loc] = outstr + '\n' + next_page;
-                outstr = tempstr;
-                loc = loc + 1;
+            hasNoOrder = false;
+            var tempstr = prod_row.vars[lang]+':'+client.vars[bundle_name]+' ' +prod_row.vars.unit+' - '+(parseFloat(client.vars[bundle_name])*parseFloat(prod_row.vars.price))+'RWF';
+            var currentMenu = outstr + tempstr  + '\n';
+            if(currentMenu.length < max_chars){
+                outstr =  outstr + tempstr  + '\n';
             }
             else{
-                outstr = outstr + '\n' + tempstr;
+                outobj[loc] = outstr +'\n'+ next_page;
+                outstr = prev_page + '\n' + tempstr;
+                loc = loc + 1;
             }
         }
     }
+    if(hasNoOrder){
+        return null;
+    }
+    var end_review_msg = msgs('end_review_msg',{},lang);
     if(Object.keys(outobj).length > 0){
-        outobj[loc] = outstr + '\n' + next_page
+        if(((outstr + '\n' + end_review_msg).length) > max_chars){
+            outobj[loc] = outstr + '\n' + next_page;
+            loc = loc + 1;
+            outobj[loc] = prev_page +'\n'+ end_review_msg;
+        }
+        else{
+            outobj[loc] = outstr + '\n' + end_review_msg;
+        }
         return outobj;
     }
     else if(outstr.length > 0){
-        return outstr;
-    }
-    else{
-        var msgs = require('./msg-retrieve');
-        return msgs('enr_empty_order_review', {}, lang);
+        if((outstr + '\n'+ end_review_msg).length > max_chars){
+            outobj[loc] = outstr + '\n' + next_page;
+            loc = loc + 1;
+            outobj[loc] = prev_page +'\n'+ end_review_msg;
+            return outobj;
+        }
+        else{
+            return outstr + '\n' + end_review_msg;
+        }
     }
 };
