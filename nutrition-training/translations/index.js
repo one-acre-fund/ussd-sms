@@ -4,7 +4,7 @@ module.exports = {
         'sw': 'Ujumbe wa mafunzo umetumwa kwa simu yako. SMS zote ni bure! Kumbuka kufuta SMS usizohitaji ili uwe na nafasi ya kupata ujumbe zaidi. '
     },
     'sms_1.1': {
-        'en-ke': '(1/6)Today we will learn about blanaced diets. Eating like this prevents anemia and improves the energy and health of the whole family!',
+        'en-ke': '(1/6)Today we will learn about balanced diets. Eating like this prevents anemia and improves the energy and health of the whole family!',
         'sw': '(1/6) Leo tutasoma juu ya lishe bora.Lishe bora huzuia upungufu wa damu mwilini/ damu dhaifu na inaboresha nguvu na afya ya familia nzima!'
     },
     'sms_1.2': {
@@ -60,7 +60,7 @@ module.exports = {
         'sw': '(5/6)Unaweza kupata mayai, maharagwe na mboga kutoka shamba lako na kuokoa pesa! Panda maharagwe na ufuge kuku wa mayai. '
     },
     'sms_2.2': {
-        'en-ke': 'Contragulations! You have completed the training on dietary diversity! Practice what you have learnt in this lesson for a healthy family',
+        'en-ke': 'Congratulations! You have completed the training on dietary diversity! Practice what you have learnt in this lesson for a healthy family',
         'sw': '(6/6)Hongera! Umemaliza mafunzo ya lishe bora! ZIngatia masomo haya kwa familia yako ili wawe na afya nzuri!'
     },
     'invalid_choice': {

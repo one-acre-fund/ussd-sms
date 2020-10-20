@@ -2,7 +2,7 @@ const nutritionTraining = require('./nutritionTraining');
 const batch1smsResponseHandler = require('./responseHandlers/batch1smsResponseHandler');
 
 var messages = {
-    'en-ke': ['(1/6)Today we will learn about blanaced diets. Eating like this prevents anemia and improves the energy and health of the whole family!',
+    'en-ke': ['(1/6)Today we will learn about balanced diets. Eating like this prevents anemia and improves the energy and health of the whole family!',
         '(2/6) Which of the following foods has the most iron?\n' + 'a. Beans\n' +
         'b. Ugali\n' +
         'c. Rice\n' +
