@@ -9,8 +9,8 @@ describe.each(['en-ke', 'sw'])('1.7 sms response handler using (%s) ', (lang) =>
     it('it should reprompt for the batch 2 response if the response is invalid --' + lang, () => {
         const handler = batch2smsHandler.getHandler(lang);
         const messages = {
-            'en-ke': 'Reply with a or b to answer',
-            'sw': 'Chagua a au b kujibu!'
+            'en-ke': 'Reply with a, b or c to answer',
+            'sw': 'Chagua a, b au c kujibu!'
         };
         handler();
         expect(sendReply).toHaveBeenCalledWith(messages[lang]);

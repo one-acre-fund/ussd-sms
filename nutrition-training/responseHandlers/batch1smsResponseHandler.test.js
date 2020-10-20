@@ -10,8 +10,8 @@ describe.each(['en-ke', 'sw'])('batch1 sms response handler using (%s) ', (lang)
     it('it should reprompt for the batch 1 response if the response is invalid --' + lang, () => {
         const handler = batch1smsResponseHandler.getHandler(lang);
         const messages = {
-            'en-ke': 'Reply with a or b to answer',
-            'sw': 'Chagua a au b kujibu!'
+            'en-ke': 'Reply with a, b or c to answer',
+            'sw': 'Chagua a, b au c kujibu!'
         };
         handler();
         expect(sendReply).toHaveBeenCalledWith(messages[lang]);
@@ -48,7 +48,7 @@ describe.each(['en-ke', 'sw'])('batch1 sms response handler using (%s) ', (lang)
         global.content = choice;
 
         const messages = [{
-            'en-ke': 'Actually, beans have the most iron. Ugali/Rice make you full but do not contain enough iron to prevent anemia and imrove health',
+            'en-ke': 'Actually, beans have the most iron. Ugali/Rice make you full but do not contain enough iron to prevent anemia and improve health',
             'sw': 'Maharagwe yana madini ya kuongeza damu. Ugali / Mchele hauna madini ya kuongeza damu vya kutosha kuzuia upungufu wa damu mwilini'
         },{
             'en-ke': 'Eggs, omena, and green leafy vegetables (managu, saga) are good sources of iron. Eat them with ugali & rice to make your child smart!',
