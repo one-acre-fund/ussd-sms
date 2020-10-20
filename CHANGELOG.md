@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## 2020-10-19
 ### Fixed
+[SER-262] (https://oneacrefund.atlassian.net/browse/SER-262) - RW USSD enrollment - updated the the districts, fixed the missing client-id
+
+
+## 2020-10-19
+### Fixed
 
 [SER-264](https://oneacrefund.atlassian.net/browse/SER-264) - RW USSD enrollment - Update translations for menus and notifications
 
