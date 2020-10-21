@@ -26,7 +26,6 @@ var clientRegistration = require('../client-registration/clientRegistration');
 var clientEnrollment = require('../client-enrollment/clientEnrollment');
 var justInTime = require('../just-in-time/justInTime');
 var rosterAPI = require('../rw-legacy/lib/roster/api');
-var slacLogger = require('../slack-logger/index');
 var dukaClient = require('../duka-client/dukaClient');
 var isCreditOfficer = require('../duka-client/checkCreditOfficer');
 var warrantyExpiration = require('../warranty-expiration/warrantyExpiration');
@@ -1057,8 +1056,8 @@ var TrainingMenuText = function (){
 };
 
 var TrainingMenuNextText = function (){
-    if (GetLang()){sayText('8: Pest Mitigation\n9: Vegetables\n10: Tatu Hadi Tatu\n11: Soil Fertility');}
-    else {sayText('8: Wadudu/Magonjwa\n9: Kupanda Mboga\n10: Tatu Hadi Tatu\n11: Udongo bora ulio na afya na rotuba');}
+    if (GetLang()){sayText('8: Pest Mitigation\n9: Vegetables\n10: Tatu Hadi Tatu\n11: Soil Fertility\n12: Dietary Diversity (Nutrition)');}
+    else {sayText('8: Wadudu/Magonjwa\n9: Kupanda Mboga\n10: Tatu Hadi Tatu\n11: Udongo bora ulio na afya na rotuba\12: Lishe Bora');}
 };
 
 var TrainingPlatSelectText = function (){
@@ -3269,6 +3268,9 @@ addInputHandler('TrainingSelect', function(input) {
         }
         var TriggersoilTraining = require('../soil-fertility-trainings/triggerService');
         TriggersoilTraining(lang, project.vars.soil_training_service_id);
+    } else if(input == 12) {
+        var nutritionTraining  = require('../nutrition-training/triggerService');
+        nutritionTraining(GetLang() ? 'en-ke' : 'sw', project.vars.nutrition_training_service);
     }
     else{
         TrainingMenuText();
