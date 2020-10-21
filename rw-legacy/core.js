@@ -970,6 +970,7 @@ inputHandlers['name1InputHandler'] = function (input) {
 addInputHandler('enr_name_1', inputHandlers['name1InputHandler']);
 
 inputHandlers['name2InputHandler'] = function (input) {
+    input = input.replace(/[^a-zA-Z0-9]/gi, '');
     notifyELK();
     if(input == '33'){
         sayText(msgs('enr_name_1', {}, lang));

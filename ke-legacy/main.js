@@ -26,7 +26,6 @@ var clientRegistration = require('../client-registration/clientRegistration');
 var clientEnrollment = require('../client-enrollment/clientEnrollment');
 var justInTime = require('../just-in-time/justInTime');
 var rosterAPI = require('../rw-legacy/lib/roster/api');
-var slacLogger = require('../slack-logger/index');
 var dukaClient = require('../duka-client/dukaClient');
 var isCreditOfficer = require('../duka-client/checkCreditOfficer');
 var warrantyExpiration = require('../warranty-expiration/warrantyExpiration');
