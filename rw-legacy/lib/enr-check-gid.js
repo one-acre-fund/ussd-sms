@@ -38,23 +38,19 @@ function parse_gid(gid) {
     }
 
     return {
-        districtId:districtId,
-        siteId:siteId ,
+        districtId: districtId,
+        siteId: siteId ,
         groupId: groupId
-    }
+    };
 }
 
-module.exports = function(gid, table_name,lang){
+module.exports = function(gid){
     console.log('group Id'+gid);
-    var data_table = project.getOrCreateDataTable(table_name);
     var parsed_gid = parse_gid(gid);
     var districtId = parsed_gid.districtId;
     var siteId = parsed_gid.siteId;
     var groupId = parsed_gid.groupId;
     var id = districtId + '-' + siteId + '-'+ groupId;
-    var districtName = '';
-    var siteName = '';
-    var groupName = '';
 
     state.vars.glus = gid;
     state.vars.districtId = districtId;
@@ -62,20 +58,12 @@ module.exports = function(gid, table_name,lang){
     state.vars.groupId = groupId;
     console.log('district'+ districtId +'siteId'+siteId+'groupId'+groupId);
 
-    var cursor = data_table.queryRows({'vars' : {'group_code' : gid}})
     if(id === null){
         throw 'ERROR: null group code';
     }
-    else if(cursor.hasNext()){
+    else if((districtId != null) && (siteId != null) & (groupId != null)){
+        return {'districtId': districtId, 'siteId': siteId, 'groupId': groupId};
 
-        var row = cursor.next();
-        districtName = row.vars.district;
-        siteName = row.vars.site;
-        groupName = row.vars.group;
-        state.vars.districtName = districtName;
-        var msgs = require('./msg-retrieve');
-        console.log('district', districtName+'siteId'+siteName+'groupId'+groupName);
-        return msgs('enr_group_id_info',{'$DISTRICT' : districtName, '$SITE': siteName, '$GROUP': groupName},lang);
     }
     else{
         return null;

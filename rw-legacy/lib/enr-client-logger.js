@@ -30,6 +30,7 @@ module.exports = function (nid, name1, name2, pn, glus, geo, an_table_name,lang)
             console.log('error getting account number from roster' + e);
         }
         if (clientData != null) {
+            state.vars.client_id = clientData.ClientId;
             client_row = an_table.createRow({ 'vars': { 'account_number': clientData.AccountNumber, 'via_api': true } });
             
             //save the rest of data in telerivet
