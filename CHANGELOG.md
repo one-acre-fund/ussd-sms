@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 * [SER-276](https://oneacrefund.atlassian.net/browse/SER-276) As a farmer I want to be able to see an "report enrollment issues" option on my menu so that I can be able to report enrollment issues
+* [SER-190](https://oneacrefund.atlassian.net/browse/SER-190) Updated Test Coverage Thresholds
+* [SER-190](https://oneacrefund.atlassian.net/browse/SER-190) Added test coverage details to [azure devops](https://dev.azure.com/OAFDev/prd-pipelines/_build/results?buildId=3681&view=codecoverage-tab)
+* Fixed Changelog formating
 
 ## 2020-10-20
 ### Added
@@ -13,32 +16,32 @@ All notable changes to this project will be documented in this file.
 
 ## 2020-10-19
 ### Fixed
-[SER-262] (https://oneacrefund.atlassian.net/browse/SER-262) - RW USSD enrollment - updated the the districts, fixed the missing client-id
+[SER-262](https://oneacrefund.atlassian.net/browse/SER-262) - RW USSD enrollment - updated the the districts, fixed the missing client-id
 [SER-264](https://oneacrefund.atlassian.net/browse/SER-264) - RW USSD enrollment - Update translations for menus and notifications
 
 ## 2020-10-16
 ### Added
-[SER-262] (https://oneacrefund.atlassian.net/browse/SER-262) - RW USSD enrollment - Optimize backward navigation
-[SER-263] (https://oneacrefund.atlassian.net/browse/SER-263) - RW USSD enrollment - Change the flow by reducing steps
+[SER-262](https://oneacrefund.atlassian.net/browse/SER-262) - RW USSD enrollment - Optimize backward navigation
+[SER-263](https://oneacrefund.atlassian.net/browse/SER-263) - RW USSD enrollment - Change the flow by reducing steps
 [SER-218](https://oneacrefund.atlassian.net/browse/SER-218) As a client, I want to access a soil training, so that I understand how to maintain healthy soil
 [SER-274](https://oneacrefund.atlassian.net/browse/SER-274) - Add layaway to the USSD enrollment app for the Dukas
 
 ## 2020-10-09
 ### Fixed
 
-[THD-3213] (https://oneacrefund.atlassian.net/browse/THD-3213) Wrong Account Generation
+[THD-3213](https://oneacrefund.atlassian.net/browse/THD-3213) Wrong Account Generation
 Updated the the registration service to match it's endpoint. AccountNumber is now returned as a key value pair instead of just a string when there is a national Id conflict 
 
 ## 2020-10-08
 ### Fixed
 
-[THD-3170] (https://oneacrefund.atlassian.net/browse/THD-3170) - Include two confirmation SMSes for the USSD Registration service
+[THD-3170](https://oneacrefund.atlassian.net/browse/THD-3170) - Include two confirmation SMSes for the USSD Registration service
 fixed the issue of sending sms with FO contact when available
 
 ## 2020-10-07
 ### Fixed
 
-[THD-3213] (https://oneacrefund.atlassian.net/browse/THD-3213) Wrong Account Generation
+[THD-3213](https://oneacrefund.atlassian.net/browse/THD-3213) Wrong Account Generation
 check if the account number is nan before displaying it to the user
 
 ## 2020-10-06
@@ -49,7 +52,7 @@ check if the account number is nan before displaying it to the user
 ## 2020-10-05
 ### Changed
 
-[SER-260] (https://oneacrefund.atlassian.net/browse/SER-260) Update landing page menu
+[SER-260](https://oneacrefund.atlassian.net/browse/SER-260) Update landing page menu
 
 ### Added
 
@@ -63,7 +66,7 @@ When registering a new user, account number SMSs are not sent to clients.
 ## 2020-10-02
 ### Fixed
 
-[SER-209] (https://oneacrefund.atlassian.net/browse/SER-209) As a client, I want to add avocado trees to my order, so that I can plant a high-impact product
+[SER-209](https://oneacrefund.atlassian.net/browse/SER-209) As a client, I want to add avocado trees to my order, so that I can plant a high-impact product
 
 Before the newly registered client could not place an order because of their account numbers are not in the client's ordered avocado table. This fixes it and saves a row on the table after registration
 
@@ -84,7 +87,7 @@ Added an else to if to make sure the menu is beaving normally
 
 ## 2020-09-23
 ### Added
-*[SER-255] (https://oneacrefund.atlassian.net/browse/SER-255)Re-configuration of October chicken USSD confirmation service - kenya
+*[SER-255](https://oneacrefund.atlassian.net/browse/SER-255)Re-configuration of October chicken USSD confirmation service - kenya
 Replaced the chicken cup number
 
 
