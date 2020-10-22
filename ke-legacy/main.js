@@ -1076,8 +1076,8 @@ var TrainingTriggeredIVRText = function (){
 };
 
 var CallCenterMenuText = function (){
-    if (GetLang()){sayText('1) Help on payment issues\n2) Help on solar activation\n3) Help on insurance issue\n4) Help on waranty issue\n5) General inquiry');}
-    else {sayText('1) Usaidizi kuhusu fedha\n2) Usaidizi kuhusu sola\n3) Usaidizi wa bima/insurance\n4) Usaidizi wa dhamana/waranty\n5) Usaidizi wa kijumla');}
+    if (GetLang()){sayText('1) Help on payment issues\n2) Help on solar activation\n3) Help on insurance issue\n4) Help on waranty issue\n5) General inquiry\n6) Help on enrollment issues');}
+    else {sayText('1) Usaidizi kuhusu fedha\n2) Usaidizi kuhusu sola\n3) Usaidizi wa bima/insurance\n4) Usaidizi wa dhamana/waranty\n5) Usaidizi wa kijumla\n6) Usaidizi wa kijumla');}
 };
 var PaymentSuccessText = function (){
     if (GetLang()){sayText('Please confirm the transaction by typing in your MPesa PIN in the pop up that will appear. Thank you');}
@@ -3159,7 +3159,8 @@ addInputHandler('CallCenterMenu', function(input) {
         2: 'Solar Registration or Activation',
         3: 'Insurance Issue',
         4: 'Warranty Issue',
-        5: 'General Issue'
+        5: 'General Issue',
+        6: 'Enrollment Issues'
     };
     if(input in menu_options){
         var sub = 'Call back requested for: ' + menu_options[input] +' account number : '+ client.AccountNumber;
