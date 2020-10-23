@@ -1,6 +1,9 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## v0.0.0 
+* [SER-000](https://oneacrefund.atlassian.net/browse/SER-000) Added mock feature
+
 ## 2020-10-23
 ### Added
 * [SER-228](https://oneacrefund.atlassian.net/browse/SER-228) Prevent control sites from accessing nutrition training

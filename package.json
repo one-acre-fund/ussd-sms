@@ -1,6 +1,6 @@
 {
   "name": "ussd-sms",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -43,7 +43,7 @@
         "lines": 97.54,
         "statements": 97.55
       }
-    },    
+    },
     "coverageReporters": [
       "text",
       "cobertura"
