@@ -3,6 +3,23 @@ var translations = require('./translations/index');
 var getHealthyPathPercentage = require('../healthy-path/utils/getHealthyPathPercentage');
 var calculateHealthyPath= require('../healthy-path/utils/healthyPathCalculator');
 
+var defaultEnvironment; 
+if(service.active){
+    defaultEnvironment = 'prod';
+}else{
+    defaultEnvironment = 'dev';
+}
+
+var env;
+if(service.vars.env === 'prod' || service.vars.env === 'dev'){
+    env = service.vars.env;
+}else{
+    env = defaultEnvironment;
+}
+
+service.vars.server_name = project.vars[env + '_server_name'];
+service.vars.roster_read_key = project.vars.roster_read_key;
+
 var getMessage = translator(translations, 'ki');
 // This script parses client info
 
@@ -67,6 +84,7 @@ if(paid == 0) {
 var mmReceiptLabel = project.getOrCreateLabel('MM receipt');
 receipt = receipt + hp_dist;
 console.log(transactionLog);
+console.log('healthy path ' + receipt);
 project.sendMessage({
     content: receipt, 
     to_number: contact.phone_number,
