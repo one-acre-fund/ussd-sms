@@ -1,6 +1,13 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## New Version 
+* New features or fixes here
+
+## v0.0.0
+>Note: Version bump when merging hotfix
+* Fixed mock bug
+
 ## 2020-10-20
 ### Added
 
