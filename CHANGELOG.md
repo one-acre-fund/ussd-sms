@@ -21,6 +21,8 @@ All notable changes to this project will be documented in this file.
 ## 2020-10-23
 ### Added
 * [SER-228](https://oneacrefund.atlassian.net/browse/SER-228) Prevent control sites from accessing nutrition training
+### Fixed
+[SER-307](https://oneacrefund.atlassian.net/browse/SER-307) - Credit Officers to be added to recieve SMS for account numbers
 
 ### Fixed
 [SER-307](https://oneacrefund.atlassian.net/browse/SER-307) - Credit Officers to be added to recieve SMS for account numbers
