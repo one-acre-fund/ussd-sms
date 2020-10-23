@@ -11,13 +11,15 @@ All notable changes to this project will be documented in this file.
 ### Added
 * [SER-228](https://oneacrefund.atlassian.net/browse/SER-228) Prevent control sites from accessing nutrition training
 
+### Fixed
+[SER-307](https://oneacrefund.atlassian.net/browse/SER-307) - Credit Officers to be added to recieve SMS for account numbers
+
 ## 2020-10-22
 ### Added
 * [SER-276](https://oneacrefund.atlassian.net/browse/SER-276) As a farmer I want to be able to see an "report enrollment issues" option on my menu so that I can be able to report enrollment issues
 * [SER-190](https://oneacrefund.atlassian.net/browse/SER-190) Updated Test Coverage Thresholds
 * [SER-190](https://oneacrefund.atlassian.net/browse/SER-190) Added test coverage details to [azure devops](https://dev.azure.com/OAFDev/prd-pipelines/_build/results?buildId=3681&view=codecoverage-tab)
 * Fixed Changelog formating
-
 
 ## 2020-10-20
 ### Added
