@@ -23,4 +23,9 @@ describe('Check whether a given client\'s site is not on the list of prohibited 
         const result = siteCanAccessNutrition('districtsTableName', mockClient);
         expect(result).toBeFalsy();
     });
+
+    it('it should return false if no client is passed', () => {
+        const result = siteCanAccessNutrition('districtsTableName', null);
+        expect(result).toBeFalsy();
+    });
 });
