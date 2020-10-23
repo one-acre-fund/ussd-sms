@@ -38,10 +38,16 @@ module.exports = {
                     });
                     row.save();
                     var messageToClient = getMessage('thanks_for_registering', {'$account_number': accountNumber}, lang);
-                    project.sendMessage({
-                        content: messageToClient, 
-                        to_number: state.vars.duka_client_phone_number
-                    });
+                    project.sendMulti({ messages: [
+                        {
+                            content: messageToClient, 
+                            to_number: state.vars.duka_client_phone_number
+                        },
+                        {
+                            content: messageToClient, 
+                            to_number: contact.phone_number
+                        }
+                    ]});
                     console.log('duka client registered. Sent message: ' + messageToClient + ' to: ' + state.vars.duka_client_phone_number);
                     global.stopRules();
                 } else {
