@@ -13,5 +13,10 @@ module.exports = {
         'en': 'Hello $FirstName-$accountnumber Last payment: KSh $lastTransactionAmount. Receipt Number $lastTransactionId. Total paid KSh $paid. Balance KSh $balance.',
         'en-ke': 'Hello $FirstName-$accountnumber Last payment: KSh $lastTransactionAmount. Receipt Number $lastTransactionId. Total paid KSh $paid. Balance KSh $balance.',
         'sw': 'Jambo $FirstName-$accountnumber Malipo ya mwisho: KSh $lastTransactionAmount. Nambari ya risiti $lastTransactionId. Malipo kwa ujumla KSh $paid. Malipo yaliyobaki KSh $balance'
+    },
+    'hp_dist': {
+        'en': ' Pay $hp_dist to stay on the healthy path.',
+        'en-ke': ' Pay $hp_dist to stay on the healthy path.',
+        'sw': 'Lipa $hp_dist ili ubaki kwenye njia salama ya malipo'
     }
 };

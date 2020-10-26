@@ -1,6 +1,12 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## 2020-10-26
+### Added
+* [SER-10](https://oneacrefund.atlassian.net/browse/SER-10) As a client, I want to see my distance from the healthy path in repayment receipts, so that I know if I'm on track or not
+* [SER-13](https://oneacrefund.atlassian.net/browse/SER-13) As a client, I want to be able to see my distance from the healthy path when I check my balance, so that I know how I stand with repayment - KE Config
+* [SER-14](https://oneacrefund.atlassian.net/browse/SER-14) As a client, I want to be able to see my distance from the healthy path when I check my balance, so that I know how I stand with repayment - RW Config
+
 ## 2020-10-23
 ### Added
 * [SER-228](https://oneacrefund.atlassian.net/browse/SER-228) Prevent control sites from accessing nutrition training

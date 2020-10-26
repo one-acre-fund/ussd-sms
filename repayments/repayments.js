@@ -3,8 +3,10 @@ var translator = require('../utils/translator/translator');
 var getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
 var logger = require('../slack-logger/index');
 var validateProjectVatiables = require('./validateProjectVariables');
+var getHealthyPathPercentage = require('../healthy-path/utils/getHealthyPathPercentage');
+var calculateHealthyPath= require('../healthy-path/utils/healthyPathCalculator');
 
-var defaultEnvironment;
+var defaultEnvironment; 
 if(service.active){
     defaultEnvironment = 'prod';
 }else{
@@ -86,6 +88,10 @@ if(balance <= 0) {
 var mmReceipt = '';
 
 var repaymentsLabels = [languagesLabels[lang], 'MM receipt', 'Business Operations'];
+var BalanceHistory = client.BalanceHistory[0];
+var healthyPathPercentage = getHealthyPathPercentage(BalanceHistory && BalanceHistory.SeasonId, client.CountryId, client.DistrictId);
+var healthyPath = calculateHealthyPath(healthyPathPercentage, BalanceHistory && BalanceHistory.TotalCredit, BalanceHistory && BalanceHistory.TotalRepayment_IncludingOverpayments);
+var hp_dist = healthyPath < 0 ? '' : getMessage('hp_dist', {'$hp_dist': healthyPath}, lang);
 if (client.BalanceHistory[0].TotalRepayment_IncludingOverpayments > client.BalanceHistory[0].TotalCredit){
     var OverpaidAmount = client.BalanceHistory[0].TotalRepayment_IncludingOverpayments - client.BalanceHistory[0].TotalCredit;
     mmReceipt = getMessage('mm_receipt_over_paid', {
@@ -93,7 +99,7 @@ if (client.BalanceHistory[0].TotalRepayment_IncludingOverpayments > client.Balan
         '$accountnumber': contact.vars.accountnumber,
         '$lastTransactionAmount': contact.vars.lastTransactionAmount,
         '$lastTransactionId': contact.vars.lastTransactionId,
-        '$OverpaidAmount': OverpaidAmount
+        '$OverpaidAmount': OverpaidAmount,
     }, lang);
     repaymentsLabels.push('Overpaid');
 }else{
@@ -103,8 +109,8 @@ if (client.BalanceHistory[0].TotalRepayment_IncludingOverpayments > client.Balan
         '$lastTransactionAmount': contact.vars.lastTransactionAmount,
         '$lastTransactionId': contact.vars.lastTransactionId,
         '$paid': paid,
-        '$balance': balance
-    }, lang);
+        '$balance': balance,
+    }, lang) + hp_dist;
 }
 var repaymentLabelIds = [];
 repaymentsLabels.map(function(repaymentLabel){
