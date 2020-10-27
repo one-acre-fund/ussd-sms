@@ -67,16 +67,16 @@ describe.each(['en-ke', 'sw'])('confirm first and second name using (%s)', (lang
             'en-ke': 'Thank you for registering with OAF. Your Account Number is 12324565. The Duka team will help you complete your loan.',
             'sw': 'Asante kwa kusajili na OAF. Nambari yako ya Akaunti ni 12324565. Timu ya Duka itakusaidia kumaliza mkopo wako'
         };
-        expect(project.sendMulti).toHaveBeenCalledWith({messages: [
-            {
-                content: message[lang],
-                to_number: '0788765453'
-            },
-            {
-                content: message[lang],
-                to_number: '0788334455'
-            }
-        ]});
+        expect(project.scheduleMessage).toHaveBeenCalledWith({
+            content: message[lang], 
+            to_number: '0788334455',
+            start_time_offset: 0
+        });
+        expect(project.scheduleMessage).toHaveBeenCalledWith({
+            content: message[lang], 
+            to_number: '0788765453',
+            start_time_offset: 15
+        });
         expect(tableMock.createRow).toHaveBeenCalledWith({'vars': {'account_number': '12324565', 'invoice_id': 'axdf87', 'phone_number': '0788765453'}});
     });
 

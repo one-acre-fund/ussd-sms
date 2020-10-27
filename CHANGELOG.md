@@ -1,6 +1,10 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## 2020-10-27
+### Fixed
+[SER-307](https://oneacrefund.atlassian.net/browse/SER-307) - SMSs are not being sent after duka client registration
+
 ## 2020-10-23
 ### Fixed
 [SER-307](https://oneacrefund.atlassian.net/browse/SER-307) - Credit Officers to be added to recieve SMS for account numbers
