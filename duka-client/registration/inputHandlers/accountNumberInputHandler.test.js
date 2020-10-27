@@ -75,11 +75,15 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
         registerClient.mockReturnValueOnce({'AccountNumber': '27507544'});
         const accountNumberHandler = accountNumberInputHandler.getHandler(lang);
         accountNumberHandler(0);
-        expect(project.sendMulti).toHaveBeenCalledWith({
-            messages: [
-                {'content': sms[lang], 'to_number': '07887654376'},
-                {'content': sms[lang], 'to_number': '077554433'}
-            ]
+        expect(project.scheduleMessage).toHaveBeenCalledWith({
+            content: sms[lang], 
+            to_number: '077554433',
+            start_time_offset: 0
+        });
+        expect(project.scheduleMessage).toHaveBeenCalledWith({
+            content: sms[lang], 
+            to_number: '07887654376',
+            start_time_offset: 15
         });
         expect(sayText).toHaveBeenCalledWith(messages[lang]);
         expect(promptDigits).toHaveBeenCalledWith( transactionTypeInputHandler.handlerName, {'submitOnHash': false}); 
