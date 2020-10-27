@@ -1,6 +1,10 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## 2020-10-27
+### Fixed
+[SER-307](https://oneacrefund.atlassian.net/browse/SER-307) - SMSs are not being sent after duka client registration
+
 ## 2020-10-26
 ### Added
 * [SER-10](https://oneacrefund.atlassian.net/browse/SER-10) As a client, I want to see my distance from the healthy path in repayment receipts, so that I know if I'm on track or not
