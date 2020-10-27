@@ -85,7 +85,7 @@ var clientRegistration = require('../client-registration/clientRegistration');
 //options
 const lang = 'en';
 const max_digits_for_input = project.vars.max_digits; //only for testing
-//const max_digits_for_nid = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits_nid'}}).next().vars.value); 
+//const max_digits_for_nid = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits_nid'}}).next().vars.value);
 const max_digits_for_account_number = project.vars.max_digits_an;
 //const max_digits_for_serial = 7;
 //const chicken_client_table = project.vars.chicken_client_table;
@@ -335,11 +335,12 @@ addInputHandler('cor_menu_select', function (input) {
         }
         var get_district_bundles = require('./lib/get-district-bundles')
         get_district_bundles(state.vars.client_districtId);
-        if (client.vars.finalized == 1 && client.vars.geo !== 'Ruhango') { //fix next tine for generallity
-            sayText(msgs('enr_order_already_finalized', {}, lang));
-            promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
-        }
-        else if (client.vars.registered == 1) {
+        // if (client.vars.finalized == 1 && client.vars.geo !== 'Ruhango') { //fix next tine for generallity
+        //     sayText(msgs('enr_order_already_finalized', {}, lang));
+        //     promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+        // }
+        // else
+            if (client.vars.registered == 1) {
             // if client does not have a glvv id entered, prompt them to enter it before continuing
             var glvv_check = client.vars.glus || state.vars.glus;
             if (glvv_check == null || glvv_check == 0) {
@@ -859,7 +860,7 @@ addInputHandler('enr_nid_client_confirmation', function (input) {
     }
     //If the user confirms (chooses yes)
     else if (input == 1) {
-        // Check if the client is already registered 
+        // Check if the client is already registered
         // TODO Add this handler to the resume checkpoint with this input
         var is_already_reg = require('./lib/enr-check-dup-nid');
         if (is_already_reg(state.vars.reg_nid, an_pool)) {

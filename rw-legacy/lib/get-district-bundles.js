@@ -155,7 +155,7 @@ module.exports = function (districtId) {
     if (districtBundlesExist(districtId)) {
         console.log("###district bundles exist###");
 
-        if (districtBundlesAreExpired(districtId)) {
+        // if (districtBundlesAreExpired(districtId)) {
             console.log("###district bundles are expired ###");
             try {
                 districtBundles = fetchDistrictBundles(districtId);
@@ -163,10 +163,10 @@ module.exports = function (districtId) {
                 console.log("###Failed to refresh bundles \n" + error);
                 return;
             }
-        } else {
-            console.log("###district bundles are not expired ###");
-            return;
-        }
+        // } else {
+        //     console.log("###district bundles are not expired ###");
+        //     return;
+        // }
     } else {
         console.log("###district bundles don't exist###");
         districtBundles = fetchDistrictBundles(districtId)
