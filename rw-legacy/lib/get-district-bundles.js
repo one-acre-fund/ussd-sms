@@ -171,6 +171,7 @@ module.exports = function (districtId) {
         console.log("###district bundles don't exist###");
         districtBundles = fetchDistrictBundles(districtId)
     }
+    console.log(JSON.stringify(districtBundles))
     // console.log("****districtBundles bundles****" +districtBundles.bundles);
     // console.log("****districtBundles bundleInputs****"+districtBundles.bundleInputs);
     processBundles(districtBundles, districtId);
@@ -283,5 +284,5 @@ module.exports = function (districtId) {
 //     bundleId: bundleInput.bundleId,
 //     [districtId]: 0 || 1,
 //     Time_Created:"",
-//     Last_Updated:"", 
+//     Last_Updated:"",
 // }
