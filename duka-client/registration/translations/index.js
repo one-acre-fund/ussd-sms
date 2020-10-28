@@ -78,5 +78,13 @@ module.exports = {
     'transaction_type': {
         'en-ke': 'Is this a credit or layaway transaction?\n1) Credit\n2) Layaway',
         'sw': 'Je hii ni shughuli ya mkopo wa Credit au Layaway?\n1) Credit\n2) Layaway'
+    },
+    'client_already_registered': {
+        'en-ke': 'Client is already enrolled. account number: $ACCOUNT_NUMBER',
+        'sw': 'Mteja amesajiliwa tayari. nambari ya akaunti: $ACCOUNT_NUMBER'
+    },
+    'not_registered': {
+        'en-ke': 'Error while registering client. please try again later',
+        'sw': 'Hitilafu wakati wa kusajili mteja. tafadhali jaribu tena baadae'
     }
 };
