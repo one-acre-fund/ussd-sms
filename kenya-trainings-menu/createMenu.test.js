@@ -68,7 +68,7 @@ describe.each(['en-ke', 'sw'])('create trainings menu', (lang) => {
         siteCanAccessNutrition.mockReturnValueOnce(true);
         var result = createMenu(lang);
         expect(result.screens).toEqual(screens[lang]);
-        expect(result.optionValues).toEqual({'10:': 'tatu_hadi_tatu', '11:': 'soil_training', '12:': 'nutrition_training', '1:': 'tree_transplanting', '2:': 'tree_bag_planting', '3:': 'tree_socketing', '4:': 'sorghum_weeding', '5:': 'maize_topdress', '6:': 'maize_intercorp', '7:': 'maize_harvest', '8:': 'pest_mitigation', '9:': 'vegetables'});
+        expect(result.optionValues).toEqual({'10': 'tatu_hadi_tatu', '11': 'soil_training', '12': 'nutrition_training', '1': 'tree_transplanting', '2': 'tree_bag_planting', '3': 'tree_socketing', '4': 'sorghum_weeding', '5': 'maize_topdress', '6': 'maize_intercorp', '7': 'maize_harvest', '8': 'pest_mitigation', '9': 'vegetables'});
     });
 
     it('should skip the nutrition training if the client site is restricted', () => {
@@ -79,7 +79,7 @@ describe.each(['en-ke', 'sw'])('create trainings menu', (lang) => {
         };
         var result = createMenu(lang,  'districtsTableName', clientMock);
         expect(result.screens).toEqual(screensWhenDistrictIsRestricted[lang]);
-        expect(result.optionValues).toEqual({'10:': 'tatu_hadi_tatu', '11:': 'soil_training', '1:': 'tree_transplanting', '2:': 'tree_bag_planting', '3:': 'tree_socketing', '4:': 'sorghum_weeding', '5:': 'maize_topdress', 
-            '6:': 'maize_intercorp', '7:': 'maize_harvest', '8:': 'pest_mitigation', '9:': 'vegetables'});
+        expect(result.optionValues).toEqual({'10': 'tatu_hadi_tatu', '11': 'soil_training', '1': 'tree_transplanting', '2': 'tree_bag_planting', '3': 'tree_socketing', '4': 'sorghum_weeding', '5': 'maize_topdress', 
+            '6': 'maize_intercorp', '7': 'maize_harvest', '8': 'pest_mitigation', '9': 'vegetables'});
     });
 });
