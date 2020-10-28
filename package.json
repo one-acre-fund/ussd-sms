@@ -43,7 +43,11 @@
         "lines": 97.54,
         "statements": 97.55
       }
+<<<<<<< HEAD
     },
+=======
+    },    
+>>>>>>> 27157dc... Release v1.0.0 (#204)
     "coverageReporters": [
       "text",
       "cobertura"
