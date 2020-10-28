@@ -38,12 +38,16 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 88.85,
-        "functions": 99.43,
-        "lines": 96.91,
-        "statements": 96.94
+        "branches": 90.45,
+        "functions": 99.65,
+        "lines": 97.54,
+        "statements": 97.55
       }
-    },
+    },    
+    "coverageReporters": [
+      "text",
+      "cobertura"
+    ],
     "reporters": [
       "default",
       "jest-junit"

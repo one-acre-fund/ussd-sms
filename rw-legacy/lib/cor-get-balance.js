@@ -1,7 +1,7 @@
 /*
 main get-balance function for core USSD
 */
-
+var healthyPath = require('../../healthy-path/balance/healthyPathOnBalance');
 module.exports = function(client, lang){
     lang = lang || 'ki';
     const arrayLength = client.BalanceHistory.length;
@@ -117,11 +117,24 @@ module.exports = function(client, lang){
         console.log(error);
     }
     */
+   // SeasonId: number, CountryId: number, DistrictId: number,
+   var mostRecentSeason = client.BalanceHistory[0];
+   var hpd = {
+       countryId: client.CountryId,
+       districtId: client.DistrictId
+   };
+   if (mostRecentSeason) {
+    hpd.seasonId = mostRecentSeason.SeasonId;
+   }
+
+   var healthyPathMessage = healthyPath(hpd.seasonId, hpd.countryId, hpd.districtId, credit, paid, lang);
+
     return {'$CLIENT_NAME' : client.ClientName,
             '$PAID'        : paid,
             '$BALANCE'     : balance,
             '$CREDIT'      : credit,
             '$DAY_NAME'    : day_name,
             '$MONTH'       : month,
-            '$DAYNR'       : day_num };
+            '$DAYNR'       : day_num,
+            '$HEALTHY_PATH': healthyPathMessage};
 };

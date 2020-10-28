@@ -212,8 +212,8 @@ module.exports = {
         "ki": "Nomero ya konti yakiriwe",
     },
     "cor_get_balance": {
-        "en": "Hello $CLIENT_NAME~BCredit:$CREDIT~BPaid:$PAID~BBalance:$BALANCE~BAccurate as of $DAY_NAME $DAYNR $MONTH",
-        "ki": "Muraho $CLIENT_NAME~BIdeni ryose:$CREDIT~BAyishyuwe:$PAID~BIdeni risigaye:$BALANCE~BAmakuru yafashwe $DAY_NAME $DAYNR $MONTH",
+        "en": "Hello $CLIENT_NAME~BCredit:$CREDIT~BPaid:$PAID~BBalance:$BALANCE~B$HEALTHY_PATHAccurate as of $DAY_NAME $DAYNR $MONTH",
+        "ki": "Muraho $CLIENT_NAME~BIdeni ryose:$CREDIT~BAyishyuwe:$PAID~BIdeni risigaye:$BALANCE~B$HEALTHY_PATHAmakuru yafashwe $DAY_NAME $DAYNR $MONTH",
     },
     "external_splash": {
         "en": "Welcome to TUBURA. Please select your region:~B$GEO_MENU",

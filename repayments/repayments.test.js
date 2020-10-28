@@ -1,3 +1,4 @@
+
 describe('mobile money repayments using', () => {
     beforeAll(() => {
         global.state = { vars: {} };
@@ -48,11 +49,15 @@ describe('mobile money repayments using', () => {
     });
 
     it('should send a message once there is an over payment', () => {
+        const getHealthyPathPercentage = require('../healthy-path/utils/getHealthyPathPercentage');
+        jest.mock('../healthy-path/utils/getHealthyPathPercentage');
+        getHealthyPathPercentage.mockReturnValueOnce(0.3);
         jest.spyOn(project, 'getOrCreateDataTable').mockReturnValueOnce(mockedTable);
         jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'lang'});
         jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'MM receipt'});
         jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'Business Operations'});
         jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'Overpaid'});
+
         contact.vars = {
             accountnumber: '3033-cf74-f94a',
             lastTransactionAmount: 3000,
@@ -84,7 +89,49 @@ describe('mobile money repayments using', () => {
             'route_id': '12345'});
     });
 
+    it('should send a message  with health path message once there loan is not fullly paid', () => {
+        const getHealthyPathPercentage = require('../healthy-path/utils/getHealthyPathPercentage');
+        jest.mock('../healthy-path/utils/getHealthyPathPercentage');
+        getHealthyPathPercentage.mockReturnValueOnce(0.9);
+        jest.spyOn(project, 'getOrCreateDataTable').mockReturnValueOnce(mockedTable);
+        jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'lang'});
+        jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'MM receipt'});
+        jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'Business Operations'});
+        jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'Overpaid'});
+
+        contact.vars = {
+            accountnumber: '3033-cf74-f94a',
+            lastTransactionAmount: 3000,
+            lastTransactionId: '5beb94c0-3033-cf74-f94a',
+            client: JSON.stringify({
+                'FirstName': 'Je',              
+                'BalanceHistory': [
+                    {
+                        'TotalCredit': 15000.000,
+                        'TotalRepayment_IncludingOverpayments': 12000.000,
+                        'Balance': 3000,
+                    },
+                    {
+                        'TotalCredit': 5500,
+                        'TotalRepayment_IncludingOverpayments': 2000,
+                        'Balance': 3500,
+                    }
+                ]
+            })
+        };
+        require('./repayments');
+        expect(project.sendMessage).toHaveBeenCalledWith({'content': 'Hello Je-3033-cf74-f94a Last payment: KSh 3000. Receipt Number 5beb94c0-3033-cf74-f94a. Total paid KSh 14000. Balance KSh 6500. Pay 1500 to stay on the healthy path.',
+            'to_number': '0755432334', 'label_ids': [
+                'lang',
+                'MM receipt',
+                'Business Operations',
+            ], 'message_type': 'sms',
+            'route_id': '12345'});
+    });
     it('should send a message in swahili once there is no data in the EnglishDistricts', () => {
+        const getHealthyPathPercentage = require('../healthy-path/utils/getHealthyPathPercentage');
+        jest.mock('../healthy-path/utils/getHealthyPathPercentage');
+        getHealthyPathPercentage.mockReturnValueOnce(0.3);
         mockedRow.hasNext = jest.fn(() => false);
         jest.spyOn(project, 'getOrCreateDataTable').mockReturnValueOnce(mockedTable);
         jest.spyOn(project, 'getOrCreateLabel').mockReturnValueOnce({id: 'lang'});
@@ -114,10 +161,10 @@ describe('mobile money repayments using', () => {
         require('./repayments');
         expect(project.sendMessage).toHaveBeenCalledWith({'content': 'Je-3033-cf74-f94a Ulikamilisha malipo ya mkopo wa sasa. Malipo ya mwisho: KSh 3000. Nambari ya risiti 5beb94c0-3033-cf74-f94a. Malipo kwa ujumla kulipia mkopo unaofuata KSh 2000.',
             'to_number': '0755432334', 'label_ids': [
+                'Overpaid',
                 'lang',
                 'MM receipt',
                 'Business Operations',
-                'Overpaid',
             ], 'message_type': 'sms',
             'route_id': '12345'});
     });

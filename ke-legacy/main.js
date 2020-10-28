@@ -1036,28 +1036,51 @@ var PaymentMenuText = function (client){
     if (GetLang()){sayText('You are paying into account number '+client.AccountNumber+' Total Repaid '+repaid+', Bal '+balance+'.Please reply with the amount you want to pay');}
     else {sayText('Unafanya malipo kwa hii akaunti '+client.AccountNumber+' Jumla ya malipo '+repaid+', Salio '+balance+'.Tafadhali weka kiasi unachotaka kulipa');}
 };
-var CheckBalanceMenuText = function (Overpaid,Season,Credit,Paid,Balance){
+var CheckBalanceMenuText = function (healthyPathDetails, Overpaid,Season,Credit,Paid,Balance){
+    var getHealthyPathMessage = require('../healthy-path/balance/healthyPathOnBalance');
+    var balanceMenu = '';
+    var healthyPathMessage = '';
     if (GetLang()){
-        if(Overpaid){sayText(Season+':\nPaid: '+Paid+'\nTotal credit: '+Credit+'\nOver payment: '+Balance+ '\n1 - Make payment');}
-        else {sayText(Season+':\nPaid: '+Paid+'\nTotal credit: '+Credit+'\nRemaining: '+Balance+ '\n1 - Make payment');}
+        healthyPathMessage = getHealthyPathMessage(healthyPathDetails.seasonId, healthyPathDetails.countryId, healthyPathDetails.districtId, Credit, Paid, 'en');
+        if(Overpaid){
+            balanceMenu = Season+':\nPaid: '+Paid+'\nTotal credit: '+Credit+'\nOver payment: '+Balance+ '\n' + healthyPathMessage + '1 - Make payment';
+        }else {
+            balanceMenu = Season+':\nPaid: '+Paid+'\nTotal credit: '+Credit+'\nRemaining: '+Balance + '\n' + healthyPathMessage +  '1 - Make payment';
+        }
+    } else{
+        healthyPathMessage = getHealthyPathMessage(Credit, Paid, 'sw');
+        if(Overpaid){
+            balanceMenu = Season+':\nJumla ya malipo: '+Paid+'\nJumla ya mkopo: '+Credit+'\nMalipo kwa mkopo unaofuata: '+Balance+ '\n' + healthyPathMessage + '1 - Fanya malipo';
+        }else {
+            balanceMenu = Season+':\nPaid: '+Paid+'\nTotal credit: '+Credit+'\nSalio: '+Balance+ '\n' + healthyPathMessage + '1 - Fanya malipo';
+        }
     }
-    else{
-        if(Overpaid){sayText(Season+':\nJumla ya malipo: '+Paid+'\nJumla ya mkopo: '+Credit+'\nMalipo kwa mkopo unaofuata: '+Balance+ '\n1 - Fanya malipo');}
-        else {sayText(Season+':\nPaid: '+Paid+'\nTotal credit: '+Credit+'\nSalio: '+Balance+ '\n1 - Fanya malipo');}
-    }
-    var BalanceInfo = 'Balance: '+Balance+ '\nSeason: '+Season+ '\nCredit: '+Credit+ '\nPaid: '+Paid+ '\nOverpaid: '+Overpaid;
+    sayText(balanceMenu);
+    var BalanceInfo = 'Balance: '+Balance+ '\nSeason: '+Season+ '\nCredit: '+Credit+ '\nPaid: '+Paid+ '\nOverpaid: '+Overpaid + '\n' + healthyPathMessage;
     call.vars.BalanceInfo = BalanceInfo;
     notifyELK();
 };
 
 var TrainingMenuText = function (){
-    if (GetLang()){sayText('1:Tree Transplanting\n2:Tree Bag Planting\n3:Tree Socketing\n4:Sorghum Weeding\n5:Maize Topdress\n6:Maize Intercrop\n7:Maize Harvest\n0:MORE');}
-    else {sayText('1:Kupanda Miti\n2:Kupanda miti mifukoni\n3:Socketing Miti\n4:Kupalilia Wimbi\n5:TopDress\n6:Kupanda Mahindi/Maharagwe\n7:Kuvuna Mahindi\n0:Endelea');}
+    var trainingsCreateMenu = require('../kenya-trainings-menu/createMenu');
+    var lang = GetLang() ? 'en-ke' : 'sw';
+    var client = state.vars.client && JSON.parse(state.vars.client);
+    var trainingsMenu = trainingsCreateMenu(lang, 'Restricted sites from nutrition training', client);
+    var trainingsOptions = trainingsMenu.optionValues;
+    var trainingsScreens = trainingsMenu.screens;
+    state.vars.trainings_options = JSON.stringify(trainingsOptions);
+    state.vars.trainings_screens = JSON.stringify(trainingsScreens);
+    state.vars.current_trainings_screens = 1;
+    sayText(trainingsScreens[state.vars.current_trainings_screens]);
 };
 
 var TrainingMenuNextText = function (){
-    if (GetLang()){sayText('8: Pest Mitigation\n9: Vegetables\n10: Tatu Hadi Tatu\n11: Soil Fertility\n12: Dietary Diversity (Nutrition)');}
-    else {sayText('8: Wadudu/Magonjwa\n9: Kupanda Mboga\n10: Tatu Hadi Tatu\n11: Udongo bora ulio na afya na rotuba\12: Lishe Bora');}
+    var trainingsScreens = JSON.parse(state.vars.trainings_screens);
+    var currentTrainingScreen = state.vars.current_trainings_screens + 1;
+    if(trainingsScreens[currentTrainingScreen]) {
+        state.vars.current_trainings_screens = currentTrainingScreen;
+        sayText(trainingsScreens[currentTrainingScreen]);
+    }
 };
 
 var TrainingPlatSelectText = function (){
@@ -1076,8 +1099,8 @@ var TrainingTriggeredIVRText = function (){
 };
 
 var CallCenterMenuText = function (){
-    if (GetLang()){sayText('1) Help on payment issues\n2) Help on solar activation\n3) Help on insurance issue\n4) Help on waranty issue\n5) General inquiry');}
-    else {sayText('1) Usaidizi kuhusu fedha\n2) Usaidizi kuhusu sola\n3) Usaidizi wa bima/insurance\n4) Usaidizi wa dhamana/waranty\n5) Usaidizi wa kijumla');}
+    if (GetLang()){sayText('1) Help on payment issues\n2) Help on solar activation\n3) Help on insurance issue\n4) Help on waranty issue\n5) General inquiry\n6) Help on enrollment issues');}
+    else {sayText('1) Usaidizi kuhusu fedha\n2) Usaidizi kuhusu sola\n3) Usaidizi wa bima/insurance\n4) Usaidizi wa dhamana/waranty\n5) Usaidizi wa kijumla\n6) Usaidizi wa kijumla');}
 };
 var PaymentSuccessText = function (){
     if (GetLang()){sayText('Please confirm the transaction by typing in your MPesa PIN in the pop up that will appear. Thank you');}
@@ -1862,7 +1885,15 @@ addInputHandler('MainMenu', function(SplashMenu){
                 }
             }
         }
-        CheckBalanceMenuText (Overpaid,Season,Credit,Paid,Balance);
+        var mostRecentSeason = client.BalanceHistory[0];
+        var healthyPathDetails = {
+            countryId: client.CountryId,
+            districtId: client.DistrictId
+        };
+        if (mostRecentSeason) {
+            healthyPathDetails.seasonId = mostRecentSeason.SeasonId;
+        }
+        CheckBalanceMenuText (healthyPathDetails, Overpaid,Season,Credit,Paid,Balance);
         promptDigits('ContinueToPayment', {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
 });
@@ -3159,7 +3190,8 @@ addInputHandler('CallCenterMenu', function(input) {
         2: 'Solar Registration or Activation',
         3: 'Insurance Issue',
         4: 'Warranty Issue',
-        5: 'General Issue'
+        5: 'General Issue',
+        6: 'Enrollment Issues'
     };
     if(input in menu_options){
         var sub = 'Call back requested for: ' + menu_options[input] +' account number : '+ client.AccountNumber;
@@ -3205,13 +3237,13 @@ addInputHandler('TrainingSelect', function(input) {
         contact.save();
     }
     InteractionCounter('TrainingSelect');
-
+    var trainingsOptions = JSON.parse(state.vars.trainings_options);
+    
     if (input == 0 ){
         TrainingMenuNextText();
         promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
-
-    else if (input == 6){
+    else if (trainingsOptions[input] == 'maize_intercorp'){
 
         var Random = Math.random();
         console.log(Random);
@@ -3224,42 +3256,47 @@ addInputHandler('TrainingSelect', function(input) {
 
         TrainingTriggeredText();
     }
-    else if (input == 1){
+    else if (trainingsOptions[input] == 'tree_transplanting'){
         TriggerTraining('SV87c0c32ff5e3ebaa');
         TrainingTriggeredText();
     }
-    else if (input == 2){
+    else if (trainingsOptions[input] == 'tree_bag_planting'){
         TriggerTraining('SV647a6f30fad7625d');
         TrainingTriggeredText();
     }
-    else if (input == 3){
+    else if (trainingsOptions[input] == 'tree_socketing'){
         TriggerTraining('SV8419e6228a23cec2');
         TrainingTriggeredText();
     }
-    else if (input == 4){
+    else if (trainingsOptions[input] == 'sorghum_weeding'){
         TriggerTraining('SV7aa1486d6be8ae59');
         TrainingTriggeredText();
     }
-    else if (input == 5){
+    else if (trainingsOptions[input] == 'maize_topdress'){
         TriggerTraining('SVffc2c4aa2be69ab5');
         TrainingTriggeredText();
     }
-    else if (input == 7){
+    else if (trainingsOptions[input] == 'maize_harvest'){
         TriggerTraining('SV72a3bbd1d14b037b');
         TrainingTriggeredText();
     }
-    else if (input == 8){
+    else if (trainingsOptions[input] == 'pest_mitigation'){
         TriggerTraining('SV6d234d3094715099');
         TrainingTriggeredText();
     }
-    else if (input == 9){
+    else if (trainingsOptions[input] == 'vegetables'){
         TrainingPlatSelectText();
         promptDigits('TrainingPlatformSelect', {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
-    else if (input == 10){
+    else if (trainingsOptions[input] == 'tatu_hadi_tatu'){
         TriggerTraining('SV1a959518b783e17f');
         TrainingTriggeredText();
-    } else if(input == 11) {
+    } else if(trainingsOptions[input] == 'nutrition_training') {
+        var nutritionTraining = require('../nutrition-training/triggerService');
+        nutritionTraining(GetLang()? 'en-ke' : 'sw', project.vars.nutrition_training_service);
+    }
+    else if (trainingsOptions[input] == 'soil_fertillity') {
+        // trigger the nutrition training 
         var lang;
         if(GetLang()) {
             lang = 'en-ke';
@@ -3268,13 +3305,9 @@ addInputHandler('TrainingSelect', function(input) {
         }
         var TriggersoilTraining = require('../soil-fertility-trainings/triggerService');
         TriggersoilTraining(lang, project.vars.soil_training_service_id);
-    } else if(input == 12) {
-        var nutritionTraining  = require('../nutrition-training/triggerService');
-        nutritionTraining(GetLang() ? 'en-ke' : 'sw', project.vars.nutrition_training_service);
-    }
-    else{
-        TrainingMenuText();
-        promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});
+    } else{	
+        TrainingMenuText();	
+        promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});	
     }
 });
 
