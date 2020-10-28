@@ -28,7 +28,7 @@ module.exports = function (lang, districtsTableName, client) {
         var label = index + 1 + ':';
         if((message + label + options[allowedOption][lang] + nextScreenOption).length <= 140) {
             message += label + options[allowedOption][lang];
-            optionValues[label] = allowedOption;
+            optionValues[index + 1] = allowedOption;
         }
 
         if((message + label + options[allowedOption][lang] + nextScreenOption).length > 140 || allowedOptions.length == index + 1) {
