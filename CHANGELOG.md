@@ -1,6 +1,10 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## 2020-10-27
+### Fixed
+[SER-307](https://oneacrefund.atlassian.net/browse/SER-307) - SMSs are not being sent after duka client registration
+
 ## 2020-10-26
 ### Added
 * [SER-10](https://oneacrefund.atlassian.net/browse/SER-10) As a client, I want to see my distance from the healthy path in repayment receipts, so that I know if I'm on track or not
@@ -11,13 +15,15 @@ All notable changes to this project will be documented in this file.
 ### Added
 * [SER-228](https://oneacrefund.atlassian.net/browse/SER-228) Prevent control sites from accessing nutrition training
 
+### Fixed
+[SER-307](https://oneacrefund.atlassian.net/browse/SER-307) - Credit Officers to be added to recieve SMS for account numbers
+
 ## 2020-10-22
 ### Added
 * [SER-276](https://oneacrefund.atlassian.net/browse/SER-276) As a farmer I want to be able to see an "report enrollment issues" option on my menu so that I can be able to report enrollment issues
 * [SER-190](https://oneacrefund.atlassian.net/browse/SER-190) Updated Test Coverage Thresholds
 * [SER-190](https://oneacrefund.atlassian.net/browse/SER-190) Added test coverage details to [azure devops](https://dev.azure.com/OAFDev/prd-pipelines/_build/results?buildId=3681&view=codecoverage-tab)
 * Fixed Changelog formating
-
 
 ## 2020-10-20
 ### Added

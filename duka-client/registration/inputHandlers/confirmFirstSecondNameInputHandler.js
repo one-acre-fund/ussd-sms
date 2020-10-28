@@ -38,11 +38,18 @@ module.exports = {
                     });
                     row.save();
                     var messageToClient = getMessage('thanks_for_registering', {'$account_number': accountNumber}, lang);
-                    project.sendMessage({
+                    project.scheduleMessage({
                         content: messageToClient, 
-                        to_number: state.vars.duka_client_phone_number
+                        to_number: contact.phone_number,
+                        start_time_offset: 0
                     });
-                    console.log('duka client registered. Sent message: ' + messageToClient + ' to: ' + state.vars.duka_client_phone_number);
+                    project.scheduleMessage({
+                        content: messageToClient, 
+                        to_number: state.vars.duka_client_phone_number,
+                        start_time_offset: 15
+                    });
+                    console.log('duka client registered. scheduled message for credit officer: ' + messageToClient + ' to: ' + contact.phone_number);
+                    console.log('duka client registered. scheduled message for farmer: ' + messageToClient + ' to: ' + state.vars.duka_client_phone_number);
                     global.stopRules();
                 } else {
                     var Log = new logger();

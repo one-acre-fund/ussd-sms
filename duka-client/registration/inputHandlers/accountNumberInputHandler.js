@@ -45,11 +45,18 @@ module.exports = {
                     var registeredClient = registerClient(dcr_duka_client);
                     if(registeredClient) {
                         var messageToClient = getMessage('thanks_for_registering', {'$account_number': registeredClient.AccountNumber}, lang);
-                        project.sendMessage({
+                        project.scheduleMessage({
                             content: messageToClient, 
-                            to_number: dcr_duka_client.phoneNumber
+                            to_number: contact.phone_number,
+                            start_time_offset: 0
                         });
-                        console.log('duka client registered. Sent message: ' + messageToClient + ' to: ' + JSON.stringify(dcr_duka_client));
+                        project.scheduleMessage({
+                            content: messageToClient, 
+                            to_number: dcr_duka_client.phoneNumber,
+                            start_time_offset: 15
+                        });
+                        console.log('duka client registered. scheduled message for credit officer: ' + messageToClient + ' to: ' + contact.phone_number);
+                        console.log('duka client registered. scheduled message for farmer: ' + messageToClient + ' to: ' + JSON.stringify(dcr_duka_client));
                         if(state.vars.dcr_credit > 0) {
                             global.sayText(getMessage('outstanding_balance', {'$balance': state.vars.dcr_credit}, lang));
                             global.stopRules();

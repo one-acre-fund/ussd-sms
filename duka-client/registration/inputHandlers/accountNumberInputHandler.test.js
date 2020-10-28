@@ -63,6 +63,7 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
             site: 'credit_officer_details.site',
             district: 'credit_officer_details.district'
         });
+        contact.phone_number = '077554433';
         const messages = {
             'en-ke': 'Is this a credit or layaway transaction?\n1) Credit\n2) Layaway',
             'sw': 'Je hii ni shughuli ya mkopo wa Credit au Layaway?\n1) Credit\n2) Layaway'
@@ -74,7 +75,16 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
         registerClient.mockReturnValueOnce({'AccountNumber': '27507544'});
         const accountNumberHandler = accountNumberInputHandler.getHandler(lang);
         accountNumberHandler(0);
-        expect(project.sendMessage).toHaveBeenCalledWith({'content': sms[lang], 'to_number': '07887654376'});
+        expect(project.scheduleMessage).toHaveBeenCalledWith({
+            content: sms[lang], 
+            to_number: '077554433',
+            start_time_offset: 0
+        });
+        expect(project.scheduleMessage).toHaveBeenCalledWith({
+            content: sms[lang], 
+            to_number: '07887654376',
+            start_time_offset: 15
+        });
         expect(sayText).toHaveBeenCalledWith(messages[lang]);
         expect(promptDigits).toHaveBeenCalledWith( transactionTypeInputHandler.handlerName, {'submitOnHash': false}); 
         expect(state.vars.account_number).toEqual('27507544');
