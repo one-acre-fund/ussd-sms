@@ -1,6 +1,9 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file. 
 
+## New Version
+
+
 ## 2020-10-28
 ### Fixed
 [SER-308](https://oneacrefund.atlassian.net/browse/SER-308) - Fix the Kenya Impact trainings menu

@@ -1,16 +1,28 @@
 # CONTRIBUTING
 
-## Updating the Changelog
+### Updating the Changelog
+- All pull requests must have an update to [CHANGELOG.md](CHANGELOG.md).
 
-1. All pull requests must have an update to [CHANGELOG.md](CHANGELOG.md)
-2. List Changes in reverse-chronological order (newest on top)
-3. Use the `YYYY-MM-DD` format for dates
-4. Group changes to  descibe theri impact on the project as follows
-    
-    * `Added` for new features
-    * `Changed` for changes in existing functionality
-    * `Deprecated` for once stable features removed in upcoming releases
-    * `Removed` for deprecated features removed in this release
-    * `Fixed` for any bug fixes
-5. Changes that are not yet in production should be under an `"Unreleased"` header
-6. Changes should Link to a JIRA issue where applicable
+- List changes in reverse-chronological order (newest on top).
+
+- Changes should be grouped under any of the following categories:
+    * `Added` for new features.
+    * `Changed` for changes in existing functionality.
+    * `Deprecated` for once stable features removed in upcoming releases.
+    * `Removed` for deprecated features removed in this release.
+    * `Fixed` for any bug fixes.
+ 
+- Changes should include link to a JIRA issue where applicable.
+
+- **Creating feature PR to develop**
+    * List the change under the `New version` part of the document in the category it falls under.
+
+- **Creating hotfix PR to master**
+    * Bump up the version in the package.json file (ensure to run `npm update` to update the package-lock.json).
+    * Add the new version to the top of the changelog.
+    * List the change under the added version in the category it falls under
+
+- **Creating release PR to master**
+    * Bump up the version in the package.json file (ensure to run `npm update` to update the package-lock.json).
+    * Add the new version to the top of the changelog.
+    * Move the changes under the `New version` to the newly added version.
