@@ -13,6 +13,8 @@ All notable changes to this project will be documented in this file.
 [SER-307](https://oneacrefund.atlassian.net/browse/SER-307) - SMSs are not being sent after duka client registration
 
 ## 2020-10-26
+
+## v1.0.0
 ### Added
 * [SER-10](https://oneacrefund.atlassian.net/browse/SER-10) As a client, I want to see my distance from the healthy path in repayment receipts, so that I know if I'm on track or not
 * [SER-13](https://oneacrefund.atlassian.net/browse/SER-13) As a client, I want to be able to see my distance from the healthy path when I check my balance, so that I know how I stand with repayment - KE Config
