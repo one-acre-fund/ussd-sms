@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.0.1
+### Changed
+* [SER-316](https://oneacrefund.atlassian.net/browse/SER-316) Add a descriptive feedback when the registration fails
+
 ## v1.0.0
 ### Added
 * [SER-10](https://oneacrefund.atlassian.net/browse/SER-10) As a client, I want to see my distance from the healthy path in repayment receipts, so that I know if I'm on track or not
