@@ -15,6 +15,10 @@ module.exports = {
         'en-ke': 'Please write the name of the seed variety you purchased in the Duka.',
         'sw': 'sw-Please write the name of the seed variety you purchased in the Duka.'
     },
+    'lot_code': {
+        'en-ke': 'Please enter the seed lot code on the seed packet you have purchased. This code is on the packet of the seed and is usually comprised of letters and numbers. Press 0 if you cannot find the code.',
+        'sw': 'sw-Please enter the seed lot code on the seed packet you have purchased. This code is on the packet of the seed and is usually comprised of letters and numbers. Press 0 if you cannot find the code.'
+    },
     'next_option': {
         'sw': '77) Endelea',
         'en-ke': '77) Next',
