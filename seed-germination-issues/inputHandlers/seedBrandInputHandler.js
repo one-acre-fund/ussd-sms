@@ -1,7 +1,11 @@
 var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
-var otherOption = require('../seedGerminationIssues');
+var seedGerminationIssues = require('../seedGerminationIssues');
+var createSeedsMenu = require('../../shared/createMenu');
+var customSeedBrandInputHandler = require('./customSeedBrandInputHandler');
+var seedVarietyInputHandle = require('./seedVarietyInputHandler');
 
+var otherOption = seedGerminationIssues.otherOption;
 var handlerName = 'rsgi_seed_brand';
 module.exports = {
     handlerName: handlerName,
@@ -15,8 +19,13 @@ module.exports = {
             if(choosenOption) {
                 if(choosenOption === otherOption[lang]) {
                     // have choosen Other on the menu
+                    global.sayText(getMessage('custom_seed_brand', {}, lang));
+                    global.promptDigits(customSeedBrandInputHandler.handlerName);
                 } else {
                     // have choosen a valid option
+
+                    state.vars.rsgi_seed_brand = choosenOption; // set the choosen brand to a state variable
+
                     var seedsTable = project.getOrCreateDataTable('seeds_and_varieties');
                     var cursor = seedsTable.queryRows({vars: {'seed_name': choosenOption}});
                     var index = 1;
@@ -24,9 +33,19 @@ module.exports = {
                     var nextOption = getMessage('next_option', {}, lang);
                     while(cursor.hasNext()) {
                         var row = cursor.next();
-                        varieties[row.vars.seed_name] = row.vars.seed_name;
+                        varieties[row.vars.seed_variety] = row.vars.seed_variety;
                         index = index + 1;
                     }
+                    var varietiesTitle = getMessage('seed_variety_title', {}, lang);
+                    var varietiesMenu = createSeedsMenu(varieties, nextOption, varietiesTitle);
+                    var varietiesScreens = varietiesMenu.screens;
+                    var varietiesOptionValues = varietiesMenu.optionValues;
+                    state.vars.varieties_option_values = JSON.stringify(varietiesOptionValues);
+                    state.vars.varieties_screens = JSON.stringify(varietiesScreens);
+                    state.vars.current_varieties_screen = 1;
+                    
+                    global.sayText(varietiesScreens[state.vars.current_varieties_screen]);
+                    global.promptDigits(seedVarietyInputHandle.handlerName);
                 }
             } else if(input == 99 && seeds_screens[state.vars.current_seeds_screen + 1]) {
                 // display next screen
@@ -35,10 +54,7 @@ module.exports = {
                 global.promptDigits(handlerName);
             } else {
                 // have choosen an invalid option
-                var initialSeedBrandScreen = getMessage('seeds_brand', {
-                    '$Menu': seeds_screens[state.vars.current_seeds_screen]
-                }, lang);
-                global.sayText(initialSeedBrandScreen);
+                global.sayText(seeds_screens[state.vars.current_seeds_screen]);
                 global.promptDigits(handlerName);
             }
         };
