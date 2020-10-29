@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
+### Removed
+* [SER-312](https://oneacrefund.atlassian.net/browse/SER-312) Remove all trainings except soil trainings and maize recommendation 
 
 ## v1.0.3
 ### Fixed
@@ -78,7 +80,7 @@ check if the account number is nan before displaying it to the user
 
 ### Added
 
-[SER-17](https://oneacrefund.atlassian.net/browse/SER-17) - Add check shs warranty expiration.
+[SER-17](https://oneacrefund.atlassian.net/browse/SER-17) - Add check shs warranty expiration.\
 
 ## 2020-10-02
 ### Fixed
