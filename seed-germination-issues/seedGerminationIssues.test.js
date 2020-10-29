@@ -37,7 +37,7 @@ describe('seed germination issues', () => {
         jest.spyOn(project, 'getOrCreateDataTable').mockReturnValueOnce(table);
         seedGerminationIssues.start('en-ke');
         expect(state.vars.current_seeds_screen).toEqual(1);
-        expect(state.vars.seeds_screens).toEqual('{"1":"1) Bubayi\\n2) Kenya Seed\\n3) Monsanto\\n4) Other\\n"}');
+        expect(state.vars.seeds_screens).toEqual('{"1":"Which seed brand did you purchase? Please select number\\n1) Bubayi\\n2) Kenya Seed\\n3) Monsanto\\n4) Other\\n"}');
         expect(state.vars.seeds_option_values).toEqual('{"1":"Bubayi","2":"Kenya Seed","3":"Monsanto","4":"Other"}');
     });
 

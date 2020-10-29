@@ -27,17 +27,15 @@ function seedGerminationIssues(lang) {
         index = index + 1;
     }
     seeds[otherOption[lang]] = otherOption[lang];
-    var seedsMenu = createSeedsMenu(seeds, nextOption);
+    var SeedBrandTitle = getMessage('seeds_brand_title', {}, lang);
+    var seedsMenu = createSeedsMenu(seeds, nextOption, SeedBrandTitle);
     var seedsScreens = seedsMenu.screens;
     var seedsOptionValues = seedsMenu.optionValues;
     state.vars.seeds_option_values = JSON.stringify(seedsOptionValues);
     state.vars.seeds_screens = JSON.stringify(seedsScreens);
     state.vars.current_seeds_screen = 1;
 
-    var initialSeedBrandScreen = getMessage('seeds_brand', {
-        '$Menu': seedsScreens[state.vars.current_seeds_screen]
-    }, lang);
-    global.sayText(initialSeedBrandScreen);
+    global.sayText(seedsMenu.screens[state.vars.current_seeds_screen]);
     global.promptDigits(seedBrandInputHandler.handlerName);
 }
 

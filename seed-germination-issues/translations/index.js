@@ -1,7 +1,7 @@
 module.exports = {
-    'seeds_brand': {
-        'en-ke': 'Which seed brand did you purchase? Please select number\n$Menu',
-        'sw': 'sw-Which seed brand did you purchase? Please select number\n$Menu'
+    'seeds_brand_title': {
+        'en-ke': 'Which seed brand did you purchase? Please select number',
+        'sw': 'sw-Which seed brand did you purchase? Please select number'
     },
     'next_option': {
         'sw': '77) Endelea',
