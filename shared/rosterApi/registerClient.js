@@ -17,6 +17,8 @@ module.exports = function registerClient(clientJSON) {
         if (response.status == 200) {
             var data = JSON.parse(response.content);
             return data;
+        } else if(response.status == 409) {
+            state.vars.duplicated_user = response.content;
         }
         else {
             logger.error('Error while registering user', {data: JSON.stringify(response)});
