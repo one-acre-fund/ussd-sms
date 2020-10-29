@@ -33,8 +33,8 @@ describe('create menu', () => {
     });
 
     it('should return the menu screens with next option when passed', () => {
-        const options = createMenu(optionsList, '99) Next', 140);
-        expect(options.screens).toEqual({'1': '1) one number menu\n' +
+        const options = createMenu(optionsList, '99) Next', 'Title', 140);
+        expect(options.screens).toEqual({'1': 'Title\n1) one number menu\n' +
         '2) two number menu\n' +
         '3) three number menu\n' +
         '4) four number menu\n' +

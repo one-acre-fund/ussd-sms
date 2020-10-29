@@ -3,12 +3,13 @@
  * a util to return menu and option values given the option names
  * @param {Array} optionNames an object of key value pairs (option_key: option value)
  * @param {String} nextScreenOption option for next screen -- 44) next screen --
+ * @param {String} title title that goes on the first screen
  * @param {Number} maxCharacters max characters per screen (fall back to 140)
  */
-module.exports = function (optionNames, nextScreenOption, maxCharacters) {
+module.exports = function (optionNames, nextScreenOption, title, maxCharacters) {
     var screen = 1;
     var screens = {};
-    var message = '';
+    var message = title ? title + '\n' : '';
     maxCharacters = maxCharacters || 140;
     nextScreenOption = nextScreenOption || '';
     var optionValues = {};
