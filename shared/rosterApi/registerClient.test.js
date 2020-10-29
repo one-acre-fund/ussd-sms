@@ -41,7 +41,16 @@ describe('Register client', () => {
         expect(result).toEqual({});
     });
 
-    it('it should handle the  http error with status code other than 200', () => {
+    it('it should handle the duplicate client registration', () => {
+        const content = JSON.stringify({
+            'AccountNumber': '28126595'
+        });
+        jest.spyOn(httpClient, 'request').mockReturnValueOnce({status: 409, content});
+        registerClient(client);
+        expect(state.vars.duplicated_user).toEqual(content);
+    });
+
+    it('it should handle the  http error with status code other than 200 and 409', () => {
         const content = JSON.stringify({});
         jest.spyOn(httpClient, 'request').mockReturnValueOnce({status: 400, content});
         const result = registerClient(client);

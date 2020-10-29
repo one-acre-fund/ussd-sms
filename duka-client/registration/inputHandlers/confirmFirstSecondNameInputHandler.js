@@ -52,8 +52,17 @@ module.exports = {
                     console.log('duka client registered. scheduled message for farmer: ' + messageToClient + ' to: ' + state.vars.duka_client_phone_number);
                     global.stopRules();
                 } else {
-                    var Log = new logger();
-                    Log.error('Unable to register a duka client');
+                    if(state.vars.duplicated_user) {
+                        var duplicatedUser = JSON.parse(state.vars.duplicated_user);
+                        var duplicateErrorMessage = getMessage('client_already_registered', {'$ACCOUNT_NUMBER': duplicatedUser.AccountNumber}, lang);
+                        global.sayText(duplicateErrorMessage);
+                        global.stopRules();
+                    } else {
+                        var notRegisteredMessage = getMessage('not_registered', {}, lang);
+                        global.sayText(notRegisteredMessage);
+                        var Log = new logger();
+                        Log.error('Unable to register a duka client');
+                    }
                 }
             } else if(input == 2) {
                 var firstNameInputHandler = require('./firstNameInputHandler');
