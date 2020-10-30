@@ -1048,7 +1048,7 @@ var CheckBalanceMenuText = function (healthyPathDetails, Overpaid,Season,Credit,
             balanceMenu = Season+':\nPaid: '+Paid+'\nTotal credit: '+Credit+'\nRemaining: '+Balance + '\n' + healthyPathMessage +  '1 - Make payment';
         }
     } else{
-        healthyPathMessage = getHealthyPathMessage(Credit, Paid, 'sw');
+        healthyPathMessage = getHealthyPathMessage(healthyPathDetails.seasonId, healthyPathDetails.countryId, healthyPathDetails.districtId, Credit, Paid, 'sw');
         if(Overpaid){
             balanceMenu = Season+':\nJumla ya malipo: '+Paid+'\nJumla ya mkopo: '+Credit+'\nMalipo kwa mkopo unaofuata: '+Balance+ '\n' + healthyPathMessage + '1 - Fanya malipo';
         }else {
