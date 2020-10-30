@@ -83,9 +83,9 @@ var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 var avocadoTreesOrdering = require('../avocado-trees-ordering/avocadoTreesOrdering');
 var clientRegistration = require('../client-registration/clientRegistration');
 //options
-const lang = project.vars.cor_lang;
+const lang = 'en';
 const max_digits_for_input = project.vars.max_digits; //only for testing
-//const max_digits_for_nid = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits_nid'}}).next().vars.value); 
+//const max_digits_for_nid = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits_nid'}}).next().vars.value);
 const max_digits_for_account_number = project.vars.max_digits_an;
 //const max_digits_for_serial = 7;
 //const chicken_client_table = project.vars.chicken_client_table;
@@ -103,7 +103,7 @@ global.main = function () {
     sayText(msgs('cor_enr_main_splash',{},lang));
     promptDigits('account_number_splash', {
         'submitOnHash': false,
-        'maxDigits': 2,
+        'maxDigits': 8,
         'timeout': timeout_length
     });
 };
@@ -156,7 +156,7 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             if (client_verified) {
                 var isGroupLeader = checkGroupLeader(state.vars.client_districtId, state.vars.client_id);
                 state.vars.isGroupLeader = isGroupLeader;
-                sayText(msgs('account_number_verified'));    
+                sayText(msgs('account_number_verified'));
                 var splash = account_splash_menu_name;
                 state.vars.splash = splash;
                 var menu = populate_menu(splash, lang);
@@ -232,14 +232,14 @@ addInputHandler('cor_menu_select', function (input) {
 
     var selection = get_menu_option(input, state.vars.splash);
     state.vars.selected_core_input = input;
-    
+
     if (selection === null || selection === undefined) {
         sayText(msgs('invalid_input', {}, lang));
         promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         return null;
     }
     else if(selection === 'cor_get_repayments'){
-        transactionHistory.start(state.vars.account_number,'rw');            
+        transactionHistory.start(state.vars.account_number,'rw');
     }
     else if(selection === 'cor_market_access'){
 
@@ -278,7 +278,7 @@ addInputHandler('cor_menu_select', function (input) {
     }
     else if(selection === 'chicken_confirm'){
         try {
-            chickenServices.start(state.vars.account_number,'rw');            
+            chickenServices.start(state.vars.account_number,'rw');
         } catch (error) {
             slack.log(error)
         }
@@ -432,7 +432,7 @@ addInputHandler('cor_menu_select', function (input) {
             state.vars.session_account_number = state.vars.account_number;
             sayText(msgs('ENR_FINALIZE_TERMS_AND_CONDITION'),{},lang);
             promptDigits('enr_terms_and_conditions', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
-            
+
         }
         else if (client.vars.finalized == 1) {
             sayText(msgs('enr_already_finalized', {}, lang));
@@ -519,11 +519,11 @@ addInputHandler('harvest_timing_handler', function(input){
 
 addInputHandler('m_market_confirm_handler', function(input){
     notifyELK();
-    input = String(input.replace(/\D/g, '')); 
+    input = String(input.replace(/\D/g, ''));
     if(input == 0){
         var groupsTable = project.initDataTableById(service.vars.groupCodes_id);
         var cursor = client_table.queryRows({ 'vars': { 'account_number': state.vars.account_number}});
-        
+
         if(cursor.hasNext()){
             var row = cursor.next();
             state.vars.groupCodeForGL = row.vars.glus;
@@ -537,7 +537,7 @@ addInputHandler('m_market_confirm_handler', function(input){
             var group = row.vars.group;
         }
         var table = project.initDataTableById(service.vars.market_access_table_id);
-        var row = table.createRow({ 
+        var row = table.createRow({
             vars: {'district': district, 'site': site, 'group': group, 'account_number': state.vars.account_number, 'product': state.vars.crop_type, "amount" : state.vars.harvest_amount, "date_available" : state.vars.harvest_time, "farmers_number":state.vars.number_of_farmers}
         });
         row.save();
@@ -861,7 +861,7 @@ addInputHandler('enr_nid_client_confirmation', function (input) {
     }
     //If the user confirms (chooses yes)
     else if (input == 1) {
-        // Check if the client is already registered 
+        // Check if the client is already registered
         // TODO Add this handler to the resume checkpoint with this input
         var is_already_reg = require('./lib/enr-check-dup-nid');
         if (is_already_reg(state.vars.reg_nid, an_pool)) {
@@ -920,7 +920,7 @@ addInputHandler('enr_nid_client_confirmation', function (input) {
         // start registration process by asking them to enter their id again
         else {
             sayText(msgs('enr_name_1', {}, lang));
-            promptDigits('enr_name_1', { 'submitOnHash': false, 'maxDigits': max_digits_for_name, 'timeout': timeout_length });    
+            promptDigits('enr_name_1', { 'submitOnHash': false, 'maxDigits': max_digits_for_name, 'timeout': timeout_length });
         }
         get_time();
     }
@@ -1062,8 +1062,8 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
                 regSessionManager.clear(contact.phone_number);
                 stopRules();
                 return null;
-            }     
-            else{   
+            }
+            else{
             regSessionManager.save(contact.phone_number, state.vars, 'groupCodeInputHandler', input);
             var current_menu = msgs('enr-group-constitution-approvement',{},lang);
             state.vars.current_menu_str = current_menu;
@@ -1125,7 +1125,7 @@ addInputHandler('reg_group_constitution_confirm',function(input){
         return;
     }
     input = input.replace(/\W/g, '');
-    if (input == 99) {        
+    if (input == 99) {
         regSessionManager.clear(contact.phone_number);
         sayText(msgs('exit', {}, lang));
         stopRules();
@@ -1159,8 +1159,8 @@ addInputHandler('reg_group_constitution_confirm',function(input){
             var enr_msg_sms = msgs('enr_reg_complete_sms', { '$ACCOUNT_NUMBER': state.vars.account_number, '$NAME': state.vars.reg_name_2, '$AD_MESSAGE': sms_ad }, lang);
             var messager = require('./lib/enr-messager');
             messager(contact.phone_number, enr_msg_sms);
-            messager(state.vars.reg_pn, enr_msg_sms);               
-        }       
+            messager(state.vars.reg_pn, enr_msg_sms);
+        }
     }
     else {
         sayText(msgs('invalid_input', {}, lang));
@@ -1433,7 +1433,7 @@ addInputHandler('enr_input_order', function (input) { //input ordering function
         promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
     }
     else if(product_deets.acceptableQuantityList && product_deets.acceptableQuantityList.split(',').indexOf(String(input)) == -1){
-        sayText(msgs('enr_quantity_not_in_the_list', {'$QUANTITY_LIST': product_deets.acceptableQuantityList}, lang)); 
+        sayText(msgs('enr_quantity_not_in_the_list', {'$QUANTITY_LIST': product_deets.acceptableQuantityList}, lang));
         promptDigits('enr_input_order', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
     }
     else if (input % product_deets.increment === 0) {
@@ -1645,7 +1645,7 @@ addInputHandler('enr_order_review_continue', function (input) {
             state.vars.session_account_number = state.vars.account_number;
             sayText(msgs('ENR_FINALIZE_TERMS_AND_CONDITION'),{},lang);
             promptDigits('enr_terms_and_conditions', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
-            
+
         }
         else if (client.vars.finalized == 1) {
             sayText(msgs('enr_already_finalized', {}, lang));
@@ -1715,7 +1715,7 @@ addInputHandler('enr_finalize_verify', function (input) {
         }else{
             sayText(msgs('enr_not_finalized', {}, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
-            get_time();           
+            get_time();
         };
 
 
@@ -1725,7 +1725,7 @@ addInputHandler('enr_finalize_verify', function (input) {
         promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         get_time();
     }
-  
+
 });
 
 //end finalize order
@@ -1744,5 +1744,5 @@ addInputHandler('enr_terms_and_conditions',function(input){
         sayText(msgs('ENR_FINALIZE_TERMS_AND_CONDITION'),{},lang);
         promptDigits('enr_terms_and_conditions', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
     }
-    
+
 });
