@@ -1654,11 +1654,8 @@ addInputHandler('SplashMenu', function(SplashMenu) {
         if (RosterClientVal(ClientAccNum)){
             console.log('SuccessFully Validated against Roster');
             client = RosterClientGet(ClientAccNum);
-            try {
-                state.vars.client_json = JSON.stringify(client);
-            } catch (error) {
-                state.vars.client_json = JSON.stringify(reduceClientSize(client));
-            }
+            state.vars.client_json = JSON.stringify(reduceClientSize(client));
+            
             // check for group leader
             var isGroupLeader = checkGroupLeader(client.DistrictId, client.ClientId);
             state.vars.isGroupLeader = isGroupLeader;
