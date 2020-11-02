@@ -63,4 +63,27 @@ describe('seed brand input handler using', () => {
         expect(promptDigits).toHaveBeenCalledWith(seedVarietyInputHandle.handlerName);
         expect(state.vars.rsgi_seed_brand).toEqual('option2');
     });
+
+    it('should save the necessary state variables', () => {
+        state.vars.seeds_screens = JSON.stringify({1: 'Title\n1) option1\n99) Next', 2: '2) option2\n3) Other'});
+        state.vars.seeds_option_values = JSON.stringify({1: 'option1', 2: 'option2', 3: 'Other'});
+        state.vars.current_seeds_screen = 1;
+
+        var cursor = {hasNext: jest.fn(), next: jest.fn()};
+
+        jest.spyOn(cursor, 'hasNext').mockReturnValueOnce(true);
+        jest.spyOn(cursor, 'next').mockReturnValueOnce({vars: {seed_variety: 'Monsanto'}});
+        jest.spyOn(cursor, 'hasNext').mockReturnValueOnce(true);
+        jest.spyOn(cursor, 'next').mockReturnValueOnce({vars: {seed_variety: 'Bubayi'}});
+        jest.spyOn(cursor, 'hasNext').mockReturnValueOnce(true);
+        jest.spyOn(cursor, 'next').mockReturnValueOnce({vars: {seed_variety: 'Kenya Seed'}});
+        const table = {queryRows: jest.fn(() => cursor)};
+        jest.spyOn(project, 'getOrCreateDataTable').mockReturnValueOnce(table);
+
+        const handler = seedBrandInputHandler.getHandler('en-ke');
+        handler('2');
+        expect(state.vars.varieties_option_values).toEqual('{"1":"Monsanto","2":"Bubayi","3":"Kenya Seed"}');
+        expect(state.vars.varieties_screens).toEqual('{"1":"Which seed variety did you purchase? Please select number\\n1) Monsanto\\n2) Bubayi\\n3) Kenya Seed\\n"}');
+        expect(state.vars.current_varieties_screen).toEqual(1);
+    });
 });
