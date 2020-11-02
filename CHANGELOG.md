@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.0.4
+### Fixed
+* [SER-313](https://oneacrefund.atlassian.net/browse/SER-313) Client data size too long
+
 ## v1.0.3
 ### Fixed
 * [SER-317](https://oneacrefund.atlassian.net/browse/SER-317) Check balance failing on kenya USSD menu
