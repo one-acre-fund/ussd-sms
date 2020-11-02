@@ -1,7 +1,8 @@
-var options = require('./options');
+var getOptions = require('./options');
 var siteCanAccessNutrition = require('./siteCanAccessNutrition');
 
 module.exports = function (lang, districtsTableName, client) {
+    var options = getOptions();
     var optionNames = Object.keys(options);
 
     var canAccessNutrition = siteCanAccessNutrition(districtsTableName, client);
@@ -13,7 +14,7 @@ module.exports = function (lang, districtsTableName, client) {
     }
     // remove the mentioned options to skip
     var allowedOptions = optionNames.filter(function(allowedOptionName) {
-        return optionsToSkip.indexOf(allowedOptionName) == -1;
+        return optionsToSkip.indexOf(allowedOptionName) == -1 && options[allowedOptionName].enabled;
     });
     var nextMessages = {
         'en-ke': '0:MORE',
