@@ -21,11 +21,8 @@ module.exports = function(account_number){
         var client_auth = api.authClient(account_number, country);
         if(client_auth){
             client = api.getClient(account_number);
-            try {
-                state.vars.client_json = JSON.stringify(client);                
-            } catch (error) {
-                state.vars.client_json = JSON.stringify(reduceSize(client));
-            }
+            state.vars.client_json = JSON.stringify(reduceSize(client));
+            
             console.log('####clientJSON: '+JSON.stringify(client));
             
             state.vars.client_name = client.ClientName;
