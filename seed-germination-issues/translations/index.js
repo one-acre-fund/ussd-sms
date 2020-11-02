@@ -24,5 +24,9 @@ module.exports = {
         'en-ke': '77) Next',
         'en': '77) Next',
         'ki': '77) Komeza'
+    },
+    'duka_title': {
+        'en-ke': 'In which Duka did you purchase the seed?',
+        'sw': 'sw-In which Duka did you purchase the seed?'
     }
 };
