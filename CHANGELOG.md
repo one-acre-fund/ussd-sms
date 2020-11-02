@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.0.3
+### Fixed
+* [SER-317](https://oneacrefund.atlassian.net/browse/SER-317) Check balance failing on kenya USSD menu
+
+## v1.0.2
+### Fixed
+* [SER-314](https://oneacrefund.atlassian.net/browse/SER-314) Clients are no longer able to access NHIF hospitals through USSD
+
 ## v1.0.1
 ### Changed
 * [SER-316](https://oneacrefund.atlassian.net/browse/SER-316) Add a descriptive feedback when the registration fails

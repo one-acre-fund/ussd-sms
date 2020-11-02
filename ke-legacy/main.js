@@ -818,7 +818,7 @@ var LocationNext = function (){
 var HospitalTownsRetrieve = function(regionid){
     var  LocMenu = '' ;
     var LocTable = project.getOrCreateDataTable('Hospital_Towns');
-    var TownList = LocTable.queryRows({vars: {'regionid': regionid}});
+    var TownList = LocTable.queryRows({vars: {'region_id': regionid}});
     var TownArray = [];
     while (TownList.hasNext()) {
         var TownRow = TownList.next();
@@ -856,7 +856,7 @@ var HospitalTownsRetrieve = function(regionid){
 var ValidateHostitalInput = function(input){
     var LocValid = false;
     LocArray = JSON.parse(state.vars.LocArray);
-    console.log(LocArray);
+    console.log(JSON.stringify(LocArray));
     for (var i = 0; i < LocArray.length; i++) {
         if (LocArray[i].Menu == input) {
             state.vars.locID = LocArray[i].ID;
@@ -868,7 +868,7 @@ var ValidateHostitalInput = function(input){
 var HospitalsRetrieve = function(townid){
     var LocMenu = '' ;
     var LocTable = project.getOrCreateDataTable('Hospital_Hospitals');
-    var  HospitalList = LocTable.queryRows({vars: {'townid': townid}});
+    var  HospitalList = LocTable.queryRows({vars: {'town_id': townid}});
     HospitalList.limit(50);
     console.log(HospitalList.count());
     var HospitalArray = [];
@@ -1048,7 +1048,7 @@ var CheckBalanceMenuText = function (healthyPathDetails, Overpaid,Season,Credit,
             balanceMenu = Season+':\nPaid: '+Paid+'\nTotal credit: '+Credit+'\nRemaining: '+Balance + '\n' + healthyPathMessage +  '1 - Make payment';
         }
     } else{
-        healthyPathMessage = getHealthyPathMessage(Credit, Paid, 'sw');
+        healthyPathMessage = getHealthyPathMessage(healthyPathDetails.seasonId, healthyPathDetails.countryId, healthyPathDetails.districtId, Credit, Paid, 'sw');
         if(Overpaid){
             balanceMenu = Season+':\nJumla ya malipo: '+Paid+'\nJumla ya mkopo: '+Credit+'\nMalipo kwa mkopo unaofuata: '+Balance+ '\n' + healthyPathMessage + '1 - Fanya malipo';
         }else {
