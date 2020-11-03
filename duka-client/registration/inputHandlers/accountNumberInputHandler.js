@@ -44,6 +44,8 @@ module.exports = {
                     var dcr_duka_client = JSON.parse(state.vars.dcr_duka_client);
                     var registeredClient = registerClient(dcr_duka_client);
                     if(registeredClient) {
+                        client_alert.vars.duka_account_number = registeredClient.AccountNumber;
+                        notifyElk();
                         var messageToClient = getMessage('thanks_for_registering', {'$account_number': registeredClient.AccountNumber}, lang);
                         project.scheduleMessage({
                             content: messageToClient, 
