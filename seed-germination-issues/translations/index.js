@@ -44,5 +44,9 @@ module.exports = {
         '2) Second week of $month\n' +
         '3) Third week of $month\n' +
         '4) Fourth week of $month'
+    },
+    'phone_prompt': {
+        'en-ke': 'Please provide your phone number so we can follow up with you',
+        'sw': 'sw-Please provide your phone number so we can follow up with you'
     }
 };
