@@ -32,5 +32,17 @@ module.exports = {
     'months_title': {
         'en-ke': 'In which month did you plant? Select month',
         'sw': 'sw-In which month did you plant? Select month'
+    },
+    'planting_week': {
+        'en-ke': 'In which week of $month did you plant?\n' +
+        '1) First week of $month\n' +
+        '2) Second week of $month\n' +
+        '3) Third week of $month\n' +
+        '4) Fourth week of $month',
+        'sw': 'In which week of [response from 8] did you plant?\n' +
+        '1) First week of $month\n' +
+        '2) Second week of $month\n' +
+        '3) Third week of $month\n' +
+        '4) Fourth week of $month'
     }
 };
