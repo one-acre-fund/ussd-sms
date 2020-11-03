@@ -1,7 +1,7 @@
 var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
 var createSeedsMenu = require('../../shared/createMenu');
-var monthInputHandler = require('./monthInputHandler');
+var dukaInputHandler = require('./dukaInputHandler');
 
 var handlerName = 'rsgi_lot_code';
 var supported_dukas = {
@@ -30,7 +30,7 @@ module.exports = {
             state.vars.duka_screens = JSON.stringify(dukasMenu.screens);
             state.vars.current_dukas_menu = 1;
             global.sayText(dukasMenu.screens[state.vars.current_dukas_menu]);
-            global.promptDigits(monthInputHandler.handlerName);
+            global.promptDigits(dukaInputHandler.handlerName);
         };
     }
 };

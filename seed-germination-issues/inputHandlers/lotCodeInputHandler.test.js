@@ -1,5 +1,5 @@
 const lotCodeinputHandler = require('./lotCodeInputHandler');
-const monthInputHandler = require('./monthInputHandler');
+const dukaInputHandler = require('./dukaInputHandler');
 
 describe('Lotcode input handler', () => {
     it('should save the necessary state variables', () => {
@@ -23,6 +23,6 @@ describe('Lotcode input handler', () => {
         '4) Bungoma Duka\n' +
         '5) Malakisi Duka\n' +
         '77) Next');
-        expect(promptDigits).toHaveBeenCalledWith(monthInputHandler.handlerName);
+        expect(promptDigits).toHaveBeenCalledWith(dukaInputHandler.handlerName);
     });
 });

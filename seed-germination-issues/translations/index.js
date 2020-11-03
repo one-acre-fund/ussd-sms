@@ -28,5 +28,9 @@ module.exports = {
     'duka_title': {
         'en-ke': 'In which Duka did you purchase the seed?',
         'sw': 'sw-In which Duka did you purchase the seed?'
+    },
+    'months_title': {
+        'en-ke': 'In which month did you plant? Select month',
+        'sw': 'sw-In which month did you plant? Select month'
     }
 };
