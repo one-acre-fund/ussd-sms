@@ -2,6 +2,7 @@ var createSeedsMenu = require('../shared/createMenu');
 var translator = require('../utils/translator/translator');
 var translations = require('./translations/index');
 var seedBrandInputHandler = require('./inputHandlers/seedBrandInputHandler');
+var registerInputHandlers = require('./inputHandlers/registerInputHandlers');
 
 var otherOption = {
     'sw': 'Nyingine',
@@ -40,6 +41,7 @@ function seedGerminationIssues(lang) {
 }
 
 module.exports = {
+    registerInputHandlers: registerInputHandlers,
     start: seedGerminationIssues,
     otherOption: otherOption
 };

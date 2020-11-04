@@ -1,9 +1,10 @@
 const seedGerminationIssues = require('./seedGerminationIssues');
-var seedBrandInputHandler = require('./inputHandlers/seedBrandInputHandler');
+const seedBrandInputHandler = require('./inputHandlers/seedBrandInputHandler');
+const registerInputHandlers = require('./inputHandlers/registerInputHandlers');
 
 describe('seed germination issues', () => {
     it('should start the seed germination issues', () => {
-        var cursor = {hasNext: jest.fn(), next: jest.fn()};
+        const cursor = {hasNext: jest.fn(), next: jest.fn()};
         jest.spyOn(cursor, 'hasNext').mockReturnValueOnce(true);
         jest.spyOn(cursor, 'next').mockReturnValueOnce({vars: {seed_name: 'Bubayi'}});
 
@@ -24,7 +25,7 @@ describe('seed germination issues', () => {
     });
 
     it('should set the necessary state variables', () => {
-        var cursor = {hasNext: jest.fn(), next: jest.fn()};
+        const cursor = {hasNext: jest.fn(), next: jest.fn()};
         jest.spyOn(cursor, 'hasNext').mockReturnValueOnce(true);
         jest.spyOn(cursor, 'next').mockReturnValueOnce({vars: {seed_name: 'Bubayi'}});
 
@@ -43,5 +44,9 @@ describe('seed germination issues', () => {
 
     it('should export the option for Other seed brand', () => {
         expect(seedGerminationIssues.otherOption).toEqual({'en-ke': 'Other', 'sw': 'Nyingine'});
+    });
+
+    it('should export the registerInputHandlers', () => {
+        expect(seedGerminationIssues.registerInputHandlers).toEqual(registerInputHandlers);
     });
 });
