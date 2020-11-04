@@ -29,6 +29,7 @@ var rosterAPI = require('../rw-legacy/lib/roster/api');
 var dukaClient = require('../duka-client/dukaClient');
 var isCreditOfficer = require('../duka-client/checkCreditOfficer');
 var warrantyExpiration = require('../warranty-expiration/warrantyExpiration');
+var seedGerminationIssues = require('../seed-germination-issues/seedGerminationIssues');
 
 var slackLogger = require('../slack-logger/index');
 var Log = require('../logger/elk/elk-logger');
@@ -1616,6 +1617,8 @@ global.main = function () {
     promptDigits('SplashMenu', {submitOnHash: true, maxDigits: 8, timeout: 5});
 };
 
+var langWithEnke = GetLang() ? 'en-ke' : 'sw';
+
 // load input handlers
 dukaLocator.registerDukaLocatorHandlers({lang: GetLang() ? 'en' : 'sw'});
 transactionHistory.registerHandlers();
@@ -1624,7 +1627,7 @@ justInTime.registerHandlers();
 groupRepaymentsModule.registerGroupRepaymentHandlers({lang: GetLang() ? 'en' : 'sw', main_menu: state.vars.main_menu, main_menu_handler: 'MainMenu'});
 dukaClient.registerInputHandlers(GetLang() ? 'en-ke' : 'sw', service.vars.duka_clients_table);
 warrantyExpiration.registerHandlers();
-
+seedGerminationIssues.registerInputHandlers(langWithEnke);
 
 function reduceClientSize(client) {
     var cloned = _.clone(client);
@@ -1722,8 +1725,10 @@ addInputHandler('NonClientMenu', function(input) {
     }
     else if(sessionMenu[input-1].option_name == 'locate_oaf_duka') {
         dukaLocator.startDukaLocator({lang: GetLang() ? 'en' : 'sw'});
-    }
-    else{
+    } else if(sessionMenu[input-1].option_name === 'report_seed_quality') {
+        //start the seed germination issues
+        seedGerminationIssues.start(langWithEnke);
+    } else{
         NonClientMenuText();
         promptDigits('NonClientMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
     }

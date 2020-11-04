@@ -20,4 +20,11 @@ module.exports = [
         'end_date': project.vars.end_locate_duka,
         'start_date': project.vars.start_locate_duka
     },
+    {
+        'en-ke': 'Report Seed Quality Issue',
+        'sw': 'Ripoti suala la ubora wa mbegu',
+        'option_name': 'report_seed_quality',
+        'end_date': project.vars.end_report_seed_quality,
+        'start_date': project.vars.start_report_seed_quality
+    }
 ];
