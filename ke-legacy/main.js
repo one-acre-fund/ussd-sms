@@ -1860,6 +1860,10 @@ addInputHandler('MainMenu', function(SplashMenu){
     else if (sessionMenu[SplashMenu - 1].option_name == 'warranty_expiration') {
         warrantyExpiration.start(client.GlobalClientId, state.vars.lang);
     }
+    else if(sessionMenu[SplashMenu - 1].option_name ===  'report_seed_quality') {
+        //start the seed germination issues
+        seedGerminationIssues.start(langWithEnke);
+    }
     else{
         var arrayLength = client.BalanceHistory.length;
         var Balance = '';
