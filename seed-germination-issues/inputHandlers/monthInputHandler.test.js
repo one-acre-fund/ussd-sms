@@ -35,5 +35,6 @@ describe('month input handler', () => {
         '3) Third week of January\n' +
         '4) Fourth week of January');
         expect(promptDigits).toHaveBeenCalledWith(weekInputHandler.handlerName);
+        expect(state.vars.chosen_month).toEqual('1');
     });
 });

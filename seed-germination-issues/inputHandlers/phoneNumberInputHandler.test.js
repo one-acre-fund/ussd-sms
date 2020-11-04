@@ -21,9 +21,9 @@ describe('phone number input handler', () => {
         const tableMock = {createRow: jest.fn()};
         jest.spyOn(tableMock, 'createRow').mockReturnValueOnce(mockRow);
         jest.spyOn(project, 'getOrCreateDataTable').mockReturnValueOnce(tableMock);
-        const handler = phoneNumberInputHandler.getHandler('en-ke');
+        const handler = phoneNumberInputHandler.getHandler('en-ke', 'seed_germination_issues_table');
         handler('075663820');
-        expect(project.getOrCreateDataTable).toHaveBeenCalledWith('seed_germination_issues');
+        expect(project.getOrCreateDataTable).toHaveBeenCalledWith('seed_germination_issues_table');
         expect(tableMock.createRow).toHaveBeenCalledWith({'vars': 
         {
             'duka': 'Kakamega',

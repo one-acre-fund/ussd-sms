@@ -4,11 +4,11 @@ var translations = require('../translations/index');
 var handlerName = 'rsgi_phone';
 module.exports = {
     handlerName: handlerName,
-    getHandler: function(lang) {
+    getHandler: function(lang, seed_germination_issues_table) {
         return function(input) {
             if(input) {
                 // store the collected info into the seed germination issues
-                var table = project.getOrCreateDataTable('seed_germination_issues');
+                var table = project.getOrCreateDataTable(seed_germination_issues_table);
                 var row = table.createRow({vars: {
                     'duka': state.vars.chosen_duka,
                     'lot_code': state.vars.lot_code,

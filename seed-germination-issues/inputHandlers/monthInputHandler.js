@@ -17,7 +17,7 @@ module.exports = {
             var chosenMonth = months[chosenOption];
 
             if(chosenMonth) {
-                state.vars.chosen_month = chosenMonth;
+                state.vars.chosen_month = chosenOption;
                 var weeks_screen = getMessage('planting_week', {'$month': chosenMonth});
                 global.sayText(weeks_screen);
                 global.promptDigits(weekInputHandler.handlerName);
