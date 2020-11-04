@@ -97,7 +97,6 @@ describe.each(['en-ke', 'sw'])('create trainings menu', (lang) => {
             DistrictName: 'Duka',
             SiteName: 'NgoroNgoro'
         };
-
         var result = createMenu(lang, 'districtsTableName', clientMock);
         expect(result.screens).toEqual(expectedScreens[lang]);
         expect(result.optionValues).toEqual(expectdOptionValues);
