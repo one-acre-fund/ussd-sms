@@ -5,7 +5,7 @@ var lotCodeInputHandler = require('./lotCodeInputHandler');
 var monthInputHandler = require('./monthInputHandler');
 
 var handlerName = 'rsgi_duka';
-var months = {
+var months = { 'en-ke': {
     '1': 'January',
     '2': 'February',
     '3': 'March',
@@ -17,7 +17,20 @@ var months = {
     '9': 'September',
     '10': 'October',
     '11': 'November',
-    '12': 'December'
+    '12': 'December'},
+'sw': {
+    '1': 'Januari',
+    '2': 'Februari',
+    '3': 'Machi',
+    '4': 'Aprili',
+    '5': 'Mei',
+    '6': 'Juni',
+    '7': 'Julai',
+    '8': 'Agosti',
+    '9': 'Septemba',
+    '10': 'Oktoba',
+    '11': 'Novemba',
+    '12': 'Decemba'}
 };
 module.exports = {
     months: months,
@@ -35,7 +48,7 @@ module.exports = {
                 state.vars.chosen_duka = chosen_duka;
                 var nextOption = getMessage('next_option', {}, lang);
                 var monthsTitle = getMessage('months_title', {}, lang);
-                var monthsMenu = createMenu(months, nextOption, monthsTitle);
+                var monthsMenu = createMenu(months[lang], nextOption, monthsTitle);
                 state.vars.months = JSON.stringify(monthsMenu.optionValues);
                 state.vars.months_screens = JSON.stringify(monthsMenu.screens);
                 state.vars.current_months_menu = 1;

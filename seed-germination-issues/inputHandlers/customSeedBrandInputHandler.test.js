@@ -6,7 +6,7 @@ describe.each(['en-ke', 'sw'])('custom seed brand input handler using (%s)', (la
         const handler = customSeedBrandInputHandler.getHandler(lang);
         const seedBrand = 'brand1';
         const messages = {
-            'sw': 'sw-Please write the name of the seed variety you purchased in the Duka.',
+            'sw': 'Tafadhali andika jina la aina ya mbegu uliyonunua katika Duka.',
             'en-ke': 'Please write the name of the seed variety you purchased in the Duka.'
         };
         handler(seedBrand);

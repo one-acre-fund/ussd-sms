@@ -12,7 +12,7 @@ module.exports = {
             var getMessage = translator(translations, lang);
             var months_option_values = JSON.parse(state.vars.months);
             var months_screens = JSON.parse(state.vars.months_screens); 
-            var months = dukaInputHandler.months;
+            var months = dukaInputHandler.months[lang];
             var chosenOption = months_option_values[input];
             var chosenMonth = months[chosenOption];
 
