@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
+
+### Added
+* [SER-323](https://oneacrefund.atlassian.net/browse/SER-323) RW - Rearrange the products in the system
+* [SER-322](https://oneacrefund.atlassian.net/browse/SER-322) RW - Add the maximum order per product in the system
+* [SER-318](https://oneacrefund.atlassian.net/browse/SER-318) Duka registration is not sending account number to elk as expected
+
 ### Removed
 * [SER-312](https://oneacrefund.atlassian.net/browse/SER-312) Remove all trainings except soil trainings and maize recommendation 
 

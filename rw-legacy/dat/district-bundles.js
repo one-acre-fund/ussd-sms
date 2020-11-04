@@ -113,8 +113,6 @@ module.exports = [
      "price_per_bundle":0,
      "ki":"UREA",
      "unit":"kg",
-     "Time Created":"4.11.2020 13:51:45",
-     "Last Updated":"4.11.2020 13:53:52",
      "Row ID":"DRc4688356310e2ddf"
   },
   {
@@ -172,8 +170,6 @@ module.exports = [
      "price_per_bundle":0,
      "ki":"NPK",
      "unit":"kg",
-     "Time Created":"4.11.2020 13:51:45",
-     "Last Updated":"4.11.2020 13:53:52",
      "Row ID":"DRcbe1359a8fd1497f"
   },
   {
@@ -231,8 +227,6 @@ module.exports = [
      "price_per_bundle":0,
      "ki":"Imbuto y'ibigori",
      "unit":"kg",
-     "Time Created":"4.11.2020 13:51:44",
-     "Last Updated":"4.11.2020 13:53:52",
      "Row ID":"DRd7a02213f8f62b6c"
   },
   {
@@ -290,8 +284,6 @@ module.exports = [
      "price_per_bundle":0,
      "ki":"SHS Biolite",
      "unit":"unit",
-     "Time Created":"4.11.2020 13:51:44",
-     "Last Updated":"4.11.2020 13:53:52",
      "Row ID":"DRb185788bc20790d1"
   },
   {
@@ -349,8 +341,6 @@ module.exports = [
      "price_per_bundle":0,
      "ki":"GLP Pico",
      "unit":"unit",
-     "Time Created":"4.11.2020 13:52:01",
-     "Last Updated":"4.11.2020 13:53:40",
      "Row ID":"DR6b0edd94e5a9ba52"
   },
   {
@@ -408,8 +398,6 @@ module.exports = [
      "price_per_bundle":0,
      "ki":"SKP 200 (SUNKING)",
      "unit":"unit",
-     "Time Created":"4.11.2020 13:51:44",
-     "Last Updated":"4.11.2020 13:53:52",
      "Row ID":"DRbc4705314488f8d8"
   },
   {
@@ -467,8 +455,6 @@ module.exports = [
      "price_per_bundle":0,
      "ki":"NIWA 300 XL",
      "unit":"unit",
-     "Time Created":"4.11.2020 13:52:01",
-     "Last Updated":"4.11.2020 13:53:28",
      "Row ID":"DR805b50b34a4412e5"
   },
   {
@@ -526,8 +512,6 @@ module.exports = [
      "price_per_bundle":0,
      "ki":"DLight S200",
      "unit":"unit",
-     "Time Created":"4.11.2020 13:52:06",
-     "Last Updated":"4.11.2020 13:53:40",
      "Row ID":"DRcf27364f37f788f9"
   },
   {
@@ -585,8 +569,6 @@ module.exports = [
      "price_per_bundle":0,
      "ki":"Taraveritine",
      "unit":"kg",
-     "Time Created":"4.11.2020 13:51:45",
-     "Last Updated":"4.11.2020 13:53:52",
      "Row ID":"DR7422da900746f19e"
   },
   {
@@ -644,8 +626,6 @@ module.exports = [
     "price_per_bundle":0,
     "ki":"Imbuto y' ibishyimbo",
     "unit":"kg",
-    "Time Created":"4.11.2020 13:52:29",
-    "Last Updated":"4.11.2020 13:52:31",
     "Row ID":"DR258c9a58d22c7fc6"
   },
   {
@@ -703,8 +683,6 @@ module.exports = [
      "price_per_bundle":0,
      "ki":"POV",
      "unit":"unit",
-     "Time Created":"4.11.2020 13:51:44",
-     "Last Updated":"4.11.2020 13:53:52",
      "Row ID":"DR1cd305e6dccfe1e6"
   },
   {
@@ -762,8 +740,6 @@ module.exports = [
      "price_per_bundle":0,
      "ki":"SHU",
      "unit":"unit",
-     "Time Created":"4.11.2020 13:51:44",
-     "Last Updated":"4.11.2020 13:53:52",
      "Row ID":"DR9623ecd82b5a6157"
   },
   {
@@ -821,8 +797,6 @@ module.exports = [
      "price_per_bundle":0,
      "ki":"KAR",
      "unit":"unit",
-     "Time Created":"4.11.2020 13:51:44",
-     "Last Updated":"4.11.2020 13:53:52",
      "Row ID":"DRbefe553585d2b9fa"
   },
   {
@@ -869,7 +843,7 @@ module.exports = [
      "d7646":1,
      "d8646":1,
      "d9646":1,
-     "ki":"B-TOM",
+     "en":"B-TOM",
      "fixed_price":0,
      "increment":1,
      "input_name":"TOM",
@@ -880,8 +854,6 @@ module.exports = [
      "price_per_bundle":0,
      "ki":"TOM",
      "unit":"unit",
-     "Time Created":"4.11.2020 13:51:44",
-     "Last Updated":"4.11.2020 13:53:52",
      "Row ID":"DRa716c5c78a9f4706"
   },
   {
@@ -939,8 +911,6 @@ module.exports = [
      "price_per_bundle":0,
      "ki":"TUN",
      "unit":"unit",
-     "Time Created":"4.11.2020 13:51:44",
-     "Last Updated":"4.11.2020 13:53:52",
      "Row ID":"DR567e39f6019fb8ba"
   },
   {
@@ -998,8 +968,6 @@ module.exports = [
      "price_per_bundle":0,
      "ki":"Umufuka wa pics (100kg)",
      "unit":"unit",
-     "Time Created":"4.11.2020 13:51:44",
-     "Last Updated":"4.11.2020 13:53:52",
      "Row ID":"DRe500560c6fa047bc"
   },
   {
@@ -1057,8 +1025,6 @@ module.exports = [
      "price_per_bundle":0,
      "ki":"Umufuka wa pics (50kg)",
      "unit":"unit",
-     "Time Created":"4.11.2020 13:51:44",
-     "Last Updated":"4.11.2020 13:53:52",
      "Row ID":"DRf9d08f60ee23da96"
   },
   {
@@ -1116,8 +1082,6 @@ module.exports = [
      "price_per_bundle":0,
      "ki":"Tecno T313",
      "unit":"unit",
-     "Time Created":"4.11.2020 13:52:37",
-     "Last Updated":"4.11.2020 13:53:44",
      "Row ID":"DRf90f92b329bacbb7"
   }
 ];
