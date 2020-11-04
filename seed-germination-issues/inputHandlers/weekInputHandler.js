@@ -1,6 +1,5 @@
 var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
-var phoneNumberInputHandler = require('./phoneNumberInputHandler');
 
 var handlerName = 'rsgi_week';
 var week_options = {1: 'first week', 2: 'second week', 3: 'third week', 4: 'fourth'};
@@ -8,6 +7,7 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(lang) {
         return function(input) {
+            var phoneNumberInputHandler = require('./phoneNumberInputHandler');
             input = input.replace(/\D/g, '');
             var getMessage = translator(translations, lang);
             if(week_options[input]) {

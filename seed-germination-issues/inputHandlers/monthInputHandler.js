@@ -1,13 +1,13 @@
 var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
-var dukaInputHandler = require('./dukaInputHandler');
-var weekInputHandler = require('./weekInputHandler');
 
 var handlerName = 'rsgi_month';
 module.exports = {
     handlerName: handlerName,
     getHandler: function(lang) {
         return function(input) {
+            var dukaInputHandler = require('./dukaInputHandler');
+            var weekInputHandler = require('./weekInputHandler');
             input = input.replace(/\D/g, '');
             var getMessage = translator(translations, lang);
             var months_option_values = JSON.parse(state.vars.months);
@@ -21,7 +21,7 @@ module.exports = {
                 var weeks_screen = getMessage('planting_week', {'$month': chosenMonth});
                 global.sayText(weeks_screen);
                 global.promptDigits(weekInputHandler.handlerName);
-            } else if(input == 99 && months_screens[state.vars.current_months_menu + 1]) {
+            } else if(input == 77 && months_screens[state.vars.current_months_menu + 1]) {
                 // next page
                 state.vars.current_months_menu +=1;
                 global.sayText(months_screens[state.vars.current_months_menu]);
