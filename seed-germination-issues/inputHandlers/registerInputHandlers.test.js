@@ -6,6 +6,7 @@ describe.each(['en-ke', 'sw'])('register input handlers using lang (%s)', (lang)
         const handler = jest.fn();
         jest.spyOn(customSeedBrandInputHandler, 'getHandler').mockReturnValueOnce(handler);
         registerInputHandlers(lang);
+        expect(customSeedBrandInputHandler.getHandler).toHaveBeenCalledWith(lang);
         expect(addInputHandler).toHaveBeenCalledWith(customSeedBrandInputHandler.handlerName, handler);
     });
 
@@ -14,6 +15,7 @@ describe.each(['en-ke', 'sw'])('register input handlers using lang (%s)', (lang)
         const handler = jest.fn();
         jest.spyOn(customSeedVarietyInputHandler, 'getHandler').mockReturnValueOnce(handler);
         registerInputHandlers(lang);
+        expect(customSeedVarietyInputHandler.getHandler).toHaveBeenCalledWith(lang);
         expect(addInputHandler).toHaveBeenCalledWith(customSeedVarietyInputHandler.handlerName, handler);
     });
 
@@ -22,6 +24,7 @@ describe.each(['en-ke', 'sw'])('register input handlers using lang (%s)', (lang)
         const handler = jest.fn();
         jest.spyOn(dukaInputHandler, 'getHandler').mockReturnValueOnce(handler);
         registerInputHandlers(lang);
+        expect(dukaInputHandler.getHandler).toHaveBeenCalledWith(lang);
         expect(addInputHandler).toHaveBeenCalledWith(dukaInputHandler.handlerName, handler);
     });
 
@@ -30,6 +33,7 @@ describe.each(['en-ke', 'sw'])('register input handlers using lang (%s)', (lang)
         const handler = jest.fn();
         jest.spyOn(lotCodeInputHandler, 'getHandler').mockReturnValueOnce(handler);
         registerInputHandlers(lang);
+        expect(lotCodeInputHandler.getHandler).toHaveBeenCalledWith(lang);
         expect(addInputHandler).toHaveBeenCalledWith(lotCodeInputHandler.handlerName, handler);
     });
 
@@ -38,6 +42,7 @@ describe.each(['en-ke', 'sw'])('register input handlers using lang (%s)', (lang)
         const handler = jest.fn();
         jest.spyOn(monthInputHandler, 'getHandler').mockReturnValueOnce(handler);
         registerInputHandlers(lang);
+        expect(monthInputHandler.getHandler).toHaveBeenCalledWith(lang);
         expect(addInputHandler).toHaveBeenCalledWith(monthInputHandler.handlerName, handler);
     });
 
@@ -45,7 +50,8 @@ describe.each(['en-ke', 'sw'])('register input handlers using lang (%s)', (lang)
         const phoneNumberInputHandler = require('./phoneNumberInputHandler'); 
         const handler = jest.fn();
         jest.spyOn(phoneNumberInputHandler, 'getHandler').mockReturnValueOnce(handler);
-        registerInputHandlers(lang);
+        registerInputHandlers(lang, 'seed_germination_issues_table');
+        expect(phoneNumberInputHandler.getHandler).toHaveBeenCalledWith(lang, 'seed_germination_issues_table');
         expect(addInputHandler).toHaveBeenCalledWith(phoneNumberInputHandler.handlerName, handler);
     });
 
@@ -54,6 +60,7 @@ describe.each(['en-ke', 'sw'])('register input handlers using lang (%s)', (lang)
         const handler = jest.fn();
         jest.spyOn(seedBrandInputHandler, 'getHandler').mockReturnValueOnce(handler);
         registerInputHandlers(lang);
+        expect(seedBrandInputHandler.getHandler).toHaveBeenCalledWith(lang);
         expect(addInputHandler).toHaveBeenCalledWith(seedBrandInputHandler.handlerName, handler);
     });
 
@@ -62,6 +69,7 @@ describe.each(['en-ke', 'sw'])('register input handlers using lang (%s)', (lang)
         const handler = jest.fn();
         jest.spyOn(seedVarietyInputHandler, 'getHandler').mockReturnValueOnce(handler);
         registerInputHandlers(lang);
+        expect(seedVarietyInputHandler.getHandler).toHaveBeenCalledWith(lang);
         expect(addInputHandler).toHaveBeenCalledWith(seedVarietyInputHandler.handlerName, handler);
     });
 
@@ -70,6 +78,7 @@ describe.each(['en-ke', 'sw'])('register input handlers using lang (%s)', (lang)
         const handler = jest.fn();
         jest.spyOn(weekInputHandler, 'getHandler').mockReturnValueOnce(handler);
         registerInputHandlers(lang);
+        expect(weekInputHandler.getHandler).toHaveBeenCalledWith(lang);
         expect(addInputHandler).toHaveBeenCalledWith(weekInputHandler.handlerName, handler);
     });
 });

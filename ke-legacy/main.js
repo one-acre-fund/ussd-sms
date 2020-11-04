@@ -19,6 +19,7 @@ service.vars.currency = 'KES';
 
 service.vars.topUpStart = env + '_start_top_up';
 service.vars.topUpEnd = env + '_end_top_up';
+service.vars.seed_germination_issues_table = env + '_seed_germination_issues';
 
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var transactionHistory = require('../transaction-history/transactionHistory');
@@ -1627,7 +1628,7 @@ justInTime.registerHandlers();
 groupRepaymentsModule.registerGroupRepaymentHandlers({lang: GetLang() ? 'en' : 'sw', main_menu: state.vars.main_menu, main_menu_handler: 'MainMenu'});
 dukaClient.registerInputHandlers(GetLang() ? 'en-ke' : 'sw', service.vars.duka_clients_table);
 warrantyExpiration.registerHandlers();
-seedGerminationIssues.registerInputHandlers(langWithEnke);
+seedGerminationIssues.registerInputHandlers(langWithEnke, service.vars.seed_germination_issues_table);
 
 function reduceClientSize(client) {
     var cloned = _.clone(client);

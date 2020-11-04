@@ -8,13 +8,13 @@ var seedBrandInputHandler = require('./seedBrandInputHandler');
 var seedVarietyInputHandler = require('./seedVarietyInputHandler');
 var weekInputHandler = require('./weekInputHandler');
 
-module.exports = function(lang) {
+module.exports = function(lang, seed_germination_issues_table) {
     global.addInputHandler(customSeedBrandInputHandler.handlerName, customSeedBrandInputHandler.getHandler(lang));
     global.addInputHandler(customSeedVarietyInputHandler.handlerName, customSeedVarietyInputHandler.getHandler(lang));
     global.addInputHandler(dukaInputHandler.handlerName, dukaInputHandler.getHandler(lang));
     global.addInputHandler(lotCodeInputHandler.handlerName, lotCodeInputHandler.getHandler(lang));
     global.addInputHandler(monthInputHandler.handlerName, monthInputHandler.getHandler(lang));
-    global.addInputHandler(phoneNumberInputHandler.handlerName, phoneNumberInputHandler.getHandler(lang));
+    global.addInputHandler(phoneNumberInputHandler.handlerName, phoneNumberInputHandler.getHandler(lang, seed_germination_issues_table));
     global.addInputHandler(seedBrandInputHandler.handlerName, seedBrandInputHandler.getHandler(lang));
     global.addInputHandler(seedVarietyInputHandler.handlerName, seedVarietyInputHandler.getHandler(lang));
     global.addInputHandler(weekInputHandler.handlerName, weekInputHandler.getHandler(lang));
