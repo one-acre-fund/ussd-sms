@@ -17,18 +17,18 @@ describe('seed brand input handler using', () => {
         expect(promptDigits).toHaveBeenCalledWith(seedBrandInputHandler.handlerName);
     });
 
-    it('should show the next screen if user enters 99 and it is available', () => {
-        state.vars.seeds_screens = JSON.stringify({1: 'Title\n1) option1\n99) Next', 2: '2) option2'});
+    it('should show the next screen if user enters 77 and it is available', () => {
+        state.vars.seeds_screens = JSON.stringify({1: 'Title\n1) option1\n77) Next', 2: '2) option2'});
         state.vars.seeds_option_values = JSON.stringify({1: 'option1', 2: 'option2'});
         state.vars.current_seeds_screen = 1;
         const handler = seedBrandInputHandler.getHandler('en-ke');
-        handler('99');
+        handler('77');
         expect(sayText).toHaveBeenCalledWith('2) option2');
         expect(promptDigits).toHaveBeenCalledWith(seedBrandInputHandler.handlerName);
     });
 
     it('should ask the user to enter the seed brand once they select other', () => {
-        state.vars.seeds_screens = JSON.stringify({1: 'Title\n1) option1\n99) Next', 2: '2) option2\n3) Other'});
+        state.vars.seeds_screens = JSON.stringify({1: 'Title\n1) option1\n77) Next', 2: '2) option2\n3) Other'});
         state.vars.seeds_option_values = JSON.stringify({1: 'option1', 2: 'option2', 3: 'Other'});
         state.vars.current_seeds_screen = 1;
         const handler = seedBrandInputHandler.getHandler('en-ke');
@@ -38,7 +38,7 @@ describe('seed brand input handler using', () => {
     });
 
     it('should ask the user to enter the seed brand once they select other', () => {
-        state.vars.seeds_screens = JSON.stringify({1: 'Title\n1) option1\n99) Next', 2: '2) option2\n3) Other'});
+        state.vars.seeds_screens = JSON.stringify({1: 'Title\n1) option1\n77) Next', 2: '2) option2\n3) Other'});
         state.vars.seeds_option_values = JSON.stringify({1: 'option1', 2: 'option2', 3: 'Other'});
         state.vars.current_seeds_screen = 1;
 
@@ -65,7 +65,7 @@ describe('seed brand input handler using', () => {
     });
 
     it('should save the necessary state variables', () => {
-        state.vars.seeds_screens = JSON.stringify({1: 'Title\n1) option1\n99) Next', 2: '2) option2\n3) Other'});
+        state.vars.seeds_screens = JSON.stringify({1: 'Title\n1) option1\n77) Next', 2: '2) option2\n3) Other'});
         state.vars.seeds_option_values = JSON.stringify({1: 'option1', 2: 'option2', 3: 'Other'});
         state.vars.current_seeds_screen = 1;
 

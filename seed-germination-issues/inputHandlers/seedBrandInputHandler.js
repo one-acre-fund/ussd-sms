@@ -1,16 +1,16 @@
 var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
-var seedGerminationIssues = require('../seedGerminationIssues');
 var createSeedsMenu = require('../../shared/createMenu');
 var customSeedBrandInputHandler = require('./customSeedBrandInputHandler');
 var seedVarietyInputHandle = require('./seedVarietyInputHandler');
 
-var otherOption = seedGerminationIssues.otherOption;
 var handlerName = 'rsgi_seed_brand';
 module.exports = {
     handlerName: handlerName,
     getHandler: function(lang) {
         return function(input) {
+            var seedGerminationIssues = require('../seedGerminationIssues');
+            var otherOption = seedGerminationIssues.otherOption;
             var getMessage = translator(translations, lang);
             input = input.replace(/\D/g, '');
             var seeds_option_values = JSON.parse(state.vars.seeds_option_values);
@@ -47,7 +47,7 @@ module.exports = {
                     global.sayText(varietiesScreens[state.vars.current_varieties_screen]);
                     global.promptDigits(seedVarietyInputHandle.handlerName);
                 }
-            } else if(input == 99 && seeds_screens[state.vars.current_seeds_screen + 1]) {
+            } else if(input == 77 && seeds_screens[state.vars.current_seeds_screen + 1]) {
                 // display next screen
                 state.vars.current_seeds_screen += 1;
                 global.sayText(seeds_screens[state.vars.current_seeds_screen]);
