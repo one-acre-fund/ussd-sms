@@ -12,12 +12,12 @@ describe('Duka input handler', () => {
         expect(promptDigits).toHaveBeenCalledWith(dukaInputHandler.handlerName);
     });
 
-    it('should show the next screen when user enters 99', () => {
+    it('should show the next screen when user enters 77', () => {
         state.vars.duka_option_values = JSON.stringify({1: 'kak'});
         state.vars.duka_screens = JSON.stringify({1: 'screen1', 2: 'screen2'});
         state.vars.current_dukas_menu = 1;
         const handler = dukaInputHandler.getHandler('en-ke');
-        handler('99');
+        handler('77');
         expect(sayText).toHaveBeenCalledWith('screen2');
         expect(promptDigits).toHaveBeenCalledWith(dukaInputHandler.handlerName);
     });

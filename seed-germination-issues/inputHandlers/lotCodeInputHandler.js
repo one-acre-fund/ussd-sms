@@ -1,7 +1,6 @@
 var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
 var createSeedsMenu = require('../../shared/createMenu');
-var dukaInputHandler = require('./dukaInputHandler');
 
 var handlerName = 'rsgi_lot_code';
 var supported_dukas = {
@@ -21,6 +20,7 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(lang) {
         return function(input) {
+            var dukaInputHandler = require('./dukaInputHandler');
             var getMessage = translator(translations, lang);
             state.vars.lot_code = input;
             var nextOption = getMessage('next_option', {}, lang);

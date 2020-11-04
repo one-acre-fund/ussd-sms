@@ -1,6 +1,5 @@
 var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
-var lotCodeInputHandler = require('./lotCodeInputHandler');
 
 var handlerName = 'rsgi_seed_variety';
 
@@ -8,6 +7,7 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(lang) {
         return function(input) {
+            var lotCodeInputHandler = require('./lotCodeInputHandler');
             var getMessage = translator(translations, lang);
             input = input.replace(/\D/g, '');
             var varieties_option_values = JSON.parse(state.vars.varieties_option_values);
@@ -19,7 +19,7 @@ module.exports = {
                 var lotCodePrompt = getMessage('lot_code', {}, lang);
                 global.sayText(lotCodePrompt);
                 global.promptDigits(lotCodeInputHandler.handlerName);
-            } else if(input == 99 && varieties_screens[state.vars.current_varieties_screen + 1]) {
+            } else if(input == 77 && varieties_screens[state.vars.current_varieties_screen + 1]) {
                 // display next screen
                 state.vars.current_varieties_screen += 1;
                 global.sayText(varieties_screens[state.vars.current_varieties_screen]);

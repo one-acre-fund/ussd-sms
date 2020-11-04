@@ -17,7 +17,7 @@ describe('seed variety input handler', () => {
         state.vars.varieties_screens = JSON.stringify({1: 'screen1', 2: 'screen2'});
         state.vars.current_varieties_screen = 1;
         const handler = seedVarietyInputHandler.getHandler('en-ke');
-        handler('99');
+        handler('77');
         expect(sayText).toHaveBeenCalledWith('screen2');
         expect(promptDigits).toHaveBeenCalledWith(seedVarietyInputHandler.handlerName);
         expect(state.vars.current_varieties_screen).toEqual(2);

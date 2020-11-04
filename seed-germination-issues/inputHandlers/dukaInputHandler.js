@@ -1,8 +1,6 @@
 var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
 var createMenu = require('../../shared/createMenu');
-var lotCodeInputHandler = require('./lotCodeInputHandler');
-var monthInputHandler = require('./monthInputHandler');
 
 var handlerName = 'rsgi_duka';
 var months = { 'en-ke': {
@@ -37,6 +35,8 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(lang) {
         return function(input) {
+            var lotCodeInputHandler = require('./lotCodeInputHandler');
+            var monthInputHandler = require('./monthInputHandler');
             input = input.replace(/\D/g, '');
             var getMessage = translator(translations, lang);
             var supportedDukas = lotCodeInputHandler.supported_dukas;
@@ -54,7 +54,7 @@ module.exports = {
                 state.vars.current_months_menu = 1;
                 global.sayText(monthsMenu.screens[state.vars.current_months_menu]);
                 global.promptDigits(monthInputHandler.handlerName);
-            } else if(input == 99 && duka_screens[state.vars.current_dukas_menu + 1]) {
+            } else if(input == 77 && duka_screens[state.vars.current_dukas_menu + 1]) {
                 // next page
                 state.vars.current_dukas_menu +=1;
                 global.sayText(duka_screens[state.vars.current_dukas_menu]);
