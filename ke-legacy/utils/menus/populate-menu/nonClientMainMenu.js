@@ -26,5 +26,12 @@ module.exports = [
         'option_name': 'report_seed_quality',
         'end_date': project.vars.end_report_seed_quality,
         'start_date': project.vars.start_report_seed_quality
-    }
+    },
+    {
+        'en-ke': 'Contact Call center',
+        'sw': 'Wasiliana na Huduma ya wateja',
+        'option_name': 'contact_call_center',
+        'end_date': project.vars.end_contact_call_center,
+        'start_date': project.vars.start_contact_call_center
+    },
 ];

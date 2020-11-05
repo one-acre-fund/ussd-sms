@@ -1729,6 +1729,9 @@ addInputHandler('NonClientMenu', function(input) {
     } else if(sessionMenu[input-1].option_name === 'report_seed_quality') {
         //start the seed germination issues
         seedGerminationIssues.start(langWithEnke);
+    }else if(sessionMenu[input-1].option_name === 'contact_call_center'){
+        CallCenterMenuText();
+        promptDigits('CallCenterMenu', {submitOnHash: true, maxDigits: 1, timeout: 5});
     } else{
         NonClientMenuText();
         promptDigits('NonClientMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
