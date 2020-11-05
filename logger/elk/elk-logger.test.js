@@ -157,7 +157,7 @@ describe('Logger', () => {
         const message = 'example error message';
         const tags = ['tag-1','tag-2'];
         const otherData = {any: 'thing', json: 'serializable'};
-        const errorLogPath = '/telerivet-error';
+        const errorLogPath = '/telerivet-errors';
         it('should throw an error if there is no message provided', () => {
             expect(() => {
                 logger.error();                
