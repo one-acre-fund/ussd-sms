@@ -55,6 +55,7 @@ module.exports = function( lang, max_chars){
             }
         }
         catch(error){
+            console.log('error--------------'+ error);
             admin_alert = require('./admin-alert');
             admin_alert('Options table length does not match option labeling\nError: ' + error);
             break;
@@ -63,9 +64,11 @@ module.exports = function( lang, max_chars){
     
     if(Object.keys(out_obj).length > 0){
         out_obj[loc] = out_obj[loc] = output;
+        console.log('list--------------'+ JSON.parse(out_obj));
         return out_obj;
     }
     else{
+        console.log('list--------------'+ JSON.parse(out_obj));
         return output;
     }
 }
