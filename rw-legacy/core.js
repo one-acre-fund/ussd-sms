@@ -72,7 +72,6 @@ var populate_menu = require('./lib/populate-menu');
 var geo_select = require('./lib/cta-geo-select');
 var geo_process = require('./lib/cta-geo-string-processer');
 var geo_mm_data = require('./dat/mm-agent-geography');
-var get_time = require('./lib/enr-timestamp');
 var get_client = require('./lib/enr-retrieve-client-row');
 var regSessionManager = require('./lib/enr-resume-registration');
 var group_size_satisfied = require('./lib/core-group-size-check');
@@ -334,8 +333,6 @@ addInputHandler('cor_menu_select', function (input) {
             contact.vars.account_failures = contact.vars.account_failures + 1;
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
         }
-        //var get_district_bundles = require('./lib/get-district-bundles')
-        //get_district_bundles(state.vars.client_districtId);
         if (client.vars.finalized == 1 && client.vars.geo !== 'Ruhango') { //fix next tine for generallity
             sayText(msgs('enr_order_already_finalized', {}, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
@@ -386,7 +383,6 @@ addInputHandler('cor_menu_select', function (input) {
             contact.vars.account_failures = contact.vars.account_failures + 1;
             promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
         }
-        //get_time();
     }
     else if (selection === 'enr_order_review_start') {
         var client = get_client(state.vars.account_number, an_pool,true);
@@ -430,7 +426,7 @@ addInputHandler('cor_menu_select', function (input) {
         }
         else if (client.vars.finalized !== 1 || client.vars.finalized === undefined) {
             state.vars.session_account_number = state.vars.account_number;
-            sayText(msgs('ENR_FINALIZE_TERMS_AND_CONDITION'),{},lang);
+            sayText(msgs('ENR_FINALIZE_TERMS_AND_CONDITION',{},lang));
             promptDigits('enr_terms_and_conditions', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
             
         }
@@ -922,7 +918,6 @@ addInputHandler('enr_nid_client_confirmation', function (input) {
             sayText(msgs('enr_name_1', {}, lang));
             promptDigits('enr_name_1', { 'submitOnHash': false, 'maxDigits': max_digits_for_name, 'timeout': timeout_length });    
         }
-        //get_time();
     }
     else {
         sayText(msgs('invalid_input', {}, lang));
@@ -966,7 +961,6 @@ inputHandlers['name1InputHandler'] = function (input) {
         sayText(msgs('enr_name_2', {}, lang));
         promptDigits('enr_name_2', { 'submitOnHash': false, 'maxDigits': max_digits_for_name, 'timeout': timeout_length });
     }
-    //get_time();
 };
 addInputHandler('enr_name_1', inputHandlers['name1InputHandler']);
 
@@ -995,7 +989,6 @@ inputHandlers['name2InputHandler'] = function (input) {
     state.vars.reg_name_2 = input;
     sayText(msgs('enr_pn', {}, lang));
     promptDigits('enr_pn', { 'submitOnHash': false, 'maxDigits': max_digits_for_pn, 'timeout': timeout_length });
-    //get_time();
 };
 addInputHandler('enr_name_2', inputHandlers['name2InputHandler']);
 
@@ -1025,7 +1018,6 @@ inputHandlers['phoneInputHandler'] = function (input) {
         sayText(msgs('invalid_pn_format', {}, lang));
         promptDigits('enr_pn', { 'submitOnHash': false, 'maxDigits': max_digits_for_pn, 'timeout': timeout_length });
     }
-    //get_time();
 };
 addInputHandler('enr_pn', inputHandlers['phoneInputHandler']);
 
@@ -1114,7 +1106,6 @@ addInputHandler('enr_group_id_confirmation', function (input) { //enr group lead
         promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
 
     }
-    //get_time();
 });//end registration steps input handlers
 
 addInputHandler('reg_group_constitution_confirm',function(input){
@@ -1186,8 +1177,6 @@ addInputHandler('reg_end_ordering_redirect',function(input){
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
         }
         state.vars.client_districtId = state.vars.districtId;
-        //var get_district_bundles = require('./lib/get-district-bundles')
-        //get_district_bundles(state.vars.client_districtId);
         if (client.vars.finalized == 1 && client.vars.geo !== 'Ruhango') { //fix next tine for generallity
             sayText(msgs('enr_order_already_finalized', {}, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
@@ -1270,7 +1259,7 @@ addInputHandler('enr_glvv_id', function (input) {
             return null;
         }
         else{
-            sayText(msgs('enr-group-constitution-approvement'),{},lang);
+            sayText(msgs('enr-group-constitution-approvement',{},lang));
             promptDigits('group_constitution_handler', { 'submitOnHash': false, 'maxDigits': 1, 'timeout': timeout_length });
             return null;
         }
@@ -1413,7 +1402,6 @@ addInputHandler('enr_input_splash', function (input) { //main input menu
             promptDigits('enr_input_order', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         }
     }
-    //get_time();
 });
 
 
@@ -1453,7 +1441,6 @@ addInputHandler('enr_input_order', function (input) { //input ordering function
         sayText(msgs('invalid_input', {}, lang));
         promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
     }
-    //get_time();
 });
 
 
@@ -1492,7 +1479,6 @@ addInputHandler('enr_confirm_input_order', function (input) { //input ordering c
         sayText(msgs('invalid_input', {}, lang));
         promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
     }
-    //get_time();
 });
 
 addInputHandler('enr_input_order_continue', function (input) {
@@ -1553,7 +1539,6 @@ addInputHandler('enr_input_order_continue', function (input) {
         sayText(menu)
         promptDigits('enr_input_splash', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
     }
-    //get_time();
 });
 //end input order handlers
 
@@ -1580,8 +1565,6 @@ addInputHandler('enr_order_review_continue', function (input) {
             contact.vars.account_failures = contact.vars.account_failures + 1;
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
         }
-        //var get_district_bundles = require('./lib/get-district-bundles')
-        //get_district_bundles(state.vars.client_districtId);
         if (client.vars.finalized == 1 && client.vars.geo !== 'Ruhango') { //fix next tine for generallity
             sayText(msgs('enr_order_already_finalized', {}, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
@@ -1643,7 +1626,7 @@ addInputHandler('enr_order_review_continue', function (input) {
         }
         else if (client.vars.finalized !== 1 || client.vars.finalized === undefined) {
             state.vars.session_account_number = state.vars.account_number;
-            sayText(msgs('ENR_FINALIZE_TERMS_AND_CONDITION'),{},lang);
+            sayText(msgs('ENR_FINALIZE_TERMS_AND_CONDITION',{},lang));
             promptDigits('enr_terms_and_conditions', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
             
         }
@@ -1688,7 +1671,6 @@ addInputHandler('enr_order_review_continue', function (input) {
         sayText(state.vars.main_menu);
         promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
     }
-    //get_time();
 });
 //end order review
 
@@ -1714,8 +1696,7 @@ addInputHandler('enr_finalize_verify', function (input) {
             gen_sms_review(state.vars.account_number, service.vars.input21ATable, an_pool, lang);
         }else{
             sayText(msgs('enr_not_finalized', {}, lang));
-            promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
-            //get_time();           
+            promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });           
         };
 
 
@@ -1723,7 +1704,6 @@ addInputHandler('enr_finalize_verify', function (input) {
     else {
         sayText(msgs('enr_not_finalized', {}, lang));
         promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
-        //get_time();
     }
   
 });
@@ -1741,7 +1721,7 @@ addInputHandler('enr_terms_and_conditions',function(input){
     }
     else{
         sayText(msgs('enr_not_finalized', {}, lang));
-        sayText(msgs('ENR_FINALIZE_TERMS_AND_CONDITION'),{},lang);
+        sayText(msgs('ENR_FINALIZE_TERMS_AND_CONDITION',{},lang));
         promptDigits('enr_terms_and_conditions', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
     }
     
