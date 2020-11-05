@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 ## New Version
 ### Added
 * [SER-275](https://oneacrefund.atlassian.net/browse/SER-275) As a farmer I want to be able to report seed germination issue through USSD so that it can be investigated and I can get my refund
+* [SER-330](https://oneacrefund.atlassian.net/browse/SER-330) Configure November Chicken confirmations - changed the chicken eligibility calculations and updated the cap
+
 ### Removed
 * [SER-312](https://oneacrefund.atlassian.net/browse/SER-312) Remove all trainings except soil trainings and maize recommendation 
 
