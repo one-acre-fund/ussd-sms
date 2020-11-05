@@ -30,6 +30,42 @@ describe('Last four nid digits input handler', () => {
         });
     });
 
+    it('should merge duplicate members', () => {
+        const content = JSON.stringify([{
+            firstName: 'bahati',
+            lastName: 'robben',
+            credit: 12000,
+            repaid: 5000},
+        {
+            firstName: 'bahati',
+            lastName: 'robben',
+            credit: 8000,
+            repaid: 5000},
+        {
+            firstName: 'james',
+            lastName: 'bond',
+            credit: 6000,
+            repaid: 300},
+        {
+            firstName: 'james',
+            lastName: 'bond',
+            credit: 5000,
+            repaid: 5000}]);
+        jest.spyOn(httpClient, 'request').mockReturnValue({status: 200, content });
+        global.state.vars.group_repayment_variables = JSON.stringify({lang: 'en'});
+        lastFourIdDigitsHandler('4223');
+        expect(sayText).toHaveBeenCalledWith('Group credit: 31000 RwF\n' +
+        'Group balance: 15700 RwF\n' +
+        '1) bahati robben: 10000 RwF\n' +
+        '2) james bond: 5700 RwF\n' +
+        '44) Go back');
+        expect(promptDigits).toHaveBeenCalledWith('view_individual_balance_menu', {
+            submitOnHash: false,
+            maxDigits: 2,
+            timeout: 5
+        });
+    });
+    
     it('should handle incorect input', () => {
         global.state.vars.group_repayment_variables = JSON.stringify({lang: 'en'});
         lastFourIdDigitsHandler('5334');
