@@ -37,7 +37,10 @@ module.exports = function( lang, max_chars){
 
     var out_obj = {};
     var loc = 0;
+    console.log(Object.keys(option_numbers)+'##############');
+    console.log(JSON.stringify(option_numbers)+'##############');
     for(var x = 1; x <= Object.keys(option_numbers).length; x++){
+        console.log('!!!!!!!!!!!!!!!!'+row[lang]+ lang+option_numbers);
         try{
             var row = bundles.filter(function (r) { return r.option_number === x; })[0]
 
@@ -64,11 +67,11 @@ module.exports = function( lang, max_chars){
     
     if(Object.keys(out_obj).length > 0){
         out_obj[loc] = out_obj[loc] = output;
-        console.log('list--------------'+ JSON.parse(out_obj));
+        console.log('list--------------'+ JSON.stringify(out_obj));
         return out_obj;
     }
     else{
-        console.log('list--------------'+ JSON.parse(output));
+        console.log('list--------------'+ output);
         return output;
     }
 }
