@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
+
+
+## v1.0.7
+### Fixed
+* [SER-328](https://oneacrefund.atlassian.net/browse/SER-328) USSD Failing when group size is too big
+
 ## v1.0.6
 ### Fixed
 * [SER-315](https://oneacrefund.atlassian.net/browse/SER-315) USSD sessions failing on API request
