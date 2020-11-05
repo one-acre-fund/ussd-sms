@@ -182,7 +182,7 @@ RosterAPI.prototype.request = function(path, opts) {
     // 300s - redirects
     // 400s/500s - errors
     if (response.status >= 300) {
-        logger.error('API Error calling roster', {tags: ['roster', 'API error > 300'], data: response});
+        logger.error('API Error calling roster', {tags: ['roster', 'API error > 300'], data: {response: response, requestData: opts, url: fullURL}});
         throw new HttpError(fullURL, opts, response);
     }
 
@@ -281,12 +281,12 @@ RosterAPI.prototype.authClient = function(accountNumber, countryOrPhone, account
     } catch (err) {
 
         if (!(err instanceof HttpError)) {
-            logger.error('unknown error: NOT HTTP', {tags: ['API', 'http'], data: err});
+            logger.error('unknown error: NOT HTTP', {tags: ['API', 'http'], data: {error: err, requestData: opts, url: path}});
             throw err;
         }
 
         if (!(err.status === 403)) {
-            logger.error('Forbiden', {tags: ['403', 'permission', 'http', 'api'], data: err});
+            logger.error('Forbiden', {tags: ['403', 'permission', 'http', 'api'], data: {error: err, requestData: opts, url: path}});
             throw err;
         }
 

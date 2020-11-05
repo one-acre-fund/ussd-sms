@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
+## v1.0.6
+### Fixed
+* [SER-315](https://oneacrefund.atlassian.net/browse/SER-315) USSD sessions failing on API request
 
 ## v1.0.5
 ### Removed
