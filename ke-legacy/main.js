@@ -1729,6 +1729,9 @@ addInputHandler('NonClientMenu', function(input) {
     } else if(sessionMenu[input-1].option_name === 'report_seed_quality') {
         //start the seed germination issues
         seedGerminationIssues.start(langWithEnke);
+    }else if(sessionMenu[input-1].option_name === 'contact_call_center'){
+        CallCenterMenuText();
+        promptDigits('CallCenterMenu', {submitOnHash: true, maxDigits: 1, timeout: 5});
     } else{
         NonClientMenuText();
         promptDigits('NonClientMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
@@ -2196,8 +2199,8 @@ addInputHandler('FOLocSite', function(Site) {
         var reason = 'Site not known to non client on FO Locator';
         var sub = 'Call back requested for: ' + reason +' phone number: '+ contact.phone_number;
         var create_zd_ticket = require('ext/zd-tr/lib/create-ticket');
-
-        if(create_zd_ticket(contact.phone_number, sub, contact.phone_number)){
+        var tags = ['site', 'field officer', 'site locator'];
+        if(create_zd_ticket(contact.phone_number, sub, contact.phone_number, tags)){
             console.log('created_ticket!');
             CallMeBackFOLOcatorConfirmText();
             hangUp();
@@ -2938,7 +2941,8 @@ addInputHandler('CallBackPN', function(Input){
     }
     else if (Input =='1'){
         var sub = 'Call back requested for: ' + state.vars.issuetype +' account number : '+ client.AccountNumber+ 'With phonenumber: '+ contact.phone_number;
-        if(create_zd_ticket(client.AccountNumber, sub, contact.phone_number)){
+        var tags = ['kenya', state.vars.issuetype, 'SerialCode'];
+        if(create_zd_ticket(client.AccountNumber, sub, contact.phone_number, tags)){
             console.log('created_ticket!');
             CallMeBackConfirmText();
             promptDigits('BackToMain', {submitOnHash: true, maxDigits: 1, timeout: 5});
@@ -3190,7 +3194,9 @@ addInputHandler('StaffIssueLowlevel', function(input) {
 //input handler for creating a call back request
 addInputHandler('CallCenterMenu', function(input) {
     LogSessionID();
-    var client = JSON.parse(state.vars.client);
+    // adding something unique to the account number in case the user is a non client
+    var userDetails = state.vars.client || JSON.stringify({AccountNumber: 'NonClient' + contact.phone_number});
+    var client = JSON.parse(userDetails);
     InteractionCounter('CallCenterMenu');
     var menu_options = {
         1: 'Payment Issue',
@@ -3209,13 +3215,21 @@ addInputHandler('CallCenterMenu', function(input) {
         }
         else{
             var create_zd_ticket = require('ext/zd-tr/lib/create-ticket');
-
-            if(create_zd_ticket(client.AccountNumber, sub, contact.phone_number)){
+            var ticketTags = [menu_options[input], 'kenya', 'CallBackUSSD'];
+            if(create_zd_ticket(client.AccountNumber, sub, contact.phone_number, ticketTags)){
                 console.log('created_ticket!');
                 CallMeBackConfirmText();
                 hangUp();
             }
             else{
+                logger.error('zendesk ticket creation failed for' + client.AccountNumber, {
+                    tags: ['zendesk', 'ke-legacy', menu_options[input]],
+                    data: {
+                        reportedIssue: sub,
+                        phone: contact.phone_number,
+                        requester: client.AccountNumber, 
+                    }
+                });
                 console.log('create_ticket failed on ' + client.AccountNumber);
                 CallCenterMenuText();
                 promptDigits('CallCenterMenu', {submitOnHash: true, maxDigits: 1, timeout: 5});
