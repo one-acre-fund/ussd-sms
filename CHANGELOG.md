@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.0.9
 ### Added
 * [SER-323](https://oneacrefund.atlassian.net/browse/SER-323) RW - Rearrange the products in the system
 * [SER-322](https://oneacrefund.atlassian.net/browse/SER-322) RW - Add the maximum order per product in the system
