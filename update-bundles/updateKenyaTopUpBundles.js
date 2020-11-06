@@ -20,7 +20,7 @@ if(service.vars.env == 'prod'){
 
 }
 else{
-    service.vars.inputTableId = 'DT545a7c5683114b75';
+    service.vars.inputTableId = 'DT10100573dc5228e2'//'DT545a7c5683114b75';
 
 }
 
