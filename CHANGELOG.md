@@ -10,6 +10,10 @@ All notable changes to this project will be documented in this file.
 * [SER-277](https://oneacrefund.atlassian.net/browse/SER-277) As a OAF non client, I want to be able to access CE services through the USSD system so that I can report issues.
 * [SER-275](https://oneacrefund.atlassian.net/browse/SER-275) As a farmer I want to be able to report seed germination issue through USSD so that it can be investigated and I can get my refund
 
+## v1.0.8
+### Fixed
+* [SER-331](https://oneacrefund.atlassian.net/browse/SER-331) Duka-client sessions failing
+
 ## v1.0.7
 ### Fixed
 * [SER-328](https://oneacrefund.atlassian.net/browse/SER-328) USSD Failing when group size is too big
