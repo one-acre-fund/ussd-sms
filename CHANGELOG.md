@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.0.8
+### Fixed
+* [SER-331](https://oneacrefund.atlassian.net/browse/SER-331) Duka-client sessions failing
 
 ## v1.0.7
 ### Fixed
