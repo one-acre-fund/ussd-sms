@@ -3194,7 +3194,7 @@ addInputHandler('StaffIssueLowlevel', function(input) {
 addInputHandler('CallCenterMenu', function(input) {
     LogSessionID();
     // adding something unique to the account number in case the user is a non client
-    var userDetails = state.vars.client || JSON.stringify({AccountNumber: 'Non Client, Phone: ' + contact.phone_number});
+    var userDetails = state.vars.client || JSON.stringify({AccountNumber: 'NonClient' + contact.phone_number});
     var client = JSON.parse(userDetails);
     InteractionCounter('CallCenterMenu');
     var menu_options = {
