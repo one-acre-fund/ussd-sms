@@ -3193,7 +3193,9 @@ addInputHandler('StaffIssueLowlevel', function(input) {
 //input handler for creating a call back request
 addInputHandler('CallCenterMenu', function(input) {
     LogSessionID();
-    var client = JSON.parse(state.vars.client);
+    // adding something unique to the account number in case the user is a non client
+    var userDetails = state.vars.client || JSON.stringify({AccountNumber: 'Non Client, Phone: ' + contact.phone_number});
+    var client = JSON.parse(userDetails);
     InteractionCounter('CallCenterMenu');
     var menu_options = {
         1: 'Payment Issue',
@@ -3219,6 +3221,14 @@ addInputHandler('CallCenterMenu', function(input) {
                 hangUp();
             }
             else{
+                logger.error('zendesk ticket creation failed for' + client.AccountNumber, {
+                    tags: ['zendesk', 'ke-legacy', menu_options[input]],
+                    data: {
+                        reportedIssue: sub,
+                        phone: contact.phone_number,
+                        requester: client.AccountNumber, 
+                    }
+                });
                 console.log('create_ticket failed on ' + client.AccountNumber);
                 CallCenterMenuText();
                 promptDigits('CallCenterMenu', {submitOnHash: true, maxDigits: 1, timeout: 5});
