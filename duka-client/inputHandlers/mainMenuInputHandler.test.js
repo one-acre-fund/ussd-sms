@@ -4,10 +4,8 @@ const registration = require('../registration/registration');
 describe('main menu input handler', () => {
     it('should reprompt for choosing a service once the user chooses a wrong option', () => {
         const mainMenuHandler = mainMenuInputHandler.getHandler('en-ke');
-        const main_menu = 'choose service\n1) Register client';
-        state.vars.main_menu = main_menu;
         mainMenuHandler('A');
-        expect(sayText).toHaveBeenCalledWith(main_menu);
+        expect(sayText).toHaveBeenCalledWith('1) Register Client');
         expect(promptDigits).toHaveBeenCalledWith(mainMenuInputHandler.handlerName, {'maxDigits': 2, 'submitOnHash': false});
     });
 
