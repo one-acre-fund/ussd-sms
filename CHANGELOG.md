@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 * [SER-323](https://oneacrefund.atlassian.net/browse/SER-323) RW - Rearrange the products in the system
 * [SER-322](https://oneacrefund.atlassian.net/browse/SER-322) RW - Add the maximum order per product in the system
 * [SER-318](https://oneacrefund.atlassian.net/browse/SER-318) Duka registration is not sending account number to elk as expected
-
+* [SER-275](https://oneacrefund.atlassian.net/browse/SER-275) As a farmer I want to be able to report seed germination issue through USSD so that it can be investigated and I can get my refund
 ### Removed
 * [SER-312](https://oneacrefund.atlassian.net/browse/SER-312) Remove all trainings except soil trainings and maize recommendation 
 
