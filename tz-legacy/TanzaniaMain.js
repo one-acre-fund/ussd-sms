@@ -229,7 +229,8 @@ addInputHandler('SplashMenu', function(SplashMenu) {
     if (SplashMenu == 3){
         var create_zd_ticket = require('ext/zd-tr/lib/create-ticket');
         var sub = 'USSD - Call back request';
-        if(create_zd_ticket('Unknown', sub, contact.phone_number)){
+        var ticketTags = ['USSD - Call back request', 'Tanzania'];
+        if(create_zd_ticket('Unknown', sub, contact.phone_number, ticketTags)){
             console.log('created_ticket!');
             CallBackConfirmNoBackText();
             hangUp();
@@ -294,7 +295,8 @@ addInputHandler('MainMenu', function(MainMenu) {
         var client = JSON.parse(state.vars.client);
 
         var sub = 'USSD - Call back request';
-        if(create_zd_ticket(client.AccountNumber, sub, contact.phone_number)){
+        var ticketTags = ['tanzania', sub];
+        if(create_zd_ticket(client.AccountNumber, sub, contact.phone_number, ticketTags)){
             console.log('created_ticket!');
             CallBackConfirmText();
             promptDigits('BackToMain', {submitOnHash: true, maxDigits: 1, timeout: 5});

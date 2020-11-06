@@ -62,7 +62,7 @@ module.exports = function(gid){
         throw 'ERROR: null group code';
     }
     else if((districtId != null) && (siteId != null) & (groupId != null)){
-        return {'districtId': districtId, 'siteId': siteId, 'groupId': groupId};
+        return JSON.stringify({'districtId': districtId, 'siteId': siteId, 'groupId': groupId});
 
     }
     else{

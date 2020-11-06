@@ -38,9 +38,9 @@ module.exports = function( lang, max_chars){
     var out_obj = {};
     var loc = 0;
     for(var x = 1; x <= Object.keys(option_numbers).length; x++){
+        
         try{
             var row = bundles.filter(function (r) { return r.option_number === x; })[0]
-
             if(row && row["d"+state.vars.client_districtId] == 1){
                 var temp_out = output + row['option_number']+ ")" + row[lang] + '\n';
                 if(temp_out.length < max_chars){

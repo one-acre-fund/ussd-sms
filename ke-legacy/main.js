@@ -19,6 +19,7 @@ service.vars.currency = 'KES';
 
 service.vars.topUpStart = env + '_start_top_up';
 service.vars.topUpEnd = env + '_end_top_up';
+service.vars.seed_germination_issues_table = env + '_seed_germination_issues';
 
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var transactionHistory = require('../transaction-history/transactionHistory');
@@ -29,6 +30,7 @@ var rosterAPI = require('../rw-legacy/lib/roster/api');
 var dukaClient = require('../duka-client/dukaClient');
 var isCreditOfficer = require('../duka-client/checkCreditOfficer');
 var warrantyExpiration = require('../warranty-expiration/warrantyExpiration');
+var seedGerminationIssues = require('../seed-germination-issues/seedGerminationIssues');
 
 var slackLogger = require('../slack-logger/index');
 var Log = require('../logger/elk/elk-logger');
@@ -1616,6 +1618,8 @@ global.main = function () {
     promptDigits('SplashMenu', {submitOnHash: true, maxDigits: 8, timeout: 5});
 };
 
+var langWithEnke = GetLang() ? 'en-ke' : 'sw';
+
 // load input handlers
 dukaLocator.registerDukaLocatorHandlers({lang: GetLang() ? 'en' : 'sw'});
 transactionHistory.registerHandlers();
@@ -1624,7 +1628,7 @@ justInTime.registerHandlers();
 groupRepaymentsModule.registerGroupRepaymentHandlers({lang: GetLang() ? 'en' : 'sw', main_menu: state.vars.main_menu, main_menu_handler: 'MainMenu'});
 dukaClient.registerInputHandlers(GetLang() ? 'en-ke' : 'sw', service.vars.duka_clients_table);
 warrantyExpiration.registerHandlers();
-
+seedGerminationIssues.registerInputHandlers(langWithEnke, service.vars.seed_germination_issues_table);
 
 function reduceClientSize(client) {
     var cloned = _.clone(client);
@@ -1722,8 +1726,13 @@ addInputHandler('NonClientMenu', function(input) {
     }
     else if(sessionMenu[input-1].option_name == 'locate_oaf_duka') {
         dukaLocator.startDukaLocator({lang: GetLang() ? 'en' : 'sw'});
-    }
-    else{
+    } else if(sessionMenu[input-1].option_name === 'report_seed_quality') {
+        //start the seed germination issues
+        seedGerminationIssues.start(langWithEnke);
+    }else if(sessionMenu[input-1].option_name === 'contact_call_center'){
+        CallCenterMenuText();
+        promptDigits('CallCenterMenu', {submitOnHash: true, maxDigits: 1, timeout: 5});
+    } else{
         NonClientMenuText();
         promptDigits('NonClientMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
@@ -1854,6 +1863,10 @@ addInputHandler('MainMenu', function(SplashMenu){
     }
     else if (sessionMenu[SplashMenu - 1].option_name == 'warranty_expiration') {
         warrantyExpiration.start(client.GlobalClientId, state.vars.lang);
+    }
+    else if(sessionMenu[SplashMenu - 1].option_name ===  'report_seed_quality') {
+        //start the seed germination issues
+        seedGerminationIssues.start(langWithEnke);
     }
     else{
         var arrayLength = client.BalanceHistory.length;
@@ -2186,8 +2199,8 @@ addInputHandler('FOLocSite', function(Site) {
         var reason = 'Site not known to non client on FO Locator';
         var sub = 'Call back requested for: ' + reason +' phone number: '+ contact.phone_number;
         var create_zd_ticket = require('ext/zd-tr/lib/create-ticket');
-
-        if(create_zd_ticket(contact.phone_number, sub, contact.phone_number)){
+        var tags = ['site', 'field officer', 'site locator'];
+        if(create_zd_ticket(contact.phone_number, sub, contact.phone_number, tags)){
             console.log('created_ticket!');
             CallMeBackFOLOcatorConfirmText();
             hangUp();
@@ -2928,7 +2941,8 @@ addInputHandler('CallBackPN', function(Input){
     }
     else if (Input =='1'){
         var sub = 'Call back requested for: ' + state.vars.issuetype +' account number : '+ client.AccountNumber+ 'With phonenumber: '+ contact.phone_number;
-        if(create_zd_ticket(client.AccountNumber, sub, contact.phone_number)){
+        var tags = ['kenya', state.vars.issuetype, 'SerialCode'];
+        if(create_zd_ticket(client.AccountNumber, sub, contact.phone_number, tags)){
             console.log('created_ticket!');
             CallMeBackConfirmText();
             promptDigits('BackToMain', {submitOnHash: true, maxDigits: 1, timeout: 5});
@@ -3180,7 +3194,9 @@ addInputHandler('StaffIssueLowlevel', function(input) {
 //input handler for creating a call back request
 addInputHandler('CallCenterMenu', function(input) {
     LogSessionID();
-    var client = JSON.parse(state.vars.client);
+    // adding something unique to the account number in case the user is a non client
+    var userDetails = state.vars.client || JSON.stringify({AccountNumber: 'NonClient' + contact.phone_number});
+    var client = JSON.parse(userDetails);
     InteractionCounter('CallCenterMenu');
     var menu_options = {
         1: 'Payment Issue',
@@ -3199,13 +3215,21 @@ addInputHandler('CallCenterMenu', function(input) {
         }
         else{
             var create_zd_ticket = require('ext/zd-tr/lib/create-ticket');
-
-            if(create_zd_ticket(client.AccountNumber, sub, contact.phone_number)){
+            var ticketTags = [menu_options[input], 'kenya', 'CallBackUSSD'];
+            if(create_zd_ticket(client.AccountNumber, sub, contact.phone_number, ticketTags)){
                 console.log('created_ticket!');
                 CallMeBackConfirmText();
                 hangUp();
             }
             else{
+                logger.error('zendesk ticket creation failed for' + client.AccountNumber, {
+                    tags: ['zendesk', 'ke-legacy', menu_options[input]],
+                    data: {
+                        reportedIssue: sub,
+                        phone: contact.phone_number,
+                        requester: client.AccountNumber, 
+                    }
+                });
                 console.log('create_ticket failed on ' + client.AccountNumber);
                 CallCenterMenuText();
                 promptDigits('CallCenterMenu', {submitOnHash: true, maxDigits: 1, timeout: 5});
