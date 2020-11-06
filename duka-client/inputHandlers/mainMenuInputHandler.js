@@ -12,8 +12,8 @@ module.exports = {
             if(input == 1) {
                 registration.start(lang);
             } else {
-                sayText(getMessage('register_client', {'$label': 1}, lang));
-                promptDigits(handlerName, {
+                global.sayText(getMessage('register_client', {'$label': 1}, lang));
+                global.promptDigits(handlerName, {
                     maxDigits: 2,
                     submitOnHash: false,
                 });
