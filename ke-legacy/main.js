@@ -2199,8 +2199,8 @@ addInputHandler('FOLocSite', function(Site) {
         var reason = 'Site not known to non client on FO Locator';
         var sub = 'Call back requested for: ' + reason +' phone number: '+ contact.phone_number;
         var create_zd_ticket = require('ext/zd-tr/lib/create-ticket');
-
-        if(create_zd_ticket(contact.phone_number, sub, contact.phone_number)){
+        var tags = ['site', 'field officer', 'site locator'];
+        if(create_zd_ticket(contact.phone_number, sub, contact.phone_number, tags)){
             console.log('created_ticket!');
             CallMeBackFOLOcatorConfirmText();
             hangUp();
@@ -2941,7 +2941,8 @@ addInputHandler('CallBackPN', function(Input){
     }
     else if (Input =='1'){
         var sub = 'Call back requested for: ' + state.vars.issuetype +' account number : '+ client.AccountNumber+ 'With phonenumber: '+ contact.phone_number;
-        if(create_zd_ticket(client.AccountNumber, sub, contact.phone_number)){
+        var tags = ['kenya', state.vars.issuetype, 'SerialCode'];
+        if(create_zd_ticket(client.AccountNumber, sub, contact.phone_number, tags)){
             console.log('created_ticket!');
             CallMeBackConfirmText();
             promptDigits('BackToMain', {submitOnHash: true, maxDigits: 1, timeout: 5});
@@ -3214,8 +3215,8 @@ addInputHandler('CallCenterMenu', function(input) {
         }
         else{
             var create_zd_ticket = require('ext/zd-tr/lib/create-ticket');
-
-            if(create_zd_ticket(client.AccountNumber, sub, contact.phone_number)){
+            var ticketTags = [menu_options[input], 'kenya', 'CallBackUSSD'];
+            if(create_zd_ticket(client.AccountNumber, sub, contact.phone_number, ticketTags)){
                 console.log('created_ticket!');
                 CallMeBackConfirmText();
                 hangUp();
