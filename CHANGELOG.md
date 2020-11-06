@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 ### Added
+* [SER-277](https://oneacrefund.atlassian.net/browse/SER-277) As a OAF non client, I want to be able to access CE services through the USSD system so that I can report issues.
+### Added
 * [SER-275](https://oneacrefund.atlassian.net/browse/SER-275) As a farmer I want to be able to report seed germination issue through USSD so that it can be investigated and I can get my refund
 ### Removed
 * [SER-312](https://oneacrefund.atlassian.net/browse/SER-312) Remove all trainings except soil trainings and maize recommendation 
