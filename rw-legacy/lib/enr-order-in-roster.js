@@ -66,7 +66,6 @@ module.exports = function (account_number,  client_id, clientTable) {
     console.log('####Account number: ' + account_number);
     var cursor = clientEnrollmentTable.queryRows({ vars: { 'accountNumber': account_number} });
     var bundleInputs = {};
-
     var allRows = cursor.all().reverse();
 
     var noDuplicates = _.uniq(allRows,false,function(row){

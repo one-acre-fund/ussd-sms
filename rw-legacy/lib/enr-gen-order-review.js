@@ -70,7 +70,7 @@ function core_prepayment_calc(client_row, input_menu_name){
     throw 'Passing on prepayment for the moment here';
 }
 
-module.exports = function(account_number, input_menu_name, an_table, lang, max_chars){ //here there be tygers
+module.exports = function(account_number, input_menu_name, current_orders, an_table, lang, max_chars){ //here there be tygers
     var get_client = require('./enr-retrieve-client-row');
     var client = get_client(account_number, an_table);
     max_chars = max_chars || 130;
@@ -99,12 +99,25 @@ module.exports = function(account_number, input_menu_name, an_table, lang, max_c
     var outobj = {}
     var loc = 0;
     var hasNoOrder = true;
+    var currentOrders = current_orders ? JSON.parse(current_orders) : [];
     for(prod in products){
         var prod_row = input_table.queryRows({'vars' : {'bundle_name' : prod}}).next();
         var bundle_name = prod_row.vars['bundle_name'].replace(/ /g,"_");
-        if(parseFloat(client.vars[bundle_name]) > 0){
+
+        var bundleQuantityStr = '';
+        var bundleQuantity = 0;
+        if (currentOrders[bundle_name]) {
+            bundleQuantity = parseFloat(currentOrders[bundle_name].quantity);
+            bundleQuantityStr = currentOrders[bundle_name].quantity;
+        } else {
+            bundleQuantityStr = client.vars[bundle_name];
+            bundleQuantity = parseFloat(client.vars[bundle_name]);
+        }
+
+        if(bundleQuantity > 0){
             hasNoOrder = false;
-            var tempstr = prod_row.vars[lang]+':'+client.vars[bundle_name]+' ' +prod_row.vars.unit+' - '+(parseFloat(client.vars[bundle_name])*parseFloat(prod_row.vars.price))+'RWF';
+            var prodPrice = parseFloat(prod_row.vars.price);
+            var tempstr = prod_row.vars[lang]+':'+bundleQuantityStr+' ' +prod_row.vars.unit+' - '+(bundleQuantity * prodPrice)+'RWF';
             var currentMenu = outstr + tempstr  + '\n';
             if(currentMenu.length < max_chars){
                 outstr =  outstr + tempstr  + '\n';

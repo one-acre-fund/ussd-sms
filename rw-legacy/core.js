@@ -23,6 +23,7 @@ service.vars.currency = 'RwF';
 service.vars.roster_read_key = project.vars.roster_read_key;
 
 var account_splash_menu_name = '';
+var lang = project.vars.cor_lang;
 if(env === 'prod'){
     service.vars.season_clients_table = project.vars.season_clients_table;
     service.vars.client_enrollment_table = project.vars.client_enrollment_data;
@@ -53,6 +54,7 @@ if(env === 'prod'){
     service.vars.avocado_table_id = 'DT32fb8b273aacf654';
     service.vars.chicken_table_id = 'DT8c3e091b499f1726';
     service.vars.rw_reg_client_table_id = 'DT41914a4d2dc6a29f';
+    lang = service.vars.lang || 'ki';
 }
 
 var client_table = project.initDataTableById(service.vars['21a_client_data_id']);
@@ -82,7 +84,6 @@ var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 var avocadoTreesOrdering = require('../avocado-trees-ordering/avocadoTreesOrdering');
 var clientRegistration = require('../client-registration/clientRegistration');
 //options
-const lang = project.vars.cor_lang;
 const max_digits_for_input = project.vars.max_digits; //only for testing
 //const max_digits_for_nid = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits_nid'}}).next().vars.value); 
 const max_digits_for_account_number = project.vars.max_digits_an;
@@ -1425,55 +1426,26 @@ addInputHandler('enr_input_order', function (input) { //input ordering function
         promptDigits('enr_input_order', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
     }
     else if (input % product_deets.increment === 0) {
+        var currentOrders = state.vars.current_orders ? JSON.parse(state.vars.current_orders) : {};
+        currentOrders[product_deets.bundle_name] = {
+            bundleId : product_deets.bundleId,
+            bundleInputId : product_deets.bundleInputId,
+            quantity : input
+        };
+
+        state.vars.current_orders = JSON.stringify(currentOrders);
+
         var format_order_message = require('./lib/enr-format-input-message');
         state.vars.current_input_quantity = input;
         var input_confirm_opts = format_order_message(input, product_deets, lang);
-        var input_confirm_msg = msgs('enr_confirm_input_order', input_confirm_opts, lang);
+        var input_confirm_msg = msgs('enr_add_input_to_order', input_confirm_opts, lang);
         state.vars.current_menu_str = input_confirm_msg;
         sayText(input_confirm_msg);
-        promptDigits('enr_confirm_input_order', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
+        promptDigits('enr_input_order_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
     }
     else if (input % product_deets.increment !== 0) {
         sayText(msgs('enr_bad_input_increment', {}, lang));
         promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
-    }
-    else {
-        sayText(msgs('invalid_input', {}, lang));
-        promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
-    }
-});
-
-
-addInputHandler('enr_confirm_input_order', function (input) { //input ordering confirmation
-    notifyELK();
-    state.vars.current_step = 'enr_confirm_input_order'
-    input = parseInt(input.replace(/\D/g, ''));
-    if (input === 99) {
-        sayText(msgs('exit', {}, lang));
-        stopRules();
-        return null;
-    }
-    else if (input === 44) {
-        if (state.vars.multiple_input_menus) {
-            var menu = JSON.parse(state.vars.input_menu)[0];
-        }
-        else {
-            var menu = state.vars.input_menu;
-        }
-        state.vars.current_menu_str = menu;
-        sayText(menu)
-        promptDigits('enr_input_splash', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
-    }
-    else if (input === 1) {
-        var log_input_order = require('./lib/enr-log-input-order');
-        var add_input_to_orders_table = require('./lib/add_input_to_orders_table');
-        var product_deets = JSON.parse(state.vars.product_deets)
-        console.log('product deets : ' + JSON.stringify(product_deets));
-        var bundle_name = product_deets.bundle_name;
-        log_input_order(state.vars.session_account_number, an_pool, bundle_name, state.vars.current_input_quantity)
-        add_input_to_orders_table(state.vars.session_account_number, product_deets.bundleId, product_deets.bundleInputId, state.vars.current_input_quantity)
-        sayText(msgs('enr_input_order_success', { '$NAME': product_deets[lang] }, lang));
-        promptDigits('enr_input_order_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
     }
     else {
         sayText(msgs('invalid_input', {}, lang));
@@ -1499,7 +1471,7 @@ addInputHandler('enr_input_order_continue', function (input) {
         }
         else {
             var gen_input_review = require('./lib/enr-gen-order-review'); //todo: add prepayment calc
-            var input_review_menu = gen_input_review(state.vars.account_number, service.vars.input21ATable, an_pool, lang);
+            var input_review_menu = gen_input_review(state.vars.account_number, service.vars.input21ATable, state.vars.current_orders, an_pool, lang);
             if(input_review_menu == null){
                 var review_msg = msgs('no_produts_msg',{},lang);
                 sayText(review_msg);
@@ -1558,66 +1530,6 @@ addInputHandler('enr_order_review_continue', function (input) {
         return null;
     }
     else if(input == 1){
-        state.vars.multiple_input_menus = 1;
-        var client = get_client(state.vars.account_number, an_pool, true);
-        if (client === null || client.vars.registered == 0) {
-            sayText(msgs('account_number_not_found', {}, lang));
-            contact.vars.account_failures = contact.vars.account_failures + 1;
-            promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
-        }
-        if (client.vars.finalized == 1 && client.vars.geo !== 'Ruhango') { //fix next tine for generallity
-            sayText(msgs('enr_order_already_finalized', {}, lang));
-            promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
-        }
-        else if (client.vars.registered == 1) {
-            // if client does not have a glvv id entered, prompt them to enter it before continuing
-            var glvv_check = client.vars.glus || state.vars.glus;
-            if (glvv_check == null || glvv_check == 0) {
-                sayText(msgs('enr_missing_glvv', {}, lang));
-                promptDigits('enr_glvv_id', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
-                return null;
-            }
-            // save glvv in client row
-            client.vars.glus = state.vars.glus;
-            client.save();
-            // check if client is a group leader
-            var gl_check = require('./lib/enr-group-leader-check');
-            var is_gl = gl_check(state.vars.account_number, state.vars.glus, an_pool, glus_pool);
-            // continue with order steps
-            state.vars.session_authorized = true;
-            state.vars.session_account_number = state.vars.account_number;
-            state.vars.client_geo = client.vars.geo;
-            //var prod_menu_select = require('./lib/enr-select-product-menu');
-            //var product_menu_table_name = prod_menu_select(state.vars.client_geo, geo_menu_map);
-            var product_menu_table_name = service.vars.input21ATable;
-            state.vars.product_menu_table_name = product_menu_table_name;
-            var populate_district_inputs_menu = require('./lib/populate-input-menu-by-district');
-            var menu = populate_district_inputs_menu(lang);
-            if (typeof (menu) == 'string') {
-                state.vars.current_menu_str = menu;
-                sayText(menu);
-                state.vars.multiple_input_menus = 0;
-                state.vars.input_menu = menu;
-                promptDigits('enr_input_splash', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
-            }
-            else if (typeof (menu) == 'object') {
-                state.vars.input_menu_loc = 0; //watch for off by 1 errors - consider moving this to start at 1
-                state.vars.multiple_input_menus = 1;
-                state.vars.input_menu_length = Object.keys(menu).length; //this will be 1 greater than max possible loc
-                state.vars.current_menu_str = menu[state.vars.input_menu_loc];
-                sayText(menu[state.vars.input_menu_loc]);
-                state.vars.input_menu = JSON.stringify(menu);
-                promptDigits('enr_input_splash', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
-            }
-        }
-        else {
-            sayText(msgs('account_number_not_found', {}, lang));
-            contact.vars.account_failures = contact.vars.account_failures + 1;
-            promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
-        }
-
-    }
-    else if(input == 2){
         var client = get_client(state.vars.account_number, an_pool);
         if (client == null || client.vars.registered == 0) {
             sayText(msgs('account_number_not_found', {}, lang));
@@ -1625,6 +1537,14 @@ addInputHandler('enr_order_review_continue', function (input) {
             promptDigits(state.vars.current_step, { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         }
         else if (client.vars.finalized !== 1 || client.vars.finalized === undefined) {
+            var log_input_order = require('./lib/enr-log-input-order');
+            var add_input_to_orders_table = require('./lib/add_input_to_orders_table');
+            var currentOrders = JSON.parse(state.vars.current_orders)
+            Object.keys(currentOrders).forEach(function(bundle_name){
+                var order = currentOrders[bundle_name];
+                log_input_order(state.vars.session_account_number, an_pool, bundle_name, order.quantity)
+                add_input_to_orders_table(state.vars.session_account_number, order.bundleId, order.bundleInputId, order.quantity)    
+            });
             state.vars.session_account_number = state.vars.account_number;
             sayText(msgs('ENR_FINALIZE_TERMS_AND_CONDITION',{},lang));
             promptDigits('enr_terms_and_conditions', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
@@ -1635,10 +1555,6 @@ addInputHandler('enr_order_review_continue', function (input) {
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         }
     }
-    else if(input == 3){
-            sayText(state.vars.main_menu);
-            promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
-        }
     else if (state.vars.multiple_review_menus) {
         if (input == 44 && state.vars.review_menu_loc > 0) {
             state.vars.review_menu_loc = state.vars.review_menu_loc - 1;
@@ -1672,17 +1588,13 @@ addInputHandler('enr_order_review_continue', function (input) {
         promptDigits('cor_menu_select', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
     }
 });
-//end order review
 
-/*
-input handlers for finalize order
-*/
-addInputHandler('enr_finalize_verify', function (input) {
+//end accept terms and finalize order
+
+addInputHandler('enr_terms_and_conditions',function(input){
     notifyELK();
-    state.vars.current_step = 'enr_finalize_verify';
-    state.vars.splash = state.vars.current_step;
     input = parseInt(input.replace(/\D/g, ''));
-    if (input == 1) {
+    if(input == 1){
         var enroll_in_roster = require('./lib/enr-order-in-roster');
         var success = enroll_in_roster(state.vars.session_account_number, state.vars.client_id, client_table);
         if (success) {
@@ -1698,26 +1610,6 @@ addInputHandler('enr_finalize_verify', function (input) {
             sayText(msgs('enr_not_finalized', {}, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });           
         };
-
-
-    }
-    else {
-        sayText(msgs('enr_not_finalized', {}, lang));
-        promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
-    }
-  
-});
-
-//end finalize order
-
-
-
-addInputHandler('enr_terms_and_conditions',function(input){
-    notifyELK();
-    input = parseInt(input.replace(/\D/g, ''));
-    if(input == 1){
-        sayText(msgs('enr_finalize_verify', {}, lang));
-        promptDigits('enr_finalize_verify', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
     }
     else{
         sayText(msgs('enr_not_finalized', {}, lang));

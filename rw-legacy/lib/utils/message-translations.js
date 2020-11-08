@@ -371,6 +371,10 @@ module.exports = {
         "en": "Order successfully placed~B1)Continue ordering~B2)confirm order~B3)Main menu~B99)Exit",
         "ki": "Itumiza ryawe rigenze neza~B1)Komeza gutumiza~B2)Suzuma unemeze ibyo watumije~B3)Ahabanza~B99)Gusohoka",
     },
+    "enr_add_input_to_order": {
+        "en": "You are ordering $QUANTITY $UNIT of $NAME.This will add $TOTAL_PRICE to your credit.~B1)Continue ordering~B2)Confirm order~B3)Main menu~B99)Exit",
+        "ki": "Utumije $QUANTITY $UNIT ya $NAME.Ibi bizongera $TOTAL_PRICE ku ideni ryawe.~B1)Komeza gutumiza~B2)Suzuma unemeze ibyo watumije~B3)Ahabanza~B99)Gusohoka",
+    },
     "enr_empy_order_review": {
         "en": "no order yet placed~B1)Continue~B99)Exit",
         "ki": "Ntacyo uratumiza~B1)Komeza~B99)Gusohoka",
@@ -829,8 +833,8 @@ module.exports = {
         'ki': 'numero y\'irangamuntu yanyu yanditse kuri konte ya TUBURA: $AccountNumber . Mukoreshe iyo mutumiza' 
     },
     'end_review_msg':{
-        'en': '1)Choose another bundle/order\n2)Confirm order\n3) go back',
-        'ki':'1)Hitamo ikindi utumiza\n2)Emeza gutumiza\n3)Subira ahabanza'
+        'en': '1)Confirm order',
+        'ki':'1)Emeza gutumiza'
     },
     'no_produts_msg':{
         'en': 'No order placed so far\n1)Choose a bundle/order\n3) go back',

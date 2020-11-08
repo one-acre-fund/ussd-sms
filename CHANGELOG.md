@@ -3,8 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
-
 * [SER-330](https://oneacrefund.atlassian.net/browse/SER-330) Configure November Chicken confirmations - changed the chicken eligibility calculations and updated the cap
+* [SER-321](https://oneacrefund.atlassian.net/browse/SER-321) RW - Reduce the ordering steps
 
 ## v1.1.0
 ### Added
