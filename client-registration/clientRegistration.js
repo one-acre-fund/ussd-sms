@@ -17,6 +17,7 @@ var orderConfirmationHandler = require('./order-confirmation-handler/orderConfir
 var addOrderHandler = require('./add-order-handler/addOrderHandler');
 var varietyConfirmationHandler = require('./variety-confirmation-handler/varietyConfirmationHandler');
 var groupCodeHandler = require('./group-code-handler/groupCodeHandler');
+var continueHandler = require('./continue/continue');
 var enrollOrder = require('../Roster-endpoints/enrollOrder');
 module.exports = {
     registerHandlers: function (){
@@ -68,14 +69,17 @@ module.exports = {
                 if(state.vars.canEnroll){
                     //display bundles
                     saveClientInRoster();
-                    displayBundles(JSON.parse(state.vars.newClient).DistrictId); 
-                    global.promptDigits(bundleChoiceHandler.handlerName);
                 }
                 else{
                     global.sayText(translate('reg_group_leader_question',{},state.vars.reg_lang));
                     global.promptDigits(groupLeaderQuestionHander.handlerName);
                 }
             }
+        }
+        function onContinueToEnroll(){
+            displayBundles(JSON.parse(state.vars.newClient).DistrictId); 
+            global.promptDigits(bundleChoiceHandler.handlerName);
+
         }
         function onGroupCodeValidated(groupInfo){
             var clientJSON = {
@@ -136,6 +140,7 @@ module.exports = {
         addInputHandler(addOrderHandler.handlerName, addOrderHandler.getHandler(onFinalizeOrder,displayBundles));
         addInputHandler(varietyConfirmationHandler.handlerName, varietyConfirmationHandler.getHandler(onBundleSelected));
         addInputHandler(groupCodeHandler.handlerName, groupCodeHandler.getHandler(onGroupCodeValidated));
+        addInputHandler(continueHandler.handlerName, continueHandler.getHandler(onContinueToEnroll));
     },
     
 
@@ -168,14 +173,16 @@ function saveClientInRoster(){
             state.vars.newClient = JSON.stringify(clientData);
             var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
             var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
-            var message;
+            var message,displayingMessage;
             if((foInfo == null) || (foInfo.phoneNumber == null || foInfo.phoneNumber == undefined)){
                 message = translate('reg_complete_message_no_phone' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
+                displayingMessage = translate('reg_complete_displaying_message_no_phone' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
+
             }
             else{
                 message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phoneNumber}, state.vars.reg_lang);
+                displayingMessage = translate('reg_complete_displaying_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phoneNumber}, state.vars.reg_lang);
             }
-            global.sayText(message);
             var groupLeaderInterested;
             if(state.vars.canEnroll){
                 groupLeaderInterested = '0';
@@ -205,6 +212,8 @@ function saveClientInRoster(){
                 }
             });
             row.save();
+            global.sayText(displayingMessage);
+            global.promptDigits(continueHandler.handlerName);
         }
     }
     catch (e) {
@@ -355,7 +364,16 @@ function displayBundles(district){
             if( !unique[bundleInputs[i].bundleId]){
                 //check for not allowed bundles
                 if(maizeBanedBundleIds.indexOf(bundleInputs[i].bundleId) == -1){
-                    bundles.push(bundleInputs[i]);
+                    //skip what the user ordered
+                    if(state.vars.orders != ' '){
+                        allBundles = JSON.parse(state.vars.orders);
+                        if(allBundles.indexOf(bundleInputs[i]) == -1){
+                            bundles.push(bundleInputs[i]);
+                        }
+                    }
+                    else{
+                        bundles.push(bundleInputs[i]);
+                    }
                 }
                 unique[bundleInputs[i].bundleId] = 1;
             }

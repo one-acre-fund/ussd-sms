@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 ## New Version
 
 ### Added
+*[SER-334](https://oneacrefund.atlassian.net/browse/SER-334) Kenya Enrollment/Just In time fixes
+    *Add a menu to display the bundles after registration
+    *Rename the menu options
+    *Remove a product from the list once the client ordered it
+    *Update the bundles
+    *Change the prepayment calculations
+    *Update the confirmation message
+
+### Added
 * [SER-323](https://oneacrefund.atlassian.net/browse/SER-323) RW - Rearrange the products in the system
 * [SER-322](https://oneacrefund.atlassian.net/browse/SER-322) RW - Add the maximum order per product in the system
 * [SER-318](https://oneacrefund.atlassian.net/browse/SER-318) Duka registration is not sending account number to elk as expected

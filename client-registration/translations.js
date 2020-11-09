@@ -53,9 +53,17 @@ module.exports = {
         'en-ke': 'Thank you for expressing your interest to enroll with OAF. Your Account Number is $ACCOUNT_NUMBER. Please visit the FO to add inputs or call the FO on $FOphone',
         'sw': 'Asante kwa nia ya kujiandikisha na OAF. Nambari yako ya akaunti ni: $ACCOUNT_NUMBER. Tafadhali tembelea mwalimu wa nyanjani ili kuchagua bidhaa au mpigie simu $FOphone',
     },
+    'reg_complete_displaying_message': {
+        'en-ke': 'Thank you for expressing your interest to enroll with OAF. Your Account Number is $ACCOUNT_NUMBER. Please visit the FO to add inputs or call the FO on $FOphone\n1) continue',
+        'sw': 'Asante kwa nia ya kujiandikisha na OAF. Nambari yako ya akaunti ni: $ACCOUNT_NUMBER. Tafadhali tembelea mwalimu wa nyanjani ili kuchagua bidhaa au mpigie simu $FOphone\n1) endelea',
+    },
     'reg_complete_message_no_phone': {
         'en-ke': 'Thank you for expressing your interest to enroll with OAF. Your Account Number is: $ACCOUNT_NUMBER. Your FO will reach out to you to add inputs to your order.',
         'sw': 'Asante kwa nia ya kujiandikisha na OAF. Nambari yako ya akaunti ni: $ACCOUNT_NUMBER. Mwalimu wa nyanjani atawasiliana na wewe ili uchagua bidhaa.'
+    },
+    'reg_complete_displaying_message_no_phone': {
+        'en-ke': 'Thank you for expressing your interest to enroll with OAF. Your Account Number is: $ACCOUNT_NUMBER. Your FO will reach out to you to add inputs to your order.\n1) Continue',
+        'sw': 'Asante kwa nia ya kujiandikisha na OAF. Nambari yako ya akaunti ni: $ACCOUNT_NUMBER. Mwalimu wa nyanjani atawasiliana na wewe ili uchagua bidhaa.\n1) Endelea'
     },
     'reg_group_leader_question': {
         'en-ke': 'Does the farmer want to be a Group Leader of a new group?\n1) Yes\n2) No',
