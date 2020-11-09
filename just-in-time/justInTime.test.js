@@ -149,7 +149,7 @@ describe('clientRegistration', () => {
         it('should display a message saying that the prepayment condition is not satified if the remaining loan is greater than 500', () => {
             client.BalanceHistory[0].TotalCredit = 5000;
             client.BalanceHistory[0].TotalRepayment_IncludingOverpayments = 0;
-            var amount = 4500;
+            var amount = 500;
             state.vars.topUpClient = JSON.stringify(client);
             callback();
             expect(sayText).toHaveBeenCalledWith(`You do not qualify for a top up, pay at least ${amount}`+
@@ -196,8 +196,8 @@ describe('clientRegistration', () => {
         it('should send a message confirming the order is complete if the order is saved in roster',()=>{
             httpClient.request.mockReturnValue({status: 201});
             contact.phone_number = phoneNumber;
-            var message = `Thanks for ordering ${ordersMessage}`+
-            '. Thank you for topping-up through JiT.';
+            var message = `Thank you for topping-up through JiT. Your order is ${ordersMessage}`+
+            ' Reach out to CE through *689# if this  order is not correct';
             callback();
             expect(sayText).toHaveBeenCalledWith(message);
             expect(project.sendMessage).toHaveBeenCalledWith({content: message, to_number: phoneNumber});
@@ -206,8 +206,8 @@ describe('clientRegistration', () => {
             var inactive_number = {'PhoneNumber': '0786182098', 'IsInactive': false};
             var active_number ={'PhoneNumber': '0786182098', 'IsInactive': true};
             getPhoneNumber.mockReturnValue([inactive_number, active_number]);
-            var message = `Thanks for ordering ${ordersMessage}`+
-            '. Thank you for topping-up through JiT.';
+            var message = `Thank you for topping-up through JiT. Your order is ${ordersMessage}`+
+            ' Reach out to CE through *689# if this  order is not correct';
             callback();
             expect(sayText).toHaveBeenCalledWith(message);
             expect(project.sendMessage).toHaveBeenCalledWith({content: message, to_number: active_number.PhoneNumber});

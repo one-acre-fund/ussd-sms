@@ -5,13 +5,18 @@ var notifyELK = require('../../notifications/elk-notification/elkNotification');
 var rosterAPI = require('../../rw-legacy/lib/roster/api');
 var translate =  createTranslator(translations, project.vars.lang);
 
+var TrimClientJSON = function(client){
+    var SeasonCount = client.BalanceHistory.length;
+    if (SeasonCount>3){client.BalanceHistory.length = 3;}
+    return client;
+};
 
 var isInTheSameGroup = function(accountNumber) {
     
     if(rosterAPI.authClient(accountNumber,'KE')){
         var clientJSON = rosterAPI.getClient(accountNumber,state.vars.country);
         if(clientJSON){
-            state.vars.topUpClient = JSON.stringify(clientJSON);
+            state.vars.topUpClient = JSON.stringify(TrimClientJSON(clientJSON));
             var groupId = clientJSON.GroupId;
             if(JSON.parse(state.vars.client_json).GroupId == groupId){
                 return true;

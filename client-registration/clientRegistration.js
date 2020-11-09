@@ -171,18 +171,18 @@ function saveClientInRoster(){
         
         if(clientData){
             state.vars.newClient = JSON.stringify(clientData);
-            var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
-            var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
+            //commenting this because just in time enrollment message don't have a fo phone
+            //var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
+            //var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
             var message,displayingMessage;
-            if((foInfo == null) || (foInfo.phoneNumber == null || foInfo.phoneNumber == undefined)){
-                message = translate('reg_complete_message_no_phone' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
-                displayingMessage = translate('reg_complete_displaying_message_no_phone' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
-
-            }
-            else{
-                message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phoneNumber}, state.vars.reg_lang);
-                displayingMessage = translate('reg_complete_displaying_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phoneNumber}, state.vars.reg_lang);
-            }
+            //if((foInfo == null) || (foInfo.phoneNumber == null || foInfo.phoneNumber == undefined)){
+            message = translate('reg_complete_message_no_phone' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
+            displayingMessage = translate('reg_complete_displaying_message_no_phone' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
+            //}
+            /*else{
+            message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phoneNumber}, state.vars.reg_lang);
+            displayingMessage = translate('reg_complete_displaying_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phoneNumber}, state.vars.reg_lang);
+            }*/
             var groupLeaderInterested;
             if(state.vars.canEnroll){
                 groupLeaderInterested = '0';
@@ -333,6 +333,12 @@ function onFinalizeOrder(){
     global.sayText(translate('final_order_display',{'$orders': orderMessage },state.vars.reg_lang));
     global.promptDigits(orderConfirmationHandler.handlerName);
 }
+function bundleExists(bundles,bundleId) {
+    return bundles.some(function(bundle) {
+      return bundle.bundleId === bundleId;
+    }); 
+  }
+
 function displayBundles(district){
 
     var bundleInputs = getBundlesInputs(district);
@@ -340,11 +346,12 @@ function displayBundles(district){
     var unique = [];
     var bundles = [];
     var maizeBanedBundleIds = [];
+    var currentOrder = [];
 
     // Check for maize bundle in the current's client order
     if(state.vars.orders != ' '){
         var maizeTable = project.initDataTableById(service.vars.maizeEnrollmentTableId);
-        var currentOrder = JSON.parse(state.vars.orders);
+        currentOrder = JSON.parse(state.vars.orders);
         var maizeBundleIds = [];
         var maizeCursor = maizeTable.queryRows();
 
@@ -365,9 +372,8 @@ function displayBundles(district){
                 //check for not allowed bundles
                 if(maizeBanedBundleIds.indexOf(bundleInputs[i].bundleId) == -1){
                     //skip what the user ordered
-                    if(state.vars.orders != ' '){
-                        allBundles = JSON.parse(state.vars.orders);
-                        if(allBundles.indexOf(bundleInputs[i]) == -1){
+                    if(currentOrder.length != 0){
+                        if(!bundleExists(currentOrder,bundleInputs[i].bundleId)){
                             bundles.push(bundleInputs[i]);
                         }
                     }

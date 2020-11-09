@@ -43,8 +43,8 @@ function onAccountNumberValidated(){
         client.latestBalanceHistory = client.BalanceHistory[0];
         remainingLoan = client.latestBalanceHistory.TotalCredit - client.latestBalanceHistory.TotalRepayment_IncludingOverpayments;
     }
-    if(remainingLoan > 500 ){
-        var amountToPay = remainingLoan-500;
+    if(client.latestBalanceHistory.TotalRepayment_IncludingOverpayments < 500){
+        var amountToPay = 500-client.latestBalanceHistory.TotalRepayment_IncludingOverpayments;
         global.sayText(translate('loan_payment_not_satisfied',{'$amount': amountToPay },state.vars.jitLang));
     }
     else{
@@ -184,6 +184,7 @@ function displayBundles(district){
     var unique = [];
     var bundles = [];
     var maizeBanedBundleIds= [];
+    var currentOrder = [];
 
     // Check for maize bundle in the current's client order
     if(state.vars.orders != ' '){
@@ -200,6 +201,7 @@ function displayBundles(district){
             if(maizeBundleIds.indexOf(currentOrder[k].bundleId) != -1){
                 maizeBanedBundleIds = maizeBundleIds;
             }
+
         }   
     }
     if(bundleInputs){
@@ -208,7 +210,14 @@ function displayBundles(district){
             if( !unique[bundleInputs[i].bundleId]){
                 //check for not allowed bundles
                 if(maizeBanedBundleIds.indexOf(bundleInputs[i].bundleId) == -1){
-                    bundles.push(bundleInputs[i]);
+                    if(currentOrder.length != 0){
+                        if(!bundleExists(currentOrder,bundleInputs[i].bundleId)){
+                            bundles.push(bundleInputs[i]);
+                        }
+                    }
+                    else{
+                        bundles.push(bundleInputs[i]);
+                    }
                 }
                 unique[bundleInputs[i].bundleId] = 1;
             }
@@ -217,7 +226,6 @@ function displayBundles(district){
     
     // saved it for easy access in bundleChoiceHandler 
     state.vars.bundles = JSON.stringify(bundles);
-    
     // Build the menu for bundles
     var populateMenu = require('./utils/populate-bundles');
     var menu = populateMenu(state.vars.jitLang,140,bundles);
@@ -238,6 +246,11 @@ function displayBundles(district){
     }
 
 }
+function bundleExists(bundles,bundleId) {
+    return bundles.some(function(bundle) {
+      return bundle.bundleId === bundleId;
+    }); 
+  }
 
 function getBundlesInputs(districtId){
     var table = project.initDataTableById(service.vars.topUpBundleTableId);
