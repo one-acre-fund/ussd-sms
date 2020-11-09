@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.0.9
+### Added
+* [SER-323](https://oneacrefund.atlassian.net/browse/SER-323) RW - Rearrange the products in the system
+* [SER-322](https://oneacrefund.atlassian.net/browse/SER-322) RW - Add the maximum order per product in the system
+* [SER-318](https://oneacrefund.atlassian.net/browse/SER-318) Duka registration is not sending account number to elk as expected
+* [SER-277](https://oneacrefund.atlassian.net/browse/SER-277) As a OAF non client, I want to be able to access CE services through the USSD system so that I can report issues.
+* [SER-275](https://oneacrefund.atlassian.net/browse/SER-275) As a farmer I want to be able to report seed germination issue through USSD so that it can be investigated and I can get my refund
+
 ## v1.0.8
 ### Fixed
 * [SER-331](https://oneacrefund.atlassian.net/browse/SER-331) Duka-client sessions failing

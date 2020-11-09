@@ -364,8 +364,8 @@ module.exports = {
         "ki": "Utumije $NAME. Igiciro ni $PRICE ku $UNIT. Ngaho hitamo ingano wifuza gutumiza",
     },
     "enr_input_out_of_bounds": {
-        "en": "amount selected is out of bounds please try again",
-        "ki": "Umubare uhisemo ntabwo ushoboka,Ongera uhitemo neza",
+        "en": "amount selected is out of bounds please try again. maximum is $max",
+        "ki": "Umubare uhisemo ntabwo ushoboka,Ongera uhitemo neza. umubare ntarengwa ni $max",
     },
     "enr_input_order_success": {
         "en": "Order successfully placed~B1)Continue ordering~B2)confirm order~B3)Main menu~B99)Exit",

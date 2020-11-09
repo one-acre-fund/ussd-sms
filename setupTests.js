@@ -24,6 +24,10 @@ global.state = {
     vars: {
     }
 };
+global.call = {
+    vars: {
+    }
+};
 global.sayText = jest.fn();
 global.promptDigits = jest.fn();
 
