@@ -96,7 +96,8 @@ module.exports = {
                     client.PhoneNumber = phone_number;
                     var outStandingCredit = OutstandingCredit(client.BalanceHistory);
                     state.vars.dcr_credit = outStandingCredit;
-                    if(client.SiteName == 'Duka'){
+                    
+                    if(client.SiteName == 'Duka' || client.DistrictName == 'OAF Duka'){
                         if(outStandingCredit > 0) {
                             // if has an out standing credit, ask them to pay the remaining amount
                             global.sayText(getMessage('outstanding_balance', {'$balance': outStandingCredit}, lang));
