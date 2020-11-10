@@ -187,6 +187,31 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
         expect(sayText).toHaveBeenCalledWith(messages[lang]);
         expect(stopRules).toHaveBeenCalled();
     });
+    it('should notify the user if the duka client\'s account number has outstanding credit given that the site name is not duka and district name is OAF Duka', () => {
+        const clientWithDukaDistrict = {
+            DistrictName: 'OAF Duka',
+            SiteName: 'nay site',
+            FirstName: 'Aria',
+            LastName: 'Stark',
+            BalanceHistory: [
+                {Balance: 0},
+                {Balance: 4540},
+                {Balance: 3240}
+            ]
+        };
+        contact.phone_number = '0722334535';
+        getClient.mockReturnValueOnce(clientWithDukaDistrict);
+
+        const messages = {
+            'en-ke': 'You have a Duka credit account with an outstanding credit balance of 7780. Please complete your loan in order to take another one.',
+            'sw': 'Una akaunti ya mkopo ya Duka na salio bora la mkopo la X. Tafadhali kamilisha mkopo wako ili uchukue nyingine.'
+        };
+
+        const accountNumberHandler = accountNumberInputHandler.getHandler(lang);
+        accountNumberHandler('12345678');
+        expect(sayText).toHaveBeenCalledWith(messages[lang]);
+        expect(stopRules).toHaveBeenCalled();
+    });
 
     it('should the user for invoice id if the duka client\'s account number has no outstanding credit', () => {
         const clientWithDukaDistrict = {
