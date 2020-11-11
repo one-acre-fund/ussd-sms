@@ -217,7 +217,7 @@ module.exports = [
      "en":"BMaize",
      "fixed_price":0,
      "increment":2,
-     "input_name":"None",
+     "input_name":"BMaize",
      "max":30,
      "min":"",
      "option_number":4,

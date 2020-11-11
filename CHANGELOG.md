@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.1.1
+### Fixed
+* [SER-338](https://oneacrefund.atlassian.net/browse/SER-338) Rwanda Maize Ordering Issue - Matching bundle name error fix on maize
+
 ## v1.1.0
 ### Added
 * [SER-335](https://oneacrefund.atlassian.net/browse/SER-335) Add Duka registration support for returning Duka clients
