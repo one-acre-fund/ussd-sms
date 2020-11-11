@@ -3,10 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+
 * [SER-330](https://oneacrefund.atlassian.net/browse/SER-330) Configure November Chicken confirmations - changed the chicken eligibility calculations and updated the cap
 
+## v1.1.0
+### Added
+* [SER-335](https://oneacrefund.atlassian.net/browse/SER-335) Add Duka registration support for returning Duka clients
 
-### v1.0.9
+## v1.0.9
+### Added
 * [SER-323](https://oneacrefund.atlassian.net/browse/SER-323) RW - Rearrange the products in the system
 * [SER-322](https://oneacrefund.atlassian.net/browse/SER-322) RW - Add the maximum order per product in the system
 * [SER-318](https://oneacrefund.atlassian.net/browse/SER-318) Duka registration is not sending account number to elk as expected
