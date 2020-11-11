@@ -11,6 +11,9 @@ describe('chicken_Eligibility', () => {
     const mockTable = { queryRows: jest.fn() };
     mockTable.queryRows.mockReturnValue(mockCursor);
     var mockRow ={vars: { ordered_chickens: 4, confirmed: 1, prep_required: 128000}};
+    beforeAll(()=>{
+        project.vars.chickenRequiredPercentage = 53;
+    });
     beforeEach(() => {
         sayText.mockClear();
         promptDigits.mockClear();
@@ -63,7 +66,7 @@ describe('chicken_Eligibility', () => {
     it('should set state.vars.minimum_amount_paid to true if  prepayment_amount is greater than 1000', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(true);
         client.BalanceHistory.TotalRepayment_IncludingOverpayments = 10000;
-        mockRow.vars.prep_required = 0;
+        client.BalanceHistory.TotalCredit = 0;
         mockCursor.next.mockReturnValueOnce(mockRow);
         chickenEligibility(mockTable,client.AccountNumber,client);
         expect(state.vars.minimum_amount_paid).toBeTruthy();
@@ -78,7 +81,8 @@ describe('chicken_Eligibility', () => {
     });
     it('should set state.vars.max_chicken to the number of possible chicken given the prepayment_amount (if the prepayment is greater than 1000 and allows less than 5 possible chicken)', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(true);
-        var new_row ={vars: { ordered_chickens: 4, confirmed: 0,prep_required: 2000}};
+        var new_row ={vars: { ordered_chickens: 4, confirmed: 0}};
+        client.BalanceHistory.TotalCredit = 3773.5;
         client.BalanceHistory.TotalRepayment_IncludingOverpayments = 4000;
         mockCursor.next.mockReturnValueOnce(new_row);
         chickenEligibility(mockTable,client.AccountNumber,client);

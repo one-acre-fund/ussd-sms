@@ -7,12 +7,13 @@ module.exports = function(chicken_table, acc_nber, client_json){
     
     if(chickenCursor.hasNext()){
         var row = chickenCursor.next();
-        prepRequired = row.vars.prep_required;
+        //prepRequired = row.vars.prep_required; //Replaced by percentage healthpath from november
         state.vars.chcken_nber = row.vars.ordered_chickens || 0;
         state.vars.farmer_name  = JSON.parse(state.vars.client_json).FirstName;
     }
     else{
         state.vars.client_notfound = true;
+        return;
         //var logger = new Log();
         //var logMessage = 'Client ' + client_json.FirstName + ' not found in chicken table';
         //logger.log(logMessage);
@@ -21,6 +22,8 @@ module.exports = function(chicken_table, acc_nber, client_json){
     if(client_json.BalanceHistory.length>0){
         client_json.BalanceHistory = client_json.BalanceHistory[0];
     }
+    //new prepayment calculation from November
+    prepRequired =  (client_json.BalanceHistory.TotalCredit * parseInt(project.vars.chickenRequiredPercentage))/100;
     var prepayment_amount = client_json.BalanceHistory.TotalRepayment_IncludingOverpayments - prepRequired;
     // if prepayment satisfies the mminimum condition( > than 2 chicken prepayment amount(2000))
     if(prepayment_amount >= 1000){
@@ -31,7 +34,7 @@ module.exports = function(chicken_table, acc_nber, client_json){
         }
         // else calculate the client's possible maximum
         else{
-            state.vars.max_chicken = prepayment_amount / 500;
+            state.vars.max_chicken = parseInt(prepayment_amount / 500);
         }
         if(state.vars.max_chicken > state.vars.chcken_nber ){
             state.vars.max_chicken  = state.vars.chcken_nber;
