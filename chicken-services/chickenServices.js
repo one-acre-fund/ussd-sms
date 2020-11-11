@@ -70,6 +70,7 @@ module.exports = {
             return;   
         }
         else if(state.vars.minimum_amount_paid){
+            console.log('hello');
             var CheckChickenCapByDistrict = require('./check-chicken-cap-by-district/CheckChickenCapByDistrict');
             var possibleChickensPerDistrict = CheckChickenCapByDistrict(JSON.parse(state.vars.client_json).DistrictId,new Date().getMonth() + 1);
             if(!possibleChickensPerDistrict){
@@ -84,7 +85,6 @@ module.exports = {
         }
 
         else{
-            console.log('try later');
             global.sayText(translate('try_later',{}));
             global.stopRules();
             return;

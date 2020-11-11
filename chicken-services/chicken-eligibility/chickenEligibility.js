@@ -24,7 +24,6 @@ module.exports = function(chicken_table, acc_nber, client_json){
     }
     //new prepayment calculation from November
     prepRequired =  (client_json.BalanceHistory.TotalCredit * parseInt(project.vars.chickenRequiredPercentage))/100;
-    console.log('prep required:'+ prepRequired);
     var prepayment_amount = client_json.BalanceHistory.TotalRepayment_IncludingOverpayments - prepRequired;
     // if prepayment satisfies the mminimum condition( > than 2 chicken prepayment amount(2000))
     if(prepayment_amount >= 1000){
@@ -35,7 +34,7 @@ module.exports = function(chicken_table, acc_nber, client_json){
         }
         // else calculate the client's possible maximum
         else{
-            state.vars.max_chicken = prepayment_amount / 500;
+            state.vars.max_chicken = parseInt(prepayment_amount / 500);
         }
         if(state.vars.max_chicken > state.vars.chcken_nber ){
             state.vars.max_chicken  = state.vars.chcken_nber;
