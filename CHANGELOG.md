@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.1.0
+### Added
+* [SER-335](https://oneacrefund.atlassian.net/browse/SER-335) Add Duka registration support for returning Duka clients
+
 ## v1.0.9
 ### Added
 * [SER-323](https://oneacrefund.atlassian.net/browse/SER-323) RW - Rearrange the products in the system
