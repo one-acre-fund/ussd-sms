@@ -55,7 +55,6 @@ module.exports = {
         state.vars.country = country;
         var chicken_table = project.initDataTableById(service.vars.chicken_table_id);
         chickenEligibility(chicken_table, state.vars.account,JSON.parse(state.vars.client_json)); 
-        console.log(state.vars.client_notfound);
         if((state.vars.chcken_nber == 0) || state.vars.client_notfound ){
             global.sayText(translate('chicken_confirmation_not_allowed'));
             global.stopRules();
@@ -70,7 +69,6 @@ module.exports = {
             return;   
         }
         else if(state.vars.minimum_amount_paid){
-            console.log('hello');
             var CheckChickenCapByDistrict = require('./check-chicken-cap-by-district/CheckChickenCapByDistrict');
             var possibleChickensPerDistrict = CheckChickenCapByDistrict(JSON.parse(state.vars.client_json).DistrictId,new Date().getMonth() + 1);
             if(!possibleChickensPerDistrict){

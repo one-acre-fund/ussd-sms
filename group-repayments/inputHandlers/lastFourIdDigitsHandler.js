@@ -32,21 +32,33 @@ module.exports = function lastFourIdDigitsHandler(input) {
         return;
     }     
     // create an array of group members
-    var groupRepayments = {credit: 0, balance: 0};
-    var groupMembers = rosterCallResult.map(function(result) {
-        var newResult = result;
-        newResult.balance = result.credit - result.repaid;
-        if(result.credit !== 0) {
-            newResult['% Repaid'] = (result.repaid * 100) / result.credit;
+    var groupRepayments = { credit: 0, balance: 0 };
+    var groupMemberBalances = {};
+    rosterCallResult.forEach(function (result) {
+        var balance = result.credit - result.repaid;
+        groupRepayments.credit += result.credit;
+        groupRepayments.balance += balance;
+
+        var memberName = result.firstName + ' ' + result.lastName;
+        if (!groupMemberBalances[memberName]) {
+            groupMemberBalances[memberName] = result;
+            groupMemberBalances[memberName].balance = balance;
         } else {
-            newResult['% Repaid'] = result.repaid * 100;
+            groupMemberBalances[memberName].repaid += result.repaid;
+            groupMemberBalances[memberName].credit += result.credit;
+            groupMemberBalances[memberName].balance += balance;
         }
-        groupRepayments.credit = groupRepayments.credit + newResult.credit; 
-        groupRepayments.balance = groupRepayments.balance + newResult.balance;
-        return newResult;
-    }); 
+        groupMemberBalances[memberName]['% Repaid'] = groupMemberBalances[memberName].credit === 0 ?
+            100 :
+            (groupMemberBalances[memberName].repaid * 100) / groupMemberBalances[memberName].credit;
+    });
+
+
     var group_repayments = groupRepayments;
-    var group_members = groupMembers;
+    var group_members = Object.keys(groupMemberBalances).map(function (key) {
+        return groupMemberBalances[key];
+    });
+
     state.vars.group_members = JSON.stringify(group_members);
     var all_screens = [];
     var initialScreen = getMessage('group_credit', {'$groupCredit': group_repayments.credit, '$currency': service.vars.currency}, lang) + getMessage('group_balance', {'$groupBalance': group_repayments.balance, '$currency': service.vars.currency}, lang);

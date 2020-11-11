@@ -1,4 +1,6 @@
 var utils = require('./utils');
+var Logger = require('../../../logger/elk/elk-logger');
+var logger = new Logger();
 
 // Dump globals into a testable object we can
 // use in modules.
@@ -179,8 +181,10 @@ RosterAPI.prototype.request = function(path, opts) {
     // 200s - ok
     // 300s - redirects
     // 400s/500s - errors
-    if (response.status >= 300)
+    if (response.status >= 300) {
+        logger.error('API Error calling roster', {tags: ['roster', 'API error > 300'], data: {response: response, requestData: opts, url: fullURL}});
         throw new HttpError(fullURL, opts, response);
+    }
 
     return response.content;
 };
@@ -221,8 +225,10 @@ RosterAPI.prototype.toPhoneContext = function(countryOrPhone) {
 
     if (countryOrPhone == null) {
         // in a scheduled service, the 'phone' will be null, so users must specify a country
-        if (this.telerivet.phone == null)
-            throw new Error("Please specify a country");
+        if (this.telerivet.phone == null) {
+            logger.error('country not specified: Please specify a country', {tags: ['telerivet', 'phone'], data: this.telerivet});
+            throw new Error('Please specify a country');
+        }
         else
             countryOrPhone = this.telerivet.phone;
     }
@@ -274,11 +280,15 @@ RosterAPI.prototype.authClient = function(accountNumber, countryOrPhone, account
         content = this.request(path, opts);
     } catch (err) {
 
-        if (!(err instanceof HttpError))
+        if (!(err instanceof HttpError)) {
+            logger.error('unknown error: NOT HTTP', {tags: ['API', 'http'], data: {error: err, requestData: opts, url: path}});
             throw err;
+        }
 
-        if (!(err.status === 403))
+        if (!(err.status === 403)) {
+            logger.error('Forbiden', {tags: ['403', 'permission', 'http', 'api'], data: {error: err, requestData: opts, url: path}});
             throw err;
+        }
 
         // Authenticating is kind of weird right now, since we don't have
         // a dedicated endpoint for it.  Use Validate as a test for now.
