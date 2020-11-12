@@ -46,7 +46,7 @@ function parse_gid(gid) {
 
 module.exports = function(gid){
     console.log('group Id'+gid);
-    if(!groupCodeValidate(gid)){
+    if(!groupCodeValidate(gid,service.vars.groupCodeTableId)){
         return false;
     }
     var parsed_gid = parse_gid(gid);
