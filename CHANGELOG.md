@@ -4,7 +4,9 @@ All notable changes to this project will be documented in this file.
 ## New Version
 
 
-
+## v1.1.2
+### Fixed
+* [SER-340](https://oneacrefund.atlassian.net/browse/SER-340) add group validation in TR
 
 ## v1.1.1
 ### Added

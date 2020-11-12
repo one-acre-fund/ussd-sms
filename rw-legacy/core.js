@@ -1045,8 +1045,14 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
         // checking and retreiving info about the entered id
         var groupCheck = require('./lib/enr-check-gid');
         var group_information = groupCheck(input);
+        if(group_information == false){
+            sayText(msgs('invalid_group_id'));
+            sayText(msgs('enr_glus', {}, lang));
+            promptDigits('enr_glus', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
+
+        }
         // if the info about the id is not null, ask for confirmation with the group info
-        if (group_information != null) {
+        else if (group_information != null) {
 
             // Check if the group size is less than 16
             if (!group_size_satisfied(input,client_table)){
@@ -1249,8 +1255,12 @@ addInputHandler('enr_glvv_id', function (input) {
     input = input.replace(/\W/g, ''); //added some quick sanitation to this input
     var groupCheck = require('./lib/enr-check-gid');
     state.vars.group_information = groupCheck(input);
-
-    if (state.vars.group_information != null) {
+    if(state.vars.group_information == false){
+        sayText(msgs('invalid_group_id'));
+        sayText(msgs('enr_glus', {}, lang));
+        promptDigits('enr_glvv_id', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
+    }
+    else if (state.vars.group_information != null) {
 
         // Check if the group size is less than 16
         if (!group_size_satisfied(input,client_table)){
