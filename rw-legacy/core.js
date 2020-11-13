@@ -37,7 +37,7 @@ if(env === 'prod'){
     account_splash_menu_name = 'core_enr_splash_menu';
     service.vars.avocado_table_id = 'DT864c12fe76c43eaf';
     service.vars.rw_reg_client_table_id = 'DT29e542bf090b050f';
-    service.vars.groupCodeTableId = 'DTacf0fbd92510024d'
+    service.vars.groupCodeTableId = project.vars.groupCodeTableId;
 
 }else{
     service.vars.season_clients_table = 'dev_' + project.vars.season_clients_table;
@@ -55,7 +55,7 @@ if(env === 'prod'){
     service.vars.avocado_table_id = 'DT32fb8b273aacf654';
     service.vars.chicken_table_id = 'DT8c3e091b499f1726';
     service.vars.rw_reg_client_table_id = 'DT41914a4d2dc6a29f';
-    service.vars.groupCodeTableId = 'DT41d718f00ed4e999';
+    service.vars.groupCodeTableId = project.vars.dev_groupCodeTableId;
 }
 
 var client_table = project.initDataTableById(service.vars['21a_client_data_id']);

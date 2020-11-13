@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ## v1.1.2
 ### Fixed
+* [SER-346](https://oneacrefund.atlassian.net/browse/SER-346) Remove Biolite SHS from 2021B USSD Enrollment Rwanda 
+### Fixed
 * [SER-340](https://oneacrefund.atlassian.net/browse/SER-340) add group validation in TR
 
 ## v1.1.1
