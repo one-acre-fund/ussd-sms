@@ -13,7 +13,7 @@ module.exports = {
     },
     'outstanding_balance': {
         'en-ke': 'You have a Duka credit account with an outstanding credit balance of $balance. Please complete your loan in order to take another one.',
-        'sw': 'Una akaunti ya mkopo ya Duka na salio bora la mkopo la X. Tafadhali kamilisha mkopo wako ili uchukue nyingine.'
+        'sw': 'Una akaunti ya mkopo ya Duka na salio bora la mkopo la $balance. Tafadhali kamilisha mkopo wako ili uchukue nyingine.'
     },
     'confirm_or_try': {
         'en-ke': '1) To confirm\n2) To try again.',
