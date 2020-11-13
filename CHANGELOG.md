@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.1.3
+### Fixed
+* [SER-347](https://oneacrefund.atlassian.net/browse/SER-347) show amount to pay in Swahili translation
 
 ## v1.1.2
 ### Fixed
