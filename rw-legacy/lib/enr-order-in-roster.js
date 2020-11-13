@@ -1,4 +1,4 @@
-
+var msgs = require('./msg-retrieve');
 var clientEnrollmentTable = project.initDataTableById(service.vars.client_enrollment_table_id);
 
 function parse_gid(gid) {
