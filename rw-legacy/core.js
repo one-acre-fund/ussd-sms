@@ -1048,7 +1048,7 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
         var groupCheck = require('./lib/enr-check-gid');
         var group_information = groupCheck(input,service.vars.groupCodeTableId);
         if(group_information == false){
-            sayText(msgs('invalid_group_id'));
+            sayText(msgs('invalid_group_id',{},lang));
             sayText(msgs('enr_glus', {}, lang));
             promptDigits('enr_glus', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
 
@@ -1073,7 +1073,7 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
         }
         // if the group id is not valid, prompt them again
         else {
-            sayText(msgs('invalid_group_id'));
+            sayText(msgs('invalid_group_id',{},lang));
             sayText(msgs('enr_glus', {}, lang));
             promptDigits('enr_glus', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
         }
@@ -1257,7 +1257,7 @@ addInputHandler('enr_glvv_id', function (input) {
     var groupCheck = require('./lib/enr-check-gid');
     state.vars.group_information = groupCheck(input,service.vars.groupCodeTableId);
     if(state.vars.group_information == false){
-        sayText(msgs('invalid_group_id'));
+        sayText(msgs('invalid_group_id',{},lang));
         sayText(msgs('enr_glus', {}, lang));
         promptDigits('enr_glvv_id', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
     }
@@ -1277,7 +1277,7 @@ addInputHandler('enr_glvv_id', function (input) {
     }
     // if the group id is not valid, prompt them again
     else {
-        sayText(msgs('invalid_group_id'));
+        sayText(msgs('invalid_group_id',{},lang));
         sayText(msgs('enr_glus', {}, lang));
         promptDigits('enr_glvv_id', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
     }
