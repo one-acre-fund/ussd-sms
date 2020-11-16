@@ -42,5 +42,21 @@ module.exports = {
     'next_page': {
         'en-ke': '77)Next page',
         'sw': '77)ukurasa unaofuata'
+    },
+    'already_placed_order': {
+        'en-ke': 'This account number already belongs to an enrolled client.',
+        'sw': 'Nambari hii ya akaunti ni ya mteja aliyeandikishwa.'
+    },
+    'remaining_balance': {
+        'en-ke': 'You do not qualify for a top up, pay at least $amount to qualify.',
+        'sw': 'Bado haujahitimu kuongeza bidhaa, lipa $amount kuhitimu.'
+    },
+    'jit_client': {
+        'en-ke': 'This farmer is registered through JIT enrollement. They cannot top up.',
+        'sw': 'Mkulima huyu amesajiliwa kupitia JiT. Hawezi ongeza bidhaa zaidi.'
+    },
+    'not_enrolled': {
+        'en-ke': 'Farmer is not enrolled this season. Please try again.',
+        'sw': 'Mkulima hakujiandikisha mwaka huu. Tafadhali jaribu tena.'
     }
 };

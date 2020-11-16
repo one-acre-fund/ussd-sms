@@ -183,6 +183,8 @@ describe('clientRegistration', () => {
     });
     describe('order Confirmation Handler successfull callback',()=>{
         var callback;
+        const mockTable = { queryRows: jest.fn(), createRow: jest.fn() };
+        const mockRow = {save: jest.fn()};
         var orders = [{'bundleName': 'Maize','price': 1000},{'bundleName': 'Pesticide','price': 3000}];
         var ordersMessage = orders[0].bundleName + ' ' + orders[0].price + ' '+orders[1].bundleName + ' ' + orders[1].price+' ';
         beforeAll(()=>{
@@ -196,6 +198,8 @@ describe('clientRegistration', () => {
         it('should send a message confirming the order is complete if the order is saved in roster',()=>{
             httpClient.request.mockReturnValue({status: 201});
             contact.phone_number = phoneNumber;
+            mockTable.createRow.mockReturnValueOnce(mockRow);
+            project.initDataTableById.mockReturnValue(mockTable);
             var message = `Thank you for topping-up through JiT. Your order is ${ordersMessage}`+
             ' Reach out to CE through *689# if this  order is not correct';
             callback();
@@ -203,6 +207,8 @@ describe('clientRegistration', () => {
             expect(project.sendMessage).toHaveBeenCalledWith({content: message, to_number: phoneNumber});
         });
         it('should send a message to the stored client\'s phone confirming the order is complete if the order is saved in roster',()=>{
+            mockTable.createRow.mockReturnValueOnce(mockRow);
+            project.initDataTableById.mockReturnValue(mockTable);
             var inactive_number = {'PhoneNumber': '0786182098', 'IsInactive': false};
             var active_number ={'PhoneNumber': '0786182098', 'IsInactive': true};
             getPhoneNumber.mockReturnValue([inactive_number, active_number]);

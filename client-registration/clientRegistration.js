@@ -60,6 +60,11 @@ module.exports = {
             global.sayText(translate('confrm_phone_prompt',{'$phone': phoneNumber},state.vars.reg_lang));
             global.promptDigits(confirmPhoneNumberHandler.handlerName);
         }
+        function onContinueToEnroll(){
+            displayBundles(JSON.parse(state.vars.newClient).DistrictId); 
+            global.promptDigits(bundleChoiceHandler.handlerName);
+    
+        }
         function onPhoneNumberConfirmed(){
             if(state.vars.country == 'RW'){
                 global.sayText(translate('enter_group_code',{},state.vars.reg_lang));
@@ -75,11 +80,6 @@ module.exports = {
                     global.promptDigits(groupLeaderQuestionHander.handlerName);
                 }
             }
-        }
-        function onContinueToEnroll(){
-            displayBundles(JSON.parse(state.vars.newClient).DistrictId); 
-            global.promptDigits(bundleChoiceHandler.handlerName);
-
         }
         function onGroupCodeValidated(groupInfo){
             var clientJSON = {
@@ -142,7 +142,11 @@ module.exports = {
         addInputHandler(groupCodeHandler.handlerName, groupCodeHandler.getHandler(onGroupCodeValidated));
         addInputHandler(continueHandler.handlerName, continueHandler.getHandler(onContinueToEnroll));
     },
-    
+    onContinueToEnroll: function(){
+        displayBundles(JSON.parse(state.vars.newClient).DistrictId); 
+        global.promptDigits(bundleChoiceHandler.handlerName);
+
+    },
 
     start: function (account, country,lang) {
         notifyELK();
@@ -152,7 +156,7 @@ module.exports = {
         state.vars.orders = ' ';
         global.sayText(translate('national_id_handler',{},state.vars.reg_lang));
         global.promptDigits(nationalIdHandler.handlerName);
-    }
+    },
 };
 
 function saveClientInRoster(){
@@ -192,7 +196,7 @@ function saveClientInRoster(){
             }
             project.sendMessage({content: message, to_number: contact.phone_number});
             project.sendMessage({content: message, to_number: clientJSON.phoneNumber});
-            var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
+            var table = project.initDataTableById(service.vars.JITSucessfullRegId);
             var row = table.createRow({
                 'contact_id': contact.id,
                 vars: {
@@ -208,7 +212,6 @@ function saveClientInRoster(){
                     'new_client': '1',
                     'gl_interested': groupLeaderInterested,
                     'gl_phone_number': contact.phone_number,
-
                 }
             });
             row.save();
@@ -306,6 +309,24 @@ function onOrderConfirmed(){
         orderPlacedMessage = orderPlacedMessage + orderPlaced[m].bundleName + ' ' + orderPlaced[m].price + ' ';
     } 
     if(enrollOrder(requestData)){
+        var table = project.initDataTableById(service.vars.JITSucessfullRegId);
+        var cursor = table.queryRows({vars: {'account_number': client.AccountNumber}});
+        if(cursor.hasNext()){
+            var row = cursor.next();
+            row.vars.finalized = 1;
+            row.vars.orders = JSON.stringify(requestBundles);
+            row.save();
+        }
+        else{
+            var newRow = table.createRow({
+                'contact_id': contact.id,
+                vars: {
+                    'account_number': client.AccountNumber,
+                    'finalized': 1,
+                    'orders': JSON.stringify(requestBundles)
+                }});
+            newRow.save();
+        }
         var message = translate('final_message',{'$products': orderPlacedMessage},state.vars.reg_lang);
         global.sayText(message);
         project.sendMessage({
@@ -335,9 +356,9 @@ function onFinalizeOrder(){
 }
 function bundleExists(bundles,bundleId) {
     return bundles.some(function(bundle) {
-      return bundle.bundleId === bundleId;
+        return bundle.bundleId === bundleId;
     }); 
-  }
+}
 
 function displayBundles(district){
 

@@ -11,7 +11,6 @@ var notifyELK = require('../notifications/elk-notification/elkNotification');
 var enrollOrder = require('../Roster-endpoints/enrollOrder');
 var translate =  createTranslator(translations, project.vars.lang);
 var getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
-
 module.exports = {
     registerHandlers: function (){
         addInputHandler(accountNumberHandler.handlerName, accountNumberHandler.getHandler(onAccountNumberValidated));
@@ -37,11 +36,11 @@ module.exports = {
 
 function onAccountNumberValidated(){
     var client = JSON.parse(state.vars.topUpClient);
-    var remainingLoan = 0;
+    //var remainingLoan = 0;
     var districtId = client.DistrictId;
     if(client.BalanceHistory.length > 0){
         client.latestBalanceHistory = client.BalanceHistory[0];
-        remainingLoan = client.latestBalanceHistory.TotalCredit - client.latestBalanceHistory.TotalRepayment_IncludingOverpayments;
+        //remainingLoan = client.latestBalanceHistory.TotalCredit - client.latestBalanceHistory.TotalRepayment_IncludingOverpayments;
     }
     if(client.latestBalanceHistory.TotalRepayment_IncludingOverpayments < 500){
         var amountToPay = 500-client.latestBalanceHistory.TotalRepayment_IncludingOverpayments;
@@ -79,7 +78,8 @@ function onVarietyChosen(bundleInput){
 function onBundleSelected(bundleId, varietychosen, bundleInputId){
 
 
-    var bundleInputs = JSON.parse(state.vars.bundleInputs);
+    //console.log('state:!!!!!!!!!!!!!!!!!!!!!'+state.vars.bundleInputs);
+    var bundleInputs = getBundlesInputs(state.vars.currentDistrict);
     var selectedBundle = [];
     for( var i = 0; i < bundleInputs.length; i++ ){
         if( bundleInputs[i].bundleId == bundleId){
@@ -99,7 +99,8 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
         }
         else{
             // Display the varieties(inputs)
-            state.vars.allVarieties = JSON.stringify(selectedBundle);
+            state.vars.varietyBundleId = bundleId;
+            //state.vars.allVarieties = JSON.stringify(selectedBundle);
             displayVariety(selectedBundle);
             promptDigits(varietyChoiceHandler.handlerName);
         }
@@ -116,7 +117,7 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
         }
         //Display confirmation message
         state.vars.orders = JSON.stringify(allBundles);
-        if(allBundles.length == 2){
+        if(allBundles.length == 3){
             sayText(translate('final_order_display',{'$orders': orderMessage },state.vars.jitLang));
             promptDigits(orderConfirmationHandler.handlerName);
         }
@@ -155,6 +156,9 @@ function onOrderConfirmed(){
         for( var m = 0; m < orderPlaced.length; m++ ){
             orderPlacedMessage = orderPlacedMessage + orderPlaced[m].bundleName + ' ' + orderPlaced[m].price + ' ';
         } 
+        var table = project.initDataTableById(service.vars.JiTEnrollmentTableId);
+        var row = table.createRow({vars: {'account_number': client.AccountNumber, 'order': JSON.stringify(requestBundles)}});
+        row.save();
         var message = translate('final_message',{'$products': orderPlacedMessage},state.vars.jitLang);
         sayText(message);
         project.sendMessage({
@@ -179,8 +183,10 @@ function onOrderConfirmed(){
 function displayBundles(district){
     console.log('district ID:' + district);
     var bundleInputs = getBundlesInputs(district);
-     
-    state.vars.bundleInputs = JSON.stringify(bundleInputs);
+    state.vars.currentDistrict = district;
+    //state.vars.bundleInputs = JSON.stringify(bundleInputs);
+
+    //console.log('state:!!!!!!!!!!!!!!!!!!!!!#############################'+state.vars.bundleInputs);
     var unique = [];
     var bundles = [];
     var maizeBanedBundleIds= [];
@@ -248,9 +254,9 @@ function displayBundles(district){
 }
 function bundleExists(bundles,bundleId) {
     return bundles.some(function(bundle) {
-      return bundle.bundleId === bundleId;
+        return bundle.bundleId === bundleId;
     }); 
-  }
+}
 
 function getBundlesInputs(districtId){
     var table = project.initDataTableById(service.vars.topUpBundleTableId);

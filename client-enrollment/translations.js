@@ -19,6 +19,10 @@ module.exports = {
     'duplicate_national_id': {
         'en-ke': 'You have already enrolled this season and your account number is $AccountNumber. Reach out to your FO to help you add inputs to your order.',
         'sw': 'Tayari umesajiliwa mwaka huu na akauti namba yako ni $AccountNumber Tembelea mwalimu wako ili akusaidie kuongeza bidhaa unazotaka!'
+    },
+    'enrolled_farmer': {
+        'en-ke': 'Farmer is enrolled this season. Please try again.',
+        'sw': 'Mkulima ameandikishwa mwaka huu. Tafadhali jaribu tena.'
     }
 
 };

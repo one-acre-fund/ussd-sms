@@ -10,9 +10,15 @@ describe('account_number_handler', () => {
     var onAccountNumberValidated;
     var validAccountNumber = '123456789';
     var accountNumberDifferentGroup = '24450523';
+    const mockCursor = { next: jest.fn(), 
+        hasNext: jest.fn()
+    };
     beforeAll(()=>{
         rosterAPI.authClient = jest.fn();
-        rosterAPI.authClient.mockReturnValue(true);
+        rosterAPI.authClient.mockReturnValue(true);  
+        const mockTable = { queryRows: jest.fn()};
+        mockTable.queryRows.mockReturnValue(mockCursor);
+        project.initDataTableById.mockReturnValue(mockTable);
     });
     beforeEach(() => {
         sayText.mockReset();
@@ -28,6 +34,7 @@ describe('account_number_handler', () => {
         expect(notifyELK).toHaveBeenCalled();
     });
     it('should  call onAccountNumberValidated if the provided account number is validated from roster and is in a the same group than as the GL', () => {
+        client.BalanceHistory[0].SeasonName = '2021, Long Rain';
         rosterAPI.getClient.mockReturnValueOnce(client);
         accountNumberHandler(validAccountNumber);
         expect(onAccountNumberValidated).toHaveBeenCalled();
@@ -55,5 +62,20 @@ describe('account_number_handler', () => {
         accountNumberHandler(accountNumberDifferentGroup);
         expect(sayText).toHaveBeenCalledWith('Please reply with the account number of the farmer who want to top-up.');
         expect(promptDigits).toHaveBeenCalledWith(handlerName);
+    });
+    it('should not call onAccountNumberValidated if the provided account number in the same group but did not enroll in 2021, Long Rain', () => {
+        client.BalanceHistory[0].SeasonName = '2020, Long Rain';
+        rosterAPI.getClient.mockReturnValueOnce(client);
+        state.vars.client_json = JSON.stringify(secondClient);
+        accountNumberHandler(1234);
+        expect(onAccountNumberValidated).not.toHaveBeenCalled();
+    });
+    it('should not call onAccountNumberValidated if the provided account number in the same group enrolled in 2021, Long Rain but through just in time', () => {
+        client.BalanceHistory[0].SeasonName = '2021, Long Rain';
+        rosterAPI.getClient.mockReturnValueOnce(client);
+        state.vars.client_json = JSON.stringify(secondClient);
+        mockCursor.hasNext.mockReturnValueOnce(true);
+        accountNumberHandler(1234);
+        expect(onAccountNumberValidated).not.toHaveBeenCalled();
     });
 });

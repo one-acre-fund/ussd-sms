@@ -53,12 +53,16 @@ if(env == 'prod'){
     service.vars.maizeTableId = 'DT4c3cd5c415c157d0';
     service.vars.maizeEnrollmentTableId = 'DT8e672319bead2161';
     service.vars.enrollmentBundleTableId = 'DT21237e171411bce1';
+    service.vars.JiTEnrollmentTableId = 'DT52cebb451097ac25';
+    service.vars.JITSucessfullRegId = 'DTa403c7245c904c18';
 }
 else{
-    service.vars.topUpBundleTableId = 'DT545a7c5683114b75';
+    service.vars.topUpBundleTableId = 'DT10100573dc5228e2';
     service.vars.maizeTableId = 'DT950b2ac0dbb996de';
     service.vars.maizeEnrollmentTableId = 'DTd4cf7149a530dcbe';
     service.vars.enrollmentBundleTableId = 'DTe0cd7f4439c55c3f';
+    service.vars.JiTEnrollmentTableId = 'DT7a66f47aa004743c';
+    service.vars.JITSucessfullRegId = 'DT12cc1d618437e58b';
 }
 
 var MenuCount = 0;
