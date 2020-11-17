@@ -51,6 +51,7 @@
     "verbose": true
   },
   "dependencies": {
+    "axios": "^0.21.0",
     "moment": "^2.27.0",
     "underscore": "^1.6.0"
   }

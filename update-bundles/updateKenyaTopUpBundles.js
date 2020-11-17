@@ -20,7 +20,7 @@ if(service.vars.env == 'prod'){
 
 }
 else{
-    service.vars.inputTableId = 'DT10100573dc5228e2'//'DT545a7c5683114b75';
+    service.vars.inputTableId = 'DT545a7c5683114b75';
 
 }
 
@@ -41,7 +41,7 @@ global.main= function(){
 var districtBundles;
 var inputHanlder = function(input){
     if(state.vars.counter < districts.length){
-        var currentDistricts = districts.slice(state.vars.counter, (state.vars.counter)+3);
+        var currentDistricts = districts.slice(state.vars.counter, (state.vars.counter)+1);
         currentDistricts.forEach(function(district){
             console.log('***********District:'+ district+ 'started******************');
             districtBundles = updateBundlesHelperFunctions.fetchDistrictBundles(district);
@@ -49,7 +49,7 @@ var inputHanlder = function(input){
             console.log('#################################District: '+district+'finished#######################');
         });
         console.log(state.vars.counter +' '+ input);
-        state.vars.counter = (state.vars.counter) + 3;
+        state.vars.counter = (state.vars.counter) + 1;
         console.log(state.vars.counter);
         sayText('press any key to continue');
         promptDigits('update_bundles_two', {
@@ -64,7 +64,7 @@ var inputHanlder = function(input){
 };
 var inputHanlderTwo = function(input){
     if(state.vars.counter < districts.length){
-        var currentDistricts = districts.slice(state.vars.counter, (state.vars.counter)+3);
+        var currentDistricts = districts.slice(state.vars.counter, (state.vars.counter)+1);
         currentDistricts.forEach(function(district){
             console.log('***********District:'+ district+ 'started******************');
             districtBundles = updateBundlesHelperFunctions.fetchDistrictBundles(district);
@@ -72,7 +72,7 @@ var inputHanlderTwo = function(input){
             console.log('#################################District: '+district+'finished#######################');
         });
         console.log(state.vars.counter + ' '+ input);
-        state.vars.counter = (state.vars.counter) + 3;
+        state.vars.counter = (state.vars.counter) + 1;
         console.log(state.vars.counter);
         sayText('press any key to continue');
         promptDigits('update_bundles', {
