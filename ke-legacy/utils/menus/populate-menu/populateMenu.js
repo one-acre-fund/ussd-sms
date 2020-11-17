@@ -5,13 +5,9 @@ var translations = require('../../../translations/index');
 var CurrentSeasonName = '2020, Long Rain';
 
 var chosenMenu;
-var IsPrePayTrialDistrict= function(districtID){
-    console.log(districtID);
-    return false;
-    //districtname = districtname.toLowerCase();
-    //if (districtname == "nyando" || districtname == "kipkelion" || districtname == "chwele"){return true}
-    //else {return false}
-
+var IsPrePayTrialDistrict= function(districtName){
+    console.log('districtName:' + districtName);
+    return districtName === 'Kipkelion' || districtName === 'Chwele';
 };
 var SHSActive = function (districtname){
     var Table = project.getOrCreateDataTable('SHS Districts');
