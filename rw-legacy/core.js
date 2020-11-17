@@ -85,7 +85,7 @@ var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 var avocadoTreesOrdering = require('../avocado-trees-ordering/avocadoTreesOrdering');
 var clientRegistration = require('../client-registration/clientRegistration');
 //options
-const lang = project.vars.cor_lang;
+const lang = service.vars.lang || project.vars.cor_lang;
 const max_digits_for_input = project.vars.max_digits; //only for testing
 //const max_digits_for_nid = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits_nid'}}).next().vars.value); 
 const max_digits_for_account_number = project.vars.max_digits_an;
@@ -149,6 +149,14 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             sayText(current_menu);
             promptDigits('enr_reg_start', { 'submitOnHash': false, 'maxDigits': max_digits_for_nid, 'timeout': timeout_length });
         }
+    } else if(response == 99) { // use 99 to change the language
+        service.vars.lang = service.vars.lang == 'ki' ? 'en' : 'ki';
+        sayText(msgs('cor_enr_main_splash',{},lang));
+        promptDigits('account_number_splash', {
+            'submitOnHash': false,
+            'maxDigits': 2,
+            'timeout': timeout_length
+        });
     }
     else {
         try {
