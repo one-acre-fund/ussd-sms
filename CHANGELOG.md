@@ -2,8 +2,20 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
-
 * [SER-343](https://oneacrefund.atlassian.net/browse/SER-343) Enable prpayment calculator for Kipkelion and Chwele
+
+## v1.1.3
+### Fixed
+* [SER-347](https://oneacrefund.atlassian.net/browse/SER-347) show amount to pay in Swahili translation
+
+## v1.1.2
+### Fixed
+* [SER-346](https://oneacrefund.atlassian.net/browse/SER-346) Remove Biolite SHS from 2021B USSD Enrollment Rwanda 
+### Fixed
+* [SER-340](https://oneacrefund.atlassian.net/browse/SER-340) add group validation in TR
+
+## v1.1.1
+### Added
 * [SER-330](https://oneacrefund.atlassian.net/browse/SER-330) Configure November Chicken confirmations - changed the chicken eligibility calculations and updated the cap
 
 ## v1.1.0
