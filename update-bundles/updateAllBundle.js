@@ -15,11 +15,11 @@ if(service.vars.env === 'prod' || service.vars.env === 'dev'){
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key']; 
 if(service.vars.env == 'prod'){
-    service.vars.inputTableId = 'DT21237e171411bce1';
+    service.vars.inputTableId = 'DT4af79e6930dca4cb';
 
 }
 else{
-    service.vars.inputTableId = 'DTe0cd7f4439c55c3f';
+    service.vars.inputTableId = 'DT4af79e6930dca4cb';
 
 }
 

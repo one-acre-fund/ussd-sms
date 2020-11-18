@@ -31,68 +31,36 @@ function fetchDistrictBundles(districtId) {
 
 
 function processBundles(districtBundles, districtId) {
-    var processedBundles = [];
+    const processedBundles = [];
     districtBundles.bundles.forEach(function (bundle) {
-        
-        var bundleInput = [];
-        bundleInput = districtBundles.bundleInputs.filter(function(bi){
-            return bi.BundleId === bundle.BundleId;
-        });
-
-        bundleInput.forEach(function (bi){
-            if (bi) {
-                var processedBundle = {
-                    bundle_name: bundle.BundleName,
-                    input_name: bi.InputName,
-                    en: bundle.BundleName,
-                    sw: bundle.BundleName,
-                    bundleType: bundle.BundleTypeId,
-                    increment: bundle.BundleQuantityIncrement,
-                    acceptableQuantityList: bundle.AcceptableQuantityList,
-                    max: bundle.UpperBoundQuantity,
-                    min: '',
-                    price: bi.CostAdjustment_PerBundle,
-                    price_per_bundle: bundle.BundleCost_PerBundle,
-                    fixed_price: bundle.BundleCost_Fixed,
-                    unit: bi.UnitTypeId,
-                    bundleInputId: bi.BundleInputId,
-                    bundleId: bi.BundleId,
-                };
-                processedBundles.push(processedBundle);
-            } else {
-                console.log('Empty bundle: ' + bundle.BundleName);
-            }
-
-        });
-        /*districtBundles.bundleInputs.forEach(function (bi) {
+        var bundleInput;
+        districtBundles.bundleInputs.forEach(function (bi) {
             if (bi.BundleId === bundle.BundleId) {
-                //bundleInput.push(bi);
-                if (bi) {
-                    var processedBundle = {
-                        bundle_name: bundle.BundleName,
-                        input_name: bi.InputName,
-                        en: bundle.BundleName,
-                        sw: bundle.BundleName,
-                        bundleType: bundle.BundleTypeId,
-                        increment: bundle.BundleQuantityIncrement,
-                        acceptableQuantityList: bundle.AcceptableQuantityList,
-                        max: bundle.UpperBoundQuantity,
-                        min: '',
-                        price: bi.CostAdjustment_PerBundle,
-                        price_per_bundle: bundle.BundleCost_PerBundle,
-                        fixed_price: bundle.BundleCost_Fixed,
-                        unit: bi.UnitTypeId,
-                        bundleInputId: bi.BundleInputId,
-                        bundleId: bi.BundleId,
-                    };
-                    processedBundles.push(processedBundle);
-                } else {
-                    console.log('Empty bundle: ' + bundle.BundleName);
-                }
-    
+                bundleInput = bi;
             }
-        });*/
-        
+        });
+        if (bundleInput) {
+            const processedBundle = {
+                bundle_name: bundle.BundleName,
+                input_name: bundleInput.InputName,
+                en: bundle.BundleName,
+                sw: bundle.BundleName,
+                bundleType: bundle.BundleTypeId,
+                increment: bundle.BundleQuantityIncrement,
+                acceptableQuantityList: bundle.AcceptableQuantityList,
+                max: bundle.UpperBoundQuantity,
+                min: '',
+                price: bundleInput.CostAdjustment_PerBundle,
+                price_per_bundle: bundle.BundleCost_PerBundle,
+                fixed_price: bundle.BundleCost_Fixed,
+                unit: bundleInput.UnitTypeId,
+                bundleInputId: bundleInput.BundleInputId,
+                bundleId: bundleInput.BundleId,
+            };
+            processedBundles.push(processedBundle);
+        } else {
+            console.log('Empty bundle: ' + bundle.BundleName);
+        }
     });
     addProcessedBundlesToDistrict(processedBundles, districtId);
 
