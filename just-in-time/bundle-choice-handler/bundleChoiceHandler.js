@@ -34,6 +34,7 @@ module.exports = {
                 }
             }
             if(isValidBundleInputChoice(input)){
+                state.vars.quantity = chosenBundle.quantity;
                 onBundleSelected(chosenBundle.bundleId);
             }
         };
