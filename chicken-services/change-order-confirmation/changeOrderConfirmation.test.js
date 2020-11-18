@@ -1,3 +1,4 @@
+service.vars.lang = 'en';
 const {handlerName,getHandler} = require ('./changeOrderConfirmation');
 var notifyELK = require('../../notifications/elk-notification/elkNotification'); 
 var CheckChickenCapByDistrict = require('../check-chicken-cap-by-district/CheckChickenCapByDistrict');
