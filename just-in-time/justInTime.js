@@ -173,7 +173,12 @@ function onOrderConfirmed(){
         var orderPlaced = JSON.parse(state.vars.orders);
         console.log(orderPlaced);
         for( var m = 0; m < orderPlaced.length; m++ ){
-            orderPlacedMessage = orderPlacedMessage + orderPlaced[m].bundleName + ' ' + orderPlaced[m].price + ' ';
+            if(state.vars.chosenMaizeBundle != ' ' && (JSON.parse(state.vars.chosenMaizeBundle).bundleId == orderPlaced[m].bundleId)){
+                var bundlechosen = JSON.parse(state.vars.chosenMaizeBundle);
+                orderPlacedMessage = orderPlacedMessage + bundlechosen.bundleName + ' ' + bundlechosen.price + ' ';
+            }else{
+                orderPlacedMessage = orderPlacedMessage + orderPlaced[m].bundleName + ' ' + orderPlaced[m].price + ' ';
+            }
         } 
         var table = project.initDataTableById(service.vars.JiTEnrollmentTableId);
         var row = table.createRow({vars: {'account_number': client.AccountNumber, 'order': JSON.stringify(requestBundles)}});
