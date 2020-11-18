@@ -1,3 +1,4 @@
+service.vars.lang = 'en';
 const {handlerName,getHandler} = require ('./changeOrderHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification'); 
 var backToMain = require('../../rw-legacy/lib/backToMainMenu');
