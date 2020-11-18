@@ -28,6 +28,7 @@ module.exports = {
         state.vars.country = country;
         state.vars.jitLang = lang;
         state.vars.orders = ' ';
+        state.vars.maizeChoiceBId = ' ';
         var translate =  createTranslator(translations, state.vars.jitLang);
         global.sayText(translate('account_number_handler',{},state.vars.jitLang));
         global.promptDigits(accountNumberHandler.handlerName);
@@ -137,7 +138,17 @@ function onOrderConfirmed(){
     var isGroupLeader = group_leader_check(client.DistrictId, client.ClientId);
 
     for( var j = 0; j < bundle.length; j++ ){
-        var order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': 1, inputChoices: [parseInt(bundle[j].bundleInputId)] };
+        var order;
+        if(state.vars.maizeChoiceBId != ' '){
+            if(state.vars.maizeChoiceBId == bundle[j].bundleId){
+                order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': bundle[j].quantity, inputChoices: [parseInt(bundle[j].bundleInputId)] };
+            }
+            else{
+                order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': 1, inputChoices: [parseInt(bundle[j].bundleInputId)]};
+            }
+        }else{
+            order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': 1, inputChoices: [parseInt(bundle[j].bundleInputId)]};
+        }
         requestBundles.push(order);
     }
     var requestData = {
@@ -191,23 +202,23 @@ function displayBundles(district){
     var bundles = [];
     var maizeBanedBundleIds= [];
     var currentOrder = [];
+    var maizeBundleIds = [];
+    var firstTime = true;
+    var maizeTable = project.initDataTableById(service.vars.maizeTableId);
+    var maizeCursor = maizeTable.queryRows();
+
+    while(maizeCursor.hasNext()){
+        var maizeRow = maizeCursor.next(); 
+        maizeBundleIds.push(maizeRow.vars.bundleId);
+    }
 
     // Check for maize bundle in the current's client order
     if(state.vars.orders != ' '){
-        var maizeTable = project.initDataTableById(service.vars.maizeTableId);
-        var currentOrder = JSON.parse(state.vars.orders);
-        var maizeBundleIds = [];
-        var maizeCursor = maizeTable.queryRows();
-
-        while(maizeCursor.hasNext()){
-            var maizeRow = maizeCursor.next(); 
-            maizeBundleIds.push(maizeRow.vars.bundleId);
-        }
+        currentOrder = JSON.parse(state.vars.orders);
         for (var k = 0; k < currentOrder.length; k++){
             if(maizeBundleIds.indexOf(currentOrder[k].bundleId) != -1){
                 maizeBanedBundleIds = maizeBundleIds;
             }
-
         }   
     }
     if(bundleInputs){
@@ -222,6 +233,18 @@ function displayBundles(district){
                         }
                     }
                     else{
+                        if((maizeBundleIds.indexOf(bundleInputs[i].bundleId) != -1) && firstTime){
+                            state.vars.maizeChoiceBId = bundleInputs[i].bundleId;
+                            var newBundle = JSON.parse(JSON.stringify( bundleInputs[i]));
+                            newBundle.bundleName = '0.5 Maize Acre';
+                            newBundle.price = 4950;
+                            newBundle.quantity = 0.5;
+                            bundles.push(newBundle);
+                            bundleInputs[i].bundleName = '0.25 Maize Acre';
+                            bundleInputs[i].price = 2830;
+                            bundleInputs[i].quantity = 0.25;
+                            firstTime = false;
+                        }
                         bundles.push(bundleInputs[i]);
                     }
                 }
