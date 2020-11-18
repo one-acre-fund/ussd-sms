@@ -64,8 +64,8 @@ else{
 var MenuCount = 0;
 var LocArray='';
 var ClientAccNum = '';
-var CurrentSeasonName = '2020, Long Rain';
-var LastSeason = '2019, Long Rain';
+var CurrentSeasonName = '2021, Long Rain';
+var LastSeason = '2020, Long Rain';
 var client = '';
 var JITBundleOptions =[
     {'nameEN': '0.5 acre maize',
@@ -371,6 +371,7 @@ var FAWCreateOrder = function(client, order){
 var EnrolledAndQualified = function (client){
     var arrayLength = client.BalanceHistory.length;
     var Valid = false;
+    console.log('balance history:'+ JSON.stringify(client.BalanceHistory));
     for (var i = 0; i < arrayLength; i++) {
         if (client.BalanceHistory[i].SeasonName == CurrentSeasonName){
             if(client.BalanceHistory[i].TotalCredit> 0){Valid = true;}
