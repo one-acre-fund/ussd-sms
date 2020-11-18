@@ -85,7 +85,6 @@ function onVarietyChosen(bundleInput){
 function onBundleSelected(bundleId, varietychosen, bundleInputId){
 
 
-    //console.log('state:!!!!!!!!!!!!!!!!!!!!!'+state.vars.bundleInputs);
     var bundleInputs = getBundlesInputs(state.vars.currentDistrict);
     var selectedBundle = [];
     for( var i = 0; i < bundleInputs.length; i++ ){
@@ -107,7 +106,6 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
         else{
             // Display the varieties(inputs)
             state.vars.varietyBundleId = bundleId;
-            //state.vars.allVarieties = JSON.stringify(selectedBundle);
             displayVariety(selectedBundle);
             promptDigits(varietyChoiceHandler.handlerName);
         }
@@ -208,15 +206,14 @@ function displayBundles(district){
     console.log('district ID:' + district);
     var bundleInputs = getBundlesInputs(district);
     state.vars.currentDistrict = district;
-    //state.vars.bundleInputs = JSON.stringify(bundleInputs);
 
-    //console.log('state:!!!!!!!!!!!!!!!!!!!!!#############################'+state.vars.bundleInputs);
     var unique = [];
     var bundles = [];
     var maizeBanedBundleIds= [];
     var currentOrder = [];
     var maizeBundleIds = [];
     var firstTime = true;
+    var newBundle;
     var maizeTable = project.initDataTableById(service.vars.maizeTableId);
     var maizeCursor = maizeTable.queryRows();
 
@@ -242,12 +239,23 @@ function displayBundles(district){
                 if(maizeBanedBundleIds.indexOf(bundleInputs[i].bundleId) == -1){
                     if(currentOrder.length != 0){
                         if(!bundleExists(currentOrder,bundleInputs[i].bundleId)){
+                            if((maizeBundleIds.indexOf(bundleInputs[i].bundleId) != -1) && firstTime){
+                                newBundle = JSON.parse(JSON.stringify( bundleInputs[i]));
+                                newBundle.bundleName = '0.5 Maize Acre';
+                                newBundle.price = 4950;
+                                newBundle.quantity = 0.5;
+                                bundles.push(newBundle);
+                                bundleInputs[i].bundleName = '0.25 Maize Acre';
+                                bundleInputs[i].price = 2830;
+                                bundleInputs[i].quantity = 0.25;
+                                firstTime = false;
+                            }
                             bundles.push(bundleInputs[i]);
                         }
                     }
                     else{
                         if((maizeBundleIds.indexOf(bundleInputs[i].bundleId) != -1) && firstTime){
-                            var newBundle = JSON.parse(JSON.stringify( bundleInputs[i]));
+                            newBundle = JSON.parse(JSON.stringify( bundleInputs[i]));
                             newBundle.bundleName = '0.5 Maize Acre';
                             newBundle.price = 4950;
                             newBundle.quantity = 0.5;

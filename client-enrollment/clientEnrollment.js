@@ -52,6 +52,7 @@ module.exports = {
                 }
                 else{
                     state.vars.orders= ' ';
+                    state.vars.chosenMaizeBundle = ' ';
                     state.vars.account = client.AccountNumber;
                     state.vars.country = 'KE';
                     state.vars.reg_lang = state.vars.enr_lang;
@@ -92,7 +93,7 @@ var isValid = function(client){
 
 var alreadyEnrolled = function(accountNumber){
     var table = project.initDataTableById(service.vars.JITSucessfullRegId);
-    var cursor = table.queryRows({vars: {'account_number': accountNumber}}); 
+    var cursor = table.queryRows({vars: {'account_number': accountNumber,'finalized': 1}}); 
     if(cursor.hasNext()){
         return true;
     }

@@ -85,7 +85,7 @@ module.exports = {
     },
     'final_message': {
         'en-ke': 'Thanks for ordering $products . Make sure you pay at least Ksh 500 qualification amount to receive input on input delivery day.',
-        'sw': 'Asante kwa kujisajili na $produts . Hakikisha umelipa shilingi 500 au zaidi ilikupokea bidhaa siku yakupokea pembejeo.'
+        'sw': 'Asante kwa kujisajili na $products . Hakikisha umelipa shilingi 500 au zaidi ilikupokea bidhaa siku yakupokea pembejeo.'
     },
     'enrollment_failed': {
         'en-ke': 'Please try again later. Most people are applying right now!',

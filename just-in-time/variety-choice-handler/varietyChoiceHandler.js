@@ -37,7 +37,6 @@ module.exports = {
                 }
             }
             var allVarieties = selectedBundle;
-            //console.log('inside variety choice handler'+JSON.stringify(allVarieties));
             notifyELK();
             if (state.vars.multiple_input_menus) {
                 if (input == 44 && state.vars.input_menu_loc > 0) {

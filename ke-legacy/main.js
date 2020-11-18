@@ -43,24 +43,20 @@ service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 service.vars.roster_read_key = project.vars.roster_read_key;
 service.vars.lr_2021_client_table_id = project.vars[env+'_lr_2021_client_table_id'];
 service.vars.registerEnrollEnd = env+ '_registerEnrollEnd';
-service.vars.registerEnrollStart = env+ '_registerEnrollStart';
+service.vars.registerEnrollStart = env + '_registerEnrollStart';
+
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 service.vars.credit_officers_table = 'credit_officers_table';
 service.vars.duka_clients_table = env + '_duka_client_registration';
-
+service.vars.maizeEnrollmentTableId  = project.vars[env + '_maize_enr_table_id'];
+service.vars.maizeTableId = project.vars[env + '_maize_bundle_table_id'];
+service.vars.topUpBundleTableId = project.vars[env + '_topUp_bundlesId'];
+service.vars.enrollmentBundleTableId = project.vars[env + '_enrollment_bundles_id'];
 if(env == 'prod'){
-    service.vars.topUpBundleTableId = 'DT891c89e9a82b6841';
-    service.vars.maizeTableId = 'DT4c3cd5c415c157d0';
-    service.vars.maizeEnrollmentTableId = 'DT8e672319bead2161';
-    service.vars.enrollmentBundleTableId = 'DT21237e171411bce1';
     service.vars.JiTEnrollmentTableId = 'DT52cebb451097ac25';
     service.vars.JITSucessfullRegId = 'DTa403c7245c904c18';
 }
 else{
-    service.vars.topUpBundleTableId = 'DT10100573dc5228e2';
-    service.vars.maizeTableId = 'DT950b2ac0dbb996de';
-    service.vars.maizeEnrollmentTableId = 'DTd4cf7149a530dcbe';
-    service.vars.enrollmentBundleTableId = 'DTe0cd7f4439c55c3f';
     service.vars.JiTEnrollmentTableId = 'DT7a66f47aa004743c';
     service.vars.JITSucessfullRegId = 'DT12cc1d618437e58b';
 }
