@@ -34,7 +34,7 @@ module.exports = {
                 }
             }
             if(isValidBundleInputChoice(input)){
-                if(Object.keys(chosenBundle.quantity).length>0){
+                if(chosenBundle.quantity !== undefined){
                     state.vars.chosenMaizeBundle = JSON.stringify(chosenBundle);
                 }
                 onBundleSelected(chosenBundle.bundleId);
