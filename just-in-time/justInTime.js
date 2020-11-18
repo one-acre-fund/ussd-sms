@@ -141,7 +141,7 @@ function onOrderConfirmed(){
         var order;
         if(state.vars.maizeChoiceBId != ' '){
             if(state.vars.maizeChoiceBId == bundle[j].bundleId){
-                order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': bundle[j].quantity, inputChoices: [parseInt(bundle[j].bundleInputId)] };
+                order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': state.vars.quantity, inputChoices: [parseInt(bundle[j].bundleInputId)] };
             }
             else{
                 order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': 1, inputChoices: [parseInt(bundle[j].bundleInputId)]};
