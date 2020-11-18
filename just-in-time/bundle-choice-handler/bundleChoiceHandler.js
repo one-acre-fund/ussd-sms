@@ -34,7 +34,7 @@ module.exports = {
                 }
             }
             if(isValidBundleInputChoice(input)){
-                state.vars.quantity = chosenBundle.quantity;
+                state.vars.chosenMaizeBundle = JSON.stringify(chosenBundle);
                 onBundleSelected(chosenBundle.bundleId);
             }
         };

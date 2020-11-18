@@ -28,7 +28,7 @@ module.exports = {
         state.vars.country = country;
         state.vars.jitLang = lang;
         state.vars.orders = ' ';
-        state.vars.maizeChoiceBId = ' ';
+        state.vars.chosenMaizeBundle = ' ';
         var translate =  createTranslator(translations, state.vars.jitLang);
         global.sayText(translate('account_number_handler',{},state.vars.jitLang));
         global.promptDigits(accountNumberHandler.handlerName);
@@ -59,7 +59,13 @@ function onFinalizeOrder(){
         allBundles = JSON.parse(state.vars.orders);
     }
     for( var j = 0; j < allBundles.length; j++ ){
-        orderMessage = orderMessage + allBundles[j].bundleName + ' ' + allBundles[j].price + '\n';
+        if(state.vars.chosenMaizeBundle != ' ' && (JSON.parse(state.vars.chosenMaizeBundle).bundleId == allBundles[j].bundleId)){
+            var chosenBundle = JSON.parse(state.vars.chosenMaizeBundle);
+            orderMessage = orderMessage + chosenBundle.bundleName + ' ' + chosenBundle.price + '\n';
+
+        }else{
+            orderMessage = orderMessage + allBundles[j].bundleName + ' ' + allBundles[j].price + '\n';
+        }
     }
     sayText(translate('final_order_display',{'$orders': orderMessage },state.vars.jitLang));
     promptDigits(orderConfirmationHandler.handlerName);
@@ -114,7 +120,13 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
         allBundles.push(selectedBundle[0]);
         var orderMessage = '';
         for( var j = 0; j < allBundles.length; j++ ){
-            orderMessage = orderMessage + allBundles[j].bundleName + ' ' + allBundles[j].price + '\n';
+            if(state.vars.chosenMaizeBundle != ' ' && (JSON.parse(state.vars.chosenMaizeBundle).bundleId == allBundles[j].bundleId)){
+                var orderedBundle =  JSON.parse(state.vars.chosenMaizeBundle);
+                orderMessage = orderMessage + orderedBundle.bundleName + ' ' + orderedBundle.price + '\n';
+            }
+            else{
+                orderMessage = orderMessage + allBundles[j].bundleName + ' ' + allBundles[j].price + '\n';
+            }  
         }
         //Display confirmation message
         state.vars.orders = JSON.stringify(allBundles);
@@ -139,13 +151,9 @@ function onOrderConfirmed(){
 
     for( var j = 0; j < bundle.length; j++ ){
         var order;
-        if(state.vars.maizeChoiceBId != ' '){
-            if(state.vars.maizeChoiceBId == bundle[j].bundleId){
-                order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': state.vars.quantity, inputChoices: [parseInt(bundle[j].bundleInputId)] };
-            }
-            else{
-                order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': 1, inputChoices: [parseInt(bundle[j].bundleInputId)]};
-            }
+        if(state.vars.chosenMaizeBundle != ' ' && (JSON.parse(state.vars.chosenMaizeBundle).bundleId == bundle[j].bundleId)){
+            var chosenBundle = JSON.parse(state.vars.chosenMaizeBundle);
+            order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': chosenBundle.quantity, inputChoices: [parseInt(bundle[j].bundleInputId)] };
         }else{
             order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': 1, inputChoices: [parseInt(bundle[j].bundleInputId)]};
         }
@@ -234,7 +242,6 @@ function displayBundles(district){
                     }
                     else{
                         if((maizeBundleIds.indexOf(bundleInputs[i].bundleId) != -1) && firstTime){
-                            state.vars.maizeChoiceBId = bundleInputs[i].bundleId;
                             var newBundle = JSON.parse(JSON.stringify( bundleInputs[i]));
                             newBundle.bundleName = '0.5 Maize Acre';
                             newBundle.price = 4950;
