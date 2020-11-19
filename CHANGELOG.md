@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
+### Fixed
+* [SER-344](https://oneacrefund.atlassian.net/browse/SER-344) Adjust USSD non-client menu for Kenya
 ### Added
 * [SER-343](https://oneacrefund.atlassian.net/browse/SER-343) Enable prepayment calculator for Kipkelion and Chwele
 ### Fixed
@@ -10,6 +12,7 @@ All notable changes to this project will be documented in this file.
 ## v1.1.4
 ### Fixed
 * [SER-344](https://oneacrefund.atlassian.net/browse/SER-344) Adjust USSD non-client menu for Kenya
+* [SER-343](https://oneacrefund.atlassian.net/browse/SER-343) Enable prpayment calculator for Kipkelion and Chwele
 
 ## v1.1.3
 ### Fixed
