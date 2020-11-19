@@ -64,8 +64,8 @@ else{
 var MenuCount = 0;
 var LocArray='';
 var ClientAccNum = '';
-var CurrentSeasonName = '2020, Long Rain';
-var LastSeason = '2019, Long Rain';
+var CurrentSeasonName = '2021, Long Rain';
+var LastSeason = '2020, Long Rain';
 var client = '';
 var JITBundleOptions =[
     {'nameEN': '0.5 acre maize',
