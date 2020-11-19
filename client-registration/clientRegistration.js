@@ -138,7 +138,7 @@ module.exports = {
         addInputHandler(varietyChoiceHandler.handlerName, varietyChoiceHandler.getHandler(onVarietyChosen));
         addInputHandler(orderConfirmationHandler.handlerName, orderConfirmationHandler.getHandler(onOrderConfirmed,displayBundles));
         addInputHandler(addOrderHandler.handlerName, addOrderHandler.getHandler(onFinalizeOrder,displayBundles));
-        addInputHandler(varietyConfirmationHandler.handlerName, varietyConfirmationHandler.getHandler(onBundleSelected));
+        addInputHandler(varietyConfirmationHandler.handlerName, varietyConfirmationHandler.getHandler(onBundleSelected,displayBundles));
         addInputHandler(groupCodeHandler.handlerName, groupCodeHandler.getHandler(onGroupCodeValidated));
         addInputHandler(continueHandler.handlerName, continueHandler.getHandler(onContinueToEnroll));
     },
