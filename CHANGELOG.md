@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
-## v1.1.4
+## v1.2.0
 ### Fixed
 * [SER-344](https://oneacrefund.atlassian.net/browse/SER-344) Adjust USSD non-client menu for Kenya
 ### Added
