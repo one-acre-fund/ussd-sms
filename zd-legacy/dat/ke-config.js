@@ -17,7 +17,7 @@ var find_user = function(account_number){
         console.log(err);
         users = [];
     }
-    if(response.status < 300 & users.length > 0){
+    if(response.status < 300 && users.length > 0){
         console.log('got a user!!' + response.status);
         var id = users[0].id;
         //console.log(id)
