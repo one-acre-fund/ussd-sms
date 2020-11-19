@@ -205,6 +205,7 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
         const messages = {
             'en-ke': 'You have a Duka credit account with an outstanding credit balance of 7780. Please complete your loan in order to take another one.',
             'sw': 'Una akaunti ya mkopo ya Duka na salio bora la mkopo la 7780. Tafadhali kamilisha mkopo wako ili uchukue nyingine.'
+<<<<<<< HEAD
         };
 
         const accountNumberHandler = accountNumberInputHandler.getHandler(lang);
@@ -230,6 +231,8 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
         const messages = {
             'en-ke': 'You have a Duka credit account with an outstanding credit balance of 7780. Please complete your loan in order to take another one.',
             'sw': 'Una akaunti ya mkopo ya Duka na salio bora la mkopo la 7780. Tafadhali kamilisha mkopo wako ili uchukue nyingine.'
+=======
+>>>>>>> origin/master
         };
 
         const accountNumberHandler = accountNumberInputHandler.getHandler(lang);
