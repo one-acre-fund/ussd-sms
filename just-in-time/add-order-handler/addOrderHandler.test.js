@@ -31,5 +31,10 @@ describe('account_number_handler', () => {
         addOrderHandler(2);
         expect(onFinalizeOrder).toHaveBeenCalled();
     });
+    it('should remove the last bundle and  order if the user chooses 2 to finalize ', () =>{
+        addOrderHandler(2);
+        expect(onFinalizeOrder).toHaveBeenCalled();
+    });
+    
 
 });

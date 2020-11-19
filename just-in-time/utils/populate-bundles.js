@@ -24,18 +24,19 @@ module.exports = function(lang, max_chars, content,isVariety){
     var sessionMenu = [];
     for(var i = 0; i < optionsLength ; i++){
         var currentOption = content[i];
+        console.log('################'+JSON.stringify(currentOption));
         if(isVariety){
             currentMenu = finalMenu + String(counter) + ') ' + currentOption.inputName + '\n';
         }
         else{
-            currentMenu = finalMenu + String(counter) +') '+ currentOption.bundleName + ' '+ currentOption.price  + '\n';
+            currentMenu = finalMenu + String(counter) +') '+ currentOption[lang] + ' '+ currentOption.price  + '\n';
         }
         if(currentMenu.length < max_chars){
             if(isVariety){
                 finalMenu = finalMenu + String(counter) + ') ' + currentOption.inputName + '\n';
             }
             else{
-                finalMenu = finalMenu + String(counter) + ') ' + currentOption.bundleName + ' '+ currentOption.price  + '\n';
+                finalMenu = finalMenu + String(counter) + ') ' + currentOption[lang] + ' '+ currentOption.price  + '\n';
             }
         }
         else{
@@ -44,7 +45,7 @@ module.exports = function(lang, max_chars, content,isVariety){
                 finalMenu = prev_page + '\n' + String(counter) + ') ' + currentOption.inputName + '\n';
             }
             else{
-                finalMenu = prev_page + '\n' + String(counter) + ')' + currentOption.bundleName + ' '+ currentOption.price  + '\n';
+                finalMenu = prev_page + '\n' + String(counter) + ')' + currentOption[lang] + ' '+ currentOption.price  + '\n';
             }
             loc = loc + 1;
         }
