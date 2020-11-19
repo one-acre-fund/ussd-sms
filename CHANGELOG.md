@@ -2,7 +2,10 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
-* [SER-343](https://oneacrefund.atlassian.net/browse/SER-343) Enable prpayment calculator for Kipkelion and Chwele
+### Added
+* [SER-343](https://oneacrefund.atlassian.net/browse/SER-343) Enable prepayment calculator for Kipkelion and Chwele
+### Fixed
+* [SER-311](https://oneacrefund.atlassian.net/browse/SER-311) Update Current Season and Previous Seasons for new SHS season
 
 ## v1.1.3
 ### Fixed
