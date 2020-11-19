@@ -7,6 +7,10 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 * [SER-311](https://oneacrefund.atlassian.net/browse/SER-311) Update Current Season and Previous Seasons for new SHS season
 
+## v1.1.4
+### Fixed
+* [SER-344](https://oneacrefund.atlassian.net/browse/SER-344) Adjust USSD non-client menu for Kenya
+
 ## v1.1.3
 ### Fixed
 * [SER-347](https://oneacrefund.atlassian.net/browse/SER-347) show amount to pay in Swahili translation
