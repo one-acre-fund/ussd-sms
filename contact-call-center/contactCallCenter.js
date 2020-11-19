@@ -16,10 +16,10 @@ function registerInputHandlers(lang) {
 function start(lang, isClient) {
     var menuOptions = isClient ? options.clientOptions : options.nonClientOptions;
     var menu = createMenu(menuOptions[lang], nextScreenOption[lang], '');
-    state.vars.ccc_screens = menu.screens;
-    state.vars.ccc_options = menu.optionValues;
+    state.vars.ccc_screens = JSON.stringify(menu.screens);
+    state.vars.ccc_options = JSON.stringify(menu.optionValues);
     state.vars.ccc_current_screen = 1;
-    global.sayText(state.vars.ccc_screens[state.vars.ccc_current_screen]);
+    global.sayText(menu.screens[state.vars.ccc_current_screen]);
     global.promptDigits(contactCallCenterInputHandler.handlerName);
 }
 
