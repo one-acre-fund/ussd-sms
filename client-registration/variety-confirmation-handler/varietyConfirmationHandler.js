@@ -11,9 +11,11 @@ module.exports = {
                 onBundleSelected(varietyChosen.bundleId,true,varietyChosen.bundleInputId);
             }
             else{
-                var orders = JSON.parse(state.vars.orders);
-                orders.pop();
-                state.vars.orders = JSON.stringify(orders);
+                if(state.vars.orders != ' '){
+                    var orders = JSON.parse(state.vars.orders);
+                    orders.pop();
+                    state.vars.orders = JSON.stringify(orders);
+                }
                 displayBundles(JSON.parse(state.vars.newClient).DistrictId);
                 global.promptDigits(bundleChoiceHandler.handlerName);
             }
