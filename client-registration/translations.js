@@ -76,8 +76,8 @@ module.exports = {
         'ki': ' Mwanditse hamwe na numero ya konte $AccountNumber muri Tubura. Mukoreshe iyo numero'
     },
     'order_placed': {
-        'en-ke': 'Order placed\n $orders \n 1) Add product\n 2) Finish ordering',
-        'sw': 'Bidhaa ulizo agiza\n $orders \n 1) Ongeza bidhaa\n 2) Maliza ombi'
+        'en-ke': 'Order placed\n $orders \n 1) Add product\n 2) Finish ordering\n3) Back',
+        'sw': 'Bidhaa ulizo agiza\n $orders \n 1) Ongeza bidhaa\n 2) Maliza ombi\n3) rudi nyuma'
     },
     'final_order_display': {
         'en-ke': 'Order placed\n $orders \n1) Confirm order\n2) Go Back',

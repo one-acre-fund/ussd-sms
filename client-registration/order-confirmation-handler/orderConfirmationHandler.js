@@ -13,7 +13,7 @@ module.exports = {
                 var orders = JSON.parse(state.vars.orders);
                 orders.pop();
                 state.vars.orders = JSON.stringify(orders);
-                displayBundles(JSON.parse(state.vars.topUpClient).DistrictId);
+                displayBundles(JSON.parse(state.vars.newClient).DistrictId);
                 global.promptDigits(bundleChoiceHandler.handlerName);
             }
         };

@@ -17,12 +17,12 @@ module.exports = {
         'sw': 'Chagua mbegu'
     },
     'order_placed': {
-        'en-ke': 'Order placed\n $orders \n 1) Add product\n 2) Finish ordering',
-        'sw': 'Bidhaa ulizo agiza\n $orders \n 1) Ongeza bidhaa\n 2) Maliza ombi'
+        'en-ke': 'Order placed\n $orders \n 1) Add product\n 2) Finish ordering\n 3) Go back',
+        'sw': 'Bidhaa ulizo agiza\n $orders \n 1) Ongeza bidhaa\n 2) Maliza ombi\n 3) rudi nyuma'
     },
     'final_order_display': {
-        'en-ke': 'Order placed\n $orders \n1) Confirm order\n2) Go back',
-        'sw': 'Bidhaa ulizo agiza\n $orders \n1) kudhibitisha\n2) rudi nyuma'
+        'en-ke': 'Order placed\n $orders \n1) Confirm order\n 2) Go back',
+        'sw': 'Bidhaa ulizo agiza\n $orders \n1) kudhibitisha\n 2) rudi nyuma'
     },
     'final_message': {
         'en-ke': 'Thank you for topping-up through JiT. Your order is $products Reach out to CE through *689# if this  order is not correct',
