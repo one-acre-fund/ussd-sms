@@ -31,6 +31,7 @@ var dukaClient = require('../duka-client/dukaClient');
 var isCreditOfficer = require('../duka-client/checkCreditOfficer');
 var warrantyExpiration = require('../warranty-expiration/warrantyExpiration');
 var seedGerminationIssues = require('../seed-germination-issues/seedGerminationIssues');
+var contactCallCenter = require('../contact-call-center/contactCallCenter');
 
 var slackLogger = require('../slack-logger/index');
 var Log = require('../logger/elk/elk-logger');
@@ -773,25 +774,6 @@ var SHSShowCode = function(client,serial,type){
     }
 };
 
-var CallBackTimeCheck = function(accountnumber, type, hours){
-    var ticketTable = project.getOrCreateDataTable('CallBackUSSD');
-    var cursor = ticketTable.queryRows({
-        vars: {'account_number': accountnumber, 'call_category': type}
-    });
-
-    cursor.limit(1);
-    if (cursor.hasNext()){
-        var row = cursor.next();
-        var now = moment().format('X');
-        var hoursBetween = (now - row.time_created)/60/60;
-        if (hoursBetween>hours){return false;}
-        else { return true;}
-    }
-    else{return false;}
-
-};
-
-
 var StaffCallBackCreate = function(phonenumberCB,type,Body){
     var CEEmail = 'support@oneacrefund-ke.zendesk.com';
     var Subject = 'Call back requested for: '+type+ ' From '+ phonenumberCB;
@@ -1100,10 +1082,6 @@ var TrainingTriggeredIVRText = function (){
     else {sayText('Utapigiwa moja kwa moja na 0711 082 882.');}
 };
 
-var CallCenterMenuText = function (){
-    if (GetLang()){sayText('1) Help on payment issues\n2) Help on solar activation\n3) Help on insurance issue\n4) Help on waranty issue\n5) General inquiry\n6) Help on enrollment issues');}
-    else {sayText('1) Usaidizi kuhusu fedha\n2) Usaidizi kuhusu sola\n3) Usaidizi wa bima/insurance\n4) Usaidizi wa dhamana/waranty\n5) Usaidizi wa kijumla\n6) Usaidizi wa kijumla');}
-};
 var PaymentSuccessText = function (){
     if (GetLang()){sayText('Please confirm the transaction by typing in your MPesa PIN in the pop up that will appear. Thank you');}
     else {sayText('Tafadhali thibitisha malipo yako kwa kubonyeza nambari yako ya siri ya Mpesa. Asante');}
@@ -1140,11 +1118,6 @@ var CallMeBackText = function(){
 var CallMeBackConfirmText = function(){
     if (GetLang()){sayText('You will contacted by our customer service representative within 48 hours. Do not switch off  this phone or place a duplicate request.');}
     else {sayText('Utapokea simu kutoka kwa mhudumu wa one Acre Fund kwa muda wa masaa 48. Usizime simu hii wala kuwasilisha ombi zaidi ya mara moja.');}
-};
-
-var CallMeBackDuplicateText = function(){
-    if (GetLang()){sayText('You have already placed a similar request. We assure you that you will be contacted. Please be available. Thank you for the patience.');}
-    else {sayText('Tulipokea ombi hili hapo awali. Tunakuhakikishia kwamba utapokea mawasiliano. Tafadhali usizime simu. Asante kwa kusubiri.');}
 };
 
 var LoanNotRepaidText = function(season){
@@ -1629,6 +1602,7 @@ groupRepaymentsModule.registerGroupRepaymentHandlers({lang: GetLang() ? 'en' : '
 dukaClient.registerInputHandlers(GetLang() ? 'en-ke' : 'sw', service.vars.duka_clients_table);
 warrantyExpiration.registerHandlers();
 seedGerminationIssues.registerInputHandlers(langWithEnke, service.vars.seed_germination_issues_table);
+contactCallCenter.registerInputHandlers(GetLang() ? 'en-ke' : 'sw');
 
 function reduceClientSize(client) {
     var cloned = _.clone(client);
@@ -1730,8 +1704,7 @@ addInputHandler('NonClientMenu', function(input) {
         //start the seed germination issues
         seedGerminationIssues.start(langWithEnke);
     }else if(sessionMenu[input-1].option_name === 'contact_call_center'){
-        CallCenterMenuText();
-        promptDigits('CallCenterMenu', {submitOnHash: true, maxDigits: 1, timeout: 5});
+        contactCallCenter.start(GetLang() ? 'en-ke' : 'sw', false);
     } else{
         NonClientMenuText();
         promptDigits('NonClientMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
@@ -1834,14 +1807,13 @@ addInputHandler('MainMenu', function(SplashMenu){
         SHSMenuText();
         promptDigits('SolarMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
 
-    }
+    }   
     else if(sessionMenu[SplashMenu-1].option_name == 'insurance'){
         InsuranceMenuText();
         promptDigits('InsuranceMenu', {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'contact_call_center'){
-        CallCenterMenuText();
-        promptDigits('CallCenterMenu', {submitOnHash: true, maxDigits: 1, timeout: 5});
+        contactCallCenter.start(GetLang() ? 'en-ke' : 'sw', true);
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'locate_oaf_duka'){
         dukaLocator.startDukaLocator({lang: GetLang() ? 'en' : 'sw'});
@@ -3189,57 +3161,6 @@ addInputHandler('StaffIssueLowlevel', function(input) {
         promptDigits('StaffIssueLowlevel', {submitOnHash: true, maxDigits: 1, timeout: 5});
     }
 
-});
-
-//input handler for creating a call back request
-addInputHandler('CallCenterMenu', function(input) {
-    LogSessionID();
-    // adding something unique to the account number in case the user is a non client
-    var userDetails = state.vars.client || JSON.stringify({AccountNumber: 'NonClient' + contact.phone_number});
-    var client = JSON.parse(userDetails);
-    InteractionCounter('CallCenterMenu');
-    var menu_options = {
-        1: 'Payment Issue',
-        2: 'Solar Registration or Activation',
-        3: 'Insurance Issue',
-        4: 'Warranty Issue',
-        5: 'General Issue',
-        6: 'Enrollment Issues'
-    };
-    if(input in menu_options){
-        var sub = 'Call back requested for: ' + menu_options[input] +' account number : '+ client.AccountNumber;
-
-        if(CallBackTimeCheck(client.AccountNumber, sub, 48)){
-            CallMeBackDuplicateText();
-            hangUp();
-        }
-        else{
-            var create_zd_ticket = require('ext/zd-tr/lib/create-ticket');
-            var ticketTags = [menu_options[input], 'kenya', 'CallBackUSSD'];
-            if(create_zd_ticket(client.AccountNumber, sub, contact.phone_number, ticketTags)){
-                console.log('created_ticket!');
-                CallMeBackConfirmText();
-                hangUp();
-            }
-            else{
-                logger.error('zendesk ticket creation failed for' + client.AccountNumber, {
-                    tags: ['zendesk', 'ke-legacy', menu_options[input]],
-                    data: {
-                        reportedIssue: sub,
-                        phone: contact.phone_number,
-                        requester: client.AccountNumber, 
-                    }
-                });
-                console.log('create_ticket failed on ' + client.AccountNumber);
-                CallCenterMenuText();
-                promptDigits('CallCenterMenu', {submitOnHash: true, maxDigits: 1, timeout: 5});
-            }
-        }
-    }
-    else {
-        CallCenterMenuText();
-        promptDigits('CallCenterMenu', {submitOnHash: true, maxDigits: 1, timeout: 5});
-    }
 });
 
 addInputHandler('TrainingSelect', function(input) {
