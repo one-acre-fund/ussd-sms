@@ -1,4 +1,5 @@
 const contactCallCenter = require('./contactCallCenter');
+const contactCallCenterInputHandler = require('./inputHandlers/contactCallCenterInputHandler');
 
 describe('contact call center', () => {
     it('should show menu for clients', () => {
@@ -8,13 +9,15 @@ describe('contact call center', () => {
         '3) Help on insurance issue\n' +
         '4) Help on waranty issue\n' +
         '77) Continue');
+        expect(promptDigits).toHaveBeenCalledWith(contactCallCenterInputHandler.handlerName);
     });
 
-    it('should show menu for clients', () => {
+    it('should show menu for non-clients', () => {
         contactCallCenter.start('en-ke', false);
         expect(sayText).toHaveBeenCalledWith('1) Call back support for duka client\n' +
         '2) Call back support for Angaza client\n' +
         '3) Call back support for potential client\n');
+        expect(promptDigits).toHaveBeenCalledWith(contactCallCenterInputHandler.handlerName);
     });
 
     it('should set the necessary state variables', () => {
@@ -31,5 +34,12 @@ describe('contact call center', () => {
             '4': 'Warranty Issue',
             '5': 'General Issue', 
             '6': 'Enrollment Issues'});
+    });
+
+    it('should register input handlers', () => {
+        const handler = jest.fn();
+        jest.spyOn(contactCallCenterInputHandler, 'getHandler').mockReturnValueOnce(handler);
+        contactCallCenter.registerInputHandlers('en-ke');
+        expect(addInputHandler).toHaveBeenCalledWith(contactCallCenterInputHandler.handlerName, handler);
     });
 });
