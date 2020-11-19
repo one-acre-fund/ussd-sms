@@ -80,8 +80,8 @@ module.exports = {
         'sw': 'Bidhaa ulizo agiza\n $orders \n 1) Ongeza bidhaa\n 2) Maliza ombi'
     },
     'final_order_display': {
-        'en-ke': 'Order placed\n $orders \n1) Confirm order',
-        'sw': 'Bidhaa ulizo agiza\n $orders \n1) kudhibitisha'
+        'en-ke': 'Order placed\n $orders \n1) Confirm order\n2) Go Back',
+        'sw': 'Bidhaa ulizo agiza\n $orders \n1) kudhibitisha\n2) rudi nyuma'
     },
     'final_message': {
         'en-ke': 'Thanks for ordering $products . Make sure you pay at least Ksh 500 qualification amount to receive input on input delivery day.',
