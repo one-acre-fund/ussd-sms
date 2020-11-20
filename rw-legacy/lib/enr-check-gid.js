@@ -47,13 +47,16 @@ function parse_gid(gid) {
 module.exports = function(gid){
     console.log('group Id'+gid);
     if(!groupCodeValidate(gid,service.vars.groupCodeTableId)){
+        console.log('###########################group not exist');
         return false;
     }
+    console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%group exist');
     var parsed_gid = parse_gid(gid);
     var districtId = parsed_gid.districtId;
     var siteId = parsed_gid.siteId;
     var groupId = parsed_gid.groupId;
     var id = districtId + '-' + siteId + '-'+ groupId;
+    console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%group exist'+id);
 
     state.vars.glus = gid;
     state.vars.districtId = districtId;
