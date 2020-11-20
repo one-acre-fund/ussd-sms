@@ -1039,12 +1039,11 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
         return null;
     }
     else {
-        input = input.replace(/[^0-9]/g, '*');
         // If the user forget the leading zero
-        if(input.length != 13){
+        if(input.replace(/\W/g, '').length != 13){
             input = '0'+ input;
         }
-
+        input = input.replace(/[^0-9]/g, '*');
         state.vars.glus = input;
         // checking and retreiving info about the entered id
         var groupCheck = require('./lib/enr-check-gid');
@@ -1251,10 +1250,10 @@ addInputHandler('reg_end_ordering_redirect',function(input){
 addInputHandler('enr_glvv_id', function (input) {
     notifyELK();
     state.vars.current_step = 'entered_glvv';
-    input = input.replace(/[^0-9]/g, '*');
-    if(input.length != 13){
+    if(input.replace(/\W/g, '').length != 13){
         input = '0'+ input;
     }
+    input = input.replace(/[^0-9]/g, '*');
     // check if glvv is valid
     //var check_glus = require('./lib/enr-check-glus');
     var groupCheck = require('./lib/enr-check-gid');
