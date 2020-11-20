@@ -9,7 +9,7 @@ describe('account_number_handler', () => {
     var accountNumberHandler;
     var onAccountNumberValidated;
     var validAccountNumber = '123456789';
-    var accountNumberDifferentGroup = '24450523';
+    var inValidAccount = '22';
     const mockCursor = { next: jest.fn(), 
         hasNext: jest.fn()
     };
@@ -33,49 +33,59 @@ describe('account_number_handler', () => {
         accountNumberHandler(validAccountNumber);
         expect(notifyELK).toHaveBeenCalled();
     });
-    it('should  call onAccountNumberValidated if the provided account number is validated from roster and is in a the same group than as the GL', () => {
+    it('should display a message saying that the client already topped up if the client topped up',() =>{
+        mockCursor.hasNext.mockReturnValueOnce(true);
+        accountNumberHandler(validAccountNumber);
+        expect(sayText).toHaveBeenCalledWith('This account number already belongs to an enrolled client.');
+        expect(stopRules).toHaveBeenCalled();
+
+    });
+    it('should display a message saying that the client already enrolled through just in time if they have already enrolled',() =>{
+        mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(true);
+        accountNumberHandler(validAccountNumber);
+        expect(sayText).toHaveBeenCalledWith('This farmer is registered through JIT enrollement. They cannot top up.');
+        expect(stopRules).toHaveBeenCalled();
+
+    });
+    it('should  display a message saying that the client did not enroll if the account number is not valid', () => {
+        mockCursor.hasNext.mockReturnValue(false);
+        rosterAPI.getClient.mockReturnValueOnce(false);
+        accountNumberHandler(inValidAccount);
+        expect(sayText).toHaveBeenCalledWith('Farmer is not enrolled this season. Please try again.');
+        expect(stopRules).toHaveBeenCalled();
+    });
+    it('should  display a message saying that the client did not enroll if the current season is different from the season received from their account', () => {
+        client.BalanceHistory[0].SeasonName = '2020, Long Rain';
+        rosterAPI.getClient.mockReturnValue(client);
+        accountNumberHandler(validAccountNumber);
+        expect(sayText).toHaveBeenCalledWith('Farmer is not enrolled this season. Please try again.');
+        expect(stopRules).toHaveBeenCalled();
+    });
+    it('should  reprompt for an account number if the given client\'s group is different from the group leader\'s group', () => {
         client.BalanceHistory[0].SeasonName = '2021, Long Rain';
-        rosterAPI.getClient.mockReturnValueOnce(client);
+        rosterAPI.getClient.mockReturnValue(client);
+        state.vars.client_json = JSON.stringify(secondClient);
+        accountNumberHandler(validAccountNumber);
+        expect(sayText).toHaveBeenCalledWith('Please reply with the account number of the farmer who want to top-up.');
+        expect(promptDigits).toHaveBeenCalledWith(handlerName);
+    });
+    it('should  display the amount remaining if the client is valid but did not pay the minimum 500', () => {
+        client.BalanceHistory[0].SeasonName = '2021, Long Rain';
+        client.BalanceHistory[0].TotalRepayment_IncludingOverpayments = 200;
+        var amount = 500 -200;
+        rosterAPI.getClient.mockReturnValue(client);
+        state.vars.client_json = JSON.stringify(client);
+        accountNumberHandler(validAccountNumber);
+        expect(sayText).toHaveBeenCalledWith(`You do not qualify for a top up, pay at least ${amount}`+
+        ' to qualify.');
+        expect(stopRules).toHaveBeenCalled();
+    });
+    it('should  call  account number validated if the account number provided is valid in the same group as GL, is not enrolled and paid 500', () => {
+        client.BalanceHistory[0].SeasonName = '2021, Long Rain';
+        client.BalanceHistory[0].TotalRepayment_IncludingOverpayments = 500;
+        rosterAPI.getClient.mockReturnValue(client);
+        state.vars.client_json = JSON.stringify(client);
         accountNumberHandler(validAccountNumber);
         expect(onAccountNumberValidated).toHaveBeenCalled();
-    });
-    it('should not call onAccountNumberValidated if the provided account number is not valid from roster', () => {
-        rosterAPI.getClient.mockReturnValueOnce(false);
-        accountNumberHandler(1234);
-        expect(onAccountNumberValidated).not.toHaveBeenCalled();
-    });
-    it('should not call onAccountNumberValidated if the provided account number is valid but is not in the same group as the one of GL', () => {
-        rosterAPI.getClient.mockReturnValueOnce(client);
-        state.vars.client_json = JSON.stringify(secondClient);
-        accountNumberHandler(1234);
-        expect(onAccountNumberValidated).not.toHaveBeenCalled();
-    });
-    it('should prompt for retry if input is not a valid acount number from roster', () => {
-        rosterAPI.getClient.mockReturnValueOnce(false);
-        accountNumberHandler(1234);
-        expect(sayText).toHaveBeenCalledWith('Please reply with the account number of the farmer who want to top-up.');
-        expect(promptDigits).toHaveBeenCalledWith(handlerName);
-    });
-    it('should prompt for retry if input is not valid account number from roster but in a different group from the group leader\'s', () => {
-        rosterAPI.getClient.mockReturnValueOnce(client);
-        state.vars.client_json = JSON.stringify(secondClient);
-        accountNumberHandler(accountNumberDifferentGroup);
-        expect(sayText).toHaveBeenCalledWith('Please reply with the account number of the farmer who want to top-up.');
-        expect(promptDigits).toHaveBeenCalledWith(handlerName);
-    });
-    it('should not call onAccountNumberValidated if the provided account number in the same group but did not enroll in 2021, Long Rain', () => {
-        client.BalanceHistory[0].SeasonName = '2020, Long Rain';
-        rosterAPI.getClient.mockReturnValueOnce(client);
-        state.vars.client_json = JSON.stringify(secondClient);
-        accountNumberHandler(1234);
-        expect(onAccountNumberValidated).not.toHaveBeenCalled();
-    });
-    it('should not call onAccountNumberValidated if the provided account number in the same group enrolled in 2021, Long Rain but through just in time', () => {
-        client.BalanceHistory[0].SeasonName = '2021, Long Rain';
-        rosterAPI.getClient.mockReturnValueOnce(client);
-        state.vars.client_json = JSON.stringify(secondClient);
-        mockCursor.hasNext.mockReturnValueOnce(true);
-        accountNumberHandler(1234);
-        expect(onAccountNumberValidated).not.toHaveBeenCalled();
     });
 });
