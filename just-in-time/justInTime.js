@@ -258,12 +258,14 @@ function displayBundles(district){
                     else{
                         if((maizeBundleIds.indexOf(bundleInputs[i].bundleId) != -1) && firstTime){
                             newBundle = JSON.parse(JSON.stringify( bundleInputs[i]));
-                            newBundle['en'] = '0.5 Maize Acre';
+                            newBundle['en-ke'] = '0.5 Maize Acre';
+                            bundleInputs[i].bundleName = '0.5 Maize Acre';
                             newBundle.sw = 'Mahindi Nusu Ekari';
                             newBundle.price = 4950;
                             newBundle.quantity = 0.5;
                             bundles.push(newBundle);
                             bundleInputs[i].bundleName = '0.25 Maize Acre';
+                            newBundle['en-ke'] = '0.25 Maize Acre';
                             newBundle.sw = 'Mahindi Robo Ekari';
                             bundleInputs[i].price = 2830;
                             bundleInputs[i].quantity = 0.25;
