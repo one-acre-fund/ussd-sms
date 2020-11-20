@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
+## v1.2.2
+### Fixed
+* [THD-3792](https://oneacrefund.atlassian.net/browse/THD-3792) New sites can't order
+### Fixed
 ## v1.2.1
 ### Fixed
 * [SER-349](https://oneacrefund.atlassian.net/browse/SER-349) Change USSD response for core clients who would want to be enrolled at the Duka
