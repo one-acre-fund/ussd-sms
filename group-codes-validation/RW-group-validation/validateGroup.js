@@ -5,6 +5,7 @@ module.exports = function (groupCode,groupCodesTableId){
     if(cursor.hasNext()){
         return true;
     }else{
+        console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@not found'+groupCode);
         return false;
     }
 };
