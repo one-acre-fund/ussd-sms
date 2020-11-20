@@ -91,26 +91,6 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
         expect(state.vars.phone_number).toEqual('07887654376');
     });
 
-    it('should register the user to a duka district account once they already have an account number with OAF, and ask them to complete their debt once they have an outstanding credit', () => {
-        state.vars.dcr_duka_client = JSON.stringify({
-            FirstName: 'client.FirstName',
-            LastName: 'client.LastName',
-            PhoneNumber: 'client.PhoneNumber',
-            site: 'credit_officer_details.site',
-            district: 'credit_officer_details.district'
-        });
-        state.vars.dcr_credit = 4500;
-        const messages = {
-            'en-ke': 'You have a Duka credit account with an outstanding credit balance of 4500. Please complete your loan in order to take another one.',
-            'sw': 'Una akaunti ya mkopo ya Duka na salio bora la mkopo la 4500. Tafadhali kamilisha mkopo wako ili uchukue nyingine.'
-        };
-        registerClient.mockReturnValueOnce({});
-        const accountNumberHandler = accountNumberInputHandler.getHandler(lang);
-        accountNumberHandler(0);
-        expect(sayText).toHaveBeenCalledWith(messages[lang]);
-        expect(stopRules).toHaveBeenCalled(); 
-    });
-
     it('should reprompt for the account number once the user is not successfully registered', () => {
         state.vars.dcr_duka_client = JSON.stringify({
             FirstName: 'client.FirstName',

@@ -2,7 +2,9 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
-
+## v1.2.1
+### Fixed
+* [SER-349](https://oneacrefund.atlassian.net/browse/SER-349) Change USSD response for core clients who would want to be enrolled at the Duka
 ## v1.2.0
 ### Fixed
 * [SER-344](https://oneacrefund.atlassian.net/browse/SER-344) Adjust USSD non-client menu for Kenya
