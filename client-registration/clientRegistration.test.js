@@ -470,31 +470,53 @@ describe('clientRegistration', () => {
     });
     describe('bundle Choice Handler successfull callback',()=>{
         var callback;
+        const mockCursor = { next: jest.fn(), 
+            hasNext: jest.fn()
+        };
+        const mockRow = {vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}};
+        beforeAll(() => {
+            const mockTable = { queryRows: jest.fn()};
+            mockTable.queryRows.mockReturnValue(mockCursor);
+            project.initDataTableById.mockReturnValue(mockTable);
+        });
         beforeEach(() => {
             clientRegistration.registerHandlers();
             callback = bundleChoiceHandler.getHandler.mock.calls[0][0];    
-            state.vars.bundleInputs =  JSON.stringify(mockBundleInputs);      
+            state.vars.chosenMaizeBundle =  ' ';      
         });
 
         it('should display the varieties for the bundle choosed, if the bundle has multiple varieties',()=>{
+            state.vars.varietyBundleId = -2009;
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow);
             callback(mockBundleInputs[0].bundleId);
             expect(sayText).toHaveBeenCalledWith(`Select seed variety\n1) ${mockBundleInputs[0].inputName}`+
             `\n2) ${mockBundleInputs[3].inputName}`+
             '\n');
         });
         it('should display the order placed by the user and prompt to add order or finalize order',()=>{
-            state.vars.bundleInputs =  JSON.stringify(mockBundleInput);  
-            state.vars.orders = ' ';
-            var orderMessage = mockBundleInput[0].bundleName + ' ' + mockBundleInput[0].price + '\n';
-            callback(mockBundleInput[0].bundleId);
+            mockCursor.hasNext.mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockRow); 
+            state.vars.orders = ' '; 
+            var orderMessage = mockBundleInputs[0].bundleName + ' ' + mockBundleInputs[0].price + '\n';
+            callback(mockBundleInputs[0].bundleId);
             expect(sayText).toHaveBeenCalledWith(`Order placed\n ${orderMessage}`+
-            ' \n 1) Add product\n 2) Finish ordering');
+            ' \n 1) Add product\n 2) Finish ordering\n3) Back');
             expect(promptDigits).toHaveBeenCalledWith(addOrderHandler.handlerName);
         });
 
     });
     describe('variety Confirmation Handler successfull callback',()=>{
         var callback;
+        const mockCursor = { next: jest.fn(), 
+            hasNext: jest.fn()
+        };
+        const mockRow = {vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}};
+        beforeAll(() => {
+            const mockTable = { queryRows: jest.fn()};
+            mockTable.queryRows.mockReturnValue(mockCursor);
+            project.initDataTableById.mockReturnValue(mockTable);
+        });
         beforeEach(() => {
             clientRegistration.registerHandlers();
             state.vars.orders = ' ';
@@ -502,10 +524,14 @@ describe('clientRegistration', () => {
             state.vars.bundleInputs =  JSON.stringify(mockBundleInputs);        
         });
         it('should show the order placed',()=>{
+            state.vars.chosenMaizeBundle = ' ';
+            state.vars.varietyBundleId = -2009;
+            mockCursor.hasNext.mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockRow);
             callback(mockBundleInputs[3].bundleId,true,mockBundleInputs[3].bundleInputId);
             var orderMessage = mockBundleInputs[3].bundleName + ' ' + mockBundleInputs[3].price + '\n';
             expect(sayText).toHaveBeenCalledWith(`Order placed\n ${orderMessage}`+
-            ' \n 1) Add product\n 2) Finish ordering');
+            ' \n 1) Add product\n 2) Finish ordering\n3) Back');
 
         });
 
@@ -521,14 +547,22 @@ describe('clientRegistration', () => {
             callback();
             var orderMessage = mockBundleInput[0].bundleName + ' ' + mockBundleInput[0].price + '\n';
             expect(sayText).toHaveBeenCalledWith(`Order placed\n ${orderMessage}`+
-            ' \n1) Confirm order');
+            ' \n1) Confirm order\n2) Go Back');
         });
     });
     describe('order Confirmation Handler successfull callback',()=>{
         var callback;
+        const mockTable = { queryRows: jest.fn(), createRow: jest.fn()};
+        const mockCursor = { next: jest.fn(), 
+            hasNext: jest.fn()
+        };
+        const mockRow = {save: jest.fn()};
+        var orders = [{'bundleName': 'Maize','price': 1000},{'bundleName': 'Pesticide','price': 3000}];
         beforeAll(()=>{
             state.vars.orders = JSON.stringify(mockBundleInput);
             state.vars.newClient = JSON.stringify(client);
+            project.initDataTableById.mockReturnValue(mockTable);
+            mockTable.queryRows.mockReturnValue(mockCursor);
         });
         beforeEach(() => {
             
@@ -539,6 +573,8 @@ describe('clientRegistration', () => {
         it('should display a message confirming the order is complete if the order is saved in roster',()=>{
             httpClient.request.mockReturnValue({status: 201});
             contact.phone_number = phone;
+            mockCursor.hasNext.mockReturnValueOnce(false);
+            mockTable.createRow.mockReturnValueOnce(mockRow);
             var message = `Thanks for ordering ${mockBundleInput[0].bundleName}`+
             ` ${mockBundleInput[0].price}  `+'. Make sure you pay at least Ksh 500 qualification amount to receive input on input delivery day.';
             callback();
