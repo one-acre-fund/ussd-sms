@@ -1,3 +1,4 @@
+service.vars.lang = 'en';
 const {handlerName} = require ('./confirmOrderHandler');
 const {getHandler} = require('./confirmOrderHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');

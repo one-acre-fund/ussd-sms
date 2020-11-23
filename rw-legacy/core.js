@@ -65,7 +65,6 @@ var client_table = project.initDataTableById(service.vars['21a_client_data_id'])
 
 var lang = service.vars.lang || project.vars.cor_lang;
 service.vars.lang = lang;
-project.vars.cor_lang = lang;
 
 var slack = require('../slack-logger/index');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
@@ -155,8 +154,6 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
     } else if(response == 99) { // use 99 to change the language
         lang = service.vars.lang == 'ki' ? 'en' : 'ki'
         service.vars.lang = lang;
-        project.vars.cor_lang = lang;
-        
         sayText(msgs('cor_enr_main_splash',{},lang));
         promptDigits('account_number_splash', {
             'submitOnHash': false,
