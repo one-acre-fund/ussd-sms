@@ -20,7 +20,7 @@ function getBundlesInputs(districtId){
     var cursor = table.queryRows({'vars': query});
     while(cursor.hasNext()){
         var row = cursor.next();
-        var currentBundleInput = {bundleId: row.vars.bundleId, bundleInputId: row.vars.bundleInputId, bundleName: row.vars.bundle_name, price: row.vars.price, inputName: row.vars.input_name};
+        var currentBundleInput = {bundleId: row.vars.bundleId, bundleInputId: row.vars.bundleInputId,'en-ke': row.vars.en, sw: row.vars.sw, bundleName: row.vars.bundle_name, price: row.vars.price, inputName: row.vars.input_name};
         bundleInputs.push(currentBundleInput);
     }
     return bundleInputs;

@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
+
+### Fixed 
+* [SER-334](https://oneacrefund.atlassian.net/browse/SER-334) Kenya Enrollment/Just In time fixes(part 2)
+    * updated maize bundle logic
+    * updated eligibility to topUp/enroll check
+    * added a back navigation
+    * Add a menu to display the bundles after registration
+    * Rename the menu options
+    * Remove a product from the list once the client ordered it
+    * Update the bundles
+    * Change the prepayment calculations
+    * Update the confirmation message
 ### Fixed
 * [SER-344](https://oneacrefund.atlassian.net/browse/SER-344) Adjust USSD non-client menu for Kenya
 ### Added
@@ -33,15 +45,6 @@ All notable changes to this project will be documented in this file.
 * [SER-335](https://oneacrefund.atlassian.net/browse/SER-335) Add Duka registration support for returning Duka clients
 
 ## v1.0.9
-### Added
-*[SER-334](https://oneacrefund.atlassian.net/browse/SER-334) Kenya Enrollment/Just In time fixes
-    *Add a menu to display the bundles after registration
-    *Rename the menu options
-    *Remove a product from the list once the client ordered it
-    *Update the bundles
-    *Change the prepayment calculations
-    *Update the confirmation message
-
 ### Added
 * [SER-323](https://oneacrefund.atlassian.net/browse/SER-323) RW - Rearrange the products in the system
 * [SER-322](https://oneacrefund.atlassian.net/browse/SER-322) RW - Add the maximum order per product in the system

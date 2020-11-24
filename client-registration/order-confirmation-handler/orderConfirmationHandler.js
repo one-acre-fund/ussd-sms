@@ -11,7 +11,6 @@ module.exports = {
             }
             else if(input == 2){
                 var orders = JSON.parse(state.vars.orders);
-                console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'+state.vars.orders+'!!!!!!!!!!!!!!!!!!!!!!!!');
                 orders.pop();
                 state.vars.orders = JSON.stringify(orders);
                 displayBundles(JSON.parse(state.vars.newClient).DistrictId);

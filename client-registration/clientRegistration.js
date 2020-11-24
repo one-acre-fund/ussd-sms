@@ -92,9 +92,7 @@ module.exports = {
                 'phoneNumber': state.vars.phoneNumber
             };
             try {
-
                 var clientData = JSON.parse(rosterRegisterClient(clientJSON,state.vars.reg_lang));
-                
                 if(clientData){
                     var message = translate('enr_reg_complete',{'$ACCOUNT_NUMBER': clientData.AccountNumber},state.vars.reg_lang);
                     var msg_route = project.vars.sms_push_route;
@@ -145,7 +143,6 @@ module.exports = {
     onContinueToEnroll: function(){
         displayBundles(JSON.parse(state.vars.newClient).DistrictId); 
         global.promptDigits(bundleChoiceHandler.handlerName);
-
     },
 
     start: function (account, country,lang) {
@@ -379,9 +376,14 @@ function onFinalizeOrder(){
     global.promptDigits(orderConfirmationHandler.handlerName);
 }
 function bundleExists(bundles,bundleId) {
-    return bundles.some(function(bundle) {
-        return bundle.bundleId === bundleId;
-    }); 
+    for (var o =0; o<bundles.length; o++){
+        if(bundles[o].bundleId === bundleId)
+            return true;
+    }
+    return false;
+    // return bundles.some(function(bundle) {
+    //     return bundle.bundleId === bundleId;
+    // }); 
 }
 
 function displayBundles(district){

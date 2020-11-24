@@ -296,9 +296,14 @@ function displayBundles(district){
 
 }
 function bundleExists(bundles,bundleId) {
-    return bundles.some(function(bundle) {
-        return bundle.bundleId === bundleId;
-    }); 
+    for (var o =0; o<bundles.length; o++){
+        if(bundles[o].bundleId === bundleId)
+            return true;
+    }
+    return false;
+    // return bundles.some(function(bundle) {
+    //     return bundle.bundleId === bundleId;
+    // }); 
 }
 
 function getBundlesInputs(districtId){
