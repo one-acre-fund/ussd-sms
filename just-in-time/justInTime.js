@@ -14,7 +14,7 @@ var getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
 module.exports = {
     registerHandlers: function (){
         addInputHandler(accountNumberHandler.handlerName, accountNumberHandler.getHandler(onAccountNumberValidated));
-        addInputHandler(bundleChoiceHandler.handlerName, bundleChoiceHandler.getHandler(onBundleSelected));
+        addInputHandler(bundleChoiceHandler.handlerName, bundleChoiceHandler.getHandler(onBundleSelected,displayBundles));
         addInputHandler(varietyChoiceHandler.handlerName, varietyChoiceHandler.getHandler(onVarietyChosen));
         addInputHandler(varietyConfirmationHandler.handlerName, varietyConfirmationHandler.getHandler(onBundleSelected,displayBundles));
         addInputHandler(addOrderHandler.handlerName, addOrderHandler.getHandler(onFinalizeOrder,displayBundles));
@@ -300,10 +300,7 @@ function bundleExists(bundles,bundleId) {
         if(bundles[o].bundleId === bundleId)
             return true;
     }
-    return false;
-    // return bundles.some(function(bundle) {
-    //     return bundle.bundleId === bundleId;
-    // }); 
+    return false; 
 }
 
 function getBundlesInputs(districtId){

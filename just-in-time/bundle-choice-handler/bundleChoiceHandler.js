@@ -1,6 +1,5 @@
 var handlerName = 'bundle_choice_handler';
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
-
 var bundles,chosenBundle =[];
 
 var isValidBundleInputChoice = function(input){
@@ -13,7 +12,7 @@ var isValidBundleInputChoice = function(input){
 };
 module.exports = {
     handlerName: handlerName,
-    getHandler: function(onBundleSelected){
+    getHandler: function(onBundleSelected,displayBundles){
         return function (input) {
             console.log('inside bundle choice handler'+state.vars.bundles);
             notifyELK();
@@ -38,6 +37,10 @@ module.exports = {
                     state.vars.chosenMaizeBundle = JSON.stringify(chosenBundle);
                 }
                 onBundleSelected(chosenBundle.bundleId);
+            }
+            else{
+                displayBundles(JSON.parse(state.vars.topUpClient).DistrictId);
+                global.promptDigits(handlerName);
             }
         };
     }
