@@ -700,7 +700,7 @@ module.exports = {
         "ki": "1) Yego, nibyo ~B 2) Oya, sibyo",
     },
     "invalid_group_id": {
-        "en": "The group id entered does not exit",
+        "en": "The group id entered does not exist",
         "ki": "Numero y'itsinda mwinjije ntabwo ibaho",
     },
     "cor_enr_main_splash": {

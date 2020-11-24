@@ -37,6 +37,8 @@ if(env === 'prod'){
     account_splash_menu_name = 'core_enr_splash_menu';
     service.vars.avocado_table_id = 'DT864c12fe76c43eaf';
     service.vars.rw_reg_client_table_id = 'DT29e542bf090b050f';
+    service.vars.groupCodeTableId = project.vars.groupCodeTableId;
+
 }else{
     service.vars.season_clients_table = 'dev_' + project.vars.season_clients_table;
     service.vars.client_enrollment_table = 'dev_' + project.vars.client_enrollment_data;
@@ -53,6 +55,7 @@ if(env === 'prod'){
     service.vars.avocado_table_id = 'DT32fb8b273aacf654';
     service.vars.chicken_table_id = 'DT8c3e091b499f1726';
     service.vars.rw_reg_client_table_id = 'DT41914a4d2dc6a29f';
+    service.vars.groupCodeTableId = project.vars.dev_groupCodeTableId;
 }
 
 var client_table = project.initDataTableById(service.vars['21a_client_data_id']);
@@ -154,8 +157,7 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             state.vars.account_number = response;
             if (client_verified) {
                 var isGroupLeader = checkGroupLeader(state.vars.client_districtId, state.vars.client_id);
-                state.vars.isGroupLeader = isGroupLeader;
-                sayText(msgs('account_number_verified'));    
+                state.vars.isGroupLeader = isGroupLeader;  
                 var splash = account_splash_menu_name;
                 state.vars.splash = splash;
                 var menu = populate_menu(splash, lang);
@@ -1038,15 +1040,21 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
     }
     else {
         // If the user forget the leading zero
-        if(input.length != 13){
+        if(input.replace(/\W/g, '').length != 13){
             input = '0'+ input;
         }
         state.vars.glus = input;
         // checking and retreiving info about the entered id
         var groupCheck = require('./lib/enr-check-gid');
-        var group_information = groupCheck(input);
+        var group_information = groupCheck(input,service.vars.groupCodeTableId);
+        if(group_information == false){
+            sayText(msgs('invalid_group_id',{},lang));
+            sayText(msgs('enr_glus', {}, lang));
+            promptDigits('enr_glus', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
+
+        }
         // if the info about the id is not null, ask for confirmation with the group info
-        if (group_information != null) {
+        else if (group_information != null) {
 
             // Check if the group size is less than 16
             if (!group_size_satisfied(input,client_table)){
@@ -1065,7 +1073,7 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
         }
         // if the group id is not valid, prompt them again
         else {
-            sayText(msgs('invalid_group_id'));
+            sayText(msgs('invalid_group_id',{},lang));
             sayText(msgs('enr_glus', {}, lang));
             promptDigits('enr_glus', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
         }
@@ -1241,16 +1249,19 @@ addInputHandler('reg_end_ordering_redirect',function(input){
 addInputHandler('enr_glvv_id', function (input) {
     notifyELK();
     state.vars.current_step = 'entered_glvv';
-    if(input.length != 13){
+    if(input.replace(/\W/g, '').length != 13){
         input = '0'+ input;
     }
     // check if glvv is valid
     //var check_glus = require('./lib/enr-check-glus');
-    input = input.replace(/\W/g, ''); //added some quick sanitation to this input
     var groupCheck = require('./lib/enr-check-gid');
-    state.vars.group_information = groupCheck(input);
-
-    if (state.vars.group_information != null) {
+    state.vars.group_information = groupCheck(input,service.vars.groupCodeTableId);
+    if(state.vars.group_information == false){
+        sayText(msgs('invalid_group_id',{},lang));
+        sayText(msgs('enr_glus', {}, lang));
+        promptDigits('enr_glvv_id', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
+    }
+    else if (state.vars.group_information != null) {
 
         // Check if the group size is less than 16
         if (!group_size_satisfied(input,client_table)){
@@ -1266,7 +1277,7 @@ addInputHandler('enr_glvv_id', function (input) {
     }
     // if the group id is not valid, prompt them again
     else {
-        sayText(msgs('invalid_group_id'));
+        sayText(msgs('invalid_group_id',{},lang));
         sayText(msgs('enr_glus', {}, lang));
         promptDigits('enr_glvv_id', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
     }

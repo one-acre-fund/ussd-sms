@@ -2,7 +2,37 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
+### Fixed
+* [SER-344](https://oneacrefund.atlassian.net/browse/SER-344) Adjust USSD non-client menu for Kenya
+### Added
+* [SER-343](https://oneacrefund.atlassian.net/browse/SER-343) Enable prepayment calculator for Kipkelion and Chwele
+### Fixed
+* [SER-311](https://oneacrefund.atlassian.net/browse/SER-311) Update Current Season and Previous Seasons for new SHS season
 
+## v1.1.4
+### Fixed
+* [SER-344](https://oneacrefund.atlassian.net/browse/SER-344) Adjust USSD non-client menu for Kenya
+* [SER-343](https://oneacrefund.atlassian.net/browse/SER-343) Enable prpayment calculator for Kipkelion and Chwele
+
+## v1.1.3
+### Fixed
+* [SER-347](https://oneacrefund.atlassian.net/browse/SER-347) show amount to pay in Swahili translation
+
+## v1.1.2
+### Fixed
+* [SER-346](https://oneacrefund.atlassian.net/browse/SER-346) Remove Biolite SHS from 2021B USSD Enrollment Rwanda 
+### Fixed
+* [SER-340](https://oneacrefund.atlassian.net/browse/SER-340) add group validation in TR
+
+## v1.1.1
+### Added
+* [SER-330](https://oneacrefund.atlassian.net/browse/SER-330) Configure November Chicken confirmations - changed the chicken eligibility calculations and updated the cap
+
+## v1.1.0
+### Added
+* [SER-335](https://oneacrefund.atlassian.net/browse/SER-335) Add Duka registration support for returning Duka clients
+
+## v1.0.9
 ### Added
 *[SER-334](https://oneacrefund.atlassian.net/browse/SER-334) Kenya Enrollment/Just In time fixes
     *Add a menu to display the bundles after registration

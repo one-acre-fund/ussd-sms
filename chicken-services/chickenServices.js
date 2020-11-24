@@ -59,7 +59,6 @@ module.exports = {
             global.sayText(translate('chicken_confirmation_not_allowed'));
             global.stopRules();
         }
-
         else if(state.vars.confirmed_chicken){
             global.sayText(translate('chicken_already_confirmed',{'$name': JSON.parse(state.vars.client_json).FirstName,'$number': state.vars.chcken_nber}));
             global.promptDigits(changeOrderHandler.handlerName);
@@ -70,25 +69,20 @@ module.exports = {
             return;   
         }
         else if(state.vars.minimum_amount_paid){
-            console.log('minimum paid');
             var CheckChickenCapByDistrict = require('./check-chicken-cap-by-district/CheckChickenCapByDistrict');
             var possibleChickensPerDistrict = CheckChickenCapByDistrict(JSON.parse(state.vars.client_json).DistrictId,new Date().getMonth() + 1);
-            console.log('possible Chickens'+ possibleChickensPerDistrict);
             if(!possibleChickensPerDistrict){
-                console.log('cap reached');
                 global.sayText(translate('chicken_cap_reached'));
                 stopRules();
                 return; 
             }
             else{
-                console.log('okay to go');
                 global.sayText(translate('chicken_possible_nber',{'$name': JSON.parse(state.vars.client_json).FirstName,'$min': 2,'$max': state.vars.max_chicken}));
                 global.promptDigits(possibleOrderHandler.handlerName);
             }            
         }
 
         else{
-            console.log('try later');
             global.sayText(translate('try_later',{}));
             global.stopRules();
             return;
