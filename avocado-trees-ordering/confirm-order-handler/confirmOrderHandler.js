@@ -4,7 +4,7 @@ var notifyELK = require('../../notifications/elk-notification/elkNotification');
 var placeOrderHandler = require('../place-order-handler/placeOrderHandler');
 var createTranslator = require('../../utils/translator/translator');
 var translations = require('../translations');
-var translate =  createTranslator(translations, project.vars.cor_lang);
+var translate =  createTranslator(translations, service.vars.lang);
 module.exports = {
     handlerName: handlerName,
     getHandler: function(onOrderConfirmed){
