@@ -268,15 +268,17 @@ var ValNationalID = function(input){
     if (NumChar == 7 || NumChar == 8){return true;}
     else {return false;}
 };
-var IsPrePayTrialDistrict = function (){
-    return false;
-    //districtname = districtname.toLowerCase();
-    //if (districtname == "nyando" || districtname == "kipkelion" || districtname == "chwele"){return true}
-    //else {return false}
+
+var IsPrePayTrialDistrict = function(districtName){
+    return districtName === 'Kipkelion' || districtName === 'Chwele';
 };
+
 var GetPrepaymentAmount = function(client){
-    var ClientDistrict = client.DistrictName.toLowerCase();
-    var prepay = IsPrePayTrialDistrict(ClientDistrict);
+    if (client.DistrictName === 'Kipkelion' || client.DistrictName === 'Chwele'){
+        return client.BalanceHistory[0].TotalCredit * 0.1;
+    }
+
+    var prepay = IsPrePayTrialDistrict(client.DistrictName);
     if (prepay){
         var PrePayTable = project.getOrCreateDataTable('PrePayment_IndividualAmounts');
         var PrePayCursor = PrePayTable.queryRows({vars: {'accnum': client.AccountNumber}});
