@@ -17,16 +17,16 @@ module.exports = {
         'sw': 'Chagua mbegu'
     },
     'order_placed': {
-        'en-ke': 'Order placed\n $orders \n 1) Add product\n 2) Finish ordering',
-        'sw': 'Bidhaa ulizo agiza\n $orders \n 1) Ongeza bidhaa\n 2) Maliza ombi'
+        'en-ke': 'Order placed\n $orders \n 1) Add product\n 2) Finish ordering\n 3) Go back',
+        'sw': 'Bidhaa ulizo agiza\n $orders \n 1) Ongeza bidhaa\n 2) Maliza ombi\n 3) rudi nyuma'
     },
     'final_order_display': {
-        'en-ke': 'Order placed\n $orders \n1) Confirm order',
-        'sw': 'Bidhaa ulizo agiza\n $orders \n1) kudhibitisha'
+        'en-ke': 'Order placed\n $orders \n1) Confirm order\n 2) Go back',
+        'sw': 'Bidhaa ulizo agiza\n $orders \n1) kudhibitisha\n 2) rudi nyuma'
     },
     'final_message': {
-        'en-ke': 'Thanks for ordering $products. Thank you for topping-up through JiT.',
-        'sw': 'Asante kwa kujisajili na $produts. Asante kwa kutuma maombi yako ya Just in Time Top-up.'
+        'en-ke': 'Thank you for topping-up through JiT. Your order is $products Reach out to CE through *689# if this  order is not correct',
+        'sw': 'Asante kwa kuongeza bidhaa kupitia JiT. Bidhaa zako ni: $products . Ongea na CE kupitia *689# kama bidhaa zako sio sahihi.'
     },
     'variety_confirmation': {
         'en-ke': 'Top-up with $bundleName and $inputName\n1) Confirm\n2) Cancel',
@@ -42,5 +42,21 @@ module.exports = {
     'next_page': {
         'en-ke': '77)Next page',
         'sw': '77)ukurasa unaofuata'
+    },
+    'already_placed_order': {
+        'en-ke': 'This account number already belongs to an enrolled client.',
+        'sw': 'Nambari hii ya akaunti ni ya mteja aliyeandikishwa.'
+    },
+    'remaining_balance': {
+        'en-ke': 'You do not qualify for a top up, pay at least $amount to qualify.',
+        'sw': 'Bado haujahitimu kuongeza bidhaa, lipa $amount kuhitimu.'
+    },
+    'jit_client': {
+        'en-ke': 'This farmer is registered through JIT enrollement. They cannot top up.',
+        'sw': 'Mkulima huyu amesajiliwa kupitia JiT. Hawezi ongeza bidhaa zaidi.'
+    },
+    'not_enrolled': {
+        'en-ke': 'Farmer is not enrolled this season. Please try again.',
+        'sw': 'Mkulima hakujiandikisha mwaka huu. Tafadhali jaribu tena.'
     }
 };

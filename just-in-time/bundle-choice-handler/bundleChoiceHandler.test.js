@@ -1,18 +1,20 @@
 var {handlerName,getHandler} = require('./bundleChoiceHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
-
+var {client}  = require('../../client-enrollment/test-client-data'); 
 jest.mock('../../notifications/elk-notification/elkNotification');
 httpClient.request.mockReturnValue({status: 200});
 describe('order confirmation handler test', ()=>{
 
     var bundleChoiceHandler;
-    var onBundleSelected;
+    var onBundleSelected, displayBundle;
     var bundleArray = [{'bundleId': '-3009','bundleInputId': '-12109','bundleName': 'Knapsack Sprayer','price': '2251','inputName': 'Knapsack Sprayer'},{'bundleId': '-2960','bundleInputId': '-11920','bundleName': 'Red Onion','price': '180','inputName': 'Red Creole'}];
     var inputMenu = [{'bundleId': '-3009','bundleInputId': '-12109','bundleName': 'Knapsack Sprayer','price': '2251','inputName': 'Knapsack Sprayer'},{'bundleId': '-2960','bundleInputId': '-11920','bundleName': 'Red Onion','price': '180','inputName': 'Red Creole'}];
     beforeAll(()=>{
         onBundleSelected = jest.fn();
-        bundleChoiceHandler = getHandler(onBundleSelected);
+        displayBundle = jest.fn();
+        bundleChoiceHandler = getHandler(onBundleSelected,displayBundle);
         state.vars.bundles = JSON.stringify(bundleArray);
+        state.vars.topUpClient = JSON.stringify(client);
     });
 
     it('should call ELK',()=>{

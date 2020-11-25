@@ -1,3 +1,4 @@
+service.vars.lang = 'en';
 var changeOrderCofrm = require('./change-order-confirmation/changeOrderConfirmation');
 var changeOrderHandler = require('./change-order-handler/changeOrderHandler');
 var placeOrderHandler = require('./place-order-handler/placeOrderHandler');

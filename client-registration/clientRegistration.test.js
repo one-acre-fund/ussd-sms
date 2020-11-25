@@ -8,12 +8,14 @@ var bundleChoiceHandler = require('./bundle-choice-handler/bundleChoiceHandler')
 var addOrderHandler = require('./add-order-handler/addOrderHandler');
 var varietyConfirmationHandler = require('./variety-confirmation-handler/varietyConfirmationHandler');
 var orderConfirmationHandler = require('./order-confirmation-handler/orderConfirmationHandler');
+var continueHandler = require('./continue/continue');
 var rosterRegisterClient = require('../rw-legacy/lib/roster/register-client');
 const groupLeaderQuestionHandler = require('./group-leader-question-handler/groupLeaderQuestionHandler');
 var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
 var {client}  = require('../client-enrollment/test-client-data'); 
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var groupCodeHandler = require('./group-code-handler/groupCodeHandler');
+var varietyChoiceHandler = require('./variety-choice-handler/varietyChoiceHandler');
 
 
 jest.mock('../rw-legacy/lib/roster/register-client');
@@ -31,6 +33,8 @@ jest.mock('./add-order-handler/addOrderHandler');
 jest.mock('./variety-confirmation-handler/varietyConfirmationHandler');
 jest.mock('./order-confirmation-handler/orderConfirmationHandler');
 jest.mock('./group-code-handler/groupCodeHandler');
+jest.mock('./continue/continue');
+jest.mock('./variety-choice-handler/varietyChoiceHandler');
 
 const mockConfrmNationalIdHandler = jest.fn();
 const mockConfrmPhoneNumberHandler = jest.fn();
@@ -40,6 +44,8 @@ const mockPhoneNumberHandler = jest.fn();
 const mockSecondNameHandler = jest.fn();
 const mockGroupLeaderQuestionHandler = jest.fn();
 const mockGroupCodeHandler = jest.fn();
+const mockContinueHandler = jest.fn();
+const mockVarietyChoiceHandler = jest.fn();
 var mockTable = { createRow: jest.fn(), queryRows: jest.fn()};
 var mockRow = {save: jest.fn()};
 
@@ -54,6 +60,7 @@ var foPhone = '0786192039';
 var mockedTable = { queryRows: jest.fn()};
 var mockedRow = {hasNext: jest.fn(), next: jest.fn(),vars: {'national_id': nationalId,'account_number': account}};
 var mockRows = [{vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}},{vars: {'bundleId': '-9009','bundleInputId': '-5709','bundle_name': 'third possible name bundle','price': '6251','input_name': 'third input'}},{vars: {'bundleId': '-1009','bundleInputId': '-8709','bundle_name': 'fourth possible name bundle','price': '5251','input_name': 'fourth input'}},{vars: {'bundleId': '-2009','bundleInputId': '-18909','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}}];
+var mockFirstRow = {vars: {'bundleId': '-3009','bundleInputId': '-12109','bundle_name': 'Knapsack Sprayer','price': '2251','input_name': 'Knapsack Sprayer'}};
 var mockBundleRow = {vars: {'bundleId': '-3009','bundleInputId': '-12109','bundle_name': 'Knapsack Sprayer','price': '2251','input_name': 'Knapsack Sprayer'}};
 var mockMaizeRows = [{vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}},{vars: {'bundleId': '-9009','bundleInputId': '-5709','bundle_name': 'third possible name bundle','price': '6251','input_name': 'third input'}}];
 var mockBundleInputs = [{'bundleId': '-2009','bundleInputId': '-1709','bundleName': 'Second possible name bundle','price': '2251','inputName': 'second input'},{'bundleId': '-9009','bundleInputId': '-5709','bundleName': 'third possible name bundle','price': '6251','inputName': 'third input'},{'bundleId': '-1009','bundleInputId': '-8709','bundleName': 'fourth possible name bundle','price': '5251','inputName': 'fourth input'},{'bundleId': '-2009','bundleInputId': '-18909','bundleName': 'Second possible name bundle','price': '2251','inputName': 'second input'}];
@@ -72,6 +79,8 @@ describe('clientRegistration', () => {
         secondNameHandler.getHandler.mockReturnValue(mockSecondNameHandler);
         groupLeaderQuestionHandler.getHandler.mockReturnValue(mockGroupLeaderQuestionHandler);
         groupCodeHandler.getHandler.mockReturnValue(mockGroupCodeHandler);
+        continueHandler.getHandler.mockReturnValue(mockContinueHandler);
+        varietyChoiceHandler.getHandler.mockReturnValue(mockVarietyChoiceHandler);
         state.vars.reg_lang ='en-ke';
     });
 
@@ -106,6 +115,14 @@ describe('clientRegistration', () => {
     it('should add group leader question handler to input handlers', () => {
         clientRegistration.registerHandlers();
         expect(addInputHandler).toHaveBeenCalledWith(groupLeaderQuestionHandler.handlerName, groupLeaderQuestionHandler.getHandler());            
+    });
+    it('should add continue handler to input handlers', () => {
+        clientRegistration.registerHandlers();
+        expect(addInputHandler).toHaveBeenCalledWith(continueHandler.handlerName, continueHandler.getHandler());            
+    });
+    it('should add variety choice handler to input handlers', () => {
+        clientRegistration.registerHandlers();
+        expect(addInputHandler).toHaveBeenCalledWith(varietyChoiceHandler.handlerName, varietyChoiceHandler.getHandler());            
     });
     describe('National Id Submission success callback', () => {
         var callback;
@@ -231,44 +248,6 @@ describe('clientRegistration', () => {
             expect(promptDigits).not.toHaveBeenCalledWith(groupLeaderQuestionHandler.handlerName);
 
         });
-        it('should display the bundles if the menu choosed allow enrollment',()=>{
-            state.vars.canEnroll = true;
-            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
-            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[1]).mockReturnValueOnce(mockRows[2]);
-            callback();
-            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockBundleRow.vars.bundle_name}`+
-            ` ${mockBundleRow.vars.price}`+
-            `\n2) ${mockRows[0].vars.bundle_name}`+
-            ` ${mockRows[0].vars.price}`+
-            `\n3) ${mockRows[1].vars.bundle_name}`+
-            ` ${mockRows[1].vars.price}`+
-            '\n77)Next page');
-        });
-        it('should display only unique bundles(if two bundle inputs in the same bundle are found) and if the prepayment condition is satified ', () => {
-
-            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
-            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[3]);
-            callback();
-            expect(sayText).not.toHaveBeenCalledWith(expect.stringContaining('You do not qualify for a top up,'));
-            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockBundleRow.vars.bundle_name}`+
-            ` ${mockBundleRow.vars.price}`+
-            `\n2) ${mockRows[0].vars.bundle_name}`+
-            ` ${mockRows[0].vars.price}`+
-            '\n');
-        });
-        it('should remove maize bundles from the displayed bundles if the prepayment condition is satisfied and the client already choosed a maize bundle',()=>{
-            
-            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true);
-            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[1]).mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
-            state.vars.orders = JSON.stringify([mockMaizeRows[0]]);
-            callback();
-            expect(sayText).not.toHaveBeenCalledWith(expect.stringContaining('You do not qualify for a top up,'));
-            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockBundleRow.vars.bundle_name}`+
-            ` ${mockBundleRow.vars.price}`+
-            `\n2) ${mockRows[0].vars.bundle_name}`+
-            ` ${mockRows[0].vars.price}`+
-            '\n');
-        });
         it('should prompt the client for the group code if the country is RW', () => {
             state.vars.country = 'RW';
             callback();
@@ -368,7 +347,7 @@ describe('clientRegistration', () => {
             expect(project.sendMessage).not.toHaveBeenCalled();
             expect(mockRow.save).not.toHaveBeenCalled();
         });
-        it('should send a message containing the FO phone number to the Group leader phone number if the FO contact is available', () => {
+        xit('should send a message containing the FO phone number to the Group leader phone number if the FO contact is available', () => {
             callback();
             expect(project.sendMessage).toHaveBeenCalledWith(expect.objectContaining({
                 content: `Thank you for expressing your interest to enroll with OAF. Your Account Number is ${client.AccountNumber}`+
@@ -376,7 +355,7 @@ describe('clientRegistration', () => {
                 to_number: contact.phone_number
             }));
         });
-        it('should send a message containing the FO phone number to the new client phone number if the FO contact is available', () => {  
+        xit('should send a message containing the FO phone number to the new client phone number if the FO contact is available', () => {  
             callback();
             expect(project.sendMessage).toHaveBeenCalledWith(expect.objectContaining({
                 content: `Thank you for expressing your interest to enroll with OAF. Your Account Number is ${client.AccountNumber}`+
@@ -384,12 +363,13 @@ describe('clientRegistration', () => {
                 to_number: state.vars.phoneNumber
             }));
         });
-        it('should show a message containing the FO phone number if the FO contact is available', () => {  
+        xit('should show a message containing the FO phone number if the FO contact is available', () => {  
             callback();
             expect(sayText).toHaveBeenCalledWith(`Thank you for expressing your interest to enroll with OAF. Your Account Number is ${client.AccountNumber}`+
-                `. Please visit the FO to add inputs or call the FO on ${foPhone}`);
+                `. Please visit the FO to add inputs or call the FO on ${foPhone}`+
+                '\n1) continue');
         });
-        it('should send a message with no FO phone number to the GL phone number if the FO phone is not available', () => {  
+        xit('should send a message with no FO phone number to the GL phone number if the FO phone is not available', () => {  
             getFOInfo.mockImplementationOnce(() => {return {'firstName': 'sabin','lastName': 'sheja','phoneNumber': null};});
             callback();
             expect(project.sendMessage).toHaveBeenCalledWith(expect.objectContaining({
@@ -443,7 +423,7 @@ describe('clientRegistration', () => {
             });
             expect(mockRow.save).toHaveBeenCalled();
         });
-        it('should send a message with no FO phone number to the new client phone number if the FO phone is not available', () => {  
+        xit('should send a message with no FO phone number to the new client phone number if the FO phone is not available', () => {  
             getFOInfo.mockImplementationOnce(() => {return {'firstName': 'sabin','lastName': 'sheja','phoneNumber': null};});
             callback();
             expect(project.sendMessage).toHaveBeenCalledWith(expect.objectContaining({
@@ -452,14 +432,14 @@ describe('clientRegistration', () => {
                 to_number: state.vars.phoneNumber
             }));
         });
-        it('should send a message with no FO phone number to the new client phone number if the FO phone number is not available', () => {  
+        xit('should send a message with no FO phone number to the new client phone number if the FO phone number is not available', () => {  
             getFOInfo.mockImplementationOnce(() => {return {'firstName': 'sabin','lastName': 'sheja','phoneNumber': null};});
             callback();
             expect(sayText).toHaveBeenCalledWith(`Thank you for expressing your interest to enroll with OAF. Your Account Number is: ${client.AccountNumber}`+
-                '. Your FO will reach out to you to add inputs to your order.');
+                '. Your FO will reach out to you to add inputs to your order.\n1) Continue');
         });
         
-        it('should send a message with no FO phone number to the GL phone number if the FO contact is not available', () => {  
+        xit('should send a message with no FO phone number to the GL phone number if the FO contact is not available', () => {  
             getFOInfo.mockImplementationOnce(() => {return null;});
             callback();
             expect(project.sendMessage).toHaveBeenCalledWith(expect.objectContaining({
@@ -468,7 +448,7 @@ describe('clientRegistration', () => {
                 to_number: contact.phone_number
             }));
         });
-        it('should send a message with no FO phone number to the new client phone number if the FO phone is not available', () => {  
+        xit('should send a message with no FO phone number to the new client phone number if the FO phone is not available', () => {  
             getFOInfo.mockImplementationOnce(() => {return null;});
             callback();
             expect(project.sendMessage).toHaveBeenCalledWith(expect.objectContaining({
@@ -477,12 +457,11 @@ describe('clientRegistration', () => {
                 to_number: state.vars.phoneNumber
             }));
         });
-        it('should show a message with no FO phone number if the FO details is not available', () => {  
-            
+        xit('should show a message with no FO phone number if the FO details is not available', () => {  
             getFOInfo.mockImplementationOnce(() => {return null;});
             callback();
-            expect(sayText).toHaveBeenCalledWith(`Thank you for expressing your interest to enroll with OAF. Your Account Number is: ${client.AccountNumber}`+
-                '. Your FO will reach out to you to add inputs to your order.');
+            expect(sayText).toHaveBeenCalledWith(`Thank you for enrolling with One Acre Fund through JiT. Your account number is "${client.AccountNumber}`+
+                'Make sure you pay KSHs 500 qualification amount or more to receive input on input delivery day.\n1) Continue');
         });
         it('should call roster endpoint with the given client information',()=>{
             var clientInfo = {
@@ -500,31 +479,106 @@ describe('clientRegistration', () => {
     });
     describe('bundle Choice Handler successfull callback',()=>{
         var callback;
+        const mockCursor = { next: jest.fn(), 
+            hasNext: jest.fn()
+        };
+        const mockRow = {vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}};
+        beforeAll(() => {
+            const mockTable = { queryRows: jest.fn()};
+            mockTable.queryRows.mockReturnValue(mockCursor);
+            project.initDataTableById.mockReturnValue(mockTable);
+        });
         beforeEach(() => {
             clientRegistration.registerHandlers();
             callback = bundleChoiceHandler.getHandler.mock.calls[0][0];    
-            state.vars.bundleInputs =  JSON.stringify(mockBundleInputs);      
+            state.vars.chosenMaizeBundle =  ' ';      
         });
 
         it('should display the varieties for the bundle choosed, if the bundle has multiple varieties',()=>{
+            state.vars.varietyBundleId = -2009;
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow);
             callback(mockBundleInputs[0].bundleId);
             expect(sayText).toHaveBeenCalledWith(`Select seed variety\n1) ${mockBundleInputs[0].inputName}`+
             `\n2) ${mockBundleInputs[3].inputName}`+
             '\n');
         });
+        it('should display a the varieties for the bundle choosed with next and previous options if there is a lot of varieties for that bundle',()=>{
+            state.vars.varietyBundleId = -2009;
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow);
+            callback(mockBundleInputs[0].bundleId);
+            //expect(sayText).not.toHaveBeenCalledWith(expect.stringContaining('You do not qualify for a top up,'));
+            expect(state.vars.main_menu).toEqual(`Select seed variety\n1) ${mockRow.vars.input_name}`+
+            `\n2) ${mockRow.vars.input_name}`+
+            `\n3) ${mockRow.vars.input_name}`+
+            `\n4) ${mockRow.vars.input_name}`+
+            `\n5) ${mockRow.vars.input_name}`+
+            `\n6) ${mockRow.vars.input_name}`+
+            `\n7) ${mockRow.vars.input_name}`+
+            '\n77)Next page');
+        });
         it('should display the order placed by the user and prompt to add order or finalize order',()=>{
-            state.vars.bundleInputs =  JSON.stringify(mockBundleInput);  
-            state.vars.orders = ' ';
-            var orderMessage = mockBundleInput[0].bundleName + ' ' + mockBundleInput[0].price + '\n';
-            callback(mockBundleInput[0].bundleId);
+            mockCursor.hasNext.mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockRow); 
+            state.vars.orders = ' '; 
+            var orderMessage = mockBundleInputs[0].bundleName + ' ' + mockBundleInputs[0].price + '\n';
+            callback(mockBundleInputs[0].bundleId);
             expect(sayText).toHaveBeenCalledWith(`Order placed\n ${orderMessage}`+
-            ' \n 1) Add product\n 2) Finish ordering');
+            ' \n 1) Add product\n 2) Finish ordering\n3) Back');
             expect(promptDigits).toHaveBeenCalledWith(addOrderHandler.handlerName);
+        });
+        it('should add the chosen bundle to the ordered bundle list',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockRow); 
+            var newList = mockBundleInputs;
+            state.vars.orders = JSON.stringify(mockBundleInputs);
+            newList.push(mockBundleInputs[0]);
+            callback(mockBundleInputs[0].bundleId);
+            expect(state.vars.orders).toEqual(JSON.stringify(newList));
+        });
+        it('should show the correct order price if the maize bundle is chosen',()=>{
+            var maizeBundle =  mockRow.vars;
+            maizeBundle.bundleName = '0.5 Maize';
+            maizeBundle.price = 750;
+            state.vars.orders = ' ';
+            state.vars.chosenMaizeBundle = JSON.stringify(maizeBundle);
+            mockCursor.hasNext.mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockRow); 
+            callback(maizeBundle.bundleId);
+            var orderMessage = maizeBundle.bundleName + ' ' + maizeBundle.price + '\n';
+            expect(sayText).toHaveBeenCalledWith(`Order placed\n ${orderMessage}`+
+            ' \n 1) Add product\n 2) Finish ordering\n3) Back');
+        }); 
+        it('should display the final message with the bundles if the number of ordered bundles is 3',()=>{
+            var firstBundles = [{'bundleId': '-2009','bundleInputId': '-1709','bundleName': 'Second possible name bundle','price': '2251','inputName': 'second input'},{'bundleId': '-9009','bundleInputId': '-5709','bundleName': 'third possible name bundle','price': '6251','inputName': 'third input'}];
+            var newBundle = {'bundleId': '-8004','bundleInputId': '-8709','bundleName': 'fourth possible name bundle','price': '5251','inputName': 'fourth input'};
+            var mockRow = {vars: {'bundleId': '-8004','bundleInputId': '-8709','bundle_name': 'fourth possible name bundle','price': '5251','input_name': 'fourth input'}};
+            state.vars.orders = JSON.stringify(firstBundles);
+            var allBundles =  [{'bundleId': '-2009','bundleInputId': '-1709','bundleName': 'Second possible name bundle','price': '2251','inputName': 'second input'},{'bundleId': '-9009','bundleInputId': '-5709','bundleName': 'third possible name bundle','price': '6251','inputName': 'third input'}, {'bundleId': '-8004','bundleInputId': '-8709','bundleName': 'fourth possible name bundle','price': '5251','inputName': 'fourth input'}];
+            mockCursor.hasNext.mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockRow); 
+            callback(newBundle.bundleId);
+            var orderMessage = '';
+            for( var j = 0; j < allBundles.length; j++ ){
+                orderMessage = orderMessage + allBundles[j].bundleName + ' ' + allBundles[j].price + '\n';
+            }
+            expect(sayText).toHaveBeenCalledWith(`Order placed\n ${orderMessage}`+
+            ' \n1) Confirm order\n2) Go Back');
         });
 
     });
     describe('variety Confirmation Handler successfull callback',()=>{
         var callback;
+        const mockCursor = { next: jest.fn(), 
+            hasNext: jest.fn()
+        };
+        const mockRow = {vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}};
+        beforeAll(() => {
+            const mockTable = { queryRows: jest.fn()};
+            mockTable.queryRows.mockReturnValue(mockCursor);
+            project.initDataTableById.mockReturnValue(mockTable);
+        });
         beforeEach(() => {
             clientRegistration.registerHandlers();
             state.vars.orders = ' ';
@@ -532,10 +586,14 @@ describe('clientRegistration', () => {
             state.vars.bundleInputs =  JSON.stringify(mockBundleInputs);        
         });
         it('should show the order placed',()=>{
+            state.vars.chosenMaizeBundle = ' ';
+            state.vars.varietyBundleId = -2009;
+            mockCursor.hasNext.mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockRow);
             callback(mockBundleInputs[3].bundleId,true,mockBundleInputs[3].bundleInputId);
             var orderMessage = mockBundleInputs[3].bundleName + ' ' + mockBundleInputs[3].price + '\n';
             expect(sayText).toHaveBeenCalledWith(`Order placed\n ${orderMessage}`+
-            ' \n 1) Add product\n 2) Finish ordering');
+            ' \n 1) Add product\n 2) Finish ordering\n3) Back');
 
         });
 
@@ -551,17 +609,33 @@ describe('clientRegistration', () => {
             callback();
             var orderMessage = mockBundleInput[0].bundleName + ' ' + mockBundleInput[0].price + '\n';
             expect(sayText).toHaveBeenCalledWith(`Order placed\n ${orderMessage}`+
-            ' \n1) Confirm order');
+            ' \n1) Confirm order\n2) Go Back');
+        });
+        it('should show the correct order price if the maize bundle is chosen',()=>{
+            var maizeBundle =  mockBundleInput[0];
+            maizeBundle.bundleName = '0.5 Maize';
+            maizeBundle.price = 750;
+            state.vars.chosenMaizeBundle = JSON.stringify(maizeBundle);
+            callback();
+            var orderMessage = maizeBundle.bundleName + ' ' + maizeBundle.price + '\n';
+            expect(sayText).toHaveBeenCalledWith(`Order placed\n ${orderMessage}`+
+            ' \n1) Confirm order\n2) Go Back');
         });
     });
     describe('order Confirmation Handler successfull callback',()=>{
         var callback;
+        const mockTable = { queryRows: jest.fn(), createRow: jest.fn()};
+        const mockCursor = { next: jest.fn(), 
+            hasNext: jest.fn()
+        };
+        const mockRow = {save: jest.fn(),vars: {'account_number': '1234'}};
         beforeAll(()=>{
             state.vars.orders = JSON.stringify(mockBundleInput);
             state.vars.newClient = JSON.stringify(client);
+            project.initDataTableById.mockReturnValue(mockTable);
+            mockTable.queryRows.mockReturnValue(mockCursor);
         });
         beforeEach(() => {
-            
             clientRegistration.registerHandlers();
             callback = orderConfirmationHandler.getHandler.mock.calls[0][0];           
         });
@@ -569,17 +643,140 @@ describe('clientRegistration', () => {
         it('should display a message confirming the order is complete if the order is saved in roster',()=>{
             httpClient.request.mockReturnValue({status: 201});
             contact.phone_number = phone;
+            mockCursor.hasNext.mockReturnValueOnce(false);
+            mockTable.createRow.mockReturnValueOnce(mockRow);
             var message = `Thanks for ordering ${mockBundleInput[0].bundleName}`+
             ` ${mockBundleInput[0].price}  `+'. Make sure you pay at least Ksh 500 qualification amount to receive input on input delivery day.';
             callback();
             expect(sayText).toHaveBeenCalledWith(message);
             expect(project.sendMessage).toHaveBeenCalledWith({content: message, to_number: phone});
         });
+        it('should update the row with the client\'s order if the order is saved in roster and a client row already exist',()=>{
+            httpClient.request.mockReturnValue({status: 201});
+            mockCursor.hasNext.mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockRow);
+            callback();
+            expect(mockRow.save).toHaveBeenCalled();
+        });
         it('should display a message asking the user to try again later the order is not saved in roster',()=>{
             httpClient.request.mockReturnValue({status: 500});
             callback();
             expect(sayText).toHaveBeenCalledWith('Please try again later. Most people are applying right now!');
         });
+    });
+    describe('variety Choice Handler success callback',()=>{
+        var callback;
+        beforeEach(() => {
+            clientRegistration.registerHandlers();
+            callback = varietyChoiceHandler.getHandler.mock.calls[0][0]; 
+            state.vars.bundleInputs =  JSON.stringify(mockBundleInputs);           
+        });
+
+        it('should display a confirm variety message and prompt for input',()=>{
+            callback(mockBundleInputs[0]);
+            expect(sayText).toHaveBeenCalledWith(`Top-up with ${mockBundleInputs[0].bundleName}`+
+            ` and ${mockBundleInputs[0].inputName}`+
+            '\n1) Confirm\n2) Cancel');
+            expect(promptDigits).toHaveBeenCalledWith(varietyConfirmationHandler.handlerName);
+        });
+ 
+    });
+    describe('continue to enroll success callback', () => {
+        var callback;
+        var orders = [];
+        var maizeOrder,secondOrder,thirdOrder,fourthOrder;
+        var firstBunldleInput = JSON.parse(JSON.stringify(mockBundleInput[0]));
+        orders.push(firstBunldleInput);
+        maizeOrder = JSON.parse(JSON.stringify(mockBundleInputs[0]));
+        maizeOrder.bundleName = '1 Maize Acre';
+        maizeOrder.price = 8950;
+        maizeOrder.quantity = 1;
+        orders.push(maizeOrder);
+        secondOrder = JSON.parse(JSON.stringify(mockBundleInputs[0]));
+        secondOrder.bundleName = '0.75 Maize Acre';
+        secondOrder.price = 7190;
+        secondOrder.quantity = 0.75;
+        orders.push(secondOrder);
+        thirdOrder = JSON.parse(JSON.stringify(mockBundleInputs[0]));
+        thirdOrder.bundleName = '0.5 Maize Acre';
+        thirdOrder.price = 4950;
+        thirdOrder.quantity = 0.5;
+        orders.push(thirdOrder);
+        fourthOrder = JSON.parse(JSON.stringify(mockBundleInputs[0]));
+        fourthOrder.bundleName = '0.25 Maize Acre';
+        fourthOrder.price = 2830;
+        fourthOrder.quantity = 0.25;
+        orders.push(fourthOrder);
+        const mockCursor = { next: jest.fn(), 
+            hasNext: jest.fn()
+        };
+        beforeAll(()=>{
+            state.vars.client_json = JSON.stringify(client);
+            state.vars.newClient = JSON.stringify(client);
+            clientRegistration.start(account, country,reg_lang);
+            jest.clearAllMocks();
+            project.initDataTableById = jest.fn().mockReturnValue(mockTable);
+            mockTable.queryRows.mockReturnValue(mockCursor);
+            
+        });
+        beforeEach(() => {
+            clientRegistration.registerHandlers();
+            callback = continueHandler.getHandler.mock.calls[0][0];                
+        });
+        it('should display the maize bundle size(1, 0.75, 0.5, 0.25) of maize bundles if a maize bundle is available',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockFirstRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
+            state.vars.orders = ' ';
+            callback();
+            expect(state.vars.bundles).toEqual(JSON.stringify(orders));
+        });
+        it('should display the maize bundle size(0.5 and 0.25) of maize bundles if a maize bundle is available and the client ordered other bundles than maize',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockFirstRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
+            state.vars.orders = JSON.stringify(mockRows[1]);
+            callback();
+            expect(state.vars.bundles).toEqual(JSON.stringify(orders));
+        });
+        
+        it('should display the bundles if the menu choosed allow enrollment',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[1]).mockReturnValueOnce(mockRows[2]);
+            callback();
+            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockBundleRow.vars.bundle_name}`+
+            ` ${mockBundleRow.vars.price}`+
+            `\n2) ${mockRows[0].vars.bundle_name}`+
+            ` ${mockRows[0].vars.price}`+
+            `\n3) ${mockRows[1].vars.bundle_name}`+
+            ` ${mockRows[1].vars.price}`+
+            '\n77)Next page');
+        });
+
+        it('should display only unique bundles(if two bundle inputs in the same bundle are found) and if the prepayment condition is satified ', () => {
+
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[3]);
+            callback();
+            expect(sayText).not.toHaveBeenCalledWith(expect.stringContaining('You do not qualify for a top up,'));
+            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockBundleRow.vars.bundle_name}`+
+            ` ${mockBundleRow.vars.price}`+
+            `\n2) ${mockRows[0].vars.bundle_name}`+
+            ` ${mockRows[0].vars.price}`+
+            '\n');
+        });
+        it('should remove maize bundles from the displayed bundles if the prepayment condition is satisfied and the client already choosed a maize bundle',()=>{
+            
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[1]).mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
+            state.vars.orders = JSON.stringify([mockMaizeRows[0]]);
+            callback();
+            expect(sayText).not.toHaveBeenCalledWith(expect.stringContaining('You do not qualify for a top up,'));
+            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockBundleRow.vars.bundle_name}`+
+            ` ${mockBundleRow.vars.price}`+
+            `\n2) ${mockRows[0].vars.bundle_name}`+
+            ` ${mockRows[0].vars.price}`+
+            '\n');
+        });
+        
     });
 
     describe('start', () => {
