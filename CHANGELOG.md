@@ -14,12 +14,8 @@ All notable changes to this project will be documented in this file.
     * Update the bundles
     * Change the prepayment calculations
     * Update the confirmation message
-### Fixed
-* [SER-344](https://oneacrefund.atlassian.net/browse/SER-344) Adjust USSD non-client menu for Kenya
 ### Added
-* [SER-343](https://oneacrefund.atlassian.net/browse/SER-343) Enable prepayment calculator for Kipkelion and Chwele
-### Fixed
-* [SER-311](https://oneacrefund.atlassian.net/browse/SER-311) Update Current Season and Previous Seasons for new SHS season
+* [SER-353](https://oneacrefund.atlassian.net/browse/SER-353) Add option to change language to English when testing for USSD
 
 ## v1.1.4
 ### Fixed

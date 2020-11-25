@@ -1,6 +1,6 @@
 var createTranslator = require('../../utils/translator/translator');
 var translations = require('../translations');
-var translate =  createTranslator(translations, project.vars.cor_lang);
+var translate =  createTranslator(translations, service.vars.lang);
 var handlerName = 'place_chicken_order';
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
