@@ -19,6 +19,14 @@ module.exports = {
     'duplicate_national_id': {
         'en-ke': 'You have already enrolled this season and your account number is $AccountNumber. Reach out to your FO to help you add inputs to your order.',
         'sw': 'Tayari umesajiliwa mwaka huu na akauti namba yako ni $AccountNumber Tembelea mwalimu wako ili akusaidie kuongeza bidhaa unazotaka!'
+    },
+    'enrolled_farmer': {
+        'en-ke': 'This client is already enrolled through JiT.',
+        'sw': 'Mkulima huyu tayari amejiandikisha kupitia JiT.'
+    },
+    'enrolled_farmer_can_topUp': {
+        'en-ke': 'This account number already belongs to an core enrolled client. This client can only top-up.',
+        'sw': 'Nambari hii ya akaunti ni ya mteja aliyeandikishwa mwaka wa LR2021. Mkulima huyu anaweza tu kuongeza bidhaa kupitia top-up.'
     }
 
 };

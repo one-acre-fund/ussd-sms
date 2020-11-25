@@ -50,12 +50,20 @@ module.exports = {
         'ki': 'Nomero ya Telephone yanditse nabi.Ongera wandike neza',
     },
     'reg_complete_message': {
-        'en-ke': 'Thank you for expressing your interest to enroll with OAF. Your Account Number is $ACCOUNT_NUMBER. Please visit the FO to add inputs or call the FO on $FOphone',
-        'sw': 'Asante kwa nia ya kujiandikisha na OAF. Nambari yako ya akaunti ni: $ACCOUNT_NUMBER. Tafadhali tembelea mwalimu wa nyanjani ili kuchagua bidhaa au mpigie simu $FOphone',
+        'en-ke': 'Thank you for enrolling with One Acre Fund through JiT. Your account number is $ACCOUNT_NUMBER Make sure you pay KSHs 500 qualification amount or more to receive input on input delivery day.',
+        'sw': 'Asante kwa kujiandikisha na One Acre Fund kupitia JiT. Nambari yako ya akaunti ni: $ACCOUNT_NUMBER. Hakikisha umelipa shilingi 500 au zaidi ilikupokea bidhaa siku yakupokea pembejeo.',
+    },
+    'reg_complete_displaying_message': {
+        'en-ke': 'Thank you for enrolling with One Acre Fund through JiT. Your account number is $ACCOUNT_NUMBER Make sure you pay KSHs 500 qualification amount or more to receive input on input delivery day.\n1) continue',
+        'sw': 'Asante kwa kujiandikisha na One Acre Fund kupitia JiT. Nambari yako ya akaunti ni: $ACCOUNT_NUMBER. Hakikisha umelipa shilingi 500 au zaidi ilikupokea bidhaa siku yakupokea pembejeo.\n1) endelea',
     },
     'reg_complete_message_no_phone': {
-        'en-ke': 'Thank you for expressing your interest to enroll with OAF. Your Account Number is: $ACCOUNT_NUMBER. Your FO will reach out to you to add inputs to your order.',
-        'sw': 'Asante kwa nia ya kujiandikisha na OAF. Nambari yako ya akaunti ni: $ACCOUNT_NUMBER. Mwalimu wa nyanjani atawasiliana na wewe ili uchagua bidhaa.'
+        'en-ke': 'Thank you for enrolling with One Acre Fund through JiT. Your account number is $ACCOUNT_NUMBER Make sure you pay KSHs 500 qualification amount or more to receive input on input delivery day.',
+        'sw': 'Asante kwa kujiandikisha na One Acre Fund kupitia JiT. Nambari yako ya akaunti ni: $ACCOUNT_NUMBER. Hakikisha umelipa shilingi 500 au zaidi ilikupokea bidhaa siku yakupokea pembejeo.'
+    },
+    'reg_complete_displaying_message_no_phone': {
+        'en-ke': 'Thank you for enrolling with One Acre Fund through JiT. Your account number is $ACCOUNT_NUMBER Make sure you pay KSHs 500 qualification amount or more to receive input on input delivery day.\n1) Select product',
+        'sw': 'Asante kwa kujiandikisha na One Acre Fund kupitia JiT. Nambari yako ya akaunti ni: $ACCOUNT_NUMBER. Hakikisha umelipa shilingi 500 au zaidi ilikupokea bidhaa siku yakupokea pembejeo.\n1) Chagua bidhaa'
     },
     'reg_group_leader_question': {
         'en-ke': 'Does the farmer want to be a Group Leader of a new group?\n1) Yes\n2) No',
@@ -68,16 +76,16 @@ module.exports = {
         'ki': ' Mwanditse hamwe na numero ya konte $AccountNumber muri Tubura. Mukoreshe iyo numero'
     },
     'order_placed': {
-        'en-ke': 'Order placed\n $orders \n 1) Add product\n 2) Finish ordering',
-        'sw': 'Bidhaa ulizo agiza\n $orders \n 1) Ongeza bidhaa\n 2) Maliza ombi'
+        'en-ke': 'Order placed\n $orders \n 1) Add product\n 2) Finish ordering\n3) Back',
+        'sw': 'Bidhaa ulizo agiza\n $orders \n 1) Ongeza bidhaa\n 2) Maliza ombi\n3) rudi nyuma'
     },
     'final_order_display': {
-        'en-ke': 'Order placed\n $orders \n1) Confirm order',
-        'sw': 'Bidhaa ulizo agiza\n $orders \n1) kudhibitisha'
+        'en-ke': 'Order placed\n $orders \n1) Confirm order\n2) Go Back',
+        'sw': 'Bidhaa ulizo agiza\n $orders \n1) kudhibitisha\n2) rudi nyuma'
     },
     'final_message': {
         'en-ke': 'Thanks for ordering $products . Make sure you pay at least Ksh 500 qualification amount to receive input on input delivery day.',
-        'sw': 'Asante kwa kujisajili na $produts . Hakikisha umelipa shilingi 500 au zaidi ilikupokea bidhaa siku yakupokea pembejeo.'
+        'sw': 'Asante kwa kujisajili na $products . Hakikisha umelipa shilingi 500 au zaidi ilikupokea bidhaa siku yakupokea pembejeo.'
     },
     'enrollment_failed': {
         'en-ke': 'Please try again later. Most people are applying right now!',

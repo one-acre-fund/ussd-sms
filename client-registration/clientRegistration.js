@@ -17,6 +17,7 @@ var orderConfirmationHandler = require('./order-confirmation-handler/orderConfir
 var addOrderHandler = require('./add-order-handler/addOrderHandler');
 var varietyConfirmationHandler = require('./variety-confirmation-handler/varietyConfirmationHandler');
 var groupCodeHandler = require('./group-code-handler/groupCodeHandler');
+var continueHandler = require('./continue/continue');
 var enrollOrder = require('../Roster-endpoints/enrollOrder');
 module.exports = {
     registerHandlers: function (){
@@ -59,6 +60,11 @@ module.exports = {
             global.sayText(translate('confrm_phone_prompt',{'$phone': phoneNumber},state.vars.reg_lang));
             global.promptDigits(confirmPhoneNumberHandler.handlerName);
         }
+        function onContinueToEnroll(){
+            displayBundles(JSON.parse(state.vars.newClient).DistrictId); 
+            global.promptDigits(bundleChoiceHandler.handlerName);
+    
+        }
         function onPhoneNumberConfirmed(){
             if(state.vars.country == 'RW'){
                 global.sayText(translate('enter_group_code',{},state.vars.reg_lang));
@@ -68,8 +74,6 @@ module.exports = {
                 if(state.vars.canEnroll){
                     //display bundles
                     saveClientInRoster();
-                    displayBundles(JSON.parse(state.vars.newClient).DistrictId); 
-                    global.promptDigits(bundleChoiceHandler.handlerName);
                 }
                 else{
                     global.sayText(translate('reg_group_leader_question',{},state.vars.reg_lang));
@@ -88,9 +92,7 @@ module.exports = {
                 'phoneNumber': state.vars.phoneNumber
             };
             try {
-
                 var clientData = JSON.parse(rosterRegisterClient(clientJSON,state.vars.reg_lang));
-                
                 if(clientData){
                     var message = translate('enr_reg_complete',{'$ACCOUNT_NUMBER': clientData.AccountNumber},state.vars.reg_lang);
                     var msg_route = project.vars.sms_push_route;
@@ -130,14 +132,18 @@ module.exports = {
         addInputHandler(phoneNumberHandler.handlerName, phoneNumberHandler.getHandler(onPhoneNumberValidated));
         addInputHandler(secondNameHandler.handlerName, secondNameHandler.getHandler(onSecondNameReceived));
         addInputHandler(groupLeaderQuestionHander.handlerName, groupLeaderQuestionHander.getHandler(onGroupLeaderQuestion));
-        addInputHandler(bundleChoiceHandler.handlerName, bundleChoiceHandler.getHandler(onBundleSelected));
+        addInputHandler(bundleChoiceHandler.handlerName, bundleChoiceHandler.getHandler(onBundleSelected,displayBundles));
         addInputHandler(varietyChoiceHandler.handlerName, varietyChoiceHandler.getHandler(onVarietyChosen));
-        addInputHandler(orderConfirmationHandler.handlerName, orderConfirmationHandler.getHandler(onOrderConfirmed));
+        addInputHandler(orderConfirmationHandler.handlerName, orderConfirmationHandler.getHandler(onOrderConfirmed,displayBundles));
         addInputHandler(addOrderHandler.handlerName, addOrderHandler.getHandler(onFinalizeOrder,displayBundles));
-        addInputHandler(varietyConfirmationHandler.handlerName, varietyConfirmationHandler.getHandler(onBundleSelected));
+        addInputHandler(varietyConfirmationHandler.handlerName, varietyConfirmationHandler.getHandler(onBundleSelected,displayBundles));
         addInputHandler(groupCodeHandler.handlerName, groupCodeHandler.getHandler(onGroupCodeValidated));
+        addInputHandler(continueHandler.handlerName, continueHandler.getHandler(onContinueToEnroll));
     },
-    
+    onContinueToEnroll: function(){
+        displayBundles(JSON.parse(state.vars.newClient).DistrictId); 
+        global.promptDigits(bundleChoiceHandler.handlerName);
+    },
 
     start: function (account, country,lang) {
         notifyELK();
@@ -145,9 +151,10 @@ module.exports = {
         state.vars.country = country;
         state.vars.reg_lang = lang;
         state.vars.orders = ' ';
+        state.vars.chosenMaizeBundle = ' ';
         global.sayText(translate('national_id_handler',{},state.vars.reg_lang));
         global.promptDigits(nationalIdHandler.handlerName);
-    }
+    },
 };
 
 function saveClientInRoster(){
@@ -166,16 +173,18 @@ function saveClientInRoster(){
         
         if(clientData){
             state.vars.newClient = JSON.stringify(clientData);
-            var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
-            var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
-            var message;
-            if((foInfo == null) || (foInfo.phoneNumber == null || foInfo.phoneNumber == undefined)){
-                message = translate('reg_complete_message_no_phone' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
-            }
-            else{
-                message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phoneNumber}, state.vars.reg_lang);
-            }
-            global.sayText(message);
+            //commenting this because just in time enrollment message don't have a fo phone
+            //var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
+            //var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
+            var message,displayingMessage;
+            //if((foInfo == null) || (foInfo.phoneNumber == null || foInfo.phoneNumber == undefined)){
+            message = translate('reg_complete_message_no_phone' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
+            displayingMessage = translate('reg_complete_displaying_message_no_phone' , {'$ACCOUNT_NUMBER': clientData.AccountNumber}, state.vars.reg_lang);
+            //}
+            /*else{
+            message = translate('reg_complete_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phoneNumber}, state.vars.reg_lang);
+            displayingMessage = translate('reg_complete_displaying_message' , {'$ACCOUNT_NUMBER': clientData.AccountNumber,'$FOphone': foInfo.phoneNumber}, state.vars.reg_lang);
+            }*/
             var groupLeaderInterested;
             if(state.vars.canEnroll){
                 groupLeaderInterested = '0';
@@ -185,7 +194,7 @@ function saveClientInRoster(){
             }
             project.sendMessage({content: message, to_number: contact.phone_number});
             project.sendMessage({content: message, to_number: clientJSON.phoneNumber});
-            var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
+            var table = project.initDataTableById(service.vars.JITSucessfullRegId);
             var row = table.createRow({
                 'contact_id': contact.id,
                 vars: {
@@ -201,10 +210,11 @@ function saveClientInRoster(){
                     'new_client': '1',
                     'gl_interested': groupLeaderInterested,
                     'gl_phone_number': contact.phone_number,
-
                 }
             });
             row.save();
+            global.sayText(displayingMessage);
+            global.promptDigits(continueHandler.handlerName);
         }
     }
     catch (e) {
@@ -213,7 +223,7 @@ function saveClientInRoster(){
 }
 function onBundleSelected(bundleId, varietychosen, bundleInputId){
 
-    var bundleInputs = JSON.parse(state.vars.bundleInputs);
+    var bundleInputs = getBundlesInputs(state.vars.currentDistrict);
     var selectedBundle = [];
     for( var i = 0; i < bundleInputs.length; i++ ){
         if( bundleInputs[i].bundleId == bundleId){
@@ -233,9 +243,8 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
         }
         else{
             // Display the varieties(inputs)
-            state.vars.allVarieties = JSON.stringify(selectedBundle);
+            state.vars.varietyBundleId = bundleId;
             displayVariety(selectedBundle);
-            //TODO: prompt for varietie
             global.promptDigits(varietyChoiceHandler.handlerName);
         }
     }
@@ -247,7 +256,13 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
         allBundles.push(selectedBundle[0]);
         var orderMessage = '';
         for( var j = 0; j < allBundles.length; j++ ){
-            orderMessage = orderMessage + allBundles[j].bundleName + ' ' + allBundles[j].price + '\n';
+            if(state.vars.chosenMaizeBundle != ' ' && (JSON.parse(state.vars.chosenMaizeBundle).bundleId == allBundles[j].bundleId)){
+                var orderedBundle =  JSON.parse(state.vars.chosenMaizeBundle);
+                orderMessage = orderMessage + orderedBundle.bundleName + ' ' + orderedBundle.price + '\n';
+            }
+            else{
+                orderMessage = orderMessage + allBundles[j].bundleName + ' ' + allBundles[j].price + '\n';
+            }
         }
         //Display confirmation message
         state.vars.orders = JSON.stringify(allBundles);
@@ -279,7 +294,13 @@ function onOrderConfirmed(){
     //var isGroupLeader = group_leader_check(client.DistrictId, client.ClientId);
 
     for( var j = 0; j < bundle.length; j++ ){
-        var order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': 1, inputChoices: [parseInt(bundle[j].bundleInputId)] };
+        var order;
+        if(state.vars.chosenMaizeBundle != ' ' && (JSON.parse(state.vars.chosenMaizeBundle).bundleId == bundle[j].bundleId)){
+            var chosenBundle = JSON.parse(state.vars.chosenMaizeBundle);
+            order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': chosenBundle.quantity, inputChoices: [parseInt(bundle[j].bundleInputId)] };
+        }else{
+            order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': 1, inputChoices: [parseInt(bundle[j].bundleInputId)] };
+        }
         requestBundles.push(order);
     }
     var requestData = {
@@ -294,9 +315,33 @@ function onOrderConfirmed(){
     var orderPlaced = JSON.parse(state.vars.orders);
     var orderPlacedMessage = '';
     for( var m = 0; m < orderPlaced.length; m++ ){
-        orderPlacedMessage = orderPlacedMessage + orderPlaced[m].bundleName + ' ' + orderPlaced[m].price + ' ';
+        if(state.vars.chosenMaizeBundle != ' ' && (JSON.parse(state.vars.chosenMaizeBundle).bundleId == orderPlaced[m].bundleId)){
+            var bundlechosen = JSON.parse(state.vars.chosenMaizeBundle);
+            orderPlacedMessage = orderPlacedMessage + bundlechosen.bundleName + ' ' + bundlechosen.price + ' ';
+        }
+        else{
+            orderPlacedMessage = orderPlacedMessage + orderPlaced[m].bundleName + ' ' + orderPlaced[m].price + ' ';
+        }
     } 
     if(enrollOrder(requestData)){
+        var table = project.initDataTableById(service.vars.JITSucessfullRegId);
+        var cursor = table.queryRows({vars: {'account_number': client.AccountNumber}});
+        if(cursor.hasNext()){
+            var row = cursor.next();
+            row.vars.finalized = 1;
+            row.vars.orders = JSON.stringify(requestBundles);
+            row.save();
+        }
+        else{
+            var newRow = table.createRow({
+                'contact_id': contact.id,
+                vars: {
+                    'account_number': client.AccountNumber,
+                    'finalized': 1,
+                    'orders': JSON.stringify(requestBundles)
+                }});
+            newRow.save();
+        }
         var message = translate('final_message',{'$products': orderPlacedMessage},state.vars.reg_lang);
         global.sayText(message);
         project.sendMessage({
@@ -319,30 +364,49 @@ function onFinalizeOrder(){
         allBundles = JSON.parse(state.vars.orders);
     }
     for( var j = 0; j < allBundles.length; j++ ){
-        orderMessage = orderMessage + allBundles[j].bundleName + ' ' + allBundles[j].price + '\n';
+        if(state.vars.chosenMaizeBundle != ' ' && (JSON.parse(state.vars.chosenMaizeBundle).bundleId == allBundles[j].bundleId)){
+            var chosenBundle = JSON.parse(state.vars.chosenMaizeBundle);
+            orderMessage = orderMessage + chosenBundle.bundleName + ' ' + chosenBundle.price + '\n';
+
+        }else{
+            orderMessage = orderMessage + allBundles[j].bundleName + ' ' + allBundles[j].price + '\n';
+        }
     }
     global.sayText(translate('final_order_display',{'$orders': orderMessage },state.vars.reg_lang));
     global.promptDigits(orderConfirmationHandler.handlerName);
 }
+function bundleExists(bundles,bundleId) {
+    for (var o =0; o<bundles.length; o++){
+        if(bundles[o].bundleId === bundleId)
+            return true;
+    }
+    return false;
+    // return bundles.some(function(bundle) {
+    //     return bundle.bundleId === bundleId;
+    // }); 
+}
+
 function displayBundles(district){
 
     var bundleInputs = getBundlesInputs(district);
-    state.vars.bundleInputs = JSON.stringify(bundleInputs);
+    state.vars.currentDistrict = district;
     var unique = [];
     var bundles = [];
     var maizeBanedBundleIds = [];
+    var currentOrder = [];
+    var maizeBundleIds = [];
+    var firstTime = true;
+    var newBundle;
+    var maizeTable = project.initDataTableById(service.vars.maizeEnrollmentTableId);
+    var maizeCursor = maizeTable.queryRows();
 
+    while(maizeCursor.hasNext()){
+        var maizeRow = maizeCursor.next(); 
+        maizeBundleIds.push(maizeRow.vars.bundleId);
+    }
     // Check for maize bundle in the current's client order
     if(state.vars.orders != ' '){
-        var maizeTable = project.initDataTableById(service.vars.maizeEnrollmentTableId);
-        var currentOrder = JSON.parse(state.vars.orders);
-        var maizeBundleIds = [];
-        var maizeCursor = maizeTable.queryRows();
-
-        while(maizeCursor.hasNext()){
-            var maizeRow = maizeCursor.next(); 
-            maizeBundleIds.push(maizeRow.vars.bundleId);
-        }
+        currentOrder = JSON.parse(state.vars.orders);
         for (var k = 0; k < currentOrder.length; k++){
             if(maizeBundleIds.indexOf(currentOrder[k].bundleId) != -1){
                 maizeBanedBundleIds = maizeBundleIds;
@@ -355,7 +419,57 @@ function displayBundles(district){
             if( !unique[bundleInputs[i].bundleId]){
                 //check for not allowed bundles
                 if(maizeBanedBundleIds.indexOf(bundleInputs[i].bundleId) == -1){
-                    bundles.push(bundleInputs[i]);
+                    //skip what the user ordered
+                    if(currentOrder.length != 0){
+                        if(!bundleExists(currentOrder,bundleInputs[i].bundleId)){
+                            if((maizeBundleIds.indexOf(bundleInputs[i].bundleId) != -1) && firstTime){
+                                newBundle = JSON.parse(JSON.stringify(bundleInputs[i]));
+                                newBundle.bundleName = '1 Maize Acre';
+                                newBundle.price = 8950;
+                                newBundle.quantity = 1;
+                                bundles.push(newBundle);
+                                newBundle = JSON.parse(JSON.stringify(bundleInputs[i]));
+                                newBundle.bundleName = '0.75 Maize Acre';
+                                newBundle.price = 7190;
+                                newBundle.quantity = 0.75;
+                                bundles.push(newBundle);
+                                newBundle = JSON.parse(JSON.stringify(bundleInputs[i]));
+                                newBundle.bundleName = '0.5 Maize Acre';
+                                newBundle.price = 4950;
+                                newBundle.quantity = 0.5;
+                                bundles.push(newBundle);
+                                bundleInputs[i].bundleName = '0.25 Maize Acre';
+                                bundleInputs[i].price = 2830;
+                                bundleInputs[i].quantity = 0.25;
+                                firstTime = false;
+                            }
+                            bundles.push(bundleInputs[i]);
+                        }
+                    }
+                    else{
+                        if((maizeBundleIds.indexOf(bundleInputs[i].bundleId) != -1) && firstTime){
+                            newBundle = JSON.parse(JSON.stringify(bundleInputs[i]));
+                            newBundle.bundleName = '1 Maize Acre';
+                            newBundle.price = 8950;
+                            newBundle.quantity = 1;
+                            bundles.push(newBundle);
+                            newBundle = JSON.parse(JSON.stringify(bundleInputs[i]));
+                            newBundle.bundleName = '0.75 Maize Acre';
+                            newBundle.price = 7190;
+                            newBundle.quantity = 0.75;
+                            bundles.push(newBundle);
+                            newBundle = JSON.parse(JSON.stringify(bundleInputs[i]));
+                            newBundle.bundleName = '0.5 Maize Acre';
+                            newBundle.price = 4950;
+                            newBundle.quantity = 0.5;
+                            bundles.push(newBundle);
+                            bundleInputs[i].bundleName = '0.25 Maize Acre';
+                            bundleInputs[i].price = 2830;
+                            bundleInputs[i].quantity = 0.25;
+                            firstTime = false;
+                        }
+                        bundles.push(bundleInputs[i]);
+                    }
                 }
                 unique[bundleInputs[i].bundleId] = 1;
             }

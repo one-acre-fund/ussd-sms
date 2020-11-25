@@ -52,7 +52,6 @@ module.exports = function(lang, max_chars, content,isVariety){
         counter = counter + 1; 
     }
     
-    state.vars.sessionMenu = JSON.stringify(sessionMenu);
     if(Object.keys(displayingMenu).length > 0){
         displayingMenu[loc] = displayingMenu[loc] = finalMenu;
         return displayingMenu;
