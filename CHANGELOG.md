@@ -17,10 +17,19 @@ All notable changes to this project will be documented in this file.
 ### Added
 * [SER-353](https://oneacrefund.atlassian.net/browse/SER-353) Add option to change language to English when testing for USSD
 
-## v1.1.4
+## v1.2.2
+### Fixed
+* [THD-3792](https://oneacrefund.atlassian.net/browse/THD-3792) New sites can't order
+## v1.2.1
+### Fixed
+* [SER-349](https://oneacrefund.atlassian.net/browse/SER-349) Change USSD response for core clients who would want to be enrolled at the Duka
+## v1.2.0
 ### Fixed
 * [SER-344](https://oneacrefund.atlassian.net/browse/SER-344) Adjust USSD non-client menu for Kenya
-* [SER-343](https://oneacrefund.atlassian.net/browse/SER-343) Enable prpayment calculator for Kipkelion and Chwele
+### Added
+* [SER-343](https://oneacrefund.atlassian.net/browse/SER-343) Enable prepayment calculator for Kipkelion and Chwele
+### Fixed
+* [SER-311](https://oneacrefund.atlassian.net/browse/SER-311) Update Current Season and Previous Seasons for new SHS season
 
 ## v1.1.3
 ### Fixed
