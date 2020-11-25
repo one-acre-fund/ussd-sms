@@ -45,35 +45,39 @@ module.exports = {
                 to_number: contact.phone_number
             });*/
             state.vars.newClient = JSON.stringify(client);
-            if(isValid(client) && !alreadyEnrolled(client.AccountNumber)){
-                if(remainingLoan > 0 ){
-                    sayText(translate('loan_payment_not_satisfied',{'$amount': remainingLoan },state.vars.enr_lang));
-                    global.stopRules();
+            if(!alreadyEnrolled(client.AccountNumber)){
+                if(isValid(client)){
+                    if(remainingLoan > 0 ){
+                        sayText(translate('loan_payment_not_satisfied',{'$amount': remainingLoan },state.vars.enr_lang));
+                        global.stopRules();
+                    }
+                    else{
+                        state.vars.orders= ' ';
+                        state.vars.chosenMaizeBundle = ' ';
+                        state.vars.account = client.AccountNumber;
+                        state.vars.country = 'KE';
+                        state.vars.reg_lang = state.vars.enr_lang;
+                        clientRegistration.onContinueToEnroll();
+                        var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
+                        var row = table.createRow({
+                            'contact_id': contact.id,
+                            'from_number': contact.from_number,
+                            'vars': {
+                                'account_number': client.AccountNumber,
+                                'national_id': client.NationalId,
+                                'new_client': '0'
+                            }
+                        });
+                        row.save();
+                    }
                 }
                 else{
-                    state.vars.orders= ' ';
-                    state.vars.chosenMaizeBundle = ' ';
-                    state.vars.account = client.AccountNumber;
-                    state.vars.country = 'KE';
-                    state.vars.reg_lang = state.vars.enr_lang;
-                    clientRegistration.onContinueToEnroll();
-                    var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
-                    var row = table.createRow({
-                        'contact_id': contact.id,
-                        'from_number': contact.from_number,
-                        'vars': {
-                            'account_number': client.AccountNumber,
-                            'national_id': client.NationalId,
-                            'new_client': '0'
-                        }
-                    });
-                    row.save();
+                    sayText(translate('enrolled_farmer_can_topUp',{},state.vars.enr_lang));
+                    
                 }
-            }
-            else{
+            }else{
                 sayText(translate('enrolled_farmer',{},state.vars.enr_lang));
             }
-    
         }
         else{
             sayText(translate('account_not_found',{},state.vars.enr_lang));

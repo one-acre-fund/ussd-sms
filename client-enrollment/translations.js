@@ -21,8 +21,12 @@ module.exports = {
         'sw': 'Tayari umesajiliwa mwaka huu na akauti namba yako ni $AccountNumber Tembelea mwalimu wako ili akusaidie kuongeza bidhaa unazotaka!'
     },
     'enrolled_farmer': {
-        'en-ke': 'Farmer is enrolled this season. Please try again.',
-        'sw': 'Mkulima ameandikishwa mwaka huu. Tafadhali jaribu tena.'
+        'en-ke': 'This client is already enrolled through JiT.',
+        'sw': 'Mkulima huyu tayari amejiandikisha kupitia JiT.'
+    },
+    'enrolled_farmer_can_topUp': {
+        'en-ke': 'This account number already belongs to an core enrolled client. This client can only top-up.',
+        'sw': 'Nambari hii ya akaunti ni ya mteja aliyeandikishwa mwaka wa LR2021. Mkulima huyu anaweza tu kuongeza bidhaa kupitia top-up.'
     }
 
 };
