@@ -91,6 +91,7 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
         expect(state.vars.phone_number).toEqual('07887654376');
     });
 
+<<<<<<< HEAD
     it('should register the user to a duka district account once they already have an account number with OAF, and ask them to complete their debt once they have an outstanding credit', () => {
         state.vars.dcr_duka_client = JSON.stringify({
             FirstName: 'client.FirstName',
@@ -111,6 +112,8 @@ describe.each(['en-ke', 'sw'])('Farmer\' account number input handler', (lang) =
         expect(stopRules).toHaveBeenCalled(); 
     });
 
+=======
+>>>>>>> origin/master
     it('should reprompt for the account number once the user is not successfully registered', () => {
         state.vars.dcr_duka_client = JSON.stringify({
             FirstName: 'client.FirstName',

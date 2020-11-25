@@ -1050,8 +1050,14 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
         return null;
     }
     else {
+
+        input = input.replace(/[^0-9]/g, '*');
         // If the user forget the leading zero
+<<<<<<< HEAD
         if(input.replace(/\W/g, '').length != 13){
+=======
+        if(input.replace(/[^0-9]/g, '').length != 13){
+>>>>>>> origin/master
             input = '0'+ input;
         }
         state.vars.glus = input;
@@ -1260,7 +1266,13 @@ addInputHandler('reg_end_ordering_redirect',function(input){
 addInputHandler('enr_glvv_id', function (input) {
     notifyELK();
     state.vars.current_step = 'entered_glvv';
+<<<<<<< HEAD
     if(input.replace(/\W/g, '').length != 13){
+=======
+    
+    input = input.replace(/[^0-9]/g, '*');
+    if(input.replace(/[^0-9]/g, '').length != 13){
+>>>>>>> origin/master
         input = '0'+ input;
     }
     // check if glvv is valid

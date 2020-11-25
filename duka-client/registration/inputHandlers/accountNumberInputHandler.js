@@ -59,11 +59,14 @@ module.exports = {
                         });
                         console.log('duka client registered. scheduled message for credit officer: ' + messageToClient + ' to: ' + contact.phone_number);
                         console.log('duka client registered. scheduled message for farmer: ' + messageToClient + ' to: ' + JSON.stringify(dcr_duka_client));
+<<<<<<< HEAD
                         if(state.vars.dcr_credit > 0) {
                             global.sayText(getMessage('outstanding_balance', {'$balance': state.vars.dcr_credit}, lang));
                             global.stopRules();
                             return;
                         }
+=======
+>>>>>>> origin/master
                         state.vars.account_number = registeredClient.AccountNumber;
                         state.vars.phone_number = dcr_duka_client.phoneNumber;
                         global.sayText(getMessage('transaction_type', {}, lang));
@@ -95,7 +98,10 @@ module.exports = {
                     var phone_number = getActivePhoneNumber(accountNumber, country);
                     client.PhoneNumber = phone_number;
                     var outStandingCredit = OutstandingCredit(client.BalanceHistory);
+<<<<<<< HEAD
                     state.vars.dcr_credit = outStandingCredit;
+=======
+>>>>>>> origin/master
                     
                     if(client.SiteName == 'Duka' || client.DistrictName == 'OAF Duka'){
                         if(outStandingCredit > 0) {
