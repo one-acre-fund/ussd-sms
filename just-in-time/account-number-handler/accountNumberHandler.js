@@ -39,7 +39,9 @@ var hasAlreadyTopedUp = function(accounNumber){
     var table = project.initDataTableById(service.vars.JiTEnrollmentTableId);
     var cursor = table.queryRows({vars: {'account_number': accounNumber}});
     if(cursor.hasNext()){
-        return true;
+        var row = cursor.next();
+        var productsOrdered = row.vars.order;
+        return hasOrderedMaxProducts(JSON.parse(productsOrdered));
     }
     return false;
 };
@@ -51,6 +53,13 @@ var enrolledThroughJustInTime = function(accountNumber){
     }
     return false;
 };
+
+var hasOrderedMaxProducts = function(productsOrdered) {
+    console.log('ORDERED PRODUCTS' + typeof productsOrdered);
+    console.log(productsOrdered);
+    return productsOrdered & productsOrdered.length >= 3; // max products to order is 3 at the moment
+};
+
 module.exports = {
     handlerName: handlerName,
     getHandler: function(onAccountNumberValidated){
