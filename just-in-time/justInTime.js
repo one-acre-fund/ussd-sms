@@ -272,7 +272,8 @@ function displayBundles(district){
             }
         }
     }
-    
+
+    console.log('>>>>>>>> bundles: ' + JSON.stringify(bundles));
     // saved it for easy access in bundleChoiceHandler 
     state.vars.bundles = JSON.stringify(bundles);
     // Build the menu for bundles
