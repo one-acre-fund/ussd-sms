@@ -1,3 +1,4 @@
+service.vars.lang = 'en';
 var avocadoEligibility = require('./avocado-eligibility/avocadoEligibility');
 var placeOrderHandler = require('./place-order-handler/placeOrderHandler');
 var confirmOrderHandler = require('./confirm-order-handler/confirmOrderHandler');

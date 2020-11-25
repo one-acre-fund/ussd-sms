@@ -11,12 +11,32 @@ function isValidBundleInput(input, bundleInputs){
     return false;
 
 }
+function getBundlesInputs(districtId){
+    var table = project.initDataTableById(service.vars.topUpBundleTableId);
+    var bundleInputs = [];
+    var query = {};
+    query['d' + districtId] = 1;
+    query.offered = 1;
+    var cursor = table.queryRows({'vars': query});
+    while(cursor.hasNext()){
+        var row = cursor.next();
+        var currentBundleInput = {bundleId: row.vars.bundleId, bundleInputId: row.vars.bundleInputId,'en-ke': row.vars.en, sw: row.vars.sw, bundleName: row.vars.bundle_name, price: row.vars.price, inputName: row.vars.input_name};
+        bundleInputs.push(currentBundleInput);
+    }
+    return bundleInputs;
+}
 module.exports = {
     handlerName: handlerName,
     getHandler: function(onVarietyChosen){
         return function (input) {
-            var allVarieties = JSON.parse(state.vars.allVarieties);
-            console.log('inside variety choice handler'+JSON.stringify(allVarieties));
+            var bundleInputs = getBundlesInputs(state.vars.currentDistrict);
+            var selectedBundle = [];
+            for( var i = 0; i < bundleInputs.length; i++ ){
+                if( bundleInputs[i].bundleId == state.vars.varietyBundleId){
+                    selectedBundle.push(bundleInputs[i]);
+                }
+            }
+            var allVarieties = selectedBundle;
             notifyELK();
             if (state.vars.multiple_input_menus) {
                 if (input == 44 && state.vars.input_menu_loc > 0) {

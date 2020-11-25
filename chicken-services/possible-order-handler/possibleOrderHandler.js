@@ -13,7 +13,7 @@ module.exports = {
                 onOrderingConfirmed();
             }
             else{
-                var translate =  createTranslator(translations, project.vars.cor_lang);
+                var translate =  createTranslator(translations, service.vars.lang);
                 global.sayText(translate('chicken_oder_out_of_bound',{'$number': state.vars.max_chicken}));
                 global.promptDigits(handlerName);
             }

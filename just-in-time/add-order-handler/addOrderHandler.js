@@ -12,6 +12,13 @@ module.exports = {
             }
             else if(input == 2){
                 onFinalizeOrder();
+            }
+            else if(input == 3){
+                var orders = JSON.parse(state.vars.orders);
+                orders.pop();
+                state.vars.orders = JSON.stringify(orders);
+                displayBundles(JSON.parse(state.vars.topUpClient).DistrictId);
+                global.promptDigits(bundleChoiceHandler.handlerName);
 
             }
         };

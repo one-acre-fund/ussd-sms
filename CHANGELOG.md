@@ -2,10 +2,24 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
+
+### Fixed 
+* [SER-334](https://oneacrefund.atlassian.net/browse/SER-334) Kenya Enrollment/Just In time fixes(part 2)
+    * updated maize bundle logic
+    * updated eligibility to topUp/enroll check
+    * added a back navigation
+    * Add a menu to display the bundles after registration
+    * Rename the menu options
+    * Remove a product from the list once the client ordered it
+    * Update the bundles
+    * Change the prepayment calculations
+    * Update the confirmation message
+### Added
+* [SER-353](https://oneacrefund.atlassian.net/browse/SER-353) Add option to change language to English when testing for USSD
+
 ## v1.2.2
 ### Fixed
 * [THD-3792](https://oneacrefund.atlassian.net/browse/THD-3792) New sites can't order
-### Fixed
 ## v1.2.1
 ### Fixed
 * [SER-349](https://oneacrefund.atlassian.net/browse/SER-349) Change USSD response for core clients who would want to be enrolled at the Duka

@@ -14,6 +14,14 @@ module.exports = {
                 onFinalizeOrder();
 
             }
+            else if(input == 3){
+                var orders = JSON.parse(state.vars.orders);
+                orders.pop();
+                state.vars.orders = JSON.stringify(orders);
+                displayBundles(JSON.parse(state.vars.newClient).DistrictId);
+                global.promptDigits(bundleChoiceHandler.handlerName);
+
+            }
         };
     }
 };

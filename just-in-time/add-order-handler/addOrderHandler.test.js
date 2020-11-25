@@ -9,13 +9,13 @@ var notifyELK = require('../../notifications/elk-notification/elkNotification');
 describe('account_number_handler', () => {
     var addOrderHandler;
     var onFinalizeOrder, displayBundles;
-
+    var bundleArray = [{'bundleId': '-3009','bundleInputId': '-12109','bundleName': 'Knapsack Sprayer','price': '2251','inputName': 'Knapsack Sprayer'},{'bundleId': '-2960','bundleInputId': '-11920','bundleName': 'Red Onion','price': '180','inputName': 'Red Creole'}];
     beforeAll(()=>{
         onFinalizeOrder = jest.fn();
         displayBundles = jest.fn();
         addOrderHandler = getHandler(onFinalizeOrder, displayBundles);
         state.vars.topUpClient = JSON.stringify(client);
-
+        state.vars.orders = JSON.stringify(bundleArray);
     });
 
     it('should call notifyELK ', () => {
@@ -30,6 +30,11 @@ describe('account_number_handler', () => {
     it('should call finalized order if the user chooses 2 to finalize ', () =>{
         addOrderHandler(2);
         expect(onFinalizeOrder).toHaveBeenCalled();
+    });
+    it('should remove the last order if the client chooses 3',()=>{
+        bundleArray.pop();
+        addOrderHandler(3);
+        expect(state.vars.orders).toEqual(JSON.stringify(bundleArray));
     });
 
 });

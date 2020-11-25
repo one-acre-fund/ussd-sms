@@ -5,9 +5,8 @@ var possibleOrderHandler = require('./possible-order-handler/possibleOrderHandle
 var placeOrderHandler = require('./place-order-handler/placeOrderHandler');
 var changeOrderHandler = require('./change-order-handler/changeOrderHandler');
 var changeOrderConfirmation = require('./change-order-confirmation/changeOrderConfirmation');
-var translate =  createTranslator(translations, project.vars.cor_lang);
+var translate =  createTranslator(translations, service.vars.lang);
 var notifyELK = require('../notifications/elk-notification/elkNotification'); 
-
 module.exports = {
     registerHandlers: function (){
         function onPaymentValidated(){
