@@ -273,7 +273,9 @@ function displayBundles(district){
         }
     }
 
-    console.log('>>>>>>>> bundles: ' + JSON.stringify(bundles));
+    // remove the already ordered bundles
+    bundles = removeOrderedBundles(bundles);
+
     // saved it for easy access in bundleChoiceHandler 
     state.vars.bundles = JSON.stringify(bundles);
     // Build the menu for bundles
@@ -296,6 +298,35 @@ function displayBundles(district){
     }
 
 }
+
+var removeOrderedBundles = function(allBundles) {
+    var orderedBundles = getPastOrderedBundles();
+    var copiedBundles = allBundles.map(function(bundle) {return bundle;});
+    orderedBundles.forEach(function(orderedBundle) {
+        copiedBundles = copiedBundles.filter(function(bundle) {
+            return bundle.bundleId != orderedBundle.bundleId;
+        });
+    });
+    return copiedBundles;
+};
+
+var getPastOrderedBundles = function() {
+    var toppedUpTable = project.initDataTableById(service.vars.JiTEnrollmentTableId);
+    var client = JSON.parse(state.vars.topUpClient);
+    var toppedUpCursor = toppedUpTable.queryRows({
+        vars: {
+            'account_number': client.AccountNumber
+        }
+    });
+
+    if(toppedUpCursor.hasNext()) {
+        var toppedUpRow = toppedUpCursor.next();
+        var toppedUpOrderBundles = JSON.parse(toppedUpRow.vars.order);
+        return toppedUpOrderBundles;
+    }
+    return [];
+};
+
 function bundleExists(bundles,bundleId) {
     for (var o =0; o<bundles.length; o++){
         if(bundles[o].bundleId === bundleId)
