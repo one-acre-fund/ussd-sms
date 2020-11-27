@@ -29,7 +29,7 @@ module.exports = {
         'sw': 'Bidhaa ulizo agiza\n $orders \n1) kudhibitisha\n 2) rudi nyuma'
     },
     'final_message': {
-        'en-ke': 'Thank you for topping-up through JiT. Your order is $products Reach out to CE through *689# if this  order is not correct',
+        'en-ke': 'Thank you for topping-up through JiT. Your order is $products Reach out to CE through *689$ if this  order is not correct',
         'sw': 'Asante kwa kuongeza bidhaa kupitia JiT. Bidhaa zako ni: $products . Ongea na CE kupitia *689# kama bidhaa zako sio sahihi.'
     },
     'variety_confirmation': {
@@ -62,5 +62,9 @@ module.exports = {
     'not_enrolled': {
         'en-ke': 'Farmer is not enrolled this season. Please try again.',
         'sw': 'Mkulima hakujiandikisha mwaka huu. Tafadhali jaribu tena.'
+    },
+    'order_more_products': {
+        'en-ke': 'Your past order ($products products):\n$order\nYou can order $more_products more products\n1. Order more\n2. Cancel',
+        'sw': 'Agizo lako la zamani (bidhaa $products):\n$order\nUnaweza kuagiza bidhaa $more_products\n1. Agiza zaidi\n2. Ghairi'
     }
 };
