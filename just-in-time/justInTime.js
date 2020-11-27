@@ -179,8 +179,18 @@ function onOrderConfirmed(){
                 orderPlacedMessage = orderPlacedMessage + orderPlaced[m].bundleName + ' ' + orderPlaced[m].price + ' ';
             }
         } 
+
+        var alreadyOrderedBundles = getPastOrderedBundles(); // geting past orders for returning clients (returns an empty array for first time clients)
+        var row;
         var table = project.initDataTableById(service.vars.JiTEnrollmentTableId);
-        var row = table.createRow({vars: {'account_number': client.AccountNumber, 'order': JSON.stringify(requestBundles)}});
+        if(alreadyOrderedBundles.length > 0) {
+            // if there are already placed orders, it means we need to update not create a new entry
+            var allBundles = requestBundles.forEach(function(requestBundle){alreadyOrderedBundles.push(requestBundle);}); // adding all budnles before saving them to the dataTable
+            row = table.queryRows({vars: {'account_number': client.AccountNumber}});
+            row.vars.order = JSON.stringify(allBundles);
+        } else {
+            row = table.createRow({vars: {'account_number': client.AccountNumber, 'order': JSON.stringify(requestBundles)}});
+        }
         row.save();
         var message = translate('final_message',{'$products': orderPlacedMessage},state.vars.jitLang);
         sayText(message);
