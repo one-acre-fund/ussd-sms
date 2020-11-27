@@ -128,7 +128,8 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
         }
         //Display confirmation message
         state.vars.orders = JSON.stringify(allBundles);
-        if(allBundles.length == 3){
+        var orderedBundles = getPastOrderedBundles();
+        if(allBundles.length == 3 || (orderedBundles.length + allBundles.length) == 3){
             sayText(translate('final_order_display',{'$orders': orderMessage },state.vars.jitLang));
             promptDigits(orderConfirmationHandler.handlerName);
         }
@@ -273,7 +274,7 @@ function displayBundles(district){
         }
     }
 
-    // remove the already ordered bundles
+    // remove the already ordered bundles for returning clients
     bundles = removeOrderedBundles(bundles);
 
     // saved it for easy access in bundleChoiceHandler 
