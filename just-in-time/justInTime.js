@@ -203,7 +203,8 @@ function onOrderConfirmed(){
         sayText(translate('enrollment_failed',{},state.vars.jitLang));
     }
 }
-function displayBundles(district){
+
+var getAllSupportedBundles = function (district) {
     console.log('district ID:' + district);
     var bundleInputs = getBundlesInputs(district);
     state.vars.currentDistrict = district;
@@ -273,9 +274,14 @@ function displayBundles(district){
             }
         }
     }
+    return bundles;
+};
 
+function displayBundles(district){
+
+    var allSupportedBundles = getAllSupportedBundles(district);
     // remove the already ordered bundles for returning clients
-    bundles = removeOrderedBundles(bundles);
+    var bundles = removeOrderedBundles(allSupportedBundles);
 
     // saved it for easy access in bundleChoiceHandler 
     state.vars.bundles = JSON.stringify(bundles);
