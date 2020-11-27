@@ -11,6 +11,7 @@ var notifyELK = require('../notifications/elk-notification/elkNotification');
 var enrollOrder = require('../Roster-endpoints/enrollOrder');
 var translate =  createTranslator(translations, project.vars.lang);
 var getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
+var orderMoreHandler = require('./order-more-handler/orderMoreHandler');
 module.exports = {
     registerHandlers: function (){
         addInputHandler(accountNumberHandler.handlerName, accountNumberHandler.getHandler(onAccountNumberValidated));
@@ -19,6 +20,7 @@ module.exports = {
         addInputHandler(varietyConfirmationHandler.handlerName, varietyConfirmationHandler.getHandler(onBundleSelected,displayBundles));
         addInputHandler(addOrderHandler.handlerName, addOrderHandler.getHandler(onFinalizeOrder,displayBundles));
         addInputHandler(orderConfirmationHandler.handlerName, orderConfirmationHandler.getHandler(onOrderConfirmed,displayBundles));
+        addInputHandler(orderMoreHandler.handlerName, orderMoreHandler.getHandler(onOrderMore));
 
     },
 
@@ -35,6 +37,43 @@ module.exports = {
     }
 };
 
+function getAlreadyOrderedBundles(pastOrderedProducts, districtId) {
+    var allSupportedBundles = getAllSupportedBundles(districtId);
+    var orderedBundles = {};
+    pastOrderedProducts.forEach(function(orderedProduct) {
+        allSupportedBundles.forEach(function(supportedBundle) {
+            if(supportedBundle.bundleId == orderedProduct.bundleId) {
+                orderedBundles[supportedBundle.bundleId] = supportedBundle;
+            }
+        });
+    });
+    return Object.keys(orderedBundles).map(function(key){return orderedBundles[key];});
+}
+
+function onReturningClientValidated(districtId, pastOrderedProducts) {
+    var orderMessage = '';
+    var alreadyOrderedBundles = getAlreadyOrderedBundles(pastOrderedProducts, districtId);
+    alreadyOrderedBundles.forEach(function(orderedBundle){
+        orderMessage = orderMessage + orderedBundle.bundleName + ' ' + orderedBundle.price + '; ';
+    });
+    var order_more_message = translate('order_more_products', {
+        '$order': orderMessage,
+        '$products': pastOrderedProducts.length,
+        '$more_products': 3 - pastOrderedProducts.length
+    }, state.vars.jitLang);
+
+    global.sayText(order_more_message);
+    global.promptDigits(orderMoreHandler.handlerName);
+}
+
+function onOrderMore() {
+    var client = JSON.parse(state.vars.topUpClient);
+    //var remainingLoan = 0;
+    var districtId = client.DistrictId;
+    displayBundles(districtId);
+    promptDigits(bundleChoiceHandler.handlerName); 
+}
+
 function onAccountNumberValidated(){
     var client = JSON.parse(state.vars.topUpClient);
     //var remainingLoan = 0;
@@ -48,8 +87,14 @@ function onAccountNumberValidated(){
         global.sayText(translate('loan_payment_not_satisfied',{'$amount': amountToPay },state.vars.jitLang));
     }
     else{
-        displayBundles(districtId);
-        promptDigits(bundleChoiceHandler.handlerName);
+        var pastOrderedProducts = getPastOrderedProducts();
+        if(pastOrderedProducts.length > 0) {
+            // is a returning client
+            onReturningClientValidated(districtId, pastOrderedProducts);
+        } else {
+            displayBundles(districtId);
+            promptDigits(bundleChoiceHandler.handlerName);
+        }
     }
 }
 function onFinalizeOrder(){
@@ -128,8 +173,8 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
         }
         //Display confirmation message
         state.vars.orders = JSON.stringify(allBundles);
-        var orderedBundles = getPastOrderedBundles();
-        if(allBundles.length == 3 || (orderedBundles.length + allBundles.length) == 3){
+        var orderedProducts = getPastOrderedProducts();
+        if(allBundles.length == 3 || (orderedProducts.length + allBundles.length) == 3){
             sayText(translate('final_order_display',{'$orders': orderMessage },state.vars.jitLang));
             promptDigits(orderConfirmationHandler.handlerName);
         }
@@ -180,7 +225,7 @@ function onOrderConfirmed(){
             }
         } 
 
-        var alreadyOrderedBundles = getPastOrderedBundles(); // geting past orders for returning clients (returns an empty array for first time clients)
+        var alreadyOrderedBundles = getPastOrderedProducts(); // geting past orders for returning clients (returns an empty array for first time clients)
         var row;
         var table = project.initDataTableById(service.vars.JiTEnrollmentTableId);
         if(alreadyOrderedBundles.length > 0) {
@@ -317,7 +362,7 @@ function displayBundles(district){
 }
 
 var removeOrderedBundles = function(allBundles) {
-    var orderedBundles = getPastOrderedBundles();
+    var orderedBundles = getPastOrderedProducts();
     var copiedBundles = allBundles.map(function(bundle) {return bundle;});
     orderedBundles.forEach(function(orderedBundle) {
         copiedBundles = copiedBundles.filter(function(bundle) {
@@ -327,7 +372,7 @@ var removeOrderedBundles = function(allBundles) {
     return copiedBundles;
 };
 
-var getPastOrderedBundles = function() {
+var getPastOrderedProducts = function() {
     var toppedUpTable = project.initDataTableById(service.vars.JiTEnrollmentTableId);
     var client = JSON.parse(state.vars.topUpClient);
     var toppedUpCursor = toppedUpTable.queryRows({
