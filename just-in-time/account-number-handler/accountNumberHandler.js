@@ -55,9 +55,7 @@ var enrolledThroughJustInTime = function(accountNumber){
 };
 
 var hasOrderedMaxProducts = function(productsOrdered) {
-    console.log('ORDERED PRODUCTS' + typeof productsOrdered);
-    console.log(productsOrdered);
-    return productsOrdered & productsOrdered.length >= 3; // max products to order is 3 at the moment
+    return productsOrdered && productsOrdered.length >= 3; // max products to order is 3 at the moment
 };
 
 module.exports = {
