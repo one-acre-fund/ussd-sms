@@ -61,6 +61,6 @@ module.exports = {
     },
     'order_more_products': {
         'en-ke': 'Your past order ($products products):\n$order\nYou can order $more_products more products\n1. Order more\n2. Cancel',
-        'sw': 'Agizo lako la zamani (bidhaa $products):\n$order\nUnaweza kuagiza bidhaa $more_products\n1. Agiza zaidi\n2. Ghairi'
+        'sw': 'Maagizo yako ya awali (bidhaa $products):\n$order\nUnaweza agiza bidhaa $more_products zaidi\n1. Agiza zaidi\n2. Funga'
     }
 };
