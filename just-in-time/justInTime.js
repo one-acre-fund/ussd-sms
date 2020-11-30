@@ -153,6 +153,7 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
             state.vars.varietyBundleId = bundleId;
             displayVariety(selectedBundle);
             promptDigits(varietyChoiceHandler.handlerName);
+            return;
         }
     }
     if(selectedBundle.length == 1){
@@ -230,9 +231,12 @@ function onOrderConfirmed(){
         var table = project.initDataTableById(service.vars.JiTEnrollmentTableId);
         if(alreadyOrderedBundles.length > 0) {
             // if there are already placed orders, it means we need to update not create a new entry
-            var allBundles = requestBundles.forEach(function(requestBundle){alreadyOrderedBundles.push(requestBundle);}); // adding all budnles before saving them to the dataTable
-            row = table.queryRows({vars: {'account_number': client.AccountNumber}});
-            row.vars.order = JSON.stringify(allBundles);
+            requestBundles.forEach(function(requestBundle){alreadyOrderedBundles.push(requestBundle);}); // adding all budnles before saving them to the dataTable
+            var cursor = table.queryRows({vars: {'account_number': client.AccountNumber}});
+            if(cursor.hasNext()) {
+                row = cursor.next();
+                row.vars.order = JSON.stringify(alreadyOrderedBundles);
+            }
         } else {
             row = table.createRow({vars: {'account_number': client.AccountNumber, 'order': JSON.stringify(requestBundles)}});
         }
