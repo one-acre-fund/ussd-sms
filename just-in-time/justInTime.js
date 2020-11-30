@@ -71,7 +71,7 @@ function onOrderMore() {
     //var remainingLoan = 0;
     var districtId = client.DistrictId;
     displayBundles(districtId);
-    promptDigits(bundleChoiceHandler.handlerName); 
+    global.promptDigits(bundleChoiceHandler.handlerName); 
 }
 
 function onAccountNumberValidated(){
@@ -267,7 +267,6 @@ var getAllSupportedBundles = function (district) {
     console.log('district ID:' + district);
     var bundleInputs = getBundlesInputs(district);
     state.vars.currentDistrict = district;
-
     var unique = [];
     var bundles = [];
     var maizeBanedBundleIds= [];

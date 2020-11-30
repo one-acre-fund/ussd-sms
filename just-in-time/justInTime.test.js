@@ -112,6 +112,7 @@ describe('clientRegistration', () => {
         state.vars.orders =  ' ';
         state.vars.jitLang ='en-ke';
         beforeEach(() => {
+            jest.clearAllMocks();
             justInTime.registerHandlers();
             callback = accountNumberHandler.getHandler.mock.calls[0][0];                
         });
@@ -215,8 +216,8 @@ describe('clientRegistration', () => {
             expect(sayText).toHaveBeenCalledWith(`You do not qualify for a top up, pay at least ${amount}`+
             ' to qualify.');
         });
-        
     });
+    
     describe('bundle Choice Handler successfull callback',()=>{
         var callback;
         const mockCursor = { next: jest.fn(), 
@@ -479,5 +480,60 @@ describe('clientRegistration', () => {
             expect(promptDigits).toHaveBeenCalledWith(accountNumberHandler.handlerName);
             expect(promptDigits).toHaveBeenCalledTimes(1);
         });
+    });
+});
+
+describe('on order more', () => {
+    var callback;
+    var orders = [];
+    var maizeOrder,secondOrder;
+    orders.push(mockBundleInput[0]);
+    maizeOrder = JSON.parse(JSON.stringify(mockBundleInputs[0]));
+    maizeOrder.bundleName = '0.5 Maize Acre';
+    maizeOrder.price = 4950;
+    maizeOrder.quantity = 0.5;
+    orders.push(maizeOrder);
+    secondOrder = JSON.parse(JSON.stringify(mockBundleInputs[0]));
+    secondOrder.bundleName = '0.25 Maize Acre';
+    secondOrder.price = 2830;
+    secondOrder.quantity = 0.25;
+    orders.push(secondOrder);
+    const mockCursor = { next: jest.fn(), 
+        hasNext: jest.fn()
+    };
+    const mockTable = { queryRows: jest.fn() };
+    state.vars.orders =  ' ';
+    state.vars.jitLang ='en-ke';
+    beforeAll(()=>{
+        jest.resetAllMocks();
+        state.vars.jitLang = jitLang;
+        state.vars.topUpClient = JSON.stringify(client);
+        mockTable.queryRows.mockReturnValue(mockCursor);
+        project.initDataTableById.mockReturnValue(mockTable);
+    });
+    beforeEach(() => {
+        justInTime.registerHandlers();
+        callback = orderMoreHandler.getHandler.mock.calls[0][0];
+    });
+
+    it('should display the bundles excluding the ones that the user has already ordered', () => {
+    // mocking the get ll bundles
+        mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false);
+        mockCursor.next.mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[1]).mockReturnValueOnce(mockRows[2]);
+
+        // mocking the get maize bundles
+        mockCursor.hasNext.mockReturnValueOnce(false);
+        // mockCursor.next.mockReturnValueOnce(mockRows[2]);
+
+        mockCursor.hasNext.mockReturnValueOnce(true);
+        mockCursor.next.mockReturnValueOnce({vars: {order: JSON.stringify([mockRows[0].vars])}});
+        callback();
+        expect(sayText).toHaveBeenCalledWith(`Select a product\n1) ${mockRows[1].vars.bundle_name}`+
+    ` ${mockRows[1].vars.price}`+
+    `\n2) ${mockRows[2].vars.bundle_name}`+
+    ` ${mockRows[2].vars.price}`+
+    '\n');
+        expect(promptDigits).toHaveBeenCalledWith(bundleChoiceHandler.handlerName);
+        expect(state.vars.bundles).toEqual( '[{"bundleId":"-9009","bundleInputId":"-5709","bundleName":"third possible name bundle","price":"6251","inputName":"third input"},{"bundleId":"-1009","bundleInputId":"-8709","bundleName":"fourth possible name bundle","price":"5251","inputName":"fourth input"}]');
     });
 });
