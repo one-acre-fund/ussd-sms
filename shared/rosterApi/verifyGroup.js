@@ -19,7 +19,7 @@ module.exports = function verifyGroup(districtId, siteId, groupId) {
         groupId;
 
     var opts = { headers: {} };
-    opts.headers['Authorization'] = 'ApiKey ' + service.vars.roster_read_key;
+    opts.headers['Authorization'] = 'Token ' + service.vars.roster_api_key;
     opts.headers['Content-Type'] = 'application/json';
     opts.method = 'GET';
     try {
