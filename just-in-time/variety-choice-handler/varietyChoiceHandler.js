@@ -39,11 +39,7 @@ module.exports = {
             var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
             var allVarieties =[];
             selectedBundle.forEach(function(element){
-<<<<<<< HEAD
                 var stockCursor = varietyStockTable.queryRows({vars: {'warehousename': state.vars.varietyWarehouse,'inputname': element.inputName}});
-=======
-                var stockCursor = varietyStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'inputname': element.inputName}});
->>>>>>> 3c9931e... added variety count
                 if(stockCursor.hasNext()){
                     var row = stockCursor.next();
                     if(row.vars.quantityavailable > row.vars.quantityordered){

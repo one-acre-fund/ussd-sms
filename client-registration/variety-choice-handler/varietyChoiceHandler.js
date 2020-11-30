@@ -36,16 +36,10 @@ module.exports = {
                     selectedBundle.push(bundleInputs[i]);
                 }
             }
-<<<<<<< HEAD
             var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
             var allVarieties =[];
             selectedBundle.forEach(function(element){
                 var stockCursor = varietyStockTable.queryRows({vars: {'warehousename': state.vars.varietyWarehouse,'inputname': element.inputName}});
-=======
-            var allVarieties =[];
-            selectedBundle.forEach(function(element){
-                var stockCursor = varietyStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'inputname': element.inputName}});
->>>>>>> 3c9931e... added variety count
                 if(stockCursor.hasNext()){
                     var row = stockCursor.next();
                     if(row.vars.quantityavailable > row.vars.quantityordered){
