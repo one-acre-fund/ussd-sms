@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+### Changed
+* [SER-370](https://oneacrefund.atlassian.net/browse/SER-370) Verify Groups on Roster instead of using telerivet data tables
 ### Fixed 
 * [SER-334](https://oneacrefund.atlassian.net/browse/SER-334) Kenya Enrollment/Just In time fixes(part 2)
     * updated maize bundle logic
