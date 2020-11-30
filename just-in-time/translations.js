@@ -25,7 +25,7 @@ module.exports = {
         'sw': 'Bidhaa ulizo agiza\n $orders \n1) kudhibitisha\n 2) rudi nyuma'
     },
     'final_message': {
-        'en-ke': 'Thank you for topping-up through JiT. Your order is $products Reach out to CE through *689$ if this  order is not correct',
+        'en-ke': 'Thank you for topping-up through JiT. Your order is $products Reach out to CE through *689# if this  order is not correct',
         'sw': 'Asante kwa kuongeza bidhaa kupitia JiT. Bidhaa zako ni: $products . Ongea na CE kupitia *689# kama bidhaa zako sio sahihi.'
     },
     'variety_confirmation': {
