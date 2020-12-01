@@ -104,9 +104,20 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
             }
         }
         else{
+            var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
+            var availableInputs =[];
+            selectedBundle.forEach(function(element){
+                var stockCursor = varietyStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'inputname': element.inputName}});
+                if(stockCursor.hasNext()){
+                    var row = stockCursor.next();
+                    if(row.vars.quantityavailable > row.vars.quantityordered){
+                        availableInputs.push(element);
+                    }
+                }
+            });
             // Display the varieties(inputs)
             state.vars.varietyBundleId = bundleId;
-            displayVariety(selectedBundle);
+            displayVariety(availableInputs);
             promptDigits(varietyChoiceHandler.handlerName);
         }
     }
@@ -189,9 +200,19 @@ function onOrderConfirmed(){
             var stockCursor = bundleStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'bundlename': element.bundleName}});
             if(stockCursor.hasNext()){
                 var row = stockCursor.next();
-                row.vars.quanityordered =  row.vars.quanityordered + 1;
+                row.vars.quantityordered =  row.vars.quantityordered + 1;
                 row.save();
             } 
+        });
+        console.log('chosen Maize---------------------------------'+ state.vars.chosenMaizeBundle)
+        var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
+        orderPlaced.forEach(function(element){
+            var stockCursor = varietyStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'inputname': element.inputName}});
+            if(stockCursor.hasNext()){
+                var row = stockCursor.next();
+                row.vars.quantityordered =  row.vars.quantityordered + 1;
+                row.save();
+            }
         });
         project.sendMessage({
             content: message, 
@@ -257,7 +278,7 @@ function displayBundles(district){
                                 var stockCursor = bundleStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'bundlename': newBundle.bundleName}});
                                 if(stockCursor.hasNext()){
                                     var row = stockCursor.next();
-                                    if(row.vars.quanityavailable > row.vars.quanityordered){
+                                    if(row.vars.quantityavailable > row.vars.quantityordered){
                                         bundles.push(newBundle);
                                     }
                                 }
@@ -269,7 +290,7 @@ function displayBundles(district){
                             var stockCursor = bundleStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'bundlename': bundleInputs[i].bundleName}});
                             if(stockCursor.hasNext()){
                                 var row = stockCursor.next();
-                                if(row.vars.quanityavailable > row.vars.quanityordered){
+                                if(row.vars.quantityavailable > row.vars.quantityordered){
                                     bundles.push(bundleInputs[i]);
                                 }
                             }
@@ -284,7 +305,7 @@ function displayBundles(district){
                             var stockCursor = bundleStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'bundlename': newBundle.bundleName}});
                             if(stockCursor.hasNext()){
                                 var row = stockCursor.next();
-                                if(row.vars.quanityavailable > row.vars.quanityordered){
+                                if(row.vars.quantityavailable > row.vars.quantityordered){
                                     bundles.push(newBundle);
                                 }
                             }
@@ -296,7 +317,7 @@ function displayBundles(district){
                         var stockCursor = bundleStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'bundlename': bundleInputs[i].bundleName}});
                             if(stockCursor.hasNext()){
                                 var row = stockCursor.next();
-                                if(row.vars.quanityavailable > row.vars.quanityordered){
+                                if(row.vars.quantityavailable > row.vars.quantityordered){
                                     bundles.push(bundleInputs[i]);
                                 }
                             }

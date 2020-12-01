@@ -242,9 +242,20 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
             }
         }
         else{
+            var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
+            var availableInputs =[];
+            selectedBundle.forEach(function(element){
+                var stockCursor = varietyStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'inputname': element.inputName}});
+                if(stockCursor.hasNext()){
+                    var row = stockCursor.next();
+                    if(row.vars.quantityavailable > row.vars.quantityordered){
+                        availableInputs.push(element);
+                    }
+                }
+            });
             // Display the varieties(inputs)
             state.vars.varietyBundleId = bundleId;
-            displayVariety(selectedBundle);
+            displayVariety(availableInputs);
             global.promptDigits(varietyChoiceHandler.handlerName);
         }
     }
@@ -350,10 +361,19 @@ function onOrderConfirmed(){
             var stockCursor = bundleStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'bundlename': element.bundleName}});
             if(stockCursor.hasNext()){
                 var row = stockCursor.next();
-                row.vars.quanityordered =  row.vars.quanityordered + 1;
+                row.vars.quantityordered =  row.vars.quantityordered + 1;
                 row.save();
             } 
         });
+        var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
+        orderPlaced.forEach(function(element){
+                var stockCursor = varietyStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'inputname': element.inputName}});
+                if(stockCursor.hasNext()){
+                    var row = stockCursor.next();
+                    row.vars.quantityordered =  row.vars.quantityordered + 1;
+                    row.save();
+                }
+            });
         project.sendMessage({
             content: message, 
             to_number: contact.phone_number
