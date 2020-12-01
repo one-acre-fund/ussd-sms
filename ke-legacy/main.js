@@ -65,12 +65,14 @@ if(env == 'prod'){
     service.vars.JITSucessfullRegId = 'DTa403c7245c904c18';
     service.vars.districtWarehouseTableId = 'DT055c497f324d0e7d';
     service.vars.warehouseStockTableId = 'DTde5242c17c4f17f3';
+    service.vars.varietyStockTableId = 'DTa327b99aec14ccb1';
 }
 else{
     service.vars.JiTEnrollmentTableId = 'DT7a66f47aa004743c';
     service.vars.JITSucessfullRegId = 'DT12cc1d618437e58b';
     service.vars.districtWarehouseTableId = 'DTe9af9d7faa906753';
     service.vars.warehouseStockTableId = 'DT645b66d4ef2cbde1';
+    service.vars.varietyStockTableId = 'DT24f093b78f1cd3b7';
 }
 
 var MenuCount = 0;
