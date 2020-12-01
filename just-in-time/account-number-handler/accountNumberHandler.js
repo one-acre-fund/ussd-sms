@@ -53,7 +53,6 @@ var enrolledThroughJustInTime = function(accountNumber){
     }
     return false;
 };
-<<<<<<< HEAD
 var getWarehouse = function(districtName){
     var table  = project.initDataTableById(service.vars.districtWarehouseTableId);
     var cursor = table.queryRows({vars: {'districtname': districtName}});
@@ -64,13 +63,11 @@ var getWarehouse = function(districtName){
         return false;
     }
 }
-=======
 
 var hasOrderedMaxProducts = function(productsOrdered) {
     return productsOrdered && productsOrdered.length >= 3; // max products to order is 3 at the moment
 };
 
->>>>>>> origin/ser-366-jit-multiple-cycles
 module.exports = {
     handlerName: handlerName,
     getHandler: function(onAccountNumberValidated){
