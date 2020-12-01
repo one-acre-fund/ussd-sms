@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## Fixed
+* [SER-368](https://oneacrefund.atlassian.net/browse/SER-368) As a client, I need to be limited to ordering three products max
+* [SER-367](https://oneacrefund.atlassian.net/browse/SER-367) As a client, I need to be able to place multiple orders across multiple USSD cycles
+
 ### Fixed 
 * [SER-334](https://oneacrefund.atlassian.net/browse/SER-334) Kenya Enrollment/Just In time fixes(part 2)
     * updated maize bundle logic
