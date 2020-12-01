@@ -51,6 +51,16 @@ var enrolledThroughJustInTime = function(accountNumber){
     }
     return false;
 };
+var getWarehouse = function(districtName){
+    var table  = project.initDataTableById(service.vars.districtWarehouseTableId);
+    var cursor = table.queryRows({vars: {'districtname': districtName}});
+    if(cursor.hasNext()){
+        return cursor.next().vars.warehouse;
+    }
+    else{
+        return false;
+    }
+}
 module.exports = {
     handlerName: handlerName,
     getHandler: function(onAccountNumberValidated){
@@ -79,7 +89,10 @@ module.exports = {
                     global.stopRules();
                 }
                 else{
-                    onAccountNumberValidated();
+                    state.vars.warehouse = getWarehouse(client.DistrictName);
+                    if(state.vars.warehouse != false){
+                        onAccountNumberValidated();
+                    }  
                 }
             }
             else{

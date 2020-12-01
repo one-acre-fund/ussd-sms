@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+### Added
+* [SER-364](https://oneacrefund.atlassian.net/browse/SER-364) Check whether a product is available in the closest warehouse based on the client's district
 ### Fixed 
 * [SER-334](https://oneacrefund.atlassian.net/browse/SER-334) Kenya Enrollment/Just In time fixes(part 2)
     * updated maize bundle logic

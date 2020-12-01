@@ -317,6 +317,7 @@ function onOrderConfirmed(){
     for( var m = 0; m < orderPlaced.length; m++ ){
         if(state.vars.chosenMaizeBundle != ' ' && (JSON.parse(state.vars.chosenMaizeBundle).bundleId == orderPlaced[m].bundleId)){
             var bundlechosen = JSON.parse(state.vars.chosenMaizeBundle);
+            orderPlaced[m].bundleName = bundlechosen.bundleName;
             orderPlacedMessage = orderPlacedMessage + bundlechosen.bundleName + ' ' + bundlechosen.price + ' ';
         }
         else{
@@ -344,6 +345,15 @@ function onOrderConfirmed(){
         }
         var message = translate('final_message',{'$products': orderPlacedMessage},state.vars.reg_lang);
         global.sayText(message);
+        var bundleStockTable = project.initDataTableById(service.vars.warehouseStockTableId);
+        orderPlaced.forEach(function(element){
+            var stockCursor = bundleStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'bundlename': element.bundleName}});
+            if(stockCursor.hasNext()){
+                var row = stockCursor.next();
+                row.vars.quanityordered =  row.vars.quanityordered + 1;
+                row.save();
+            } 
+        });
         project.sendMessage({
             content: message, 
             to_number: contact.phone_number
