@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+### Changed
+* [MOB-70](https://oneacrefund.atlassian.net/browse/MOB-70) JiT Kenya: As a GL, when I enter an account number for a client not in my group, I need a pop with a descriptive error message
+
 ### Fixed 
 * [SER-334](https://oneacrefund.atlassian.net/browse/SER-334) Kenya Enrollment/Just In time fixes(part 2)
     * updated maize bundle logic
