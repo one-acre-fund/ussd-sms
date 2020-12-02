@@ -298,7 +298,6 @@ function onOrderConfirmed(){
 var getAllSupportedBundles = function (district) {
     console.log('district ID:' + district);
     var bundleInputs = getBundlesInputs(district);
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!4'+JSON.stringify(bundleInputs));
     state.vars.currentDistrict = district;
     var unique = [];
     var bundles = [];
@@ -312,7 +311,6 @@ var getAllSupportedBundles = function (district) {
     var maizeCursor = maizeTable.queryRows();
     while(maizeCursor.hasNext()){
         var maizeRow = maizeCursor.next(); 
-        console.log('!!!!!!!!!!!!!!!!!!!!!!?!5'+JSON.stringify(maizeRow));
         maizeBundleIds.push(maizeRow.vars.bundleId);
     }
     // Check for maize bundle in the current's client order
@@ -359,9 +357,7 @@ var getAllSupportedBundles = function (district) {
                         }
                     }
                     else{
-                        console.log('!!!!!!!!!!!!!!!!!!!!!!!7'+JSON.stringify(bundleInputs)+firstTime);
                         if((maizeBundleIds.indexOf(bundleInputs[i].bundleId) != -1) && firstTime){
-                            console.log('!!!!!!!!!!!!!!!!!!!!!!!7.5'+JSON.stringify(bundleInputs));
                             newBundle = JSON.parse(JSON.stringify( bundleInputs[i]));
                             newBundle.bundleName = '0.5 Maize Acre';
                             newBundle.price = 4950;
@@ -391,14 +387,12 @@ var getAllSupportedBundles = function (district) {
             }
         }
     }
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!'+JSON.stringify(bundles));
     return bundles;
 };
 
 function displayBundles(district){
 
     var allSupportedBundles = getAllSupportedBundles(district);
-    console.log('#########$###############33'+JSON.stringify(allSupportedBundles))
     // remove the already ordered bundles for returning clients
     var bundles = removeOrderedBundles(allSupportedBundles);
 
