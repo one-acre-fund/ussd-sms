@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
     * Update the confirmation message
 ### Added
 * [SER-353](https://oneacrefund.atlassian.net/browse/SER-353) Add option to change language to English when testing for USSD
+* [SER-343](https://oneacrefund.atlassian.net/browse/SER-343) Enable prepayment calculator. Add 10% of prepayment amount
 
 ## v1.2.2
 ### Fixed

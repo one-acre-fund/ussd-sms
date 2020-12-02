@@ -268,28 +268,9 @@ var ValNationalID = function(input){
     if (NumChar == 7 || NumChar == 8){return true;}
     else {return false;}
 };
-var IsPrePayTrialDistrict = function (){
-    return false;
-    //districtname = districtname.toLowerCase();
-    //if (districtname == "nyando" || districtname == "kipkelion" || districtname == "chwele"){return true}
-    //else {return false}
-};
+
 var GetPrepaymentAmount = function(client){
-    var ClientDistrict = client.DistrictName.toLowerCase();
-    var prepay = IsPrePayTrialDistrict(ClientDistrict);
-    if (prepay){
-        var PrePayTable = project.getOrCreateDataTable('PrePayment_IndividualAmounts');
-        var PrePayCursor = PrePayTable.queryRows({vars: {'accnum': client.AccountNumber}});
-        PrePayCursor.limit(1);
-        if (PrePayCursor.hasNext()) {
-            var PrePayRow = PrePayCursor.next();
-            return PrePayRow.vars.prepaymentamount;}
-        else {sendEmail('charles.lipeyah@oneacrefund.org', 'Prepayment amount not found', 'Prepayment amount not uploaded from client with acc num :'+ client.AccountNumber+ ' in district: '+client.DistrictName);
-            return 'Error';
-        }
-    }
-    else {return 500;}
-    // line
+   return client.BalanceHistory[0].TotalCredit * 0.1;
 };
 var FAWActive = function (districtname){
     var Table = project.getOrCreateDataTable('FAW Districts');
