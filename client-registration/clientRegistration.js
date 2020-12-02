@@ -297,9 +297,9 @@ function onOrderConfirmed(){
         var order;
         if(state.vars.chosenMaizeBundle != ' ' && (JSON.parse(state.vars.chosenMaizeBundle).bundleId == bundle[j].bundleId)){
             var chosenBundle = JSON.parse(state.vars.chosenMaizeBundle);
-            order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': chosenBundle.quantity, inputChoices: [parseInt(bundle[j].bundleInputId)] };
+            order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': chosenBundle.quantity, 'bundleName': bundle[j].bundleName, inputChoices: [parseInt(bundle[j].bundleInputId)] };
         }else{
-            order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': 1, inputChoices: [parseInt(bundle[j].bundleInputId)] };
+            order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': 1, 'bundleName': bundle[j].bundleName, inputChoices: [parseInt(bundle[j].bundleInputId)] };
         }
         requestBundles.push(order);
     }
@@ -337,6 +337,7 @@ function onOrderConfirmed(){
                 'contact_id': contact.id,
                 vars: {
                     'account_number': client.AccountNumber,
+                    'client_name': client.ClientName,
                     'finalized': 1,
                     'orders': JSON.stringify(requestBundles)
                 }});

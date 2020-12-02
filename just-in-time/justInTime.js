@@ -151,9 +151,9 @@ function onOrderConfirmed(){
         var order;
         if(state.vars.chosenMaizeBundle != ' ' && (JSON.parse(state.vars.chosenMaizeBundle).bundleId == bundle[j].bundleId)){
             var chosenBundle = JSON.parse(state.vars.chosenMaizeBundle);
-            order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': chosenBundle.quantity, inputChoices: [parseInt(bundle[j].bundleInputId)] };
+            order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': chosenBundle.quantity, 'bundleName': bundle[j].bundleName, inputChoices: [parseInt(bundle[j].bundleInputId)] };
         }else{
-            order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': 1, inputChoices: [parseInt(bundle[j].bundleInputId)]};
+            order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': 1, 'bundleName': bundle[j].bundleName, inputChoices: [parseInt(bundle[j].bundleInputId)]};
         }
         requestBundles.push(order);
     }
@@ -179,7 +179,7 @@ function onOrderConfirmed(){
             }
         } 
         var table = project.initDataTableById(service.vars.JiTEnrollmentTableId);
-        var row = table.createRow({vars: {'account_number': client.AccountNumber, 'order': JSON.stringify(requestBundles)}});
+        var row = table.createRow({vars: {'account_number': client.AccountNumber, 'client_name': client.ClientName, 'order': JSON.stringify(requestBundles)}});
         row.save();
         var message = translate('final_message',{'$products': orderPlacedMessage},state.vars.jitLang);
         sayText(message);
