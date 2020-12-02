@@ -26,7 +26,6 @@ validateProjectVatiables(env);
 
 // This script parses client info
 var client = JSON.parse(contact.vars.client);
-console.log('Received receipt transaction for: '+ contact.vars.client);
 state.vars.FirstName = client.FirstName;
     
 // check for language
