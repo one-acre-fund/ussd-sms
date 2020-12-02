@@ -10,6 +10,7 @@ describe('order confirmation handler test', ()=>{
     var onVarietyChosen;
     var bundleArray = [{'bundleId': '-3009','bundleInputId': '-12109','bundleName': 'Knapsack Sprayer','price': '2251','inputName': 'Knapsack Sprayer'},{'bundleId': '-2960','bundleInputId': '-11920','bundleName': 'Red Onion','price': '180','inputName': 'Red Creole'}];
     var inputMenu = [{'bundleId': '-3009','bundleInputId': '-12109','bundleName': 'Knapsack Sprayer','price': '2251','inputName': 'Knapsack Sprayer'},{'bundleId': '-2960','bundleInputId': '-11920','bundleName': 'Red Onion','price': '180','inputName': 'Red Creole'}];
+    const unavailableVarietyRow = {vars: {'bundleId': '-2960','bundleInputId': '-11920','bundle_name': 'Red Onion','price': '180','input_name': 'Red Creole','quantityavailable': 5, 'quantityordered': 5}};
     const mockCursor = { next: jest.fn(), 
         hasNext: jest.fn()
     };
@@ -42,6 +43,13 @@ describe('order confirmation handler test', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(true);
         mockCursor.next.mockReturnValueOnce(mockRow);
         varietyChoiceHandler(4);
+        expect(onVarietyChosen).not.toHaveBeenCalled();
+    });
+    it('should not call the on variety chosen if there is only unavailable varieties',()=>{
+        state.vars.multiple_input_menus = false;
+        mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true);
+        mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(unavailableVarietyRow);
+        varietyChoiceHandler(1);
         expect(onVarietyChosen).not.toHaveBeenCalled();
     });
     it('should not call on variety choice handler function if the bundle Id does not correspond to any bundle input',()=>{

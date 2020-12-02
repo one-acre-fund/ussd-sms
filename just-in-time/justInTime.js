@@ -152,7 +152,7 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
             var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
             var availableInputs =[];
             selectedBundle.forEach(function(element){
-                var stockCursor = varietyStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'inputname': element.inputName}});
+                var stockCursor = varietyStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'inputname': element.inputName}});
                 if(stockCursor.hasNext()){
                     var row = stockCursor.next();
                     if(row.vars.quantityavailable > row.vars.quantityordered){
@@ -257,19 +257,18 @@ function onOrderConfirmed(){
         sayText(message);
         var bundleStockTable = project.initDataTableById(service.vars.warehouseStockTableId);
         orderPlaced.forEach(function(element){
-            var stockCursor = bundleStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'bundlename': element.bundleName}});
+            var stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': element.bundleName}});
             if(stockCursor.hasNext()){
                 var row = stockCursor.next();
                 row.vars.quantityordered =  row.vars.quantityordered + 1;
                 row.save();
             } 
         });
-        console.log('chosen Maize---------------------------------'+ state.vars.chosenMaizeBundle);
         if(state.vars.chosenMaizeBundle != ' '){
             var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
-            var stockCursor = varietyStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'inputname': JSON.parse(state.vars.chosenMaizeBundle).inputName}});
+            var stockCursor = varietyStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'inputname': JSON.parse(state.vars.chosenMaizeBundle).inputName}});
             if(stockCursor.hasNext()){
-                var row = stockCursor.next();
+                row = stockCursor.next();
                 row.vars.quantityordered =  row.vars.quantityordered + 1;
                 row.save();
             }
@@ -297,7 +296,6 @@ function onOrderConfirmed(){
 var getAllSupportedBundles = function (district) {
     console.log('district ID:' + district);
     var bundleInputs = getBundlesInputs(district);
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!4'+JSON.stringify(bundleInputs));
     state.vars.currentDistrict = district;
     var unique = [];
     var bundles = [];
@@ -311,10 +309,8 @@ var getAllSupportedBundles = function (district) {
     var maizeCursor = maizeTable.queryRows();
     while(maizeCursor.hasNext()){
         var maizeRow = maizeCursor.next(); 
-        console.log('!!!!!!!!!!!!!!!!!!!!!!?!5'+JSON.stringify(maizeRow));
         maizeBundleIds.push(maizeRow.vars.bundleId);
     }
-    console.log('!!!!!!!!!!!t!!!!!!!!!!!!6'+JSON.stringify(bundleInputs));
     // Check for maize bundle in the current's client order
     if(state.vars.orders != ' '){
         currentOrder = JSON.parse(state.vars.orders);
@@ -337,7 +333,7 @@ var getAllSupportedBundles = function (district) {
                                 newBundle.bundleName = '0.5 Maize Acre';
                                 newBundle.price = 4950;
                                 newBundle.quantity = 0.5;
-                                var stockCursor = bundleStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'bundlename': newBundle.bundleName}});
+                                var stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': newBundle.bundleName}});
                                 if(stockCursor.hasNext()){
                                     var row = stockCursor.next();
                                     if(row.vars.quantityavailable > row.vars.quantityordered){
@@ -349,9 +345,9 @@ var getAllSupportedBundles = function (district) {
                                 bundleInputs[i].quantity = 0.25;
                                 firstTime = false;
                             }
-                            var stockCursor = bundleStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'bundlename': bundleInputs[i].bundleName}});
+                            stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': bundleInputs[i].bundleName}});
                             if(stockCursor.hasNext()){
-                                var row = stockCursor.next();
+                                row = stockCursor.next();
                                 if(row.vars.quantityavailable > row.vars.quantityordered){
                                     bundles.push(bundleInputs[i]);
                                 }
@@ -359,17 +355,14 @@ var getAllSupportedBundles = function (district) {
                         }
                     }
                     else{
-                        console.log('!!!!!!!!!!!!!!!!!!!!!!!7'+JSON.stringify(bundleInputs)+firstTime);
                         if((maizeBundleIds.indexOf(bundleInputs[i].bundleId) != -1) && firstTime){
-                            console.log('!!!!!!!!!!!!!!!!!!!!!!!7.5'+JSON.stringify(bundleInputs));
                             newBundle = JSON.parse(JSON.stringify( bundleInputs[i]));
                             newBundle.bundleName = '0.5 Maize Acre';
                             newBundle.price = 4950;
                             newBundle.quantity = 0.5;
-                            var stockCursor = bundleStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'bundlename': newBundle.bundleName}});
+                            stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': newBundle.bundleName}});
                             if(stockCursor.hasNext()){
-                                console.log('!!!!!!!!!!!!!!!!!!!!!!!8'+JSON.stringify(bundleInputs));
-                                var row = stockCursor.next();
+                                row = stockCursor.next();
                                 if(row.vars.quantityavailable > row.vars.quantityordered){
                                     bundles.push(newBundle);
                                 }
@@ -379,29 +372,25 @@ var getAllSupportedBundles = function (district) {
                             bundleInputs[i].quantity = 0.25;
                             firstTime = false;
                         }
-                        var stockCursor = bundleStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'bundlename': bundleInputs[i].bundleName}});
-                            console.log('!!!!!!!!!!!!!!!!!!fg!!!!!8.5'+JSON.stringify(bundleInputs));
-                            if(stockCursor.hasNext()){
-                                console.log('!!!!!!!!!!!!!!!!!!!!!!!9'+JSON.stringify(bundleInputs));
-                                var row = stockCursor.next();
-                                if(row.vars.quantityavailable > row.vars.quantityordered){
-                                    bundles.push(bundleInputs[i]);
-                                }
+                        stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': bundleInputs[i].bundleName}});
+                        if(stockCursor.hasNext()){
+                            row = stockCursor.next();
+                            if(row.vars.quantityavailable > row.vars.quantityordered){
+                                bundles.push(bundleInputs[i]);
                             }
+                        }
                     }
                 }
                 unique[bundleInputs[i].bundleId] = 1;
             }
         }
     }
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!'+JSON.stringify(bundles));
     return bundles;
 };
 
 function displayBundles(district){
 
     var allSupportedBundles = getAllSupportedBundles(district);
-    console.log('#########$###############33'+JSON.stringify(allSupportedBundles))
     // remove the already ordered bundles for returning clients
     var bundles = removeOrderedBundles(allSupportedBundles);
 

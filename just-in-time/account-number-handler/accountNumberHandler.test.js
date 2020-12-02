@@ -13,7 +13,7 @@ describe('account_number_handler', () => {
     const mockCursor = { next: jest.fn(), 
         hasNext: jest.fn()
     };
-    const mockWarehouseRow = {vars:{'warehouse':'name'}};
+    const mockWarehouseRow = {vars: {'warehouse': 'name'}};
     beforeAll(()=>{
         rosterAPI.authClient = jest.fn();
         rosterAPI.authClient.mockReturnValue(true);  
@@ -75,6 +75,15 @@ describe('account_number_handler', () => {
         accountNumberHandler(validAccountNumber);
         expect(sayText).toHaveBeenCalledWith('Farmer is not enrolled this season. Please try again.');
         expect(stopRules).toHaveBeenCalled();
+    });
+    it('should  trim the client\'s balance history if it\'s greater than 3', () => {
+        client.BalanceHistory[0].SeasonName = '2021, Long Rain';
+        client.BalanceHistory[1] = client.BalanceHistory[0];
+        client.BalanceHistory[2] =client.BalanceHistory[0];
+        client.BalanceHistory[3] =client.BalanceHistory[0];
+        rosterAPI.getClient.mockReturnValue(client);
+        accountNumberHandler(validAccountNumber);
+        expect(JSON.parse(state.vars.topUpClient).BalanceHistory.length).toEqual(3);
     });
     it('should  reprompt for an account number if the given client\'s group is different from the group leader\'s group', () => {
         client.BalanceHistory[0].SeasonName = '2021, Long Rain';

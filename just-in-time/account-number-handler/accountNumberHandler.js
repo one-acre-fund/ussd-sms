@@ -62,7 +62,7 @@ var getWarehouse = function(districtName){
     else{
         return false;
     }
-}
+};
 
 var hasOrderedMaxProducts = function(productsOrdered) {
     return productsOrdered && productsOrdered.length >= 3; // max products to order is 3 at the moment

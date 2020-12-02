@@ -245,7 +245,7 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
             var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
             var availableInputs =[];
             selectedBundle.forEach(function(element){
-                var stockCursor = varietyStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'inputname': element.inputName}});
+                var stockCursor = varietyStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'inputname': element.inputName}});
                 if(stockCursor.hasNext()){
                     var row = stockCursor.next();
                     if(row.vars.quantityavailable > row.vars.quantityordered){
@@ -358,7 +358,7 @@ function onOrderConfirmed(){
         global.sayText(message);
         var bundleStockTable = project.initDataTableById(service.vars.warehouseStockTableId);
         orderPlaced.forEach(function(element){
-            var stockCursor = bundleStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'bundlename': element.bundleName}});
+            var stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': element.bundleName}});
             if(stockCursor.hasNext()){
                 var row = stockCursor.next();
                 row.vars.quantityordered =  row.vars.quantityordered + 1;
@@ -367,9 +367,9 @@ function onOrderConfirmed(){
         });
         if(state.vars.chosenMaizeBundle != ' '){
             var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
-            var stockCursor = varietyStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'inputname': JSON.parse(state.vars.chosenMaizeBundle).inputName}});
+            var stockCursor = varietyStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'inputname': JSON.parse(state.vars.chosenMaizeBundle).inputName}});
             if(stockCursor.hasNext()){
-                var row = stockCursor.next();
+                row = stockCursor.next();
                 row.vars.quantityordered =  row.vars.quantityordered + 1;
                 row.save();
             }
