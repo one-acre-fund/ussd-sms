@@ -66,7 +66,7 @@ describe('account_number_handler', () => {
         rosterAPI.getClient.mockReturnValue(client);
         state.vars.client_json = JSON.stringify(secondClient);
         accountNumberHandler(validAccountNumber);
-        expect(sayText).toHaveBeenCalledWith('Please reply with the account number of the farmer who want to top-up.');
+        expect(sayText).toHaveBeenCalledWith('This farmer is not in your group. You can only top-up farmers in your group');
         expect(promptDigits).toHaveBeenCalledWith(handlerName);
     });
     it('should  display the amount remaining if the client is valid but did not pay the minimum 500', () => {
