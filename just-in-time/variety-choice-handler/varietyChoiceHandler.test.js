@@ -13,6 +13,9 @@ describe('order confirmation handler test', ()=>{
         hasNext: jest.fn()
     };
     const mockRow = {vars: {'bundleId': '-3009','bundleInputId': '-12109','bundle_name': 'Knapsack Sprayer','price': '2251','input_name': 'Knapsack Sprayer'}};
+    const secondRow = {vars:{'bundleId': '-2960','bundleInputId': '-11920','bundle_name': 'Red Onion','price': '180','input_name': 'Red Creole'}};
+    const availableVarietyRow = {vars: {'bundleId': '-3009','bundleInputId': '-12109','bundle_name': 'Knapsack Sprayer','price': '2251','input_name': 'Knapsack Sprayer','quantityavailable': 5, 'quantityordered': 3}};
+    const unavailableVarietyRow = {vars:{'bundleId': '-2960','bundleInputId': '-11920','bundle_name': 'Red Onion','price': '180','input_name': 'Red Creole','quantityavailable': 5, 'quantityordered': 5}};
     beforeAll(()=>{
         onVarietyChosen = jest.fn();
         varietyChoiceHandler = getHandler(onVarietyChosen);
@@ -29,8 +32,22 @@ describe('order confirmation handler test', ()=>{
     });
     it('should call on variety choice handler function if the input from the user correspond to a valid bundle',()=>{
         state.vars.multiple_input_menus = false;
-        mockCursor.hasNext.mockReturnValueOnce(true);
+        mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true);
+        mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(availableVarietyRow);
+        varietyChoiceHandler(1);
+        expect(onVarietyChosen).toHaveBeenCalledWith(bundleArray[0]);
+    });
+    it('should not call on variety choice handler function if there is no available variety',()=>{
+        state.vars.multiple_input_menus = false;
+        mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(false);
         mockCursor.next.mockReturnValueOnce(mockRow);
+        varietyChoiceHandler(1);
+        expect(onVarietyChosen).not.toHaveBeenCalled();
+    });
+    it('should call the corresponding available variety choice handler function if there is no both available and unavailable varieties',()=>{
+        state.vars.multiple_input_menus = false;
+        mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true);
+        mockCursor.next.mockReturnValueOnce(secondRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(availableVarietyRow).mockReturnValueOnce(unavailableVarietyRow);
         varietyChoiceHandler(1);
         expect(onVarietyChosen).toHaveBeenCalledWith(bundleArray[0]);
     });

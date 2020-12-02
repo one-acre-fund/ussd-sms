@@ -365,15 +365,15 @@ function onOrderConfirmed(){
                 row.save();
             } 
         });
-        var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
-        orderPlaced.forEach(function(element){
-                var stockCursor = varietyStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'inputname': element.inputName}});
-                if(stockCursor.hasNext()){
-                    var row = stockCursor.next();
-                    row.vars.quantityordered =  row.vars.quantityordered + 1;
-                    row.save();
-                }
-            });
+        if(state.vars.chosenMaizeBundle != ' '){
+            var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
+            var stockCursor = varietyStockTable.queryRows({vars:{'warehousename': state.vars.warehouse,'inputname': JSON.parse(state.vars.chosenMaizeBundle).inputName}});
+            if(stockCursor.hasNext()){
+                var row = stockCursor.next();
+                row.vars.quantityordered =  row.vars.quantityordered + 1;
+                row.save();
+            }
+        }
         project.sendMessage({
             content: message, 
             to_number: contact.phone_number

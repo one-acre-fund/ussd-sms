@@ -13,6 +13,7 @@ describe('account_number_handler', () => {
     const mockCursor = { next: jest.fn(), 
         hasNext: jest.fn()
     };
+    const mockWarehouseRow = {vars:{'warehouse':'name'}};
     beforeAll(()=>{
         rosterAPI.authClient = jest.fn();
         rosterAPI.authClient.mockReturnValue(true);  
@@ -99,7 +100,19 @@ describe('account_number_handler', () => {
         client.BalanceHistory[0].TotalRepayment_IncludingOverpayments = 500;
         rosterAPI.getClient.mockReturnValue(client);
         state.vars.client_json = JSON.stringify(client);
+        mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(true);
+        mockCursor.next.mockReturnValueOnce(mockWarehouseRow);
         accountNumberHandler(validAccountNumber);
         expect(onAccountNumberValidated).toHaveBeenCalled();
+        expect(state.vars.warehouse).toEqual(mockWarehouseRow.vars.warehouse);
+    });
+    it('should  not call  account number validated if the account number provided is valid in the same group as GL, is not enrolled and paid 500 but does not have a corresponding warehouse', () => {
+        client.BalanceHistory[0].SeasonName = '2021, Long Rain';
+        client.BalanceHistory[0].TotalRepayment_IncludingOverpayments = 500;
+        rosterAPI.getClient.mockReturnValue(client);
+        state.vars.client_json = JSON.stringify(client);
+        mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(false);
+        accountNumberHandler(validAccountNumber);
+        expect(onAccountNumberValidated).not.toHaveBeenCalled();
     });
 });

@@ -110,7 +110,8 @@ var getWarehouse = function(districtName){
     var table  = project.initDataTableById(service.vars.districtWarehouseTableId);
     var cursor = table.queryRows({vars: {'districtname': districtName}});
     if(cursor.hasNext()){
-        return cursor.next().vars.warehouse;
+        var row = cursor.next();
+        return row.vars.warehouse;
     }
     else{
         return false;

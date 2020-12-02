@@ -123,8 +123,10 @@ describe('clientRegistration', () => {
         it('should display  the bundles if the prepayment condition is satified for first time clients',()=>{
             // mocking the past ordered products
             mockCursor.hasNext.mockReturnValueOnce(false);
-            mockCursor.hasNext.mockReturnValueOnce(true);
-            mockCursor.next.mockReturnValueOnce(mockRow);
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(true);
+            mockRow.vars.quantityavailable = 5;
+            mockRow.vars.quantityordered = 1;
+            mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow);
             callback();
             expect(sayText).not.toHaveBeenCalledWith(expect.stringContaining('You do not qualify for a top up,'));
             expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockRow.vars.bundle_name}`+
@@ -135,10 +137,12 @@ describe('clientRegistration', () => {
         it('should prompt for ordering more products for the returning clients',()=>{
             // mocking the past ordered products
             const toppedUppBundles = [{'bundleId': '-3009','bundleInputId': '-12109','bundleName': 'Knapsack Sprayer','price': '2251','inputName': 'Knapsack Sprayer'}];
+            mockRow.vars.quantityavailable = 5;
+            mockRow.vars.quantityordered = 1;
             mockCursor.hasNext.mockReturnValueOnce(true);
             mockCursor.next.mockReturnValueOnce({vars: {order: JSON.stringify(toppedUppBundles)}});
-            mockCursor.hasNext.mockReturnValueOnce(true);
-            mockCursor.next.mockReturnValueOnce(mockRow);
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow);
             callback();
             expect(sayText).toHaveBeenCalledWith('Your past order (1 products):\n' +
             'Knapsack Sprayer 2251; \n' +
@@ -148,10 +152,12 @@ describe('clientRegistration', () => {
             expect(promptDigits).toHaveBeenCalledWith(orderMoreHandler.handlerName);
         });
         it('should display the maize bundle size(0.5 and 0.25) of maize bundles if a maize bundle is available and the client did not order anything',()=>{
+            mockRows[0].vars.quantityavailable = 5;
+            mockRows[0].vars.quantityordered = 1; 
             // mocking the past ordered products
             mockCursor.hasNext.mockReturnValueOnce(false);
-            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true);
-            mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
             state.vars.orders = ' ';
             callback();
             expect(state.vars.bundles).toEqual(JSON.stringify(orders));
@@ -159,8 +165,8 @@ describe('clientRegistration', () => {
         it('should display the maize bundle size(0.5 and 0.25) of maize bundles if a maize bundle is available and the client ordered other bundles than maize',()=>{
             // mocking the past ordered products
             mockCursor.hasNext.mockReturnValueOnce(false);
-            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true);
-            mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
             state.vars.orders = JSON.stringify(mockRows[1]);
             callback();
             expect(state.vars.bundles).toEqual(JSON.stringify(orders));
@@ -180,11 +186,15 @@ describe('clientRegistration', () => {
             ` ${mockRows[1].vars.price}`+
             '\n77)Next page');
         });
-        it('should display only unique bundles(if two bundle inputs in the same bundle are found) if the prepayment condition is satified ', () => {
+        test.only('should display only unique bundles(if two bundle inputs in the same bundle are found) if the prepayment condition is satified ', () => {
+            mockRows[0].vars.quantityavailable = 5;
+            mockRows[0].vars.quantityordered = 1;
+            mockRows[3].vars.quantityavailable = 5;
+            mockRows[3].vars.quantityordered = 1;
             // mocking the past ordered products
             mockCursor.hasNext.mockReturnValueOnce(false);
-            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
-            mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[3]);
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[3]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[3]).mockReturnValueOnce(mockRows[3]).mockReturnValueOnce(mockRows[3]);
             callback();
             expect(sayText).not.toHaveBeenCalledWith(expect.stringContaining('You do not qualify for a top up,'));
             expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockRow.vars.bundle_name}`+
