@@ -9,7 +9,7 @@ module.exports = function send_request(requestData) {
     opts.headers['Authorization'] = 'Token ' + service.vars.roster_api_key;
     opts.method = 'POST';
     opts.data = requestData;
-    console.log('####### requestData:' + requestData);
+    console.log('####### requestData:' + JSON.stringify(requestData));
     console.log('#### OPtions: ' + JSON.stringify(opts));
 
     try {
