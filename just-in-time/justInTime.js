@@ -211,12 +211,15 @@ function onOrderConfirmed(){
         var order;
         if(state.vars.chosenMaizeBundle != ' ' && (JSON.parse(state.vars.chosenMaizeBundle).bundleId == bundle[j].bundleId)){
             var chosenBundle = JSON.parse(state.vars.chosenMaizeBundle);
-            order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': chosenBundle.quantity, inputChoices: [parseInt(bundle[j].bundleInputId)] };
+            order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': chosenBundle.quantity, 'bundleName': bundle[j].bundleName, inputChoices: [parseInt(bundle[j].bundleInputId)] };
         }else{
-            order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': 1, inputChoices: [parseInt(bundle[j].bundleInputId)]};
+            order = {'bundleId': bundle[j].bundleId, 'bundleQuantity': 1, 'bundleName': bundle[j].bundleName, inputChoices: [parseInt(bundle[j].bundleInputId)]};
         }
         requestBundles.push(order);
     }
+    var requestDataBundles = requestBundles.map(function(requestBundle) {
+        return {'bundleId': requestBundle.bundleId, 'bundleQuantity': requestBundle.bundleQuantity, inputChoices: requestBundle.inputChoices};
+    });
     var requestData = {
         'districtId': client.DistrictId,
         'siteId': client.SiteId,
@@ -224,7 +227,7 @@ function onOrderConfirmed(){
         'accountNumber': client.AccountNumber,
         'clientId': client.ClientId,
         'isGroupLeader': isGroupLeader,
-        'clientBundles': requestBundles
+        'clientBundles': requestDataBundles
     };
     var orderPlacedMessage = '';
     if(enrollOrder(requestData)){
@@ -252,7 +255,7 @@ function onOrderConfirmed(){
                 row.vars.order = JSON.stringify(alreadyOrderedBundles);
             }
         } else {
-            row = table.createRow({vars: {'account_number': client.AccountNumber, 'order': JSON.stringify(requestBundles)}});
+            row = table.createRow({vars: {'account_number': client.AccountNumber, 'client_name': client.ClientName, 'order': JSON.stringify(requestBundles)}});
         }
         row.save();
         var message = translate('final_message',{'$products': orderPlacedMessage},state.vars.jitLang);
