@@ -152,6 +152,8 @@ module.exports = {
         state.vars.reg_lang = lang;
         state.vars.orders = ' ';
         state.vars.chosenMaizeBundle = ' ';
+        state.vars.varietyWarehouse = ' ';
+        state.vars.chosenVariety = ' ';
         global.sayText(translate('national_id_handler',{},state.vars.reg_lang));
         global.promptDigits(nationalIdHandler.handlerName);
     },
@@ -245,7 +247,7 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
             var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
             var availableInputs =[];
             selectedBundle.forEach(function(element){
-                var stockCursor = varietyStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'inputname': element.inputName}});
+                var stockCursor = varietyStockTable.queryRows({vars: {'warehousename': state.vars.varietyWarehouse,'inputname': element.inputName}});
                 if(stockCursor.hasNext()){
                     var row = stockCursor.next();
                     if(row.vars.quantityavailable > row.vars.quantityordered){
@@ -365,13 +367,13 @@ function onOrderConfirmed(){
                 row.save();
             } 
         });
-        if(state.vars.chosenMaizeBundle != ' '){
+        if(state.vars.chosenVariety != ' '){
             var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
-            var stockCursor = varietyStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'inputname': JSON.parse(state.vars.chosenMaizeBundle).inputName}});
+            var stockCursor = varietyStockTable.queryRows({vars: {'warehousename': state.vars.varietyWarehouse,'inputname': JSON.parse(state.vars.chosenVariety).inputName}});
             if(stockCursor.hasNext()){
-                row = stockCursor.next();
-                row.vars.quantityordered =  row.vars.quantityordered + 1;
-                row.save();
+                var vRow = stockCursor.next();
+                vRow.vars.quantityordered =  vRow.vars.quantityordered + 1;
+                vRow.save();
             }
         }
         project.sendMessage({

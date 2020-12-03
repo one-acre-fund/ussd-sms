@@ -53,19 +53,20 @@ service.vars.maizeEnrollmentTableId  = project.vars[env + '_maize_enr_table_id']
 service.vars.maizeTableId = project.vars[env + '_maize_bundle_table_id'];
 service.vars.topUpBundleTableId = project.vars[env + '_topUp_bundlesId'];
 service.vars.enrollmentBundleTableId = project.vars[env + '_enrollment_bundles_id'];
+//
+service.vars.districtVarietyTableId = project.vars[env + '_districtVarietyTableId'];
+service.vars.varietyStockTableId = project.vars[env + '_varietyStockTableId'];
+service.vars.warehouseStockTableId = project.vars[env + '_warehouseStockTableId'];
+service.vars.districtWarehouseTableId = project.vars[env+ '_districtWarehouseTableId'];
+
 if(env == 'prod'){
     service.vars.JiTEnrollmentTableId = 'DT52cebb451097ac25';
     service.vars.JITSucessfullRegId = 'DTa403c7245c904c18';
-    service.vars.districtWarehouseTableId = 'DT055c497f324d0e7d';
-    service.vars.warehouseStockTableId = 'DTde5242c17c4f17f3';
-    service.vars.varietyStockTableId = 'DTa327b99aec14ccb1';
+    
 }
 else{
     service.vars.JiTEnrollmentTableId = 'DT7a66f47aa004743c';
     service.vars.JITSucessfullRegId = 'DT12cc1d618437e58b';
-    service.vars.districtWarehouseTableId = 'DTe9af9d7faa906753';
-    service.vars.warehouseStockTableId = 'DT645b66d4ef2cbde1';
-    service.vars.varietyStockTableId = 'DT24f093b78f1cd3b7';
 }
 
 var MenuCount = 0;

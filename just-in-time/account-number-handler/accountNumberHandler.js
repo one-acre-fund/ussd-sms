@@ -57,7 +57,14 @@ var getWarehouse = function(districtName){
     var table  = project.initDataTableById(service.vars.districtWarehouseTableId);
     var cursor = table.queryRows({vars: {'districtname': districtName}});
     if(cursor.hasNext()){
-        return cursor.next().vars.warehouse;
+        var row = cursor.next();
+        var varietyTable = project.initDataTableById(service.vars.districtVarietyTableId);
+        var varietyWarehouseCursor = varietyTable.queryRows({vars: {'districtname': districtName}});
+        if(varietyWarehouseCursor.hasNext()){
+            var varietyRow = varietyWarehouseCursor.next();
+            state.vars.varietyWarehouse = varietyRow.vars.warehouse;
+        }
+        return row.vars.warehouse;
     }
     else{
         return false;

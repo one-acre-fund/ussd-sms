@@ -111,6 +111,12 @@ var getWarehouse = function(districtName){
     var cursor = table.queryRows({vars: {'districtname': districtName}});
     if(cursor.hasNext()){
         var row = cursor.next();
+        var varietyTable = project.initDataTableById(service.vars.districtVarietyTableId);
+        var varietyWarehouseCursor = varietyTable.queryRows({vars: {'districtname': districtName}});
+        if(varietyWarehouseCursor.hasNext()){
+            var varietyRow = varietyWarehouseCursor.next();
+            state.vars.varietyWarehouse = varietyRow.vars.warehouse;
+        }
         return row.vars.warehouse;
     }
     else{

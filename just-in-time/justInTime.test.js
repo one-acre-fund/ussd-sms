@@ -379,6 +379,7 @@ describe('clientRegistration', () => {
         beforeAll(()=>{
             state.vars.orders = JSON.stringify(orders);
             state.vars.chosenMaizeBundle = ' ';
+            state.vars.chosenVariety = ' ';
         });
         beforeEach(() => {
             mockTable.queryRows.mockReturnValue(mockCursor);
@@ -414,10 +415,26 @@ describe('clientRegistration', () => {
             var mockProductRow = {save: jest.fn(), vars: {'quantityordered': 2}};
             mockCursor.next.mockReturnValueOnce(mockProductRow);
             mockTable.createRow.mockReturnValue(mockProductRow);
-            state.vars.chosenMaizeBundle = JSON.stringify(mockBundleInputs[0]);
+            state.vars.chosenVariety = JSON.stringify(mockBundleInputs[0]);
             callback();
             expect(mockProductRow.vars.quantityordered).toEqual(3);
             expect(mockProductRow.save).toHaveBeenCalled();
+        });
+        it('should not add a value to the stock for the order if the variety is not found ',()=>{
+            httpClient.request.mockReturnValue({status: 201});
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(false);
+            var mockProductRow = {save: jest.fn(), vars: {'quantityordered': 2}};
+            state.vars.chosenVariety = ' ';
+            callback();
+            expect(mockProductRow.save).not.toHaveBeenCalled();
+        });
+        xit('should not add a value to the stock for the variety if the order if the variety is not found ',()=>{
+            httpClient.request.mockReturnValue({status: 201});
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(false);
+            var mockProductRow = {save: jest.fn(), vars: {'quantityordered': 2}};
+            state.vars.chosenVariety = JSON.stringify(mockBundleInputs[0]);
+            callback();
+            expect(mockProductRow.save).not.toHaveBeenCalled();
         });
         it('should update the stored order by adding newly selected bundles',()=>{
             httpClient.request.mockReturnValue({status: 201});
@@ -523,6 +540,10 @@ describe('clientRegistration', () => {
             state.vars.account = '';
             state.vars.country = '';
             state.vars.jitLang = '';
+            state.vars.orders = ' ';
+            state.vars.chosenMaizeBundle = ' ';
+            state.vars.varietyWarehouse = ' ';
+            state.vars.chosenVariety = ' ';
             justInTime.start(account, country,jitLang);
             expect(state.vars).toMatchObject({account,country,jitLang});
         });
