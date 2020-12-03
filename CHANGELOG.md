@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## New Version
 
 ### Changed
+* [MOB-73](https://oneacrefund.atlassian.net/browse/MOB-73) As a client, I want to receive mobile money receipts to my phone number in Roster in addition to the phone number that makes the payment, so that I have a record of this transaction.
 * [MOB-70](https://oneacrefund.atlassian.net/browse/MOB-70) JiT Kenya: As a GL, when I enter an account number for a client not in my group, I need a pop with a descriptive error message
 
 ### Fixed 
