@@ -64,15 +64,15 @@ var languagesLabels = {
     'en-ke': 'English'
 };
 var phone_numbers = getPhoneNumber(client.AccountNumber, client.CountryName);
+var active_phone_numbers = phone_numbers && phone_numbers.filter(function(phone_number) {
+    return !phone_number.IsInactive;
+});
 if(balance <= 0) {
     var shsNotificationLabel = project.getOrCreateLabel('shs notification');
     var shsLanguageLabel = project.getOrCreateLabel(languagesLabels[lang]);
     // if the user has paid all credit or over paid
     var shsNotification = getMessage('shs_notification', {}, lang);
     if(phone_numbers) {
-        var active_phone_numbers = phone_numbers.filter(function(phone_number) {
-            return !phone_number.IsInactive;
-        });
         project.sendMessage({
             content: shsNotification,
             to_number: active_phone_numbers[0].PhoneNumber,
@@ -124,3 +124,13 @@ project.sendMessage({
     route_id: project.vars.repayments_sms_route,
     message_type: 'sms'
 });
+var activePhoneNumber =  active_phone_numbers && active_phone_numbers[0] && active_phone_numbers[0].PhoneNumber;
+if(activePhoneNumber && activePhoneNumber !== contact.phone_number){
+    project.sendMessage({
+        content: mmReceipt,
+        to_number: activePhoneNumber,
+        label_ids: repaymentLabelIds,
+        route_id: project.vars.repayments_sms_route,
+        message_type: 'sms'
+    });
+}

@@ -1,5 +1,7 @@
+let getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
 let getHealthyPathPercentage;
 jest.mock('../healthy-path/utils/getHealthyPathPercentage');
+jest.mock('../shared/rosterApi/getPhoneNumber');
 
 const overpaidContact = {
     accountnumber: '3033-cf74-f94a',
@@ -93,14 +95,14 @@ describe('mobile money repayments using', () => {
     beforeEach(() => {
         jest.resetModules();
         getHealthyPathPercentage = require('../healthy-path/utils/getHealthyPathPercentage');
+        getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
+        project.sendMessage.mockClear();
     });
     var mockedRow = {save: jest.fn(),hasNext: jest.fn(() => true), next: jest.fn(),vars: {}, limit: jest.fn()}; 
     var mockedTable = { queryRows: () => mockedRow};
 
     it('should send an shs notification to an active phone once all the debt is paid', () => {
         jest.spyOn(project, 'getOrCreateDataTable').mockReturnValueOnce(mockedTable);
-        const getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
-        jest.mock('../shared/rosterApi/getPhoneNumber');
         getPhoneNumber.mockReturnValueOnce([ {PhoneNumber: '05423827342', IsInactive: true}, {PhoneNumber: '075342312', IsInactive: false}]);
         contact.vars = {
             accountnumber: '3033-cf74-f94a',
@@ -162,6 +164,36 @@ describe('mobile money repayments using', () => {
                 'Overpaid',
             ], 'message_type': 'sms',
             'route_id': '12345'});
+    });
+    it('should send a message to the account phone Number in swahili once there is no data in the EnglishDistricts', () => {
+        getHealthyPathPercentage.mockReturnValueOnce(0.3);
+        const accountPhoneNumber = '05423827342';
+        getPhoneNumber.mockReturnValueOnce([ {PhoneNumber: accountPhoneNumber, IsInactive: false}]);
+        mockedRow.hasNext = jest.fn(() => false);
+        jest.spyOn(project, 'getOrCreateDataTable').mockReturnValueOnce(mockedTable);
+        setupLabels();
+        contact.vars = overpaidContact;
+        require('./repayments');
+        expect(project.sendMessage).toHaveBeenCalledTimes(2);
+        expect(project.sendMessage).toHaveBeenCalledWith({'content': 'Je-3033-cf74-f94a Ulikamilisha malipo ya mkopo wa sasa. Malipo ya mwisho: KSh 3000. Nambari ya risiti 5beb94c0-3033-cf74-f94a. Malipo kwa ujumla kulipia mkopo unaofuata KSh 2000.',
+            'to_number': accountPhoneNumber, 'label_ids': [
+                'Swahili',
+                'MM receipt',
+                'Business Operations',
+                'Overpaid',
+            ], 'message_type': 'sms',
+            'route_id': '12345'});
+    });
+    it('should not send only one receipt if the account phone number is the same as the contact phonenumber ', () => {
+        getHealthyPathPercentage.mockReturnValueOnce(0.3);
+        const accountPhoneNumber = contact.phone_number;
+        getPhoneNumber.mockReturnValueOnce([ {PhoneNumber: accountPhoneNumber, IsInactive: false}]);
+        mockedRow.hasNext = jest.fn(() => false);
+        jest.spyOn(project, 'getOrCreateDataTable').mockReturnValueOnce(mockedTable);
+        setupLabels();
+        contact.vars = overpaidContact;
+        require('./repayments');
+        expect(project.sendMessage).toHaveBeenCalledTimes(1);
     });
 
     it('should log an error once the phone number is not found', () => {
