@@ -409,9 +409,21 @@ describe('clientRegistration', () => {
             expect(mockProductRow.vars.quantityordered).toEqual(3);
             expect(mockProductRow.save).toHaveBeenCalled();
         });
+        it('should add a value to the stock for the variety if the order is saved in roster2',()=>{
+            httpClient.request.mockReturnValue({status: 201});
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            var mockProductRow = {save: jest.fn(), vars: {'quantityordered': 2}};
+            mockCursor.next.mockReturnValueOnce(mockProductRow).mockReturnValueOnce(mockProductRow).mockReturnValueOnce(mockProductRow);
+            mockTable.createRow.mockReturnValue(mockProductRow);
+            state.vars.chosenVariety = JSON.stringify(mockBundleInputs[0]);
+            callback();
+            expect(mockProductRow.vars.quantityordered).toEqual(4);
+            expect(mockProductRow.save).toHaveBeenCalled();
+        });
+        
         it('should add a value to the stock for the variety if the order is saved in roster',()=>{
             httpClient.request.mockReturnValue({status: 201});
-            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(true);
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true);
             var mockProductRow = {save: jest.fn(), vars: {'quantityordered': 2}};
             mockCursor.next.mockReturnValueOnce(mockProductRow);
             mockTable.createRow.mockReturnValue(mockProductRow);
@@ -460,6 +472,32 @@ describe('clientRegistration', () => {
             httpClient.request.mockReturnValue({status: 500});
             callback();
             expect(sayText).toHaveBeenCalledWith('Please try again later. Most people are applying right now!');
+        });
+        it('should add a value to the stock for the variety if the order is saved in roster2',()=>{
+            httpClient.request.mockReturnValue({status: 201});
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            var mockProductRow = {save: jest.fn(), vars: {'quantityordered': 2}};
+            mockCursor.next.mockReturnValueOnce(mockProductRow).mockReturnValueOnce(mockProductRow).mockReturnValueOnce(mockProductRow).mockReturnValueOnce(mockProductRow).mockReturnValueOnce(mockProductRow);
+            mockTable.createRow.mockReturnValue(mockProductRow);
+            state.vars.chosenVariety = JSON.stringify(mockBundleInputs[0]);
+            callback();
+            expect(mockProductRow.vars.quantityordered).toEqual(5);
+            expect(mockProductRow.save).toHaveBeenCalled();
+        });
+        it('should display the correct bundle if a product when a maize variety is ordered',()=>{
+            httpClient.request.mockReturnValue({status: 201});
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(false);
+            var mockProductRow = {save: jest.fn(), vars: {'quantityordered': 2}};
+            mockTable.createRow.mockReturnValue(mockProductRow);
+            var mockOrders = [{'bundleId': '-2009','bundleInputId': '-1709','bundleName': 'Second possible name bundle','price': '2251','inputName': 'second input'},{'bundleId': '-9009','bundleInputId': '-5709','bundleName': 'third possible name bundle','price': '6251','inputName': 'third input'}];
+            state.vars.orders = JSON.stringify(mockOrders);
+            state.vars.chosenMaizeBundle = JSON.stringify(mockOrders[0]);
+            callback();
+            expect(sayText).toHaveBeenCalledWith(`Thank you for topping-up through JiT. Your order is ${JSON.parse(state.vars.chosenMaizeBundle).bundleName}`+
+            ` ${mockOrders[0].price}`+
+            ` ${mockOrders[1].bundleName}`+
+            ` ${mockOrders[1].price}`+
+            '  Reach out to CE through *689# if this  order is not correct');
         });
     });
 
