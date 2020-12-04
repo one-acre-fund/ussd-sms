@@ -11,6 +11,7 @@ var notifyELK = require('../notifications/elk-notification/elkNotification');
 var enrollOrder = require('../Roster-endpoints/enrollOrder');
 var translate =  createTranslator(translations, project.vars.lang);
 var getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
+var orderMoreHandler = require('./order-more-handler/orderMoreHandler');
 module.exports = {
     registerHandlers: function (){
         addInputHandler(accountNumberHandler.handlerName, accountNumberHandler.getHandler(onAccountNumberValidated));
@@ -19,6 +20,7 @@ module.exports = {
         addInputHandler(varietyConfirmationHandler.handlerName, varietyConfirmationHandler.getHandler(onBundleSelected,displayBundles));
         addInputHandler(addOrderHandler.handlerName, addOrderHandler.getHandler(onFinalizeOrder,displayBundles));
         addInputHandler(orderConfirmationHandler.handlerName, orderConfirmationHandler.getHandler(onOrderConfirmed,displayBundles));
+        addInputHandler(orderMoreHandler.handlerName, orderMoreHandler.getHandler(onOrderMore));
 
     },
 
@@ -35,6 +37,43 @@ module.exports = {
     }
 };
 
+function getAlreadyOrderedBundles(pastOrderedProducts, districtId) {
+    var allSupportedBundles = getAllSupportedBundles(districtId);
+    var orderedBundles = {};
+    pastOrderedProducts.forEach(function(orderedProduct) {
+        allSupportedBundles.forEach(function(supportedBundle) {
+            if(supportedBundle.bundleId == orderedProduct.bundleId) {
+                orderedBundles[supportedBundle.bundleId] = supportedBundle;
+            }
+        });
+    });
+    return Object.keys(orderedBundles).map(function(key){return orderedBundles[key];});
+}
+
+function onReturningClientValidated(districtId, pastOrderedProducts) {
+    var orderMessage = '';
+    var alreadyOrderedBundles = getAlreadyOrderedBundles(pastOrderedProducts, districtId);
+    alreadyOrderedBundles.forEach(function(orderedBundle){
+        orderMessage = orderMessage + orderedBundle.bundleName + ' ' + orderedBundle.price + '; ';
+    });
+    var order_more_message = translate('order_more_products', {
+        '$order': orderMessage,
+        '$products': pastOrderedProducts.length,
+        '$more_products': 3 - pastOrderedProducts.length
+    }, state.vars.jitLang);
+
+    global.sayText(order_more_message);
+    global.promptDigits(orderMoreHandler.handlerName);
+}
+
+function onOrderMore() {
+    var client = JSON.parse(state.vars.topUpClient);
+    //var remainingLoan = 0;
+    var districtId = client.DistrictId;
+    displayBundles(districtId);
+    global.promptDigits(bundleChoiceHandler.handlerName); 
+}
+
 function onAccountNumberValidated(){
     var client = JSON.parse(state.vars.topUpClient);
     //var remainingLoan = 0;
@@ -48,8 +87,14 @@ function onAccountNumberValidated(){
         global.sayText(translate('loan_payment_not_satisfied',{'$amount': amountToPay },state.vars.jitLang));
     }
     else{
-        displayBundles(districtId);
-        promptDigits(bundleChoiceHandler.handlerName);
+        var pastOrderedProducts = getPastOrderedProducts();
+        if(pastOrderedProducts.length > 0) {
+            // is a returning client
+            onReturningClientValidated(districtId, pastOrderedProducts);
+        } else {
+            displayBundles(districtId);
+            promptDigits(bundleChoiceHandler.handlerName);
+        }
     }
 }
 function onFinalizeOrder(){
@@ -108,6 +153,7 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
             state.vars.varietyBundleId = bundleId;
             displayVariety(selectedBundle);
             promptDigits(varietyChoiceHandler.handlerName);
+            return;
         }
     }
     if(selectedBundle.length == 1){
@@ -128,7 +174,8 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
         }
         //Display confirmation message
         state.vars.orders = JSON.stringify(allBundles);
-        if(allBundles.length == 3){
+        var orderedProducts = getPastOrderedProducts();
+        if(allBundles.length == 3 || (orderedProducts.length + allBundles.length) == 3){
             sayText(translate('final_order_display',{'$orders': orderMessage },state.vars.jitLang));
             promptDigits(orderConfirmationHandler.handlerName);
         }
@@ -178,8 +225,21 @@ function onOrderConfirmed(){
                 orderPlacedMessage = orderPlacedMessage + orderPlaced[m].bundleName + ' ' + orderPlaced[m].price + ' ';
             }
         } 
+
+        var alreadyOrderedBundles = getPastOrderedProducts(); // geting past orders for returning clients (returns an empty array for first time clients)
+        var row;
         var table = project.initDataTableById(service.vars.JiTEnrollmentTableId);
-        var row = table.createRow({vars: {'account_number': client.AccountNumber, 'order': JSON.stringify(requestBundles)}});
+        if(alreadyOrderedBundles.length > 0) {
+            // if there are already placed orders, it means we need to update not create a new entry
+            requestBundles.forEach(function(requestBundle){alreadyOrderedBundles.push(requestBundle);}); // adding all budnles before saving them to the dataTable
+            var cursor = table.queryRows({vars: {'account_number': client.AccountNumber}});
+            if(cursor.hasNext()) {
+                row = cursor.next();
+                row.vars.order = JSON.stringify(alreadyOrderedBundles);
+            }
+        } else {
+            row = table.createRow({vars: {'account_number': client.AccountNumber, 'order': JSON.stringify(requestBundles)}});
+        }
         row.save();
         var message = translate('final_message',{'$products': orderPlacedMessage},state.vars.jitLang);
         sayText(message);
@@ -202,11 +262,11 @@ function onOrderConfirmed(){
         sayText(translate('enrollment_failed',{},state.vars.jitLang));
     }
 }
-function displayBundles(district){
+
+var getAllSupportedBundles = function (district) {
     console.log('district ID:' + district);
     var bundleInputs = getBundlesInputs(district);
     state.vars.currentDistrict = district;
-
     var unique = [];
     var bundles = [];
     var maizeBanedBundleIds= [];
@@ -272,7 +332,15 @@ function displayBundles(district){
             }
         }
     }
-    
+    return bundles;
+};
+
+function displayBundles(district){
+
+    var allSupportedBundles = getAllSupportedBundles(district);
+    // remove the already ordered bundles for returning clients
+    var bundles = removeOrderedBundles(allSupportedBundles);
+
     // saved it for easy access in bundleChoiceHandler 
     state.vars.bundles = JSON.stringify(bundles);
     // Build the menu for bundles
@@ -295,6 +363,35 @@ function displayBundles(district){
     }
 
 }
+
+var removeOrderedBundles = function(allBundles) {
+    var orderedBundles = getPastOrderedProducts();
+    var copiedBundles = allBundles.map(function(bundle) {return bundle;});
+    orderedBundles.forEach(function(orderedBundle) {
+        copiedBundles = copiedBundles.filter(function(bundle) {
+            return bundle.bundleId != orderedBundle.bundleId;
+        });
+    });
+    return copiedBundles;
+};
+
+var getPastOrderedProducts = function() {
+    var toppedUpTable = project.initDataTableById(service.vars.JiTEnrollmentTableId);
+    var client = JSON.parse(state.vars.topUpClient);
+    var toppedUpCursor = toppedUpTable.queryRows({
+        vars: {
+            'account_number': client.AccountNumber
+        }
+    });
+
+    if(toppedUpCursor.hasNext()) {
+        var toppedUpRow = toppedUpCursor.next();
+        var toppedUpOrderBundles = JSON.parse(toppedUpRow.vars.order);
+        return toppedUpOrderBundles;
+    }
+    return [];
+};
+
 function bundleExists(bundles,bundleId) {
     for (var o =0; o<bundles.length; o++){
         if(bundles[o].bundleId === bundleId)
