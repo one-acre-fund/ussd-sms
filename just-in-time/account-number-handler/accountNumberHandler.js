@@ -110,7 +110,7 @@ module.exports = {
                 }
             }
             else{
-                global.sayText(translate('account_number_handler',{},state.vars.jitLang));
+                global.sayText(translate('account_number_wrong_group',{},state.vars.jitLang));
                 global.promptDigits(handlerName);
             }
         };
