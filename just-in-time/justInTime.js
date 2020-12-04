@@ -245,6 +245,11 @@ function onOrderConfirmed(){
 
         var alreadyOrderedBundles = getPastOrderedProducts(); // geting past orders for returning clients (returns an empty array for first time clients)
         var row;
+        var record = {};
+        var bundleNamesColumns = ['order1_name', 'order2_name', 'order3_name'];
+        requestBundles.forEach(function(requestBundle, index) {
+            record[bundleNamesColumns[index]] = requestBundle.bundleName;
+        });
         var table = project.initDataTableById(service.vars.JiTEnrollmentTableId);
         if(alreadyOrderedBundles.length > 0) {
             // if there are already placed orders, it means we need to update not create a new entry
@@ -253,9 +258,15 @@ function onOrderConfirmed(){
             if(cursor.hasNext()) {
                 row = cursor.next();
                 row.vars.order = JSON.stringify(alreadyOrderedBundles);
+                row.vars[bundleNamesColumns[0]] = record[bundleNamesColumns[0]];
+                row.vars[bundleNamesColumns[1]] = record[bundleNamesColumns[1]];
+                row.vars[bundleNamesColumns[2]] = record[bundleNamesColumns[2]];
             }
         } else {
-            row = table.createRow({vars: {'account_number': client.AccountNumber, 'client_name': client.ClientName, 'order': JSON.stringify(requestBundles)}});
+            record.account_number = client.AccountNumber;
+            record.client_name = client.ClientName;
+            record.order = JSON.stringify(requestBundles);
+            row = table.createRow({vars: record});
         }
         row.save();
         var message = translate('final_message',{'$products': orderPlacedMessage},state.vars.jitLang);
