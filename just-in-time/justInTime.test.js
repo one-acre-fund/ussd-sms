@@ -397,6 +397,12 @@ describe('clientRegistration', () => {
             ' Reach out to CE through *689# if this  order is not correct';
             callback();
             expect(sayText).toHaveBeenCalledWith(message);
+            expect(mockTable.createRow).toHaveBeenCalledWith({'vars':
+             {'account_number': '123456789',
+                 'client_name': 'TCHALLA, PRINCE',
+                 'order': '[{"bundleId":251,"bundleQuantity":1,"bundleName":"Maize","inputChoices":[1]},{"bundleId":252,"bundleQuantity":1,"bundleName":"Pesticide","inputChoices":[2]}]',
+                 'order1_name': 'Maize',
+                 'order2_name': 'Pesticide'}});
             expect(project.sendMessage).toHaveBeenCalledWith({content: message, to_number: phoneNumber});
         });
         it('should add a value to the stock for the product if the order is saved in roster',()=>{
@@ -449,13 +455,19 @@ describe('clientRegistration', () => {
             expect(mockProductRow.save).not.toHaveBeenCalled();
         });
         it('should update the stored order by adding newly selected bundles',()=>{
+            service.vars.JiTEnrollmentTableId = 'JiTEnrollmentTableId';
             httpClient.request.mockReturnValue({status: 201});
             contact.phone_number = phoneNumber;
-            var pastOrder = [{bundleId: 250, bundleQuantity: 1, inputChoices: [1]}];
+            var pastOrder = [{bundleId: 250, bundleName: 'fruits', bundleQuantity: 1, inputChoices: [1]}];
             mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true);
             mockCursor.next.mockReturnValueOnce({vars: {order: JSON.stringify(pastOrder)}, save: jest.fn()}).mockReturnValueOnce(mockRow);
             callback();
-            expect(mockRow.vars.order).toEqual('[{"bundleId":250,"bundleQuantity":1,"inputChoices":[1]},{"bundleId":251,"bundleQuantity":1,"bundleName":"Maize","inputChoices":[1]},{"bundleId":252,"bundleQuantity":1,"bundleName":"Pesticide","inputChoices":[2]}]');
+            expect(mockRow.vars).toEqual({'order': '[{"bundleId":250,"bundleName":"fruits","bundleQuantity":1,"inputChoices":[1]},{"bundleId":251,"bundleQuantity":1,"bundleName":"Maize","inputChoices":[1]},{"bundleId":252,"bundleQuantity":1,"bundleName":"Pesticide","inputChoices":[2]}]',
+                'order1_name': 'fruits',
+                'order2_name': 'Maize',
+                'order3_name': 'Pesticide'});
+            expect(project.initDataTableById).toHaveBeenCalledWith('JiTEnrollmentTableId');
+            expect(mockTable.createRow).not.toHaveBeenCalled();
             expect(mockRow.save).toHaveBeenCalled();
         });
         it('should send a message to the stored client\'s phone confirming the order is complete if the order is saved in roster',()=>{
