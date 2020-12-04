@@ -319,6 +319,11 @@ function onOrderConfirmed(){
     var requestDataBundles = requestBundles.map(function(requestBundle) {
         return {'bundleId': requestBundle.bundleId, 'bundleQuantity': requestBundle.bundleQuantity, inputChoices: requestBundle.inputChoices};
     });
+    var record = {};
+    var bundleNamesColumns = ['order1_name', 'order2_name', 'order3_name'];
+    requestBundles.forEach(function(requestBundle, index) {
+        record[bundleNamesColumns[index]] = requestBundle.bundleName;
+    });
     var requestData = {
         'districtId': client.DistrictId,
         'siteId': client.SiteId,
@@ -347,17 +352,19 @@ function onOrderConfirmed(){
             var row = cursor.next();
             row.vars.finalized = 1;
             row.vars.orders = JSON.stringify(requestBundles);
+            row.vars[bundleNamesColumns[0]] = record[bundleNamesColumns[0]];
+            row.vars[bundleNamesColumns[1]] = record[bundleNamesColumns[1]];
+            row.vars[bundleNamesColumns[2]] = record[bundleNamesColumns[2]];
             row.save();
         }
         else{
+            record.account_number = client.AccountNumber;
+            record.client_name = client.ClientName;
+            record.orders = JSON.stringify(requestBundles);
+            record.finalized = 1;
             var newRow = table.createRow({
                 'contact_id': contact.id,
-                vars: {
-                    'account_number': client.AccountNumber,
-                    'client_name': client.ClientName,
-                    'finalized': 1,
-                    'orders': JSON.stringify(requestBundles)
-                }});
+                vars: record});
             newRow.save();
         }
         var message = translate('final_message',{'$products': orderPlacedMessage},state.vars.reg_lang);
