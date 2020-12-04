@@ -254,6 +254,10 @@ function onOrderConfirmed(){
         if(alreadyOrderedBundles.length > 0) {
             // if there are already placed orders, it means we need to update not create a new entry
             requestBundles.forEach(function(requestBundle){alreadyOrderedBundles.push(requestBundle);}); // adding all budnles before saving them to the dataTable
+            record = {};
+            alreadyOrderedBundles.forEach(function(orderedBundle, index) {
+                record[bundleNamesColumns[index]] = orderedBundle.bundleName;
+            });
             var cursor = table.queryRows({vars: {'account_number': client.AccountNumber}});
             if(cursor.hasNext()) {
                 row = cursor.next();

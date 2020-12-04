@@ -455,7 +455,7 @@ describe('clientRegistration', () => {
             mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true);
             mockCursor.next.mockReturnValueOnce({vars: {order: JSON.stringify(pastOrder)}, save: jest.fn()}).mockReturnValueOnce(mockRow);
             callback();
-            expect(mockRow.vars.order).toEqual('[{"bundleId":250,"bundleQuantity":1,"inputChoices":[1]},{"bundleId":251,"bundleQuantity":1,"inputChoices":[1]},{"bundleId":252,"bundleQuantity":1,"inputChoices":[2]}]');
+            expect(mockRow.vars.order).toEqual('[{"bundleId":250,"bundleQuantity":1,"inputChoices":[1]},{"bundleId":251,"bundleQuantity":1,"bundleName":"Maize","inputChoices":[1]},{"bundleId":252,"bundleQuantity":1,"bundleName":"Pesticide","inputChoices":[2]}]');
             expect(mockRow.save).toHaveBeenCalled();
         });
         it('should send a message to the stored client\'s phone confirming the order is complete if the order is saved in roster',()=>{
