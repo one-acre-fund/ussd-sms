@@ -16,6 +16,9 @@ var mockTable = { createRow: jest.fn(), queryRows: jest.fn()};
 var mockCursor = {next: jest.fn(), hasNext: jest.fn()};
 var mockRow = {save: jest.fn(),next: jest.fn(), hasNext: jest.fn(),vars: {'account_number': account}};
 var wareHouseRow = {vars: {'warehouse': 'name'}};
+var differentGroupClient  = require('../just-in-time/test-client-data');
+var {client}  = require('./test-client-data');
+state.vars.client_json = JSON.stringify(client);
 describe('clientRegistration', () => {
     beforeAll(()=>{
         roster.getClient = jest.fn();
@@ -24,11 +27,10 @@ describe('clientRegistration', () => {
         mockTable.createRow.mockReturnValue(mockRow);
         project.initDataTableById = jest.fn().mockReturnValue(mockTable);
         mockTable.queryRows.mockReturnValue(mockCursor);
-        ////mockRow.hasNext.mockReturnValue(false);
         mockRow.next.mockReturnValue(mockRow);
         clientRegistration.onContinueToEnroll = jest.fn().mockImplementationOnce(() => {
             return true;
-        });
+        });    
     });
     beforeEach(()=>{
         roster.authClient = jest.fn().mockImplementationOnce(() => {
@@ -60,7 +62,7 @@ describe('clientRegistration', () => {
             roster.getClient = jest.fn().mockImplementationOnce(() => {return client ;});
             mockCursor.hasNext.mockReturnValueOnce(true);
             clientEnrollment.start(account, country, enr_lang);
-            expect(sayText).toHaveBeenCalledWith('This client is already enrolled through JiT.');
+            expect(sayText).toHaveBeenCalledWith('This Client has already enrolled ');
         });
         it('should call roster.getClinet if roster.authClient returns true', () => {
             clientEnrollment.start(account, country, enr_lang);
@@ -198,6 +200,13 @@ describe('clientRegistration', () => {
             roster.getClient = jest.fn().mockImplementationOnce(() => {return client ;});
             clientEnrollment.start(account, country,enr_lang);
             expect(clientRegistration.onContinueToEnroll).not.toBeCalled();
+        });
+        it('should display a message saying that they are in different groups if an account number entered is different from the group leader\'s group', () => {
+            var {client}  = require('./test-client-data');
+            roster.getClient = jest.fn().mockImplementationOnce(() => {return client ;});
+            state.vars.client_json = JSON.stringify(differentGroupClient);
+            clientEnrollment.start(account, country, enr_lang);
+            expect(sayText).toHaveBeenCalledWith('This farmer is not in your group. You can only enroll farmers in your group');
         });
         
     });

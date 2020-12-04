@@ -45,6 +45,10 @@ module.exports = {
                 to_number: contact.phone_number
             });*/
             state.vars.newClient = JSON.stringify(client);
+            if(!isInTheSameGroup(client)){
+                sayText(translate('client_in_different_group',{},state.vars.enr_lang));
+                global.stopRules();
+            }
             if(!alreadyEnrolled(client.AccountNumber)){
                 if(isValid(client)){
                     if(remainingLoan > 0 ){
@@ -75,7 +79,7 @@ module.exports = {
                     }
                 }
                 else{
-                    sayText(translate('enrolled_farmer_can_topUp',{},state.vars.enr_lang));
+                    sayText(translate('enrolled_farmer',{},state.vars.enr_lang));
                     
                 }
             }else{
@@ -90,6 +94,17 @@ module.exports = {
 
 };
 
+var isInTheSameGroup = function(client) { 
+    var glAccount = JSON.parse(state.vars.client_json);
+    console.log('###########################'+glAccount.GroupId);
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+ client.GroupId);
+    if(glAccount){
+        if(client.GroupId == glAccount.GroupId){
+            return true;
+        }
+    }
+    return false;
+};
 var isValid = function(client){
     if(client.BalanceHistory.length > 0){
         if(client.BalanceHistory[0].SeasonName == '2021, Long Rain')
