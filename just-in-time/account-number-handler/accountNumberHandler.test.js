@@ -33,11 +33,25 @@ describe('account_number_handler', () => {
         accountNumberHandler(validAccountNumber);
         expect(notifyELK).toHaveBeenCalled();
     });
-    it('should display a message saying that the client already topped up if the client topped up',() =>{
+    it('should display a message saying that the client already topped up if the client topped up with maximum 3 products',() =>{
         mockCursor.hasNext.mockReturnValueOnce(true);
+        var order = [
+            {bundleId: 123, bundleName: 'Maize'},
+            {bundleId: 124, bundleName: 'Rice'},
+            {bundleId: 125, bundleName: 'Irish'}];
+        mockCursor.next.mockReturnValueOnce({vars: {order: JSON.stringify(order)}});
         accountNumberHandler(validAccountNumber);
         expect(sayText).toHaveBeenCalledWith('This account number already belongs to an enrolled client.');
         expect(stopRules).toHaveBeenCalled();
+
+    });
+
+    it('should let clients order more products if they have topped up less than 3 products',() =>{
+        mockCursor.hasNext.mockReturnValueOnce(true);
+        var order = [{bundleId: 123, bundleName: 'Maize'}];
+        mockCursor.next.mockReturnValueOnce({vars: {order: JSON.stringify(order)}});
+        accountNumberHandler(validAccountNumber);
+        expect(rosterAPI.getClient).toHaveBeenCalledWith(validAccountNumber, 'KE');
 
     });
     it('should display a message saying that the client already enrolled through just in time if they have already enrolled',() =>{

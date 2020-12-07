@@ -62,5 +62,9 @@ module.exports = {
     'not_enrolled': {
         'en-ke': 'Farmer is not enrolled this season. Please try again.',
         'sw': 'Mkulima hakujiandikisha mwaka huu. Tafadhali jaribu tena.'
+    },
+    'order_more_products': {
+        'en-ke': 'Your past order ($products products):\n$order\nYou can order $more_products more products\n1. Order more\n2. Cancel',
+        'sw': 'Maagizo yako ya awali (bidhaa $products):\n$order\nUnaweza agiza bidhaa $more_products zaidi\n1. Agiza zaidi\n2. Funga'
     }
 };
