@@ -31,10 +31,7 @@ var dukaClient = require('../duka-client/dukaClient');
 var isCreditOfficer = require('../duka-client/checkCreditOfficer');
 var warrantyExpiration = require('../warranty-expiration/warrantyExpiration');
 var seedGerminationIssues = require('../seed-germination-issues/seedGerminationIssues');
-<<<<<<< HEAD
 var foDetails = require('../fo-details/foDetails');
-=======
->>>>>>> master
 var contactCallCenter = require('../contact-call-center/contactCallCenter');
 
 var slackLogger = require('../slack-logger/index');
