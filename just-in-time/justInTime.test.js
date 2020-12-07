@@ -239,6 +239,7 @@ describe('clientRegistration', () => {
             expect(sayText).toHaveBeenCalledWith(`You do not qualify for a top up, pay at least ${amount}`+
             ' to qualify.');
         });
+        
     });
     
     describe('bundle Choice Handler successfull callback',()=>{
@@ -459,6 +460,8 @@ describe('clientRegistration', () => {
             expect(mockRow.save).toHaveBeenCalled();
         });
         it('should send a message to the stored client\'s phone confirming the order is complete if the order is saved in roster',()=>{
+            mockTable.createRow.mockReturnValueOnce(mockRow);
+            project.initDataTableById.mockReturnValue(mockTable);
             var inactive_number = {'PhoneNumber': '0786182098', 'IsInactive': false};
             var active_number ={'PhoneNumber': '0786182098', 'IsInactive': true};
             getPhoneNumber.mockReturnValue([inactive_number, active_number]);
