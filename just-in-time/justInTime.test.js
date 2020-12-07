@@ -131,6 +131,7 @@ describe('clientRegistration', () => {
             ` ${mockRow.vars.price}`+
             '\n');
         });
+<<<<<<< HEAD
 
         it('should prompt for ordering more products for the returning clients',()=>{
             // mocking the past ordered products
@@ -150,6 +151,9 @@ describe('clientRegistration', () => {
         it('should display the maize bundle size(0.5 and 0.25) of maize bundles if a maize bundle is available and the client did not order anything',()=>{
             // mocking the past ordered products
             mockCursor.hasNext.mockReturnValueOnce(false);
+=======
+        it('should display the maize bundle size(0.5 and 0.25) of maize bundles if a maize bundle is available and the client did not order anything',()=>{
+>>>>>>> master
             mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true);
             mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
             state.vars.orders = ' ';
@@ -157,8 +161,11 @@ describe('clientRegistration', () => {
             expect(state.vars.bundles).toEqual(JSON.stringify(orders));
         });
         it('should display the maize bundle size(0.5 and 0.25) of maize bundles if a maize bundle is available and the client ordered other bundles than maize',()=>{
+<<<<<<< HEAD
             // mocking the past ordered products
             mockCursor.hasNext.mockReturnValueOnce(false);
+=======
+>>>>>>> master
             mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true);
             mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
             state.vars.orders = JSON.stringify(mockRows[1]);
@@ -216,6 +223,7 @@ describe('clientRegistration', () => {
             expect(sayText).toHaveBeenCalledWith(`You do not qualify for a top up, pay at least ${amount}`+
             ' to qualify.');
         });
+        
     });
     
     describe('bundle Choice Handler successfull callback',()=>{
@@ -299,7 +307,11 @@ describe('clientRegistration', () => {
             var mockRow = {vars: {'bundleId': '-8004','bundleInputId': '-8709','bundle_name': 'fourth possible name bundle','price': '5251','input_name': 'fourth input'}};
             state.vars.orders = JSON.stringify(firstBundles);
             var allBundles =  [{'bundleId': '-2009','bundleInputId': '-1709','bundleName': 'Second possible name bundle','price': '2251','inputName': 'second input'},{'bundleId': '-9009','bundleInputId': '-5709','bundleName': 'third possible name bundle','price': '6251','inputName': 'third input'}, {'bundleId': '-8004','bundleInputId': '-8709','bundleName': 'fourth possible name bundle','price': '5251','inputName': 'fourth input'}];
+<<<<<<< HEAD
             mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(false);
+=======
+            mockCursor.hasNext.mockReturnValueOnce(true);
+>>>>>>> master
             mockCursor.next.mockReturnValueOnce(mockRow); 
             callback(newBundle.bundleId);
             var orderMessage = '';
@@ -309,6 +321,7 @@ describe('clientRegistration', () => {
             expect(sayText).toHaveBeenCalledWith(`Order placed\n ${orderMessage}`+
             ' \n1) Confirm order\n 2) Go back');
         });  
+<<<<<<< HEAD
 
         it('should display the final message with the bundles if the number of ordered bundles added to the number of past ordered bundles is 3',()=>{
             var firstBundles = [{'bundleId': '-9009','bundleInputId': '-5709','bundleName': 'third possible name bundle','price': '6251','inputName': 'third input'}];
@@ -336,6 +349,14 @@ describe('clientRegistration', () => {
         const mockTable = { queryRows: jest.fn(), createRow: jest.fn() };
         const mockRow = {save: jest.fn(), vars: {}};
         var orders = [{'bundleName': 'Maize','price': 1000, 'bundleId': 251, 'bundleInputId': 1},{'bundleName': 'Pesticide','price': 3000, 'bundleId': 252, 'bundleInputId': 2}];
+=======
+    });
+    describe('order Confirmation Handler successfull callback',()=>{
+        var callback;
+        const mockTable = { queryRows: jest.fn(), createRow: jest.fn() };
+        const mockRow = {save: jest.fn()};
+        var orders = [{'bundleName': 'Maize','price': 1000},{'bundleName': 'Pesticide','price': 3000}];
+>>>>>>> master
         var ordersMessage = orders[0].bundleName + ' ' + orders[0].price + ' '+orders[1].bundleName + ' ' + orders[1].price+' ';
         beforeAll(()=>{
             state.vars.orders = JSON.stringify(orders);
@@ -352,7 +373,12 @@ describe('clientRegistration', () => {
         it('should send a message confirming the order is complete if the order is saved in roster',()=>{
             httpClient.request.mockReturnValue({status: 201});
             contact.phone_number = phoneNumber;
+<<<<<<< HEAD
             mockCursor.hasNext.mockReturnValueOnce(false);
+=======
+            mockTable.createRow.mockReturnValueOnce(mockRow);
+            project.initDataTableById.mockReturnValue(mockTable);
+>>>>>>> master
             var message = `Thank you for topping-up through JiT. Your order is ${ordersMessage}`+
             ' Reach out to CE through *689# if this  order is not correct';
             callback();
@@ -370,6 +396,8 @@ describe('clientRegistration', () => {
             expect(mockRow.save).toHaveBeenCalled();
         });
         it('should send a message to the stored client\'s phone confirming the order is complete if the order is saved in roster',()=>{
+            mockTable.createRow.mockReturnValueOnce(mockRow);
+            project.initDataTableById.mockReturnValue(mockTable);
             var inactive_number = {'PhoneNumber': '0786182098', 'IsInactive': false};
             var active_number ={'PhoneNumber': '0786182098', 'IsInactive': true};
             getPhoneNumber.mockReturnValue([inactive_number, active_number]);

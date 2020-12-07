@@ -32,6 +32,25 @@ var isValid = function(accountNumber){
                 }
             }
         }
+<<<<<<< HEAD
+=======
+    }
+    return false;
+};
+var hasAlreadyTopedUp = function(accounNumber){
+    var table = project.initDataTableById(service.vars.JiTEnrollmentTableId);
+    var cursor = table.queryRows({vars: {'account_number': accounNumber}});
+    if(cursor.hasNext()){
+        return true;
+    }
+    return false;
+};
+var enrolledThroughJustInTime = function(accountNumber){
+    var table = project.initDataTableById(service.vars.JITSucessfullRegId);
+    var cursor = table.queryRows({vars: {'account_number': accountNumber}}); 
+    if(cursor.hasNext()){
+        return true;
+>>>>>>> master
     }
     return false;
 };

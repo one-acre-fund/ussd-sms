@@ -11,7 +11,10 @@ var notifyELK = require('../notifications/elk-notification/elkNotification');
 var enrollOrder = require('../Roster-endpoints/enrollOrder');
 var translate =  createTranslator(translations, project.vars.lang);
 var getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
+<<<<<<< HEAD
 var orderMoreHandler = require('./order-more-handler/orderMoreHandler');
+=======
+>>>>>>> master
 module.exports = {
     registerHandlers: function (){
         addInputHandler(accountNumberHandler.handlerName, accountNumberHandler.getHandler(onAccountNumberValidated));
@@ -20,7 +23,10 @@ module.exports = {
         addInputHandler(varietyConfirmationHandler.handlerName, varietyConfirmationHandler.getHandler(onBundleSelected,displayBundles));
         addInputHandler(addOrderHandler.handlerName, addOrderHandler.getHandler(onFinalizeOrder,displayBundles));
         addInputHandler(orderConfirmationHandler.handlerName, orderConfirmationHandler.getHandler(onOrderConfirmed,displayBundles));
+<<<<<<< HEAD
         addInputHandler(orderMoreHandler.handlerName, orderMoreHandler.getHandler(onOrderMore));
+=======
+>>>>>>> master
 
     },
 
@@ -174,8 +180,12 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
         }
         //Display confirmation message
         state.vars.orders = JSON.stringify(allBundles);
+<<<<<<< HEAD
         var orderedProducts = getPastOrderedProducts();
         if(allBundles.length == 3 || (orderedProducts.length + allBundles.length) == 3){
+=======
+        if(allBundles.length == 3){
+>>>>>>> master
             sayText(translate('final_order_display',{'$orders': orderMessage },state.vars.jitLang));
             promptDigits(orderConfirmationHandler.handlerName);
         }
@@ -225,6 +235,7 @@ function onOrderConfirmed(){
                 orderPlacedMessage = orderPlacedMessage + orderPlaced[m].bundleName + ' ' + orderPlaced[m].price + ' ';
             }
         } 
+<<<<<<< HEAD
 
         var alreadyOrderedBundles = getPastOrderedProducts(); // geting past orders for returning clients (returns an empty array for first time clients)
         var row;
@@ -240,6 +251,10 @@ function onOrderConfirmed(){
         } else {
             row = table.createRow({vars: {'account_number': client.AccountNumber, 'order': JSON.stringify(requestBundles)}});
         }
+=======
+        var table = project.initDataTableById(service.vars.JiTEnrollmentTableId);
+        var row = table.createRow({vars: {'account_number': client.AccountNumber, 'order': JSON.stringify(requestBundles)}});
+>>>>>>> master
         row.save();
         var message = translate('final_message',{'$products': orderPlacedMessage},state.vars.jitLang);
         sayText(message);
@@ -267,6 +282,10 @@ var getAllSupportedBundles = function (district) {
     console.log('district ID:' + district);
     var bundleInputs = getBundlesInputs(district);
     state.vars.currentDistrict = district;
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
     var unique = [];
     var bundles = [];
     var maizeBanedBundleIds= [];
@@ -362,6 +381,13 @@ function displayBundles(district){
         state.vars.input_menu = JSON.stringify(menu);
     }
 
+}
+function bundleExists(bundles,bundleId) {
+    for (var o =0; o<bundles.length; o++){
+        if(bundles[o].bundleId === bundleId)
+            return true;
+    }
+    return false; 
 }
 
 var removeOrderedBundles = function(allBundles) {
