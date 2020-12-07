@@ -97,7 +97,7 @@ module.exports = {
 var isInTheSameGroup = function(client) { 
     var glAccount = JSON.parse(state.vars.client_json);
     console.log('###########################'+glAccount.GroupId);
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+ client.GroupId);
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'+ client.GroupId);
     if(glAccount){
         if(client.GroupId == glAccount.GroupId){
             return true;

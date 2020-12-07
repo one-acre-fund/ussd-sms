@@ -80,23 +80,24 @@ module.exports = {
     getHandler: function(onAccountNumberValidated){
         return function (input) {
             notifyELK();
-            if(hasAlreadyTopedUp(input)){
-                global.sayText(translate('already_placed_order',{},state.vars.jitLang));
-                global.stopRules();
-            }
-            else if(enrolledThroughJustInTime(input)){
-                global.sayText(translate('jit_client',{},state.vars.jitLang));
-                global.stopRules();
-            }
-            else if(!isValid(input)){
+            if(!isValid(input)){
                 global.sayText(translate('not_enrolled',{},state.vars.jitLang));
                 global.stopRules();
-            }
-            else if(isInTheSameGroup()){
+            } else if(!isInTheSameGroup()){
+                global.sayText(translate('account_number_wrong_group',{},state.vars.jitLang));
+                global.promptDigits(handlerName);
+            }else if(enrolledThroughJustInTime(input)){
+                global.sayText(translate('jit_client',{},state.vars.jitLang));
+                global.stopRules();
+            }else if(hasAlreadyTopedUp(input)){
+                global.sayText(translate('already_placed_order',{},state.vars.jitLang));
+                global.stopRules();
+            } else{
                 var client = JSON.parse(state.vars.topUpClient);
                 var paid = 0;
-                if(client.BalanceHistory.length > 0)
+                if(client.BalanceHistory.length > 0) {
                     paid = client.BalanceHistory[0].TotalRepayment_IncludingOverpayments;
+                }
                 if(paid < 500)
                 {
                     global.sayText(translate('remaining_balance',{'$amount': (500-paid)},state.vars.jitLang));
@@ -108,10 +109,6 @@ module.exports = {
                         onAccountNumberValidated();
                     }  
                 }
-            }
-            else{
-                global.sayText(translate('account_number_wrong_group',{},state.vars.jitLang));
-                global.promptDigits(handlerName);
             }
         };
     }

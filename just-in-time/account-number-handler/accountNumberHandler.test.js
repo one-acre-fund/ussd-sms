@@ -29,13 +29,38 @@ describe('account_number_handler', () => {
         state.vars.country = 'KE';
         state.vars.jitLang = 'en-ke';
         state.vars.client_json = JSON.stringify(client);
+        state.vars.topUpClient = JSON.stringify(client);
     });
     it('should call notifyELK ', () => {
         accountNumberHandler(validAccountNumber);
         expect(notifyELK).toHaveBeenCalled();
     });
-    it('should display a message saying that the client already topped up if the client topped up with maximum 3 products',() =>{
+    it('should  display a message saying that the client did not enroll if the account number is not valid', () => {
+        mockCursor.hasNext.mockReturnValue(false);
+        rosterAPI.getClient.mockReturnValueOnce(false);
+        accountNumberHandler(inValidAccount);
+        expect(sayText).toHaveBeenCalledWith('Farmer is not enrolled this season. Please try again.');
+        expect(stopRules).toHaveBeenCalled();
+    });
+    it('should  reprompt for an account number if the given client\'s group is different from the group leader\'s group', () => {
+        secondClient.BalanceHistory[0].SeasonName = '2021, Long Rain';
+        rosterAPI.getClient.mockReturnValue(secondClient);
+        accountNumberHandler(validAccountNumber);
+        expect(sayText).toHaveBeenCalledWith('This farmer is not in your group. You can only top-up farmers in your group');
+        expect(promptDigits).toHaveBeenCalledWith(handlerName);
+    });
+    it('should display a message saying that the client already enrolled through just in time if they have already enrolled',() =>{
+        client.BalanceHistory[0].SeasonName = '2021, Long Rain';
+        rosterAPI.getClient.mockReturnValue(client);
         mockCursor.hasNext.mockReturnValueOnce(true);
+        accountNumberHandler(validAccountNumber);
+        expect(sayText).toHaveBeenCalledWith('This farmer is registered through JIT enrollement. They cannot top up.');
+        expect(stopRules).toHaveBeenCalled();
+    });
+    it('should display a message saying that the client already topped up if the client topped up with maximum 3 products',() =>{
+        client.BalanceHistory[0].SeasonName = '2021, Long Rain';
+        rosterAPI.getClient.mockReturnValue(client);
+        mockCursor.hasNext.mockReturnValueOnce(false).mockRejectedValueOnce(true);
         var order = [
             {bundleId: 123, bundleName: 'Maize'},
             {bundleId: 124, bundleName: 'Rice'},
@@ -44,30 +69,15 @@ describe('account_number_handler', () => {
         accountNumberHandler(validAccountNumber);
         expect(sayText).toHaveBeenCalledWith('You have already ordered 3 products. You are not able to order additional products.');
         expect(stopRules).toHaveBeenCalled();
-
     });
 
     it('should let clients order more products if they have topped up less than 3 products',() =>{
-        mockCursor.hasNext.mockReturnValueOnce(true);
+        mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(true);
         var order = [{bundleId: 123, bundleName: 'Maize'}];
         mockCursor.next.mockReturnValueOnce({vars: {order: JSON.stringify(order)}});
         accountNumberHandler(validAccountNumber);
         expect(rosterAPI.getClient).toHaveBeenCalledWith(validAccountNumber, 'KE');
 
-    });
-    it('should display a message saying that the client already enrolled through just in time if they have already enrolled',() =>{
-        mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(true);
-        accountNumberHandler(validAccountNumber);
-        expect(sayText).toHaveBeenCalledWith('This farmer is registered through JIT enrollement. They cannot top up.');
-        expect(stopRules).toHaveBeenCalled();
-
-    });
-    it('should  display a message saying that the client did not enroll if the account number is not valid', () => {
-        mockCursor.hasNext.mockReturnValue(false);
-        rosterAPI.getClient.mockReturnValueOnce(false);
-        accountNumberHandler(inValidAccount);
-        expect(sayText).toHaveBeenCalledWith('Farmer is not enrolled this season. Please try again.');
-        expect(stopRules).toHaveBeenCalled();
     });
     it('should  display a message saying that the client did not enroll if the current season is different from the season received from their account', () => {
         client.BalanceHistory[0].SeasonName = '2020, Long Rain';
@@ -85,14 +95,6 @@ describe('account_number_handler', () => {
         accountNumberHandler(validAccountNumber);
         expect(JSON.parse(state.vars.topUpClient).BalanceHistory.length).toEqual(3);
     });
-    it('should  reprompt for an account number if the given client\'s group is different from the group leader\'s group', () => {
-        client.BalanceHistory[0].SeasonName = '2021, Long Rain';
-        rosterAPI.getClient.mockReturnValue(client);
-        state.vars.client_json = JSON.stringify(secondClient);
-        accountNumberHandler(validAccountNumber);
-        expect(sayText).toHaveBeenCalledWith('This farmer is not in your group. You can only top-up farmers in your group');
-        expect(promptDigits).toHaveBeenCalledWith(handlerName);
-    });
     it('should  display the amount remaining if the client is valid but did not pay the minimum 500', () => {
         client.BalanceHistory[0].SeasonName = '2021, Long Rain';
         client.BalanceHistory[0].TotalRepayment_IncludingOverpayments = 200;
@@ -108,6 +110,7 @@ describe('account_number_handler', () => {
         client.BalanceHistory[0].SeasonName = '2021, Long Rain';
         client.BalanceHistory[0].TotalRepayment_IncludingOverpayments = 500;
         rosterAPI.getClient.mockReturnValue(client);
+        rosterAPI.authClient.mockReturnValue(true);
         state.vars.client_json = JSON.stringify(client);
         mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(true);
         mockCursor.next.mockReturnValueOnce(mockWarehouseRow);

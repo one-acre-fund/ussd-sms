@@ -2,11 +2,11 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
-
+### Changed
+* [MOB-80](https://oneacrefund.atlassian.net/browse/MOB-80) Add Columns to JiT USSD tables in Telerivet
 ### Added
 * [SER-364](https://oneacrefund.atlassian.net/browse/SER-364) Check whether a product is available in the closest warehouse based on the client's district
 ### Changed
-* [MOB-80](https://oneacrefund.atlassian.net/browse/MOB-80) Add Columns to JiT USSD tables in Telerivet
 * [MOB-70](https://oneacrefund.atlassian.net/browse/MOB-70) JiT Kenya: As a GL, when I enter an account number for a client not in my group, I need a pop with a descriptive error message
 ## Fixed
 * [SER-368](https://oneacrefund.atlassian.net/browse/SER-368) As a client, I need to be limited to ordering three products max
