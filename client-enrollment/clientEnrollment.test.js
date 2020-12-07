@@ -13,7 +13,9 @@ const country = 'KE';
 const enr_lang = 'en-ke';
 const foPhone = '0786182098';
 var mockTable = { createRow: jest.fn(), queryRows: jest.fn()};
+var mockCursor = {next: jest.fn(), hasNext: jest.fn()};
 var mockRow = {save: jest.fn(),next: jest.fn(), hasNext: jest.fn(),vars: {'account_number': account}};
+var wareHouseRow = {vars: {'warehouse': 'name'}};
 describe('clientRegistration', () => {
     beforeAll(()=>{
         roster.getClient = jest.fn();
@@ -21,8 +23,8 @@ describe('clientRegistration', () => {
         project.sendMessage = jest.fn();
         mockTable.createRow.mockReturnValue(mockRow);
         project.initDataTableById = jest.fn().mockReturnValue(mockTable);
-        mockTable.queryRows.mockReturnValue(mockRow);
-        mockRow.hasNext.mockReturnValue(false);
+        mockTable.queryRows.mockReturnValue(mockCursor);
+        ////mockRow.hasNext.mockReturnValue(false);
         mockRow.next.mockReturnValue(mockRow);
         clientRegistration.onContinueToEnroll = jest.fn().mockImplementationOnce(() => {
             return true;
@@ -53,7 +55,13 @@ describe('clientRegistration', () => {
             clientEnrollment.start(account, country, enr_lang);
             expect(roster.authClient).toHaveBeenCalledTimes(1);
         });
-
+        it('should have a display a message saying the client is already enrolled if they have enrolled', () => {
+            var {client}  = require('./test-client-data');
+            roster.getClient = jest.fn().mockImplementationOnce(() => {return client ;});
+            mockCursor.hasNext.mockReturnValueOnce(true);
+            clientEnrollment.start(account, country, enr_lang);
+            expect(sayText).toHaveBeenCalledWith('This client is already enrolled through JiT.');
+        });
         it('should call roster.getClinet if roster.authClient returns true', () => {
             clientEnrollment.start(account, country, enr_lang);
             expect(roster.getClient).toHaveBeenCalledTimes(1);
@@ -124,6 +132,8 @@ describe('clientRegistration', () => {
                 'phoneNumber': foPhone
             };});
             contact.phone_number = '0789098965';
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(wareHouseRow);
             clientEnrollment.start(account, country, enr_lang);
             expect(mockTable.createRow).toHaveBeenCalledWith({
                 'contact_id': contact.id,
@@ -157,6 +167,8 @@ describe('clientRegistration', () => {
         it('should call on continue to enroll if the account number is not in 2021 Long rain', () => {
             var {client}  = require('./test-client-with-loan');
             client.BalanceHistory[0].SeasonName = '2020, Long Rain';
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(wareHouseRow);
             client.BalanceHistory[0].TotalRepayment_IncludingOverpayments = 10000;
             roster.getClient = jest.fn().mockImplementationOnce(() => {return client ;});
             clientEnrollment.start(account, country,enr_lang);
@@ -173,9 +185,19 @@ describe('clientRegistration', () => {
         it('should call on continue to enroll if the account number has no balance history', () => {
             var {client}  = require('./test-client-with-loan');
             client.BalanceHistory=[];
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(wareHouseRow);
             roster.getClient = jest.fn().mockImplementationOnce(() => {return client ;});
             clientEnrollment.start(account, country,enr_lang);
             expect(clientRegistration.onContinueToEnroll).toBeCalled();
+        });
+        it('should call not call continue to enroll if the wareHouse for that district is not found', () => {
+            var {client}  = require('./test-client-with-loan');
+            client.BalanceHistory=[];
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(false);
+            roster.getClient = jest.fn().mockImplementationOnce(() => {return client ;});
+            clientEnrollment.start(account, country,enr_lang);
+            expect(clientRegistration.onContinueToEnroll).not.toBeCalled();
         });
         
     });
