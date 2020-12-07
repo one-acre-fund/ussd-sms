@@ -33,6 +33,7 @@ describe('account_number_handler', () => {
         accountNumberHandler(validAccountNumber);
         expect(notifyELK).toHaveBeenCalled();
     });
+<<<<<<< HEAD
     it('should display a message saying that the client already topped up if the client topped up with maximum 3 products',() =>{
         mockCursor.hasNext.mockReturnValueOnce(true);
         var order = [
@@ -40,10 +41,15 @@ describe('account_number_handler', () => {
             {bundleId: 124, bundleName: 'Rice'},
             {bundleId: 125, bundleName: 'Irish'}];
         mockCursor.next.mockReturnValueOnce({vars: {order: JSON.stringify(order)}});
+=======
+    it('should display a message saying that the client already topped up if the client topped up',() =>{
+        mockCursor.hasNext.mockReturnValueOnce(true);
+>>>>>>> origin/master
         accountNumberHandler(validAccountNumber);
         expect(sayText).toHaveBeenCalledWith('This account number already belongs to an enrolled client.');
         expect(stopRules).toHaveBeenCalled();
 
+<<<<<<< HEAD
     });
 
     it('should let clients order more products if they have topped up less than 3 products',() =>{
@@ -53,6 +59,8 @@ describe('account_number_handler', () => {
         accountNumberHandler(validAccountNumber);
         expect(rosterAPI.getClient).toHaveBeenCalledWith(validAccountNumber, 'KE');
 
+=======
+>>>>>>> origin/master
     });
     it('should display a message saying that the client already enrolled through just in time if they have already enrolled',() =>{
         mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(true);
@@ -80,7 +88,11 @@ describe('account_number_handler', () => {
         rosterAPI.getClient.mockReturnValue(client);
         state.vars.client_json = JSON.stringify(secondClient);
         accountNumberHandler(validAccountNumber);
+<<<<<<< HEAD
         expect(sayText).toHaveBeenCalledWith('This farmer is not in your group. You can only top-up farmers in your group');
+=======
+        expect(sayText).toHaveBeenCalledWith('Please reply with the account number of the farmer who want to top-up.');
+>>>>>>> origin/master
         expect(promptDigits).toHaveBeenCalledWith(handlerName);
     });
     it('should  display the amount remaining if the client is valid but did not pay the minimum 500', () => {
