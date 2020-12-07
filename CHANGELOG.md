@@ -24,6 +24,7 @@ All notable changes to this project will be documented in this file.
 * [SER-353](https://oneacrefund.atlassian.net/browse/SER-353) Add option to change language to English when testing for USSD
 * [SER-343](https://oneacrefund.atlassian.net/browse/SER-343) Enable prepayment calculator. Add 10% of prepayment amount
 * [MOB-15](https://oneacrefund.atlassian.net/browse/MOB-15) Add USSD Field Officer Details to main menu
+* [MOB-41](https://oneacrefund.atlassian.net/browse/MOB-41) Add auto cleanup for CallBackUSSD datatable
 
 ## v1.2.2
 ### Fixed
