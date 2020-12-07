@@ -57,18 +57,21 @@ module.exports = {
                         state.vars.account = client.AccountNumber;
                         state.vars.country = 'KE';
                         state.vars.reg_lang = state.vars.enr_lang;
-                        clientRegistration.onContinueToEnroll();
-                        var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
-                        var row = table.createRow({
-                            'contact_id': contact.id,
-                            'from_number': contact.from_number,
-                            'vars': {
-                                'account_number': client.AccountNumber,
-                                'national_id': client.NationalId,
-                                'new_client': '0'
-                            }
-                        });
-                        row.save();
+                        state.vars.warehouse = getWarehouse(client.DistrictName);
+                        if(state.vars.warehouse != false){
+                            clientRegistration.onContinueToEnroll();
+                            var table = project.initDataTableById(service.vars.lr_2021_client_table_id);
+                            var row = table.createRow({
+                                'contact_id': contact.id,
+                                'from_number': contact.from_number,
+                                'vars': {
+                                    'account_number': client.AccountNumber,
+                                    'national_id': client.NationalId,
+                                    'new_client': '0'
+                                }
+                            });
+                            row.save();
+                        }
                     }
                 }
                 else{
@@ -102,4 +105,21 @@ var alreadyEnrolled = function(accountNumber){
         return true;
     }
     return false;
+};
+var getWarehouse = function(districtName){
+    var table  = project.initDataTableById(service.vars.districtWarehouseTableId);
+    var cursor = table.queryRows({vars: {'districtname': districtName}});
+    if(cursor.hasNext()){
+        var row = cursor.next();
+        var varietyTable = project.initDataTableById(service.vars.districtVarietyTableId);
+        var varietyWarehouseCursor = varietyTable.queryRows({vars: {'districtname': districtName}});
+        if(varietyWarehouseCursor.hasNext()){
+            var varietyRow = varietyWarehouseCursor.next();
+            state.vars.varietyWarehouse = varietyRow.vars.warehouse;
+        }
+        return row.vars.warehouse;
+    }
+    else{
+        return false;
+    }
 };

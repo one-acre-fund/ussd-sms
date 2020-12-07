@@ -36,7 +36,17 @@ module.exports = {
                     selectedBundle.push(bundleInputs[i]);
                 }
             }
-            var allVarieties = selectedBundle;
+            var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
+            var allVarieties =[];
+            selectedBundle.forEach(function(element){
+                var stockCursor = varietyStockTable.queryRows({vars: {'warehousename': state.vars.varietyWarehouse,'inputname': element.inputName}});
+                if(stockCursor.hasNext()){
+                    var row = stockCursor.next();
+                    if(row.vars.quantityavailable > row.vars.quantityordered){
+                        allVarieties.push(element);
+                    }
+                }
+            });
             notifyELK();
             if (state.vars.multiple_input_menus) {
                 if (input == 44 && state.vars.input_menu_loc > 0) {

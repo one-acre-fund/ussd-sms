@@ -3,14 +3,20 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
-
+## v1.4.0
+### changed
 * [SER-343](https://oneacrefund.atlassian.net/browse/SER-343) Enable prepayment calculator. Add 10% of prepayment amount
+### Added
 * [MOB-15](https://oneacrefund.atlassian.net/browse/MOB-15) Add USSD Field Officer Details to main menu
+### Added
 * [MOB-41](https://oneacrefund.atlassian.net/browse/MOB-41) Add auto cleanup for CallBackUSSD datatable
+### Added
+* [SER-364](https://oneacrefund.atlassian.net/browse/SER-364) Check whether a product is available in the closest warehouse based on the client's district
 ### Changed
 * [MOB-70](https://oneacrefund.atlassian.net/browse/MOB-70) JiT Kenya: As a GL, when I enter an account number for a client not in my group, I need a pop with a descriptive error message
-## Fixed
+## Changed
 * [SER-368](https://oneacrefund.atlassian.net/browse/SER-368) As a client, I need to be limited to ordering three products max
+## Changed
 * [SER-367](https://oneacrefund.atlassian.net/browse/SER-367) As a client, I need to be able to place multiple orders across multiple USSD cycles
 
 ## v1.3.0

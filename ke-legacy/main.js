@@ -54,9 +54,16 @@ service.vars.maizeEnrollmentTableId  = project.vars[env + '_maize_enr_table_id']
 service.vars.maizeTableId = project.vars[env + '_maize_bundle_table_id'];
 service.vars.topUpBundleTableId = project.vars[env + '_topUp_bundlesId'];
 service.vars.enrollmentBundleTableId = project.vars[env + '_enrollment_bundles_id'];
+//
+service.vars.districtVarietyTableId = project.vars[env + '_districtVarietyTableId'];
+service.vars.varietyStockTableId = project.vars[env + '_varietyStockTableId'];
+service.vars.warehouseStockTableId = project.vars[env + '_warehouseStockTableId'];
+service.vars.districtWarehouseTableId = project.vars[env+ '_districtWarehouseTableId'];
+
 if(env == 'prod'){
     service.vars.JiTEnrollmentTableId = 'DT52cebb451097ac25';
     service.vars.JITSucessfullRegId = 'DTa403c7245c904c18';
+    
 }
 else{
     service.vars.JiTEnrollmentTableId = 'DT7a66f47aa004743c';
@@ -271,7 +278,7 @@ var ValNationalID = function(input){
 };
 
 var GetPrepaymentAmount = function(client){
-   return client.BalanceHistory[0].TotalCredit * 0.1;
+    return client.BalanceHistory[0].TotalCredit * 0.1;
 };
 var FAWActive = function (districtname){
     var Table = project.getOrCreateDataTable('FAW Districts');
