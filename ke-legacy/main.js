@@ -31,6 +31,7 @@ var dukaClient = require('../duka-client/dukaClient');
 var isCreditOfficer = require('../duka-client/checkCreditOfficer');
 var warrantyExpiration = require('../warranty-expiration/warrantyExpiration');
 var seedGerminationIssues = require('../seed-germination-issues/seedGerminationIssues');
+var foDetails = require('../fo-details/foDetails');
 var contactCallCenter = require('../contact-call-center/contactCallCenter');
 
 var slackLogger = require('../slack-logger/index');
@@ -53,9 +54,16 @@ service.vars.maizeEnrollmentTableId  = project.vars[env + '_maize_enr_table_id']
 service.vars.maizeTableId = project.vars[env + '_maize_bundle_table_id'];
 service.vars.topUpBundleTableId = project.vars[env + '_topUp_bundlesId'];
 service.vars.enrollmentBundleTableId = project.vars[env + '_enrollment_bundles_id'];
+//
+service.vars.districtVarietyTableId = project.vars[env + '_districtVarietyTableId'];
+service.vars.varietyStockTableId = project.vars[env + '_varietyStockTableId'];
+service.vars.warehouseStockTableId = project.vars[env + '_warehouseStockTableId'];
+service.vars.districtWarehouseTableId = project.vars[env+ '_districtWarehouseTableId'];
+
 if(env == 'prod'){
     service.vars.JiTEnrollmentTableId = 'DT52cebb451097ac25';
     service.vars.JITSucessfullRegId = 'DTa403c7245c904c18';
+    
 }
 else{
     service.vars.JiTEnrollmentTableId = 'DT7a66f47aa004743c';
@@ -268,28 +276,9 @@ var ValNationalID = function(input){
     if (NumChar == 7 || NumChar == 8){return true;}
     else {return false;}
 };
-var IsPrePayTrialDistrict = function (){
-    return false;
-    //districtname = districtname.toLowerCase();
-    //if (districtname == "nyando" || districtname == "kipkelion" || districtname == "chwele"){return true}
-    //else {return false}
-};
+
 var GetPrepaymentAmount = function(client){
-    var ClientDistrict = client.DistrictName.toLowerCase();
-    var prepay = IsPrePayTrialDistrict(ClientDistrict);
-    if (prepay){
-        var PrePayTable = project.getOrCreateDataTable('PrePayment_IndividualAmounts');
-        var PrePayCursor = PrePayTable.queryRows({vars: {'accnum': client.AccountNumber}});
-        PrePayCursor.limit(1);
-        if (PrePayCursor.hasNext()) {
-            var PrePayRow = PrePayCursor.next();
-            return PrePayRow.vars.prepaymentamount;}
-        else {sendEmail('charles.lipeyah@oneacrefund.org', 'Prepayment amount not found', 'Prepayment amount not uploaded from client with acc num :'+ client.AccountNumber+ ' in district: '+client.DistrictName);
-            return 'Error';
-        }
-    }
-    else {return 500;}
-    // line
+    return client.BalanceHistory[0].TotalCredit * 0.1;
 };
 var FAWActive = function (districtname){
     var Table = project.getOrCreateDataTable('FAW Districts');
@@ -1633,7 +1622,6 @@ addInputHandler('SplashMenu', function(SplashMenu) {
             console.log('SuccessFully Validated against Roster');
             client = RosterClientGet(ClientAccNum);
             state.vars.client_json = JSON.stringify(reduceClientSize(client));
-            
             // check for group leader
             var isGroupLeader = checkGroupLeader(client.DistrictId, client.ClientId);
             state.vars.isGroupLeader = isGroupLeader;
@@ -1839,6 +1827,9 @@ addInputHandler('MainMenu', function(SplashMenu){
     else if(sessionMenu[SplashMenu - 1].option_name ===  'report_seed_quality') {
         //start the seed germination issues
         seedGerminationIssues.start(langWithEnke);
+    }
+    else if(sessionMenu[SplashMenu - 1].option_name ===  'fo_details') {
+        foDetails.start(langWithEnke);
     }
     else{
         var arrayLength = client.BalanceHistory.length;
@@ -3180,7 +3171,6 @@ addInputHandler('TrainingSelect', function(input) {
     }
     InteractionCounter('TrainingSelect');
     var trainingsOptions = JSON.parse(state.vars.trainings_options);
-    
     if (input == 0 ){
         TrainingMenuNextText();
         promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});
@@ -3238,7 +3228,7 @@ addInputHandler('TrainingSelect', function(input) {
         nutritionTraining(GetLang()? 'en-ke' : 'sw', project.vars.nutrition_training_service);
     }
     else if (trainingsOptions[input] == 'soil_fertillity') {
-        // trigger the nutrition training 
+        // trigger the nutrition training
         var lang;
         if(GetLang()) {
             lang = 'en-ke';
@@ -3247,9 +3237,9 @@ addInputHandler('TrainingSelect', function(input) {
         }
         var TriggersoilTraining = require('../soil-fertility-trainings/triggerService');
         TriggersoilTraining(lang, project.vars.soil_training_service_id);
-    } else{	
-        TrainingMenuText();	
-        promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});	
+    } else{
+        TrainingMenuText();
+        promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
 });
 

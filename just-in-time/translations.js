@@ -4,6 +4,10 @@ module.exports = {
         'en-ke': 'Please reply with the account number of the farmer who want to top-up.',
         'sw': 'Tafadhali jibu na nambari ya akaunti ya mkulima anayetaka kuongeza bidhaa.'
     },
+    'account_number_wrong_group': {
+        'en-ke': 'This farmer is not in your group. You can only top-up farmers in your group',
+        'sw': 'Huyu mkulima sio mmoja wa kikundi chako. Unaweza tu kumwongeza bidhaa mkulima wa kikundi chako'
+    },
     'loan_payment_not_satisfied': {
         'en-ke': 'You do not qualify for a top up, pay at least $amount to qualify.',
         'sw': 'Bado haujahitimu kuongeza bidhaa, lipa $amount  kuhitimu.'
@@ -58,5 +62,9 @@ module.exports = {
     'not_enrolled': {
         'en-ke': 'Farmer is not enrolled this season. Please try again.',
         'sw': 'Mkulima hakujiandikisha mwaka huu. Tafadhali jaribu tena.'
+    },
+    'order_more_products': {
+        'en-ke': 'Your past order ($products products):\n$order\nYou can order $more_products more products\n1. Order more\n2. Cancel',
+        'sw': 'Maagizo yako ya awali (bidhaa $products):\n$order\nUnaweza agiza bidhaa $more_products zaidi\n1. Agiza zaidi\n2. Funga'
     }
 };

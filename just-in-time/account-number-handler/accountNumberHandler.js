@@ -39,7 +39,9 @@ var hasAlreadyTopedUp = function(accounNumber){
     var table = project.initDataTableById(service.vars.JiTEnrollmentTableId);
     var cursor = table.queryRows({vars: {'account_number': accounNumber}});
     if(cursor.hasNext()){
-        return true;
+        var row = cursor.next();
+        var productsOrdered = row.vars.order;
+        return hasOrderedMaxProducts(JSON.parse(productsOrdered));
     }
     return false;
 };
@@ -51,6 +53,28 @@ var enrolledThroughJustInTime = function(accountNumber){
     }
     return false;
 };
+var getWarehouse = function(districtName){
+    var table  = project.initDataTableById(service.vars.districtWarehouseTableId);
+    var cursor = table.queryRows({vars: {'districtname': districtName}});
+    if(cursor.hasNext()){
+        var row = cursor.next();
+        var varietyTable = project.initDataTableById(service.vars.districtVarietyTableId);
+        var varietyWarehouseCursor = varietyTable.queryRows({vars: {'districtname': districtName}});
+        if(varietyWarehouseCursor.hasNext()){
+            var varietyRow = varietyWarehouseCursor.next();
+            state.vars.varietyWarehouse = varietyRow.vars.warehouse;
+        }
+        return row.vars.warehouse;
+    }
+    else{
+        return false;
+    }
+};
+
+var hasOrderedMaxProducts = function(productsOrdered) {
+    return productsOrdered && productsOrdered.length >= 3; // max products to order is 3 at the moment
+};
+
 module.exports = {
     handlerName: handlerName,
     getHandler: function(onAccountNumberValidated){
@@ -79,11 +103,14 @@ module.exports = {
                     global.stopRules();
                 }
                 else{
-                    onAccountNumberValidated();
+                    state.vars.warehouse = getWarehouse(client.DistrictName);
+                    if(state.vars.warehouse != false){
+                        onAccountNumberValidated();
+                    }  
                 }
             }
             else{
-                global.sayText(translate('account_number_handler',{},state.vars.jitLang));
+                global.sayText(translate('account_number_wrong_group',{},state.vars.jitLang));
                 global.promptDigits(handlerName);
             }
         };
