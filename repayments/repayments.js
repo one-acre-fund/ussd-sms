@@ -5,6 +5,7 @@ var logger = require('../slack-logger/index');
 var validateProjectVatiables = require('./validateProjectVariables');
 var getHealthyPathPercentage = require('../healthy-path/utils/getHealthyPathPercentage');
 var calculateHealthyPath= require('../healthy-path/utils/healthyPathCalculator');
+var _ = require('underscore');
 
 var defaultEnvironment; 
 if(service.active){
@@ -124,7 +125,8 @@ project.sendMessage({
     route_id: project.vars.repayments_sms_route,
     message_type: 'sms'
 });
-var activePhoneNumber =  active_phone_numbers && active_phone_numbers[0] && active_phone_numbers[0].PhoneNumber;
+var sortedPhoneNumbers = active_phone_numbers && _.sortBy(active_phone_numbers, 'PhoneNumberTypeId').reverse();
+var activePhoneNumber =  sortedPhoneNumbers && sortedPhoneNumbers[0] && sortedPhoneNumbers[0].PhoneNumber;
 if(activePhoneNumber && activePhoneNumber !== contact.phone_number){
     project.sendMessage({
         content: mmReceipt,
