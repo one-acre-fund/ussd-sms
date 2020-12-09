@@ -76,7 +76,7 @@ function addProcessedBundlesToDistrict(processedBundles, districtId) {
         }
     });
 
-    fs.writeFile ("enrollmentBundles.js", JSON.stringify(allBundles), function(err) {
+    fs.writeFile ("allBundles.js", JSON.stringify(allBundles), function(err) {
         if (err) throw err;
         console.log('complete');
         }
