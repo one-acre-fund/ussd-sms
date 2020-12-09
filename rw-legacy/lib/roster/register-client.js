@@ -48,7 +48,7 @@ module.exports = function (clientJSON, lang) {
                 var accountNumber = parseInt(JSON.parse(response.content).AccountNumber.replace(/\"/g, ' '));
                 if((isNaN(accountNumber)) || (accountNumber == null) || (typeof(accountNumber) == undefined)){
                     sayText(msgs('FAILURE_REGISTERING', {}, lang));
-                    if(logger) logger.warn('Error Registering a new Client',{tags: [service.vars.env],data: response});
+                    if(logger) logger.warn('Error Registering a new Client',{tags: [service.vars.env],data: {response: response, request: opts.data}});
                     stopRules();
                     return null;
                 }
@@ -60,7 +60,7 @@ module.exports = function (clientJSON, lang) {
             }  
             else{
                 sayText(msgs('FAILURE_REGISTERING', {}, lang));
-                if(logger) logger.warn('Error Registering a new Client',{tags: [service.vars.env],data: response});
+                if(logger) logger.warn('Error Registering a new Client',{tags: [service.vars.env],data: {response: response, request: opts.data}});
                 stopRules();
                 return null;
             }  
@@ -68,7 +68,7 @@ module.exports = function (clientJSON, lang) {
         else {
             logResponse(fullUrl, response);
             sayText(msgs('FAILURE_REGISTERING'), {}, lang);
-            if(logger) logger.warn('Error Registering a new Client',{tags: [service.vars.env],data: response});
+            if(logger) logger.warn('Error Registering a new Client',{tags: [service.vars.env],data: {response: response, request: opts.data}});
             stopRules();
             return null;
         }

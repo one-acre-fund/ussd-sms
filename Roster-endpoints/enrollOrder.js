@@ -19,7 +19,7 @@ module.exports = function send_request(requestData) {
             return true;
         }else{
             var logger = new Log();
-            logger.warn('Failed to enroll ',{data: response});
+            logger.warn('Failed to enroll ',{data: {response: response, request: opts.data}});
             console.log('#### ENR_Failed to save' + JSON.stringify(response));
         }
     } catch (e) {
