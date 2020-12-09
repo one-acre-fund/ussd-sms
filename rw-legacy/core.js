@@ -87,6 +87,7 @@ var groupRepaymentsModule = require('../group-repayments/groupRepayments');
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 var avocadoTreesOrdering = require('../avocado-trees-ordering/avocadoTreesOrdering');
 var clientRegistration = require('../client-registration/clientRegistration');
+const triggerService = require('../shared/triggerService');
 //options
 const max_digits_for_input = project.vars.max_digits; //only for testing
 //const max_digits_for_nid = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits_nid'}}).next().vars.value); 
@@ -168,6 +169,16 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             state.vars.account_number = response;
             if (client_verified) {
                 var isGroupLeader = checkGroupLeader(state.vars.client_districtId, state.vars.client_id);
+                console.log('isGroupLeader:'+ JSON.stringify(isGroupLeader));
+                if(isGroupLeader){
+                    console.log('triggering auto finalize service: '+ state.vars.account_number);
+                    contact.vars.account_number = state.vars.account_number;
+                    triggerService('SVd394122df79f2a3c', {
+                        context: 'contact',
+                        async: true
+                    })
+                }
+
                 state.vars.isGroupLeader = isGroupLeader;  
                 var splash = account_splash_menu_name;
                 state.vars.splash = splash;
