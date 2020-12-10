@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 ## New Version
 
 ### Added
+* [MOB-125] (https://oneacrefund.atlassian.net/browse/MOB-125) Add a request to the logger
+### Added
 * [SER-364](https://oneacrefund.atlassian.net/browse/SER-364) Check whether a product is available in the closest warehouse based on the client's district
 ### Changed
 * [MOB-70](https://oneacrefund.atlassian.net/browse/MOB-70) JiT Kenya: As a GL, when I enter an account number for a client not in my group, I need a pop with a descriptive error message
