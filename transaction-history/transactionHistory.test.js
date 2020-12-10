@@ -133,12 +133,20 @@ describe('TransactionHistory', () => {
                     expect(transactionView.show).toHaveBeenLastCalledWith(tx, transactionHistory.backToListHandlerName);
                 });
             });
+            it('should show the previous page when 44 is entered  ', () => {
+                state.vars.thPage = 3;
+                callback('44');
+                expect(transactionView.list).toHaveBeenLastCalledWith(mockTransactions, 2);
+                callback('44');
+                expect(transactionView.list).toHaveBeenLastCalledWith(mockTransactions, 1);
+            });
             it('should show the next page when 99 is entered  ', () => {
                 callback('99');
                 expect(transactionView.list).toHaveBeenLastCalledWith(mockTransactions, 2);
                 callback('99');
                 expect(transactionView.list).toHaveBeenLastCalledWith(mockTransactions, 3);
             });
+            
             it('should not show individual transaction if 99 is entered ', () => {
                 transactionView.show.mockClear();
                 callback('99');

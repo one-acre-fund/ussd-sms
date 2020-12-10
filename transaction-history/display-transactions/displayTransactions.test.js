@@ -18,6 +18,7 @@ describe('show', () => {
                 +`\nSeason: ${singleRepayment.Season}`
                 +`\nAmount: ${singleRepayment.Amount} RwF`
                 +`\nPaid from: ${singleRepayment.PaidFrom}`
+                +'\n0) Back'
             );
         });     
         it('should call promptDigits with the given inputhadnler', () => {
@@ -37,6 +38,7 @@ describe('show', () => {
                 +`\nIgihembwe: ${singleRepayment.Season}`
                 +`\nAmafaranga: ${singleRepayment.Amount} RwF`
                 +`\nYishyuwe avuye: ${singleRepayment.PaidFrom}`
+                +'\n0) Ahabanza'
             );
         });        
     });
@@ -52,6 +54,7 @@ describe('show', () => {
                 +`\nMsimu: ${singleRepayment.Season}`
                 +`\nIdadi ya malipo: ${singleRepayment.Amount} KES`
                 +`\nMalipo kutoka simu nambari: ${singleRepayment.PaidFrom}`
+                +'\n0) Rudi nyuma'
             );
         });        
     });
@@ -80,7 +83,7 @@ describe('list', () => {
         it('should list the second four if given a page number of 2 ', () => {
             list(repaymentsList,2);
             expect(sayText).toHaveBeenLastCalledWith(
-                'Select a payment for details:'
+                'Select a payment for details:\n44. Back'
                 +`\n5. 05-02-2020 - ${repaymentsList[4].Amount} RwF`
                 +`\n6. 16-08-2019 - ${repaymentsList[5].Amount} RwF`
                 +`\n7. 05-06-2019 - ${repaymentsList[6].Amount} RwF`
@@ -120,7 +123,7 @@ describe('list', () => {
         it('should list the second four if given a page number of 2 ', () => {
             list(repaymentsList,2);
             expect(sayText).toHaveBeenLastCalledWith(
-                'Hitamo ubwishyu uhabwe ubusobanuro burambuye:'
+                'Hitamo ubwishyu uhabwe ubusobanuro burambuye:\n44. Subira Inyuma'
                 +`\n5. 05-02-2020 - F${repaymentsList[4].Amount}`
                 +`\n6. 16-08-2019 - F${repaymentsList[5].Amount}`
                 +`\n7. 05-06-2019 - F${repaymentsList[6].Amount}`
@@ -149,7 +152,7 @@ describe('list', () => {
         it('should list the second four if given a page number of 2 ', () => {
             list(repaymentsList,2);
             expect(sayText).toHaveBeenLastCalledWith(
-                'Chagua rekodi ya malipo kwa maelezo zaidi:'
+                'Chagua rekodi ya malipo kwa maelezo zaidi:\n44. Rudi nyuma'
                 +`\n5. 05-02-2020 - KES ${repaymentsList[4].Amount}`
                 +`\n6. 16-08-2019 - KES ${repaymentsList[5].Amount}`
                 +`\n7. 05-06-2019 - KES ${repaymentsList[6].Amount}`

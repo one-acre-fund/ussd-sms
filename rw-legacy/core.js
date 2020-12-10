@@ -262,8 +262,14 @@ addInputHandler('cor_menu_select', function (input) {
     else if (selection === 'cor_get_balance') { //inelegant
         var get_balance = require('./lib/cor-get-balance');
         var balance_data = get_balance(JSON.parse(state.vars.client_json), lang);
-        console.log(">>>>> balance reached" + JSON.stringify(balance_data))
-        sayText(msgs('cor_get_balance', balance_data, lang));
+        console.log(">>>>> balance reached" + JSON.stringify(balance_data));
+        if(balance_data['$PAID'] > balance_data['$CREDIT']){
+            balance_data['$OVERPAID'] = parseInt(balance_data['$PAID']) - parseInt(balance_data['$CREDIT']);
+            sayText(msgs('cor_get_balance_overpaid', balance_data, lang));
+        }
+        else{
+            sayText(msgs('cor_get_balance', balance_data, lang));
+        }
         promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         return null;
     }

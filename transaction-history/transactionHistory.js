@@ -32,7 +32,13 @@ module.exports = {
                 state.vars.thPage = state.vars.thPage + 1;
                 transactionView.list(repayments, state.vars.thPage);
                 global.promptDigits(selectionHandler.handlerName);
-            }else if(selectionNumber > repayments.length || isNaN(selectionNumber)){
+            }
+            else if(selection == '44' && state.vars.thPage != 1){
+                state.vars.thPage = state.vars.thPage - 1;
+                transactionView.list(repayments, state.vars.thPage);
+                global.promptDigits(selectionHandler.handlerName);
+            }
+            else if(selectionNumber > repayments.length || isNaN(selectionNumber)){
                 translate =  createTranslator(translations, language);
                 transactionView.list(repayments, state.vars.thPage, translate('invalid_list_selection')); 
                 global.promptDigits(selectionHandler.handlerName);               
