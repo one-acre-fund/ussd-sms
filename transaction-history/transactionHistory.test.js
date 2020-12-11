@@ -51,6 +51,42 @@ var mockTransactions = [
         'PaidFrom': '594206'
     },
 ];
+var currentSeasonmockTransactions = [
+    {
+        'RepaymentId': '2534504906',
+        'RepaymentDate': '20/05/2020 20:27:03',
+        'Season': '2021',
+        'Amount': 2001,
+    },    
+    {
+        'RepaymentId': '2474515444',
+        'RepaymentDate': '05/05/2020 16:16:56',
+        'Season': '2021',
+        'Amount': 2002,
+        'PaidFrom': '0787428878'
+    },
+    {
+        'RepaymentId': '2285699969',
+        'RepaymentDate': '04/03/2020 20:29:54',
+        'Season': '2021',
+        'Amount': 2003,
+        'PaidFrom': '663565'
+    },
+    {
+        'RepaymentId': '2233627731',
+        'RepaymentDate': '11/02/2020 21:11:39',
+        'Season': '2021',
+        'Amount': 2004,
+        'PaidFrom': '788926'
+    },
+    {
+        'RepaymentId': '2219628297',
+        'RepaymentDate': '05/02/2020 19:36:25',
+        'Season': '2021',
+        'Amount': 2005,
+        'PaidFrom': '594206'
+    },
+];
 
 getTransactionHistory.mockReturnValue(mockTransactions);
 const account = 123456789;
@@ -86,7 +122,7 @@ describe('TransactionHistory', () => {
             beforeEach(() => {         
                 transactionHistory.registerHandlers();
                 handler = addInputHandler.mock.calls[2][1];
-                state.vars.transactionHistory = JSON.stringify([{some: 'trasactions'}]);
+                state.vars.transactionHistory = JSON.stringify([{some: 'trasactions','Season': '2021'}]);
                 state.vars.thPage = 5;
             });
             it('should call transactionview.list with transactions from the state object and  the page', () => {
@@ -108,10 +144,16 @@ describe('TransactionHistory', () => {
                 transactionHistory.registerHandlers();
                 callback = nidVerification.getHandler.mock.calls[0][0];                
             });
-            it('should list the transactions from getTransactions ', () => {
+            it('should not display the transactions from getTransactions for the past seasons', () => {
                 callback();
                 expect(transactionView.list).toHaveBeenCalled();
-                expect(transactionView.list.mock.calls[0][0]).toEqual(mockTransactions);
+                expect(transactionView.list.mock.calls[0][0]).toEqual([]);
+            });
+            it('should list the transactions from getTransactions for the current season 2021', () => {
+                getTransactionHistory.mockReturnValueOnce(currentSeasonmockTransactions);
+                callback();
+                expect(transactionView.list).toHaveBeenCalled();
+                expect(transactionView.list.mock.calls[0][0]).toEqual(currentSeasonmockTransactions);
             });
             it('should prompt for the client to select a transaction ', () => {
                 callback();

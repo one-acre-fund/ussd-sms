@@ -14,7 +14,9 @@ module.exports = {
         var language = (contact && contact.vars.lang) || (state && state.vars.lang) || service.vars.lang || project.vars.lang;
         var translate =  createTranslator(translations, language);
         function listTransactions() {
-            var repayments = JSON.parse(state.vars.transactionHistory);
+            var repayments = JSON.parse(state.vars.transactionHistory).filter(function(element){
+                return element.Season == '2021';
+            });
             transactionView.list(repayments, state.vars.thPage);
             global.promptDigits(selectionHandler.handlerName);
         }
