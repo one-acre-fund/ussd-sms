@@ -46,6 +46,8 @@ service.vars.roster_read_key = project.vars.roster_read_key;
 service.vars.lr_2021_client_table_id = project.vars[env+'_lr_2021_client_table_id'];
 service.vars.registerEnrollEnd = env+ '_registerEnrollEnd';
 service.vars.registerEnrollStart = env + '_registerEnrollStart';
+service.vars.seedQualityIssuesStart = env + '_seedQualityIssuesStart';
+service.vars.seedQualityIssuesEnd = env + '_seedQualityIssuesEnd';
 
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 service.vars.credit_officers_table = 'credit_officers_table';
