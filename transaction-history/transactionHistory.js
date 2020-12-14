@@ -15,7 +15,7 @@ module.exports = {
         var translate =  createTranslator(translations, language);
         function listTransactions() {
             var repayments = JSON.parse(state.vars.transactionHistory).filter(function(element){
-                return element.Season == '2021';
+                return element.Season === '2021';
             });
             transactionView.list(repayments, state.vars.thPage);
             global.promptDigits(selectionHandler.handlerName);
@@ -35,7 +35,7 @@ module.exports = {
                 transactionView.list(repayments, state.vars.thPage);
                 global.promptDigits(selectionHandler.handlerName);
             }
-            else if(selection == '44' && state.vars.thPage != 1){
+            else if(selection === '44' && state.vars.thPage !== 1){
                 state.vars.thPage = state.vars.thPage - 1;
                 transactionView.list(repayments, state.vars.thPage);
                 global.promptDigits(selectionHandler.handlerName);

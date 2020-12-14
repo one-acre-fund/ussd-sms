@@ -87,7 +87,6 @@ var currentSeasonmockTransactions = [
         'PaidFrom': '594206'
     },
 ];
-
 getTransactionHistory.mockReturnValue(mockTransactions);
 const account = 123456789;
 const country = 'UG';
@@ -137,7 +136,6 @@ describe('TransactionHistory', () => {
                 expect(global.promptDigits).toHaveBeenCalledWith(selectionHandler.handlerName);
             });
         });
-        
         describe('Id Verification success callback', () => {
             var callback;
             beforeEach(() => {
@@ -188,7 +186,6 @@ describe('TransactionHistory', () => {
                 callback('99');
                 expect(transactionView.list).toHaveBeenLastCalledWith(mockTransactions, 3);
             });
-            
             it('should not show individual transaction if 99 is entered ', () => {
                 transactionView.show.mockClear();
                 callback('99');
@@ -199,7 +196,6 @@ describe('TransactionHistory', () => {
                 callback('99');
                 expect(promptDigits).toHaveBeenCalledWith(selectionHandler.handlerName);           
             });
-            
             it('should not prompt for the user to make another selection if the user navigates to transaction detail view', () => {
                 promptDigits.mockClear();                
                 mockTransactions.forEach((tx,index)=>{ 
