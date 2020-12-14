@@ -115,8 +115,8 @@ module.exports = [
         'en-ke': 'Report Seed Quality Issue',
         'sw': 'Ripoti suala la ubora wa mbegu',
         'option_name': 'report_seed_quality',
-        'end_date': project.vars.end_report_seed_quality,
-        'start_date': project.vars.start_report_seed_quality
+        'end_date': project.vars[service.vars.seedQualityIssuesEnd],
+        'start_date': project.vars[service.vars.seedQualityIssuesStart]
     },
     {
         'option_name': 'fo_details',
