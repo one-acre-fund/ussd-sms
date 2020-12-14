@@ -251,7 +251,7 @@ addInputHandler('cor_menu_select', function (input) {
         return null;
     }
     else if(selection === 'cor_get_repayments'){
-        transactionHistory.start(state.vars.account_number,'rw');            
+        transactionHistory.start(state.vars.account_number,'rw',state.vars.current_menu_str,'cor_menu_select');            
     }
     else if(selection === 'cor_market_access'){
 

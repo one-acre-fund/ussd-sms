@@ -7,7 +7,7 @@ var translations = require('./translations');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 
 var backToListHandler= 'back_to_txlist_handler';
-
+var currentSeason = {'ke': '2021, Long Rain', 'rw': '2021', 'UG': '2021'};
 module.exports = {
     backToListHandlerName: backToListHandler,
     registerHandlers: function () {
@@ -15,7 +15,7 @@ module.exports = {
         var translate =  createTranslator(translations, language);
         function listTransactions() {
             var repayments = JSON.parse(state.vars.transactionHistory).filter(function(element){
-                return element.Season === '2021';
+                return element.Season === currentSeason[state.vars.country];
             });
             transactionView.list(repayments, state.vars.thPage);
             global.promptDigits(selectionHandler.handlerName);
@@ -35,10 +35,15 @@ module.exports = {
                 transactionView.list(repayments, state.vars.thPage);
                 global.promptDigits(selectionHandler.handlerName);
             }
-            else if(selection === '44' && state.vars.thPage !== 1){
-                state.vars.thPage = state.vars.thPage - 1;
-                transactionView.list(repayments, state.vars.thPage);
-                global.promptDigits(selectionHandler.handlerName);
+            else if(selection === '44'){
+                if(state.vars.thPage === 1){
+                    global.sayText(state.vars.main_menu);
+                    global.promptDigits(state.vars.main_menu_handler);
+                }else{
+                    state.vars.thPage = state.vars.thPage - 1;
+                    transactionView.list(repayments, state.vars.thPage);
+                    global.promptDigits(selectionHandler.handlerName);
+                }
             }
             else if(selectionNumber > repayments.length || isNaN(selectionNumber)){
                 translate =  createTranslator(translations, language);
@@ -55,10 +60,12 @@ module.exports = {
         addInputHandler(backToListHandler,listTransactions);
         
     },
-    start: function (account, country) {
+    start: function (account, country, main_menu, main_menu_handler) {
         notifyELK();
         state.vars.account = account;
         state.vars.country = country;
+        state.vars.main_menu = main_menu;
+        state.vars.main_menu_handler = main_menu_handler;
         var language = (contact && contact.vars.lang) || (state && state.vars.lang) || service.vars.lang || project.vars.lang;
         var translate =  createTranslator(translations, language);
         global.sayText(translate('last_4_national_id_prompt'));

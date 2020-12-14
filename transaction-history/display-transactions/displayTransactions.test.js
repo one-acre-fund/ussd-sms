@@ -74,7 +74,7 @@ describe('list', () => {
         it('should list the first four if not given a page', () => {
             list(repaymentsList);
             expect(sayText).toHaveBeenLastCalledWith(
-                'Select a payment for details:'
+                'Select a payment for details:\n44. Back'
                 +`\n1. 2020-02-04 - ${repaymentsList[0].Amount} RwF`
                 +`\n2. 2020-05-05 - ${repaymentsList[1].Amount} RwF`
                 +`\n3. 2020-04-03 - ${repaymentsList[2].Amount} RwF`
@@ -86,7 +86,7 @@ describe('list', () => {
             list(repaymentsList,2);
             expect(sayText).toHaveBeenLastCalledWith(
                 'Select a payment for details:\n44. Back'
-                +`\n5. 2020-05-01 - ${repaymentsList[4].Amount} RwF`
+                +`\n5. 2020-05-02 - ${repaymentsList[4].Amount} RwF`
                 +`\n6. 2019-01-17 - ${repaymentsList[5].Amount} RwF`
                 +`\n7. 2019-05-06 - ${repaymentsList[6].Amount} RwF`
                 +`\n8. 2019-06-05 - ${repaymentsList[7].Amount} RwF`
@@ -97,7 +97,7 @@ describe('list', () => {
             const erorMessage = 'Something is wrong\n';
             list(repaymentsList,1, erorMessage);
             expect(sayText).toHaveBeenLastCalledWith(
-                erorMessage +'Select a payment for details:'
+                erorMessage +'Select a payment for details:\n44. Back'
                 +`\n1. 2020-02-04 - ${repaymentsList[0].Amount} RwF`
                 +`\n2. 2020-05-05 - ${repaymentsList[1].Amount} RwF`
                 +`\n3. 2020-04-03 - ${repaymentsList[2].Amount} RwF`
@@ -114,7 +114,7 @@ describe('list', () => {
         it('should list the first four if not given a page', () => {
             list(repaymentsList);
             expect(sayText).toHaveBeenLastCalledWith(
-                'Hitamo ubwishyu uhabwe ubusobanuro burambuye:'
+                'Hitamo ubwishyu uhabwe ubusobanuro burambuye:\n44. Subira Inyuma'
                 +`\n1. 2020-02-04 - F${repaymentsList[0].Amount}`
                 +`\n2. 2020-05-05 - F${repaymentsList[1].Amount}`
                 +`\n3. 2020-04-03 - F${repaymentsList[2].Amount}`
@@ -126,7 +126,7 @@ describe('list', () => {
             list(repaymentsList,2);
             expect(sayText).toHaveBeenLastCalledWith(
                 'Hitamo ubwishyu uhabwe ubusobanuro burambuye:\n44. Subira Inyuma'
-                +`\n5. 2020-05-01 - F${repaymentsList[4].Amount}`
+                +`\n5. 2020-05-02 - F${repaymentsList[4].Amount}`
                 +`\n6. 2019-01-17 - F${repaymentsList[5].Amount}`
                 +`\n7. 2019-05-06 - F${repaymentsList[6].Amount}`
                 +`\n8. 2019-06-05 - F${repaymentsList[7].Amount}`
@@ -143,7 +143,7 @@ describe('list', () => {
         it('should list the first four if not given a page', () => {
             list(repaymentsList);
             expect(sayText).toHaveBeenLastCalledWith(
-                'Chagua rekodi ya malipo kwa maelezo zaidi:'
+                'Chagua rekodi ya malipo kwa maelezo zaidi:\n44. Rudi nyuma'
                 +`\n1. 2020-02-04 - KES ${repaymentsList[0].Amount}`
                 +`\n2. 2020-05-05 - KES ${repaymentsList[1].Amount}`
                 +`\n3. 2020-04-03 - KES ${repaymentsList[2].Amount}`
@@ -155,7 +155,7 @@ describe('list', () => {
             list(repaymentsList,2);
             expect(sayText).toHaveBeenLastCalledWith(
                 'Chagua rekodi ya malipo kwa maelezo zaidi:\n44. Rudi nyuma'
-                +`\n5. 2020-05-01 - KES ${repaymentsList[4].Amount}`
+                +`\n5. 2020-05-02 - KES ${repaymentsList[4].Amount}`
                 +`\n6. 2019-01-17 - KES ${repaymentsList[5].Amount}`
                 +`\n7. 2019-05-06 - KES ${repaymentsList[6].Amount}`
                 +`\n8. 2019-06-05 - KES ${repaymentsList[7].Amount}`
@@ -168,7 +168,7 @@ describe('list', () => {
 
 const singleRepayment = {
     'RepaymentId': '2534504906',
-    'RepaymentDate': '2/5/2020 00:27:03 AM',
+    'RepaymentDate': '2/4/2020 8:27:03 AM',
     'Season': '2020',
     'Amount': 2001.0000,
     'PaidFrom': '0787117739'
@@ -191,28 +191,28 @@ const repaymentsList = [
     },
     {
         'RepaymentId': '2233627731',
-        'RepaymentDate': '1/2/2020 1:11:39 AM',
+        'RepaymentDate': '1/1/2020 8:11:39 AM',
         'Season': '2020',
         'Amount': 2004.0000,
         'PaidFrom': '788926'
     },
     {
         'RepaymentId': '2219628297',
-        'RepaymentDate': '5/2/2020 1:36:25 AM',
+        'RepaymentDate': '5/2/2020 8:36:25 AM',
         'Season': '2020',
         'Amount': 2005.0000,
         'PaidFrom': '594206'
     },
     {
         'RepaymentId': '1877459374',
-        'RepaymentDate': '1/18/2019 0:56:53',
+        'RepaymentDate': '1/17/2019 8:56:53 AM',
         'Season': '2020',
         'Amount': 2006.0000,
         'PaidFrom': '0787784673'
     },
     {
         'RepaymentId': '1736415567',
-        'RepaymentDate': '5/6/2019 8:54:32',
+        'RepaymentDate': '5/6/2019 8:54:32 AM',
         'Season': '2019',
         'Amount': 2007.0000,
         'PaidFrom': '0786394610'

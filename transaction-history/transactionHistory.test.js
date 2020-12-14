@@ -14,7 +14,7 @@ const transactionHistory = require('./transactionHistory');
 
 const mockIdVerificationHandler = jest.fn();
 const mockSelectionHandler = jest.fn();
-
+state.vars.country = 'rw';
 var mockTransactions = [
     {
         'RepaymentId': '2534504906',

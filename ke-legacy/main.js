@@ -1757,7 +1757,7 @@ addInputHandler('MainMenu', function(SplashMenu){
         promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'transaction_history'){
-        transactionHistory.start(client.AccountNumber, 'ke');
+        transactionHistory.start(client.AccountNumber, 'ke',state.vars.main_menu,'MainMenu');
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'prepayment_amount'){
         if(client.BalanceHistory[0].SeasonName == CurrentSeasonName){
