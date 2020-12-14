@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+### Depricated
+* [MOB-83](https://oneacrefund.atlassian.net/browse/MOB-83) Remove "Report Seed Quality Issue" from USSD main Menu (KE)
 ### Added
 * [SER-364](https://oneacrefund.atlassian.net/browse/SER-364) Check whether a product is available in the closest warehouse based on the client's district
 ### Changed
