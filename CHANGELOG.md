@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+### Depricated
+* [MOB-83](https://oneacrefund.atlassian.net/browse/MOB-83) Remove "Report Seed Quality Issue" from USSD main Menu (KE)
 ### Added
 * [MOB-125] (https://oneacrefund.atlassian.net/browse/MOB-125) Add a request to the logger
 ### Added
