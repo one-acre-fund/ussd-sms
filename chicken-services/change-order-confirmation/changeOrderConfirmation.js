@@ -14,7 +14,7 @@ module.exports = {
             }
             else if(input == 1){
                 var CheckChickenCapByDistrict = require('../check-chicken-cap-by-district/CheckChickenCapByDistrict');
-                var possibleChickensPerDistrict = CheckChickenCapByDistrict(JSON.parse(state.vars.client_json).DistrictId,new Date().getMonth()+1);
+                var possibleChickensPerDistrict = CheckChickenCapByDistrict(JSON.parse(state.vars.client_json));
                 if(state.vars.confirmed_number > possibleChickensPerDistrict){
                     global.sayText(translate('chicken_cap_reached'));
                     stopRules();

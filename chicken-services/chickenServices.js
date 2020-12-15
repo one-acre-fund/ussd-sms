@@ -28,6 +28,7 @@ module.exports = {
                 row.vars.first_name = JSON.parse(state.vars.client_json).FirstName;
                 row.vars.last_name = JSON.parse(state.vars.client_json).LastName;
                 row.vars.site = JSON.parse(state.vars.client_json).SiteName;
+                row.vars.sector = JSON.parse(state.vars.client_json).SectorName;
                 row.vars.district = JSON.parse(state.vars.client_json).DistrictName;
                 row.vars.group = JSON.parse(state.vars.client_json).GroupName;
                 row.vars.ordered_chickens = state.vars.confirmed_number;
@@ -69,7 +70,7 @@ module.exports = {
         }
         else if(state.vars.minimum_amount_paid){
             var CheckChickenCapByDistrict = require('./check-chicken-cap-by-district/CheckChickenCapByDistrict');
-            var possibleChickensPerDistrict = CheckChickenCapByDistrict(JSON.parse(state.vars.client_json).DistrictId,new Date().getMonth() + 1);
+            var possibleChickensPerDistrict = CheckChickenCapByDistrict(JSON.parse(state.vars.client_json));
             if(!possibleChickensPerDistrict){
                 global.sayText(translate('chicken_cap_reached'));
                 stopRules();
@@ -80,7 +81,6 @@ module.exports = {
                 global.promptDigits(possibleOrderHandler.handlerName);
             }            
         }
-
         else{
             global.sayText(translate('try_later',{}));
             global.stopRules();

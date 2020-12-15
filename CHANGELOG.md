@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+### Added
+* [MOB-132](https://oneacrefund.atlassian.net/browse/MOB-132) Changed the chicken confirmation cap to check per sector
 ### Depricated
 * [MOB-83](https://oneacrefund.atlassian.net/browse/MOB-83) Remove "Report Seed Quality Issue" from USSD main Menu (KE)
 ### Added
