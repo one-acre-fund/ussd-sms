@@ -66,6 +66,7 @@ module.exports = function individualBalanceHandler(input) {
                 '$balance': current_member.balance, 
                 '$repaid': current_member.repaid,
                 '$currency': service.vars.currency,
+                '$overpaid': current_member.overpayment,
                 '$percentage': current_member['% Repaid'].toFixed(2)}) + getMessage('back', {'$label': '44'}, lang);
             sayText(menu);
             promptDigits('back_to_group_summary',{submitOnHash: false, maxDigits: 1, timeout: 5 });
