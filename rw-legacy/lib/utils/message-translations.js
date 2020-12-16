@@ -215,6 +215,10 @@ module.exports = {
         "en": "Hello $CLIENT_NAME~BCredit:$CREDIT~BPaid:$PAID~BBalance:$BALANCE~B$HEALTHY_PATHAccurate as of $DAY_NAME $DAYNR $MONTH",
         "ki": "Muraho $CLIENT_NAME~BIdeni ryose:$CREDIT~BAyishyuwe:$PAID~BIdeni risigaye:$BALANCE~B$HEALTHY_PATHAmakuru yafashwe $DAY_NAME $DAYNR $MONTH",
     },
+    "cor_get_balance_overpaid": {
+        "en": "Hello $CLIENT_NAME~BCredit:$CREDIT~BPaid:$PAID~BBalance:$BALANCE~BOverpaid amount: $OVERPAID~B$HEALTHY_PATHAccurate as of $DAY_NAME $DAYNR $MONTH",
+        "ki": "Muraho $CLIENT_NAME~BIdeni ryose:$CREDIT~BAyishyuwe:$PAID~BIdeni risigaye:$BALANCE~BAmafaranga arenga: $OVERPAID~B$HEALTHY_PATHAmakuru yafashwe $DAY_NAME $DAYNR $MONTH",
+    },
     "external_splash": {
         "en": "Welcome to TUBURA. Please select your region:~B$GEO_MENU",
         "ki": "Murakaza neza muri TUBURA! Nyabuneka hitamo intara yawe:~B$GEO_MENU",

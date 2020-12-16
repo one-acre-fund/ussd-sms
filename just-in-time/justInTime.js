@@ -418,13 +418,6 @@ function displayBundles(district){
     }
 
 }
-function bundleExists(bundles,bundleId) {
-    for (var o =0; o<bundles.length; o++){
-        if(bundles[o].bundleId === bundleId)
-            return true;
-    }
-    return false; 
-}
 
 var removeOrderedBundles = function(allBundles) {
     var orderedBundles = getPastOrderedProducts();
@@ -453,6 +446,14 @@ var getPastOrderedProducts = function() {
     }
     return [];
 };
+
+function bundleExists(bundles,bundleId) {
+    for (var o =0; o<bundles.length; o++){
+        if(bundles[o].bundleId === bundleId)
+            return true;
+    }
+    return false; 
+}
 
 function getBundlesInputs(districtId){
     var table = project.initDataTableById(service.vars.topUpBundleTableId);

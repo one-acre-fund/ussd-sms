@@ -46,6 +46,8 @@ service.vars.roster_read_key = project.vars.roster_read_key;
 service.vars.lr_2021_client_table_id = project.vars[env+'_lr_2021_client_table_id'];
 service.vars.registerEnrollEnd = env+ '_registerEnrollEnd';
 service.vars.registerEnrollStart = env + '_registerEnrollStart';
+service.vars.seedQualityIssuesStart = env + '_seedQualityIssuesStart';
+service.vars.seedQualityIssuesEnd = env + '_seedQualityIssuesEnd';
 
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 service.vars.credit_officers_table = 'credit_officers_table';
@@ -278,7 +280,7 @@ var ValNationalID = function(input){
 };
 
 var GetPrepaymentAmount = function(client){
-    return client.BalanceHistory[0].TotalCredit * 0.1;
+   return client.BalanceHistory[0].TotalCredit * 0.1;
 };
 var FAWActive = function (districtname){
     var Table = project.getOrCreateDataTable('FAW Districts');
@@ -1756,7 +1758,7 @@ addInputHandler('MainMenu', function(SplashMenu){
         promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'transaction_history'){
-        transactionHistory.start(client.AccountNumber, 'ke');
+        transactionHistory.start(client.AccountNumber, 'ke',state.vars.main_menu,'MainMenu');
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'prepayment_amount'){
         if(client.BalanceHistory[0].SeasonName == CurrentSeasonName){
