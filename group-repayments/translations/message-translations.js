@@ -30,9 +30,9 @@ module.exports = {
         'sw': '$prefix) $firstName $lastName: KES $balance\n'
     },
     'group_member_repayment': {
-        'en': 'Name: $firstName $lastName\nCredit: $credit $currency\nBalance: $balance $currency\nAmount repaid: $repaid $currency\n% repaid: $percentage%\n',
-        'ki': 'Izina: $firstName $lastName\nIdeni: F $credit\nAsigaye: F $balance\nAyishyuwe: F $repaid\n% Ijanisha ry\'ayishyuwe: $percentage%\n',
-        'sw': 'Jina: $firstName $lastName\nMkopo: KES $credit\nSalio: KES $balance\nMalipo: KES $repaid\nAsilimia ya malipo: $percentage%\n'
+        'en': 'Name: $firstName $lastName\nCredit: $credit $currency\nBalance: $balance $currency\nAmount repaid: $repaid $currency\noverpaid: $overpaid\n% repaid: $percentage%\n',
+        'ki': 'Izina: $firstName $lastName\nIdeni: F $credit\nAsigaye: F $balance\nAyishyuwe: F $repaid\nArenzeho: $overpaid\n% Ijanisha ry\'ayishyuwe: $percentage%\n',
+        'sw': 'Jina: $firstName $lastName\nMkopo: KES $credit\nSalio: KES $balance\nMalipo: KES $repaid\nkulipwa zaidi: $overpaid\nAsilimia ya malipo: $percentage%\n'
     },
     'invalid_try_again': {
         'en': 'Invalid input, please try again.\n$Menu',

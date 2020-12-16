@@ -52,6 +52,7 @@ module.exports = {
         notifyELK();
         state.vars.account = account;
         state.vars.country = country;
+        
         var chicken_table = project.initDataTableById(service.vars.chicken_table_id);
         chickenEligibility(chicken_table, state.vars.account,JSON.parse(state.vars.client_json)); 
         if((state.vars.chcken_nber == 0) || state.vars.client_notfound ){

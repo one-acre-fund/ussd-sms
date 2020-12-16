@@ -454,6 +454,42 @@ var getPastOrderedProducts = function() {
     return [];
 };
 
+var removeOrderedBundles = function(allBundles) {
+    var orderedBundles = getPastOrderedProducts();
+    var copiedBundles = allBundles.map(function(bundle) {return bundle;});
+    orderedBundles.forEach(function(orderedBundle) {
+        copiedBundles = copiedBundles.filter(function(bundle) {
+            return bundle.bundleId != orderedBundle.bundleId;
+        });
+    });
+    return copiedBundles;
+};
+
+var getPastOrderedProducts = function() {
+    var toppedUpTable = project.initDataTableById(service.vars.JiTEnrollmentTableId);
+    var client = JSON.parse(state.vars.topUpClient);
+    var toppedUpCursor = toppedUpTable.queryRows({
+        vars: {
+            'account_number': client.AccountNumber
+        }
+    });
+
+    if(toppedUpCursor.hasNext()) {
+        var toppedUpRow = toppedUpCursor.next();
+        var toppedUpOrderBundles = JSON.parse(toppedUpRow.vars.order);
+        return toppedUpOrderBundles;
+    }
+    return [];
+};
+
+function bundleExists(bundles,bundleId) {
+    for (var o =0; o<bundles.length; o++){
+        if(bundles[o].bundleId === bundleId)
+            return true;
+    }
+    return false; 
+}
+
 function getBundlesInputs(districtId){
     var table = project.initDataTableById(service.vars.topUpBundleTableId);
     var bundleInputs = [];

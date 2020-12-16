@@ -32,13 +32,12 @@ module.exports = function lastFourIdDigitsHandler(input) {
         return;
     }     
     // create an array of group members
-    var groupRepayments = { credit: 0, balance: 0 };
+    var groupRepayments = { credit: 0, balance: 0, overpayment: 0 };
     var groupMemberBalances = {};
     rosterCallResult.forEach(function (result) {
-        var balance = result.credit - result.repaid;
+        var balance = (result.credit - result.repaid);
         groupRepayments.credit += result.credit;
         groupRepayments.balance += balance;
-
         var memberName = result.firstName + ' ' + result.lastName;
         if (!groupMemberBalances[memberName]) {
             groupMemberBalances[memberName] = result;
@@ -47,6 +46,12 @@ module.exports = function lastFourIdDigitsHandler(input) {
             groupMemberBalances[memberName].repaid += result.repaid;
             groupMemberBalances[memberName].credit += result.credit;
             groupMemberBalances[memberName].balance += balance;
+        }
+        groupMemberBalances[memberName].overpayment = 0;
+        var diff = groupMemberBalances[memberName].credit - groupMemberBalances[memberName].repaid;
+        if(diff < 0){
+            groupMemberBalances[memberName].overpayment = -diff;
+            groupMemberBalances[memberName].balance = 0;
         }
         groupMemberBalances[memberName]['% Repaid'] = groupMemberBalances[memberName].credit === 0 ?
             100 :
