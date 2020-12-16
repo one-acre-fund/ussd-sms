@@ -1624,7 +1624,6 @@ addInputHandler('SplashMenu', function(SplashMenu) {
             console.log('SuccessFully Validated against Roster');
             client = RosterClientGet(ClientAccNum);
             state.vars.client_json = JSON.stringify(reduceClientSize(client));
-
             // check for group leader
             var isGroupLeader = checkGroupLeader(client.DistrictId, client.ClientId);
             state.vars.isGroupLeader = isGroupLeader;
@@ -1798,7 +1797,7 @@ addInputHandler('MainMenu', function(SplashMenu){
         SHSMenuText();
         promptDigits('SolarMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
 
-    }
+    }   
     else if(sessionMenu[SplashMenu-1].option_name == 'insurance'){
         InsuranceMenuText();
         promptDigits('InsuranceMenu', {submitOnHash: true, maxDigits: 1, timeout: 5});
@@ -3174,7 +3173,6 @@ addInputHandler('TrainingSelect', function(input) {
     }
     InteractionCounter('TrainingSelect');
     var trainingsOptions = JSON.parse(state.vars.trainings_options);
-
     if (input == 0 ){
         TrainingMenuNextText();
         promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});
