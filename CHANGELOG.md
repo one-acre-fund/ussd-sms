@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## New Version
 
 ### Changed
+* [SER-370](https://oneacrefund.atlassian.net/browse/SER-370) Verify Groups on Roster instead of using telerivet data tables
 * [MOB-128](https://oneacrefund.atlassian.net/browse/MOB-128) Repayment Services UAT fixes
 ### Depricated
 * [MOB-83](https://oneacrefund.atlassian.net/browse/MOB-83) Remove "Report Seed Quality Issue" from USSD main Menu (KE)
