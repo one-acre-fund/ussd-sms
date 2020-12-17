@@ -53,6 +53,7 @@ module.exports = {
         notifyELK();
         state.vars.account = account;
         state.vars.country = country;
+        
         var chicken_table = project.initDataTableById(service.vars.chicken_table_id);
         chickenEligibility(chicken_table, state.vars.account,JSON.parse(state.vars.client_json)); 
         if((state.vars.chcken_nber == 0) || state.vars.client_notfound ){
@@ -77,6 +78,7 @@ module.exports = {
                 return; 
             }
             else{
+                if(possibleChickensPerDistrict < state.vars.max_chicken){state.vars.max_chicken = possibleChickensPerDistrict;}
                 global.sayText(translate('chicken_possible_nber',{'$name': JSON.parse(state.vars.client_json).FirstName,'$min': 2,'$max': state.vars.max_chicken}));
                 global.promptDigits(possibleOrderHandler.handlerName);
             }            

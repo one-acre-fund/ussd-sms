@@ -17,7 +17,7 @@ module.exports = {
                 var possibleChickensPerDistrict = CheckChickenCapByDistrict(JSON.parse(state.vars.client_json));
                 if(state.vars.confirmed_number > possibleChickensPerDistrict){
                     global.sayText(translate('chicken_cap_reached'));
-                    stopRules();
+                    global.stopRules();
                 }
                 else{
                     onOrderFinalized();

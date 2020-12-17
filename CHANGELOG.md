@@ -3,20 +3,30 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.5.1
 ### Added
 * [MOB-132](https://oneacrefund.atlassian.net/browse/MOB-132) Changed the chicken confirmation cap to check per sector
+## v1.5.0
+### Changed
+* [SER-370](https://oneacrefund.atlassian.net/browse/SER-370) Verify Groups on Roster instead of using telerivet data tables
+* [MOB-128](https://oneacrefund.atlassian.net/browse/MOB-128) Repayment Services UAT fixes
 ### Depricated
 * [MOB-83](https://oneacrefund.atlassian.net/browse/MOB-83) Remove "Report Seed Quality Issue" from USSD main Menu (KE)
 ### Added
-* [MOB-125] (https://oneacrefund.atlassian.net/browse/MOB-125) Add a request to the logger
+* [MOB-125](https://oneacrefund.atlassian.net/browse/MOB-125) Add a request to the logger
+
+## v1.4.0
 ### Added
-* [SER-364](https://oneacrefund.atlassian.net/browse/SER-364) Check whether a product is available in the closest warehouse based on the client's district
+* [SER-343](https://oneacrefund.atlassian.net/browse/SER-343) Enable prepayment calculator. Add 10% of prepayment amount
+* [MOB-15](https://oneacrefund.atlassian.net/browse/MOB-15) Add USSD Field Officer Details to main menu
+* [MOB-41](https://oneacrefund.atlassian.net/browse/MOB-41) Add auto cleanup for CallBackUSSD datatable
 ### Changed
+* [SER-364](https://oneacrefund.atlassian.net/browse/SER-364) Check whether a product is available in the closest warehouse based on the client's district
 * [MOB-70](https://oneacrefund.atlassian.net/browse/MOB-70) JiT Kenya: As a GL, when I enter an account number for a client not in my group, I need a pop with a descriptive error message
-## Fixed
 * [SER-368](https://oneacrefund.atlassian.net/browse/SER-368) As a client, I need to be limited to ordering three products max
 * [SER-367](https://oneacrefund.atlassian.net/browse/SER-367) As a client, I need to be able to place multiple orders across multiple USSD cycles
 
+## v1.3.0
 ### Fixed 
 * [SER-334](https://oneacrefund.atlassian.net/browse/SER-334) Kenya Enrollment/Just In time fixes(part 2)
     * updated maize bundle logic
@@ -30,10 +40,6 @@ All notable changes to this project will be documented in this file.
     * Update the confirmation message
 ### Added
 * [SER-353](https://oneacrefund.atlassian.net/browse/SER-353) Add option to change language to English when testing for USSD
-* [SER-343](https://oneacrefund.atlassian.net/browse/SER-343) Enable prepayment calculator. Add 10% of prepayment amount
-* [MOB-15](https://oneacrefund.atlassian.net/browse/MOB-15) Add USSD Field Officer Details to main menu
-* [MOB-41](https://oneacrefund.atlassian.net/browse/MOB-41) Add auto cleanup for CallBackUSSD datatable
-
 ## v1.2.2
 ### Fixed
 * [THD-3792](https://oneacrefund.atlassian.net/browse/THD-3792) New sites can't order
