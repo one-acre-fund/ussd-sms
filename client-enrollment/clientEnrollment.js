@@ -54,6 +54,8 @@ module.exports = {
                     else{
                         state.vars.orders= ' ';
                         state.vars.chosenMaizeBundle = ' ';
+                        state.vars.varietyWarehouse = ' ';
+                        state.vars.chosenVariety = ' ';
                         state.vars.account = client.AccountNumber;
                         state.vars.country = 'KE';
                         state.vars.reg_lang = state.vars.enr_lang;
