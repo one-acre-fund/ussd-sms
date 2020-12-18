@@ -206,8 +206,6 @@ describe('ChickenServices', () => {
             expect(mockRow.vars.confirmed).toBe(1);
             expect(mockRow.vars.first_name).toBe(client.FirstName);
             expect(mockRow.vars.last_name).toBe(client.LastName);
-            expect(mockRow.vars.site).toBe(client.SiteName);
-            expect(mockRow.vars.district).toBe(client.DistrictName);
             expect(mockRow.vars.group).toBe(client.GroupName);
             expect(mockRow.vars.ordered_chickens).toBe(state.vars.confirmed_number);
             expect(mockRow.save).toHaveBeenCalled();
