@@ -29,8 +29,8 @@ module.exports = function(chicken_table, acc_nber, client_json){
     if(prepayment_amount >= 1000){
         state.vars.minimum_amount_paid = true;
         // If the prepayment is greater than the maximum number of chicken necessary(5) 
-        if((prepayment_amount / 500) > 5){
-            state.vars.max_chicken = 5;
+        if((prepayment_amount / 500) > 15){
+            state.vars.max_chicken = 15;
         }
         // else calculate the client's possible maximum
         else{

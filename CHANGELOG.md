@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ## v1.5.1
 * [MOB-142](https://oneacrefund.atlassian.net/browse/MOB-142) USSD Sessions are failing with a Recipient number empty error
+    * change the maximum cap for the number of chickens to 15
 ### Added
 * [MOB-132](https://oneacrefund.atlassian.net/browse/MOB-132) Changed the chicken confirmation cap to check per sector
 ## v1.5.0

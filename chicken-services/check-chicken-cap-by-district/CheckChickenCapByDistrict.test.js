@@ -6,6 +6,7 @@ const mockCursor = {
 };
 const mockTable = { queryRows: jest.fn() };
 var mockRow ={vars: { ordered_chickens: 10, confirmed: 1, district: client.DistrictName, sector: 'Muganza'}};
+var fakeMockRow ={vars: { ordered_chickens: 10, confirmed: 1, district: client.DistrictName, sector: 'NoSector'}};
 var mockClientRow = {vars: {account_number: client.AccountNumber, district: client.DistrictName, sector: 'Muganza'}};
 
 describe('change_order_handler', () => {
@@ -40,6 +41,12 @@ describe('change_order_handler', () => {
     });
     it('should return false if no caps were found', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(false);
+        var result = checkChickenCapByDistrict(client);
+        expect(result).toBeFalsy();
+    });
+    it('should return false if no caps were found', ()=>{
+        mockCursor.hasNext.mockReturnValueOnce(true);
+        mockCursor.next.mockReturnValueOnce(fakeMockRow);
         var result = checkChickenCapByDistrict(client);
         expect(result).toBeFalsy();
     });
