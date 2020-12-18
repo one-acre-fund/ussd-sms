@@ -1,13 +1,27 @@
 
 var capsByDistrict = require('./capsByDistrict');
-module.exports = function (district, month){
+module.exports = function (client){
 
-    var caps = capsByDistrict[district][month];
-    var districtName = capsByDistrict[district]['name'];
+    var districtName, sectorName;
+    console.log('d'+ client.DistrictName);
+    var clientTable = project.initDataTableById(service.vars.chicken_table_id);
+    var clientCursor = clientTable.queryRows({'vars': {'account_number': client.AccountNumber, 'district': client.DistrictName}});
+    if(!clientCursor.hasNext()){
+        state.vars.client_notfound = true;
+        return false;
+    }
+    else{
+        var clientRow = clientCursor.next();
+        districtName = clientRow.vars.district; 
+        sectorName = clientRow.vars.sector;
+    }
+    var caps = capsByDistrict[districtName];
+    if(caps){ caps = capsByDistrict[districtName][sectorName];}
+    var month = new Date().getMonth()+1;
     if(caps){
         var numberOfChickensInTheMonth = 0;
         var table = project.initDataTableById(service.vars.chicken_table_id);
-        var cursor = table.queryRows({'vars': {'confirmed': 1, 'confirmed_month': month, 'district': districtName}});
+        var cursor = table.queryRows({'vars': {'confirmed': 1, 'confirmed_month': month, 'district': districtName, 'sector': sectorName}});
         while(cursor.hasNext())
         {
             var row = cursor.next();
@@ -21,5 +35,6 @@ module.exports = function (district, month){
             return (caps - numberOfChickensInTheMonth);
         }
     }
+    state.vars.client_notfound = true;
     return false;
 };
