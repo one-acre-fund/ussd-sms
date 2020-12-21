@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+### Fixed
+* [MOB-109](https://oneacrefund.atlassian.net/browse/MOB-109) Fix Healthy path calculation
 ### Changed
 * [SER-370](https://oneacrefund.atlassian.net/browse/SER-370) Verify Groups on Roster instead of using telerivet data tables
 * [MOB-128](https://oneacrefund.atlassian.net/browse/MOB-128) Repayment Services UAT fixes
