@@ -4,32 +4,32 @@ var translator = require('../../utils/translator/translator');
 var Log = require('../../logger/elk/elk-logger');
 var create_zd_ticket = require('../../zd-legacy/lib/create-ticket');
 
-module.exports = function(lang, desc, userDetails, menu) {
+module.exports = function(callInfo) {
     var logger = new Log();
-    var getMessage = translator(translations, lang);
+    var getMessage = translator(translations, callInfo.lang);
 
-    if (CallBackTimeCheck(userDetails.accountNumber, desc, 48)) {
-        global.sayText(getMessage('call_back_duplicate', {}, lang));
+    if (CallBackTimeCheck(callInfo.accountNumber, callInfo.desc, 24)) {
+        global.sayText(getMessage('call_back_duplicate', {}, callInfo.lang));
         global.stopRules();
     }
     else{
-        var ticketTags = [desc, 'kenya', 'CallBackUSSD'];
-        if (create_zd_ticket(userDetails.accountNumber, desc, userDetails.phoneNumber, ticketTags)){
+        var ticketTags = [callInfo.desc, 'kenya', 'CallBackUSSD'];
+        if (create_zd_ticket(callInfo.accountNumber, callInfo.desc, callInfo.phoneNumber, ticketTags)){
             console.log('created_ticket!');
-            global.sayText(getMessage('OAF_call', {}, lang));
+            global.sayText(getMessage(callInfo.successMsg, {}, callInfo.lang));
             global.stopRules();
         } else {
-            logger.error('zendesk ticket creation failed for' + userDetails.accountNumber, {
-                tags: ['zendesk', 'ke-legacy', desc],
+            logger.error('zendesk ticket creation failed for' + callInfo.accountNumber, {
+                tags: ['zendesk', 'ke-legacy', callInfo.desc],
                 data: {
-                    reportedIssue: desc,
-                    phone: userDetails.phoneNumber,
-                    requester: userDetails.accountNumber, 
+                    reportedIssue: callInfo.desc,
+                    phone: callInfo.phoneNumber,
+                    requester: callInfo.accountNumber, 
                 }
             });
-            console.log('create_ticket failed on ' + userDetails.accountNumber);
-            global.sayText(getMessage(menu));
-            global.promptDigits(menu);
+            console.log('create_ticket failed on ' + callInfo.accountNumber);
+            global.sayText(getMessage(callInfo.repeatMenu));
+            global.promptDigits(callInfo.repeatHandler);
         }
     }
 };

@@ -19,12 +19,15 @@ module.exports = function getHandler(backMenu) {
             });
             break;
         case '2':
-            var userDetails = {
+            scheduleCall({
+                lang: lang,
+                desc: 'Call back requested for forgotten national ID. User phone number is '+ contact.phone_number,
                 accountNumber: 'NonClient' + contact.phone_number,
-                phoneNumber: contact.phone_number
-            };
-            var desc = 'Call back requested for forgotten national ID. User phone number is '+ contact.phone_number;
-            scheduleCall(lang, desc, userDetails, 'sbcc_menu');
+                phoneNumber: contact.phone_number, 
+                repeatMenu: 'sbcc_menu',
+                repeatHandler: 'sbcc_menu',
+                successMsg: 'OAF_call'
+            });
             break;
         case '3':
             backMenu();
@@ -40,4 +43,4 @@ module.exports = function getHandler(backMenu) {
             break;
         }
     };
-} 
+};

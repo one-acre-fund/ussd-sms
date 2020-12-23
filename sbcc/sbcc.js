@@ -7,9 +7,11 @@ function registerInputHandlers(session_details) {
     var nationalIdHandler = require('./input-handlers/nationalIdHandler');
     var pinHandler = require('./input-handlers/pinHandler');
     var getSbccMenuHandler = require('./input-handlers/sbccMenuHandler');
+    var pinMenuHandler = require('./input-handlers/pinHandler');
 
     addInputHandler('sbcc_menu', getSbccMenuHandler(session_details.backMenu));
     addInputHandler('national_id', nationalIdHandler);
+    addInputHandler('pin_menu', pinMenuHandler);
     addInputHandler('pin', pinHandler);
 }
 

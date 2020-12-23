@@ -20,6 +20,7 @@ service.vars.currency = 'KES';
 service.vars.topUpStart = env + '_start_top_up';
 service.vars.topUpEnd = env + '_end_top_up';
 service.vars.seed_germination_issues_table = env + '_seed_germination_issues';
+service.vars.sbccTable = env + '_SBCC';
 
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var transactionHistory = require('../transaction-history/transactionHistory');
