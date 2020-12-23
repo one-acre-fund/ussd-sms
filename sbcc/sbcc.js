@@ -4,6 +4,7 @@ var notifyELK = require('../notifications/elk-notification/elkNotification');
 
 function registerInputHandlers(session_details) {
     state.vars.sbcc_variables = JSON.stringify(session_details);
+    console.log('sbcc variables inside registerhandlers', state.vars.sbcc_variables);
     var nationalIdHandler = require('./input-handlers/nationalIdHandler');
     var pinHandler = require('./input-handlers/pinHandler');
     var sbccMenuHandler = require('./input-handlers/sbccMenuHandler');
@@ -16,7 +17,10 @@ function registerInputHandlers(session_details) {
 function startSBCC(session_details) {
     notifyELK();
     var lang = session_details.lang;
+    state.vars.lang = lang;
+    console.log('sbcc variables inside startSBBC before adding menu', state.vars.sbcc_variables);
     state.vars.sbcc_variables.backMenu = session_details.backMenu;
+    console.log('sbcc variables inside startSBBC after adding menu', state.vars.sbcc_variables);
     var getMessage = translator(translations, lang);
 
     sayText(getMessage('sbcc_menu', {}, lang));
