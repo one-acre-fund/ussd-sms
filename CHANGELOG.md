@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
-
+## v1.6.0
 ### Fixed
 * [MOB-109](https://oneacrefund.atlassian.net/browse/MOB-109) Fix Healthy path calculation
 ## v1.5.1
