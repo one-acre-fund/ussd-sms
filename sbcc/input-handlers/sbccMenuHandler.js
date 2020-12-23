@@ -9,7 +9,7 @@ module.exports = function sbccMenuHandler(input) {
     console.log('sbcc variables inside sbccMenuHandler ' + JSON.stringify(sbcc_variables));
     console.log('state vars ' + JSON.stringify(state.vars));
     var lang = state.vars.lang;
-    var backMenu = sbcc_variables.backMenu;
+    var backMenu = state.vars.backMenu;
     var getMessage = translator(translations, lang);
 
     switch (input.replace(/D/g, '')) {

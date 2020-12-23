@@ -18,6 +18,7 @@ function startSBCC(session_details) {
     notifyELK();
     var lang = session_details.lang;
     state.vars.lang = lang;
+    state.vars.backMenu = session_details.backMenu;
     console.log('sbcc variables inside startSBBC before adding menu ' + JSON.stringify(state.vars.sbcc_variables));
     state.vars.sbcc_variables.backMenu = session_details.backMenu;
     console.log('sbcc variables inside startSBBC after adding menu ' + JSON.stringify(state.vars.sbcc_variables));
