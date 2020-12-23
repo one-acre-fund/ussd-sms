@@ -14,4 +14,9 @@ describe('Healthy path on Balance screen', () => {
         var message = HealthyPathMessage(1, 2, 3, 150, 50, 'en');
         expect(message).toBe('Healthy Path Status: 5 above healthy path\n');
     });
+    it('should return an empty message when the user has not healthy path', () => {
+        fetchHealthyPathData.mockImplementationOnce(() => {});
+        var message = HealthyPathMessage(1, 2, 3, 150, 50, 'en');
+        expect(message).toBe('');
+    });
 });

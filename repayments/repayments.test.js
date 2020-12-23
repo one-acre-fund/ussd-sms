@@ -120,7 +120,7 @@ describe('mobile money repayments using', () => {
             })
         };
         require('./repayments');
-        expect(project.sendMessage).toHaveBeenCalledWith({'content': 'Hello Je-3033-cf74-f94a Last payment: KSh 3000. Receipt Number 5beb94c0-3033-cf74-f94a. Total paid KSh 14000. Balance KSh 6500. Pay 1500 to stay on the healthy path.',
+        expect(project.sendMessage).toHaveBeenCalledWith({'content': 'Hello Je-3033-cf74-f94a Last payment: KSh 3000. Receipt Number 5beb94c0-3033-cf74-f94a. Total paid KSh 14000. Balance KSh 6500.Pay 1500 to stay on the healthy path\n',
             'to_number': '0755432334', 'label_ids': [
                 'lang',
                 'MM receipt',

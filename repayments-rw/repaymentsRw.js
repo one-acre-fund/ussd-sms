@@ -1,8 +1,6 @@
 var translator = require('../utils/translator/translator');
 var translations = require('./translations/index');
-var getHealthyPathPercentage = require('../healthy-path/utils/getHealthyPathPercentage');
-var calculateHealthyPath= require('../healthy-path/utils/healthyPathCalculator');
-
+var getHealthyPathDist = require('../healthy-path/repayments/HealthyPathOnRepaymentReceipts');
 var defaultEnvironment; 
 if(service.active){
     defaultEnvironment = 'prod';
@@ -43,9 +41,7 @@ for (var i = 0; i < arrayLength; i++) {
 
 // calculating the healthy path
 var BalanceHistory = client.BalanceHistory[0];
-var healthyPathPercentage = getHealthyPathPercentage(BalanceHistory && BalanceHistory.SeasonId, client.CountryId, client.DistrictId);
-var healthyPath = calculateHealthyPath(healthyPathPercentage, BalanceHistory && BalanceHistory.TotalCredit, BalanceHistory && BalanceHistory.TotalRepayment_IncludingOverpayments);
-var hp_dist = healthyPath < 0 || !healthyPath ? '' : getMessage('hp_dist', {'$hp_dist': healthyPath}, 'ki');
+var hp_dist = getHealthyPathDist(BalanceHistory && BalanceHistory.SeasonId, client.CountryId, client.DistrictId, BalanceHistory && BalanceHistory.TotalCredit, BalanceHistory && BalanceHistory.TotalRepayment_IncludingOverpayments, 'ki');
 
 // sending the actual mm receipt
 var transactionLog = '';

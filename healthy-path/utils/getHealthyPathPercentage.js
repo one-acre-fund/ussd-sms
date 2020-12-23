@@ -9,7 +9,7 @@ var getHealthyPathData = require('../../shared/rosterApi/getHealthyPathData');
  */
 module.exports = function(SeasonId, CountryId, DistrictId) {
     try {
-        var healthyPathData = getHealthyPathData(SeasonId, CountryId, DistrictId);
+        var healthyPathData = getHealthyPathData(SeasonId, CountryId, DistrictId) || [];
         var currentWeekHealthyPathData = healthyPathData.filter(function(entry) {
             var compareDate = moment();
             var startDate   = moment(entry.StartDate);

@@ -15,4 +15,10 @@ describe('Healthy path on Repayments receipt', () => {
         var message = HealthyPathMessage(1, 2, 3, 150, 50, 'en');
         expect(message).toBe('');
     });
+
+    it('should return an empty message when the user has not healthy path', () => {
+        getHealthyPathPercentage.mockImplementationOnce(() => {});
+        var message = HealthyPathMessage(1, 2, 3, 150, 50, 'en');
+        expect(message).toBe('');
+    });
 });
