@@ -123,12 +123,21 @@ describe('ChickenServices', () => {
         });
         it('should show a chicken_possible_nber message if the client met minumum payment and the number of caps is not reached', () => {
             state.vars.minimum_amount_paid = true;
-            CheckChickenCapByDistrict.mockReturnValue(4);
+            CheckChickenCapByDistrict.mockReturnValue(40);
             state.vars.max_chicken = number;
             chickenServices.start(account, country);
             expect(sayText).toHaveBeenCalledWith(`Hello ${client.FirstName} `
             +`you are eligible to purchase ${number} `
             +'number of chickens. How many would you like to confirm? 0: Return home');
+            expect(sayText).toHaveBeenCalledTimes(1);
+        });
+        it('should show a chicken_possible_nber message if the client met minumum payment and the number of caps is not reached, but max chicken is grater than cap', () => {
+            state.vars.minimum_amount_paid = true;
+            CheckChickenCapByDistrict.mockReturnValue(4);
+            state.vars.max_chicken = number;
+            chickenServices.start(account, country);
+            expect(sayText).toHaveBeenCalledWith(`Hello ${client.FirstName} `
+            +'you are eligible to purchase 4 number of chickens. How many would you like to confirm? 0: Return home');
             expect(sayText).toHaveBeenCalledTimes(1);
         });
         it('should call onPayment Validated if minimum payment is met and the number of caps is not reached', () => {
@@ -197,8 +206,6 @@ describe('ChickenServices', () => {
             expect(mockRow.vars.confirmed).toBe(1);
             expect(mockRow.vars.first_name).toBe(client.FirstName);
             expect(mockRow.vars.last_name).toBe(client.LastName);
-            expect(mockRow.vars.site).toBe(client.SiteName);
-            expect(mockRow.vars.district).toBe(client.DistrictName);
             expect(mockRow.vars.group).toBe(client.GroupName);
             expect(mockRow.vars.ordered_chickens).toBe(state.vars.confirmed_number);
             expect(mockRow.save).toHaveBeenCalled();

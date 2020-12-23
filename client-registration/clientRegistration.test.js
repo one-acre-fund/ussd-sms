@@ -16,7 +16,7 @@ var {client}  = require('../client-enrollment/test-client-data');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var groupCodeHandler = require('./group-code-handler/groupCodeHandler');
 var varietyChoiceHandler = require('./variety-choice-handler/varietyChoiceHandler');
-
+var getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
 
 jest.mock('../rw-legacy/lib/roster/register-client');
 jest.mock('../notifications/elk-notification/elkNotification');
@@ -35,7 +35,7 @@ jest.mock('./order-confirmation-handler/orderConfirmationHandler');
 jest.mock('./group-code-handler/groupCodeHandler');
 jest.mock('./continue/continue');
 jest.mock('./variety-choice-handler/varietyChoiceHandler');
-
+jest.mock('../shared/rosterApi/getPhoneNumber');
 const mockConfrmNationalIdHandler = jest.fn();
 const mockConfrmPhoneNumberHandler = jest.fn();
 const mockFirstNameHandler = jest.fn();
@@ -662,6 +662,28 @@ describe('clientRegistration', () => {
             callback();
             expect(sayText).toHaveBeenCalledWith(message);
             expect(project.sendMessage).toHaveBeenCalledWith({content: message, to_number: phone});
+        });
+        it('should send an sms confirming the order to the phone entered by the client if the order is saved in roster',()=>{
+            httpClient.request.mockReturnValue({status: 201});
+            contact.phone_number = phone;
+            mockCursor.hasNext.mockReturnValueOnce(false);
+            mockTable.createRow.mockReturnValueOnce(mockRow);
+            var message = `Thanks for ordering ${mockBundleInput[0].bundleName}`+
+            ` ${mockBundleInput[0].price}  `+'. Make sure you pay at least Ksh 500 qualification amount to receive input on input delivery day.';
+            callback();
+            expect(project.sendMessage).toHaveBeenCalledWith({content: message, to_number: state.vars.phoneNumber});
+        });
+        it('should send an sms confirming the order to the phone entered by the client if the order is saved in roster',()=>{
+            httpClient.request.mockReturnValue({status: 201});
+            contact.phone_number = phone;
+            state.vars.phoneNumber = undefined;
+            mockCursor.hasNext.mockReturnValueOnce(false);
+            mockTable.createRow.mockReturnValueOnce(mockRow);
+            getPhoneNumber.mockReturnValueOnce([{PhoneNumber: '0780056513',IsInactive: false,}]);
+            var message = `Thanks for ordering ${mockBundleInput[0].bundleName}`+
+            ` ${mockBundleInput[0].price}  `+'. Make sure you pay at least Ksh 500 qualification amount to receive input on input delivery day.';
+            callback();
+            expect(project.sendMessage).toHaveBeenCalledWith({content: message, to_number: '0780056513'});
         });
         
         it('should update the row with the client\'s order if the order is saved in roster and a client row already exist',()=>{

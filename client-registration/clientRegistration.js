@@ -19,6 +19,7 @@ var varietyConfirmationHandler = require('./variety-confirmation-handler/variety
 var groupCodeHandler = require('./group-code-handler/groupCodeHandler');
 var continueHandler = require('./continue/continue');
 var enrollOrder = require('../Roster-endpoints/enrollOrder');
+var getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
 module.exports = {
     registerHandlers: function (){
         
@@ -380,6 +381,15 @@ function onOrderConfirmed(){
             content: message, 
             to_number: contact.phone_number
         });
+        if(typeof(state.vars.phoneNumber) === 'undefined'){
+            var phone_numbers = getPhoneNumber(client.AccountNumber, client.CountryName);
+            if(phone_numbers) {
+                var active_phone_numbers = phone_numbers.filter(function(phone_number) {
+                    return !phone_number.IsInactive;
+                });
+                state.vars.phoneNumber = active_phone_numbers[0].PhoneNumber;
+            }
+        }
         project.sendMessage({
             content: message, 
             to_number: state.vars.phoneNumber

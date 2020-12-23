@@ -17,7 +17,7 @@ var client = {
     'SiteId': 22,
     'SiteName': 'Mafubira Buwekula',
     'DistrictId': 546,
-    'DistrictName': 'Jinja',
+    'DistrictName': 'Bugarama',
     'RegionId': 1800,
     'RegionName': 'South East',
     'CountryId': 800,
