@@ -6,8 +6,8 @@ var scheduleCall = require('../utils/scheduleCall');
 module.exports = function sbccMenuHandler(input) {
     notifyELK();
     var sbcc_variables = state.vars.sbcc_variables;
-    console.log('sbcc variables inside sbccMenuHandler', sbcc_variables);
-    console.log('state vars', state.vars);
+    console.log('sbcc variables inside sbccMenuHandler ' + JSON.stringify(sbcc_variables));
+    console.log('state vars ' + JSON.stringify(state.vars));
     var lang = state.vars.lang;
     var backMenu = sbcc_variables.backMenu;
     var getMessage = translator(translations, lang);
