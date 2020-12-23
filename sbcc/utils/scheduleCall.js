@@ -9,15 +9,15 @@ module.exports = function(lang, desc, userDetails, menu) {
     var getMessage = translator(translations, lang);
 
     if (CallBackTimeCheck(userDetails.accountNumber, desc, 48)) {
-        sayText(getMessage('call_back_duplicate', {}, lang));
-        stopRules();
+        global.sayText(getMessage('call_back_duplicate', {}, lang));
+        global.stopRules();
     }
     else{
         var ticketTags = [desc, 'kenya', 'CallBackUSSD'];
         if (create_zd_ticket(userDetails.accountNumber, desc, userDetails.phoneNumber, ticketTags)){
             console.log('created_ticket!');
-            sayText(getMessage('OAF_call', {}, lang));
-            stopRules();
+            global.sayText(getMessage('OAF_call', {}, lang));
+            global.stopRules();
         } else {
             logger.error('zendesk ticket creation failed for' + userDetails.accountNumber, {
                 tags: ['zendesk', 'ke-legacy', desc],
@@ -28,8 +28,8 @@ module.exports = function(lang, desc, userDetails, menu) {
                 }
             });
             console.log('create_ticket failed on ' + userDetails.accountNumber);
-            sayText(getMessage(menu));
-            promptDigits(menu);
+            global.sayText(getMessage(menu));
+            global.promptDigits(menu);
         }
     }
 };
