@@ -2,7 +2,9 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
-
+## v1.6.0
+### Fixed
+* [MOB-109](https://oneacrefund.atlassian.net/browse/MOB-109) Fix Healthy path calculation
 ## v1.5.1
 * [MOB-142](https://oneacrefund.atlassian.net/browse/MOB-142) USSD Sessions are failing with a Recipient number empty error
     * change the maximum cap for the number of chickens to 15

@@ -17,5 +17,5 @@ module.exports = function(SeasonId, CountryId, DistrictId, credit, repaid, lang)
     if(healthyPathDistance > 0) {
         message = getMessage('healthy_path_repayment', {'$HP_DIST': healthyPathDistance}, lang);
     }
-    return message;
+    return healthyPathDistance.toString() == 'NaN' ? '' : message;
 };

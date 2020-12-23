@@ -3,8 +3,7 @@ var translator = require('../utils/translator/translator');
 var getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
 var logger = require('../slack-logger/index');
 var validateProjectVatiables = require('./validateProjectVariables');
-var getHealthyPathPercentage = require('../healthy-path/utils/getHealthyPathPercentage');
-var calculateHealthyPath= require('../healthy-path/utils/healthyPathCalculator');
+var getHealthyPathDist = require('../healthy-path/repayments/HealthyPathOnRepaymentReceipts');
 
 var defaultEnvironment; 
 if(service.active){
@@ -89,9 +88,7 @@ var mmReceipt = '';
 
 var repaymentsLabels = [languagesLabels[lang], 'MM receipt', 'Business Operations'];
 var BalanceHistory = client.BalanceHistory[0];
-var healthyPathPercentage = getHealthyPathPercentage(BalanceHistory && BalanceHistory.SeasonId, client.CountryId, client.DistrictId);
-var healthyPath = calculateHealthyPath(healthyPathPercentage, BalanceHistory && BalanceHistory.TotalCredit, BalanceHistory && BalanceHistory.TotalRepayment_IncludingOverpayments);
-var hp_dist = healthyPath < 0 ? '' : getMessage('hp_dist', {'$hp_dist': healthyPath}, lang);
+var hp_dist = getHealthyPathDist(BalanceHistory && BalanceHistory.SeasonId, client.CountryId, client.DistrictId, BalanceHistory && BalanceHistory.TotalCredit, BalanceHistory && BalanceHistory.TotalRepayment_IncludingOverpayments, lang);
 if (client.BalanceHistory[0].TotalRepayment_IncludingOverpayments > client.BalanceHistory[0].TotalCredit){
     var OverpaidAmount = client.BalanceHistory[0].TotalRepayment_IncludingOverpayments - client.BalanceHistory[0].TotalCredit;
     mmReceipt = getMessage('mm_receipt_over_paid', {

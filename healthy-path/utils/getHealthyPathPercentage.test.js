@@ -46,5 +46,13 @@ describe('get healthy path percentage', () => {
         getHealthyPathData.mockReturnValueOnce(mockData);
         const result = getHealthyPathPercentage(1,2,3);
         expect(result).toEqual(0.55);
+    });
+
+    it('should not break if the healthy path is empty or not returned', () => {
+        jest.spyOn(slack, 'log');
+        getHealthyPathData.mockImplementationOnce(() => {});
+        const result = getHealthyPathPercentage(1,2,3);
+        expect(result).toEqual(undefined);
+        expect(slack.log).toHaveBeenCalledWith('API returned empty healthy path or an error during week number calculation{"content":[]}');
     }); 
 });
