@@ -14,9 +14,8 @@ module.exports = function nationalIdHandler(input) {
     }
     if (nationalIdCursor.hasNext()) {
         var record = nationalIdCursor.next().vars;
-        state.vars.nationalId = record.national_id;
         state.vars.pin = record.pin;
-        
+
         // Reset incorrect attempts in case user got it right on second attempt
         state.vars.incorrectIdAttempts = 0;
         sayText(getMessage('pin_menu', {}, lang));
