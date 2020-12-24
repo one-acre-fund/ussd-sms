@@ -24,11 +24,11 @@ module.exports = {
         'sw': 'Samahani, hii nambari ya kitambulisho haipatikani kwa mtandao wetu. Utapigiwa simu na mhudumu wa wateja kutoka OAF kwa masaa 24 kukuhudumia'
     },
     'incorrect_pin': {
-        'en': 'Sorry, your PIN is incorrect . You will receive a call from OAF in 24 hours to assist thsi issue',
+        'en': 'Sorry, your PIN is incorrect . You will receive a call from OAF in 24 hours to assist with this issue',
         'sw': 'Samahani, nambari yako ya siri si sahihi. Utapigiwa simu na mhudumu wa wateja kutoka OAF kwa masaa 24 kukuhudumia'
     },
     'OAF_call': {
-        'en': 'You will receive a call from OAF in 24 hours for assisnace with this issue',
+        'en': 'You will receive a call from OAF in 24 hours for assistance with this issue',
         'sw': 'Utapigiwa simu na mhudumu wa wateja kutoka OAF kwa masaa 24 kukuhudumia'
     },
     'call_back_duplicate': {
