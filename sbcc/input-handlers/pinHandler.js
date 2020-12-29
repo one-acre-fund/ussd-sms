@@ -2,6 +2,7 @@ var translations = require('../translations/message-translations');
 var translator = require('../../utils/translator/translator');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 var scheduleCall = require('../utils/scheduleCall');
+var triggerService = require('../../shared/triggerService');
 
 module.exports = function pinHandler(input) {
     notifyELK();
@@ -15,6 +16,10 @@ module.exports = function pinHandler(input) {
         state.vars.incorrectPinAttempts = 0;
         console.log('Pin is correct.');
         // TODO - Start IVR call here
+        triggerService('SV535e0ec81dc27e51', {
+            phone_number: contact.phone_number,
+            context: 'call'
+        });
     } else {
         state.vars.incorrectPinAttempts += 1;
         if (state.vars.incorrectPinAttempts < 2) {
