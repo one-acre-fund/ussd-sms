@@ -261,11 +261,15 @@ function onOrderConfirmed(){
         orderPlaced.forEach(function(element){
             var stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': element.bundleName}});
             if(stockCursor.hasNext()){
+                console.log('found');
                 var row = stockCursor.next();
                 row.vars.quantityordered =  row.vars.quantityordered + 1;
+                console.log('old quantity:--------------'+row.vars.quantityordered+ 'product:-----------'+element.bundleName+'warehouse:'+state.vars.warehouse+ service.vars.warehouseStockTableId);
                 row.save();
             } 
+            console.log('old quantity:--------------not found'+ 'product:-----------'+element.bundleName+'warehouse:'+state.vars.warehouse+ service.vars.warehouseStockTableId);
         });
+        console.log('not found');
         if(state.vars.chosenVariety != ' '){
             var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
             var vStockCursor = varietyStockTable.queryRows({vars: {'warehousename': state.vars.varietyWarehouse,'inputname': JSON.parse(state.vars.chosenVariety).inputName}});
