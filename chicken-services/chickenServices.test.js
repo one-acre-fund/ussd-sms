@@ -63,6 +63,46 @@ describe('ChickenServices', () => {
         expect(addInputHandler).toHaveBeenCalledWith(possibleOrderHandler.handlerName, possibleOrderHandler.getHandler());            
     });
 
+    describe('viewInfo', () => {
+        var date = '1/1/2010';
+        var location ='Gisozi';
+        var delivery_time = '07:00';
+        var mockDeliveryRow = {'vars': {'delivery_date': date,'pickup_location': location, 'delivery_time': delivery_time}};
+        beforeEach(() => {
+            sayText.mockClear();
+            promptDigits.mockClear();
+            state.vars={};
+            project.initDataTableById.mockReturnValue(mockTable);
+            mockTable.queryRows.mockReturnValue(mockCursor);
+        });
+        it('should set the  state vars to the provided client JSON and country', () => {
+            state.vars.client_json = client;
+            state.vars.country = '';
+            mockCursor.hasNext.mockReturnValueOnce(false);
+            chickenServices.viewInfo(client, country);
+            var clientJSON = JSON.stringify(client);
+            expect(state.vars.client_json).toMatch(clientJSON);
+            expect(state.vars.country).toMatch(country);
+        });
+        it('should call notifyELK ', () => {
+            mockCursor.hasNext.mockReturnValueOnce(false);
+            chickenServices.viewInfo(client, country);
+            expect(notifyELK).toHaveBeenCalled();
+        });
+        it('should display a try again message if the client is not found in the tables',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(false);
+            chickenServices.viewInfo(client, country);
+            expect(sayText).toHaveBeenCalledWith('try again later');
+        });
+        it('should display the delivery information if the client district and site is found in the tables',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockDeliveryRow);
+            chickenServices.viewInfo(client, country);
+            expect(sayText).toHaveBeenCalledWith(`Pickup date: ${date}`+
+            `\n Pickup time: ${delivery_time}`+
+            `\n Pickup location: ${location}`);
+        });
+    });
     var number = 10;
     describe('start', () => {
         beforeAll(() => {

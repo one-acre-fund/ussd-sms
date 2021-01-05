@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+
+### Added
+* [MOB-27] (https://oneacrefund.atlassian.net/browse/MOB-27) TR - As a client, I want to receive information about delivery time, date, and location for chicken orders, so that I know when and where to pick up chickens
 ### Fixed
 * [MOB-109](https://oneacrefund.atlassian.net/browse/MOB-109) Fix Healthy path calculation
 ## v1.5.1

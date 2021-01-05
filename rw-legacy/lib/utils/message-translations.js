@@ -839,5 +839,9 @@ module.exports = {
     'no_produts_msg':{
         'en': 'No order placed so far\n1)Choose a bundle/order\n3) go back',
         'ki':'Ntacyo uratumiza\n1) Tumiza\n3)Subira ahabanza '
+    },
+    'chickenOptions':{
+        'en': '1) Confirm your order\n2) View Delivery Information',
+        'ki': '1) Kwemeza inkoko watumije\n2) Kureba igihe naho gufatira inkoko'
     }
 }

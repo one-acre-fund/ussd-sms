@@ -51,5 +51,9 @@ module.exports = {
     'invalid_try_again': {
         'en': 'Invaid input, please try again.  $Menu',
         'ki': 'Ibyo mwinjije ntago bishoboka, ongera ugerageze.  $Menu'
+    },
+    'deliveryInfo': {
+        'en': 'Pickup date: $date\n Pickup time: $time\n Pickup location: $location',
+        'ki': 'Itariki: $date\n amasaha: $time\n aha gufatira: $location'
     }
 };

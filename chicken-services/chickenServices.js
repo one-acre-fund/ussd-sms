@@ -86,6 +86,29 @@ module.exports = {
             global.stopRules();
             return;
         }
+    },
+
+    viewInfo: function (clientJson, country) {
+        notifyELK();
+        state.vars.client_json = JSON.stringify(clientJson);
+        console.log(state.vars.client_json);
+        state.vars.country = country;
+        console.log(state.vars);
+        var chicken_delivery_table = project.initDataTableById(service.vars.chickenDeliveryTable);
+        var query = chicken_delivery_table.queryRows({'vars': {'district': clientJson.DistrictName, 'site': clientJson.SiteName}});
+        if(query.hasNext()){
+            var row = query.next();
+            var date = row.vars.delivery_date;
+            var location = row.vars.pickup_location;
+            var time = row.vars.delivery_time;
+            sayText(translate('deliveryInfo',{'$date': date, '$time': time, '$location': location}));
+            global.stopRules();
+        }
+        else{
+            global.sayText(translate('try_later',{}));
+            global.stopRules();
+            return;
+        }
     }
  
 };

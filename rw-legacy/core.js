@@ -38,6 +38,7 @@ if(env === 'prod'){
     service.vars.avocado_table_id = 'DT864c12fe76c43eaf';
     service.vars.rw_reg_client_table_id = 'DT29e542bf090b050f';
     service.vars.groupCodeTableId = project.vars.groupCodeTableId;
+    service.vars.chickenDeliveryTable = 'DTd575315ef32f4bc0';
 
 }else{
     service.vars.season_clients_table = 'dev_' + project.vars.season_clients_table;
@@ -56,6 +57,7 @@ if(env === 'prod'){
     service.vars.chicken_table_id = 'DT8c3e091b499f1726';
     service.vars.rw_reg_client_table_id = 'DT41914a4d2dc6a29f';
     service.vars.groupCodeTableId = project.vars.dev_groupCodeTableId;
+    service.vars.chickenDeliveryTable = 'DT2a21f65774d527a5';
 }
 
 var client_table = project.initDataTableById(service.vars['21a_client_data_id']);
@@ -295,11 +297,8 @@ addInputHandler('cor_menu_select', function (input) {
         }
     }
     else if(selection === 'chicken_confirm'){
-        try {
-            chickenServices.start(state.vars.account_number,'rw');            
-        } catch (error) {
-            slack.log(error)
-        }
+        sayText(msgs(('chickenOptions',{},lang)))
+        promptDigits('chicken_choice', { 'submitOnHash': false, 'maxDigits': max_digits_for_account_number, 'timeout': timeout_length });
     }
     else if (selection === 'chx_confirm') {
         // if they have already ordered chickens, tell them how many they have ordered and ask if they'd like to change
@@ -1757,4 +1756,25 @@ addInputHandler('enr_terms_and_conditions',function(input){
         promptDigits('enr_terms_and_conditions', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
     }
     
+});
+addInputHandler('chicken_choice',function(input){
+    notifyELK();
+    if(input == 1){
+        try {
+            chickenServices.start(state.vars.account_number,'rw');            
+        } catch (error) {
+            slack.log(error)
+        }
+    }
+    else if(input == 2){
+        try {
+            chickenServices.viewInfo(JSON.parse(state.vars.client_json),'rw');            
+        } catch (error) {
+            slack.log(error)
+        } 
+    } 
+    else{
+        sayText(msgs(('chickenOptions',{},lang)))
+        promptDigits('chicken_choice', { 'submitOnHash': false, 'maxDigits': max_digits_for_account_number, 'timeout': timeout_length });
+    }
 });
