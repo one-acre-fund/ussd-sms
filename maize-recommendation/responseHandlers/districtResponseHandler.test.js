@@ -23,6 +23,19 @@ describe('District response handler', () => {
         expect(sendReply).toHaveBeenCalledWith('This district does not exist, check spelling and try again *689#');
     });
 
+    it('should handle the district if its input is empty', () => {
+        var lang = 'en-ke';
+        global.content = undefined;
+        var table = {queryRows: jest.fn()};
+        var row = {hasNext: jest.fn(() => false), next: jest.fn()};
+        jest.spyOn(table, 'queryRows').mockReturnValue(row);
+        jest.spyOn(project, 'getOrCreateDataTable').mockReturnValue(table);
+        var recommendation_table = 'dev_recommendation_table';
+        var districtHandler = districtResponseHandler.getHandler(lang, recommendation_table);
+        districtHandler();
+        expect(table.queryRows).toHaveBeenCalledWith({'vars': {'district': ''}});
+    });
+
     it('should prompt for acres planted per farm once the district is found', () => {
         var lang = 'en-ke';
         global.content = 'district1';
