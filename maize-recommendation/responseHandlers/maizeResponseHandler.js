@@ -8,7 +8,8 @@ module.exports = {
     getHandler: function(lang, maize_recommendation_table) {
         return function() {
             var getMessage = translator(translations, lang);
-            var maizeBags = content.trim().toUpperCase();
+            var input = content || '';
+            var maizeBags = input.trim().toUpperCase();
             var low_productivity;
             if(maizeBags == 'A') {
                 var table = project.getOrCreateDataTable(maize_recommendation_table);
