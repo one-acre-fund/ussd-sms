@@ -26,7 +26,7 @@ module.exports = function nationalIdHandler(input) {
         });
     } else {
         state.vars.incorrectIdAttempts += 1;
-        if (state.vars.incorrectIdAttempts < 2) {
+        if (state.vars.incorrectIdAttempts < 3) {
             sayText(getMessage('try_again', {}, lang));
             promptDigits('national_id', {
                 submitOnHash: true,

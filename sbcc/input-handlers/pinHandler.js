@@ -22,7 +22,7 @@ module.exports = function pinHandler(input) {
         });
     } else {
         state.vars.incorrectPinAttempts += 1;
-        if (state.vars.incorrectPinAttempts < 2) {
+        if (state.vars.incorrectPinAttempts < 3) {
             sayText(getMessage('try_again', {}, lang));
             promptDigits('pin', {
                 submitOnHash: true,
