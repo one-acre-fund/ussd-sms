@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+### Added
+* [MOB-150](https://oneacrefund.atlassian.net/browse/MOB-150) Make JiT Top-Up and Enrollment invisible on Client Menu
+
 ### Fixed
 * [MOB-109](https://oneacrefund.atlassian.net/browse/MOB-109) Fix Healthy path calculation
 ## v1.5.1
