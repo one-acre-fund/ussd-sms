@@ -191,6 +191,24 @@ describe('clientRegistration', () => {
             clientEnrollment.start(account, country,enr_lang);
             expect(clientRegistration.onContinueToEnroll).toBeCalled();
         });
+        it('should save the  state.vars.varietyWarehouse if the variety warehouse is available', () => {
+            var {client}  = require('./test-client-with-loan');
+            client.BalanceHistory=[];
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(wareHouseRow).mockReturnValueOnce(wareHouseRow);
+            roster.getClient = jest.fn().mockImplementationOnce(() => {return client ;});
+            clientEnrollment.start(account, country,enr_lang);
+            expect(state.vars.varietyWarehouse).toBe(wareHouseRow.vars.warehouse);
+        });
+        it('should set the  state.vars.varietyWarehouse to empty if warehouse is not available', () => {
+            var {client}  = require('./test-client-with-loan');
+            client.BalanceHistory=[];
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false);
+            mockCursor.next.mockReturnValueOnce(wareHouseRow);
+            roster.getClient = jest.fn().mockImplementationOnce(() => {return client ;});
+            clientEnrollment.start(account, country,enr_lang);
+            expect(state.vars.varietyWarehouse).toBe(' ');
+        });
         it('should call not call continue to enroll if the wareHouse for that district is not found', () => {
             var {client}  = require('./test-client-with-loan');
             client.BalanceHistory=[];
