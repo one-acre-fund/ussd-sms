@@ -4,6 +4,7 @@ var notifyELK = require('../../notifications/elk-notification/elkNotification');
 var scheduleCall = require('../utils/scheduleCall');
 // var triggerService = require('../../shared/triggerService');
 var ivrServiceId = 'SV535e0ec81dc27e51';
+var routeId = 'PN54d237477649c512';
 
 module.exports = function pinHandler(input) {
     notifyELK();
@@ -21,7 +22,12 @@ module.exports = function pinHandler(input) {
         //     phone_number: contact.phone_number,
         //     context: 'call'
         // });
-        var call = project.sendMessage({message_type: 'call', service_id: ivrServiceId, to_number: contact.phone_number});
+        var call = project.sendMessage({
+            message_type: 'call',
+            service_id: ivrServiceId,
+            to_number: contact.phone_number,
+            route_id: routeId,
+        });
         console.log(JSON.stringify(call));
     } else {
         state.vars.incorrectPinAttempts += 1;
@@ -35,12 +41,14 @@ module.exports = function pinHandler(input) {
         } else {
             scheduleCall({
                 lang: lang,
-                desc: 'Call back requested for incorrect pin entered twice. User phone number is '+ contact.phone_number,
+                desc:
+                    'Call back requested for incorrect pin entered twice. User phone number is ' +
+                    contact.phone_number,
                 accountNumber: 'NonClient' + contact.phone_number,
-                phoneNumber: contact.phone_number, 
+                phoneNumber: contact.phone_number,
                 repeatMenu: 'try_again',
                 repeatHandler: 'pin',
-                successMsg: 'incorrect_pin'
+                successMsg: 'incorrect_pin',
             });
         }
     }
