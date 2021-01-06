@@ -21,7 +21,8 @@ module.exports = function pinHandler(input) {
         //     phone_number: contact.phone_number,
         //     context: 'call'
         // });
-        project.sendMessage({message_type: 'call', service_id: ivrServiceId, to_number: contact.phone_number});
+        var call = project.sendMessage({message_type: 'call', service_id: ivrServiceId, to_number: contact.phone_number});
+        console.log(JSON.stringify(call));
     } else {
         state.vars.incorrectPinAttempts += 1;
         if (state.vars.incorrectPinAttempts < 3) {
