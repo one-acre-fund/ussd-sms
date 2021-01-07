@@ -3,8 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
-## v1.6.2
+### v1.6.3
+### Added
+* [MOB-150](https://oneacrefund.atlassian.net/browse/MOB-150) Make JiT Top-Up and Enrollment invisible on Client Menu
+
+### v1.6.2
+### Fixed
 * [MOB-156](https://oneacrefund.atlassian.net/browse/MOB-156) Update the KE registration to check the warehouse stock
+
 ## v1.6.1
 ### Fixed
 * [MOB-146](https://oneacrefund.atlassian.net/browse/MOB-146) maize_recommendation was unable to automatically process an incoming SMS

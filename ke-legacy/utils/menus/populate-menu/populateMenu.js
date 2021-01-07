@@ -25,6 +25,28 @@ var EnrolledAndQualified = function (client){
     }
     return Valid;
 };
+var isSiteClosed = function(districtName, siteName){
+    var table = project.initDataTableById(service.vars.SiteLockingTableId);
+    var query = table.queryRows({vars: { 'districtname': districtName, 'sitename': siteName}});
+    if(query.hasNext()){
+        
+        var row = query.next();
+        if(Date.parse(new Date()) < Date.parse(new Date(String(row.vars.date)))){
+            if(row.vars.locked == 'Yes'){
+                row.vars.locked = 'No';
+                row.save();
+            }
+            return false;
+        }
+        else{
+            if(row.vars.locked == 'No'){
+                row.vars.locked = 'Yes';
+                row.save();
+            }
+        }
+    }
+    return true;
+};
 var skipMenuOption = function(optionName){
     
     var optionMenu = '';
@@ -32,7 +54,7 @@ var skipMenuOption = function(optionName){
         if(menu.option_name == optionName){optionMenu = menu;}
     });
     if(!((Date.parse(new Date()) > Date.parse(new Date(String(optionMenu.start_date)))) && (Date.parse(new Date()) < Date.parse(new Date(String(optionMenu.end_date)))))){
-        console.log('Failed because of dates-----------------'+optionMenu.option_name+ ' start:'+ Date.parse(new Date(String(optionMenu.start_date)))+ ' end: '+  Date.parse(new Date(String(optionMenu.end_date)))+ 'current'+ Date.parse(new Date()));
+        //console.log('Failed because of dates-----------------'+optionMenu.option_name+ ' start:'+ Date.parse(new Date(String(optionMenu.start_date)))+ ' end: '+  Date.parse(new Date(String(optionMenu.end_date)))+ 'current'+ Date.parse(new Date()));
         return true;
     }
     else if(optionName == 'prepayment_amount'){
@@ -56,12 +78,12 @@ var skipMenuOption = function(optionName){
         }
     }
     else if(optionName == 'top_up'){
-        if(!state.vars.isGroupLeader){
+        if((!state.vars.isGroupLeader) || (isSiteClosed(JSON.parse(state.vars.client).DistrictName,JSON.parse(state.vars.client).SiteName))){
             return true;
         }
     }
     else if(optionName == 'register_enroll_client'){
-        if(!state.vars.isGroupLeader){
+        if((!state.vars.isGroupLeader) || (isSiteClosed(JSON.parse(state.vars.client).DistrictName,JSON.parse(state.vars.client).SiteName))){
             return true;
         }
     }
@@ -100,7 +122,7 @@ module.exports = function(lang, max_chars, isClient){
     }
     
     state.vars.sessionMenu = JSON.stringify(sessionMenu);
-    console.log('menu:' +state.vars.sessionMenu);
+    //console.log('menu:' +state.vars.sessionMenu);
     if(Object.keys(displayingMenu).length > 0){
         displayingMenu[loc] = displayingMenu[loc] = finalMenu;
         return displayingMenu;
