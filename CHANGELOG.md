@@ -3,9 +3,13 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
-### Added
+### v1.6.2
 * [MOB-150](https://oneacrefund.atlassian.net/browse/MOB-150) Make JiT Top-Up and Enrollment invisible on Client Menu
 
+## v1.6.1
+### Fixed
+* [MOB-146](https://oneacrefund.atlassian.net/browse/MOB-146) maize_recommendation was unable to automatically process an incoming SMS
+## v1.6.0
 ### Fixed
 * [MOB-109](https://oneacrefund.atlassian.net/browse/MOB-109) Fix Healthy path calculation
 ## v1.5.1

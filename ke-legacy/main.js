@@ -282,7 +282,7 @@ var ValNationalID = function(input){
 };
 
 var GetPrepaymentAmount = function(client){
-   return client.BalanceHistory[0].TotalCredit * 0.1;
+    return client.BalanceHistory[0].TotalCredit * 0.1;
 };
 var FAWActive = function (districtname){
     var Table = project.getOrCreateDataTable('FAW Districts');
