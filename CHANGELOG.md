@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ### v1.6.2
 * [MOB-150](https://oneacrefund.atlassian.net/browse/MOB-150) Make JiT Top-Up and Enrollment invisible on Client Menu
+* [MOB-156](https://oneacrefund.atlassian.net/browse/MOB-156) Update the KE registration to check the warehouse stock
 
 ## v1.6.1
 ### Fixed
