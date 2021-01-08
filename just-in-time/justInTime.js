@@ -322,6 +322,7 @@ var getAllSupportedBundles = function (district) {
             }
         }   
     }
+    console.log('>>>>>>> budnle inputs\n' + JSON.stringify(bundleInputs));
     if(bundleInputs){
         //get Unique bundles
         for( var i = 0; i < bundleInputs.length; i++ ){
@@ -387,6 +388,7 @@ var getAllSupportedBundles = function (district) {
             }
         }
     }
+    console.log(JSON.stringify('>>>>>>>>>. all bundles found\n' + JSON.stringify(bundles)));
     return bundles;
 };
 

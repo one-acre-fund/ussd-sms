@@ -245,10 +245,13 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
             }
         }
         else{
+            console.log('reaching the veriety: bundle ' + JSON.stringify(selectedBundle));
             var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
             var availableInputs =[];
             selectedBundle.forEach(function(element){
+                console.log('wareshouse: ' + state.vars.varietyWarehouse  + 'input name' + element.inputName);
                 var stockCursor = varietyStockTable.queryRows({vars: {'warehousename': state.vars.varietyWarehouse,'inputname': element.inputName}});
+                console.log('has next: ' + stockCursor.hasNext());
                 if(stockCursor.hasNext()){
                     var row = stockCursor.next();
                     if(row.vars.quantityavailable > row.vars.quantityordered){
@@ -259,6 +262,7 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
             // Display the varieties(inputs)
             state.vars.varietyBundleId = bundleId;
             displayVariety(availableInputs);
+            console.log('>>>>>> varieties ' + JSON.stringify(availableInputs));
             global.promptDigits(varietyChoiceHandler.handlerName);
         }
     }
@@ -455,6 +459,7 @@ function displayBundles(district){
             }
         }   
     }
+    console.log('all budnle bundle inputs: >>>>\n' + JSON.stringify(bundleInputs));
     if(bundleInputs){
         //get Unique bundles
         for( var i = 0; i < bundleInputs.length; i++ ){
@@ -464,7 +469,9 @@ function displayBundles(district){
                     //skip what the user ordered
                     if(currentOrder.length != 0){
                         if(!bundleExists(currentOrder,bundleInputs[i].bundleId)){
+                            console.log(JSON.stringify('first PART:  \n'+ JSON.stringify(maizeBundleIds)) + ' === ' + JSON.stringify(bundleInputs[i].bundleId) + ' condition: ==> ' + maizeBundleIds.indexOf(bundleInputs[i].bundleId));
                             if((maizeBundleIds.indexOf(bundleInputs[i].bundleId) != -1) && firstTime){
+                                console.log('cond1 passed 1.1.1====>');
                                 newBundle = JSON.parse(JSON.stringify(bundleInputs[i]));
                                 newBundle.bundleName = '1 Maize Acre';
                                 newBundle.price = 8950;
@@ -489,7 +496,9 @@ function displayBundles(district){
                         }
                     }
                     else{
+                        console.log(JSON.stringify('second PART:  \n'+ JSON.stringify(maizeBundleIds)) + ' === ' + JSON.stringify(bundleInputs[i].bundleId) + ' condition: ==> ' + maizeBundleIds.indexOf(bundleInputs[i].bundleId));
                         if((maizeBundleIds.indexOf(bundleInputs[i].bundleId) != -1) && firstTime){
+                            console.log('cond1 failed , cond 2 taken 2.1 ===>');
                             newBundle = JSON.parse(JSON.stringify(bundleInputs[i]));
                             newBundle.bundleName = '1 Maize Acre';
                             newBundle.price = 8950;
