@@ -10,7 +10,10 @@ module.exports = function(translations, lang, key) {
     if (typeof content === 'string') {
         playAudio(content);
     } else if (Array.isArray(content)) {
+        console.log('content is an array');
+        console.log(content);
         content.forEach(function(link) {
+            console.log(link);
             playAudio(link);
         });
     } else {
