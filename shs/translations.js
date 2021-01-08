@@ -15,7 +15,6 @@ module.exports = {
     'invalid_shs_message': {
         'en': 'You have entered an invalid serial number, please try again',
         'sw': 'Nambari ya taa uliyoweka sio sahihi, tafadhali jaribu tena.'
-
     },
     'successful_code_sms': {
         'en': 'Your activation code is $code',
@@ -28,6 +27,25 @@ module.exports = {
     'error': {
         'en': 'an error occured, please try again later',
         'sw': 'an error occured, please try again later',
-
+    },
+    'shs_type': {
+        'en': 'Choose SHS Unit Type\n $serialTypes',
+        'sw': 'Chagua aina ya Sola\n $serialTypes' 
+    },
+    'recent_code': {
+        'en': 'Your most recent activation code is $code',
+        'sw': 'Kodi yako ya hivi karibuni ni $code'
+    },
+    'no_recent_code': {
+        'en': 'You do not  have an activation code',
+        'sw': 'Samahani, kodi ya taa yako haipo'
+    },
+    'gl_menu': {
+        'en': 'Select a Service\n1) My SHS Unit\n2)SHS Unit for another Client\n3) Back',
+        'sw': 'Chagua Huduma\n1)Sola yangu\n2)Sola ya mkulima mwingine\n3)Rudi nyuma'
+    },
+    'account_number_menu': {
+        'en': 'Enter Client Account Number',
+        'sw': 'Weka Akunti Namba ya Mkulima'
     }
 };

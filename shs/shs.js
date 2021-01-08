@@ -4,17 +4,27 @@ var translate =  createTranslator(translations, project.vars.lang);
 var shsMenuHandler = require('./shs-menu-handler/shsMenuHandler');
 var serialNumberHandler = require('./serial-number-handler/serialNumberHandler');
 var rosterAPI = require('../rw-legacy/lib/roster/api');
+var gLMenuHandler = require('./gL-menu-handler.js/gLMenuHandler');
 var onAccountNumberValidated = function(){
 
 };
 
-var onSerialValidated = function(input){
+var onSerialValidated = function(serialNumber,type){
     var code;
     if(isEnrolledInCurrentSeason(state.vars.accountNumber, state.vars.country)){
-        if(JSON.parseInt(state.vars.shsClient).BalanceHistory[0].Balance <= 0)
-            code = getCode(input,true);
-        else
-            code = getCode(input);
+        if(JSON.parseInt(state.vars.shsClient).BalanceHistory[0].Balance <= 0){
+            if(type)
+                code = getCode(serialNumber,true,type);
+            else
+                code = getCode(serialNumber,true); 
+        }
+        else{
+            if(type)
+                code = getCode(serialNumber,false,type);
+            else
+                code = getCode(serialNumber,false);
+
+        }
         global.sayText(translate('successful_code_sms',{'$code': code},state.vars.shsLang));
         global.stopRules();
     }
@@ -51,13 +61,21 @@ module.exports = {
         addInputHandler(serialNumberHandler.handlerName, serialNumberHandler.getHandler(onSerialValidated));
 
     },
-    start: function(account, country, lang){
+    start: function(account, country, lang, isGroupLeader){
         state.vars.account = account;
         state.vars.country = country;
         state.vars.shsLang = lang;
+        state.vars.gL = isGroupLeader;
+        state.vars.action = ' ';
         translate =  createTranslator(translations, state.vars.shsLang);
-        global.sayText(translate('select_service',{},state.vars.shsLang));
-        global.promptDigits(shsMenuHandler.handlerName);
+        if(isGroupLeader){
+            global.sayText(translate('gl_menu',{},state.vars.shsLang));
+            global.promptDigits(gLMenuHandler.handlerName);
+
+        }else{
+            global.sayText(translate('select_service',{},state.vars.shsLang));
+            global.promptDigits(shsMenuHandler.handlerName);
+        }
     }
 
 };
