@@ -14,7 +14,7 @@ module.exports = function(translations, lang, key) {
         console.log(content);
         content.forEach(function(link) {
             console.log(link);
-            playAudio(link);
+            global.playAudio(link);
         });
     } else {
         throw new Error('Unsupported data type');
