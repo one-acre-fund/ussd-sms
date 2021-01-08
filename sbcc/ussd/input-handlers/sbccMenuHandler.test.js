@@ -1,9 +1,9 @@
 const sbccMenuHandler = require('./sbccMenuHandler');
-const notifyELK = require('../../notifications/elk-notification/elkNotification');
-const scheduleCall = require('../utils/scheduleCall');
+const notifyELK = require('../../../notifications/elk-notification/elkNotification');
+const scheduleCall = require('../../utils/scheduleCall');
 
-jest.mock('../../notifications/elk-notification/elkNotification');
-jest.mock('../utils/scheduleCall');
+jest.mock('../../../notifications/elk-notification/elkNotification');
+jest.mock('../../utils/scheduleCall');
 
 describe('SBCC menu handler', () => {
     beforeAll(() => {

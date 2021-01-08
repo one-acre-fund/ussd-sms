@@ -1,9 +1,9 @@
 const nationalIdHandler = require('./nationalIdHandler');
-const notifyELK = require('../../notifications/elk-notification/elkNotification');
-const scheduleCall = require('../utils/scheduleCall');
+const notifyELK = require('../../../notifications/elk-notification/elkNotification');
+const scheduleCall = require('../../utils/scheduleCall');
 
-jest.mock('../../notifications/elk-notification/elkNotification');
-jest.mock('../utils/scheduleCall');
+jest.mock('../../../notifications/elk-notification/elkNotification');
+jest.mock('../../utils/scheduleCall');
 
 describe('National ID handler', () => {
     beforeAll(() => {
@@ -54,12 +54,12 @@ describe('National ID handler', () => {
         const cursor = {hasNext: jest.fn(() => false)};
         jest.spyOn(table, 'queryRows').mockReturnValueOnce(cursor);
         jest.spyOn(project, 'getOrCreateDataTable').mockReturnValueOnce(table);
-        state.vars.incorrectIdAttempts = 1;
+        state.vars.incorrectIdAttempts = 2;
         contact.phone_number = '07812345678';
 
         nationalIdHandler('98796850');
 
-        expect(state.vars.incorrectIdAttempts).toEqual(2);
+        expect(state.vars.incorrectIdAttempts).toEqual(3);
         expect(scheduleCall).toHaveBeenCalledWith({
             lang: 'en',
             desc: 'Call back requested for incorrect national ID entered twice. User phone number is 07812345678',

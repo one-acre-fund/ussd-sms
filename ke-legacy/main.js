@@ -41,7 +41,7 @@ var logger = new Log();
 
 var dukaLocator = require('../duka-locator/index');
 var groupRepaymentsModule = require('../group-repayments/groupRepayments');
-var sbccModule = require('../sbcc/sbcc');
+var sbccModule = require('../sbcc/ussd/sbcc');
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 service.vars.roster_read_key = project.vars.roster_read_key;

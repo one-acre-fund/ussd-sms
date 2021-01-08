@@ -1,9 +1,9 @@
 const pinHandler = require('./pinHandler');
-const notifyELK = require('../../notifications/elk-notification/elkNotification');
-const scheduleCall = require('../utils/scheduleCall');
+const notifyELK = require('../../../notifications/elk-notification/elkNotification');
+const scheduleCall = require('../../utils/scheduleCall');
 
-jest.mock('../../notifications/elk-notification/elkNotification');
-jest.mock('../utils/scheduleCall');
+jest.mock('../../../notifications/elk-notification/elkNotification');
+jest.mock('../../utils/scheduleCall');
 
 describe('Pin Handler', () => {
     beforeAll(() => {
@@ -27,12 +27,12 @@ describe('Pin Handler', () => {
     });
 
     it('schedules a call back if incorrect pin is entered twice', () => {
-        state.vars.incorrectIdAttempts = 1;
+        state.vars.incorrectPinAttempts = 2;
         contact.phone_number = '07812345678';
 
         pinHandler('2123');
 
-        expect(state.vars.incorrectPinAttempts).toEqual(2);
+        expect(state.vars.incorrectPinAttempts).toEqual(3);
         expect(scheduleCall).toHaveBeenCalledWith({
             lang: 'en',
             desc: 'Call back requested for incorrect pin entered twice. User phone number is 07812345678',

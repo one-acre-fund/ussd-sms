@@ -1,7 +1,7 @@
-var translations = require('../translations/message-translations');
-var translator = require('../../utils/translator/translator');
-var notifyELK = require('../../notifications/elk-notification/elkNotification');
-var scheduleCall = require('../utils/scheduleCall');
+var translations = require('../../translations/message-translations');
+var translator = require('../../../utils/translator/translator');
+var notifyELK = require('../../../notifications/elk-notification/elkNotification');
+var scheduleCall = require('../../utils/scheduleCall');
 
 module.exports = function nationalIdHandler(input) {
     notifyELK();

@@ -1,8 +1,7 @@
-var translations = require('../translations/message-translations');
-var translator = require('../../utils/translator/translator');
-var notifyELK = require('../../notifications/elk-notification/elkNotification');
-var scheduleCall = require('../utils/scheduleCall');
-// var triggerService = require('../../shared/triggerService');
+var translations = require('../../translations/message-translations');
+var translator = require('../../../utils/translator/translator');
+var notifyELK = require('../../../notifications/elk-notification/elkNotification');
+var scheduleCall = require('../../utils/scheduleCall');
 var ivrServiceId = 'SV535e0ec81dc27e51';
 var routeId = 'PN54d237477649c512';
 
@@ -17,18 +16,14 @@ module.exports = function pinHandler(input) {
         // Reset incorrect pin attempts in case user got it right on second attempt
         state.vars.incorrectPinAttempts = 0;
         console.log('Pin is correct.');
-        // TODO - Start IVR call here
-        // triggerService('SV535e0ec81dc27e51', {
-        //     phone_number: contact.phone_number,
-        //     context: 'call'
-        // });
-        var call = project.sendMessage({
+        
+        contact.vars.lang = lang;
+        project.sendMessage({
             message_type: 'call',
             service_id: ivrServiceId,
             to_number: contact.phone_number,
             route_id: routeId,
         });
-        console.log(JSON.stringify(call));
     } else {
         state.vars.incorrectPinAttempts += 1;
         if (state.vars.incorrectPinAttempts < 3) {

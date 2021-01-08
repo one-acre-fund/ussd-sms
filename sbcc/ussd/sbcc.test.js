@@ -1,7 +1,7 @@
-const notifyELK = require('../notifications/elk-notification/elkNotification');
+const notifyELK = require('../../notifications/elk-notification/elkNotification');
 const sbcc = require('./sbcc');
 
-jest.mock('../notifications/elk-notification/elkNotification');
+jest.mock('../../notifications/elk-notification/elkNotification');
 describe('SBCC', () => {
     beforeAll(() => {
         global.state = { vars: {} };

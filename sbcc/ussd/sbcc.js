@@ -1,6 +1,6 @@
-var translations = require('./translations/message-translations');
-var translator = require('../utils/translator/translator');
-var notifyELK = require('../notifications/elk-notification/elkNotification');
+var translations = require('../translations/message-translations');
+var translator = require('../../utils/translator/translator');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 /**
  * Registers all input handlers for SBCC 
