@@ -82,11 +82,13 @@ var skipMenuOption = function(optionName){
         }
     }
     else if(optionName == 'top_up'){
+        console.log('checking group leader:'+state.vars.isGroupLeader);
         if((!state.vars.isGroupLeader) || (isSiteClosed(JSON.parse(state.vars.client).DistrictName,JSON.parse(state.vars.client).SiteName))){
             return true;
         }
     }
     else if(optionName == 'register_enroll_client'){
+        console.log('checking group leader:'+state.vars.isGroupLeader);
         if((!state.vars.isGroupLeader) || (isSiteClosed(JSON.parse(state.vars.client).DistrictName,JSON.parse(state.vars.client).SiteName))){
             return true;
         }

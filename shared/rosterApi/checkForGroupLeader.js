@@ -15,7 +15,10 @@ module.exports = function checkForGl(DistrictId, ClientId) {
     opts.method = 'GET';
     try {
         var response = httpClient.request(fullUrl, opts);
+        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$RESPONSE:'+ JSON.stringify(response));
+        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$RESPONSE:'+ JSON.stringify(opts)+'URL:::'+fullUrl);
         if (response.status == 200) {
+            console.log('STATUS:'+ 200);
             var data = JSON.parse(response.content);
             return data.isGroupLeader;
         }

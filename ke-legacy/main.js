@@ -1627,6 +1627,7 @@ addInputHandler('SplashMenu', function(SplashMenu) {
             client = RosterClientGet(ClientAccNum);
             state.vars.client_json = JSON.stringify(reduceClientSize(client));
             // check for group leader
+            console.log('District: '+client.DistrictId, 'Site:'+client.DistrictId);
             var isGroupLeader = checkGroupLeader(client.DistrictId, client.ClientId);
             state.vars.isGroupLeader = isGroupLeader;
             state.vars.client = JSON.stringify(TrimClientJSON(client));
