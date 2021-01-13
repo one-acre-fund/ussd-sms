@@ -26,6 +26,7 @@ var EnrolledAndQualified = function (client){
     return Valid;
 };
 var isSiteClosed = function(districtName, siteName){
+    console.log('District:'+districtName+'site:'+ siteName+' begining');
     var table = project.initDataTableById(service.vars.SiteLockingTableId);
     var query = table.queryRows({vars: { 'districtname': districtName, 'sitename': siteName}});
     if(query.hasNext()){
@@ -33,18 +34,21 @@ var isSiteClosed = function(districtName, siteName){
         var row = query.next();
         if(Date.parse(new Date()) < Date.parse(new Date(String(row.vars.date)))){
             if(row.vars.locked == 'Yes'){
+                console.log('District:'+districtName+'site:'+ siteName+' not locked');
                 row.vars.locked = 'No';
                 row.save();
             }
             return false;
         }
         else{
+            console.log('District:'+districtName+'site:'+ siteName+'locked');
             if(row.vars.locked == 'No'){
                 row.vars.locked = 'Yes';
                 row.save();
             }
         }
     }
+    console.log('District:'+districtName+'site:'+ siteName+' nothing');
     return true;
 };
 var skipMenuOption = function(optionName){
