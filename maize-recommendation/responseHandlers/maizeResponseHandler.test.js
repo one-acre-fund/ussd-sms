@@ -23,6 +23,19 @@ describe('Maize response handler', () => {
         expect(waitForResponse).toHaveBeenCalledWith(maizeResponseHandler.handlerName);
     });
 
+    it('should reprompt for the maize bags once the input is empty', () => {
+        var lang = 'en-ke';
+        state.vars.acres_message = 'Last year, how many bags of maize did you harvest in that plot (long rains)?\n' +
+        'A. less than 7 bags\n' +
+        'B. Between 7 - 10 bags\n' +
+        'C. More than 10';
+        global.content = undefined;
+        var maizeBagsHandler = maizeResponseHandler.getHandler(lang);
+        maizeBagsHandler();
+        expect(sendReply).toHaveBeenCalledWith(state.vars.acres_message);
+        expect(waitForResponse).toHaveBeenCalledWith(maizeResponseHandler.handlerName);
+    });
+
     it('should send a low productivity recommendation message once user chooses A', () => {
         var lang = 'en-ke';
         global.content = 'a';

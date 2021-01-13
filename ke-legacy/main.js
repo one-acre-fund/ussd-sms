@@ -65,11 +65,13 @@ service.vars.districtWarehouseTableId = project.vars[env+ '_districtWarehouseTab
 if(env == 'prod'){
     service.vars.JiTEnrollmentTableId = 'DT52cebb451097ac25';
     service.vars.JITSucessfullRegId = 'DTa403c7245c904c18';
+    service.vars.SiteLockingTableId = 'DTdef8fbbf26e21f5e';
     
 }
 else{
     service.vars.JiTEnrollmentTableId = 'DT7a66f47aa004743c';
     service.vars.JITSucessfullRegId = 'DT12cc1d618437e58b';
+    service.vars.SiteLockingTableId = 'DTa75d9c02bd403ebc';
 }
 
 var MenuCount = 0;
@@ -280,7 +282,7 @@ var ValNationalID = function(input){
 };
 
 var GetPrepaymentAmount = function(client){
-   return client.BalanceHistory[0].TotalCredit * 0.1;
+    return client.BalanceHistory[0].TotalCredit * 0.1;
 };
 var FAWActive = function (districtname){
     var Table = project.getOrCreateDataTable('FAW Districts');

@@ -31,6 +31,10 @@ global.project.vars = {
     end_locate_oaf_duka: 'December 31, 2021',
     start_locate_oaf_duka: 'December 31, 2019',
 };
+service.vars.topUpEnd = 'dev_end_top_up';
+service.vars.topUpStart = 'dev_start_top_up';
+global.project.vars.dev_start_top_up = 'December 31, 2019';
+global.project.vars.dev_end_top_up = 'December 31, 2021';
 describe('ChickenServices', () => {
     beforeAll(() => {
         state.vars.client = JSON.stringify(client);
@@ -84,6 +88,22 @@ describe('ChickenServices', () => {
         console.log(menu);
         expect(typeof menu).toEqual('object');
         expect(JSON.stringify(menu)).toMatch("{\"0\":\"1) Make a payment\\n2) Check balance\\n3) Training\\n4) View transaction history\\n5) FAW Pesticide Order\\n6) Solar\\n7) Insurance\\n77)Next page\",\"1\":\"44)Previous page\\n8)Contact Call center\\n9) Locate an OAF duka\\n\"}");
+
+    });
+    it('should not show enroll/topUp if the site is locked according to the dates',()=>{
+        const mockCursor = { next: jest.fn(), 
+            hasNext: jest.fn()
+        };
+        var mockRow ={vars: { locked: 'No', date: 'December 31, 2021'}, save: jest.fn()};
+        const mockTable = { queryRows: jest.fn() };
+        project.initDataTableById.mockReturnValue(mockTable);
+        mockTable.queryRows.mockReturnValue(mockCursor);
+        mockCursor.hasNext.mockReturnValueOnce(true);
+        mockCursor.next.mockReturnValue(mockRow);
+        state.vars.isGroupLeader = true;
+        var populateMenu = require('./populateMenu');
+        const menu = populateMenu(lang,140,true);
+        expect(JSON.stringify(menu)).toMatch('{"0":"1) Make a payment\\n2) Check balance\\n3) JiT Top up\\n4) Training\\n5) View transaction history\\n6) FAW Pesticide Order\\n7) Solar\\n8) Insurance\\n77)Next page","1":"44)Previous page\\n9)Contact Call center\\n10) Locate an OAF duka\\n"}');
 
     });
 
