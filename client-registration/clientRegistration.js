@@ -64,7 +64,6 @@ module.exports = {
         function onContinueToEnroll(){
             displayBundles(JSON.parse(state.vars.newClient).DistrictId); 
             global.promptDigits(bundleChoiceHandler.handlerName);
-    
         }
         function onPhoneNumberConfirmed(){
             if(state.vars.country == 'RW'){
@@ -366,7 +365,7 @@ function onOrderConfirmed(){
                 var row = stockCursor.next();
                 row.vars.quantityordered =  row.vars.quantityordered + 1;
                 row.save();
-            } 
+            }
         });
         if(state.vars.chosenVariety != ' '){
             var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
@@ -440,6 +439,7 @@ function displayBundles(district){
     var firstTime = true;
     var newBundle;
     var maizeTable = project.initDataTableById(service.vars.maizeEnrollmentTableId);
+    var bundleStockTable = project.initDataTableById(service.vars.warehouseStockTableId);
     var maizeCursor = maizeTable.queryRows();
 
     while(maizeCursor.hasNext()){
@@ -469,23 +469,47 @@ function displayBundles(district){
                                 newBundle.bundleName = '1 Maize Acre';
                                 newBundle.price = 8950;
                                 newBundle.quantity = 1;
-                                bundles.push(newBundle);
+                                var stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': newBundle.bundleName}});
+                                if(stockCursor.hasNext()){
+                                    var row = stockCursor.next();
+                                    if(row.vars.quantityavailable > row.vars.quantityordered){
+                                        bundles.push(newBundle);
+                                    }
+                                }
                                 newBundle = JSON.parse(JSON.stringify(bundleInputs[i]));
                                 newBundle.bundleName = '0.75 Maize Acre';
                                 newBundle.price = 7190;
                                 newBundle.quantity = 0.75;
-                                bundles.push(newBundle);
+                                stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': newBundle.bundleName}});
+                                if(stockCursor.hasNext()){
+                                    row = stockCursor.next();
+                                    if(row.vars.quantityavailable > row.vars.quantityordered){
+                                        bundles.push(newBundle);
+                                    }
+                                }
                                 newBundle = JSON.parse(JSON.stringify(bundleInputs[i]));
                                 newBundle.bundleName = '0.5 Maize Acre';
                                 newBundle.price = 4950;
                                 newBundle.quantity = 0.5;
-                                bundles.push(newBundle);
+                                stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': newBundle.bundleName}});
+                                if(stockCursor.hasNext()){
+                                    row = stockCursor.next();
+                                    if(row.vars.quantityavailable > row.vars.quantityordered){
+                                        bundles.push(newBundle);
+                                    }
+                                }
                                 bundleInputs[i].bundleName = '0.25 Maize Acre';
                                 bundleInputs[i].price = 2830;
                                 bundleInputs[i].quantity = 0.25;
                                 firstTime = false;
                             }
-                            bundles.push(bundleInputs[i]);
+                            stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': bundleInputs[i].bundleName}});
+                            if(stockCursor.hasNext()){
+                                row = stockCursor.next();
+                                if(row.vars.quantityavailable > row.vars.quantityordered){
+                                    bundles.push(bundleInputs[i]);
+                                }
+                            }
                         }
                     }
                     else{
@@ -494,23 +518,47 @@ function displayBundles(district){
                             newBundle.bundleName = '1 Maize Acre';
                             newBundle.price = 8950;
                             newBundle.quantity = 1;
-                            bundles.push(newBundle);
+                            stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': newBundle.bundleName}});
+                            if(stockCursor.hasNext()){
+                                row = stockCursor.next();
+                                if(row.vars.quantityavailable > row.vars.quantityordered){
+                                    bundles.push(newBundle);
+                                }
+                            }
                             newBundle = JSON.parse(JSON.stringify(bundleInputs[i]));
                             newBundle.bundleName = '0.75 Maize Acre';
                             newBundle.price = 7190;
                             newBundle.quantity = 0.75;
-                            bundles.push(newBundle);
+                            stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': newBundle.bundleName}});
+                            if(stockCursor.hasNext()){
+                                row = stockCursor.next();
+                                if(row.vars.quantityavailable > row.vars.quantityordered){
+                                    bundles.push(newBundle);
+                                }
+                            }
                             newBundle = JSON.parse(JSON.stringify(bundleInputs[i]));
                             newBundle.bundleName = '0.5 Maize Acre';
                             newBundle.price = 4950;
                             newBundle.quantity = 0.5;
-                            bundles.push(newBundle);
+                            stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': newBundle.bundleName}});
+                            if(stockCursor.hasNext()){
+                                row = stockCursor.next();
+                                if(row.vars.quantityavailable > row.vars.quantityordered){
+                                    bundles.push(newBundle);
+                                }
+                            }
                             bundleInputs[i].bundleName = '0.25 Maize Acre';
                             bundleInputs[i].price = 2830;
                             bundleInputs[i].quantity = 0.25;
                             firstTime = false;
                         }
-                        bundles.push(bundleInputs[i]);
+                        stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': bundleInputs[i].bundleName}});
+                        if(stockCursor.hasNext()){
+                            row = stockCursor.next();
+                            if(row.vars.quantityavailable > row.vars.quantityordered){
+                                bundles.push(bundleInputs[i]);
+                            }
+                        }
                     }
                 }
                 unique[bundleInputs[i].bundleId] = 1;

@@ -7,7 +7,8 @@ module.exports = {
     getHandler: function(lang, maize_recommendation_table) {
         return function() {
             var getMessage = translator(translations, lang);
-            var seasonConfirmation = content.trim().toUpperCase();
+            var input = content || '';
+            var seasonConfirmation = input.trim().toUpperCase();
             var table = project.getOrCreateDataTable(maize_recommendation_table);
             var row = table.queryRows({
                 vars: {

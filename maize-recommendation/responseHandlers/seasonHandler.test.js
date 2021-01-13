@@ -29,6 +29,26 @@ describe('Season response handler', () => {
         expect(waitForResponse).toHaveBeenLastCalledWith(seasonResponseHandler.handlerName);
     });
 
+    it('should ask the user to try again once the choosen option is empty', () => {
+        var lang = 'en-ke';
+        global.content = undefined;
+        state.vars.district = 'district1';
+        state.vars.bags_message = 'Did you plant maize right after the rains started last year?\n' + 
+        'A. Yes\n' +
+        'B. No';
+        var table = {queryRows: jest.fn()};
+        var row = {hasNext: jest.fn(() => false), next: jest.fn()};
+        jest.spyOn(table, 'queryRows').mockReturnValue(row);
+        jest.spyOn(project, 'getOrCreateDataTable').mockReturnValue(table);
+        var recommendation_table = 'dev_recommendation_table';
+        var seasonHandler = seasonResponseHandler.getHandler(lang, recommendation_table);
+        seasonHandler();
+        expect(sendReply).toHaveBeenCalledWith('Did you plant maize right after the rains started last year?\n' + 
+        'A. Yes\n' +
+        'B. No');
+        expect(waitForResponse).toHaveBeenLastCalledWith(seasonResponseHandler.handlerName);
+    });
+
     it('should send a medium productivity when the user selects A and the last choice was B', () => {
         var lang = 'en-ke';
         global.content = 'a ';

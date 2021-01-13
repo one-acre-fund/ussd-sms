@@ -340,8 +340,8 @@ module.exports = {
         "ki": "Nomero iranga umuyobozi w'itsinda wanditse siyo. Ongera ugerageze",
     },
     "enr_reg_complete": {
-        "en": "Thank you for enrolling with TUBURA! Your account number is $ACCOUNT_NUMBER. Please save this!~B1)Continue~B99)Exit",
-        "ki": "Murakoze kwiyandikisha, $NAME. Bwira umuhinzi nimero ya konti ya TUBURA: $ACCOUNT_NUMBER.~B1)Gukomeza~B99)Kuvamo",
+        "en": "Thank you for enrolling with TUBURA! Your account number is $ACCOUNT_NUMBER. Please save this!",
+        "ki": "Murakoze kwiyandikisha, $NAME. Bwira umuhinzi nimero ya konti ya TUBURA: $ACCOUNT_NUMBER.",
     },
     "enr_bad_input_increment": {
         "en": "invalid increment~B1)Continue~B99)Exit",
