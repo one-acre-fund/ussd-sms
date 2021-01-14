@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+### v1.6.5
+### Fixed
+* [MOB-159](https://oneacrefund.atlassian.net/browse/MOB-159) KE- GLs unable to access the Group Repayment Summary
+
 ### v1.6.4
 ### Changed
 * [MOB-157](https://oneacrefund.atlassian.net/browse/MOB-157) Remove the menu redirection to products from RW enrollment
