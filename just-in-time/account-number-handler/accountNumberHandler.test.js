@@ -42,7 +42,7 @@ describe('account_number_handler', () => {
             {bundleId: 125, bundleName: 'Irish'}];
         mockCursor.next.mockReturnValueOnce({vars: {order: JSON.stringify(order)}});
         accountNumberHandler(validAccountNumber);
-        expect(sayText).toHaveBeenCalledWith('This account number already belongs to an enrolled client.');
+        expect(sayText).toHaveBeenCalledWith('Thank you! You have already topped-up with a maximum of three JiT products.');
         expect(stopRules).toHaveBeenCalled();
 
     });
