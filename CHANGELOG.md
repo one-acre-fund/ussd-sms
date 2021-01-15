@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+### v1.6.6
+### Changed
+* [SER-407](https://oneacrefund.atlassian.net/browse/SER-407) some clients are unable to top-up or enroll through JiT enrollment - changed a message being displayed
+
 ### v1.6.5
 ### Fixed
 * [MOB-159](https://oneacrefund.atlassian.net/browse/MOB-159) KE- GLs unable to access the Group Repayment Summary
