@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+
+### Added
+* [MOB-161](https://oneacrefund.atlassian.net/browse/MOB-161) Update Market Access Info
+
 ### v1.6.4
 ### Changed
 * [MOB-157](https://oneacrefund.atlassian.net/browse/MOB-157) Remove the menu redirection to products from RW enrollment
