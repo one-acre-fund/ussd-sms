@@ -29,6 +29,9 @@ steps:
   - script: npm test
     displayName: "run tests and output coverage"
 
+  - script: npm run test:badges
+    displayName: "run tests and output coverage badges"
+
   - task: PublishTestResults@2
     condition: succeededOrFailed()
     inputs:

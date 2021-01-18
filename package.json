@@ -7,7 +7,9 @@
     "test": "jest --colors --coverage",
     "test:watch": "jest --colors --watch",
     "lint": "eslint . --ignore-pattern '/*-legacy/*'",
-    "lint:fix": "eslint . --fix --ignore-pattern '/*-legacy/*'"
+    "lint:fix": "eslint . --fix --ignore-pattern '/*-legacy/*'",
+    "test:coverage": "npm test -- --coverage",
+    "test:badges": "npm run test:coverage  && jest-coverage-badges"
   },
   "repository": {
     "type": "git",
@@ -46,7 +48,8 @@
     },
     "coverageReporters": [
       "text",
-      "cobertura"
+      "cobertura",
+      "json-summary"
     ],
     "reporters": [
       "default",
@@ -58,6 +61,7 @@
     "outputName": "TEST-RESULTS.xml"
   },
   "dependencies": {
+    "jest-coverage-badges": "^1.1.2",
     "moment": "^2.29.1",
     "underscore": "^1.11.0"
   }
