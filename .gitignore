@@ -1,4 +1,5 @@
 node_modules
-coverage
+coverage/cobertura-coverage.xml
+coverage/coverage-summary.json
 junit.xml
 TEST-RESULTS.xml

@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+### Added
+* [MOB-160](https://oneacrefund.atlassian.net/browse/MOB-160) Add test coverage info on the ussd repo
+
 ### v1.6.4
 ### Changed
 * [MOB-157](https://oneacrefund.atlassian.net/browse/MOB-157) Remove the menu redirection to products from RW enrollment
