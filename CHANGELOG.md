@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
+### Added
+* [MOB-123](https://oneacrefund.atlassian.net/browse/MOB-123) As a farmer receiving the repayment trial call. I need to be able to select an option to make a repayment and then make that repayment while on the call.
 
 ### v1.6.4
 ### Changed
