@@ -16,6 +16,7 @@ module.exports = function(input) {
         playAudio(getAudioLink(lang, mainMenu));
         promptKey(mainMenuHandler);
     } else {
+        playAudio(getAudioLink(lang, 'invalid-option-2'));
         playAudio(getAudioLink(lang, currentMenu));
         promptKey('selectedTipOrEpisode1');
     }

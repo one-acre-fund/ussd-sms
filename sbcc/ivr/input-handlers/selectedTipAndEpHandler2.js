@@ -20,6 +20,7 @@ module.exports = function(input) {
         playAudio(getAudioLink(lang, '2nd-flow-full-menu'));
         promptKey('2ndFlowMenuChoice');
     } else {
+        playAudio(getAudioLink(lang, 'invalid-option-2'));
         playAudio(getAudioLink(lang, currentMenu));
         promptKey('selectedTipOrEpisode2');
     }

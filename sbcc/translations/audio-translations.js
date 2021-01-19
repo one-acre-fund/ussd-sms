@@ -59,6 +59,10 @@ module.exports = {
         'en': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610454402/41492056b35e/14.wav',
         'sw': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610454440/c0d1ff2617c6/14_SWA.wav'
     },
+    'invalid-option-2': {
+        'en': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611058272/657148b4fe41/invalid_option_2.mp3',
+        'sw': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611058239/869121c14096/invalid_option_1_SWA.mp3'
+    },
     'episode-1': {
         'en': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610460128/48164c80b758/EP1-ENG1.mp3',
         'sw': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610460839/c6aa0670eee4/EP1-SWA.mp3'
