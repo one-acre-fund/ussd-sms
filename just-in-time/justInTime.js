@@ -264,7 +264,7 @@ function onOrderConfirmed(){
                 var row = stockCursor.next();
                 row.vars.quantityordered =  row.vars.quantityordered + 1;
                 row.save();
-            } 
+            }
         });
         if(state.vars.chosenVariety != ' '){
             var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);

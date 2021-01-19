@@ -67,11 +67,13 @@ service.vars.districtWarehouseTableId = project.vars[env+ '_districtWarehouseTab
 if(env == 'prod'){
     service.vars.JiTEnrollmentTableId = 'DT52cebb451097ac25';
     service.vars.JITSucessfullRegId = 'DTa403c7245c904c18';
+    service.vars.SiteLockingTableId = 'DTdef8fbbf26e21f5e';
     
 }
 else{
     service.vars.JiTEnrollmentTableId = 'DT7a66f47aa004743c';
     service.vars.JITSucessfullRegId = 'DT12cc1d618437e58b';
+    service.vars.SiteLockingTableId = 'DTa75d9c02bd403ebc';
 }
 
 var MenuCount = 0;
@@ -1627,7 +1629,6 @@ addInputHandler('SplashMenu', function(SplashMenu) {
             console.log('SuccessFully Validated against Roster');
             client = RosterClientGet(ClientAccNum);
             state.vars.client_json = JSON.stringify(reduceClientSize(client));
-
             // check for group leader
             var isGroupLeader = checkGroupLeader(client.DistrictId, client.ClientId);
             state.vars.isGroupLeader = isGroupLeader;
@@ -1803,7 +1804,7 @@ addInputHandler('MainMenu', function(SplashMenu){
         SHSMenuText();
         promptDigits('SolarMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
 
-    }
+    }   
     else if(sessionMenu[SplashMenu-1].option_name == 'insurance'){
         InsuranceMenuText();
         promptDigits('InsuranceMenu', {submitOnHash: true, maxDigits: 1, timeout: 5});
@@ -3179,7 +3180,6 @@ addInputHandler('TrainingSelect', function(input) {
     }
     InteractionCounter('TrainingSelect');
     var trainingsOptions = JSON.parse(state.vars.trainings_options);
-
     if (input == 0 ){
         TrainingMenuNextText();
         promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});

@@ -25,6 +25,21 @@ describe('acres response handler', () => {
         expect(waitForResponse).toHaveBeenCalledWith(acresResponseHandler.handlerName);
     });
 
+    it('should ask the user to try again once the input is empty', () => {
+        var lang = 'en-ke';
+        state.vars.acres_message = 'Last year, how many acres of maize did you plant in your farm?\n' +
+        'A. 1/4 acre\n' +
+        'B. 1/2 acre\n' +
+        'C. 3/4 acre\n' +
+        'D. 1 acre\n' +
+        'E. More than 1 acre';
+        global.content = undefined;
+        var acresHandler = acresResponseHandler.getHandler(lang);
+        acresHandler();
+        expect(sendReply).toHaveBeenCalledWith(state.vars.acres_message);
+        expect(waitForResponse).toHaveBeenCalledWith(acresResponseHandler.handlerName);
+    });
+
     it('should ask for bags of maize once the input is A', () => {
         var lang = 'en-ke';
         global.content = 'A';
