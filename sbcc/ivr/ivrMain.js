@@ -12,26 +12,28 @@ var topTipsMenuHandler1 = require('./input-handlers/topTipsMenuHandler1');
 var topTipsMenuHandler2 = require('./input-handlers/topTipsMenuHandler2');
 
 var lang = contact.vars.lang ? contact.vars.lang : 'sw';
-state.vars.lang = lang;
-
-// state.vars.currentDate will enable us set different dates on telerivet platform to carry out various tests
-var currentDate = state.vars.currentDate ? new Date(state.vars.currentDate) : new Date();
-var latestAndPrevEpisodes = getLatestAndPreviousItems(episodes, currentDate);
-state.vars.latestEpisode = latestAndPrevEpisodes.latest;
-state.vars.previousEpisode = latestAndPrevEpisodes.previous;
-
-var latestAndPrevTips = getLatestAndPreviousItems(topTips, currentDate);
-state.vars.latestTip = latestAndPrevTips.latest;
-state.vars.previousTip = latestAndPrevTips.previous;
 
 var ivrFirstFlowStartDate = new Date('01/01/2021');
 var ivrFirstFlowEndDate = new Date('06/13/2021');
-var mainMenuAndHandler = getMainMenuAndHandler(currentDate, ivrFirstFlowStartDate, ivrFirstFlowEndDate);
-state.vars.mainMenu = mainMenuAndHandler.menu;
-state.vars.mainMenuHandler = mainMenuAndHandler.handler;
+
 
 // Start logic flow
 global.main = function () {
+    state.vars.lang = lang;
+    // state.vars.currentDate will enable us set different dates on telerivet platform to carry out various tests
+    var currentDate = state.vars.currentDate ? new Date(state.vars.currentDate) : new Date();
+    var latestAndPrevEpisodes = getLatestAndPreviousItems(episodes, currentDate);
+    state.vars.latestEpisode = latestAndPrevEpisodes.latest;
+    state.vars.previousEpisode = latestAndPrevEpisodes.previous;
+
+    var latestAndPrevTips = getLatestAndPreviousItems(topTips, currentDate);
+    state.vars.latestTip = latestAndPrevTips.latest;
+    state.vars.previousTip = latestAndPrevTips.previous;
+
+    var mainMenuAndHandler = getMainMenuAndHandler(currentDate, ivrFirstFlowStartDate, ivrFirstFlowEndDate, latestAndPrevEpisodes, latestAndPrevTips);
+    state.vars.mainMenu = mainMenuAndHandler.menu;
+    state.vars.mainMenuHandler = mainMenuAndHandler.handler;
+
     console.log('inside global.main');
     playAudio(getAudioLink(lang, 'welcome-message'));
     if (!mainMenuAndHandler.menu) throw Error('No episode or top tip has been released for the current date - ' + currentDate.toDateString());
@@ -48,7 +50,7 @@ addInputHandler('olderEpisodesMenu2', olderEpisodesMenuHandler2);
 addInputHandler('topTipsMenu1', topTipsMenuHandler1);
 addInputHandler('topTipsMenu2', topTipsMenuHandler2);
 
-function getMainMenuAndHandler(currentDate, startDate, endDate) {
+function getMainMenuAndHandler(currentDate, startDate, endDate, latestAndPrevEpisodes, latestAndPrevTips) {
     console.log('inside getMainMenuAndHandler');
     currentDate.setHours(0,0,0,0);
     var currentDateTime = currentDate.getTime();
