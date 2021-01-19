@@ -16,6 +16,8 @@ state.vars.lang = lang;
 
 // state.vars.currentDate will enable us set different dates on telerivet platform to carry out various tests
 var currentDate = state.vars.currentDate ? new Date(state.vars.currentDate) : new Date();
+console.log('state.vars.currentDate is ' + state.vars.currentDate);
+console.log(typeof state.vars.currentDate);
 console.log('current date is ' + currentDate);
 console.log(typeof currentDate);
 var latestAndPrevEpisodes = getLatestAndPreviousItems(episodes, currentDate);
@@ -50,7 +52,10 @@ addInputHandler('topTipsMenu1', topTipsMenuHandler1);
 addInputHandler('topTipsMenu2', topTipsMenuHandler2);
 
 function getMainMenuAndHandler(currentDate, startDate, endDate) {
+    console.log('start date is ' + startDate);
+    console.log('end date is ' + endDate);
     currentDate.setHours(0,0,0,0);
+    console.log('current date is ' + currentDate);
     var currentDateTime = currentDate.getTime();
     var output = {};
 
