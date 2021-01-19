@@ -1,4 +1,4 @@
-var notifyELK = require('../../../notifications/elk-notification');
+var notifyELK = require('../../../notifications/elk-notification/elkNotification');
 var getAudioLink = require('../../utils/getAudioLink');
 
 module.exports = function(input) {

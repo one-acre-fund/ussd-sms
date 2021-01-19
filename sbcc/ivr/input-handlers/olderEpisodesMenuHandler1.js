@@ -1,4 +1,4 @@
-var notifyELK = require('../../../notifications/elk-notification');
+var notifyELK = require('../../../notifications/elk-notification/elkNotification');
 var getAudioLink = require('../../utils/getAudioLink');
 var episodes = require('../../data/episodes');
 
