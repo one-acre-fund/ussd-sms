@@ -55,6 +55,7 @@ function getMainMenuAndHandler(currentDate, startDate, endDate) {
     var output = {};
 
     if (currentDateTime >= startDate.getTime() && currentDateTime <= endDate.getTime()) {
+        console.log('currentDateTime >= startDate.getTime() && currentDateTime <= endDate');
         if (latestAndPrevEpisodes.latest && !latestAndPrevEpisodes.previous && !latestAndPrevTips.latest) {
             output.menu = 'menu-with-only-latest-ep';
         } else if (latestAndPrevEpisodes.previous && !latestAndPrevTips.latest) {
@@ -65,10 +66,13 @@ function getMainMenuAndHandler(currentDate, startDate, endDate) {
             output.menu = '1st-flow-full-menu';   
         }
         output.handler = '1stFlowMenuChoice';
+        console.log(JSON.stringify(output));
 
     } else if (currentDateTime > endDate.getTime()) {
+        console.log('current date > end date');
         output.menu = '2nd-flow-full-menu';
         output.handler = '2ndFlowMenuChoice';
+        console.log(JSON.stringify(output));
 
     } else {
         throw new Error('IVR nutrition program not yet started');
