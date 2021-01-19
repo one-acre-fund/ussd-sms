@@ -54,6 +54,9 @@ function getMainMenuAndHandler(currentDate, startDate, endDate) {
     var currentDateTime = currentDate.getTime();
     var output = {};
 
+    console.log(JSON.stringify(latestAndPrevTips));
+    console.log(JSON.stringify(latestAndPrevEpisodes));
+
     if (currentDateTime >= startDate.getTime() && currentDateTime <= endDate.getTime()) {
         console.log('currentDateTime >= startDate.getTime() && currentDateTime <= endDate');
         if (latestAndPrevEpisodes.latest && !latestAndPrevEpisodes.previous && !latestAndPrevTips.latest) {
