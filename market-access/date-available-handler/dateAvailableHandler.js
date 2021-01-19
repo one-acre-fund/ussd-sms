@@ -5,7 +5,7 @@ var moment = require('moment');
 
 function isValidDate(date){
     var selectedDate = moment(date,'DD-MM-YYYY');
-    if(selectedDate.isValid)
+    if(selectedDate.isValid())
         return selectedDate > moment(Date.now());
     return false;
 }

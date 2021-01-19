@@ -29,5 +29,10 @@ describe('order confirmation handler test', ()=>{
         expect(global.sayText).toHaveBeenCalledWith('When  Maize will be available');
         expect(global.promptDigits).toHaveBeenCalledWith(handlerName);
     });
+    it('should re-prompt for the date if the input is a date before today',()=>{
+        dateAvailableHandler('not a real date');
+        expect(global.sayText).toHaveBeenCalledWith('When  Maize will be available');
+        expect(global.promptDigits).toHaveBeenCalledWith(handlerName);
+    });
 
 });
