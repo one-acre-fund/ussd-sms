@@ -22,6 +22,9 @@ global.main = function () {
     state.vars.lang = lang;
     // state.vars.currentDate will enable us set different dates on telerivet platform to carry out various tests
     var currentDate = state.vars.currentDate ? new Date(state.vars.currentDate) : new Date();
+    console.log('logging episodes and tips');
+    console.log(episodes);
+    console.log(topTips);
     var latestAndPrevEpisodes = getLatestAndPreviousItems(episodes, currentDate);
     state.vars.latestEpisode = latestAndPrevEpisodes.latest;
     state.vars.previousEpisode = latestAndPrevEpisodes.previous;
