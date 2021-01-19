@@ -12,7 +12,6 @@ var topTipsMenuHandler1 = require('./input-handlers/topTipsMenuHandler1');
 var topTipsMenuHandler2 = require('./input-handlers/topTipsMenuHandler2');
 
 var lang = contact.vars.lang ? contact.vars.lang : 'sw';
-
 var ivrFirstFlowStartDate = new Date('01/01/2021');
 var ivrFirstFlowEndDate = new Date('06/13/2021');
 
@@ -22,9 +21,6 @@ global.main = function () {
     state.vars.lang = lang;
     // state.vars.currentDate will enable us set different dates on telerivet platform to carry out various tests
     var currentDate = state.vars.currentDate ? new Date(state.vars.currentDate) : new Date();
-    console.log('logging episodes and tips');
-    console.log(episodes);
-    console.log(topTips);
     var latestAndPrevEpisodes = getLatestAndPreviousItems(episodes, currentDate);
     state.vars.latestEpisode = latestAndPrevEpisodes.latest;
     state.vars.previousEpisode = latestAndPrevEpisodes.previous;
@@ -37,7 +33,6 @@ global.main = function () {
     state.vars.mainMenu = mainMenuAndHandler.menu;
     state.vars.mainMenuHandler = mainMenuAndHandler.handler;
 
-    console.log('inside global.main');
     playAudio(getAudioLink(lang, 'welcome-message'));
     if (!mainMenuAndHandler.menu) throw Error('No episode or top tip has been released for the current date - ' + currentDate.toDateString());
     playAudio(getAudioLink(lang, mainMenuAndHandler.menu));
@@ -54,16 +49,11 @@ addInputHandler('topTipsMenu1', topTipsMenuHandler1);
 addInputHandler('topTipsMenu2', topTipsMenuHandler2);
 
 function getMainMenuAndHandler(currentDate, startDate, endDate, latestAndPrevEpisodes, latestAndPrevTips) {
-    console.log('inside getMainMenuAndHandler');
     currentDate.setHours(0,0,0,0);
     var currentDateTime = currentDate.getTime();
     var output = {};
 
-    console.log(JSON.stringify(latestAndPrevTips));
-    console.log(JSON.stringify(latestAndPrevEpisodes));
-
     if (currentDateTime >= startDate.getTime() && currentDateTime <= endDate.getTime()) {
-        console.log('currentDateTime >= startDate.getTime() && currentDateTime <= endDate');
         if (latestAndPrevEpisodes.latest && !latestAndPrevEpisodes.previous && !latestAndPrevTips.latest) {
             output.menu = 'menu-with-only-latest-ep';
         } else if (latestAndPrevEpisodes.previous && !latestAndPrevTips.latest) {
@@ -74,13 +64,10 @@ function getMainMenuAndHandler(currentDate, startDate, endDate, latestAndPrevEpi
             output.menu = '1st-flow-full-menu';   
         }
         output.handler = '1stFlowMenuChoice';
-        console.log(JSON.stringify(output));
 
     } else if (currentDateTime > endDate.getTime()) {
-        console.log('current date > end date');
         output.menu = '2nd-flow-full-menu';
         output.handler = '2ndFlowMenuChoice';
-        console.log(JSON.stringify(output));
 
     } else {
         throw new Error('IVR nutrition program not yet started');
