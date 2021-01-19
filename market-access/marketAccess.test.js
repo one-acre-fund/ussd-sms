@@ -66,7 +66,7 @@ describe('marketAccess', () => {
             marketAccess.registerHandlers();
             callback = dateAvailableHandler.getHandler.mock.calls[0][0];                
         });
-        it('should prompt for the date',()=>{
+        it('should prompt for advance menu',()=>{
             callback();
             expect(global.sayText).toHaveBeenCalledWith('Do you want an Advance payment for your maize? \n1)Yes\n2)No');
         });

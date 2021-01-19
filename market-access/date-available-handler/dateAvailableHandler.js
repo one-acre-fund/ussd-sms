@@ -1,23 +1,19 @@
 var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
 var handlerName = 'dateAvailableHandler';
+var moment = require('moment');
 
 function isValidDate(date){
-    var separatedDate = date.split('/');
-    console.log('##########################'+separatedDate);
-    if(separatedDate.length == 3){
-        console.log('##########################'+parseInt(separatedDate[0],10) +' '+parseInt(separatedDate[1],10)+' '+parseInt(separatedDate[2],10));
-        console.log('-----------------------------'+ (0 < parseInt(separatedDate[0],10)<= 31));
-        if((0 < parseInt(separatedDate[0],10) && parseInt(separatedDate[0],10)<= 31) && (0 < parseInt(separatedDate[1],10) && parseInt(separatedDate[1],10) <=12) && (2020 > parseInt(separatedDate[2],10)))
-            return true;
-    }
+    var selectedDate = moment(date,'DD-MM-YYYY');
+    if(selectedDate.isValid())
+        return selectedDate > moment(Date.now());
     return false;
 }
 module.exports = {
     handlerName: handlerName,
     getHandler: function(onDateSubmitted){
         return function(input){
-            if(input && isValidDate(input)){
+            if(typeof(input) != 'undefined' && isValidDate(input)){
                 onDateSubmitted(input);
             }
             else{

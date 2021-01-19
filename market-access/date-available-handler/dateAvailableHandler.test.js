@@ -20,9 +20,19 @@ describe('order confirmation handler test', ()=>{
         expect(global.sayText).toHaveBeenCalledWith('When  Maize will be available');
         expect(global.promptDigits).toHaveBeenCalledWith(handlerName);
     });
-    it('should onDateSubmitted onDateSubmitted if the input i a valid date matching dd/mm/yyyy format',()=>{
-        dateAvailableHandler('21/4/2010');
-        expect(onDateSubmitted).toHaveBeenCalledWith('21/4/2010');
+    it('should call onDateSubmitted if the input is a valid date matching dd/mm/yyyy format',()=>{
+        dateAvailableHandler('21/4/2022');
+        expect(onDateSubmitted).toHaveBeenCalledWith('21/4/2022');
+    });
+    it('should re-prompt for the date if the input is a date before today',()=>{
+        dateAvailableHandler('17/1/2021');
+        expect(global.sayText).toHaveBeenCalledWith('When  Maize will be available');
+        expect(global.promptDigits).toHaveBeenCalledWith(handlerName);
+    });
+    it('should re-prompt for the date if the input is a date before today',()=>{
+        dateAvailableHandler('not a real date');
+        expect(global.sayText).toHaveBeenCalledWith('When  Maize will be available');
+        expect(global.promptDigits).toHaveBeenCalledWith(handlerName);
     });
 
 });

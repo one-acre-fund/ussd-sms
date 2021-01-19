@@ -17,6 +17,7 @@ if(service.vars.env === 'prod' || service.vars.env === 'dev'){
 
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
+service.vars.market_access_table = project.vars[env+'_market_access_table_id'];
 service.vars.ussd_settings_table_id = 'DT1f9908b578f65458';
 service.vars.groupCodes_id = 'DTf1ac46f52abd0c5e';
 service.vars.currency = 'RwF';
@@ -87,6 +88,7 @@ var groupRepaymentsModule = require('../group-repayments/groupRepayments');
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 var avocadoTreesOrdering = require('../avocado-trees-ordering/avocadoTreesOrdering');
 var clientRegistration = require('../client-registration/clientRegistration');
+var marketAccess = require('../market-access/marketAccess');
 //options
 const max_digits_for_input = project.vars.max_digits; //only for testing
 //const max_digits_for_nid = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits_nid'}}).next().vars.value); 
@@ -102,6 +104,7 @@ const max_digits_for_glus = project.vars.max_digits_glvv;
 const max_digits_for_name = project.vars.max_digits_name;
 const inputHandlers = {}
 clientRegistration.registerHandlers();
+marketAccess.registerHandlers();
 
 global.main = function () {
     sayText(msgs('cor_enr_main_splash',{},lang));
@@ -254,10 +257,11 @@ addInputHandler('cor_menu_select', function (input) {
         transactionHistory.start(state.vars.account_number,'rw',state.vars.current_menu_str,'cor_menu_select');            
     }
     else if(selection === 'cor_market_access'){
-
-        sayText(msgs('market_persons_in_group',{},lang));
-        promptDigits('market_people_in_group', { 'submitOnHash': false, 'maxDigits': 2, 'timeout': timeout_length });
-
+        try{
+            marketAccess.start(state.vars.account_number,'rw',lang);
+        }catch(e){
+            slack.log(e);
+        }
     }
     else if (selection === 'cor_get_balance') { //inelegant
         var get_balance = require('./lib/cor-get-balance');
