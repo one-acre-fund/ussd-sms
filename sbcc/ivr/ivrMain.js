@@ -28,8 +28,8 @@ var latestAndPrevTips = getLatestAndPreviousItems(topTips, currentDate);
 state.vars.latestTip = latestAndPrevTips.latest;
 state.vars.previousTip = latestAndPrevTips.previous;
 
-var ivrFirstFlowStartDate = new Date('01-01-2021');
-var ivrFirstFlowEndDate = new Date('06-13-2021');
+var ivrFirstFlowStartDate = new Date('01/01/2021');
+var ivrFirstFlowEndDate = new Date('06/13/2021');
 var mainMenuAndHandler = getMainMenuAndHandler(currentDate, ivrFirstFlowStartDate, ivrFirstFlowEndDate);
 state.vars.mainMenu = mainMenuAndHandler.menu;
 state.vars.mainMenuHandler = mainMenuAndHandler.handler;
