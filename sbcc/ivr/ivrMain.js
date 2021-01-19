@@ -10,6 +10,7 @@ var olderEpisodesMenuHandler1 = require('./input-handlers/olderEpisodesMenuHandl
 var olderEpisodesMenuHandler2 = require('./input-handlers/olderEpisodesMenuHandler2');
 var topTipsMenuHandler1 = require('./input-handlers/topTipsMenuHandler1');
 var topTipsMenuHandler2 = require('./input-handlers/topTipsMenuHandler2');
+var promptKeyAndHandleNoResponse = require('../utils/promptKeyAndHandleNoResponse');
 
 var lang = contact.vars.lang ? contact.vars.lang : 'sw';
 var ivrFirstFlowStartDate = new Date('01/01/2021');
@@ -36,7 +37,8 @@ global.main = function () {
     playAudio(getAudioLink(lang, 'welcome-message'));
     if (!mainMenuAndHandler.menu) throw Error('No episode or top tip has been released for the current date - ' + currentDate.toDateString());
     playAudio(getAudioLink(lang, mainMenuAndHandler.menu));
-    promptKey(mainMenuAndHandler.handler);
+    promptKeyAndHandleNoResponse(mainMenuAndHandler.handler);
+    // promptKey(mainMenuAndHandler.handler);
 };
 
 addInputHandler('1stFlowMenuChoice', mainMenuOneHandler);

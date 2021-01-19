@@ -190,5 +190,13 @@ module.exports = {
     'top-tip-8': {
         'en': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611044445/bc09c974c27b/tip_8.mp3',
         'sw': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611044699/01165010a4e9/tip_8_SWA.mp3'
+    },
+    'no-response': {
+        'en': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611061635/c890e2d44941/no_response.mp3',
+        'sw': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611061776/8937ece1adfe/no_response_SWA.mp3'
+    },
+    'error': {
+        'en': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611061658/4868df5e9317/error.mp3',
+        'sw': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611061811/8ffa907050bd/error_SWA.mp3'
     }
 };

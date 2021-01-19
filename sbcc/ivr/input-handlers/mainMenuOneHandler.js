@@ -4,6 +4,7 @@ var getAudioLink = require('../../utils/getAudioLink');
 module.exports = function(input) {
     notifyELK();
     var lang = state.vars.lang;
+    state.vars.responded = true;
     var mainMenu = state.vars.mainMenu;
     var latestEpisode = state.vars.latestEpisode;
     var previousEpisode = state.vars.previousEpisode;
