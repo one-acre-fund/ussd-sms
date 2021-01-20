@@ -3,6 +3,18 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.7.0
+
+### Changed
+* [SER-409](https://oneacrefund.atlassian.net/browse/SER-409) January Chicken confirmation service setup
+
+### Added
+* [MOB-123](https://oneacrefund.atlassian.net/browse/MOB-123) As a farmer receiving the repayment trial call. I need to be able to select an option to make a repayment and then make that repayment while on the call.
+
+### Changed
+* [MOB-158](https://oneacrefund.atlassian.net/browse/MOB-158) Updating the way of calculating the % repaid from Total credit to A cycle credit for Chicken confirmation Clients
+
+
 ### v1.6.6
 ### Changed
 * [SER-407](https://oneacrefund.atlassian.net/browse/SER-407) some clients are unable to top-up or enroll through JiT enrollment - changed a message being displayed
