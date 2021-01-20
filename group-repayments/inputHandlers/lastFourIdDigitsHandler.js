@@ -16,7 +16,8 @@ module.exports = function lastFourIdDigitsHandler(input) {
     var getMessage = translator(translations, lang);
 
     var lastFourIdDigits = String(input.replace(/D/g, ''));
-    if(!state.vars.national_id || parseInt(state.vars.national_id.slice(-4)) != lastFourIdDigits) {
+
+    if(!state.vars.national_id || parseInt(state.vars.national_id.slice(-4),10) != lastFourIdDigits) {
         sayText(getMessage('invalid_try_again', {'$Menu': getMessage('NATIONAL_ID_last_four_digits', {}, lang)}, lang));
         promptDigits('enter_last_four_id_digits', {
             submitOnHash: false,
