@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 ### Added
 * [MOB-123](https://oneacrefund.atlassian.net/browse/MOB-123) As a farmer receiving the repayment trial call. I need to be able to select an option to make a repayment and then make that repayment while on the call.
 
+
+### Changed
+* [MOB-158](https://oneacrefund.atlassian.net/browse/MOB-158) Updating the way of calculating the % repaid from Total credit to A cycle credit for Chicken confirmation Clients
+
 ### v1.6.4
 ### Changed
 * [MOB-157](https://oneacrefund.atlassian.net/browse/MOB-157) Remove the menu redirection to products from RW enrollment
