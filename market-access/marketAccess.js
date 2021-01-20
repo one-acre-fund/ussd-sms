@@ -9,6 +9,11 @@ var paymentChoiceHandler = require('./payment-choice-handler/paymentChoiceHandle
 var MOMOHandler = require('./MOMO-handler/MOMOHandler');
 var phoneNumberHandler = require('./phone-number-handler/phoneNumberHandler');
 var nameHandler = require('./name-handler/nameHandler');
+var bankNameHandler = require('./bank-input-handlers/bank-name-handler');
+var bankBranchHandler = require('./bank-input-handlers/bank-branch-handler');
+var bankAccountHandler = require('./bank-input-handlers/bank-account-handler');
+var accountNameHandler = require('./bank-input-handlers/account-name-handler');
+var bankConfirmationHandler = require('./bank-input-handlers/bank-confirmation-handler');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var marketInfo ={};
 
@@ -73,8 +78,35 @@ function onPhoneSubmitted(phoneNumber){
 }
 function onNameSubmitted(name){
     marketInfo.name = name;
-    global.sayText(translate('final_message_momo',{},state.vars.marketLang));
-    global.promptDigits(nameHandler.handlerName);
+    var finalMessage = translate('final_message_momo',{'$name': marketInfo.name, '$phone': marketInfo.phoneNumber},state.vars.marketLang);
+    global.sayText(finalMessage);
+    project.sendMessage({
+        content: finalMessage,
+        to_number: contact.phone_number
+    });
+}
+function onBankNameSubmitted(bankName){
+    marketInfo.bankName = bankName;
+    global.sayText(translate('bank_branch_menu',{},state.vars.marketLang));
+    global.promptDigits(bankBranchHandler.handlerName);
+}
+function onBankBranchSubmitted(bankBranchName){
+    marketInfo.bankBranchName = bankBranchName;
+    global.sayText(translate('bank_account_menu',{},state.vars.marketLang));
+    global.promptDigits(bankAccountHandler.handlerName);
+}
+function onBankAccountSubmitted(bankAccountNumber){
+    marketInfo.bankAccountNumber = bankAccountNumber;
+    global.sayText(translate('bank_account_name',{},state.vars.marketLang));
+    global.promptDigits(bankNameHandler.handlerName);
+}
+function onAccountNameSubmitted(bankAccountName){
+    marketInfo.bankAccountName = bankAccountName;
+    global.sayText(translate('bank_final_confirmation',{'$account': marketInfo.bankAccountNumber, '$name': marketInfo.bankAccountName},state.vars.marketLang));
+    global.promptDigits(bankConfirmationHandler.handlerName);
+
+}
+function onBankConfirmed(){
 
 }
 module.exports = {
@@ -87,6 +119,11 @@ module.exports = {
         addInputHandler(MOMOHandler.handlerName, MOMOHandler.getHandler(onMOMOChosen));
         addInputHandler(phoneNumberHandler.handlerName, phoneNumberHandler.getHandler(onPhoneSubmitted));
         addInputHandler(nameHandler.handlerName, nameHandler.getHandler(onNameSubmitted));
+        addInputHandler(bankNameHandler.handlerName, bankNameHandler.getHandler(onBankNameSubmitted));
+        addInputHandler(bankBranchHandler.handlerName, bankBranchHandler.getHandler(onBankBranchSubmitted));
+        addInputHandler(bankAccountHandler.handlerName, bankAccountHandler.getHandler(onBankAccountSubmitted));
+        addInputHandler(accountNameHandler.handlerName, accountNameHandler.getHandler(onAccountNameSubmitted));
+        addInputHandler(bankConfirmationHandler.handlerName, bankConfirmationHandler.getHandler(onBankConfirmed));
     },
     start: function (account, country, lang) {
         notifyELK();

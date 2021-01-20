@@ -38,5 +38,21 @@ module.exports= {
     'final_message_momo': {
         'en': 'The Farmer advance will be sent to $name  with number $phone',
         'ki': 'Avansi y\'umuhinzi izohereswa kuri $name ufite  nomero $phone'
+    },
+    'bank_branch_menu': {
+        'en': 'Enter Bank Branch',
+        'ki': 'Andika ishami rya banki'
+    },
+    'bank_account_menu': {
+        'en': 'Enter Farmer Bank Account Number',
+        'ki': 'Andika nomero ya banki y\'umuhinzi'
+    },
+    'bank_account_name': {
+        'en': 'Enter Farmer\'s Account Name',
+        'ki': 'Andika izina ry\'umuhinzi iyi banki ibaruyeho'
+    },
+    'bank_final_confirmation': {
+        'en': 'The Client\'s advance will be sent to  Account Number $account, Client Account name in Bank: $name ',
+        'ki': 'Avansi y\'umuhinzi izoherezwa kuri konti $account, Izina rya konti y\'umuhinzi  iri muri Banki: $name'
     }
 };
