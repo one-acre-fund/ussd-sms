@@ -37,7 +37,7 @@ describe('change_order_handler', () => {
         mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true);
         mockCursor.next.mockReturnValueOnce(mockClientRow).mockReturnValueOnce(mockRow);
         var result = checkChickenCapByDistrict(client);
-        expect(result).toEqual(432);
+        expect(result).toEqual(609); //Given that Muganze sector has 615 and ordered number of chickens(mockRow.vars.ordered_chickens)is 6
     });
     it('should return false if no caps were found', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(false);
