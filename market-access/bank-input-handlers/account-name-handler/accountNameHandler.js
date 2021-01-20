@@ -1,6 +1,6 @@
 var handlerName = 'accountNameHandler';
-var translations = require('../translations');
-var createTranslator = require('../../utils/translator/translator');
+var translations = require('../../translations');
+var createTranslator = require('../../../utils/translator/translator');
 module.exports = {
     handlerName: handlerName,
     getHandler: function (onAccountNameSubmitted){

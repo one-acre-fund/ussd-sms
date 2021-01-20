@@ -14,7 +14,7 @@ describe('order confirmation handler test', ()=>{
 
     it('should call ELK',()=>{
         quantityHandler();
-        expect(notifyELK).toHaveBeenCalled;
+        expect(notifyELK).toHaveBeenCalled();
     });
     it('should reprompt for the quantity if the input is not a multiple off 100',()=>{
         quantityHandler(245);

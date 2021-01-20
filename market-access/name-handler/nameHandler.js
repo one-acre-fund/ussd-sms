@@ -1,4 +1,4 @@
-var handlerName = 'quantityHandler';
+var handlerName = 'MANameHandler';
 var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
 

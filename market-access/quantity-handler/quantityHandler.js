@@ -1,11 +1,13 @@
 var handlerName = 'quantityHandler';
 var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 module.exports = {
     handlerName: handlerName,
     getHandler: function(onQuantitySubmitted){
         return function(input){
+            notifyELK();
             if(input %100 == 0){
                 onQuantitySubmitted(input);
             }

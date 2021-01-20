@@ -1,5 +1,6 @@
 var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 var handlerName = 'dateAvailableHandler';
 var moment = require('moment');
 
@@ -13,6 +14,7 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(onDateSubmitted){
         return function(input){
+            notifyELK();
             if(typeof(input) != 'undefined' && isValidDate(input)){
                 onDateSubmitted(input);
             }

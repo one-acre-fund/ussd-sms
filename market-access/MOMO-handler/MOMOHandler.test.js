@@ -13,7 +13,7 @@ describe('MOMO handler test', ()=>{
     });
     it('should call ELK',()=>{
         MOMOHandler();
-        expect(notifyELK).toHaveBeenCalled;
+        expect(notifyELK).toHaveBeenCalled();
     });
     it('should call onMOMOChosen with 1 if the input is 1(mtn)',()=>{
         MOMOHandler('1');
