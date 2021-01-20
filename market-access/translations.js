@@ -30,5 +30,13 @@ module.exports= {
     'phone_number_menu': {
         'en': 'Enter Client  Mobile Money Number',
         'ki': 'Andika numero ya mobile mani'
+    },
+    'farmer_name_menu': {
+        'en': 'Enter the name of person the number is registered to',
+        'ki': 'Andika izina iyi nomero ibaruyeho'
+    },
+    'final_message_momo': {
+        'en': 'The Farmer advance will be sent to $name  with number $phone',
+        'ki': 'Avansi y\'umuhinzi izohereswa kuri $name ufite  nomero $phone'
     }
 };

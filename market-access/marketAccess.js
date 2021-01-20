@@ -7,6 +7,8 @@ var confirmationHandler = require('./confirmation-handler/confirmationHandler');
 var paymentAdvanceHandler = require('./payment-advance-handler/paymentAdvanceHandler');
 var paymentChoiceHandler = require('./payment-choice-handler/paymentChoiceHandler');
 var MOMOHandler = require('./MOMO-handler/MOMOHandler');
+var phoneNumberHandler = require('./phone-number-handler/phoneNumberHandler');
+var nameHandler = require('./name-handler/nameHandler');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var marketInfo ={};
 
@@ -57,10 +59,23 @@ function onMOMOChosen(input){
     if(input == 1){
         marketInfo.MOMOChoice = 'MTN';
         global.sayText(translate('phone_number_menu',{},state.vars.marketLang));
+        global.promptDigits(phoneNumberHandler.handlerName);
     }else if(input == 2){
         marketInfo.MOMOChoice = 'Airtel';
         global.sayText(translate('phone_number_menu',{},state.vars.marketLang));
+        global.promptDigits(phoneNumberHandler.handlerName);
     }
+}
+function onPhoneSubmitted(phoneNumber){
+    marketInfo.phoneNumber = phoneNumber;
+    global.sayText(translate('farmer_name_menu',{},state.vars.marketLang));
+    global.promptDigits(nameHandler.handlerName);
+}
+function onNameSubmitted(name){
+    marketInfo.name = name;
+    global.sayText(translate('final_message_momo',{},state.vars.marketLang));
+    global.promptDigits(nameHandler.handlerName);
+
 }
 module.exports = {
     registerHandlers: function(){
@@ -70,6 +85,8 @@ module.exports = {
         addInputHandler(paymentAdvanceHandler.handlerName, paymentAdvanceHandler.getHandler(onAdvancePayment));
         addInputHandler(paymentChoiceHandler.handlerName, paymentChoiceHandler.getHandler(onPaymentChoice));
         addInputHandler(MOMOHandler.handlerName, MOMOHandler.getHandler(onMOMOChosen));
+        addInputHandler(phoneNumberHandler.handlerName, phoneNumberHandler.getHandler(onPhoneSubmitted));
+        addInputHandler(nameHandler.handlerName, nameHandler.getHandler(onNameSubmitted));
     },
     start: function (account, country, lang) {
         notifyELK();
