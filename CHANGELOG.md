@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
+
+### Changed
+* [SER-409](https://oneacrefund.atlassian.net/browse/SER-409) January Chicken confirmation service setup
 ### Added
 * [MOB-123](https://oneacrefund.atlassian.net/browse/MOB-123) As a farmer receiving the repayment trial call. I need to be able to select an option to make a repayment and then make that repayment while on the call.
 
