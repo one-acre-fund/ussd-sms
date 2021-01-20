@@ -13,6 +13,7 @@ describe('chicken_Eligibility', () => {
     var mockRow ={vars: { ordered_chickens: 4, confirmed: 1, prep_required: 128000}};
     beforeAll(()=>{
         project.vars.chickenRequiredPercentage = 53;
+        project.vars.creditCycleChickenService = '2021A';
     });
     beforeEach(() => {
         sayText.mockClear();
@@ -66,7 +67,7 @@ describe('chicken_Eligibility', () => {
     it('should set state.vars.minimum_amount_paid to true if  prepayment_amount is greater than 1000', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(true);
         client.BalanceHistory.TotalRepayment_IncludingOverpayments = 10000;
-        client.BalanceHistory.TotalCredit = 0;
+        client.BalanceHistory.TotalCreditPerCycle[project.vars.creditCycleChickenService]  = 0;
         mockCursor.next.mockReturnValueOnce(mockRow);
         chickenEligibility(mockTable,client.AccountNumber,client);
         expect(state.vars.minimum_amount_paid).toBeTruthy();
@@ -90,7 +91,7 @@ describe('chicken_Eligibility', () => {
     it('should set state.vars.max_chicken to the number of possible chicken given the prepayment_amount (if the prepayment is greater than 1000 and allows less than 5 possible chicken)', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(true);
         var new_row ={vars: { ordered_chickens: 4, confirmed: 0}};
-        client.BalanceHistory.TotalCredit = 3773.5;
+        client.BalanceHistory.TotalCreditPerCycle[project.vars.creditCycleChickenService] = 3773.5;
         client.BalanceHistory.TotalRepayment_IncludingOverpayments = 4000;
         mockCursor.next.mockReturnValueOnce(new_row);
         chickenEligibility(mockTable,client.AccountNumber,client);
@@ -103,5 +104,17 @@ describe('chicken_Eligibility', () => {
         mockCursor.next.mockReturnValueOnce(mockRow);
         chickenEligibility(mockTable,client.AccountNumber,client);
         expect(state.vars.minimum_amount_paid).toBeFalsy();
+    });
+    it('should set  state.vars.client_notfound to true if the current crediCycle is not found', ()=>{
+        mockCursor.hasNext.mockReturnValueOnce(true);
+        mockRow ={vars: { ordered_chickens: 4, confirmed: 0,prep_required: 2000}};
+        client.BalanceHistory.TotalRepayment_IncludingOverpayments = 2500;
+        client.BalanceHistory.TotalCreditPerCycle = {
+            '2019A': 1234.00,
+            '2019B': 3000.00
+        };
+        mockCursor.next.mockReturnValueOnce(mockRow);
+        chickenEligibility(mockTable,client.AccountNumber,client);
+        expect(state.vars.client_notfound).toBeTruthy();
     });
 });

@@ -4,6 +4,7 @@ module.exports = function(chicken_table, acc_nber, client_json){
 
     var chickenCursor = chicken_table.queryRows({'vars': {'account_number': acc_nber}});
     var prepRequired = 0;
+    var totalCredit = 0;
     
     if(chickenCursor.hasNext()){
         var row = chickenCursor.next();
@@ -22,8 +23,15 @@ module.exports = function(chicken_table, acc_nber, client_json){
     if(client_json.BalanceHistory.length>0){
         client_json.BalanceHistory = client_json.BalanceHistory[0];
     }
+    if(client_json.BalanceHistory.TotalCreditPerCycle[project.vars.creditCycleChickenService] != undefined){
+        totalCredit = client_json.BalanceHistory.TotalCreditPerCycle[project.vars.creditCycleChickenService];
+    }
+    else{
+        state.vars.client_notfound = true;
+        return;
+    }
     //new prepayment calculation from November
-    prepRequired =  (client_json.BalanceHistory.TotalCredit * parseInt(project.vars.chickenRequiredPercentage))/100;
+    prepRequired =  (totalCredit * parseInt(project.vars.chickenRequiredPercentage))/100;
     var prepayment_amount = client_json.BalanceHistory.TotalRepayment_IncludingOverpayments - prepRequired;
     // if prepayment satisfies the mminimum condition( > than 2 chicken prepayment amount(2000))
     if(prepayment_amount >= 1000){
