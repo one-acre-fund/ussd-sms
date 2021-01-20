@@ -1,5 +1,6 @@
 var notifyELK = require('../../../notifications/elk-notification/elkNotification');
 var getAudioLink = require('../../utils/getAudioLink');
+var invalidAttempts = require('../../utils/invalidAttempts');
 
 module.exports = function(input) {
     notifyELK();
@@ -10,16 +11,20 @@ module.exports = function(input) {
     var otherItemsHandler = otherItemsMenu === 'top-tips-part-1-menu' ? 'topTipsMenu1' : 'olderEpisodesMenu1';
 
     if (input == '0') {
+        invalidAttempts.clear(state.vars.invalidInputAttempts);
         playAudio(getAudioLink(lang, played));
         playAudio(getAudioLink(lang, currentMenu));
         promptKey('selectedTipOrEpisode2');
     } else if (input == '1') {
+        invalidAttempts.clear(state.vars.invalidInputAttempts);
         playAudio(getAudioLink(lang, otherItemsMenu));
         promptKey(otherItemsHandler);
     } else if (input == '*') {
+        invalidAttempts.clear(state.vars.invalidInputAttempts);
         playAudio(getAudioLink(lang, '2nd-flow-full-menu'));
         promptKey('2ndFlowMenuChoice');
     } else {
+        invalidAttempts.check(state.vars.invalidInputAttempts, 2, lang);
         playAudio(getAudioLink(lang, 'invalid-option-2'));
         playAudio(getAudioLink(lang, currentMenu));
         promptKey('selectedTipOrEpisode2');
