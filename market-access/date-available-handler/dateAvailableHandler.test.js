@@ -12,8 +12,8 @@ describe('order confirmation handler test', ()=>{
         state.vars.marketLang = 'en';
     });
     it('should call ELK',()=>{
-        dateAvailableHandler();
-        expect(notifyELK).toHaveBeenCalled;
+        dateAvailableHandler('213/234/2020');
+        expect(notifyELK).toHaveBeenCalled();
     });
     it('should re-prompt for the date if the input does not mach the dd/mm/yyyy format',()=>{
         dateAvailableHandler('213/234/2020');
