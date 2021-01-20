@@ -13,7 +13,7 @@ describe('confirmation handler test', ()=>{
     });
     it('should call ELK',()=>{
         confirmationHandler();
-        expect(notifyELK).toHaveBeenCalled;
+        expect(notifyELK).toHaveBeenCalled();
     });
     it('should call onConfirmation with True if the user responded with zero',()=>{
         confirmationHandler('0');

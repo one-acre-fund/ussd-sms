@@ -13,7 +13,7 @@ describe('Payment Advance handler test', ()=>{
     });
     it('should call ELK',()=>{
         paymentChoiceHandler();
-        expect(notifyELK).toHaveBeenCalled;
+        expect(notifyELK).toHaveBeenCalled();
     });
     it('should should call onAdvancePayment with 1 if the input is 1',()=>{
         paymentChoiceHandler('1');

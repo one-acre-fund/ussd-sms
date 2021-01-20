@@ -13,7 +13,7 @@ describe('order confirmation handler test', ()=>{
     });
     it('should call ELK',()=>{
         dateAvailableHandler();
-        expect(notifyELK).toHaveBeenCalled;
+        expect(notifyELK).toHaveBeenCalled();
     });
     it('should re-prompt for the date if the input does not mach the dd/mm/yyyy format',()=>{
         dateAvailableHandler('213/234/2020');
