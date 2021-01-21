@@ -1,12 +1,14 @@
 var handlerName = 'MANameHandler';
 var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 module.exports = {
     handlerName: handlerName,
     getHandler: function(onNameSubmitted){
         return function(input){
-            if(typeof(input) != undefined){
+            notifyELK();
+            if(typeof(input) != undefined && input != ''){
                 onNameSubmitted(input);
             }
             else{

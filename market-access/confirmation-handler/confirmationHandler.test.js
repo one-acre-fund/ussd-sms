@@ -15,12 +15,12 @@ describe('confirmation handler test', ()=>{
         confirmationHandler();
         expect(notifyELK).toHaveBeenCalled();
     });
-    it('should call onConfirmation with True if the user responded with zero',()=>{
+    it('should call onConfirmation with 0 if the user responded with zero',()=>{
         confirmationHandler('0');
-        expect(onConfirmation).toHaveBeenCalledWith(true);
+        expect(onConfirmation).toHaveBeenCalledWith('0');
     });
-    it('should call onConfirmation with False if the user responded responds with anything other zero',()=>{
-        confirmationHandler('1');
+    it('should call onConfirmation with False if the user responded responds with an empty input',()=>{
+        confirmationHandler('');
         expect(onConfirmation).toHaveBeenCalledWith(false);
 
     });

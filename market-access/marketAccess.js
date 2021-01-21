@@ -39,6 +39,7 @@ function onConfirmation(confirmed){
         global.promptDigits(paymentAdvanceHandler.handlerName);
     }
     else{
+        marketInfo = JSON.parse(state.vars.marketInfo);
         global.sayText(translate('details_confirm_menu',{'$amount': marketInfo.QuantityofMaize, '$date': marketInfo.AvailabilityDate},state.vars.marketLang));
         global.promptDigits(confirmationHandler.handlerName);
     }
@@ -159,6 +160,7 @@ var onAccountNameSubmitted = function(bankAccountName){
     saveMarketInfo();
 };
 function saveMarketInfo(callback,callBackInput){
+    marketInfo = JSON.parse(state.vars.marketInfo);
     if(callback){
         marketInfo.currentCallback = callback;
         marketInfo.currentCallBackInput = callBackInput;
