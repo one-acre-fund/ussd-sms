@@ -258,7 +258,7 @@ addInputHandler('cor_menu_select', function (input) {
     }
     else if(selection === 'cor_market_access'){
         try{
-            marketAccess.start(state.vars.account_number,'rw',lang);
+            marketAccess.start(JSON.parse(state.vars.client_json),'rw',lang);
         }catch(e){
             slack.log(e);
         }

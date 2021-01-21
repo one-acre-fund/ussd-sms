@@ -4,8 +4,8 @@ module.exports= {
         'ki': 'Ingono y\'ibigori bidahunguye (Mu mifuka y\'ibiro 100)'
     },
     'maize_availability': {
-        'en': 'When  Maize will be available',
-        'ki': 'Ni ryari ibigori bizaba byumye neza'
+        'en': 'When  Maize will be available (Enter dd/mm/yyyy)',
+        'ki': 'Ni ryari ibigori bizaba byumye neza (Injira dd/mm/yyyy)'
     },
     'payment_advance': {
         'en': 'Do you want an Advance payment for your maize? \n1)Yes\n2)No',
@@ -17,11 +17,11 @@ module.exports= {
     },
     'payment_choice': {
         'en': 'How would the farmer like to receive your advance payment?\n1) Mobile Money\n2)Bank Account\n3) Back',
-        'ki': 'Ni gute umuhinzi yifuza kwishyurwa avanse\n1) Mobiyilo mani\n2) Banki\n3) Subira inyuma'
+        'ki': 'Ni gute umuhinzi yifuza kwishyurwa avanse\n1) Mobiyilo mani\n2) Banki\n3)Gusubira inyuma'
     },
     'MOMO_choice': {
-        'en': 'what is Mobile Money company\n1)MTN\n2)Airtel or Tigo',
-        'ki': 'Ni iyihe sosiyete mobayilo mani yanditsemo\n1)MTN\n2)Airtel cyangwa Tigo'
+        'en': 'what is Mobile Money company\n1)MTN\n2)Airtel or Tigo\n3)Back',
+        'ki': 'Ni iyihe sosiyete mobayilo mani yanditsemo\n1)MTN\n2)Airtel cyangwa Tigo\n3)Subira inyuma'
     },
     'bank_name_menu': {
         'en': 'Enter Bank Name',
@@ -52,7 +52,15 @@ module.exports= {
         'ki': 'Andika izina ry\'umuhinzi iyi banki ibaruyeho'
     },
     'bank_final_confirmation': {
-        'en': 'The Client\'s advance will be sent to  Account Number $account, Client Account name in Bank: $name ',
-        'ki': 'Avansi y\'umuhinzi izoherezwa kuri konti $account, Izina rya konti y\'umuhinzi  iri muri Banki: $name'
+        'en': 'The Client\'s advance will be sent to  Account Number $account, $name in Bank: $bankName ',
+        'ki': 'Avansi y\'umuhinzi izoherezwa kuri konti $account, $name iri muri Banki: $bankName'
+    },
+    'finalized': {
+        'en': 'This farmer already commited to sell  $number kgs of unshelled maize on $date.',
+        'ki': 'Uyu muhinzi yamaze kwemeza kugurisha ibiro $number by\'ibigori kuri tariki $date' 
+    },
+    'final_thanking_message': {
+        'en': 'Thank you for using the service, the responses have been stored',
+        'ki': 'Murakoze. Ibisubizo byanyu byanditswe muri sisitemu yacu'
     }
 };

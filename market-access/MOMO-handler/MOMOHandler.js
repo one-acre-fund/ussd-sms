@@ -8,7 +8,7 @@ module.exports = {
     getHandler: function(onMOMOChosen){
         return function(input){
             notifyELK();
-            if(input == '1' || input == '2'){
+            if(input == '1' || input == '2' || input == '3'){
                 onMOMOChosen(input);
             }else{
                 var translate =  createTranslator(translations, state.vars.marketLang);

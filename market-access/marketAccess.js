@@ -19,50 +19,60 @@ var marketInfo ={};
 
 function onQuantitySubmitted(quantity){
     marketInfo = JSON.parse(state.vars.marketInfo);
-    marketInfo.quantity = quantity;
+    marketInfo.QuantityofMaize  = quantity;
     state.vars.marketInfo = JSON.stringify(marketInfo);
-    marketInfo.quantity = quantity;
     global.sayText(translate('maize_availability',{},state.vars.marketLang));
     global.promptDigits(dateAvailableHandler.handlerName);
 }
 function onDateSubmitted(date){
     marketInfo = JSON.parse(state.vars.marketInfo);
-    marketInfo.date = date;
+    marketInfo.AvailabilityDate = date;
     state.vars.marketInfo = JSON.stringify(marketInfo);
-    global.sayText(translate('details_confirm_menu',{'$amount': marketInfo.quantity, '$date': marketInfo.date},state.vars.marketLang));
+    saveMarketInfo('onDateSubmitted',date);
+    global.sayText(translate('details_confirm_menu',{'$amount': marketInfo.QuantityofMaize, '$date': marketInfo.AvailabilityDate},state.vars.marketLang));
     global.promptDigits(confirmationHandler.handlerName);
 }
 function onConfirmation(confirmed){
-    if(confirmed){
+    if(confirmed == '0'){
+        saveMarketInfo('onConfirmation',confirmed);
         global.sayText(translate('payment_advance',{},state.vars.marketLang));
         global.promptDigits(paymentAdvanceHandler.handlerName);
     }
     else{
-        global.sayText(translate('details_confirm_menu',{'$amount': marketInfo.quantity, '$date': marketInfo.date},state.vars.marketLang));
+        global.sayText(translate('details_confirm_menu',{'$amount': marketInfo.QuantityofMaize, '$date': marketInfo.AvailabilityDate},state.vars.marketLang));
         global.promptDigits(confirmationHandler.handlerName);
     }
 }
 function onAdvancePayment(paymentAdvanceChoice){
     if(paymentAdvanceChoice == 1){
         marketInfo = JSON.parse(state.vars.marketInfo);
-        marketInfo.paymentAdvanceChoice = 'True';
+        marketInfo.AdvanceRequest = 'Yes';
         state.vars.marketInfo = JSON.stringify(marketInfo);
+        saveMarketInfo('onAdvancePayment',paymentAdvanceChoice);
         global.sayText(translate('payment_choice',{},state.vars.marketLang));
         global.promptDigits(paymentChoiceHandler.handlerName);
+    }else{
+        marketInfo = JSON.parse(state.vars.marketInfo);
+        marketInfo.AdvanceRequest = 'No';
+        state.vars.marketInfo = JSON.stringify(marketInfo);
+        global.sayText(translate('final_thanking_message',{},state.vars.marketLang));
+        saveMarketInfo();
     }
 }
 function onPaymentChoice(paymentChoice){
     if(paymentChoice == 1 ){
         var marketInfo = JSON.parse(state.vars.marketInfo);
-        marketInfo.paymentAdvanceChoice = 'MOMO';
+        marketInfo.AdvancePaymentOption = 'MOMO';
         state.vars.marketInfo = JSON.stringify(marketInfo);
+        saveMarketInfo('onPaymentChoice',paymentChoice);
         global.sayText(translate('MOMO_choice',{},state.vars.marketLang));
         global.promptDigits(MOMOHandler.handlerName);
 
     }else if(paymentChoice == 2){
         marketInfo = JSON.parse(state.vars.marketInfo);
-        marketInfo.paymentAdvanceChoice = 'Bank';
+        marketInfo.AdvancePaymentOption = 'Bank';
         state.vars.marketInfo = JSON.stringify(marketInfo);
+        saveMarketInfo('onPaymentChoice',paymentChoice);
         global.sayText(translate('bank_name_menu',{},state.vars.marketLang));
         global.promptDigits(bankNameHandler.handlerName);
 
@@ -74,30 +84,37 @@ function onPaymentChoice(paymentChoice){
 function onMOMOChosen(input){
     if(input == 1){
         marketInfo = JSON.parse(state.vars.marketInfo);
-        marketInfo.MOMOChoice = 'MTN';
+        marketInfo.AdvancePaymentPhoneOption = 'MTN';
         state.vars.marketInfo = JSON.stringify(marketInfo);
+        saveMarketInfo('onMOMOChosen',input);
         global.sayText(translate('phone_number_menu',{},state.vars.marketLang));
         global.promptDigits(phoneNumberHandler.handlerName);
     }else if(input == 2){
         marketInfo = JSON.parse(state.vars.marketInfo);
-        marketInfo.MOMOChoice = 'Airtel';
+        marketInfo.AdvancePaymentPhoneOption = 'Airtel';
         state.vars.marketInfo = JSON.stringify(marketInfo);
+        saveMarketInfo('onMOMOChosen',input);
         global.sayText(translate('phone_number_menu',{},state.vars.marketLang));
         global.promptDigits(phoneNumberHandler.handlerName);
+    }
+    else if(input == 3){
+        global.sayText(translate('payment_choice',{},state.vars.marketLang));
+        global.promptDigits(paymentChoiceHandler.handlerName);
     }
 }
 function onPhoneSubmitted(phoneNumber){
     marketInfo = JSON.parse(state.vars.marketInfo);
-    marketInfo.phoneNumber = phoneNumber;
+    marketInfo.AdvancePhoneNumber  = phoneNumber;
     state.vars.marketInfo = JSON.stringify(marketInfo);
+    saveMarketInfo('onPhoneSubmitted',phoneNumber);
     global.sayText(translate('farmer_name_menu',{},state.vars.marketLang));
     global.promptDigits(nameHandler.handlerName);
 }
 function onNameSubmitted(name){
     marketInfo = JSON.parse(state.vars.marketInfo);
-    marketInfo.name = name;
+    marketInfo.AdvanceClientName = name;
     state.vars.marketInfo = JSON.stringify(marketInfo);
-    var finalMessage = translate('final_message_momo',{'$name': marketInfo.name, '$phone': marketInfo.phoneNumber},state.vars.marketLang);
+    var finalMessage = translate('final_message_momo',{'$name': marketInfo.AdvanceClientName, '$phone': marketInfo.AdvancePhoneNumber},state.vars.marketLang);
     global.sayText(finalMessage);
     project.sendMessage({
         content: finalMessage,
@@ -107,42 +124,79 @@ function onNameSubmitted(name){
 }
 function onBankNameSubmitted(bankName){
     marketInfo = JSON.parse(state.vars.marketInfo);
-    marketInfo.bankName = bankName;
+    marketInfo.BankName  = bankName;
     state.vars.marketInfo = JSON.stringify(marketInfo);
+    saveMarketInfo('onBankNameSubmitted',bankName);
     global.sayText(translate('bank_branch_menu',{},state.vars.marketLang));
     global.promptDigits(bankBranchHandler.handlerName);
 }
 function onBankBranchSubmitted(bankBranchName){
     marketInfo = JSON.parse(state.vars.marketInfo);
-    marketInfo.bankBranchName = bankBranchName;
+    marketInfo.BankBranch = bankBranchName;
     state.vars.marketInfo = JSON.stringify(marketInfo);
+    saveMarketInfo('onBankBranchSubmitted',bankBranchName);
     global.sayText(translate('bank_account_menu',{},state.vars.marketLang));
     global.promptDigits(bankAccountHandler.handlerName);
 }
 function onBankAccountSubmitted(bankAccountNumber){
     marketInfo = JSON.parse(state.vars.marketInfo);
-    marketInfo.bankAccountNumber = bankAccountNumber;
+    marketInfo.ClientBankAccountNumber  = bankAccountNumber;
     state.vars.marketInfo = JSON.stringify(marketInfo);
+    saveMarketInfo('onBankAccountSubmitted',bankAccountNumber);
     global.sayText(translate('bank_account_name',{},state.vars.marketLang));
     global.promptDigits(accountNameHandler.handlerName);
 }
-function onAccountNameSubmitted(bankAccountName){
+var onAccountNameSubmitted = function(bankAccountName){
     marketInfo = JSON.parse(state.vars.marketInfo);
-    marketInfo.bankAccountName = bankAccountName;
+    marketInfo.ClientAccountName = bankAccountName;
     state.vars.marketInfo = JSON.stringify(marketInfo);
-    var finalMessage = translate('bank_final_confirmation',{'$account': marketInfo.bankAccountNumber, '$name': marketInfo.bankAccountName},state.vars.marketLang);
+    var finalMessage = translate('bank_final_confirmation',{'$account': marketInfo.ClientBankAccountNumber, '$name': marketInfo.ClientAccountName,'$bankName': marketInfo.BankName},state.vars.marketLang);
     project.sendMessage({
         content: finalMessage,
         to_number: contact.phone_number
     });
     global.sayText(finalMessage);
     saveMarketInfo();
-}
-function saveMarketInfo(){
-    console.log(JSON.stringify(state.vars.marketInfo));
+};
+function saveMarketInfo(callback,callBackInput){
+    if(callback){
+        marketInfo.currentCallback = callback;
+        marketInfo.currentCallBackInput = callBackInput;
+        marketInfo.finalized = 0;
+    }
+    else{
+        marketInfo.finalized = 1;
+    }
     var table  = project.initDataTableById(service.vars.market_access_table);
-    var row = table.createRow({'vars': marketInfo});
+    var cursor = table.queryRows({'vars': {'account': state.vars.account}});
+    if(cursor.hasNext()){
+        var row = cursor.next();
+        row.vars = marketInfo;
+    }
+    else{
+        row = table.createRow({'vars': marketInfo});
+    }
     row.save();
+}
+function hasFinalized(accountNumber){
+    var table  = project.initDataTableById(service.vars.market_access_table);
+    var cursor = table.queryRows({'vars': {'account': accountNumber,'finalized': 1}});
+    if(cursor.hasNext()){
+        var row = cursor.next();
+        state.vars.marketInfo = JSON.stringify(row.vars);
+        return true;
+    }
+    return false;
+}
+function resume(accountNumber){
+    var table  = project.initDataTableById(service.vars.market_access_table);
+    var cursor = table.queryRows({'vars': {'account': accountNumber,'finalized': 0}});
+    if(cursor.hasNext()){
+        var row = cursor.next();
+        state.vars.marketInfo = JSON.stringify(row.vars);
+        return true;
+    }
+    return false;
 
 }
 module.exports = {
@@ -159,16 +213,28 @@ module.exports = {
         addInputHandler(bankBranchHandler.handlerName, bankBranchHandler.getHandler(onBankBranchSubmitted));
         addInputHandler(bankAccountHandler.handlerName, bankAccountHandler.getHandler(onBankAccountSubmitted));
         addInputHandler(accountNameHandler.handlerName, accountNameHandler.getHandler(onAccountNameSubmitted));
+       
     },
-    start: function (account, country, lang) {
+    start: function (clientJSON, country, lang) {
         notifyELK();
-        state.vars.account = account;
+        state.vars.account = clientJSON.account;
         state.vars.country = country;
         state.vars.marketLang = lang;
-        state.vars.marketInfo = JSON.stringify({account: account});
+        state.vars.marketInfo = JSON.stringify({account: clientJSON.account, districtName: clientJSON.DistrictName, siteName: clientJSON.SiteName });
         var translate =  createTranslator(translations, state.vars.marketLang);
-        global.sayText(translate('quantity_unshield_maize',{}));
-        global.promptDigits(quantityHandler.handlerName);
+        if(hasFinalized(clientJSON.account)){
+            global.sayText(translate('finalized',{'$number': JSON.parse(state.vars.marketInfo).QuantityofMaize, '$date': JSON.parse(state.vars.marketInfo).AvailabilityDate}));
+            global.stopRules();
+        }else if(resume(clientJSON.account)) {
+            console.log(state.vars.marketInfo);
+            var currentCallback = ''+JSON.parse(state.vars.marketInfo).currentCallback +'('+JSON.parse(state.vars.marketInfo).currentCallBackInput + ')';
+            console.log(currentCallback);
+            eval(currentCallback); 
+        }
+        else{
+            global.sayText(translate('quantity_unshield_maize',{}));
+            global.promptDigits(quantityHandler.handlerName);
+        }
     
     }  
 };
