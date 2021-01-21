@@ -44,6 +44,21 @@ describe('Pin Handler', () => {
         });
     });
 
+    it('sets the user preferred language and calls the IVR service if correct pin is entered', () => {
+        contact.phone_number = '07812345678';
+        state.vars.pin = '1234';
+
+        pinHandler('1234');
+
+        expect(contact.vars.lang).toEqual('en');
+        expect(project.sendMessage).toHaveBeenCalledWith({
+            message_type: 'call',
+            service_id: 'SV535e0ec81dc27e51',
+            to_number: '07812345678',
+            route_id: 'PN54d237477649c512'
+        });
+    });
+
     it('should call notifyELK',()=>{
         pinHandler('2143');
         expect(notifyELK).toHaveBeenCalled();

@@ -81,8 +81,6 @@ function getMainMenuAndHandler(currentDate, startDate, endDate, latestAndPrevEpi
         output.menu = '2nd-flow-full-menu';
         output.handler = '2ndFlowMenuChoice';
 
-    } else {
-        throw new Error('IVR nutrition program not yet started');
     }
 
     return output;

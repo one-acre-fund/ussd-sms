@@ -13,7 +13,7 @@ module.exports = [
     },
     {
         'name': 'episode-4',
-        'releaseDate': '08/22/2021'
+        'releaseDate': '02/22/2021'
     },
     {
         'name': 'episode-5',

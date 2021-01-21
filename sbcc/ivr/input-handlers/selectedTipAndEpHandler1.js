@@ -10,16 +10,16 @@ module.exports = function(input) {
     var played = state.vars.played;
     var currentMenu = /tip/.test(played) ? 'tip-menu' : 'episode-menu';
     if (input == '0') {
-        invalidAttempts.clear(state.vars.invalidInputAttempts);
+        invalidAttempts.clear();
         playAudio(getAudioLink(lang, played));
         playAudio(getAudioLink(lang, currentMenu));
         promptKey('selectedTipOrEpisode1');
     } else if (input == '*') {
-        invalidAttempts.clear(state.vars.invalidInputAttempts);
+        invalidAttempts.clear();
         playAudio(getAudioLink(lang, mainMenu));
         promptKey(mainMenuHandler);
     } else {
-        invalidAttempts.check(state.vars.invalidInputAttempts, 2, lang);
+        invalidAttempts.check(2, lang);
         playAudio(getAudioLink(lang, 'invalid-option-2'));
         playAudio(getAudioLink(lang, currentMenu));
         promptKey('selectedTipOrEpisode1');
