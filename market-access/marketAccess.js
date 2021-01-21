@@ -13,7 +13,6 @@ var bankNameHandler = require('./bank-input-handlers/bank-name-handler/bankNameH
 var bankBranchHandler = require('./bank-input-handlers/bank-branch-handler/bankBranchHandler');
 var bankAccountHandler = require('./bank-input-handlers/bank-account-handler/bankAccountHandler');
 var accountNameHandler = require('./bank-input-handlers/account-name-handler/accountNameHandler');
-var bankConfirmationHandler = require('./bank-input-handlers/bank-confirmation-handler/bankConfirmationHandler');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var marketInfo ={};
 
@@ -104,6 +103,7 @@ function onNameSubmitted(name){
         content: finalMessage,
         to_number: contact.phone_number
     });
+    saveMarketInfo();
 }
 function onBankNameSubmitted(bankName){
     marketInfo = JSON.parse(state.vars.marketInfo);
@@ -130,12 +130,19 @@ function onAccountNameSubmitted(bankAccountName){
     marketInfo = JSON.parse(state.vars.marketInfo);
     marketInfo.bankAccountName = bankAccountName;
     state.vars.marketInfo = JSON.stringify(marketInfo);
-    global.sayText(translate('bank_final_confirmation',{'$account': marketInfo.bankAccountNumber, '$name': marketInfo.bankAccountName},state.vars.marketLang));
-    global.promptDigits(bankConfirmationHandler.handlerName);
-
+    var finalMessage = translate('bank_final_confirmation',{'$account': marketInfo.bankAccountNumber, '$name': marketInfo.bankAccountName},state.vars.marketLang);
+    project.sendMessage({
+        content: finalMessage,
+        to_number: contact.phone_number
+    });
+    global.sayText(finalMessage);
+    saveMarketInfo();
 }
-function onBankConfirmed(){
+function saveMarketInfo(){
     console.log(JSON.stringify(state.vars.marketInfo));
+    var table  = project.initDataTableById(service.vars.market_access_table);
+    var row = table.createRow({'vars': marketInfo});
+    row.save();
 
 }
 module.exports = {
@@ -152,7 +159,6 @@ module.exports = {
         addInputHandler(bankBranchHandler.handlerName, bankBranchHandler.getHandler(onBankBranchSubmitted));
         addInputHandler(bankAccountHandler.handlerName, bankAccountHandler.getHandler(onBankAccountSubmitted));
         addInputHandler(accountNameHandler.handlerName, accountNameHandler.getHandler(onAccountNameSubmitted));
-        addInputHandler(bankConfirmationHandler.handlerName, bankConfirmationHandler.getHandler(onBankConfirmed));
     },
     start: function (account, country, lang) {
         notifyELK();
