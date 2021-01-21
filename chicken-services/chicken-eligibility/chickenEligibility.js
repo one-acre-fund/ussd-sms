@@ -9,7 +9,7 @@ module.exports = function(chicken_table, acc_nber, client_json){
     if(chickenCursor.hasNext()){
         var row = chickenCursor.next();
         //prepRequired = row.vars.prep_required; //Replaced by percentage healthpath from november
-        state.vars.chcken_nber = row.vars.ordered_chickens || 0;
+        state.vars.chcken_nber = 15;
         state.vars.farmer_name  = JSON.parse(state.vars.client_json).FirstName;
     }
     else{
@@ -52,20 +52,16 @@ module.exports = function(chicken_table, acc_nber, client_json){
     else{
         state.vars.minimum_amount_paid = false;
     }
-    //Did not orsder any chicken return
-    if(state.vars.chcken_nber == 0){
+    
+    // If the client confirmed and just want to check
+    if(row.vars.confirmed == 1){
+        state.vars.confirmed_chicken = true;
         return;
-    } 
+    }
+    // If the client did not confirm or wants to change
     else{
-        // If the client confirmed and just want to check
-        if(row.vars.confirmed == 1){
-            state.vars.confirmed_chicken = true;
-            return;
-        }
-        // If the client did not confirm or wants to change
-        else{
-            state.vars.confirmed_chicken = false;
-        }
-    } 
+        state.vars.confirmed_chicken = false;
+    }
+    
 
 };
