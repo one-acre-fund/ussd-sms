@@ -69,7 +69,6 @@ describe('Main menu one handler', () => {
         mainMenuOneHandler('8');
         mainMenuOneHandler('7');
         mainMenuOneHandler('6');
-        expect(state.vars.invalidInputAttempts).toEqual(3);
         expect(hangUp).toHaveBeenCalled();
     });
 

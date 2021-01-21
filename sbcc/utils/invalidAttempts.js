@@ -13,6 +13,8 @@ function checkInvalidInputAttempts(max, lang) {
     }
     if (state.vars.invalidInputAttempts > max) {
         global.playAudio(getAudioLink(lang, 'error'));
+        // For some reason, telerivet doesn't clear state.vars immediately after a call has ended, until after some seconds. Resetting invalidInputAttempts below ensures number of attempts will start afresh if the user calls back immediately after the call hung up.
+        state.vars.invalidInputAttempts = null;
         global.hangUp();
     }
 }

@@ -8,8 +8,6 @@ describe('Invalid input attempts', () => {
     it('plays error message and hangs up if attempts exceed the max', () => {
         state.vars.invalidInputAttempts = 2;
         invalidAttempts.check(2, 'en');
-
-        expect(state.vars.invalidInputAttempts).toEqual(3);
         expect(playAudio).toHaveBeenCalledWith('https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611061658/4868df5e9317/error.mp3');
         expect(hangUp).toHaveBeenCalled();
     });

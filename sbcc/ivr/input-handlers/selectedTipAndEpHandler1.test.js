@@ -47,7 +47,6 @@ describe('Selected tip and episode handler for IVR first flow', () => {
         selectedTipAndEpHandler1('9');
         selectedTipAndEpHandler1('8');
         selectedTipAndEpHandler1('7');
-        expect(state.vars.invalidInputAttempts).toEqual(3);
         expect(hangUp).toHaveBeenCalled();
     });
 

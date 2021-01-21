@@ -81,7 +81,6 @@ describe('Older episodes first menu handler', () => {
         olderEpisodesMenuHandler1('9');
         olderEpisodesMenuHandler1('8');
         olderEpisodesMenuHandler1('7');
-        expect(state.vars.invalidInputAttempts).toEqual(3);
         expect(hangUp).toHaveBeenCalled();
     });
 

@@ -50,7 +50,6 @@ describe('Main menu two handler', () => {
         mainMenuTwoHandler('5');
         mainMenuTwoHandler('7');
         mainMenuTwoHandler('6');
-        expect(state.vars.invalidInputAttempts).toEqual(3);
         expect(hangUp).toHaveBeenCalled();
     });
 

@@ -67,7 +67,6 @@ describe('Top tips menu handler for top tips 5 to 8', () => {
         topTipsMenuHandler2('9');
         topTipsMenuHandler2('8');
         topTipsMenuHandler2('7');
-        expect(state.vars.invalidInputAttempts).toEqual(3);
         expect(hangUp).toHaveBeenCalled();
     });
 
