@@ -60,7 +60,7 @@ describe('clientRegistration', () => {
             roster.getClient = jest.fn().mockImplementationOnce(() => {return client ;});
             mockCursor.hasNext.mockReturnValueOnce(true);
             clientEnrollment.start(account, country, enr_lang);
-            expect(sayText).toHaveBeenCalledWith('This client is already enrolled through JiT.');
+            expect(sayText).toHaveBeenCalledWith('Thank you! You have already Enrolled with a maximum of three products.');
         });
         it('should call roster.getClinet if roster.authClient returns true', () => {
             clientEnrollment.start(account, country, enr_lang);
