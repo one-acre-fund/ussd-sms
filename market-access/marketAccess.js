@@ -217,17 +217,17 @@ module.exports = {
     },
     start: function (clientJSON, country, lang) {
         notifyELK();
-        state.vars.account = clientJSON.account;
+        state.vars.account = clientJSON.AccountNumber;
         state.vars.country = country;
         state.vars.marketLang = lang;
-        state.vars.marketInfo = JSON.stringify({account: clientJSON.account, districtName: clientJSON.DistrictName, siteName: clientJSON.SiteName });
+        state.vars.marketInfo = JSON.stringify({account: clientJSON.AccountNumber, districtName: clientJSON.DistrictName, siteName: clientJSON.SiteName });
         var translate =  createTranslator(translations, state.vars.marketLang);
-        if(hasFinalized(clientJSON.account)){
+        if(hasFinalized(clientJSON.AccountNumber)){
             global.sayText(translate('finalized',{'$number': JSON.parse(state.vars.marketInfo).QuantityofMaize, '$date': JSON.parse(state.vars.marketInfo).AvailabilityDate}));
             global.stopRules();
-        }else if(resume(clientJSON.account)) {
+        }else if(resume(clientJSON.AccountNumber)) {
             console.log(state.vars.marketInfo);
-            var currentCallback = ''+JSON.parse(state.vars.marketInfo).currentCallback +'('+JSON.parse(state.vars.marketInfo).currentCallBackInput + ')';
+            var currentCallback = ''+JSON.parse(state.vars.marketInfo).currentCallback +'(\''+JSON.parse(state.vars.marketInfo).currentCallBackInput + '\')';
             console.log(currentCallback);
             eval(currentCallback); 
         }
