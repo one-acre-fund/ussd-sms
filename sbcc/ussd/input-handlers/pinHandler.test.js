@@ -13,7 +13,6 @@ describe('Pin Handler', () => {
         jest.resetModules();
     });
 
-
     it('asks user to try again if incorrect pin is entered once', () => {
         pinHandler('2123');
 
@@ -35,12 +34,13 @@ describe('Pin Handler', () => {
         expect(state.vars.incorrectPinAttempts).toEqual(3);
         expect(scheduleCall).toHaveBeenCalledWith({
             lang: 'en',
-            desc: 'Call back requested for incorrect pin entered twice. User phone number is 07812345678',
+            desc:
+                'Call back requested for incorrect pin entered twice. User phone number is 07812345678',
             accountNumber: 'NonClient07812345678',
-            phoneNumber: '07812345678', 
+            phoneNumber: '07812345678',
             repeatMenu: 'try_again',
             repeatHandler: 'pin',
-            successMsg: 'incorrect_pin'
+            successMsg: 'incorrect_pin',
         });
     });
 
@@ -55,11 +55,11 @@ describe('Pin Handler', () => {
             message_type: 'call',
             service_id: 'SV535e0ec81dc27e51',
             to_number: '07812345678',
-            route_id: 'PN54d237477649c512'
+            route_id: 'PN54d237477649c512',
         });
     });
 
-    it('should call notifyELK',()=>{
+    it('should call notifyELK', () => {
         pinHandler('2143');
         expect(notifyELK).toHaveBeenCalled();
     });

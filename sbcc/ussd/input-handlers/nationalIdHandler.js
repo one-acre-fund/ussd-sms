@@ -8,7 +8,9 @@ module.exports = function nationalIdHandler(input) {
     var lang = state.vars.lang;
     var getMessage = translator(translations, lang);
     var sbccTable = project.getOrCreateDataTable(service.vars.sbccTable);
-    var nationalIdCursor = sbccTable.queryRows({vars: {national_id: input}});
+    var nationalIdCursor = sbccTable.queryRows({
+        vars: { national_id: input },
+    });
     if (!state.vars.incorrectIdAttempts) {
         state.vars.incorrectIdAttempts = 0;
     }
@@ -36,12 +38,14 @@ module.exports = function nationalIdHandler(input) {
         } else {
             scheduleCall({
                 lang: lang,
-                desc: 'Call back requested for incorrect national ID entered twice. User phone number is '+ contact.phone_number,
+                desc:
+                    'Call back requested for incorrect national ID entered twice. User phone number is ' +
+                    contact.phone_number,
                 accountNumber: 'NonClient' + contact.phone_number,
-                phoneNumber: contact.phone_number, 
+                phoneNumber: contact.phone_number,
                 repeatMenu: 'try_again',
                 repeatHandler: 'national_id',
-                successMsg: 'incorrect_id'
+                successMsg: 'incorrect_id',
             });
         }
     }

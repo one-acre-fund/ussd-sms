@@ -2,19 +2,19 @@ var notifyELK = require('../../../notifications/elk-notification/elkNotification
 var getAudioLink = require('../../utils/getAudioLink');
 var invalidAttempts = require('../../utils/invalidAttempts');
 
-module.exports = function(input) {
+module.exports = function (input) {
     notifyELK();
     var lang = state.vars.lang;
     var mainMenu = state.vars.mainMenu;
     var mainMenuHandler = state.vars.mainMenuHandler;
     var played = state.vars.played;
     var currentMenu = /tip/.test(played) ? 'tip-menu' : 'episode-menu';
-    if (input == '0') {
+    if (input === '0') {
         invalidAttempts.clear();
         playAudio(getAudioLink(lang, played));
         playAudio(getAudioLink(lang, currentMenu));
         promptKey('selectedTipOrEpisode1');
-    } else if (input == '*') {
+    } else if (input === '*') {
         invalidAttempts.clear();
         playAudio(getAudioLink(lang, mainMenu));
         promptKey(mainMenuHandler);

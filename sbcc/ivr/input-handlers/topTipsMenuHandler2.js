@@ -6,6 +6,7 @@ var invalidAttempts = require('../../utils/invalidAttempts');
 module.exports = function(input) {
     notifyELK();
     var lang = state.vars.lang;
+    var selectedTipMenu = 'selected-tip-menu';
     var selectedTip;
 
     switch(input) {
@@ -14,7 +15,7 @@ module.exports = function(input) {
         selectedTip = topTips[4].name;
         playAudio(getAudioLink(lang, selectedTip));
         state.vars.played = selectedTip;
-        playAudio(getAudioLink(lang, 'selected-tip-menu'));
+        playAudio(getAudioLink(lang, selectedTipMenu));
         promptKey('selectedTipOrEpisode2');
         break;
     case '2':
@@ -22,7 +23,7 @@ module.exports = function(input) {
         selectedTip = topTips[5].name;
         playAudio(getAudioLink(lang, selectedTip));
         state.vars.played = selectedTip;
-        playAudio(getAudioLink(lang, 'selected-tip-menu'));
+        playAudio(getAudioLink(lang, selectedTipMenu));
         promptKey('selectedTipOrEpisode2');
         break;
     case '3':
@@ -30,7 +31,7 @@ module.exports = function(input) {
         selectedTip = topTips[6].name;
         playAudio(getAudioLink(lang, selectedTip));
         state.vars.played = selectedTip;
-        playAudio(getAudioLink(lang, 'selected-tip-menu'));
+        playAudio(getAudioLink(lang, selectedTipMenu));
         promptKey('selectedTipOrEpisode2');
         break;
     case '4':
@@ -38,7 +39,7 @@ module.exports = function(input) {
         selectedTip = topTips[7].name;
         playAudio(getAudioLink(lang, selectedTip));
         state.vars.played = selectedTip;
-        playAudio(getAudioLink(lang, 'selected-tip-menu'));
+        playAudio(getAudioLink(lang, selectedTipMenu));
         promptKey('selectedTipOrEpisode2');
         break;
     case '0':

@@ -10,16 +10,16 @@ module.exports = function(input) {
     var otherItemsMenu = currentMenu === 'selected-tip-menu' ? 'top-tips-part-1-menu' : 'older-episodes-part-1-menu';
     var otherItemsHandler = otherItemsMenu === 'top-tips-part-1-menu' ? 'topTipsMenu1' : 'olderEpisodesMenu1';
 
-    if (input == '0') {
+    if (input === '0') {
         invalidAttempts.clear();
         playAudio(getAudioLink(lang, played));
         playAudio(getAudioLink(lang, currentMenu));
         promptKey('selectedTipOrEpisode2');
-    } else if (input == '1') {
+    } else if (input === '1') {
         invalidAttempts.clear();
         playAudio(getAudioLink(lang, otherItemsMenu));
         promptKey(otherItemsHandler);
-    } else if (input == '*') {
+    } else if (input === '*') {
         invalidAttempts.clear();
         playAudio(getAudioLink(lang, '2nd-flow-full-menu'));
         promptKey('2ndFlowMenuChoice');

@@ -6,7 +6,7 @@ var translations = require('../translations/audio-translations');
  * @param {string} key the name of the audio
  * @returns {string} the audio link
  */
-module.exports = function(lang, key) {
+module.exports = function (lang, key) {
     if (!lang) throw new Error('No default language provided');
     var entry = translations[key];
     if (entry === undefined) throw 'No Entry For "' + key + '"';

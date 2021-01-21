@@ -28,8 +28,7 @@ function clearInvalidInputAttempts() {
     }
 }
 
-
 module.exports = {
     check: checkInvalidInputAttempts,
-    clear: clearInvalidInputAttempts
+    clear: clearInvalidInputAttempts,
 };

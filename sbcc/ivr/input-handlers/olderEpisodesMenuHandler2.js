@@ -6,6 +6,7 @@ var invalidAttempts = require('../../utils/invalidAttempts');
 module.exports = function(input) {
     notifyELK();
     var lang = state.vars.lang;
+    var selectedEpisodeMenu = 'selected-episode-menu';
     var selectedEpisode;
 
     switch(input) {
@@ -14,7 +15,7 @@ module.exports = function(input) {
         selectedEpisode = episodes[episodes.length - 7].name;
         playAudio(getAudioLink(lang, selectedEpisode));
         state.vars.played = selectedEpisode;
-        playAudio(getAudioLink(lang, 'selected-episode-menu'));
+        playAudio(getAudioLink(lang, selectedEpisodeMenu));
         promptKey('selectedTipOrEpisode2');
         break;
     case '2':
@@ -22,7 +23,7 @@ module.exports = function(input) {
         selectedEpisode = episodes[episodes.length - 8].name;
         playAudio(getAudioLink(lang, selectedEpisode));
         state.vars.played = selectedEpisode;
-        playAudio(getAudioLink(lang, 'selected-episode-menu'));
+        playAudio(getAudioLink(lang, selectedEpisodeMenu));
         promptKey('selectedTipOrEpisode2');
         break;
     case '3':
@@ -30,7 +31,7 @@ module.exports = function(input) {
         selectedEpisode = episodes[episodes.length - 9].name;
         playAudio(getAudioLink(lang, selectedEpisode));
         state.vars.played = selectedEpisode;
-        playAudio(getAudioLink(lang, 'selected-episode-menu'));
+        playAudio(getAudioLink(lang, selectedEpisodeMenu));
         promptKey('selectedTipOrEpisode2');
         break;
     case '4':
@@ -38,7 +39,7 @@ module.exports = function(input) {
         selectedEpisode = episodes[episodes.length - 10].name;
         playAudio(getAudioLink(lang, selectedEpisode));
         state.vars.played = selectedEpisode;
-        playAudio(getAudioLink(lang, 'selected-episode-menu'));
+        playAudio(getAudioLink(lang, selectedEpisodeMenu));
         promptKey('selectedTipOrEpisode2');
         break;
     case '5':
@@ -46,7 +47,7 @@ module.exports = function(input) {
         selectedEpisode = episodes[episodes.length - 11].name;
         playAudio(getAudioLink(lang, selectedEpisode));
         state.vars.played = selectedEpisode;
-        playAudio(getAudioLink(lang, 'selected-episode-menu'));
+        playAudio(getAudioLink(lang, selectedEpisodeMenu));
         promptKey('selectedTipOrEpisode2');
         break;
     case '6':
@@ -54,7 +55,7 @@ module.exports = function(input) {
         selectedEpisode = episodes[episodes.length - 12].name;
         playAudio(getAudioLink(lang, selectedEpisode));
         state.vars.played = selectedEpisode;
-        playAudio(getAudioLink(lang, 'selected-episode-menu'));
+        playAudio(getAudioLink(lang, selectedEpisodeMenu));
         promptKey('selectedTipOrEpisode2');
         break;
     case '0':

@@ -15,7 +15,7 @@ module.exports = function pinHandler(input) {
     if (input == state.vars.pin) {
         // Reset incorrect pin attempts in case user got it right on second attempt
         state.vars.incorrectPinAttempts = 0;
-        
+
         contact.vars.lang = lang;
         project.sendMessage({
             message_type: 'call',

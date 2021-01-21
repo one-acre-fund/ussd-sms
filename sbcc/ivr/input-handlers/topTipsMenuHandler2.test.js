@@ -9,7 +9,7 @@ describe('Top tips menu handler for top tips 5 to 8', () => {
     });
 
     beforeEach(() => {
-        state.vars.invalidInputAttempts = undefined;
+        state.vars.invalidInputAttempts = null;
     });
 
     it('plays the fifth top tip when 1 is pressed', () => {

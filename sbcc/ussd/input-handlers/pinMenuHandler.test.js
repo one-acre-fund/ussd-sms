@@ -30,12 +30,13 @@ describe('Pin Menu Handler', () => {
 
         expect(scheduleCall).toHaveBeenCalledWith({
             lang: 'en',
-            desc: 'Call back requested for forgotten pin. User phone number is 07812345678',
+            desc:
+                'Call back requested for forgotten pin. User phone number is 07812345678',
             accountNumber: 'NonClient07812345678',
-            phoneNumber: '07812345678', 
+            phoneNumber: '07812345678',
             repeatMenu: 'pin_menu',
             repeatHandler: 'pin_menu',
-            successMsg: 'OAF_call'
+            successMsg: 'OAF_call',
         });
     });
 
@@ -53,7 +54,9 @@ describe('Pin Menu Handler', () => {
     it('stays on the menu when user chooses an invalid option', () => {
         pinMenuHandler('99');
 
-        expect(sayText).toHaveBeenCalledWith('Enter your PIN\n1) Enter PIN\n2) I forgot my PIN\n3) Back');
+        expect(sayText).toHaveBeenCalledWith(
+            'Enter your PIN\n1) Enter PIN\n2) I forgot my PIN\n3) Back'
+        );
         expect(promptDigits).toHaveBeenCalledWith('pin_menu', {
             submitOnHash: false,
             maxDigits: 2,
@@ -61,7 +64,7 @@ describe('Pin Menu Handler', () => {
         });
     });
 
-    it('should call notifyELK',()=>{
+    it('should call notifyELK', () => {
         pinMenuHandler('1');
         expect(notifyELK).toHaveBeenCalled();
     });

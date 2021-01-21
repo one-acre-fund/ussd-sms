@@ -84,5 +84,4 @@ function getMainMenuAndHandler(currentDate, startDate, endDate, latestAndPrevEpi
     }
 
     return output;
-
 }
