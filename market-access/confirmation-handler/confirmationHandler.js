@@ -6,8 +6,8 @@ module.exports = {
     getHandler: function (onConfirmation){
         return function(input){
             notifyELK();
-            if(input == '0'){
-                onConfirmation(true);
+            if(typeof(input) != undefined){
+                onConfirmation(input);
             }
             else{
                 onConfirmation(false);
