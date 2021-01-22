@@ -1,15 +1,15 @@
 module.exports= {
     'quantity_unshield_maize': {
         'en': 'Quantity of Unshelled Maize ( Use big bags of 100Kgs)',
-        'ki': 'Ingono y\'ibigori bidahunguye (Mu mifuka y\'ibiro 100)'
+        'ki': 'Ingano y\'ibigori bidahunguye (Mu mifuka y\'ibiro 100)'
     },
     'maize_availability': {
         'en': 'When  Maize will be available (Enter dd/mm/yyyy)',
-        'ki': 'Ni ryari ibigori bizaba byumye neza (Injira dd/mm/yyyy)'
+        'ki': 'Ni ryari ibigori bizaba byumye neza (Injiza dd/mm/yyyy)'
     },
     'payment_advance': {
         'en': 'Do you want an Advance payment for your maize? \n1)Yes\n2)No',
-        'ki': 'Ese ukeye avansi\n1) Yego\n2) Oya'
+        'ki': 'Ese ukeneye avansi\n1) Yego\n2) Oya'
     },
     'details_confirm_menu': {
         'en': 'You are committing to sell $amount kgs of unshielded maize on $date . Enter 0 to confirm',

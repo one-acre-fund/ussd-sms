@@ -8,7 +8,8 @@ module.exports = {
     getHandler: function(onQuantitySubmitted){
         return function(input){
             notifyELK();
-            if(input %100 == 0){
+            input = parseInt(input,10);
+            if(input > 0){
                 onQuantitySubmitted(input);
             }
             else{
