@@ -222,7 +222,7 @@ module.exports = {
         state.vars.account = clientJSON.AccountNumber;
         state.vars.country = country;
         state.vars.marketLang = lang;
-        state.vars.marketInfo = JSON.stringify({account: clientJSON.AccountNumber, districtName: clientJSON.DistrictName, siteName: clientJSON.SiteName });
+        state.vars.marketInfo = JSON.stringify({account: clientJSON.AccountNumber, districtName: clientJSON.DistrictName, siteName: clientJSON.SiteName, clientName: clientJSON.FirstName +' '+ clientJSON.LastName});
         var translate =  createTranslator(translations, state.vars.marketLang);
         if(hasFinalized(clientJSON.AccountNumber)){
             global.sayText(translate('finalized',{'$number': JSON.parse(state.vars.marketInfo).QuantityofMaize, '$date': JSON.parse(state.vars.marketInfo).AvailabilityDate}));

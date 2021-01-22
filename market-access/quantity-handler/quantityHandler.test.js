@@ -18,7 +18,7 @@ describe('order confirmation handler test', ()=>{
     });
     it('should reprompt for the quantity if the input is less or equal to zero',()=>{
         quantityHandler('0');
-        expect(global.sayText).toHaveBeenCalledWith('Quantity of Unshelled Maize ( Use big bags of 100Kgs)');
+        expect(global.sayText).toHaveBeenCalledWith('Quantity of Unshelled Maize (Kgs)');
         expect(global.promptDigits).toHaveBeenCalledWith(handlerName);
     });
     it('should call  onQuantitySubmitted if the input is valid(greater than 0)',()=>{

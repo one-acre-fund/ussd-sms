@@ -171,7 +171,7 @@ describe('marketAccess', () => {
             mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValue(true);
             mockCursor.next.mockReturnValue(mockRow);
             marketAccess.start(client, country, marketLang);
-            expect(global.sayText).toHaveBeenCalledWith('Quantity of Unshelled Maize ( Use big bags of 100Kgs)');
+            expect(global.sayText).toHaveBeenCalledWith('Quantity of Unshelled Maize (Kgs)');
             expect(promptDigits).toHaveBeenCalledWith(quantityHandler.handlerName);
         });
     });

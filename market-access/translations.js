@@ -1,7 +1,7 @@
 module.exports= {
     'quantity_unshield_maize': {
-        'en': 'Quantity of Unshelled Maize ( Use big bags of 100Kgs)',
-        'ki': 'Ingano y\'ibigori bidahunguye (Mu mifuka y\'ibiro 100)'
+        'en': 'Quantity of Unshelled Maize (Kgs)',
+        'ki': 'Ingano y\'ibigori bidahunguye (ibiro)'
     },
     'maize_availability': {
         'en': 'When  Maize will be available (Enter dd/mm/yyyy)',
