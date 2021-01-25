@@ -4,7 +4,7 @@ module.exports = {
         'en': 'What do you want to do?\n1)Register New SHS Unit \n2)Get Activation/ Unlock Code\n3)View Recent Activation/Unlock Code \n4)Back',
         'sw': 'Huduma gani unahitaji?\n1)Sajili Sola yako\n2)Pata Kodi ya sola yako\n3)Angalia kodi ya Sola yako'
     },
-    'serial_number-request': {
+    'serial_number_request': {
         'en': 'Enter SHS Serial Number',
         'sw': 'Ingiza Serail number ya Sola yako'
     },
@@ -16,8 +16,12 @@ module.exports = {
         'en': 'You have entered an invalid serial number, please try again',
         'sw': 'Nambari ya taa uliyoweka sio sahihi, tafadhali jaribu tena.'
     },
-    'successful_code_sms': {
+    'successful_activation_code': {
         'en': 'Your activation code is $code',
+        'sw': 'Kodi yako ni $code'
+    },
+    'successful_unlock_code': {
+        'en': 'Your unlock code is $code',
         'sw': 'Kodi yako ni $code'
     },
     'unsuccessful_code_sms': {
@@ -47,5 +51,22 @@ module.exports = {
     'account_number_menu': {
         'en': 'Enter Client Account Number',
         'sw': 'Weka Akunti Namba ya Mkulima'
+    },
+    'serial_numbers': {
+        'en': 'Request activation/Unlock  code for serial number\n $serialNumbers \n99) Other',
+        'sw': '"Agiza kodi ya sola yako\n $serialNumbers \n99) nyingine'
+    },
+    'serial_number_request_menu': {
+        'en': 'Enter Serial Number of SHS Unit',
+        'sw': 'Ingiza Serial number ya Sola yako' 
+    },
+    'register_serial_menu': {
+        'en': 'Enter SHS Serial Number\n1) New SHS Unit\n2) Replacement',
+        'sw': 'Enter SHS Serial Number\n1) New SHS Unit\n2) Replacement'
+    },
+    'no_serial_message': {
+        'en': 'You are not eligible to receive a code. Please place an order or call OAF  for help',
+        'sw': 'Samahani, haukuagiza taa kwa mkopo wako, tafadhali piga simu kwa  customer care kwa usaidizi'
     }
+    
 };

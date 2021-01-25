@@ -2,40 +2,37 @@ var handlerName = 'shs_type_handler';
 var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
-
-function getRecentActivationCode(serialTypes){
-    //Check Roster for the recent activation/unlock code
-
-    //Returns activation code 
-    return serialTypes;
-}
-
+var registerSerialNumber = require('../register-serial-Number/registerSerialNumber');
+var serialNumberHandler = require('../serial-number-handler/serialNumberHandler');
 module.exports = {
     handlerName: handlerName,
     getHandler: function(onSerialValidated){
         return function(input){
-            var serialTypes = JSON.parse(state.vars.serialTypes);
-            if(input <= serialTypes.length){
-                var serialType = serialTypes[0];
-                if(state.vars.action == 'activation'){  
-                    var mostRecentCode = getRecentActivationCode(serialTypes[0]);
-                    if(mostRecentCode == 1){
-                        global.sayText(translate('recent_code',{'$code': mostRecentCode},state.vars.shsLang));
-                        global.stopRules();
-
-                    }  
-
+            var serials = JSON.parse(state.vars.serialNumbers);
+            if(input <= serials.length){ 
+                var serial = serials[input-1];
+                if(serial){  
+                    var registeredSerial = registerSerialNumber(serial.unitSerialNumber, serial.unitType);
+                    if(registeredSerial.length == 1){
+                        global.sayText(translate('valid_shs_message',{},state.vars.shsLang));
+                        onSerialValidated(registeredSerial[0]);
+                    }
+                    else{
+                        //TODO: Add loging
+                        console.log('error: multiple serial or none on one type'+ JSON.stringify(registeredSerial));
+                    }
                 }
                 else{
-                //TODO: register shs to account number
-                    onSerialValidated(state.vars.serialNumber, serialType);
+                    //TODO: Add loging
+                    console.log('error: no serial numbeer of choosen type');
+                    global.sayText(translate('serial_number_request',{},state.vars.shsLang));
+                    global.promptDigits(serialNumberHandler.handlerName);
                 }
             }
             else{
-                var allSerialTypes = serialTypes.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current + '\n';},'');
+                var allSerialTypes = serial.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.unitType + '\n';},'');
                 global.sayText(translate('shs_type',{'$serialTypes': allSerialTypes},state.vars.shsLang));
                 global.promptDigits(handlerName);
-
             }
         };
 

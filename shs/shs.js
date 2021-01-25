@@ -3,63 +3,34 @@ var createTranslator = require('../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
 var shsMenuHandler = require('./shs-menu-handler/shsMenuHandler');
 var serialNumberHandler = require('./serial-number-handler/serialNumberHandler');
-var rosterAPI = require('../rw-legacy/lib/roster/api');
-var gLMenuHandler = require('./gL-menu-handler.js/gLMenuHandler');
-var onAccountNumberValidated = function(){
+var gLMenuHandler = require('./gL-menu-handler/gLMenuHandler');
+var shsTypeHandler = require('./shs-type-handler/shsTypeHandler');
+var accountNumberHandler = require('./accountNumberHandler/accountNumberHandler');
+var getCodeSerialHandler = require('./get-code-serial-handler/getCodeSerialHandler');
+var registrationTypeHandler = require('./registrationTypeHandler/registrationTypeHandler');
 
-};
 
-var onSerialValidated = function(serialNumber,type){
-    var code;
-    if(isEnrolledInCurrentSeason(state.vars.accountNumber, state.vars.country)){
-        if(JSON.parseInt(state.vars.shsClient).BalanceHistory[0].Balance <= 0){
-            if(type)
-                code = getCode(serialNumber,true,type);
-            else
-                code = getCode(serialNumber,true); 
-        }
-        else{
-            if(type)
-                code = getCode(serialNumber,false,type);
-            else
-                code = getCode(serialNumber,false);
 
-        }
-        global.sayText(translate('successful_code_sms',{'$code': code},state.vars.shsLang));
-        global.stopRules();
-    }
-    else{
-        global.sayText(translate('unsuccessful_code_sms',{'$code': code},state.vars.shsLang));
-        global.stopRules();
-    }    
-};
-var getCode = function(serialNumber,unlock){
-    return serialNumber+unlock;
-};
-var isEnrolledInCurrentSeason = function(accountNumber, country){
-    var client = rosterAPI.getClient(accountNumber,country);
-    if(client){
-        state.vars.shsClient = JSON.stringify(TrimClientJSON(client));
-        if(client.BalanceHistory.length > 0){
-            if(client.BalanceHistory[0].SeasonName == '2021, Long Rain'){
-                return true;
-            }
-        }
-        return false;
-    }
-    global.sayText(translate('error',{},state.vars.shsLang));
+var onSerialValidated = function(serialInfo){
+    console.log(JSON.stringify(serialInfo));
+    console.log(JSON.stringify(serialInfo.keyCodeType));
+    var message;
+    if(serialInfo.keyCodeType == 'activation')
+        message = translate('successful_activation_code',{'$code': serialInfo.keyCode},state.vars.shsLang);
+    else if(serialInfo.keyCodeType == 'unlock')
+        message = translate('successful_unlock_code',{'$code': serialInfo.keyCode},state.vars.shsLang);
+    global.sayText(message);
     global.stopRules();
-};
-var TrimClientJSON = function(client){
-    var SeasonCount = client.BalanceHistory.length;
-    if (SeasonCount>3){client.BalanceHistory.length = 3;}
-    return client;
 };
 module.exports = {
     registerHandlers: function (){
-        addInputHandler(shsMenuHandler.handlerName, shsMenuHandler.getHandler(onAccountNumberValidated));
+        addInputHandler(shsMenuHandler.handlerName, shsMenuHandler.getHandler());
         addInputHandler(serialNumberHandler.handlerName, serialNumberHandler.getHandler(onSerialValidated));
-
+        addInputHandler(shsTypeHandler.handlerName, shsTypeHandler.getHandler(onSerialValidated));
+        addInputHandler(accountNumberHandler.handlerName, accountNumberHandler.getHandler());
+        addInputHandler(getCodeSerialHandler.handlerName, getCodeSerialHandler.getHandler(onSerialValidated));
+        addInputHandler(registrationTypeHandler.handlerName, registrationTypeHandler.getHandler());
+        addInputHandler(gLMenuHandler.handlerName, gLMenuHandler.getHandler());
     },
     start: function(account, country, lang, isGroupLeader){
         state.vars.account = account;

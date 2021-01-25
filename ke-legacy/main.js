@@ -33,7 +33,7 @@ var warrantyExpiration = require('../warranty-expiration/warrantyExpiration');
 var seedGerminationIssues = require('../seed-germination-issues/seedGerminationIssues');
 var foDetails = require('../fo-details/foDetails');
 var contactCallCenter = require('../contact-call-center/contactCallCenter');
-
+var shs = require('../shs/shs');
 var slackLogger = require('../slack-logger/index');
 var Log = require('../logger/elk/elk-logger');
 var logger = new Log();
@@ -1594,6 +1594,7 @@ dukaClient.registerInputHandlers(GetLang() ? 'en-ke' : 'sw', service.vars.duka_c
 warrantyExpiration.registerHandlers();
 seedGerminationIssues.registerInputHandlers(langWithEnke, service.vars.seed_germination_issues_table);
 contactCallCenter.registerInputHandlers(GetLang() ? 'en-ke' : 'sw');
+shs.registerHandlers();
 
 function reduceClientSize(client) {
     var cloned = _.clone(client);
@@ -1794,8 +1795,9 @@ addInputHandler('MainMenu', function(SplashMenu){
 
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'solar'){
-        SHSMenuText();
-        promptDigits('SolarMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
+        //SHSMenuText();
+        //promptDigits('SolarMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
+        shs.start(client.AccountNumber, 'KE',state.vars.lang,state.vars.isGroupLeader);
 
     }   
     else if(sessionMenu[SplashMenu-1].option_name == 'insurance'){
