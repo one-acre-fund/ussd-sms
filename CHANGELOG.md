@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+
+### Added
+* [MOB-161](https://oneacrefund.atlassian.net/browse/MOB-161) Update Market Access Info
+
 ### Changed
 * [SER-409](https://oneacrefund.atlassian.net/browse/SER-409) January Chicken confirmation service setup
 
@@ -11,7 +15,6 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 * [MOB-158](https://oneacrefund.atlassian.net/browse/MOB-158) Updating the way of calculating the % repaid from Total credit to A cycle credit for Chicken confirmation Clients
-
 
 ### v1.6.6
 ### Changed
