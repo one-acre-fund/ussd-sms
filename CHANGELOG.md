@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.8.0
+
+### Added
+* [MOB-161](https://oneacrefund.atlassian.net/browse/MOB-161) Update Market Access Info
+
 ## v1.7.0
 
 ### Changed
