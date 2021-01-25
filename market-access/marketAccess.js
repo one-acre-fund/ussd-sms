@@ -199,7 +199,6 @@ function resume(accountNumber){
         return true;
     }
     return false;
-
 }
 module.exports = {
     registerHandlers: function(){
@@ -215,7 +214,6 @@ module.exports = {
         addInputHandler(bankBranchHandler.handlerName, bankBranchHandler.getHandler(onBankBranchSubmitted));
         addInputHandler(bankAccountHandler.handlerName, bankAccountHandler.getHandler(onBankAccountSubmitted));
         addInputHandler(accountNameHandler.handlerName, accountNameHandler.getHandler(onAccountNameSubmitted));
-       
     },
     start: function (clientJSON, country, lang) {
         notifyELK();

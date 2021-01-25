@@ -10,8 +10,7 @@ var bankNameHandler = require('./bank-input-handlers/bank-name-handler/bankNameH
 var bankBranchHandler = require('./bank-input-handlers/bank-branch-handler/bankBranchHandler');
 var bankAccountHandler = require('./bank-input-handlers/bank-account-handler/bankAccountHandler');
 var accountNameHandler = require('./bank-input-handlers/account-name-handler/accountNameHandler');
-const {client}  = require('../chicken-services/test-client-data'); 
-
+const {client}  = require('../chicken-services/test-client-data');
 var marketAccess = require('./marketAccess');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 
@@ -30,7 +29,6 @@ jest.mock('./bank-input-handlers/bank-name-handler/bankNameHandler');
 jest.mock('./bank-input-handlers/bank-branch-handler/bankBranchHandler');
 jest.mock('./bank-input-handlers/bank-account-handler/bankAccountHandler');
 jest.mock('./bank-input-handlers/account-name-handler/accountNameHandler');
-
 
 const mockQuantityHandler  = jest.fn();
 const mockDateAvailableHandler = jest.fn();
@@ -76,7 +74,6 @@ describe('marketAccess', () => {
         bankBranchHandler.getHandler.mockReturnValue(mockBankBranchHandler);
         bankAccountHandler.getHandler.mockReturnValue(mockBankAccountHandler);
         accountNameHandler.getHandler.mockReturnValue(mockAccountNameHandler);
-
     });
     it('should have a start function', () => {
         expect(marketAccess.start).toBeInstanceOf(Function);
@@ -101,7 +98,6 @@ describe('marketAccess', () => {
         marketAccess.registerHandlers();
         expect(addInputHandler).toHaveBeenCalledWith(MOMOHandler.handlerName, MOMOHandler.getHandler());            
     });
-
     it('should add the phoneNumber handler to input handlers', () => {
         marketAccess.registerHandlers();
         expect(addInputHandler).toHaveBeenCalledWith(phoneNumberHandler.handlerName, phoneNumberHandler.getHandler());            
@@ -125,8 +121,7 @@ describe('marketAccess', () => {
     it('should add the accountName handler to input handlers', () => {
         marketAccess.registerHandlers();
         expect(addInputHandler).toHaveBeenCalledWith(accountNameHandler.handlerName, accountNameHandler.getHandler());            
-    });
-    
+    }); 
     describe('start', ()=>{
         var mockRow = {save: jest.fn(), vars: { }};
         var mockCursor = { hasNext: jest.fn(), next: jest.fn()};
