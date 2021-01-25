@@ -4,7 +4,6 @@ var confirmationHandler = require('./confirmation-handler/confirmationHandler');
 var paymentAdvanceHandler = require('./payment-advance-handler/paymentAdvanceHandler');
 var paymentChoiceHandler = require('./payment-choice-handler/paymentChoiceHandler');
 var MOMOHandler = require('./MOMO-handler/MOMOHandler');
-
 var marketAccess = require('./marketAccess');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 
@@ -38,7 +37,6 @@ describe('marketAccess', () => {
         paymentAdvanceHandler.getHandler.mockReturnValue(mockPaymentAdvanceHandler);
         paymentChoiceHandler.getHandler.mockReturnValue(mockPaymentChoiceHandler);
         MOMOHandler.getHandler.mockReturnValue(mockMOMOHandler);
-
     });
     it('should have a start function', () => {
         expect(marketAccess.start).toBeInstanceOf(Function);

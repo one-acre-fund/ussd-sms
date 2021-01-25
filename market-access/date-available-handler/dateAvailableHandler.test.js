@@ -12,7 +12,6 @@ describe('order confirmation handler test', ()=>{
         state.vars.marketLang = 'en';
     });
     it('should call ELK',()=>{
-        dateAvailableHandler();
         dateAvailableHandler('213/234/2020');
         expect(notifyELK).toHaveBeenCalled();
     });
