@@ -1,4 +1,4 @@
-var handlerName = 'ConfirmationHandler';
+var handlerName = 'confirmationHandler';
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 module.exports = {
@@ -6,8 +6,8 @@ module.exports = {
     getHandler: function (onConfirmation){
         return function(input){
             notifyELK();
-            if(input == '0'){
-                onConfirmation(true);
+            if((typeof(input) != undefined) && input != ''){
+                onConfirmation(input);
             }
             else{
                 onConfirmation(false);

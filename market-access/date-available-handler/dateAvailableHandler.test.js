@@ -17,7 +17,7 @@ describe('order confirmation handler test', ()=>{
     });
     it('should re-prompt for the date if the input does not mach the dd/mm/yyyy format',()=>{
         dateAvailableHandler('213/234/2020');
-        expect(global.sayText).toHaveBeenCalledWith('When  Maize will be available');
+        expect(global.sayText).toHaveBeenCalledWith('When  Maize will be available (Enter dd/mm/yyyy)');
         expect(global.promptDigits).toHaveBeenCalledWith(handlerName);
     });
     it('should call onDateSubmitted if the input is a valid date matching dd/mm/yyyy format',()=>{
@@ -26,12 +26,12 @@ describe('order confirmation handler test', ()=>{
     });
     it('should re-prompt for the date if the input is a date before today',()=>{
         dateAvailableHandler('17/1/2021');
-        expect(global.sayText).toHaveBeenCalledWith('When  Maize will be available');
+        expect(global.sayText).toHaveBeenCalledWith('When  Maize will be available (Enter dd/mm/yyyy)');
         expect(global.promptDigits).toHaveBeenCalledWith(handlerName);
     });
     it('should re-prompt for the date if the input is a date before today',()=>{
         dateAvailableHandler('not a real date');
-        expect(global.sayText).toHaveBeenCalledWith('When  Maize will be available');
+        expect(global.sayText).toHaveBeenCalledWith('When  Maize will be available (Enter dd/mm/yyyy)');
         expect(global.promptDigits).toHaveBeenCalledWith(handlerName);
     });
 

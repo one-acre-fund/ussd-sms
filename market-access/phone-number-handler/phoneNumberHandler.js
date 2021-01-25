@@ -1,18 +1,25 @@
-var handlerName = 'MOMOHandler';
+var handlerName = 'MAPhoneHandler';
 var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
+function isValidPhone(input){
+    if(input.length === 10 && input.substring(0, 2)=='07')
+        return true;
+    return false;
+
+}
 module.exports = {
     handlerName: handlerName,
-    getHandler: function(onMOMOChosen){
+    getHandler: function(onPhoneSubmitted){
         return function(input){
             notifyELK();
-            if(input == '1' || input == '2' || input == '3'){
-                onMOMOChosen(input);
-            }else{
+            if(isValidPhone(input)){
+                onPhoneSubmitted(input);
+            }
+            else{
                 var translate =  createTranslator(translations, state.vars.marketLang);
-                global.sayText(translate('MOMO_choice',{}));
+                global.sayText(translate('phone_number_menu',{}));
                 global.promptDigits(handlerName);
             }
         };

@@ -25,10 +25,13 @@ describe('MOMO handler test', ()=>{
         expect(onMOMOChosen).toHaveBeenLastCalledWith('2');
 
     });
-    it('should reprompt for input if the input is not 1(mtn) or 2(airtel)',()=>{
+    it('should call onMOMOChosen with 3 if the input is 3(back)',()=>{
         MOMOHandler('3');
-        expect(global.sayText).toHaveBeenLastCalledWith('what is Mobile Money company\n1)MTN\n2)Airtel or Tigo');
+        expect(onMOMOChosen).toHaveBeenLastCalledWith('3');
+    });
+    it('should reprompt for input if the input is not 1(mtn) or 2(airtel) or 3',()=>{
+        MOMOHandler('4');
+        expect(global.sayText).toHaveBeenLastCalledWith('what is Mobile Money company\n1)MTN\n2)Airtel or Tigo\n3)Back');
         expect(global.promptDigits).toHaveBeenLastCalledWith(handlerName);
-
     });
 });

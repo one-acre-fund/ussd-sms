@@ -16,12 +16,12 @@ describe('order confirmation handler test', ()=>{
         quantityHandler();
         expect(notifyELK).toHaveBeenCalled();
     });
-    it('should reprompt for the quantity if the input is not a multiple off 100',()=>{
-        quantityHandler(245);
-        expect(global.sayText).toHaveBeenCalledWith('Quantity of Unshelled Maize ( Use big bags of 100Kgs)');
+    it('should reprompt for the quantity if the input is less or equal to zero',()=>{
+        quantityHandler('0');
+        expect(global.sayText).toHaveBeenCalledWith('Quantity of Unshelled Maize (Kgs)');
         expect(global.promptDigits).toHaveBeenCalledWith(handlerName);
     });
-    it('should call  onQuantitySubmitted if the input is valid( a multiple off 100)',()=>{
+    it('should call  onQuantitySubmitted if the input is valid(greater than 0)',()=>{
         quantityHandler(200);
         expect(onQuantitySubmitted).toHaveBeenCalledWith(200);
     });
