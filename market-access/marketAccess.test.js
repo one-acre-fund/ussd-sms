@@ -70,7 +70,6 @@ describe('marketAccess', () => {
         paymentAdvanceHandler.getHandler.mockReturnValue(mockPaymentAdvanceHandler);
         paymentChoiceHandler.getHandler.mockReturnValue(mockPaymentChoiceHandler);
         MOMOHandler.getHandler.mockReturnValue(mockMOMOHandler);
-
         phoneNumberHandler.getHandler.mockReturnValue(mockPhoneNumberHandler);
         nameHandler.getHandler.mockReturnValue(mockNameHandler);
         bankNameHandler.getHandler.mockReturnValue(mockBankNameHandler);
