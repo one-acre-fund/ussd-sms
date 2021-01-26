@@ -16,7 +16,7 @@ module.exports = function pinHandler(input) {
         // Reset incorrect pin attempts in case user got it right on second attempt
         state.vars.incorrectPinAttempts = 0;
 
-        contact.vars.lang = lang;
+        contact.vars.sbccLang = lang;
         project.sendMessage({
             message_type: 'call',
             service_id: ivrServiceId,

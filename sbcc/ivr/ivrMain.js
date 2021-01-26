@@ -11,7 +11,7 @@ var olderEpisodesMenuHandler2 = require('./input-handlers/olderEpisodesMenuHandl
 var topTipsMenuHandler1 = require('./input-handlers/topTipsMenuHandler1');
 var topTipsMenuHandler2 = require('./input-handlers/topTipsMenuHandler2');
 
-var lang = contact.vars.lang ? contact.vars.lang : 'sw';
+var lang = contact.vars.sbccLang ? contact.vars.sbccLang : 'sw';
 var ivrFirstFlowStartDate = new Date('01/01/2021');
 var ivrFirstFlowEndDate = new Date('06/13/2021');
 

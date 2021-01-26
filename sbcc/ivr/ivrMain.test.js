@@ -1,6 +1,6 @@
 describe('SBCC IVR main', () => {
     beforeAll(() => {
-        global.contact = { vars: { lang: 'en' } };
+        global.contact = { vars: { sbccLang: 'en' } };
     });
 
     beforeEach(() => {

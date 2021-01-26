@@ -50,7 +50,7 @@ describe('Pin Handler', () => {
 
         pinHandler('1234');
 
-        expect(contact.vars.lang).toEqual('en');
+        expect(contact.vars.sbccLang).toEqual('en');
         expect(project.sendMessage).toHaveBeenCalledWith({
             message_type: 'call',
             service_id: 'SV535e0ec81dc27e51',
