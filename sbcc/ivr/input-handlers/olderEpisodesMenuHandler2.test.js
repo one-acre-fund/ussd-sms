@@ -16,7 +16,7 @@ describe('Older episodes second menu handler', () => {
         olderEpisodesMenuHandler2('1');
         expect(playAudio).toHaveBeenNthCalledWith(
             1,
-            'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611041281/3d7e4c3c2953/ep6.mp3'
+            'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611041333/3fd55e4688b3/ep6_intro_recap.mp3'
         );
         expect(state.vars.played).toEqual('episode-6');
         expect(playAudio).toHaveBeenLastCalledWith(
@@ -29,7 +29,7 @@ describe('Older episodes second menu handler', () => {
         olderEpisodesMenuHandler2('2');
         expect(playAudio).toHaveBeenNthCalledWith(
             1,
-            'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611041101/60401d859dad/ep5.mp3'
+            'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611041129/4541b4ecd233/ep5_intro_recap.mp3'
         );
         expect(state.vars.played).toEqual('episode-5');
         expect(playAudio).toHaveBeenLastCalledWith(
@@ -42,7 +42,7 @@ describe('Older episodes second menu handler', () => {
         olderEpisodesMenuHandler2('3');
         expect(playAudio).toHaveBeenNthCalledWith(
             1,
-            'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611040960/e5c65b041920/ep4.mp3'
+            'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611040984/8d68177a060f/ep4_intro_recap.mp3'
         );
         expect(state.vars.played).toEqual('episode-4');
         expect(playAudio).toHaveBeenLastCalledWith(
@@ -55,7 +55,7 @@ describe('Older episodes second menu handler', () => {
         olderEpisodesMenuHandler2('4');
         expect(playAudio).toHaveBeenNthCalledWith(
             1,
-            'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611040739/11a8f2094977/ep3.mp3'
+            'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611040794/6821886bcf59/ep3_intro_recap.mp3'
         );
         expect(state.vars.played).toEqual('episode-3');
         expect(playAudio).toHaveBeenLastCalledWith(
@@ -68,7 +68,7 @@ describe('Older episodes second menu handler', () => {
         olderEpisodesMenuHandler2('5');
         expect(playAudio).toHaveBeenNthCalledWith(
             1,
-            'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611040432/38899f5a59d0/ep2.mp3'
+            'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611040495/034646004c18/ep2_intro_recap.mp3'
         );
         expect(state.vars.played).toEqual('episode-2');
         expect(playAudio).toHaveBeenLastCalledWith(
@@ -81,7 +81,7 @@ describe('Older episodes second menu handler', () => {
         olderEpisodesMenuHandler2('6');
         expect(playAudio).toHaveBeenNthCalledWith(
             1,
-            'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610460128/48164c80b758/EP1-ENG1.mp3'
+            'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611040271/8f39b3b04369/ep1_intro_recap.mp3'
         );
         expect(state.vars.played).toEqual('episode-1');
         expect(playAudio).toHaveBeenLastCalledWith(

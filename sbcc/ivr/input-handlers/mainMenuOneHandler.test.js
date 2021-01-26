@@ -47,7 +47,7 @@ describe('Main menu one handler', () => {
         mainMenuOneHandler('3');
         expect(playAudio).toHaveBeenNthCalledWith(
             1,
-            'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611040432/38899f5a59d0/ep2.mp3'
+            'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611040495/034646004c18/ep2_intro_recap.mp3'
         );
         expect(state.vars.played).toEqual('episode-2');
         expect(playAudio).toHaveBeenLastCalledWith(

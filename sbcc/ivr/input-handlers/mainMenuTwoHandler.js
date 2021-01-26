@@ -8,7 +8,7 @@ module.exports = function (input) {
     var latestEpisode = state.vars.latestEpisode;
     if (input === '1') {
         invalidAttempts.clear();
-        playAudio(getAudioLink(lang, latestEpisode + '-with-intro-and-recap'));
+        playAudio(getAudioLink(lang, latestEpisode));
         state.vars.played = latestEpisode;
         playAudio(getAudioLink(lang, 'episode-menu'));
         promptKey('selectedTipOrEpisode1');

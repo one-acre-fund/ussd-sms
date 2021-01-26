@@ -17,7 +17,7 @@ describe('Selected tip and episode handler for IVR first flow', () => {
         selectedTipAndEpHandler1('0');
         expect(playAudio).toHaveBeenNthCalledWith(
             1,
-            'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610460128/48164c80b758/EP1-ENG1.mp3'
+            'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611040271/8f39b3b04369/ep1_intro_recap.mp3'
         );
         expect(playAudio).toHaveBeenLastCalledWith(
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610463660/eaab86509562/episode_menu.mp3'

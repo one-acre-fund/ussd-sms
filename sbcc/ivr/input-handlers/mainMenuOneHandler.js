@@ -12,7 +12,7 @@ module.exports = function(input) {
     var previousTip = state.vars.previousTip;
     if (input === '1') {
         invalidAttempts.clear();
-        playAudio(getAudioLink(lang, latestEpisode + '-with-intro-and-recap'));
+        playAudio(getAudioLink(lang, latestEpisode));
         state.vars.played = latestEpisode;
         playAudio(getAudioLink(lang, 'episode-menu'));
         promptKey('selectedTipOrEpisode1');
