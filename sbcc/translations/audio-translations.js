@@ -9,15 +9,15 @@ module.exports = {
     },
     'menu-with-only-latest-and-prev-ep': {
         'en': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610983572/fd201f6819e8/main_menu_with_latest_and_previous_ep_only.mp3',
-        'sw': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610983637/0b8f9729c22c/main_menu_with_latest_and_previous_ep_only_SWA.mp3'
+        'sw': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611647412/976d3a6fa74a/menu_with_latest_and_prev_ep_SWA.mp3'
     },
     'menu-with-prev-latest-ep-and-tip': {
         'en': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610983772/03b231a383a0/main_menu_with_only_eps_and_latest_tip.mp3',
-        'sw': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610983730/005d2a84d2c3/main_menu_with_only_eps_and_latest_tip_SWA.mp3'
+        'sw': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611647450/bc4c726e9287/menu_with_eps_and_latest_tip_SWA.mp3'
     },
     '1st-flow-full-menu': {
         'en': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610983346/3e4d5fd3f204/1st_flow_main_menu_full.wav',
-        'sw': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610983445/b84c8a931e12/1st_flow_main_menu_full_SWA.mp3'
+        'sw': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611647473/da2651a4fb89/full_menu_flow_1_SWA.mp3'
     },
     '2nd-flow-full-menu': {
         'en': 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610986192/7bc845fb7f25/2nd_flow_main_menu_full.mp3',
