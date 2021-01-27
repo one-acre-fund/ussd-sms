@@ -34,4 +34,11 @@ describe('Get Audio Link', () => {
             `"${lang}" is not a supported language`
         );
     });
+
+    it('returns the correct english audio when lang is en-ke', () => {
+        var link = getAudioLink('en-ke', 'error');
+        expect(link).toEqual(
+            'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611061658/4868df5e9317/error.mp3'
+        );
+    });
 });
