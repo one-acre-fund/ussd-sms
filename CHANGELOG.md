@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 * [MOB-161](https://oneacrefund.atlassian.net/browse/MOB-161) Update Market Access Info
+* [MOB-53](https://oneacrefund.atlassian.net/browse/MOB-53) Develop an IVR to collect a nutrition survey from clients/Farmers and their household members
 
 ### Changed
 * [SER-409](https://oneacrefund.atlassian.net/browse/SER-409) January Chicken confirmation service setup
