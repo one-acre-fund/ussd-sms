@@ -4,10 +4,12 @@ var createTranslator = require('../../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
 var registerSerialNumber = require('../register-serial-Number/registerSerialNumber');
 var serialNumberHandler = require('../serial-number-handler/serialNumberHandler');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 module.exports = {
     handlerName: handlerName,
     getHandler: function(onSerialValidated){
         return function(input){
+            notifyELK();
             var serials = JSON.parse(state.vars.serialNumbers);
             if(input <= serials.length){ 
                 var serial = serials[input-1];
@@ -24,13 +26,13 @@ module.exports = {
                 }
                 else{
                     //TODO: Add loging
-                    console.log('error: no serial numbeer of choosen type');
+                    console.log('error: no serial number of choosen type');
                     global.sayText(translate('serial_number_request',{},state.vars.shsLang));
                     global.promptDigits(serialNumberHandler.handlerName);
                 }
             }
             else{
-                var allSerialTypes = serial.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.unitType + '\n';},'');
+                var allSerialTypes = serials.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.unitType + '\n';},'');
                 global.sayText(translate('shs_type',{'$serialTypes': allSerialTypes},state.vars.shsLang));
                 global.promptDigits(handlerName);
             }

@@ -3,8 +3,6 @@ var createTranslator = require('../../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
 var rosterAPI = require('../../rw-legacy/lib/roster/api');
 
-
-
 module.exports = {
     isEnrolledInCurrentSeason: function(accountNumber, country){
         if(rosterAPI.authClient(accountNumber,country)){
@@ -15,8 +13,7 @@ module.exports = {
                     if(client.BalanceHistory[0].SeasonName == '2021, Long Rain'){
                         return true;
                     }
-                }
-                
+                }   
             }
             else{
                 global.sayText(translate('error',{},state.vars.shsLang));

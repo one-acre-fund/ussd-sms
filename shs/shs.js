@@ -8,12 +8,11 @@ var shsTypeHandler = require('./shs-type-handler/shsTypeHandler');
 var accountNumberHandler = require('./accountNumberHandler/accountNumberHandler');
 var getCodeSerialHandler = require('./get-code-serial-handler/getCodeSerialHandler');
 var registrationTypeHandler = require('./registrationTypeHandler/registrationTypeHandler');
+var notifyELK = require('../notifications/elk-notification/elkNotification');
 
 
 
 var onSerialValidated = function(serialInfo){
-    console.log(JSON.stringify(serialInfo));
-    console.log(JSON.stringify(serialInfo.keyCodeType));
     var message;
     if(serialInfo.keyCodeType == 'activation')
         message = translate('successful_activation_code',{'$code': serialInfo.keyCode},state.vars.shsLang);
@@ -33,6 +32,7 @@ module.exports = {
         addInputHandler(gLMenuHandler.handlerName, gLMenuHandler.getHandler());
     },
     start: function(account, country, lang, isGroupLeader){
+        notifyELK();
         state.vars.account = account;
         state.vars.country = country;
         state.vars.shsLang = lang;

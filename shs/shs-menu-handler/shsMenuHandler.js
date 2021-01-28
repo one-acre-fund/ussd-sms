@@ -5,10 +5,12 @@ var translate =  createTranslator(translations, project.vars.lang);
 var registrationTypeHandler = require('../registrationTypeHandler/registrationTypeHandler');
 var getCode = require('../register-serial-Number/getCode');
 var getCodeSerialHandler = require('../get-code-serial-handler/getCodeSerialHandler');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 module.exports = {
     handlerName: handlerName,
     getHandler: function(){
         return function (input) {
+            notifyELK();
             if(input == 1){
                 //TODO: check if client placed an order of shs unit
                 global.sayText(translate('register_serial_menu',{},state.vars.shsLang));
@@ -31,7 +33,7 @@ module.exports = {
                 if(serialNumberDetails){
                     state.vars.serialNumberDetails = JSON.stringify(serialNumberDetails);
                     serialNumbers = serialNumberDetails.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.unitSerialNumber + '\n';},'');
-                    global.sayText(translate('serial_numbers',{'$serialnumbers': serialNumbers},state.vars.shsLang));
+                    global.sayText(translate('serial_numbers',{'$serialNumbers': serialNumbers},state.vars.shsLang));
                     global.promptDigits(getCodeSerialHandler.handlerName);
                 }
                 else{

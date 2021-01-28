@@ -3,11 +3,13 @@ var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
 var registrationTypeHandler = require('../registrationTypeHandler/registrationTypeHandler');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 module.exports = {
     handlerName: handlerName,
     getHandler: function(onSerialValidated){
         return function(input){
+            notifyELK();
             var serialNumberDetails = JSON.parse(state.vars.serialNumberDetails);
             if(input == 99){
                 global.sayText(translate('register_serial_menu',{},state.vars.shsLang));

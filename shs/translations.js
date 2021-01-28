@@ -9,8 +9,8 @@ module.exports = {
         'sw': 'Ingiza Serail number ya Sola yako'
     },
     'valid_shs_message': {
-        'en': 'Thank you for registering your SHS Unit. You will be receiving an activation code shortly if you are eligible.1) Continue',
-        'sw': 'Asante kwa kusajili taa yako. Utapokea kodi ya kuwasha taa kwa muda mfupi iwapo uliagiza  taa kwa mkopo wako. 1) Endelea'
+        'en': 'Thank you for registering your SHS Unit. You will be receiving an activation code shortly if you are eligible.',
+        'sw': 'Asante kwa kusajili taa yako. Utapokea kodi ya kuwasha taa kwa muda mfupi iwapo uliagiza  taa kwa mkopo wako.'
     },
     'invalid_shs_message': {
         'en': 'You have entered an invalid serial number, please try again',
@@ -53,8 +53,8 @@ module.exports = {
         'sw': 'Weka Akunti Namba ya Mkulima'
     },
     'serial_numbers': {
-        'en': 'Request activation/Unlock  code for serial number\n $serialNumbers \n99) Other',
-        'sw': '"Agiza kodi ya sola yako\n $serialNumbers \n99) nyingine'
+        'en': 'Request activation/Unlock  code for serial number\n $serialNumbers99) Other',
+        'sw': '"Agiza kodi ya sola yako\n $serialNumbers99) nyingine'
     },
     'serial_number_request_menu': {
         'en': 'Enter Serial Number of SHS Unit',

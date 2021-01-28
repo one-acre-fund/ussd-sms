@@ -4,11 +4,13 @@ var createTranslator = require('../../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
 var accountNumberHandler = require('../accountNumberHandler/accountNumberHandler'); 
 var shsMenuHandler = require('../shs-menu-handler/shsMenuHandler');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 module.exports={
     handlerName: handlerName,
     getHandler: function(){
         return function(input){
+            notifyELK();
             if(input == 1){
                 global.sayText(translate('select_service',{},state.vars.shsLang));
                 global.promptDigits(shsMenuHandler.handlerName);
