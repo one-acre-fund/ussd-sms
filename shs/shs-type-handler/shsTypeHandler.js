@@ -11,10 +11,14 @@ module.exports = {
         return function(input){
             notifyELK();
             var serials = JSON.parse(state.vars.serialNumbers);
+            var registeredSerial;
             if(input <= serials.length){ 
                 var serial = serials[input-1];
                 if(serial){  
-                    var registeredSerial = registerSerialNumber(serial.unitSerialNumber, serial.unitType);
+                    if(state.vars.replacement == '')
+                        registeredSerial= registerSerialNumber(serial.unitSerialNumber, serial.unitType);
+                    else
+                        registeredSerial= registerSerialNumber(serial.unitSerialNumber, serial.unitType,JSON.parse(state.vars.replacement));
                     if(registeredSerial.length == 1){
                         global.sayText(translate('valid_shs_message',{},state.vars.shsLang));
                         onSerialValidated(registeredSerial[0]);

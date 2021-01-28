@@ -11,7 +11,11 @@ module.exports = {
     getHandler: function(onSerialValidated){
         return function(input){
             notifyELK();
-            var serialNumber = registerSerialNumber(input);
+            var serialNumber;
+            if(state.vars.replacement == '')
+                serialNumber= registerSerialNumber(input);
+            else
+                serialNumber= registerSerialNumber(input,false,JSON.parse(state.vars.replacement));
             if(serialNumber) {
                 if(serialNumber.length > 1){
                     state.vars.serialNumbers = JSON.stringify(serialNumber);
@@ -20,7 +24,7 @@ module.exports = {
                     global.promptDigits(shsTypeHandler.handlerName);
                 }else{
                     global.sayText(translate('valid_shs_message',{},state.vars.shsLang));
-                    onSerialValidated([serialNumber[0]]);
+                    onSerialValidated(serialNumber[0]);
                 }
             }
             else{

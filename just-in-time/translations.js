@@ -48,8 +48,8 @@ module.exports = {
         'sw': '77)ukurasa unaofuata'
     },
     'already_placed_order': {
-        'en-ke': 'This account number already belongs to an enrolled client.',
-        'sw': 'Nambari hii ya akaunti ni ya mteja aliyeandikishwa.'
+        'en-ke': 'Thank you! You have already topped-up with a maximum of three JiT products.',
+        'sw': 'Asante! Tayari umeongeza bidhaa tatu za JiT!'
     },
     'remaining_balance': {
         'en-ke': 'You do not qualify for a top up, pay at least $amount to qualify.',

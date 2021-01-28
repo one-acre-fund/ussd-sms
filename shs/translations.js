@@ -54,7 +54,7 @@ module.exports = {
     },
     'serial_numbers': {
         'en': 'Request activation/Unlock  code for serial number\n $serialNumbers99) Other',
-        'sw': '"Agiza kodi ya sola yako\n $serialNumbers99) nyingine'
+        'sw': 'Agiza kodi ya sola yako\n $serialNumbers99) nyingine'
     },
     'serial_number_request_menu': {
         'en': 'Enter Serial Number of SHS Unit',
@@ -67,6 +67,14 @@ module.exports = {
     'no_serial_message': {
         'en': 'You are not eligible to receive a code. Please place an order or call OAF  for help',
         'sw': 'Samahani, haukuagiza taa kwa mkopo wako, tafadhali piga simu kwa  customer care kwa usaidizi'
+    },
+    'replacement_menu': {
+        'en': 'Choose the device you want to replace\n $serialNumbers',
+        'sw': 'Chagua kifaa unachotaka kubadilisha\n $serialNumbers'
+    },
+    'serial_numbers_replace': {
+        'en': 'Request activation/Unlock  code for serial number\n $serialNumbers',
+        'sw': 'Agiza kodi ya sola yako\n $serialNumbers'
     }
     
 };

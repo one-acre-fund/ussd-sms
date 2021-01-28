@@ -4,7 +4,7 @@ var registerSerial = require('../endpoints/register-serial');
 
 var helperFunctions = require('./helperFunctions');
 
-module.exports = function registerSerialNumber(serialNumber,unitType){
+module.exports = function registerSerialNumber(serialNumber,unitType,replacement){
     var keyCodeType;
     var countryCode;
     if(state.vars.country == 'KE')
@@ -22,7 +22,8 @@ module.exports = function registerSerialNumber(serialNumber,unitType){
         countryId: countryCode,
         unitSerialNumber: serialNumber,
         keyCodeType: keyCodeType,
-        unitType: unitType
+        unitType: unitType,
+        isReplacement: replacement
     };
     return registerSerial(requestData);
 };

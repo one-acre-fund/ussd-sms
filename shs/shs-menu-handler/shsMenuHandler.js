@@ -42,6 +42,14 @@ module.exports = {
                 }
 
             }
+            else if(input == 4){
+                global.sayText(state.vars.main_menu);
+                global.promptDigits(state.vars.main_menu_handler);
+            }
+            else{
+                global.sayText(translate('select_service',{},state.vars.shsLang));
+                global.promptDigits(handlerName);
+            }
         };
     }
 };

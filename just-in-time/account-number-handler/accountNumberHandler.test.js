@@ -42,7 +42,7 @@ describe('account_number_handler', () => {
             {bundleId: 125, bundleName: 'Irish'}];
         mockCursor.next.mockReturnValueOnce({vars: {order: JSON.stringify(order)}});
         accountNumberHandler(validAccountNumber);
-        expect(sayText).toHaveBeenCalledWith('This account number already belongs to an enrolled client.');
+        expect(sayText).toHaveBeenCalledWith('Thank you! You have already topped-up with a maximum of three JiT products.');
         expect(stopRules).toHaveBeenCalled();
 
     });
@@ -64,8 +64,16 @@ describe('account_number_handler', () => {
     });
     it('should  display a message saying that the client did not enroll if the account number is not valid', () => {
         mockCursor.hasNext.mockReturnValue(false);
-        rosterAPI.getClient.mockReturnValueOnce(false);
+        rosterAPI.authClient.mockReturnValueOnce(false);
         accountNumberHandler(inValidAccount);
+        expect(sayText).toHaveBeenCalledWith('Farmer is not enrolled this season. Please try again.');
+        expect(stopRules).toHaveBeenCalled();
+    });
+    
+    it('should  display a message saying that the client did not enroll if the current season is different from the season received from their account', () => {
+        client.BalanceHistory[0].SeasonName = '2020, Long Rain';
+        rosterAPI.getClient.mockReturnValue(false);
+        accountNumberHandler(validAccountNumber);
         expect(sayText).toHaveBeenCalledWith('Farmer is not enrolled this season. Please try again.');
         expect(stopRules).toHaveBeenCalled();
     });
@@ -133,5 +141,13 @@ describe('account_number_handler', () => {
         mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(false);
         accountNumberHandler(validAccountNumber);
         expect(onAccountNumberValidated).not.toHaveBeenCalled();
+    });
+    it('should  display a message saying that the client did not enroll if the account number is not valid', () => {
+        mockCursor.hasNext.mockReturnValue(false);
+        client.BalanceHistory.length = 0;
+        rosterAPI.getClient.mockReturnValueOnce(client);
+        accountNumberHandler(inValidAccount);
+        expect(sayText).toHaveBeenCalledWith('Farmer is not enrolled this season. Please try again.');
+        expect(stopRules).toHaveBeenCalled();
     });
 });
