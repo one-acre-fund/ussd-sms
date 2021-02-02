@@ -25,7 +25,7 @@ module.exports = {
                 }
             }
             else{
-                var serialNumbers = serials.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.unitSerialNumber + '\n';},'');
+                var serialNumbers = serials.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.serialNumber + '\n';},'');
                 global.sayText(translate('replacement_menu',{'$serialNumbers': serialNumbers},state.vars.shsLang));
                 global.promptDigits(handlerName);
             }

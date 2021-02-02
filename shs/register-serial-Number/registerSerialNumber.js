@@ -1,31 +1,35 @@
-
-
+var translations = require('../translations');
+var createTranslator = require('../../utils/translator/translator');
+var translate =  createTranslator(translations, project.vars.lang);
 var registerSerial = require('../endpoints/register-serial');
-
-var helperFunctions = require('./helperFunctions');
 
 module.exports = function registerSerialNumber(serialNumber,unitType,replacement){
     var keyCodeType;
     var countryCode;
     if(state.vars.country == 'KE')
-        countryCode = 404;
-    if(helperFunctions.isEnrolledInCurrentSeason(state.vars.account, state.vars.country)){
-        if(JSON.parse(state.vars.shsClient).BalanceHistory[0].Balance <= 0){
-            keyCodeType = 'unlock';
+        countryCode = '404';
+    if(JSON.parse(state.vars.client).BalanceHistory[0].SeasonName == '2021, Long Rain'){
+        if(JSON.parse(state.vars.client).BalanceHistory[0].Balance <= 0){
+            keyCodeType = 'UNLOCK';
         }
         else{
-            keyCodeType = 'activation';
+            keyCodeType = 'ACTIVATION';
         }
+        var requestData = {
+            accountNumber: state.vars.account,
+            countryCode: countryCode,
+            unitSerialNumber: serialNumber,
+            keyCodeType: keyCodeType,
+            unitType: unitType,
+            isReplacement: replacement
+        };
+        return registerSerial(requestData);
+    }  
+    else{
+        global.sayText(translate('not_enrolled',{},state.vars.shsLang));
+        return null;
     }
-    var requestData = {
-        accountNumber: state.vars.account,
-        countryId: countryCode,
-        unitSerialNumber: serialNumber,
-        keyCodeType: keyCodeType,
-        unitType: unitType,
-        isReplacement: replacement
-    };
-    return registerSerial(requestData);
+    
 };
 
 

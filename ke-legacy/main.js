@@ -61,6 +61,7 @@ service.vars.districtVarietyTableId = project.vars[env + '_districtVarietyTableI
 service.vars.varietyStockTableId = project.vars[env + '_varietyStockTableId'];
 service.vars.warehouseStockTableId = project.vars[env + '_warehouseStockTableId'];
 service.vars.districtWarehouseTableId = project.vars[env+ '_districtWarehouseTableId'];
+service.vars.shs_reg_endpoint = project.vars[env+'_shs_reg_endpoint'];
 
 if(env == 'prod'){
     service.vars.JiTEnrollmentTableId = 'DT52cebb451097ac25';
@@ -1799,7 +1800,7 @@ addInputHandler('MainMenu', function(SplashMenu){
     else if(sessionMenu[SplashMenu-1].option_name == 'solar'){
         //SHSMenuText();
         //promptDigits('SolarMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
-        shs.start(client.AccountNumber, 'KE',state.vars.lang,state.vars.isGroupLeader,state.vars.main_menu,'MainMenu');
+        shs.start(state.vars.client, 'KE',state.vars.lang,state.vars.isGroupLeader,state.vars.main_menu,'MainMenu');
 
     }   
     else if(sessionMenu[SplashMenu-1].option_name == 'insurance'){

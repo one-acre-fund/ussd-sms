@@ -1,25 +1,24 @@
 
-var helperFunctions = require('./helperFunctions');
 var getCode = require('../endpoints/getCode');
+var translations = require('../translations');
+var createTranslator = require('../../utils/translator/translator');
+var translate =  createTranslator(translations, project.vars.lang);
 
 
 module.exports = function getcode(account){
-    var countryCode , keyCodeType;
+    var countryCode;
     if(state.vars.country == 'KE')
-        countryCode = 404;
-    if(helperFunctions.isEnrolledInCurrentSeason(state.vars.account, state.vars.country)){
-        if(JSON.parse(state.vars.shsClient).BalanceHistory[0].Balance <= 0){
-            keyCodeType = 'unlock';
-        }
-        else{
-            keyCodeType = 'activation';
-        }
+        countryCode = '404';
+    if(JSON.parse(state.vars.client).BalanceHistory[0].SeasonName == '2021, Long Rain'){
+        var requestData = {
+            accountNumber: account,
+            countryCode: countryCode
+        };
+        return getCode(requestData);
     }
-    var requestData = {
-        accountNumber: account,
-        countryId: countryCode,
-        keyCodeType: keyCodeType
-    };
-    return getCode(requestData);
+    else{
+        global.sayText(translate('not_enrolled',{},state.vars.shsLang));
+        return null;
+    }
 };
 

@@ -24,6 +24,14 @@ module.exports = {
         'en': 'Your unlock code is $code',
         'sw': 'Kodi yako ni $code'
     },
+    'successful_farmer_activation_code': {
+        'en': 'The Farmer\'s activation code is $code',
+        'sw': 'Kodi ya mkulima ni $code'
+    },
+    'successful_farmer_unlock_code': {
+        'en': 'The Farmer\'s unlock code is $code',
+        'sw': 'Kodi ya mkulima ni $code'
+    },
     'unsuccessful_code_sms': {
         'en': 'You are not eligible to receive a code. Please place an order or call OAF for help',
         'sw': 'Samahani, haukuagiza taa kwa mkopo wako, tafadhali piga simu kwa  customer care kwa usaidizi'
@@ -53,8 +61,8 @@ module.exports = {
         'sw': 'Weka Akunti Namba ya Mkulima'
     },
     'serial_numbers': {
-        'en': 'Request activation/Unlock  code for serial number\n $serialNumbers99) Other',
-        'sw': 'Agiza kodi ya sola yako\n $serialNumbers99) nyingine'
+        'en': 'Request activation/Unlock  code for serial number\n $serialNumbers',
+        'sw': 'Agiza kodi ya sola yako\n $serialNumbers'
     },
     'serial_number_request_menu': {
         'en': 'Enter Serial Number of SHS Unit',
@@ -75,6 +83,29 @@ module.exports = {
     'serial_numbers_replace': {
         'en': 'Request activation/Unlock  code for serial number\n $serialNumbers',
         'sw': 'Agiza kodi ya sola yako\n $serialNumbers'
+    },
+    'not_enrolled': {
+        'en': 'The acccount number used did not place order in the current season',
+        'sw': 'Nambari ya akaunti iliyotumiwa haikuweka mpangilio katika msimu wa sasa'
+    },
+    'different_group': {
+        'en': 'This Client is not in your group, you can only view SHS options for clients in your group',
+        'sw': 'Samahi mkulima hayupo kwenye kikundi chako.'
+    },
+    'invalid_account': {
+        'en': 'The Account number you entered is invalid, please enter a valid account number',
+        'sw': 'Akaunt namba uliyoweka sio sahihi, tafadhali rudia tena.'
+    },
+    'view_recent_code': {
+        'en': 'View Recent activation/unlock  code\n $serialNumbers',
+        'sw': 'Angalia kodi uliyopata hivi karibuni\n $serialNumbers'
+    },
+    'serial_assigned': {
+        'en': 'The serial Number $serialNumber is assigned to another person',
+        'sw': 'Nambari ya $serialNumber imepewa mtu mwingine'
+    },
+    'internal_error': {
+        'en': 'There is a system error. please try again later',
+        'sw': 'kuna hitilafu ya mfumo. tafadhali jaribu tena baadae'
     }
-    
 };
