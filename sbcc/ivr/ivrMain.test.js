@@ -14,7 +14,7 @@ describe('SBCC IVR main', () => {
 
     it('plays the menu with only latest episode option if only one episode has been released', () => {
         require('./ivrMain');
-        state.vars.currentDate = '01/25/2021';
+        state.vars.currentDate = '02/04/2021';
         global.main();
         expect(state.vars.latestEpisode).toEqual('episode-1');
         expect(playAudio).toHaveBeenNthCalledWith(1, 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610094056/f77fd04cefd7/16.wav');
@@ -22,9 +22,9 @@ describe('SBCC IVR main', () => {
         expect(promptKey).toHaveBeenCalledWith('1stFlowMenuChoice');
     });
 
-    it('plays the menu with only latest and previous episodes option if only two episodes has been released', () => {
+    it('plays the menu with only latest and previous episodes option if only two episodes have been released', () => {
         require('./ivrMain');
-        state.vars.currentDate = '01/30/2021';
+        state.vars.currentDate = '02/09/2021';
         global.main();
         expect(state.vars.latestEpisode).toEqual('episode-2');
         expect(state.vars.previousEpisode).toEqual('episode-1');
@@ -35,7 +35,7 @@ describe('SBCC IVR main', () => {
 
     it('plays the menu that includes the latest top tip option if only one top tip has been released', () => {
         require('./ivrMain');
-        state.vars.currentDate = '02/16/2021';
+        state.vars.currentDate = '02/26/2021';
         global.main();
         expect(state.vars.latestTip).toEqual('top-tip-1');
         expect(playAudio).toHaveBeenNthCalledWith(1, 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610094056/f77fd04cefd7/16.wav');
@@ -45,7 +45,7 @@ describe('SBCC IVR main', () => {
 
     it('plays the full menu for the 1st IVR flow if at least 2 episodes and 2 top tips have been released', () => {
         require('./ivrMain');
-        state.vars.currentDate = '03/21/2021';
+        state.vars.currentDate = '03/31/2021';
         global.main();
         expect(state.vars.latestEpisode).toEqual('episode-5');
         expect(state.vars.previousEpisode).toEqual('episode-4');
@@ -56,9 +56,9 @@ describe('SBCC IVR main', () => {
         expect(promptKey).toHaveBeenCalledWith('1stFlowMenuChoice');
     });
 
-    it('plays the full menu for the 2nd IVR flow if all episodes have and top tips have been released', () => {
+    it('plays the full menu for the 2nd IVR flow if all episodes and top tips have been released', () => {
         require('./ivrMain');
-        state.vars.currentDate = '06/16/2021';
+        state.vars.currentDate = '06/24/2021';
         global.main();
         expect(state.vars.latestEpisode).toEqual('episode-12');
         expect(state.vars.latestTip).toEqual('top-tip-8');
