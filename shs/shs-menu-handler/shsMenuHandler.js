@@ -33,7 +33,7 @@ module.exports = {
                 if(serialNumberDetails){
                     state.vars.serialNumberDetails = JSON.stringify(serialNumberDetails);
                     serialNumbers = serialNumberDetails.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.unitSerialNumber + '\n';},'');
-                    global.sayText(translate('serial_numbers',{'$serialNumbers': serialNumbers},state.vars.shsLang));
+                    global.sayText(translate('view_recent_code',{'$serialNumbers': serialNumbers},state.vars.shsLang));
                     global.promptDigits(getCodeSerialHandler.handlerName);
                 }
                 else{

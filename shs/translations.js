@@ -75,6 +75,10 @@ module.exports = {
     'serial_numbers_replace': {
         'en': 'Request activation/Unlock  code for serial number\n $serialNumbers',
         'sw': 'Agiza kodi ya sola yako\n $serialNumbers'
+    },
+    'view_recent_code': {
+        'en': 'View Recent activation/unlock  code $serialNumbers',
+        'sw': 'Angalia kodi uliyopata hivi karibuni $serialNumbers'
     }
     
 };
