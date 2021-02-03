@@ -34,4 +34,11 @@ module.exports = [
         'end_date': project.vars.end_contact_call_center,
         'start_date': project.vars.start_contact_call_center
     },
+    {
+        'en-ke': 'SBCC',
+        'sw': 'SBCC',
+        'option_name': 'sbcc',
+        'end_date': project.vars.end_sbcc,
+        'start_date': project.vars.start_sbcc
+    },
 ];

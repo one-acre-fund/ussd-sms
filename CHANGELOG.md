@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.9.0
+
+### Added
+* [MOB-53](https://oneacrefund.atlassian.net/browse/MOB-53) Develop an IVR to collect a nutrition survey from clients/Farmers and their household members
 ## v1.8.0
 
 ### Added
@@ -18,7 +22,6 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 * [MOB-158](https://oneacrefund.atlassian.net/browse/MOB-158) Updating the way of calculating the % repaid from Total credit to A cycle credit for Chicken confirmation Clients
-
 
 ### v1.6.6
 ### Changed
