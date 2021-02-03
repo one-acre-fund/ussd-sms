@@ -156,7 +156,13 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
         }
     }
     else if(response == 2 ){
-       marketAccess.nonClientStart('rw', lang); 
+        
+        sayText(msgs('nonClientMenu',{},lang));
+        promptDigits('nonClientMenu_splash', {
+            'submitOnHash': false,
+            'maxDigits': 2,
+            'timeout': timeout_length
+        });
     }
     else if(response == 99) { // use 99 to change the language
         lang = service.vars.lang == 'ki' ? 'en' : 'ki'
@@ -214,6 +220,20 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
 chickenServices.registerHandlers();
 transactionHistory.registerHandlers();
 avocadoTreesOrdering.registerHandlers();
+
+addInputHandler('nonClientMenu_splash', function(input){
+    if(input == 1){
+        marketAccess.nonClientStart('rw',lang);
+    }else{
+        sayText(msgs('nonClientMenu',{},lang));
+        promptDigits('nonClientMenu_splash', {
+            'submitOnHash': false,
+            'maxDigits': 2,
+            'timeout': timeout_length
+        });
+
+    }
+});
 
 addInputHandler('cor_menu_select', function (input) {
     notifyELK();

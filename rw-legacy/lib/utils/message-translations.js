@@ -839,5 +839,9 @@ module.exports = {
     'no_produts_msg':{
         'en': 'No order placed so far\n1)Choose a bundle/order\n3) go back',
         'ki':'Ntacyo uratumiza\n1) Tumiza\n3)Subira ahabanza '
+    },
+    'nonClientMenu':{
+        'en': 'Welcome\n1) Sell harvest',
+        'ki': 'Murakaza neza\n1) Kugurisha Umusaruro'
     }
 }
