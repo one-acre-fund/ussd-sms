@@ -154,7 +154,11 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             sayText(current_menu);
             promptDigits('enr_reg_start', { 'submitOnHash': false, 'maxDigits': max_digits_for_nid, 'timeout': timeout_length });
         }
-    } else if(response == 99) { // use 99 to change the language
+    }
+    else if(response == 2 ){
+       marketAccess.nonClientStart('rw', lang); 
+    }
+    else if(response == 99) { // use 99 to change the language
         lang = service.vars.lang == 'ki' ? 'en' : 'ki'
         service.vars.lang = lang;
         sayText(msgs('cor_enr_main_splash',{},lang));

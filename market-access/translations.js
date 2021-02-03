@@ -62,5 +62,22 @@ module.exports= {
     'final_thanking_message': {
         'en': 'Thank you for using the service, the responses have been stored',
         'ki': 'Murakoze. Ibisubizo byanyu byanditswe muri sisitemu yacu'
+    },
+    'national_id_menu': {
+        'en': 'Enter Farmer\'s national ID',
+        'ki': 'Andika Nomero y\'irangamuntu yumuhinzi'
+
+    },
+    'farmers_name': {
+        'en': 'Enter the farmer\'s names',
+        'ki': 'Andika amazina yumuhinzi'
+    },
+    'farmers_district': {
+        'en': 'Enter the farmer\'s district',
+        'ki': 'Andika akarere kumuhinzi'
+    },
+    'farmers_site': {
+        'en': 'Enter the farmer\'s site',
+        'ki': 'Andika site yumuhinzi'
     }
 };

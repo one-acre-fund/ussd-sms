@@ -708,8 +708,8 @@ module.exports = {
         "ki": "Numero y'itsinda mwinjije ntabwo ibaho",
     },
     "cor_enr_main_splash": {
-        "en": "Welcome to TUBURA. Please enter your account number or 1 to regiter",
-        "ki": "Murakaza neza muri TUBURA. Andika nimero ya konti y'umuhinzi cyangwa 1 kwiyandikisha",
+        "en": "Welcome to TUBURA. Please enter your account number or \n1) To regiter\n2) Non Client Menu",
+        "ki": "Murakaza neza muri TUBURA. Andika nimero ya konti y'umuhinzi cyangwa \n1) Kwiyandikisha\n2) Niba utari umukiriya",
     },
     "main_menu":{
         'en': 'Welcome to One Acre Fund Tubura.\n1) Not currently a client\n2) Already a client',
