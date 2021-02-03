@@ -67,3 +67,6 @@ global.content = null;
 global.sendReply = jest.fn();
 project.initServiceById = jest.fn();
 project.scheduleMessage = jest.fn();
+global.playAudio = jest.fn();
+global.promptKey = jest.fn();
+global.hangUp = jest.fn();
