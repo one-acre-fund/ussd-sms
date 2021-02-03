@@ -14,12 +14,13 @@ module.exports = function getcode(account){
         else{
             keyCodeType = 'activation';
         }
+        var requestData = {
+            accountNumber: account,
+            countryId: countryCode,
+            keyCodeType: keyCodeType
+        };
+        return getCode(requestData);
     }
-    var requestData = {
-        accountNumber: account,
-        countryId: countryCode,
-        keyCodeType: keyCodeType
-    };
-    return getCode(requestData);
+
 };
 

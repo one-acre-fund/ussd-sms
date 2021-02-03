@@ -17,6 +17,8 @@ module.exports = {
             else
                 serialNumber= registerSerialNumber(input,false,JSON.parse(state.vars.replacement));
             if(serialNumber) {
+                if(serialNumber == 'not_Eligible')
+                    global.sopRules();
                 if(serialNumber.length > 1){
                     state.vars.serialNumbers = JSON.stringify(serialNumber);
                     var serialTypes = serialNumber.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.unitType + '\n';},'');

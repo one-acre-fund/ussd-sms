@@ -16,16 +16,18 @@ module.exports = function registerSerialNumber(serialNumber,unitType,replacement
         else{
             keyCodeType = 'activation';
         }
+        var requestData = {
+            accountNumber: state.vars.account,
+            countryId: countryCode,
+            unitSerialNumber: serialNumber,
+            keyCodeType: keyCodeType,
+            unitType: unitType,
+            isReplacement: replacement
+        };
+        return registerSerial(requestData);
     }
-    var requestData = {
-        accountNumber: state.vars.account,
-        countryId: countryCode,
-        unitSerialNumber: serialNumber,
-        keyCodeType: keyCodeType,
-        unitType: unitType,
-        isReplacement: replacement
-    };
-    return registerSerial(requestData);
+    return 'not_Eligible';
+    
 };
 
 

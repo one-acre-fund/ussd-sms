@@ -5,6 +5,16 @@ module.exports = function (requestData){
     console.log('requetData:'+ JSON.stringify(requestData));
 
 
+    if((requestData.unitSerialNumber == 13246227) || (requestData.unitSerialNumber == 10966520) || (requestData.unitSerialNumber == 14581647)){
+        return [
+            {
+                'unitType': 'biolite',
+                'unitSerialNumber': '13146227',
+                'keyCode': '123 456 789',
+                'keyCodeType': 'unlock'
+            }];
+
+    }
     if(((requestData.unitSerialNumber == 13246227) || (requestData.unitSerialNumber == 10966520) || (requestData.unitSerialNumber == 14581647)) && requestData.unitType == 'biolite' && requestData.keyCodeType == 'unlock'){
         return [
             {
@@ -77,14 +87,14 @@ module.exports = function (requestData){
         ];  
     }
     else{
-        if(requestData.keyCodeType == 'activation'){
+        if(requestData.keyCodeType == 'activation' && (requestData.unitSerialNumber == 16992686 || requestData.unitSerialNumber == 13178995)){
             return [{
                 'unitType': 'biolite',
                 'unitSerialNumber': '23456789',
                 'keyCode': '123 456 789',
                 'keyCodeType': 'activation'
             }];
-        }else if(requestData.keyCodeType == 'unlock'){
+        }else if(requestData.keyCodeType == 'unlock' && (requestData.unitSerialNumber == 16992686 || requestData.unitSerialNumber == 13178995)){
             return [{
                 'unitType': 'biolite',
                 'unitSerialNumber': '23456789',
@@ -93,13 +103,4 @@ module.exports = function (requestData){
             }];
         }
     }
-    return [
-        {
-            'unitType': 'biolite',
-            'unitSerialNumber': '23456789',
-            'keyCode': '123 456 789',
-            'keyCodeType': 'activation'
-        }
-    ];
-
 };

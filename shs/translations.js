@@ -2,7 +2,7 @@ module.exports = {
 
     'select_service': {
         'en': 'What do you want to do?\n1)Register New SHS Unit \n2)Get Activation/ Unlock Code\n3)View Recent Activation/Unlock Code \n4)Back',
-        'sw': 'Huduma gani unahitaji?\n1)Sajili Sola yako\n2)Pata Kodi ya sola yako\n3)Angalia kodi ya Sola yako'
+        'sw': 'Huduma gani unahitaji?\n1)Sajili Sola yako\n2)Pata Kodi ya sola yako\n3)Angalia kodi ya Sola yako\n4)Rudi Nyuma'
     },
     'serial_number_request': {
         'en': 'Enter SHS Serial Number',
@@ -23,6 +23,14 @@ module.exports = {
     'successful_unlock_code': {
         'en': 'Your unlock code is $code',
         'sw': 'Kodi yako ni $code'
+    },
+    'successful_farmer_activation_code': {
+        'en': 'The Farmer\'s activation code is $code',
+        'sw': 'Kodi ya mkulima ni $code'
+    },
+    'successful_farmer_unlock_code': {
+        'en': 'The Farmer\'s unlock code is $code',
+        'sw': 'Kodi ya mkulima ni $code'
     },
     'unsuccessful_code_sms': {
         'en': 'You are not eligible to receive a code. Please place an order or call OAF for help',
@@ -45,16 +53,16 @@ module.exports = {
         'sw': 'Samahani, kodi ya taa yako haipo'
     },
     'gl_menu': {
-        'en': 'Select a Service\n1) My SHS Unit\n2)SHS Unit for another Client\n3) Back',
-        'sw': 'Chagua Huduma\n1)Sola yangu\n2)Sola ya mkulima mwingine\n3)Rudi nyuma'
+        'en': 'Select a Service\n1) My SHS Unit\n2) SHS Unit for another Client\n3) Back',
+        'sw': 'Chagua Huduma\n1)Sola yangu\n2) Sola ya mkulima mwingine\n3)Rudi nyuma'
     },
     'account_number_menu': {
-        'en': 'Enter Client Account Number',
+        'en': 'Enter Farmer Account Number',
         'sw': 'Weka Akunti Namba ya Mkulima'
     },
     'serial_numbers': {
-        'en': 'Request activation/Unlock  code for serial number\n $serialNumbers99) Other',
-        'sw': 'Agiza kodi ya sola yako\n $serialNumbers99) nyingine'
+        'en': 'Request activation/Unlock  code for serial number\n $serialNumbers 99) None of the above',
+        'sw': 'Agiza kodi ya sola yako\n $serialNumbers 99) Nambari sio zangu'
     },
     'serial_number_request_menu': {
         'en': 'Enter Serial Number of SHS Unit',
@@ -62,7 +70,7 @@ module.exports = {
     },
     'register_serial_menu': {
         'en': 'Enter SHS Serial Number\n1) New SHS Unit\n2) Replacement',
-        'sw': 'Enter SHS Serial Number\n1) New SHS Unit\n2) Replacement'
+        'sw': 'Ingiza Serial number ya Sola yako\n1) Sola Mpya\n2) Sola ambayo Imebadilishwa'
     },
     'no_serial_message': {
         'en': 'You are not eligible to receive a code. Please place an order or call OAF  for help',
@@ -77,8 +85,20 @@ module.exports = {
         'sw': 'Agiza kodi ya sola yako\n $serialNumbers'
     },
     'view_recent_code': {
-        'en': 'View Recent activation/unlock  code $serialNumbers',
-        'sw': 'Angalia kodi uliyopata hivi karibuni $serialNumbers'
+        'en': 'View Recent activation/unlock  code\n $serialNumbers 99) None of the above',
+        'sw': 'Angalia kodi uliyopata hivi karibuni\n $serialNumbers 99) Nambari sio zangu'
+    },
+    'different_group': {
+        'en': 'This Client is not in your group, you can only view SHS options for clients in your group',
+        'sw': 'Samahani mkulima hayuko kwenye kikundi chako'
+    },
+    'invalid_account': {
+        'en': 'The Account number you entered is invalid, please enter a valid account number',
+        'sw': 'Akaunt namba uliyoweka sio sahihi, tafadhali rudia tena.'
+    },
+    'not_enrolled': {
+        'en': 'The acccount number used did not place order in the current season',
+        'sw': 'Nambari ya akaunti iliyotumiwa haikuweka mpangilio katika msimu wa sasa'
     }
     
 };

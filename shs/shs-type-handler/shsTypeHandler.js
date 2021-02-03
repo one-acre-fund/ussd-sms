@@ -19,7 +19,7 @@ module.exports = {
                         registeredSerial= registerSerialNumber(serial.unitSerialNumber, serial.unitType);
                     else
                         registeredSerial= registerSerialNumber(serial.unitSerialNumber, serial.unitType,JSON.parse(state.vars.replacement));
-                    if(registeredSerial.length == 1){
+                    if(registeredSerial != undefined && registeredSerial.length == 1){
                         global.sayText(translate('valid_shs_message',{},state.vars.shsLang));
                         onSerialValidated(registeredSerial[0]);
                     }

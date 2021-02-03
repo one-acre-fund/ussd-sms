@@ -14,12 +14,24 @@ var notifyELK = require('../notifications/elk-notification/elkNotification');
 
 
 var onSerialValidated = function(serialInfo){
-    var message;
-    if(serialInfo.keyCodeType == 'activation')
-        message = translate('successful_activation_code',{'$code': serialInfo.keyCode},state.vars.shsLang);
-    else if(serialInfo.keyCodeType == 'unlock')
-        message = translate('successful_unlock_code',{'$code': serialInfo.keyCode},state.vars.shsLang);
+    var message, prefix;
+    if(state.vars.other == 'true'){
+        if(serialInfo.keyCodeType == 'activation')
+            message = translate('successful_farmer_activation_code',{'$prefix': prefix,'$code': serialInfo.keyCode},state.vars.shsLang);
+        else if(serialInfo.keyCodeType == 'unlock')
+            message = translate('successful_farmer_unlock_code',{'$code': serialInfo.keyCode},state.vars.shsLang);
+    }
+    else{
+        if(serialInfo.keyCodeType == 'activation')
+            message = translate('successful_activation_code',{'$prefix': prefix,'$code': serialInfo.keyCode},state.vars.shsLang);
+        else if(serialInfo.keyCodeType == 'unlock')
+            message = translate('successful_unlock_code',{'$code': serialInfo.keyCode},state.vars.shsLang);
+    }
     global.sayText(message);
+    project.sendMessage({
+        content: message, 
+        to_number: contact.phone_number
+    });
     global.stopRules();
 };
 module.exports = {
@@ -36,10 +48,12 @@ module.exports = {
     start: function(account, country, lang, isGroupLeader,main_menu, main_menu_handler){
         notifyELK();
         state.vars.account = account;
+        state.vars.gLClient = state.vars.client;
         state.vars.country = country;
         state.vars.shsLang = lang;
         state.vars.gL = isGroupLeader;
         state.vars.replacement = '';
+        state.vars.other = 'false';
         state.vars.main_menu = main_menu;
         state.vars.main_menu_handler = main_menu_handler;
         translate =  createTranslator(translations, state.vars.shsLang);

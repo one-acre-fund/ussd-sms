@@ -13,6 +13,10 @@ module.exports = {
                     if(client.BalanceHistory[0].SeasonName == '2021, Long Rain'){
                         return true;
                     }
+                    else{
+                        global.sayText(translate('not_enrolled',{},state.vars.shsLang));
+                        global.stopRules();
+                    }
                 }   
             }
             else{

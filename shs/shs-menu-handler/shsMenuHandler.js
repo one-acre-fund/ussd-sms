@@ -18,6 +18,8 @@ module.exports = {
             }else if(input == 2){
                 var serialNumberDetails = getCode(state.vars.account);
                 if(serialNumberDetails){
+                    if(serialNumberDetails == 'not_Eligible')
+                        global.sopRules();
                     state.vars.serialNumberDetails = JSON.stringify(serialNumberDetails);
                     var serialNumbers = serialNumberDetails.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.unitSerialNumber + '('+current.unitType+')\n';},'');
                     global.sayText(translate('serial_numbers',{'$serialNumbers': serialNumbers},state.vars.shsLang));
@@ -31,6 +33,8 @@ module.exports = {
             else if(input == 3){
                 serialNumberDetails = getCode(state.vars.account);
                 if(serialNumberDetails){
+                    if(serialNumberDetails == 'not_Eligible')
+                        global.sopRules();
                     state.vars.serialNumberDetails = JSON.stringify(serialNumberDetails);
                     serialNumbers = serialNumberDetails.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.unitSerialNumber + '('+current.unitType+')\n';},'');
                     global.sayText(translate('view_recent_code',{'$serialNumbers': serialNumbers},state.vars.shsLang));
