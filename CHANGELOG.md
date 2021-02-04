@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.9.1
+### Added
+* [MOB-378](https://oneacrefund.atlassian.net/browse/MOB-378) Add Non-Client Option to Market Access Service
 ## v1.9.0
 
 ### Added
