@@ -18,7 +18,6 @@ const {client}  = require('../chicken-services/test-client-data');
 var marketAccess = require('./marketAccess');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 
-
 jest.mock('./quantity-handler/quantityHandler');
 jest.mock('./date-available-handler/dateAvailableHandler');
 jest.mock('./confirmation-handler/confirmationHandler');

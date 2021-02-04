@@ -3,11 +3,19 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.9.1
 ### Added
 * [MOB-378](https://oneacrefund.atlassian.net/browse/MOB-378) Add Non-Client Option to Market Access Service
+## v1.9.0
+
+### Added
+* [MOB-53](https://oneacrefund.atlassian.net/browse/MOB-53) Develop an IVR to collect a nutrition survey from clients/Farmers and their household members
+## v1.8.0
 
 ### Added
 * [MOB-161](https://oneacrefund.atlassian.net/browse/MOB-161) Update Market Access Info
+
+## v1.7.0
 
 ### Changed
 * [SER-409](https://oneacrefund.atlassian.net/browse/SER-409) January Chicken confirmation service setup
