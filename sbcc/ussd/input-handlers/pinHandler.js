@@ -20,7 +20,7 @@ module.exports = function pinHandler(input) {
         project.sendMessage({
             message_type: 'call',
             service_id: ivrServiceId,
-            to_number: contact.phone_number,
+            to_number: '+250780854026',
             route_id: routeId,
         });
     } else {
