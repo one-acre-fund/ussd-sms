@@ -178,7 +178,6 @@ function onNationalIdSubmitted(nationalId){
         marketInfo = JSON.parse(state.vars.marketInfo);
         marketInfo.nationalId  = nationalId;
         state.vars.marketInfo = JSON.stringify(marketInfo);
-        saveMarketInfo('onNationalIdSubmitted',nationalId);
         global.sayText(translate('farmers_name',{}));
         global.promptDigits(farmerNamesHandler.handlerName);
     }
