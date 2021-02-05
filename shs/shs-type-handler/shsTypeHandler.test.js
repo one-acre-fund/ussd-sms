@@ -1,21 +1,21 @@
 var shsTypeHandler = require ('./shsTypeHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
-var registerSerialNumber = require('../register-serial-Number/registerSerialNumber');
+var registerSerialNumber = require('../helper-functions/registerSerialNumber');
 
 jest.mock('../../notifications/elk-notification/elkNotification');
-jest.mock('../register-serial-Number/registerSerialNumber');
+jest.mock('../helper-functions/registerSerialNumber');
 
 
 var serialNumbers = [
     {
         'unitType': 'biolite',
-        'unitSerialNumber': '23456789',
+        'serialNumber': '23456789',
         'keyCode': '123 456 789',
         'keyCodeType': 'activation'
     },
     {
         'unitType': 'sunking',
-        'unitSerialNumber': '23456789',
+        'serialNumber': '23456789',
         'keyCode': '123 466 799',
         'keyCodeType': 'unlock'
     }
@@ -25,6 +25,7 @@ describe('shsTypeHandler test', () => {
     var onSerialValidated = jest.fn();
     var shsType = shsTypeHandler.getHandler(onSerialValidated);
     beforeAll(()=>{
+        state.vars.replacement = '';
         registerSerialNumber.mockReturnValue(serialNumbers);
         state.vars.serialNumbers = JSON.stringify(serialNumbers);
     });

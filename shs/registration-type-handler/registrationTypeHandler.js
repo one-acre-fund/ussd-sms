@@ -4,8 +4,8 @@ var createTranslator = require('../../utils/translator/translator');
 var serialNumberHandler = require('../serial-number-handler/serialNumberHandler');
 var translate =  createTranslator(translations, project.vars.lang);
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
-var replacementHandler = require('../replacementHandler/replacementHandler');
-var getCode = require('../register-serial-Number/getCode');
+var replacementHandler = require('../replacement-handler/replacementHandler');
+var getCode = require('../helper-functions/getCode');
 
 module.exports = {
     handlerName: handlerName,

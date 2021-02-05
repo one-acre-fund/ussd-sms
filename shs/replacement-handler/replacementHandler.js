@@ -18,11 +18,6 @@ module.exports = {
                     global.promptDigits(serialNumberHandler.handlerName);
 
                 }
-                else{
-                    //TODO: Add loging
-                    console.log('error: no serial number of choosen type');
-                    global.stopRules();
-                }
             }
             else{
                 var serialNumbers = serials.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.serialNumber + '\n';},'');

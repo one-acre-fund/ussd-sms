@@ -25,7 +25,6 @@ module.exports = {
                     state.vars.client = JSON.stringify(TrimClientJSON(client));
                     if(client.BalanceHistory.length > 0){
                         var gl = JSON.parse(state.vars.gLClient);
-                        console.log('###########client'+state.vars.client);
                         if(client.GroupId == gl.GroupId && client.DistrictID == gl.DistrictID && client.SiteID == gl.SiteID ){
                             if(client.BalanceHistory[0].SeasonName != '2021, Long Rain'){
                                 global.sayText(translate('not_enrolled',{},state.vars.shsLang));

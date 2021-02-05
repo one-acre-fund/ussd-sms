@@ -1,19 +1,19 @@
 var getCodeSerialHandler = require ('./getCodeSerialHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
-var registrationTypeHandler = require('../registrationTypeHandler/registrationTypeHandler');
+var registrationTypeHandler = require('../registration-type-handler/registrationTypeHandler');
 
 jest.mock('../../notifications/elk-notification/elkNotification');
 
 var serialNumberDetails = [
     {
         'unitType': 'biolite',
-        'unitSerialNumber': '23456789',
+        'serialNumber': '23456789',
         'keyCode': '123 456 789',
         'keyCodeType': 'activation'
     },
     {
         'unitType': 'sunking',
-        'unitSerialNumber': '23456789',
+        'serialNumber': '23456789',
         'keyCode': '123 466 799',
         'keyCodeType': 'unlock'
     }
@@ -41,9 +41,8 @@ describe('getCodeSerialHandler test', () => {
     });
     it('should re-prompt for serial number if the user choose an invalid option(greater than the available options)',()=>{
         getCodeSerial(4);
-        expect(sayText).toHaveBeenCalledWith(`Request activation/Unlock  code for serial number\n 1) ${serialNumberDetails[0].unitSerialNumber}`+
-        `\n2) ${serialNumberDetails[1].unitSerialNumber}`+
-        '\n99) Other');
+        expect(sayText).toHaveBeenCalledWith(`Request activation/Unlock  code for serial number\n 1) ${serialNumberDetails[0].serialNumber}`+
+        `\n2) ${serialNumberDetails[1].serialNumber}\n`);
         expect(promptDigits).toHaveBeenCalledWith(getCodeSerialHandler.handlerName);
     });
 

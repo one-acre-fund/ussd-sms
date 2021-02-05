@@ -4,9 +4,10 @@ var shsMenuHandler = require('./shs-menu-handler/shsMenuHandler');
 var serialNumberHandler = require('./serial-number-handler/serialNumberHandler');
 var gLMenuHandler = require('./gL-menu-handler/gLMenuHandler');
 var shsTypeHandler = require('./shs-type-handler/shsTypeHandler');
-var accountNumberHandler = require('./accountNumberHandler/accountNumberHandler');
+var accountNumberHandler = require('./account-number-handler/accountNumberHandler');
 var getCodeSerialHandler = require('./get-code-serial-handler/getCodeSerialHandler');
-var registrationTypeHandler = require('./registrationTypeHandler/registrationTypeHandler');
+var registrationTypeHandler = require('./registration-type-handler/registrationTypeHandler');
+const {client}  = require('../client-enrollment/test-client-data'); 
 
 
 jest.mock('../notifications/elk-notification/elkNotification');
@@ -14,15 +15,14 @@ jest.mock('./shs-menu-handler/shsMenuHandler');
 jest.mock('./serial-number-handler/serialNumberHandler');
 jest.mock('./gL-menu-handler/gLMenuHandler');
 jest.mock('./shs-type-handler/shsTypeHandler');
-jest.mock('./accountNumberHandler/accountNumberHandler');
+jest.mock('./account-number-handler/accountNumberHandler');
 jest.mock('./get-code-serial-handler/getCodeSerialHandler');
-jest.mock('./registrationTypeHandler/registrationTypeHandler');
+jest.mock('./registration-type-handler/registrationTypeHandler');
 
 
 const mockserialNumberHandler = jest.fn();
 const mockgetCodeSerialHandler = jest.fn();
 
-var account = '24450523';
 var country = 'KE';
 var shsLang = 'en';
 var isGroupLeader = '';
@@ -33,13 +33,13 @@ var serialNumbers = [
         'unitType': 'biolite',
         'unitSerialNumber': '23456789',
         'keyCode': '123 456 789',
-        'keyCodeType': 'activation'
+        'keyCodeType': 'ACTIVATION'
     },
     {
         'unitType': 'sunking',
         'unitSerialNumber': '23456789',
         'keyCode': '123 466 799',
-        'keyCodeType': 'unlock'
+        'keyCodeType': 'UNLOCK'
     }
 ];
 
@@ -78,16 +78,17 @@ describe('shs', () => {
 
 
     describe('start', ()=>{
+        var account = client.AccountNumber;
         it('should set the state variables',()=>{
             state.vars.account = '';
             state.vars.country = '';
             state.vars.isGroupLeader = '';
             state.vars.shsLang = '';
-            shs.start(account, country, shsLang,isGroupLeader);
+            shs.start(JSON.stringify(client), country, shsLang,isGroupLeader);
             expect(state.vars).toMatchObject({account,country,isGroupLeader,shsLang});
         });
         it('should call notify ELK',()=>{
-            shs.start(account, country, shsLang,isGroupLeader);
+            shs.start(JSON.stringify(client), country, shsLang,isGroupLeader);
             expect(notifyELK).toHaveBeenCalled();
         });
         it('should display the shs menu and prompt for input if the user is not a group leader',()=>{
@@ -109,9 +110,26 @@ describe('shs', () => {
             shs.registerHandlers();
             callback = serialNumberHandler.getHandler.mock.calls[0][0];                
         });
-        it('should prompt for the date',()=>{
+        it('should display the user\'s activation code if he is the one using the ',()=>{
             callback(serialNumbers[0]);
             expect(sayText).toHaveBeenCalledWith(`Your activation code is ${serialNumbers[0].keyCode}`);
+            expect(stopRules).toHaveBeenCalled();
+        });
+        it('should display the user\'s unlock code if he is the one using the ',()=>{
+            callback(serialNumbers[1]);
+            expect(sayText).toHaveBeenCalledWith(`Your unlock code is ${serialNumbers[1].keyCode}`);
+            expect(stopRules).toHaveBeenCalled();
+        });
+        it('should display the farmer\'s activation code if he is not the one using the ',()=>{
+            state.vars.unitForOther = 'true';
+            callback(serialNumbers[0]);
+            expect(sayText).toHaveBeenCalledWith(`The Farmer's activation code is ${serialNumbers[0].keyCode}`);
+            expect(stopRules).toHaveBeenCalled();
+        });
+        it('should display the farmer\'s unlock code if he is not the one using the ',()=>{
+            state.vars.unitForOther = 'true';
+            callback(serialNumbers[1]);
+            expect(sayText).toHaveBeenCalledWith(`The Farmer's unlock code is ${serialNumbers[1].keyCode}`);
             expect(stopRules).toHaveBeenCalled();
         });
     });

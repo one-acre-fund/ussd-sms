@@ -10,19 +10,15 @@ module.exports = function (requestData){
     var opts = { headers: {} };
     opts.method = 'POST';
     opts.data = requestData;
-    console.log('requestsData:'+ JSON.stringify(requestData));
-    console.log('url:'+fullUrl+ 'opts:'+ JSON.stringify(opts));
     try {
         var logger;
         var response = httpClient.request(fullUrl, opts);
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!11'+JSON.parse(response.content).message);
+        console.log(JSON.stringify(response));
         if (response.status == 201 || response.status == 200) {
             var data = JSON.parse(response.content).results;
-            console.log('success:'+ JSON.stringify(data));
             return data;
         }
         else if(JSON.parse(response.content).message == 'Unit with serial number '+requestData.unitSerialNumber+' assigned to another client'){
-            console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@22');
             global.sayText(translate('serial_assigned',{'$serialType': requestData.unitSerialNumber},state.vars.shsLang));
             return null;
         }
@@ -43,6 +39,5 @@ module.exports = function (requestData){
         logger.error('Error registering shs unit', {data: error});
         
     }
-    console.log(JSON.stringify(response));
     return null;
 };

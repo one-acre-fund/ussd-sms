@@ -7,8 +7,6 @@ module.exports = function (requestData){
     var fullUrl = service.vars.shs_reg_endpoint + '/api/services/shs/v1/units?accountNumber=' + requestData.accountNumber + '&countryCode='+ requestData.countryCode;
     var opts = { headers: {} };
     opts.method = 'GET';
-    console.log('requetData:'+ JSON.stringify(requestData));
-    console.log('url:'+fullUrl+ 'opts:'+ JSON.stringify(opts));
     try {
         var logger;
         var response = httpClient.request(fullUrl, opts);

@@ -97,7 +97,7 @@ module.exports = {
         'sw': 'Akaunt namba uliyoweka sio sahihi, tafadhali rudia tena.'
     },
     'view_recent_code': {
-        'en': 'View Recent activation/unlock  code\n $serialNumbers',
+        'en': 'View Recent activation/unlock  code for serial number\n $serialNumbers',
         'sw': 'Angalia kodi uliyopata hivi karibuni\n $serialNumbers'
     },
     'serial_assigned': {

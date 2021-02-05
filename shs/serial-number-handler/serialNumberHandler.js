@@ -3,7 +3,7 @@ var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
 var shsTypeHandler = require('../shs-type-handler/shsTypeHandler');
-var registerSerialNumber = require('../register-serial-Number/registerSerialNumber');
+var registerSerialNumber = require('../helper-functions/registerSerialNumber');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 module.exports = {
@@ -16,8 +16,6 @@ module.exports = {
                 serialNumber= registerSerialNumber(input);
             else
                 serialNumber= registerSerialNumber(input,false,JSON.parse(state.vars.replacement));
-
-            console.log('here:!!!!!!!'+ serialNumber+ JSON.stringify(serialNumber)+'is:');
             if(serialNumber){
                 if(typeof(serialNumber) === 'object' || _.isArray(serialNumber)){
                     if(serialNumber.length > 1){

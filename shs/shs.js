@@ -5,10 +5,10 @@ var shsMenuHandler = require('./shs-menu-handler/shsMenuHandler');
 var serialNumberHandler = require('./serial-number-handler/serialNumberHandler');
 var gLMenuHandler = require('./gL-menu-handler/gLMenuHandler');
 var shsTypeHandler = require('./shs-type-handler/shsTypeHandler');
-var accountNumberHandler = require('./accountNumberHandler/accountNumberHandler');
+var accountNumberHandler = require('./account-number-handler/accountNumberHandler');
 var getCodeSerialHandler = require('./get-code-serial-handler/getCodeSerialHandler');
-var registrationTypeHandler = require('./registrationTypeHandler/registrationTypeHandler');
-var replacementHandler = require('./replacementHandler/replacementHandler');
+var registrationTypeHandler = require('./registration-type-handler/registrationTypeHandler');
+var replacementHandler = require('./replacement-handler/replacementHandler');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var requestCodeHandler = require('./request-code-handler/requestCodeHandler');
 

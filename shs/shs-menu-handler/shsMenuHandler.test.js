@@ -1,23 +1,24 @@
 var shsMenuHandler = require ('./shsMenuHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
-var registrationTypeHandler = require('../registrationTypeHandler/registrationTypeHandler');
-var getCode = require('../register-serial-Number/getCode');
+var registrationTypeHandler = require('../registration-type-handler/registrationTypeHandler');
+var getCode = require('../helper-functions/getCode');
 var getCodeSerialHandler = require('../get-code-serial-handler/getCodeSerialHandler');
+const requestCodeHandler = require('../request-code-handler/requestCodeHandler');
 
 jest.mock('../../notifications/elk-notification/elkNotification');
-jest.mock('../register-serial-Number/getCode');
+jest.mock('../helper-functions/getCode');
 
 
 var serialNumbers = [
     {
         'unitType': 'biolite',
-        'unitSerialNumber': '23456789',
+        'serialNumber': '23456789',
         'keyCode': '123 456 789',
         'keyCodeType': 'activation'
     },
     {
         'unitType': 'sunking',
-        'unitSerialNumber': '23456789',
+        'serialNumber': '23456789',
         'keyCode': '123 466 799',
         'keyCodeType': 'unlock'
     }
@@ -40,10 +41,9 @@ describe('shsMenuHandler test', () => {
     it('should prompt for serial number  if the user is registered to multiple units',()=>{
         getCode.mockReturnValueOnce(serialNumbers);
         shsMenu(2);
-        expect(sayText).toHaveBeenCalledWith(`Request activation/Unlock  code for serial number\n 1) ${serialNumbers[0].unitSerialNumber}`+
-        `\n2) ${serialNumbers[1].unitSerialNumber}\n`+
-        '99) Other');
-        expect(promptDigits).toHaveBeenCalledWith(getCodeSerialHandler.handlerName);
+        expect(sayText).toHaveBeenCalledWith(`Request activation/Unlock  code for serial number\n 1) ${serialNumbers[0].serialNumber}`+
+        `\n2) ${serialNumbers[1].serialNumber}\n`);
+        expect(promptDigits).toHaveBeenCalledWith(requestCodeHandler.handlerName);
     });
     it('should display the no serial message if no serial is returned',()=>{
         getCode.mockReturnValueOnce(false);
@@ -54,9 +54,8 @@ describe('shsMenuHandler test', () => {
     it('should prompt for serial number  if the user is registered to multiple units',()=>{
         getCode.mockReturnValueOnce(serialNumbers);
         shsMenu(3);
-        expect(sayText).toHaveBeenCalledWith(`Request activation/Unlock  code for serial number\n 1) ${serialNumbers[0].unitSerialNumber}`+
-        `\n2) ${serialNumbers[1].unitSerialNumber}\n`+
-        '99) Other');
+        expect(sayText).toHaveBeenCalledWith(`View Recent activation/unlock  code for serial number\n 1) ${serialNumbers[0].serialNumber}`+
+        `\n2) ${serialNumbers[1].serialNumber}\n`);
         expect(promptDigits).toHaveBeenCalledWith(getCodeSerialHandler.handlerName);
     });
 });

@@ -3,7 +3,7 @@ var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
-var registerSerialNumber = require('../register-serial-Number/registerSerialNumber');
+var registerSerialNumber = require('../helper-functions/registerSerialNumber');
 var shsTypeHandler = require('../shs-type-handler/shsTypeHandler');
 
 module.exports = {
@@ -14,7 +14,6 @@ module.exports = {
             var serialNumberDetails = JSON.parse(state.vars.serialNumberDetails);
             if(input <= serialNumberDetails.length){
                 var serialNumber = registerSerialNumber(serialNumberDetails[input-1].serialNumber);
-                console.log('here:!!!!!!!'+ serialNumber+ JSON.stringify(serialNumber)+'is:');
                 if(serialNumber) {
                     if(typeof(serialNumber) === 'object' || _.isArray(serialNumber)){
                         if(serialNumber.length > 1){
@@ -23,7 +22,6 @@ module.exports = {
                             global.sayText(translate('shs_type',{'$serialTypes': serialTypes},state.vars.shsLang));
                             global.promptDigits(shsTypeHandler.handlerName);
                         }else{
-                            global.sayText(translate('valid_shs_message',{},state.vars.shsLang));
                             onSerialValidated(serialNumber[0]);
                         }
                     }

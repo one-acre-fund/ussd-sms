@@ -2,7 +2,7 @@ var handlerName = 'gLMenuHandler';
 var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
-var accountNumberHandler = require('../accountNumberHandler/accountNumberHandler'); 
+var accountNumberHandler = require('../account-number-handler/accountNumberHandler'); 
 var shsMenuHandler = require('../shs-menu-handler/shsMenuHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 

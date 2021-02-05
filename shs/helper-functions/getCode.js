@@ -1,5 +1,5 @@
 
-var getCode = require('../endpoints/getCode');
+var getCodes = require('../endpoints/getCode');
 var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
@@ -14,7 +14,7 @@ module.exports = function getcode(account){
             accountNumber: account,
             countryCode: countryCode
         };
-        return getCode(requestData);
+        return getCodes(requestData);
     }
     else{
         global.sayText(translate('not_enrolled',{},state.vars.shsLang));

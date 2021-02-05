@@ -1,7 +1,7 @@
 var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
-var registerSerial = require('../endpoints/register-serial');
+var registerSerial = require('../endpoints/registerSerial');
 
 module.exports = function registerSerialNumber(serialNumber,unitType,replacement){
     var keyCodeType;

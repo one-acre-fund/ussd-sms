@@ -1,5 +1,5 @@
 var gLMenuHandler = require ('./gLMenuHandler');
-var accountNumberHandler = require('../accountNumberHandler/accountNumberHandler'); 
+var accountNumberHandler = require('../account-number-handler/accountNumberHandler'); 
 var shsMenuHandler = require('../shs-menu-handler/shsMenuHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 

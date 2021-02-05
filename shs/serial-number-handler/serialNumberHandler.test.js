@@ -1,10 +1,10 @@
 var serialNumberHandler = require ('./serialNumberHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 var shsTypeHandler = require('../shs-type-handler/shsTypeHandler');
-var registerSerialNumber = require('../register-serial-Number/registerSerialNumber');
+var registerSerialNumber = require('../helper-functions/registerSerialNumber');
 
 jest.mock('../../notifications/elk-notification/elkNotification');
-jest.mock('../register-serial-Number/registerSerialNumber');
+jest.mock('../helper-functions/registerSerialNumber');
 
 
 var serialNumbers = [
@@ -26,6 +26,7 @@ describe('serialNumberHandler test', () => {
     var onSerialValidated = jest.fn();
     var registrationType = serialNumberHandler.getHandler(onSerialValidated);
     beforeAll(()=>{
+        state.vars.replacement = '';
         registerSerialNumber.mockReturnValue(serialNumbers);
     });
     it('should call notifyELK ', () => {
@@ -43,13 +44,18 @@ describe('serialNumberHandler test', () => {
         registerSerialNumber.mockReturnValueOnce([serialNumbers[0]]);
         registrationType(1);
         expect(sayText).toHaveBeenCalledWith('Thank you for registering your SHS Unit. You will be receiving an activation code shortly if you are eligible.');
-        expect(onSerialValidated).toHaveBeenCalledWith([serialNumbers[0]]);
+        expect(onSerialValidated).toHaveBeenCalledWith(serialNumbers[0]);
     });
-    it('should prompt with the same menu if the user choose an invalid option',()=>{
-        registerSerialNumber.mockReturnValueOnce(false);
+    it('should prompt with the same menu if the user enters an invalid serial number',()=>{
+        registerSerialNumber.mockReturnValueOnce('wrong serial');
         registrationType();
         expect(sayText).toHaveBeenCalledWith('You have entered an invalid serial number, please try again');
         expect(promptDigits).toHaveBeenCalledWith(serialNumberHandler.handlerName);
+    });
+    it('should call stopRules if the returned serial number is null',()=>{
+        registerSerialNumber.mockReturnValueOnce( null);
+        registrationType();
+        expect(stopRules).toHaveBeenCalled();
     });
 
 });

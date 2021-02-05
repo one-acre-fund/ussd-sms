@@ -2,7 +2,7 @@ var handlerName = 'get_code_serial_handler';
 var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
-var registrationTypeHandler = require('../registrationTypeHandler/registrationTypeHandler');
+var registrationTypeHandler = require('../registration-type-handler/registrationTypeHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 module.exports = {
