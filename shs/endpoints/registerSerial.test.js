@@ -19,9 +19,9 @@ const mockResponse = {
     'message': 'Fetched existing client unit from database',
     'status': 200
 };
-const mockBadSerialResponse = {'message': 'No unit found with serial number 57192650','status': 404};
-const mockOtherSerialResponse = {'message': 'Unit with serial number 57192650  assigned to another client','status': 404};
-const sysErrorResponse = {'message': 'Unit with serial number 57192650  assigned to another client','status': 500};
+const mockBadSerialResponse = {'message': 'No unit found with serial number 57192858','status': 404};
+const mockOtherSerialResponse = {'message': 'Unit with serial number 57192858 assigned to another client','status': 404};
+const sysErrorResponse = {'message': 'Unit with serial number 57192858  assigned to another client','status': 500};
 const mockResponseData = JSON.stringify(mockResponse);
 var mockBadSerialResponseData = JSON.stringify(mockBadSerialResponse);
 
@@ -74,16 +74,16 @@ describe('register serial', () => {
             {data: error}
         );        
     });
-    xit('shoud return wrong serial if the serial number is not recognized', () => {
+    it('shoud return wrong serial if the serial number is not recognized', () => {
         httpClient.request.mockReturnValueOnce({status: 404, content: mockBadSerialResponseData});
         const result = registerSerial(mockRequestData);
         expect(result).toEqual('wrong serial');
     });
-    xit('shoud return wrong serial if the serial number is not recognized', () => {
+    it('shoud return wrong serial if the serial number is not recognized', () => {
         var mockBadSerialResponseData = JSON.stringify(mockOtherSerialResponse);
         httpClient.request.mockReturnValueOnce({status: 404, content: mockBadSerialResponseData});
         const result = registerSerial(mockRequestData);
-        expect(sayText).toHaveBeenCalledWith('The serial Number $serialNumber is assigned to another person');
+        expect(sayText).toHaveBeenCalledWith('The serial Number 57192858 is assigned to another person');
         expect(result).toEqual(null);
     });
     it('shoud return wrong serial if the serial number is not recognized', () => {

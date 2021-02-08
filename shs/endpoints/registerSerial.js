@@ -13,13 +13,12 @@ module.exports = function (requestData){
     try {
         var logger;
         var response = httpClient.request(fullUrl, opts);
-        console.log(JSON.stringify(response));
         if (response.status == 201 || response.status == 200) {
             var data = JSON.parse(response.content).results;
             return data;
         }
         else if(JSON.parse(response.content).message == 'Unit with serial number '+requestData.unitSerialNumber+' assigned to another client'){
-            global.sayText(translate('serial_assigned',{'$serialType': requestData.unitSerialNumber},state.vars.shsLang));
+            global.sayText(translate('serial_assigned',{'$serialNumber': requestData.unitSerialNumber},state.vars.shsLang));
             return null;
         }
         else if(JSON.parse(response.content).message == 'No unit found with serial number '+ requestData.unitSerialNumber){
@@ -28,7 +27,6 @@ module.exports = function (requestData){
         else {
             if(response.status == 500)
                 global.sayText(translate('internal_error',{},state.vars.shsLang));
-            console.log('Failed to register shs unit' +JSON.stringify(response));
             logger = new Log();
             logger.error('Failed to register shs unit', {data: response});
             return null;

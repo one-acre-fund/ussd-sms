@@ -58,4 +58,35 @@ describe('shsMenuHandler test', () => {
         `\n2) ${serialNumbers[1].serialNumber}\n`);
         expect(promptDigits).toHaveBeenCalledWith(getCodeSerialHandler.handlerName);
     });
+    it('should display a message saying the client is not eligible if the message is returned from the endpoint ',()=>{
+        getCode.mockReturnValueOnce('wrong serial');
+        shsMenu(3);
+        expect(sayText).toHaveBeenCalledWith('You are not eligible to receive a code. Please place an order or call OAF  for help');
+        expect(stopRules).toHaveBeenCalled();
+    });
+    it('should display a message saying the client is not eligible if the message is returned from the endpoint ',()=>{
+        getCode.mockReturnValueOnce('wrong serial');
+        shsMenu(2);
+        expect(sayText).toHaveBeenCalledWith('You are not eligible to receive a code. Please place an order or call OAF  for help');
+        expect(stopRules).toHaveBeenCalled();
+    });
+    it('should rcall stop rules if null is returned from the endpoint ',()=>{
+        getCode.mockReturnValueOnce(null);
+        shsMenu(2);
+        expect(sayText).not.toHaveBeenCalled();
+        expect(stopRules).toHaveBeenCalled();
+    });
+    it('should rcall stop rules if null is returned from the endpoint ',()=>{
+        getCode.mockReturnValueOnce(null);
+        shsMenu(3);
+        expect(sayText).not.toHaveBeenCalled();
+        expect(stopRules).toHaveBeenCalled();
+    });
+    it('should display the main menu if the client chooses 4',()=>{
+        state.vars.main_menu = '1) Payment\n2) Enroll';
+        state.vars.main_menu_handler = 'main_menu_handler';
+        shsMenu(4);
+        expect(sayText).toHaveBeenCalledWith(state.vars.main_menu);
+        expect(promptDigits).toHaveBeenCalledWith(state.vars.main_menu_handler);
+    });
 });

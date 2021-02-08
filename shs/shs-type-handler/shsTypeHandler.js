@@ -24,7 +24,7 @@ module.exports = {
                         if(typeof(registeredSerial) === 'object' || _.isArray(registeredSerial)){
                             if(registeredSerial.length > 1){
                                 logger = new Log();
-                                logger.error('Multiple units with one unit type', {data: registerSerialNumber});
+                                logger.error('Multiple units with one unit type', {data: registeredSerial});
                             }else{
                                 global.sayText(translate('valid_shs_message',{},state.vars.shsLang));
                                 onSerialValidated(registeredSerial[0]);

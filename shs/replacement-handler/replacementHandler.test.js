@@ -39,5 +39,6 @@ describe('replacement handler test', () => {
         `\n2) ${serialNumbers[1].serialNumber}\n`);
         expect(promptDigits).toHaveBeenLastCalledWith(replacementHandler.handlerName);
     });
+    
 
 });
