@@ -35,8 +35,8 @@ describe('replacement handler test', () => {
     });
     it('should re-prompt with the same menu if the user choose an invalid option',()=>{
         replacement(4);
-        expect(sayText).toHaveBeenCalledWith(`Choose the device you want to replace\n 1) ${serialNumbers[0].serialNumber}`+
-        `\n2) ${serialNumbers[1].serialNumber}\n`);
+        expect(sayText).toHaveBeenCalledWith(`Choose the device you want to replace\n 1) ${serialNumbers[0].serialNumber}(${serialNumbers[0].unitType})`+
+        `\n2) ${serialNumbers[1].serialNumber}(${serialNumbers[1].unitType})\n`);
         expect(promptDigits).toHaveBeenLastCalledWith(replacementHandler.handlerName);
     });
     

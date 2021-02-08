@@ -36,14 +36,14 @@ describe('registrationTypeHandler test', () => {
     });
     it('should prompt with the same menu if the user choose an invalid option',()=>{
         registrationType(4);
-        expect(sayText).toHaveBeenCalledWith('Enter SHS Serial Number\n1) New SHS Unit\n2) Replacement');
+        expect(sayText).toHaveBeenCalledWith('Enter SHS Serial Number\n1) New SHS Unit\n2) Replacement through warranty');
         expect(promptDigits).toHaveBeenCalledWith(registrationTypeHandler.handlerName);
     });
     it('should prompt for serial number to replace if the user is registered to multiple units',()=>{
         getCode.mockReturnValueOnce(serialNumbers);
         registrationType(2);
-        expect(sayText).toHaveBeenCalledWith(`Choose the device you want to replace\n 1) ${serialNumbers[0].serialNumber}`+
-        `\n2) ${serialNumbers[1].serialNumber}\n`);
+        expect(sayText).toHaveBeenCalledWith(`Choose the device you want to replace\n 1) ${serialNumbers[0].serialNumber}(${serialNumbers[0].unitType})`+
+        `\n2) ${serialNumbers[1].serialNumber}(${serialNumbers[1].unitType})\n`);
         expect(promptDigits).toHaveBeenCalledWith(replacementHandler.handlerName);
     });
     it('should display a message saying the client is not eligible if the message is returned from the endpoint ',()=>{

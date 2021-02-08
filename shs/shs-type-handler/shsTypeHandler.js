@@ -21,7 +21,7 @@ module.exports = {
                     else
                         registeredSerial= registerSerialNumber(serial.serialNumber, serial.unitType,JSON.parse(state.vars.replacement));
                     if(registeredSerial){
-                        if(typeof(registeredSerial) === 'object' || _.isArray(registeredSerial)){
+                        if((registeredSerial != undefined) && (typeof(registeredSerial) === 'object' || _.isArray(registeredSerial))){
                             if(registeredSerial.length > 1){
                                 logger = new Log();
                                 logger.error('Multiple units with one unit type', {data: registeredSerial});

@@ -20,7 +20,7 @@ module.exports = {
                 var serialNumberDetails = getCode(state.vars.account);
                 if((typeof(serialNumberDetails) === 'object' || _.isArray(serialNumberDetails))&& serialNumberDetails != null){
                     state.vars.serialNumberDetails = JSON.stringify(serialNumberDetails);
-                    var serialNumbers = serialNumberDetails.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.serialNumber + '\n';},'');
+                    var serialNumbers = serialNumberDetails.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.serialNumber + '('+current.unitType+')\n';},'');
                     global.sayText(translate('replacement_menu',{'$serialNumbers': serialNumbers},state.vars.shsLang));
                     global.promptDigits(replacementHandler.handlerName);
                 }

@@ -30,7 +30,7 @@ module.exports = {
                 stopRules();
             }
             else{
-                var serialNumbersMessage = serialNumberDetails.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.serialNumber + '\n';},'');
+                var serialNumbersMessage = serialNumberDetails.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.serialNumber + '('+current.unitType+')\n';},'');
                 global.sayText(translate('serial_numbers',{'$serialNumbers': serialNumbersMessage},state.vars.shsLang));
                 global.promptDigits(handlerName);
             }

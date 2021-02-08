@@ -2,7 +2,7 @@ module.exports = {
 
     'select_service': {
         'en': 'What do you want to do?\n1)Register New SHS Unit \n2)Get Activation/ Unlock Code\n3)View Recent Activation/Unlock Code \n4)Back',
-        'sw': 'Huduma gani unahitaji?\n1)Sajili Sola yako\n2)Pata Kodi ya sola yako\n3)Angalia kodi ya Sola yako'
+        'sw': 'Huduma gani unahitaji?\n1)Sajili Sola yako\n2)Pata Kodi ya sola yako\n3)Angalia kodi ya Sola yako \n4)rudi nyuma'
     },
     'serial_number_request': {
         'en': 'Enter SHS Serial Number',
@@ -14,7 +14,7 @@ module.exports = {
     },
     'invalid_shs_message': {
         'en': 'You have entered an invalid serial number, please try again',
-        'sw': 'Nambari ya taa uliyoweka sio sahihi, tafadhali jaribu tena.'
+        'sw': 'Numbari uliyoweka sio sahihi, tafadhali weka numbari sahihi'
     },
     'successful_activation_code': {
         'en': 'Your activation code is $code',
@@ -61,16 +61,16 @@ module.exports = {
         'sw': 'Weka Akunti Namba ya Mkulima'
     },
     'serial_numbers': {
-        'en': 'Request activation/Unlock  code for serial number\n $serialNumbers',
-        'sw': 'Agiza kodi ya sola yako\n $serialNumbers'
+        'en': 'Request activation/Unlock  code for serial number\n $serialNumbers \n99) None of the above',
+        'sw': 'Agiza kodi ya sola yako\n $serialNumbers \n99) Nambari sio zangu'
     },
     'serial_number_request_menu': {
         'en': 'Enter Serial Number of SHS Unit',
         'sw': 'Ingiza Serial number ya Sola yako' 
     },
     'register_serial_menu': {
-        'en': 'Enter SHS Serial Number\n1) New SHS Unit\n2) Replacement',
-        'sw': 'Enter SHS Serial Number\n1) New SHS Unit\n2) Replacement'
+        'en': 'Enter SHS Serial Number\n1) New SHS Unit\n2) Replacement through warranty',
+        'sw': 'Enter SHS Serial Number\n1) New SHS Unit\n2) Taa ambayo imebadilishwa'
     },
     'no_serial_message': {
         'en': 'You are not eligible to receive a code. Please place an order or call OAF  for help',
@@ -78,7 +78,7 @@ module.exports = {
     },
     'replacement_menu': {
         'en': 'Choose the device you want to replace\n $serialNumbers',
-        'sw': 'Chagua kifaa unachotaka kubadilisha\n $serialNumbers'
+        'sw': 'Chagua taa unayotaka kubadilisha serial number\n $serialNumbers'
     },
     'serial_numbers_replace': {
         'en': 'Request activation/Unlock  code for serial number\n $serialNumbers',
@@ -90,15 +90,15 @@ module.exports = {
     },
     'different_group': {
         'en': 'This Client is not in your group, you can only view SHS options for clients in your group',
-        'sw': 'Samahi mkulima hayupo kwenye kikundi chako.'
+        'sw': 'Samahani mkulima hayuko kwenye kikundi chako'
     },
     'invalid_account': {
         'en': 'The Account number you entered is invalid, please enter a valid account number',
         'sw': 'Akaunt namba uliyoweka sio sahihi, tafadhali rudia tena.'
     },
     'view_recent_code': {
-        'en': 'View Recent activation/unlock  code for serial number\n $serialNumbers',
-        'sw': 'Angalia kodi uliyopata hivi karibuni\n $serialNumbers'
+        'en': 'View Recent activation/unlock  code for serial number\n $serialNumbers \n99) None of the above',
+        'sw': 'Angalia kodi uliyopata hivi karibuni\n $serialNumbers \n99) Nambari sio zangu'
     },
     'serial_assigned': {
         'en': 'The serial Number $serialNumber is assigned to another person',
