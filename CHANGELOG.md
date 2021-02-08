@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+### Added
+* [MOB-135](https://oneacrefund.atlassian.net/browse/MOB-135) As a Client, I want to register my new SHS serial number  via USSD so I am able to receive activation codes
+
+* [MOB-136](https://oneacrefund.atlassian.net/browse/MOB-136) As a Client, I want to be able to receive an activation/unlock code  when I request for one if I am eligible 
+
+* [MOB-137](https://oneacrefund.atlassian.net/browse/MOB-137) As a Client, I want to register a new SHS unit if the previous one was returned to OAF  and have the new  serial number as my primary serial number
+
+* [MOB-138](https://oneacrefund.atlassian.net/browse/MOB-138) As a GL, I want to register a new SHS unit for a client in my group 
+
+* [MOB-139](https://oneacrefund.atlassian.net/browse/MOB-139) As a GL, I want to request for  and view activation codes for clients in my group
+
 
 ### Added
 * [MOB-53](https://oneacrefund.atlassian.net/browse/MOB-53) Develop an IVR to collect a nutrition survey from clients/Farmers and their household members
