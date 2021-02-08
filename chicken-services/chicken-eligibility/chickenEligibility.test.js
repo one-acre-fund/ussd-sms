@@ -80,6 +80,14 @@ describe('chicken_Eligibility', () => {
         chickenEligibility(mockTable,client.AccountNumber,client);
         expect(state.vars.max_chicken).toBe(15);
     });
+    it('should set state.vars.max_chicken to 15 if the client is eligible to confirm more than the max(15) chickens', ()=>{
+        mockCursor.hasNext.mockReturnValueOnce(true);
+        var new_row ={vars: { ordered_chickens: 16, confirmed: 0,prep_required: 20000}};
+        client.BalanceHistory.TotalRepayment_IncludingOverpayments = 10000;
+        mockCursor.next.mockReturnValueOnce(new_row);
+        chickenEligibility(mockTable,client.AccountNumber,client);
+        expect(state.vars.max_chicken).toBe(15);
+    });
     it('should set state.vars.max_chicken to the number of possible chicken given the prepayment_amount (if the prepayment is greater than 1000 and allows less than 5 possible chicken)', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(true);
         var new_row ={vars: { ordered_chickens: 4, confirmed: 0}};
