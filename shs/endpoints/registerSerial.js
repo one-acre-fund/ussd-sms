@@ -21,7 +21,7 @@ module.exports = function (requestData){
             global.sayText(translate('serial_assigned',{'$serialNumber': requestData.unitSerialNumber},state.vars.shsLang));
             return null;
         }
-        else if(JSON.parse(response.content).message == 'No unit found with serial number '+ requestData.unitSerialNumber){
+        else if(JSON.parse(response.content).message == 'No unit found with serial number '+ requestData.unitSerialNumber || JSON.parse(response.content).message =='Unit with serial number '+ requestData.unitSerialNumber +' is not an OAF unit'){
             return 'wrong serial';
         }
         else {
