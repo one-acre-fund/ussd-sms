@@ -3,13 +3,21 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.9.4
+
+### Changed
+* [MOB-397](https://oneacrefund.atlassian.net/browse/MOB-397) Add health training officers ID and PIN data into Data table and amend Episode release dates
+
 ## v1.9.3
+
 ### Added
 * [THD-5109](https://oneacrefund.atlassian.net/browse/THD-5109) Deactivation of Impact trainings
 ## v1.9.2
+
 ### Fixed
 * [MOB-371](https://oneacrefund.atlassian.net/browse/MOB-371) RW SHS Clients Unable to receive activation code for SHS Units
 ## v1.9.1
+
 ### Added
 * [MOB-378](https://oneacrefund.atlassian.net/browse/MOB-378) Add Non-Client Option to Market Access Service
 ## v1.9.0
