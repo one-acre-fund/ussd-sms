@@ -5,6 +5,7 @@ var translate =  createTranslator(translations, project.vars.lang);
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 var registerSerialNumber = require('../helper-functions/registerSerialNumber');
 var shsTypeHandler = require('../shs-type-handler/shsTypeHandler');
+var registrationTypeHandler = require('../registration-type-handler/registrationTypeHandler');
 
 module.exports = {
     handlerName: handlerName,
@@ -12,7 +13,11 @@ module.exports = {
         return function(input){
             notifyELK();
             var serialNumberDetails = JSON.parse(state.vars.serialNumberDetails);
-            if(input <= serialNumberDetails.length){
+            if(input == 99){
+                global.sayText(translate('register_serial_menu',{},state.vars.shsLang));
+                global.promptDigits(registrationTypeHandler.handlerName);
+            }
+            else if(input <= serialNumberDetails.length){
                 var serialNumber = registerSerialNumber(serialNumberDetails[input-1].serialNumber);
                 if(serialNumber) {
                     if(typeof(serialNumber) === 'object' || _.isArray(serialNumber)){

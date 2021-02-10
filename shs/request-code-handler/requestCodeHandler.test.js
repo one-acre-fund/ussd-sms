@@ -2,6 +2,7 @@ var requestCodeHandler = require ('./requestCodeHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 var registerSerialNumber = require('../helper-functions/registerSerialNumber');
 var shsTypeHandler = require('../shs-type-handler/shsTypeHandler');
+var registrationTypeHandler = require('../registration-type-handler/registrationTypeHandler');
 
 jest.mock('../../notifications/elk-notification/elkNotification');
 
@@ -51,5 +52,10 @@ describe('request code handler test', () => {
         expect(sayText).toHaveBeenCalledWith(`Request activation/Unlock  code for serial number\n 1) ${serialNumbers[0].serialNumber}(${serialNumbers[0].unitType})`+
         `\n2) ${serialNumbers[1].serialNumber}(${serialNumbers[1].unitType})\n \n99) None of the above`);
         expect(promptDigits).toHaveBeenLastCalledWith(requestCodeHandler.handlerName);
+    });
+    it('should prompt for registration type if the user choose 99(other serial)',()=>{
+        requestCode(99);
+        expect(sayText).toHaveBeenCalledWith('Enter SHS Serial Number\n1) New SHS Unit\n2) Replacement through warranty');
+        expect(promptDigits).toHaveBeenCalledWith(registrationTypeHandler.handlerName);
     });
 });
