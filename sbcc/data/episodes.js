@@ -1,15 +1,15 @@
 module.exports = [
     {
         'name': 'episode-1',
-        'releaseDate': '02/03/2021'
+        'releaseDate': '02/08/2021'
     },
     {
         'name': 'episode-2',
-        'releaseDate': '02/05/2021'
+        'releaseDate': '02/11/2021'
     },
     {
         'name': 'episode-3',
-        'releaseDate': '02/08/2021'
+        'releaseDate': '02/15/2021'
     },
     {
         'name': 'episode-4',
