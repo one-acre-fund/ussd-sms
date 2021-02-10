@@ -43,7 +43,7 @@ module.exports = function () {
         'soil_training': {
             'en-ke': 'Soil Fertility\n',
             'sw': 'Udongo bora ulio na afya na rotuba\n',
-            enabled: true
+            enabled: false
         },
         'nutrition_training': {
             'en-ke': 'Dietary Diversity (Nutrition)\n',

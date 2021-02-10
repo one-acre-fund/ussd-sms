@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.9.3
+### Added
+* [THD-5109](https://oneacrefund.atlassian.net/browse/THD-5109) Deactivation of Impact trainings
 ## v1.9.2
 ### Fixed
 * [MOB-371](https://oneacrefund.atlassian.net/browse/MOB-371) RW SHS Clients Unable to receive activation code for SHS Units
