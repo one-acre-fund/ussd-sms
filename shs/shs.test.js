@@ -112,24 +112,32 @@ describe('shs', () => {
         });
         it('should display the user\'s activation code if he is the one using the ',()=>{
             callback(serialNumbers[0]);
-            expect(sayText).toHaveBeenCalledWith(`Your activation code is ${serialNumbers[0].keyCode}`);
+            expect(project.sendMessage).toHaveBeenCalledWith(expect.objectContaining({
+                content: `Your activation code is ${serialNumbers[0].keyCode}`,
+                to_number: contact.phonenumber}));
             expect(stopRules).toHaveBeenCalled();
         });
         it('should display the user\'s unlock code if he is the one using the ',()=>{
             callback(serialNumbers[1]);
-            expect(sayText).toHaveBeenCalledWith(`Your unlock code is ${serialNumbers[1].keyCode}`);
+            expect(project.sendMessage).toHaveBeenCalledWith(expect.objectContaining({
+                content: `Your unlock code is ${serialNumbers[1].keyCode}`,
+                to_number: contact.phonenumber}));
             expect(stopRules).toHaveBeenCalled();
         });
         it('should display the farmer\'s activation code if he is not the one using the ',()=>{
             state.vars.unitForOther = 'true';
             callback(serialNumbers[0]);
-            expect(sayText).toHaveBeenCalledWith(`The Farmer's activation code is ${serialNumbers[0].keyCode}`);
+            expect(project.sendMessage).toHaveBeenCalledWith(expect.objectContaining({
+                content: `The Farmer's activation code is ${serialNumbers[0].keyCode}`,
+                to_number: contact.phonenumber}));
             expect(stopRules).toHaveBeenCalled();
         });
         it('should display the farmer\'s unlock code if he is not the one using the ',()=>{
             state.vars.unitForOther = 'true';
             callback(serialNumbers[1]);
-            expect(sayText).toHaveBeenCalledWith(`The Farmer's unlock code is ${serialNumbers[1].keyCode}`);
+            expect(project.sendMessage).toHaveBeenCalledWith(expect.objectContaining({
+                content: `The Farmer's unlock code is ${serialNumbers[1].keyCode}`,
+                to_number: contact.phonenumber}));
             expect(stopRules).toHaveBeenCalled();
         });
     });

@@ -26,7 +26,10 @@ var onSerialValidated = function(serialInfo){
         else if(serialInfo.keyCodeType == 'UNLOCK')
             message = translate('successful_unlock_code',{'$code': serialInfo.keyCode},state.vars.shsLang);
     }
-    global.sayText(message);
+    project.sendMessage({
+        content: message, 
+        to_number: contact.phone_number
+    });
     global.stopRules();
 };
 module.exports = {

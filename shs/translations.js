@@ -14,7 +14,7 @@ module.exports = {
     },
     'invalid_shs_message': {
         'en': 'You have entered an invalid serial number, please try again',
-        'sw': 'Numbari uliyoweka sio sahihi, tafadhali weka numbari sahihi'
+        'sw': 'Nambari uliyoweka sio Sahihi, tafadhali weka Nambari sahihi'
     },
     'successful_activation_code': {
         'en': 'Your activation code is $code',
@@ -70,7 +70,7 @@ module.exports = {
     },
     'register_serial_menu': {
         'en': 'Enter SHS Serial Number\n1) New SHS Unit\n2) Replacement through warranty',
-        'sw': 'Enter SHS Serial Number\n1) New SHS Unit\n2) Taa ambayo imebadilishwa'
+        'sw': 'Enter SHS Serial Number\n1) Sola Mpya\n2) Sola ambayo Imebadilishwa kwa warranty'
     },
     'no_serial_message': {
         'en': 'You are not eligible to receive a code. Please place an order or call OAF  for help',
