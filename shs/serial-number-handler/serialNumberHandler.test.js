@@ -61,7 +61,7 @@ describe('serialNumberHandler test', () => {
         state.vars.replacement = JSON.stringify(serialNumbers[0]);
         registerSerialNumber.mockReturnValueOnce([serialNumbers[0]]);
         registrationType(serialNumbers[0].serialNumber);
-        expect(registerSerialNumber).toHaveBeenLastCalledWith(serialNumbers[0].serialNumber,false,serialNumbers[0]);
+        expect(registerSerialNumber).toHaveBeenLastCalledWith(serialNumbers[0].serialNumber,null,serialNumbers[0]);
     });
 
 });

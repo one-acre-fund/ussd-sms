@@ -16,6 +16,7 @@ module.exports = {
                 global.sayText(translate('register_serial_menu',{},state.vars.shsLang));
                 global.promptDigits(registrationTypeHandler.handlerName);
             }else if(input == 2){
+                state.vars.action = 'retreive-code';
                 var serialNumberDetails = getCode(state.vars.account);
                 if((typeof(serialNumberDetails) === 'object' || _.isArray(serialNumberDetails))&& serialNumberDetails != null){
                     state.vars.serialNumberDetails = JSON.stringify(serialNumberDetails);
@@ -23,20 +24,28 @@ module.exports = {
                     global.sayText(translate('serial_numbers',{'$serialNumbers': serialNumbers},state.vars.shsLang));
                     global.promptDigits(requestCodeHandler.handlerName);
                 }
-                else if(serialNumberDetails != null)
-                    global.sayText(translate('no_serial_message',{},state.vars.shsLang));
+                else if(serialNumberDetails != null){
+                    var message = translate('no_code_message',{},state.vars.shsLang);
+                    if(state.vars.unitForOther == 'true')
+                        message = translate('no_code_message_client',{},state.vars.shsLang);
+                    global.sayText(message);
+                }
                 global.stopRules();
             }
             else if(input == 3){
                 serialNumberDetails = getCode(state.vars.account);
                 if((typeof(serialNumberDetails) === 'object' || _.isArray(serialNumberDetails))&& serialNumberDetails != null){ 
                     state.vars.serialNumberDetails = JSON.stringify(serialNumberDetails);
-                    serialNumbers = serialNumberDetails.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.serialNumber + '\n';},'');
+                    serialNumbers = serialNumberDetails.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.serialNumber + '('+current.unitType+')\n';},'');
                     global.sayText(translate('view_recent_code',{'$serialNumbers': serialNumbers},state.vars.shsLang));
                     global.promptDigits(getCodeSerialHandler.handlerName);
                 }
-                else if(serialNumberDetails != null)
-                    global.sayText(translate('no_serial_message',{},state.vars.shsLang));
+                else if(serialNumberDetails != null){
+                    message = translate('no_code_message',{},state.vars.shsLang);
+                    if(state.vars.unitForOther == 'true')
+                        message = translate('no_code_message_client',{},state.vars.shsLang);
+                    global.sayText(message);
+                }
                 global.stopRules();
             }
             else if(input == 4){

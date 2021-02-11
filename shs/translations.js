@@ -6,7 +6,7 @@ module.exports = {
     },
     'serial_number_request': {
         'en': 'Enter SHS Serial Number',
-        'sw': 'Ingiza Serail number ya Sola yako'
+        'sw': 'Ingiza Serial number ya Sola yako'
     },
     'valid_shs_message': {
         'en': 'Thank you for registering your SHS Unit. You will be receiving an activation code shortly if you are eligible.',
@@ -25,11 +25,11 @@ module.exports = {
         'sw': 'Kodi yako ni $code'
     },
     'successful_farmer_activation_code': {
-        'en': 'The Farmer\'s activation code is $code',
+        'en': 'The Client\'s activation code is $code',
         'sw': 'Kodi ya mkulima ni $code'
     },
     'successful_farmer_unlock_code': {
-        'en': 'The Farmer\'s unlock code is $code',
+        'en': 'The Client\'s unlock code is $code',
         'sw': 'Kodi ya mkulima ni $code'
     },
     'unsuccessful_code_sms': {
@@ -70,7 +70,7 @@ module.exports = {
     },
     'register_serial_menu': {
         'en': 'Enter SHS Serial Number\n1) New SHS Unit\n2) Replacement through warranty',
-        'sw': 'Enter SHS Serial Number\n1) Sola Mpya\n2) Sola ambayo Imebadilishwa kwa warranty'
+        'sw': 'Ingiza Serial number ya Sola yako\n1) Sola Mpya\n2) Sola ambayo Imebadilishwa kwa warranty'
     },
     'no_serial_message': {
         'en': 'You are not eligible to receive a code. Please place an order or call OAF  for help',
@@ -94,7 +94,7 @@ module.exports = {
     },
     'invalid_account': {
         'en': 'The Account number you entered is invalid, please enter a valid account number',
-        'sw': 'Akaunt namba uliyoweka sio sahihi, tafadhali rudia tena.'
+        'sw': 'Akaunti namba uliyoweka sio sahihi, tafadhali rudia tena.'
     },
     'view_recent_code': {
         'en': 'View Recent activation/unlock  code for serial number\n $serialNumbers \n99) None of the above',
@@ -107,5 +107,13 @@ module.exports = {
     'internal_error': {
         'en': 'There is a system error. please try again later',
         'sw': 'kuna hitilafu ya mfumo. tafadhali jaribu tena baadae'
+    },
+    'no_code_message': {
+        'en': 'You do not  have an activation code, please register your SHS Unit',
+        'sw': 'Hauna kodi ya kuwasha sola, tafadhali sajili sola yako'
+    },
+    'no_code_message_client': {
+        'en': 'Client does not  have an activation code, please register Client SHS Unit',
+        'sw': 'Mkulima hana kodi, tafadhali sajili sola ya mkulima'
     }
 };

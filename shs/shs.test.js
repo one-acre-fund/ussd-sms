@@ -110,34 +110,40 @@ describe('shs', () => {
             shs.registerHandlers();
             callback = serialNumberHandler.getHandler.mock.calls[0][0];                
         });
-        it('should display the user\'s activation code if he is the one using the ',()=>{
+        it('should send the user\'s activation code if he is the one using the phone',()=>{
             callback(serialNumbers[0]);
             expect(project.sendMessage).toHaveBeenCalledWith(expect.objectContaining({
                 content: `Your activation code is ${serialNumbers[0].keyCode}`,
                 to_number: contact.phonenumber}));
             expect(stopRules).toHaveBeenCalled();
         });
-        it('should display the user\'s unlock code if he is the one using the ',()=>{
+        it('should display the user\'s unlock code if he is the one using the phone',()=>{
             callback(serialNumbers[1]);
             expect(project.sendMessage).toHaveBeenCalledWith(expect.objectContaining({
                 content: `Your unlock code is ${serialNumbers[1].keyCode}`,
                 to_number: contact.phonenumber}));
             expect(stopRules).toHaveBeenCalled();
         });
-        it('should display the farmer\'s activation code if he is not the one using the ',()=>{
+        it('should send the farmer\'s activation code if he is not the one using the phone',()=>{
             state.vars.unitForOther = 'true';
             callback(serialNumbers[0]);
             expect(project.sendMessage).toHaveBeenCalledWith(expect.objectContaining({
-                content: `The Farmer's activation code is ${serialNumbers[0].keyCode}`,
+                content: `The Client's activation code is ${serialNumbers[0].keyCode}`,
                 to_number: contact.phonenumber}));
             expect(stopRules).toHaveBeenCalled();
         });
-        it('should display the farmer\'s unlock code if he is not the one using the ',()=>{
+        it('should send the farmer\'s unlock code if he is not the one using the phone',()=>{
             state.vars.unitForOther = 'true';
             callback(serialNumbers[1]);
             expect(project.sendMessage).toHaveBeenCalledWith(expect.objectContaining({
-                content: `The Farmer's unlock code is ${serialNumbers[1].keyCode}`,
+                content: `The Client's unlock code is ${serialNumbers[1].keyCode}`,
                 to_number: contact.phonenumber}));
+            expect(stopRules).toHaveBeenCalled();
+        });
+        it('should display the farmer\'s unlock code if he is not the one using the phone and its a code request',()=>{
+            state.vars.unitForOther = 'true';
+            callback(serialNumbers[1],true);
+            expect(sayText).toHaveBeenCalledWith(`The Client's unlock code is ${serialNumbers[1].keyCode}`);
             expect(stopRules).toHaveBeenCalled();
         });
     });

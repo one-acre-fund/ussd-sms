@@ -13,6 +13,7 @@ module.exports = function (requestData){
     try {
         var logger;
         var response = httpClient.request(fullUrl, opts);
+        console.log('^^^^^^^^^^^^^^^^^^'+JSON.stringify(response));
         if (response.status == 201 || response.status == 200) {
             var data = JSON.parse(response.content).results;
             return data;
@@ -25,7 +26,7 @@ module.exports = function (requestData){
             return 'wrong serial';
         }
         else {
-            if(response.status == 500)
+            if(response.status >= 400)
                 global.sayText(translate('internal_error',{},state.vars.shsLang));
             logger = new Log();
             logger.error('Failed to register shs unit', {data: response});

@@ -12,10 +12,12 @@ module.exports = {
         return function(input){
             notifyELK();
             var serialNumber;
-            if(state.vars.replacement == '')
+            if(state.vars.replacement == ''){
                 serialNumber= registerSerialNumber(input);
-            else
-                serialNumber= registerSerialNumber(input,false,JSON.parse(state.vars.replacement));
+            }
+            else{
+                serialNumber= registerSerialNumber(input,null,JSON.parse(state.vars.replacement));
+            }
             if(serialNumber){
                 if(typeof(serialNumber) === 'object' || _.isArray(serialNumber)){
                     if(serialNumber.length > 1){

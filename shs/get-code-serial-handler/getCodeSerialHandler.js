@@ -17,7 +17,7 @@ module.exports = {
             }
             else if(input <= serialNumberDetails.length){
                 var serial = serialNumberDetails[input-1];
-                onSerialValidated(serial);
+                onSerialValidated(serial,true);
             }
             else{
                 var serialNumbersMessage = serialNumberDetails.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.serialNumber + '('+current.unitType+')\n';},'');

@@ -37,7 +37,7 @@ describe('request code handler test', () => {
     it('should call onSerialValidated for a new serial number to register',()=>{
         registerSerialNumber.mockReturnValue([serialNumbers[1]]);
         requestCode(1);
-        expect(onSerialValidated).toHaveBeenCalledWith(serialNumbers[1]);
+        expect(onSerialValidated).toHaveBeenCalledWith(serialNumbers[1],true);
         
     });
     it('should prompt for the serial number type  if the serial is registered to multiple vendors',()=>{

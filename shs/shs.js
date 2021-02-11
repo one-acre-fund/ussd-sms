@@ -12,7 +12,7 @@ var replacementHandler = require('./replacement-handler/replacementHandler');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var requestCodeHandler = require('./request-code-handler/requestCodeHandler');
 
-var onSerialValidated = function(serialInfo){
+var onSerialValidated = function(serialInfo, isCodeRequest){
     var message;
     if(state.vars.unitForOther == 'true'){
         if(serialInfo.keyCodeType == 'ACTIVATION')
@@ -26,10 +26,14 @@ var onSerialValidated = function(serialInfo){
         else if(serialInfo.keyCodeType == 'UNLOCK')
             message = translate('successful_unlock_code',{'$code': serialInfo.keyCode},state.vars.shsLang);
     }
-    project.sendMessage({
-        content: message, 
-        to_number: contact.phone_number
-    });
+    if(isCodeRequest){
+        global.sayText(message);
+    }else{
+        project.sendMessage({
+            content: message, 
+            to_number: contact.phone_number
+        });
+    }
     global.stopRules();
 };
 module.exports = {

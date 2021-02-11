@@ -48,35 +48,35 @@ describe('shsMenuHandler test', () => {
     it('should display the no serial message if no serial is returned',()=>{
         getCode.mockReturnValueOnce(false);
         shsMenu(2);
-        expect(sayText).toHaveBeenCalledWith('You are not eligible to receive a code. Please place an order or call OAF  for help');
+        expect(sayText).toHaveBeenCalledWith('You do not  have an activation code, please register your SHS Unit');
         expect(stopRules).toHaveBeenCalled();
     });
     it('should prompt for serial number  if the user is registered to multiple units',()=>{
         getCode.mockReturnValueOnce(serialNumbers);
         shsMenu(3);
-        expect(sayText).toHaveBeenCalledWith(`View Recent activation/unlock  code for serial number\n 1) ${serialNumbers[0].serialNumber}`+
-        `\n2) ${serialNumbers[1].serialNumber}\n \n99) None of the above`);
+        expect(sayText).toHaveBeenCalledWith(`View Recent activation/unlock  code for serial number\n 1) ${serialNumbers[0].serialNumber}(${serialNumbers[0].unitType})`+
+        `\n2) ${serialNumbers[1].serialNumber}(${serialNumbers[1].unitType})\n \n99) None of the above`);
         expect(promptDigits).toHaveBeenCalledWith(getCodeSerialHandler.handlerName);
     });
     it('should display a message saying the client is not eligible if the message is returned from the endpoint ',()=>{
         getCode.mockReturnValueOnce('wrong serial');
         shsMenu(3);
-        expect(sayText).toHaveBeenCalledWith('You are not eligible to receive a code. Please place an order or call OAF  for help');
+        expect(sayText).toHaveBeenCalledWith('You do not  have an activation code, please register your SHS Unit');
         expect(stopRules).toHaveBeenCalled();
     });
     it('should display a message saying the client is not eligible if the message is returned from the endpoint ',()=>{
         getCode.mockReturnValueOnce('wrong serial');
         shsMenu(2);
-        expect(sayText).toHaveBeenCalledWith('You are not eligible to receive a code. Please place an order or call OAF  for help');
+        expect(sayText).toHaveBeenCalledWith('You do not  have an activation code, please register your SHS Unit');
         expect(stopRules).toHaveBeenCalled();
     });
-    it('should rcall stop rules if null is returned from the endpoint ',()=>{
+    it('should call stop rules if null is returned from the endpoint ',()=>{
         getCode.mockReturnValueOnce(null);
         shsMenu(2);
         expect(sayText).not.toHaveBeenCalled();
         expect(stopRules).toHaveBeenCalled();
     });
-    it('should rcall stop rules if null is returned from the endpoint ',()=>{
+    it('should call stop rules if null is returned from the endpoint ',()=>{
         getCode.mockReturnValueOnce(null);
         shsMenu(3);
         expect(sayText).not.toHaveBeenCalled();

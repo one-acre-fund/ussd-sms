@@ -37,7 +37,7 @@ describe('getCodeSerialHandler test', () => {
     });
     it('should show call onSerialValidated if the user enters a valid serial option(less than the total number of serial options) ',()=>{
         getCodeSerial(1);
-        expect(onSerialValidated).toHaveBeenCalledWith(serialNumberDetails[0]);
+        expect(onSerialValidated).toHaveBeenCalledWith(serialNumberDetails[0],true);
     });
     it('should re-prompt for serial number if the user choose an invalid option(greater than the available options)',()=>{
         getCodeSerial(4);
