@@ -20,6 +20,7 @@ service.vars.currency = 'KES';
 service.vars.topUpStart = env + '_start_top_up';
 service.vars.topUpEnd = env + '_end_top_up';
 service.vars.seed_germination_issues_table = env + '_seed_germination_issues';
+service.vars.sbccTable = env + '_SBCC';
 
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var transactionHistory = require('../transaction-history/transactionHistory');
@@ -40,12 +41,15 @@ var logger = new Log();
 
 var dukaLocator = require('../duka-locator/index');
 var groupRepaymentsModule = require('../group-repayments/groupRepayments');
+var sbccModule = require('../sbcc/ussd/sbcc');
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 service.vars.roster_read_key = project.vars.roster_read_key;
 service.vars.lr_2021_client_table_id = project.vars[env+'_lr_2021_client_table_id'];
 service.vars.registerEnrollEnd = env+ '_registerEnrollEnd';
 service.vars.registerEnrollStart = env + '_registerEnrollStart';
+service.vars.seedQualityIssuesStart = env + '_seedQualityIssuesStart';
+service.vars.seedQualityIssuesEnd = env + '_seedQualityIssuesEnd';
 
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 service.vars.credit_officers_table = 'credit_officers_table';
@@ -54,13 +58,22 @@ service.vars.maizeEnrollmentTableId  = project.vars[env + '_maize_enr_table_id']
 service.vars.maizeTableId = project.vars[env + '_maize_bundle_table_id'];
 service.vars.topUpBundleTableId = project.vars[env + '_topUp_bundlesId'];
 service.vars.enrollmentBundleTableId = project.vars[env + '_enrollment_bundles_id'];
+//
+service.vars.districtVarietyTableId = project.vars[env + '_districtVarietyTableId'];
+service.vars.varietyStockTableId = project.vars[env + '_varietyStockTableId'];
+service.vars.warehouseStockTableId = project.vars[env + '_warehouseStockTableId'];
+service.vars.districtWarehouseTableId = project.vars[env+ '_districtWarehouseTableId'];
+
 if(env == 'prod'){
     service.vars.JiTEnrollmentTableId = 'DT52cebb451097ac25';
     service.vars.JITSucessfullRegId = 'DTa403c7245c904c18';
+    service.vars.SiteLockingTableId = 'DTdef8fbbf26e21f5e';
+    
 }
 else{
     service.vars.JiTEnrollmentTableId = 'DT7a66f47aa004743c';
     service.vars.JITSucessfullRegId = 'DT12cc1d618437e58b';
+    service.vars.SiteLockingTableId = 'DTa75d9c02bd403ebc';
 }
 
 var MenuCount = 0;
@@ -271,7 +284,7 @@ var ValNationalID = function(input){
 };
 
 var GetPrepaymentAmount = function(client){
-   return client.BalanceHistory[0].TotalCredit * 0.1;
+    return client.BalanceHistory[0].TotalCredit * 0.1;
 };
 var FAWActive = function (districtname){
     var Table = project.getOrCreateDataTable('FAW Districts');
@@ -1585,6 +1598,7 @@ dukaClient.registerInputHandlers(GetLang() ? 'en-ke' : 'sw', service.vars.duka_c
 warrantyExpiration.registerHandlers();
 seedGerminationIssues.registerInputHandlers(langWithEnke, service.vars.seed_germination_issues_table);
 contactCallCenter.registerInputHandlers(GetLang() ? 'en-ke' : 'sw');
+sbccModule.registerInputHandlers({lang: GetLang() ? 'en' : 'sw', backMenu: NonClientMenuText});
 
 function reduceClientSize(client) {
     var cloned = _.clone(client);
@@ -1615,7 +1629,6 @@ addInputHandler('SplashMenu', function(SplashMenu) {
             console.log('SuccessFully Validated against Roster');
             client = RosterClientGet(ClientAccNum);
             state.vars.client_json = JSON.stringify(reduceClientSize(client));
-
             // check for group leader
             var isGroupLeader = checkGroupLeader(client.DistrictId, client.ClientId);
             state.vars.isGroupLeader = isGroupLeader;
@@ -1687,6 +1700,8 @@ addInputHandler('NonClientMenu', function(input) {
         seedGerminationIssues.start(langWithEnke);
     }else if(sessionMenu[input-1].option_name === 'contact_call_center'){
         contactCallCenter.start(GetLang() ? 'en-ke' : 'sw', false);
+    } else if (sessionMenu[input-1].option_name === 'sbcc') {
+        sbccModule.startSBCC({lang: GetLang() ? 'en' : 'sw', backMenu: NonClientMenuText});
     } else{
         NonClientMenuText();
         promptDigits('NonClientMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
@@ -1750,7 +1765,7 @@ addInputHandler('MainMenu', function(SplashMenu){
         promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'transaction_history'){
-        transactionHistory.start(client.AccountNumber, 'ke');
+        transactionHistory.start(client.AccountNumber, 'ke',state.vars.main_menu,'MainMenu');
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'prepayment_amount'){
         if(client.BalanceHistory[0].SeasonName == CurrentSeasonName){
@@ -1789,7 +1804,7 @@ addInputHandler('MainMenu', function(SplashMenu){
         SHSMenuText();
         promptDigits('SolarMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
 
-    }
+    }   
     else if(sessionMenu[SplashMenu-1].option_name == 'insurance'){
         InsuranceMenuText();
         promptDigits('InsuranceMenu', {submitOnHash: true, maxDigits: 1, timeout: 5});
@@ -3165,7 +3180,6 @@ addInputHandler('TrainingSelect', function(input) {
     }
     InteractionCounter('TrainingSelect');
     var trainingsOptions = JSON.parse(state.vars.trainings_options);
-
     if (input == 0 ){
         TrainingMenuNextText();
         promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});

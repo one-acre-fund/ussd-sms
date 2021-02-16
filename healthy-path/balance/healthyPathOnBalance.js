@@ -23,5 +23,5 @@ module.exports = function(SeasonId, CountryId, DistrictId, credit, repaid, lang)
         status = getMessage('status_above', {}, lang);
     }
     var message = getMessage('healthy_path_balance', {'$HP_DIST': Math.abs(healthyPathDistance), '$status': status}, lang);
-    return message;
+    return healthyPathDistance.toString() == 'NaN' ? '' : message;
 };

@@ -17,7 +17,7 @@ var client = {
     'SiteId': 22,
     'SiteName': 'Mafubira Buwekula',
     'DistrictId': 546,
-    'DistrictName': 'Jinja',
+    'DistrictName': 'Bugarama',
     'RegionId': 1800,
     'RegionName': 'South East',
     'CountryId': 800,
@@ -45,6 +45,9 @@ var client = {
             'SeasonName': '2020, Short Rain',
             'SeasonStart': '2020-08-01T00:00:00',
             'TotalCredit': 128000.000,
+            'TotalCreditPerCycle': {
+                '2021A': 128000.000
+            },
             'TotalRepayment_IncludingOverpayments': 1500000.0000,
             'Balance': 128000.0000,
             'CurrencyCode': 'UGX'

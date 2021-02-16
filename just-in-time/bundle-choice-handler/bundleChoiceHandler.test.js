@@ -7,7 +7,7 @@ describe('order confirmation handler test', ()=>{
 
     var bundleChoiceHandler;
     var onBundleSelected, displayBundle;
-    var bundleArray = [{'bundleId': '-3009','bundleInputId': '-12109','bundleName': 'Knapsack Sprayer','price': '2251','inputName': 'Knapsack Sprayer'},{'bundleId': '-2960','bundleInputId': '-11920','bundleName': 'Red Onion','price': '180','inputName': 'Red Creole'}];
+    var bundleArray = [{'bundleId': '-3009','bundleInputId': '-12109','bundleName': 'Knapsack Sprayer','price': '2251','inputName': 'Knapsack Sprayer', 'quantity': 9},{'bundleId': '-2960','bundleInputId': '-11920','bundleName': 'Red Onion','price': '180','inputName': 'Red Creole'}];
     var inputMenu = [{'bundleId': '-3009','bundleInputId': '-12109','bundleName': 'Knapsack Sprayer','price': '2251','inputName': 'Knapsack Sprayer'},{'bundleId': '-2960','bundleInputId': '-11920','bundleName': 'Red Onion','price': '180','inputName': 'Red Creole'}];
     beforeAll(()=>{
         onBundleSelected = jest.fn();
@@ -25,6 +25,12 @@ describe('order confirmation handler test', ()=>{
         state.vars.multiple_input_menus = false;
         bundleChoiceHandler(1);
         expect(onBundleSelected).toHaveBeenCalledWith(bundleArray[0].bundleId);
+    });
+    it('should set  on state.vars.chosenMaizeBundle bundle if the quantity is defined ',()=>{
+        state.vars.multiple_input_menus = false;
+        bundleArray[0].quantity = 9;
+        bundleChoiceHandler(1);
+        expect(state.vars.chosenMaizeBundle).toEqual(JSON.stringify(bundleArray[0]));
     });
     it('should not call on bundle selected function function if the input from the user does  not correspond to a valid bundle',()=>{
         state.vars.multiple_input_menus = false;
@@ -47,6 +53,20 @@ describe('order confirmation handler test', ()=>{
         bundleChoiceHandler(77);
         expect(sayText).toHaveBeenCalledWith(inputMenu[1]);
         expect(promptDigits).toHaveBeenCalledWith(handlerName);
+    });
+    it('should not display a menu page if the input is 77 and the next menu doesn\'t exists',()=>{
+        state.vars.multiple_input_menus = true;
+        state.vars.input_menu_loc = 3;
+        state.vars.input_menu_length = 3;
+        state.vars.input_menu = JSON.stringify(inputMenu);
+        bundleChoiceHandler(77);
+        expect(sayText).not.toHaveBeenCalled();
+    });
+    it('should not set state.vars.chosenMaizeBundle bundle if the quantity is not defined ',()=>{
+        state.vars.multiple_input_menus = false;
+        state.vars.chosenMaizeBundle = undefined;
+        bundleChoiceHandler(2);
+        expect(state.vars.chosenMaizeBundle).toBeUndefined();
     });
 
 

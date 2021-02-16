@@ -215,6 +215,10 @@ module.exports = {
         "en": "Hello $CLIENT_NAME~BCredit:$CREDIT~BPaid:$PAID~BBalance:$BALANCE~B$HEALTHY_PATHAccurate as of $DAY_NAME $DAYNR $MONTH",
         "ki": "Muraho $CLIENT_NAME~BIdeni ryose:$CREDIT~BAyishyuwe:$PAID~BIdeni risigaye:$BALANCE~B$HEALTHY_PATHAmakuru yafashwe $DAY_NAME $DAYNR $MONTH",
     },
+    "cor_get_balance_overpaid": {
+        "en": "Hello $CLIENT_NAME~BCredit:$CREDIT~BPaid:$PAID~BBalance:$BALANCE~BOverpaid amount: $OVERPAID~B$HEALTHY_PATHAccurate as of $DAY_NAME $DAYNR $MONTH",
+        "ki": "Muraho $CLIENT_NAME~BIdeni ryose:$CREDIT~BAyishyuwe:$PAID~BIdeni risigaye:$BALANCE~BAmafaranga arenga: $OVERPAID~B$HEALTHY_PATHAmakuru yafashwe $DAY_NAME $DAYNR $MONTH",
+    },
     "external_splash": {
         "en": "Welcome to TUBURA. Please select your region:~B$GEO_MENU",
         "ki": "Murakaza neza muri TUBURA! Nyabuneka hitamo intara yawe:~B$GEO_MENU",
@@ -336,8 +340,8 @@ module.exports = {
         "ki": "Nomero iranga umuyobozi w'itsinda wanditse siyo. Ongera ugerageze",
     },
     "enr_reg_complete": {
-        "en": "Thank you for enrolling with TUBURA! Your account number is $ACCOUNT_NUMBER. Please save this!~B1)Continue~B99)Exit",
-        "ki": "Murakoze kwiyandikisha, $NAME. Bwira umuhinzi nimero ya konti ya TUBURA: $ACCOUNT_NUMBER.~B1)Gukomeza~B99)Kuvamo",
+        "en": "Thank you for enrolling with TUBURA! Your account number is $ACCOUNT_NUMBER. Please save this!",
+        "ki": "Murakoze kwiyandikisha, $NAME. Bwira umuhinzi nimero ya konti ya TUBURA: $ACCOUNT_NUMBER.",
     },
     "enr_bad_input_increment": {
         "en": "invalid increment~B1)Continue~B99)Exit",
@@ -704,8 +708,8 @@ module.exports = {
         "ki": "Numero y'itsinda mwinjije ntabwo ibaho",
     },
     "cor_enr_main_splash": {
-        "en": "Welcome to TUBURA. Please enter your account number or 1 to regiter",
-        "ki": "Murakaza neza muri TUBURA. Andika nimero ya konti y'umuhinzi cyangwa 1 kwiyandikisha",
+        "en": "Welcome to TUBURA. Please enter your account number or \n1) To regiter\n2) Non Client Menu",
+        "ki": "Murakaza neza muri TUBURA. Andika nimero ya konti y'umuhinzi cyangwa \n1) Kwiyandikisha\n2) Niba utari umukiriya",
     },
     "main_menu":{
         'en': 'Welcome to One Acre Fund Tubura.\n1) Not currently a client\n2) Already a client',
@@ -835,5 +839,9 @@ module.exports = {
     'no_produts_msg':{
         'en': 'No order placed so far\n1)Choose a bundle/order\n3) go back',
         'ki':'Ntacyo uratumiza\n1) Tumiza\n3)Subira ahabanza '
+    },
+    'nonClientMenu':{
+        'en': 'Welcome\n1) Sell harvest',
+        'ki': 'Murakaza neza\n1) Kugurisha Umusaruro'
     }
 }

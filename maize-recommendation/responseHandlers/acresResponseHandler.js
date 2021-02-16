@@ -35,7 +35,8 @@ module.exports = {
         return function() {
 
             var getMessage  = translator(translations, lang);
-            var acres = content.trim().toUpperCase();
+            var input = content || '';
+            var acres = input.trim().toUpperCase();
 
             var maize_bags_title = getMessage('maize_bags_title', {}, lang);
             var bags_per_acre_title = getMessage('bags_per_acre_title', {}, lang);

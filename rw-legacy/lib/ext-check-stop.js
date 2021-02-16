@@ -11,11 +11,12 @@ module.exports = function(input){
 
     // end survey if input is in the stop list
     if(stop_list.indexOf(String(input)) >= 0){
-        call.vars.completed = 'manual stop';
+        // call.vars.completed = 'manual stop';
         sayText('Murakoze');
+        stopRules();
         return true;
     }
     else{
         return false;
     }
-}
+};

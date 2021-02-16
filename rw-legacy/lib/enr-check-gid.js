@@ -14,7 +14,8 @@ module for checking the entered id to the datatable and return a message showing
 01646023*02345 // siteId +ve groupId -ve
 01646*023*02345// both siteId and groupId -ve
 */
-var groupCodeValidate = require('../../group-codes-validation/RW-group-validation/validateGroup');
+var validateGroupOnRoster = require('../../shared/rosterApi/verifyGroup');
+
 function parse_gid(gid) {
 
     var districtId = parseInt(gid.slice(0,5),10);
@@ -46,13 +47,14 @@ function parse_gid(gid) {
 
 module.exports = function(gid){
     console.log('group Id'+gid);
-    if(!groupCodeValidate(gid,service.vars.groupCodeTableId)){
-        return false;
-    }
     var parsed_gid = parse_gid(gid);
     var districtId = parsed_gid.districtId;
     var siteId = parsed_gid.siteId;
     var groupId = parsed_gid.groupId;
+    var groupInfo = validateGroupOnRoster(districtId, siteId, groupId);
+    if (!groupInfo || !groupInfo.Active) {
+        return false;
+    }
     var id = districtId + '-' + siteId + '-'+ groupId;
 
     state.vars.glus = gid;

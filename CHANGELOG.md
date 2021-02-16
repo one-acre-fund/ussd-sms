@@ -3,13 +3,109 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.9.6
+
 ### Changed
 * [MOB-73](https://oneacrefund.atlassian.net/browse/MOB-73) As a client, I want to receive mobile money receipts to my phone number in Roster in addition to the phone number that makes the payment, so that I have a record of this transaction.
+
+## v1.9.5
+
+### Changed
+* [MOB-145](https://oneacrefund.atlassian.net/browse/MOB-145) Update Crop Survey questions for RW
+
+## v1.9.4
+
+### Changed
+* [MOB-397](https://oneacrefund.atlassian.net/browse/MOB-397) Add health training officers ID and PIN data into Data table and amend Episode release dates
+
+## v1.9.3
+
+### Added
+* [THD-5109](https://oneacrefund.atlassian.net/browse/THD-5109) Deactivation of Impact trainings
+## v1.9.2
+
+### Fixed
+* [MOB-371](https://oneacrefund.atlassian.net/browse/MOB-371) RW SHS Clients Unable to receive activation code for SHS Units
+## v1.9.2
+
+### Fixed
+* [MOB-145](https://oneacrefund.atlassian.net/browse/MOB-145) Update Crop Survey questions for RW
+## v1.9.1
+
+### Added
+* [MOB-378](https://oneacrefund.atlassian.net/browse/MOB-378) Add Non-Client Option to Market Access Service
+## v1.9.0
+
+### Added
+* [MOB-53](https://oneacrefund.atlassian.net/browse/MOB-53) Develop an IVR to collect a nutrition survey from clients/Farmers and their household members
+## v1.8.0
+
+### Added
+* [MOB-161](https://oneacrefund.atlassian.net/browse/MOB-161) Update Market Access Info
+
+## v1.7.0
+
+### Changed
+* [SER-409](https://oneacrefund.atlassian.net/browse/SER-409) January Chicken confirmation service setup
+
+### Added
+* [MOB-123](https://oneacrefund.atlassian.net/browse/MOB-123) As a farmer receiving the repayment trial call. I need to be able to select an option to make a repayment and then make that repayment while on the call.
+
+### Changed
+* [MOB-158](https://oneacrefund.atlassian.net/browse/MOB-158) Updating the way of calculating the % repaid from Total credit to A cycle credit for Chicken confirmation Clients
+
+### v1.6.6
+### Changed
+* [SER-407](https://oneacrefund.atlassian.net/browse/SER-407) some clients are unable to top-up or enroll through JiT enrollment - changed a message being displayed
+
+### v1.6.5
+### Fixed
+* [MOB-159](https://oneacrefund.atlassian.net/browse/MOB-159) KE- GLs unable to access the Group Repayment Summary
+
+### v1.6.4
+### Changed
+* [MOB-157](https://oneacrefund.atlassian.net/browse/MOB-157) Remove the menu redirection to products from RW enrollment
+
+### v1.6.3
+### Added
+* [MOB-150](https://oneacrefund.atlassian.net/browse/MOB-150) Make JiT Top-Up and Enrollment invisible on Client Menu
+
+### v1.6.2
+### Fixed
+* [MOB-156](https://oneacrefund.atlassian.net/browse/MOB-156) Update the KE registration to check the warehouse stock
+
+## v1.6.1
+### Fixed
+* [MOB-146](https://oneacrefund.atlassian.net/browse/MOB-146) maize_recommendation was unable to automatically process an incoming SMS
+## v1.6.0
+### Fixed
+* [MOB-109](https://oneacrefund.atlassian.net/browse/MOB-109) Fix Healthy path calculation
+## v1.5.1
+* [MOB-142](https://oneacrefund.atlassian.net/browse/MOB-142) USSD Sessions are failing with a Recipient number empty error
+    * change the maximum cap for the number of chickens to 15
+### Added
+* [MOB-132](https://oneacrefund.atlassian.net/browse/MOB-132) Changed the chicken confirmation cap to check per sector
+## v1.5.0
+### Changed
+* [SER-370](https://oneacrefund.atlassian.net/browse/SER-370) Verify Groups on Roster instead of using telerivet data tables
+* [MOB-128](https://oneacrefund.atlassian.net/browse/MOB-128) Repayment Services UAT fixes
+### Depricated
+* [MOB-83](https://oneacrefund.atlassian.net/browse/MOB-83) Remove "Report Seed Quality Issue" from USSD main Menu (KE)
+### Added
+* [MOB-125](https://oneacrefund.atlassian.net/browse/MOB-125) Add a request to the logger
+
+## v1.4.0
+### Added
+* [SER-343](https://oneacrefund.atlassian.net/browse/SER-343) Enable prepayment calculator. Add 10% of prepayment amount
+* [MOB-15](https://oneacrefund.atlassian.net/browse/MOB-15) Add USSD Field Officer Details to main menu
+* [MOB-41](https://oneacrefund.atlassian.net/browse/MOB-41) Add auto cleanup for CallBackUSSD datatable
+### Changed
+* [SER-364](https://oneacrefund.atlassian.net/browse/SER-364) Check whether a product is available in the closest warehouse based on the client's district
 * [MOB-70](https://oneacrefund.atlassian.net/browse/MOB-70) JiT Kenya: As a GL, when I enter an account number for a client not in my group, I need a pop with a descriptive error message
-## Fixed
 * [SER-368](https://oneacrefund.atlassian.net/browse/SER-368) As a client, I need to be limited to ordering three products max
 * [SER-367](https://oneacrefund.atlassian.net/browse/SER-367) As a client, I need to be able to place multiple orders across multiple USSD cycles
 
+## v1.3.0
 ### Fixed 
 * [SER-334](https://oneacrefund.atlassian.net/browse/SER-334) Kenya Enrollment/Just In time fixes(part 2)
     * updated maize bundle logic
@@ -23,10 +119,6 @@ All notable changes to this project will be documented in this file.
     * Update the confirmation message
 ### Added
 * [SER-353](https://oneacrefund.atlassian.net/browse/SER-353) Add option to change language to English when testing for USSD
-* [SER-343](https://oneacrefund.atlassian.net/browse/SER-343) Enable prepayment calculator. Add 10% of prepayment amount
-* [MOB-15](https://oneacrefund.atlassian.net/browse/MOB-15) Add USSD Field Officer Details to main menu
-* [MOB-41](https://oneacrefund.atlassian.net/browse/MOB-41) Add auto cleanup for CallBackUSSD datatable
-
 ## v1.2.2
 ### Fixed
 * [THD-3792](https://oneacrefund.atlassian.net/browse/THD-3792) New sites can't order

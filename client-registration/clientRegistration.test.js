@@ -16,7 +16,7 @@ var {client}  = require('../client-enrollment/test-client-data');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var groupCodeHandler = require('./group-code-handler/groupCodeHandler');
 var varietyChoiceHandler = require('./variety-choice-handler/varietyChoiceHandler');
-
+var getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
 
 jest.mock('../rw-legacy/lib/roster/register-client');
 jest.mock('../notifications/elk-notification/elkNotification');
@@ -35,7 +35,7 @@ jest.mock('./order-confirmation-handler/orderConfirmationHandler');
 jest.mock('./group-code-handler/groupCodeHandler');
 jest.mock('./continue/continue');
 jest.mock('./variety-choice-handler/varietyChoiceHandler');
-
+jest.mock('../shared/rosterApi/getPhoneNumber');
 const mockConfrmNationalIdHandler = jest.fn();
 const mockConfrmPhoneNumberHandler = jest.fn();
 const mockFirstNameHandler = jest.fn();
@@ -60,6 +60,7 @@ var foPhone = '0786192039';
 var mockedTable = { queryRows: jest.fn()};
 var mockedRow = {hasNext: jest.fn(), next: jest.fn(),vars: {'national_id': nationalId,'account_number': account}};
 var mockRows = [{vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}},{vars: {'bundleId': '-9009','bundleInputId': '-5709','bundle_name': 'third possible name bundle','price': '6251','input_name': 'third input'}},{vars: {'bundleId': '-1009','bundleInputId': '-8709','bundle_name': 'fourth possible name bundle','price': '5251','input_name': 'fourth input'}},{vars: {'bundleId': '-2009','bundleInputId': '-18909','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}}];
+var mockWareHouseRows = [{vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input','quantityavailable': 10,'quantityordered': 2}},{vars: {'bundleId': '-9009','bundleInputId': '-5709','bundle_name': 'third possible name bundle','price': '6251','input_name': 'third input','quantityavailable': 10,'quantityordered': 2}},{vars: {'bundleId': '-1009','bundleInputId': '-8709','bundle_name': 'fourth possible name bundle','price': '5251','input_name': 'fourth input','quantityavailable': 10,'quantityordered': 2}},{vars: {'bundleId': '-2009','bundleInputId': '-18909','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input','quantityavailable': 10,'quantityordered': 2}}];
 var mockFirstRow = {vars: {'bundleId': '-3009','bundleInputId': '-12109','bundle_name': 'Knapsack Sprayer','price': '2251','input_name': 'Knapsack Sprayer'}};
 var mockBundleRow = {vars: {'bundleId': '-3009','bundleInputId': '-12109','bundle_name': 'Knapsack Sprayer','price': '2251','input_name': 'Knapsack Sprayer'}};
 var mockMaizeRows = [{vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}},{vars: {'bundleId': '-9009','bundleInputId': '-5709','bundle_name': 'third possible name bundle','price': '6251','input_name': 'third input'}}];
@@ -483,6 +484,8 @@ describe('clientRegistration', () => {
             hasNext: jest.fn()
         };
         const mockRow = {vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input'}};
+        var availableVarietyRow = {vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input','quantityavailable': 40, 'quantityordered': 2 }};
+        var unavailableVarietyRow = {vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input','quantityavailable': 40, 'quantityordered': 40 }};
         beforeAll(() => {
             const mockTable = { queryRows: jest.fn()};
             mockTable.queryRows.mockReturnValue(mockCursor);
@@ -496,17 +499,27 @@ describe('clientRegistration', () => {
 
         it('should display the varieties for the bundle choosed, if the bundle has multiple varieties',()=>{
             state.vars.varietyBundleId = -2009;
-            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true);
-            mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow);
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(availableVarietyRow).mockReturnValueOnce(availableVarietyRow).mockReturnValueOnce(availableVarietyRow);
             callback(mockBundleInputs[0].bundleId);
             expect(sayText).toHaveBeenCalledWith(`Select seed variety\n1) ${mockBundleInputs[0].inputName}`+
             `\n2) ${mockBundleInputs[3].inputName}`+
             '\n');
         });
+        it('should display only available varieties in the warehouse for the bundle',()=>{
+            state.vars.varietyBundleId = -2009;
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(availableVarietyRow).mockReturnValueOnce(unavailableVarietyRow).mockReturnValueOnce(unavailableVarietyRow);
+            callback(mockBundleInputs[0].bundleId);
+            expect(sayText).toHaveBeenCalledWith(`Select seed variety\n1) ${mockBundleInputs[0].inputName}`+
+            '\n');
+        });
         it('should display a the varieties for the bundle choosed with next and previous options if there is a lot of varieties for that bundle',()=>{
             state.vars.varietyBundleId = -2009;
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false);
             mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
             mockCursor.next.mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow).mockReturnValueOnce(mockRow);
+            mockCursor.next.mockReturnValueOnce(availableVarietyRow).mockReturnValueOnce(availableVarietyRow).mockReturnValueOnce(availableVarietyRow).mockReturnValueOnce(availableVarietyRow).mockReturnValueOnce(availableVarietyRow).mockReturnValueOnce(availableVarietyRow).mockReturnValueOnce(availableVarietyRow).mockReturnValueOnce(availableVarietyRow).mockReturnValueOnce(availableVarietyRow);
             callback(mockBundleInputs[0].bundleId);
             //expect(sayText).not.toHaveBeenCalledWith(expect.stringContaining('You do not qualify for a top up,'));
             expect(state.vars.main_menu).toEqual(`Select seed variety\n1) ${mockRow.vars.input_name}`+
@@ -651,12 +664,64 @@ describe('clientRegistration', () => {
             expect(sayText).toHaveBeenCalledWith(message);
             expect(project.sendMessage).toHaveBeenCalledWith({content: message, to_number: phone});
         });
+        it('should send an sms confirming the order to the phone entered by the client if the order is saved in roster',()=>{
+            httpClient.request.mockReturnValue({status: 201});
+            contact.phone_number = phone;
+            mockCursor.hasNext.mockReturnValueOnce(false);
+            mockTable.createRow.mockReturnValueOnce(mockRow);
+            var message = `Thanks for ordering ${mockBundleInput[0].bundleName}`+
+            ` ${mockBundleInput[0].price}  `+'. Make sure you pay at least Ksh 500 qualification amount to receive input on input delivery day.';
+            callback();
+            expect(project.sendMessage).toHaveBeenCalledWith({content: message, to_number: state.vars.phoneNumber});
+        });
+        it('should send an sms confirming the order to the phone entered by the client if the order is saved in roster',()=>{
+            httpClient.request.mockReturnValue({status: 201});
+            contact.phone_number = phone;
+            state.vars.phoneNumber = undefined;
+            mockCursor.hasNext.mockReturnValueOnce(false);
+            mockTable.createRow.mockReturnValueOnce(mockRow);
+            getPhoneNumber.mockReturnValueOnce([{PhoneNumber: '0780056513',IsInactive: false,}]);
+            var message = `Thanks for ordering ${mockBundleInput[0].bundleName}`+
+            ` ${mockBundleInput[0].price}  `+'. Make sure you pay at least Ksh 500 qualification amount to receive input on input delivery day.';
+            callback();
+            expect(project.sendMessage).toHaveBeenCalledWith({content: message, to_number: '0780056513'});
+        });
+        
         it('should update the row with the client\'s order if the order is saved in roster and a client row already exist',()=>{
             httpClient.request.mockReturnValue({status: 201});
             mockCursor.hasNext.mockReturnValueOnce(true);
             mockCursor.next.mockReturnValueOnce(mockRow);
             callback();
             expect(mockRow.save).toHaveBeenCalled();
+        });
+        it('should add a value to the stock for the product if the order is saved in roster',()=>{
+            httpClient.request.mockReturnValue({status: 201});
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(true);
+            var mockProductRow = {save: jest.fn(), vars: {'quantityordered': 2}};
+            mockCursor.next.mockReturnValueOnce(mockProductRow);
+            mockTable.createRow.mockReturnValue(mockProductRow);
+            callback();
+            expect(mockProductRow.vars.quantityordered).toEqual(3);
+            expect(mockProductRow.save).toHaveBeenCalled();
+        });
+        it('should add a value to the stock for the variety if the order is saved in roster',()=>{
+            httpClient.request.mockReturnValue({status: 201});
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(true);
+            var mockProductRow = {save: jest.fn(), vars: {'quantityordered': 2}};
+            mockCursor.next.mockReturnValueOnce(mockProductRow);
+            mockTable.createRow.mockReturnValue(mockProductRow);
+            state.vars.chosenVariety = JSON.stringify(mockBundleInputs[0]);
+            callback();
+            expect(mockProductRow.vars.quantityordered).toEqual(3);
+            expect(mockProductRow.save).toHaveBeenCalled();
+        });
+        it('should not add a value to the stock for the order if the variety is not found ',()=>{
+            httpClient.request.mockReturnValue({status: 201});
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(false);
+            var mockProductRow = {save: jest.fn(), vars: {'quantityordered': 2}};
+            state.vars.chosenVariety = ' ';
+            callback();
+            expect(mockProductRow.save).not.toHaveBeenCalled();
         });
         it('should display a message asking the user to try again later the order is not saved in roster',()=>{
             httpClient.request.mockReturnValue({status: 500});
@@ -724,23 +789,94 @@ describe('clientRegistration', () => {
             callback = continueHandler.getHandler.mock.calls[0][0];                
         });
         it('should display the maize bundle size(1, 0.75, 0.5, 0.25) of maize bundles if a maize bundle is available',()=>{
-            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true);
-            mockCursor.next.mockReturnValueOnce(mockFirstRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockFirstRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]);
             state.vars.orders = ' ';
             callback();
             expect(state.vars.bundles).toEqual(JSON.stringify(orders));
         });
         it('should display the maize bundle size(0.5 and 0.25) of maize bundles if a maize bundle is available and the client ordered other bundles than maize',()=>{
-            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true);
-            mockCursor.next.mockReturnValueOnce(mockFirstRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockFirstRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
             state.vars.orders = JSON.stringify(mockRows[1]);
             callback();
             expect(state.vars.bundles).toEqual(JSON.stringify(orders));
         });
-        
+        it('should display the whole maize bundles if the menu chosen allow enrollment',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockFirstRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
+            callback();
+            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockFirstRow.vars.bundle_name}`+
+            ` ${mockBundleRow.vars.price}`+
+            '\n2) 1 Maize Acre 8950\n3) 0.75 Maize Acre 7190\n4) 0.5 Maize Acre 4950\n5) 0.25 Maize Acre 2830\n');
+        });
         it('should display the bundles if the menu choosed allow enrollment',()=>{
-            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
-            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[1]).mockReturnValueOnce(mockRows[2]);
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false);
+            mockCursor.next.mockReturnValueOnce(mockFirstRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]);//.mockReturnValueOnce(mockWareHouseRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
+            callback();
+            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockFirstRow.vars.bundle_name}`+
+            ` ${mockBundleRow.vars.price}`+
+            '\n2) 1 Maize Acre 8950\n3) 0.75 Maize Acre 7190\n4) 0.5 Maize Acre 4950\n');
+        });
+        it('should display the maize bundles(1,0.75,0.25) if the variety stock allows only those',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockFirstRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]);//.mockReturnValueOnce(mockWareHouseRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
+            callback();
+            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockFirstRow.vars.bundle_name}`+
+            ` ${mockBundleRow.vars.price}`+
+            '\n2) 1 Maize Acre 8950\n3) 0.75 Maize Acre 7190\n4) 0.25 Maize Acre 2830\n');
+        });
+        it('should display the maize bundles(1,0.5,0.25) if the variety stock allows only those',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockFirstRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]);//.mockReturnValueOnce(mockWareHouseRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
+            callback();
+            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockFirstRow.vars.bundle_name}`+
+            ` ${mockBundleRow.vars.price}`+
+            '\n2) 1 Maize Acre 8950\n3) 0.5 Maize Acre 4950\n4) 0.25 Maize Acre 2830\n');
+        });
+        it('should display the maize bundles(0.75,0.5,0.25) if the variety stock allows only those',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockFirstRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]);//.mockReturnValueOnce(mockWareHouseRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
+            callback();
+            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockFirstRow.vars.bundle_name}`+
+            ` ${mockBundleRow.vars.price}`+
+            '\n2) 0.75 Maize Acre 7190\n3) 0.5 Maize Acre 4950\n4) 0.25 Maize Acre 2830\n');
+        });
+        it('should display the maize bundles(0.5,0.25) if the variety stock allows only those',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockFirstRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]);//.mockReturnValueOnce(mockWareHouseRows[0]);//.mockReturnValueOnce(mockWareHouseRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
+            callback();
+            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockFirstRow.vars.bundle_name}`+
+            ` ${mockBundleRow.vars.price}`+
+            '\n2) 0.5 Maize Acre 4950\n3) 0.25 Maize Acre 2830\n');
+        });
+        it('should display the maize bundles(0.75,0.25) if the variety stock allows only those',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockFirstRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]);//.mockReturnValueOnce(mockWareHouseRows[0]);//.mockReturnValueOnce(mockWareHouseRows[0]);//.mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
+            callback();
+            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockFirstRow.vars.bundle_name}`+
+            ` ${mockBundleRow.vars.price}`+
+            '\n2) 0.75 Maize Acre 7190\n3) 0.25 Maize Acre 2830\n');
+        });
+        it('should display the maize bundles(1,0.25) if the variety stock allows only those',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockFirstRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]);
+            callback();
+            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockFirstRow.vars.bundle_name}`+
+            ` ${mockBundleRow.vars.price}`+
+            '\n2) 1 Maize Acre 8950\n3) 0.25 Maize Acre 2830\n');
+        });
+        it('should display the maize bundles(1) if if the variety stock allows only those',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(false);
+            mockCursor.next.mockReturnValueOnce(mockFirstRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[0]);
+            callback();
+            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockFirstRow.vars.bundle_name}`+
+            ` ${mockBundleRow.vars.price}`+
+            '\n2) 1 Maize Acre 8950\n');
+        });
+        it('should display the bundles if the menu choosed allow enrollment',()=>{
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[1]).mockReturnValueOnce(mockRows[2]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[1]).mockReturnValueOnce(mockWareHouseRows[2]).mockReturnValueOnce(mockWareHouseRows[3]);
             callback();
             expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockBundleRow.vars.bundle_name}`+
             ` ${mockBundleRow.vars.price}`+
@@ -750,11 +886,9 @@ describe('clientRegistration', () => {
             ` ${mockRows[1].vars.price}`+
             '\n77)Next page');
         });
-
         it('should display only unique bundles(if two bundle inputs in the same bundle are found) and if the prepayment condition is satified ', () => {
-
-            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
-            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[3]);
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[3]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[3]).mockReturnValueOnce(mockWareHouseRows[3]);
             callback();
             expect(sayText).not.toHaveBeenCalledWith(expect.stringContaining('You do not qualify for a top up,'));
             expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockBundleRow.vars.bundle_name}`+
@@ -764,16 +898,42 @@ describe('clientRegistration', () => {
             '\n');
         });
         it('should remove maize bundles from the displayed bundles if the prepayment condition is satisfied and the client already choosed a maize bundle',()=>{
-            
-            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true);
-            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[1]).mockReturnValueOnce(mockMaizeRows[0]).mockReturnValueOnce(mockMaizeRows[1]);
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[1]).mockReturnValueOnce(mockWareHouseRows[1]).mockReturnValueOnce(mockWareHouseRows[0]);
             state.vars.orders = JSON.stringify([mockMaizeRows[0]]);
             callback();
             expect(sayText).not.toHaveBeenCalledWith(expect.stringContaining('You do not qualify for a top up,'));
+            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockRows[0].vars.bundle_name}`+
+            ` ${mockRows[0].vars.price}`+
+            `\n2) ${mockBundleRow.vars.bundle_name}`+
+            ` ${mockBundleRow.vars.price}`+
+            '\n');
+        });
+        it('should not display unavailable bundles ',()=>{
+            var mockWareHouseUnavailableRows = [{vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input','quantityavailable': 10,'quantityordered': 10}},{vars: {'bundleId': '-9009','bundleInputId': '-5709','bundle_name': 'third possible name bundle','price': '6251','input_name': 'third input','quantityavailable': 10,'quantityordered': 10}},{vars: {'bundleId': '-1009','bundleInputId': '-8709','bundle_name': 'fourth possible name bundle','price': '5251','input_name': 'fourth input','quantityavailable': 2,'quantityordered': 2}},{vars: {'bundleId': '-2009','bundleInputId': '-18909','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input','quantityavailable': 10,'quantityordered': 12}}];
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[1]).mockReturnValueOnce(mockRows[2]).mockReturnValueOnce(mockWareHouseUnavailableRows[0]).mockReturnValueOnce(mockWareHouseUnavailableRows[1]).mockReturnValueOnce(mockWareHouseUnavailableRows[2]).mockReturnValueOnce(mockWareHouseUnavailableRows[3]);
+            callback();
+            expect(state.vars.main_menu).toEqual('Select a product\n');
+        });
+        it('should display only available bundles if the menu choosed allow enrollment',()=>{
+            var mockWareHouseUnavailableRows = [{vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input','quantityavailable': 10,'quantityordered': 10}},{vars: {'bundleId': '-9009','bundleInputId': '-5709','bundle_name': 'third possible name bundle','price': '6251','input_name': 'third input','quantityavailable': 10,'quantityordered': 10}},{vars: {'bundleId': '-1009','bundleInputId': '-8709','bundle_name': 'fourth possible name bundle','price': '5251','input_name': 'fourth input','quantityavailable': 2,'quantityordered': 2}},{vars: {'bundleId': '-2009','bundleInputId': '-18909','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input','quantityavailable': 10,'quantityordered': 12}}];
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[1]).mockReturnValueOnce(mockRows[2]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseRows[1]).mockReturnValueOnce(mockWareHouseUnavailableRows[2]).mockReturnValueOnce(mockWareHouseUnavailableRows[3]);
+            callback();
             expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockBundleRow.vars.bundle_name}`+
             ` ${mockBundleRow.vars.price}`+
             `\n2) ${mockRows[0].vars.bundle_name}`+
             ` ${mockRows[0].vars.price}`+
+            '\n');
+        });
+        it('should display only available bundles if the menu choosed allow enrollment',()=>{
+            var mockWareHouseUnavailableRows = [{vars: {'bundleId': '-2009','bundleInputId': '-1709','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input','quantityavailable': 10,'quantityordered': 10}},{vars: {'bundleId': '-9009','bundleInputId': '-5709','bundle_name': 'third possible name bundle','price': '6251','input_name': 'third input','quantityavailable': 10,'quantityordered': 10}},{vars: {'bundleId': '-1009','bundleInputId': '-8709','bundle_name': 'fourth possible name bundle','price': '5251','input_name': 'fourth input','quantityavailable': 2,'quantityordered': 2}},{vars: {'bundleId': '-2009','bundleInputId': '-18909','bundle_name': 'Second possible name bundle','price': '2251','input_name': 'second input','quantityavailable': 10,'quantityordered': 12}}];
+            mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true).mockReturnValueOnce(true);
+            mockCursor.next.mockReturnValueOnce(mockBundleRow).mockReturnValueOnce(mockRows[0]).mockReturnValueOnce(mockRows[1]).mockReturnValueOnce(mockRows[2]).mockReturnValueOnce(mockWareHouseRows[0]).mockReturnValueOnce(mockWareHouseUnavailableRows[1]).mockReturnValueOnce(mockWareHouseUnavailableRows[2]).mockReturnValueOnce(mockWareHouseUnavailableRows[3]);
+            callback();
+            expect(state.vars.main_menu).toEqual(`Select a product\n1) ${mockBundleRow.vars.bundle_name}`+
+            ` ${mockBundleRow.vars.price}`+
             '\n');
         });
         
@@ -800,6 +960,12 @@ describe('clientRegistration', () => {
         it('should prompt for the farmer\'s national Id', () => {
             clientRegistration.start(account, country, reg_lang);
             expect(promptDigits).toHaveBeenCalledWith(nationalIdHandler.handlerName);
+            expect(promptDigits).toHaveBeenCalledTimes(1);
+        });
+    });
+    describe('continue to enroll', () => {
+        it('should prompt for digits if the user chooses to continue to enroll',()=>{
+            clientRegistration.onContinueToEnroll();
             expect(promptDigits).toHaveBeenCalledTimes(1);
         });
     });

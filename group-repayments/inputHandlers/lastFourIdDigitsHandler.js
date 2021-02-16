@@ -16,7 +16,8 @@ module.exports = function lastFourIdDigitsHandler(input) {
     var getMessage = translator(translations, lang);
 
     var lastFourIdDigits = String(input.replace(/D/g, ''));
-    if(!state.vars.national_id || parseInt(state.vars.national_id.slice(-4)) != lastFourIdDigits) {
+
+    if(!state.vars.national_id || parseInt(state.vars.national_id.slice(-4),10) != lastFourIdDigits) {
         sayText(getMessage('invalid_try_again', {'$Menu': getMessage('NATIONAL_ID_last_four_digits', {}, lang)}, lang));
         promptDigits('enter_last_four_id_digits', {
             submitOnHash: false,
@@ -32,13 +33,12 @@ module.exports = function lastFourIdDigitsHandler(input) {
         return;
     }     
     // create an array of group members
-    var groupRepayments = { credit: 0, balance: 0 };
+    var groupRepayments = { credit: 0, balance: 0, overpayment: 0 };
     var groupMemberBalances = {};
     rosterCallResult.forEach(function (result) {
-        var balance = result.credit - result.repaid;
+        var balance = (result.credit - result.repaid);
         groupRepayments.credit += result.credit;
         groupRepayments.balance += balance;
-
         var memberName = result.firstName + ' ' + result.lastName;
         if (!groupMemberBalances[memberName]) {
             groupMemberBalances[memberName] = result;
@@ -47,6 +47,12 @@ module.exports = function lastFourIdDigitsHandler(input) {
             groupMemberBalances[memberName].repaid += result.repaid;
             groupMemberBalances[memberName].credit += result.credit;
             groupMemberBalances[memberName].balance += balance;
+        }
+        groupMemberBalances[memberName].overpayment = 0;
+        var diff = groupMemberBalances[memberName].credit - groupMemberBalances[memberName].repaid;
+        if(diff < 0){
+            groupMemberBalances[memberName].overpayment = -diff;
+            groupMemberBalances[memberName].balance = 0;
         }
         groupMemberBalances[memberName]['% Repaid'] = groupMemberBalances[memberName].credit === 0 ?
             100 :

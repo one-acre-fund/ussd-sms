@@ -31,6 +31,8 @@ module.exports = {
         state.vars.jitLang = lang;
         state.vars.orders = ' ';
         state.vars.chosenMaizeBundle = ' ';
+        state.vars.varietyWarehouse = ' ';
+        state.vars.chosenVariety = ' ';
         var translate =  createTranslator(translations, state.vars.jitLang);
         global.sayText(translate('account_number_handler',{},state.vars.jitLang));
         global.promptDigits(accountNumberHandler.handlerName);
@@ -149,9 +151,20 @@ function onBundleSelected(bundleId, varietychosen, bundleInputId){
             }
         }
         else{
+            var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
+            var availableInputs =[];
+            selectedBundle.forEach(function(element){
+                var stockCursor = varietyStockTable.queryRows({vars: {'warehousename': state.vars.varietyWarehouse,'inputname': element.inputName}});
+                if(stockCursor.hasNext()){
+                    var row = stockCursor.next();
+                    if(row.vars.quantityavailable > row.vars.quantityordered){
+                        availableInputs.push(element);
+                    }
+                }
+            });
             // Display the varieties(inputs)
             state.vars.varietyBundleId = bundleId;
-            displayVariety(selectedBundle);
+            displayVariety(availableInputs);
             promptDigits(varietyChoiceHandler.handlerName);
             return;
         }
@@ -220,6 +233,7 @@ function onOrderConfirmed(){
         for( var m = 0; m < orderPlaced.length; m++ ){
             if(state.vars.chosenMaizeBundle != ' ' && (JSON.parse(state.vars.chosenMaizeBundle).bundleId == orderPlaced[m].bundleId)){
                 var bundlechosen = JSON.parse(state.vars.chosenMaizeBundle);
+                orderPlaced[m].bundleName = bundlechosen.bundleName;
                 orderPlacedMessage = orderPlacedMessage + bundlechosen.bundleName + ' ' + bundlechosen.price + ' ';
             }else{
                 orderPlacedMessage = orderPlacedMessage + orderPlaced[m].bundleName + ' ' + orderPlaced[m].price + ' ';
@@ -243,6 +257,24 @@ function onOrderConfirmed(){
         row.save();
         var message = translate('final_message',{'$products': orderPlacedMessage},state.vars.jitLang);
         sayText(message);
+        var bundleStockTable = project.initDataTableById(service.vars.warehouseStockTableId);
+        orderPlaced.forEach(function(element){
+            var stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': element.bundleName}});
+            if(stockCursor.hasNext()){
+                var row = stockCursor.next();
+                row.vars.quantityordered =  row.vars.quantityordered + 1;
+                row.save();
+            }
+        });
+        if(state.vars.chosenVariety != ' '){
+            var varietyStockTable = project.initDataTableById(service.vars.varietyStockTableId);
+            var vStockCursor = varietyStockTable.queryRows({vars: {'warehousename': state.vars.varietyWarehouse,'inputname': JSON.parse(state.vars.chosenVariety).inputName}});
+            if(vStockCursor.hasNext()){
+                var vRow = vStockCursor.next();
+                vRow.vars.quantityordered =  vRow.vars.quantityordered + 1;
+                vRow.save();
+            }
+        }
         project.sendMessage({
             content: message, 
             to_number: contact.phone_number
@@ -275,13 +307,12 @@ var getAllSupportedBundles = function (district) {
     var firstTime = true;
     var newBundle;
     var maizeTable = project.initDataTableById(service.vars.maizeTableId);
+    var bundleStockTable = project.initDataTableById(service.vars.warehouseStockTableId);
     var maizeCursor = maizeTable.queryRows();
-
     while(maizeCursor.hasNext()){
         var maizeRow = maizeCursor.next(); 
         maizeBundleIds.push(maizeRow.vars.bundleId);
     }
-
     // Check for maize bundle in the current's client order
     if(state.vars.orders != ' '){
         currentOrder = JSON.parse(state.vars.orders);
@@ -304,13 +335,25 @@ var getAllSupportedBundles = function (district) {
                                 newBundle.bundleName = '0.5 Maize Acre';
                                 newBundle.price = 4950;
                                 newBundle.quantity = 0.5;
-                                bundles.push(newBundle);
+                                var stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': newBundle.bundleName}});
+                                if(stockCursor.hasNext()){
+                                    var row = stockCursor.next();
+                                    if(row.vars.quantityavailable > row.vars.quantityordered){
+                                        bundles.push(newBundle);
+                                    }
+                                }
                                 bundleInputs[i].bundleName = '0.25 Maize Acre';
                                 bundleInputs[i].price = 2830;
                                 bundleInputs[i].quantity = 0.25;
                                 firstTime = false;
                             }
-                            bundles.push(bundleInputs[i]);
+                            stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': bundleInputs[i].bundleName}});
+                            if(stockCursor.hasNext()){
+                                row = stockCursor.next();
+                                if(row.vars.quantityavailable > row.vars.quantityordered){
+                                    bundles.push(bundleInputs[i]);
+                                }
+                            }
                         }
                     }
                     else{
@@ -319,13 +362,25 @@ var getAllSupportedBundles = function (district) {
                             newBundle.bundleName = '0.5 Maize Acre';
                             newBundle.price = 4950;
                             newBundle.quantity = 0.5;
-                            bundles.push(newBundle);
+                            stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': newBundle.bundleName}});
+                            if(stockCursor.hasNext()){
+                                row = stockCursor.next();
+                                if(row.vars.quantityavailable > row.vars.quantityordered){
+                                    bundles.push(newBundle);
+                                }
+                            }
                             bundleInputs[i].bundleName = '0.25 Maize Acre';
                             bundleInputs[i].price = 2830;
                             bundleInputs[i].quantity = 0.25;
                             firstTime = false;
                         }
-                        bundles.push(bundleInputs[i]);
+                        stockCursor = bundleStockTable.queryRows({vars: {'warehousename': state.vars.warehouse,'bundlename': bundleInputs[i].bundleName}});
+                        if(stockCursor.hasNext()){
+                            row = stockCursor.next();
+                            if(row.vars.quantityavailable > row.vars.quantityordered){
+                                bundles.push(bundleInputs[i]);
+                            }
+                        }
                     }
                 }
                 unique[bundleInputs[i].bundleId] = 1;
