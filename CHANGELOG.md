@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.9.6
+
+### Changed
+* [MOB-73](https://oneacrefund.atlassian.net/browse/MOB-73) As a client, I want to receive mobile money receipts to my phone number in Roster in addition to the phone number that makes the payment, so that I have a record of this transaction.
+
 ## v1.9.5
 
 ### Changed
