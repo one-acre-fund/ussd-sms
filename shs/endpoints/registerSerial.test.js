@@ -37,7 +37,7 @@ describe('register serial', () => {
     it('should call Http.request', () => {
         registerSerial(mockRequestData);
         expect(httpClient.request).toHaveBeenCalledWith(
-            `${service.vars.shs_reg_endpoint }/api/services/shs/v1/units/register`,
+            `${service.vars.shs_reg_endpoint }/api/shs/v1/units/register`,
             {
                 headers: {},
                 method: 'POST',

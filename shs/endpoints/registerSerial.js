@@ -6,8 +6,9 @@ var translate =  createTranslator(translations, project.vars.lang);
 
 module.exports = function (requestData){
 
-    var fullUrl = service.vars.shs_reg_endpoint + '/api/services/shs/v1/units/register';
+    var fullUrl = service.vars.shs_reg_endpoint + '/api/shs/v1/units/register';
     var opts = { headers: {} };
+    opts.headers['apikey'] = service.vars.shs_apikey;
     opts.method = 'POST';
     opts.data = requestData;
     try {

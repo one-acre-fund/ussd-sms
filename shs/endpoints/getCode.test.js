@@ -36,7 +36,7 @@ describe('getCode', () => {
     it('should call Http.request', () => {
         getCode(mockRequestData);
         expect(httpClient.request).toHaveBeenCalledWith(
-            `${service.vars.shs_reg_endpoint }/api/services/shs/v1/units?accountNumber=${mockRequestData.accountNumber}&countryCode=${mockRequestData.countryCode}`,
+            `${service.vars.shs_reg_endpoint }/api/shs/v1/units?accountNumber=${mockRequestData.accountNumber}&countryCode=${mockRequestData.countryCode}`,
             {
                 headers: {},
                 method: 'GET'

@@ -64,6 +64,7 @@ service.vars.varietyStockTableId = project.vars[env + '_varietyStockTableId'];
 service.vars.warehouseStockTableId = project.vars[env + '_warehouseStockTableId'];
 service.vars.districtWarehouseTableId = project.vars[env+ '_districtWarehouseTableId'];
 service.vars.shs_reg_endpoint = project.vars[env+'_shs_reg_endpoint'];
+service.vars.shs_apikey = project.vars[env+'_shs_api_key'];
 
 if(env == 'prod'){
     service.vars.JiTEnrollmentTableId = 'DT52cebb451097ac25';

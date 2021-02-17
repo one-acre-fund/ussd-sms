@@ -4,8 +4,9 @@ var createTranslator = require('../../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
 
 module.exports = function (requestData){
-    var fullUrl = service.vars.shs_reg_endpoint + '/api/services/shs/v1/units?accountNumber=' + requestData.accountNumber + '&countryCode='+ requestData.countryCode;
+    var fullUrl = service.vars.shs_reg_endpoint + '/api/shs/v1/units?accountNumber=' + requestData.accountNumber + '&countryCode='+ requestData.countryCode;
     var opts = { headers: {} };
+    opts.headers['apikey'] = service.vars.shs_apikey;
     opts.method = 'GET';
     try {
         var logger;
