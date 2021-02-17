@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.9.7
 ### Added
 * [MOB-135](https://oneacrefund.atlassian.net/browse/MOB-135) As a Client, I want to register my new SHS serial number  via USSD so I am able to receive activation codes
 
@@ -14,6 +15,38 @@ All notable changes to this project will be documented in this file.
 
 * [MOB-139](https://oneacrefund.atlassian.net/browse/MOB-139) As a GL, I want to request for  and view activation codes for clients in my group
 
+## v1.9.6
+
+### Changed
+* [MOB-73](https://oneacrefund.atlassian.net/browse/MOB-73) As a client, I want to receive mobile money receipts to my phone number in Roster in addition to the phone number that makes the payment, so that I have a record of this transaction.
+
+## v1.9.5
+
+### Changed
+* [MOB-145](https://oneacrefund.atlassian.net/browse/MOB-145) Update Crop Survey questions for RW
+
+## v1.9.4
+
+### Changed
+* [MOB-397](https://oneacrefund.atlassian.net/browse/MOB-397) Add health training officers ID and PIN data into Data table and amend Episode release dates
+
+## v1.9.3
+
+### Added
+* [THD-5109](https://oneacrefund.atlassian.net/browse/THD-5109) Deactivation of Impact trainings
+## v1.9.2
+
+### Fixed
+* [MOB-371](https://oneacrefund.atlassian.net/browse/MOB-371) RW SHS Clients Unable to receive activation code for SHS Units
+## v1.9.2
+
+### Fixed
+* [MOB-145](https://oneacrefund.atlassian.net/browse/MOB-145) Update Crop Survey questions for RW
+## v1.9.1
+
+### Added
+* [MOB-378](https://oneacrefund.atlassian.net/browse/MOB-378) Add Non-Client Option to Market Access Service
+## v1.9.0
 
 ### Added
 * [MOB-53](https://oneacrefund.atlassian.net/browse/MOB-53) Develop an IVR to collect a nutrition survey from clients/Farmers and their household members

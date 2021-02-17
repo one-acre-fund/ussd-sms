@@ -1,6 +1,6 @@
 {
   "name": "ussd-sms",
-  "version": "1.8.0",
+  "version": "1.9.7",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -38,10 +38,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 90.45,
-        "functions": 99.65,
-        "lines": 97.54,
-        "statements": 97.55
+        "branches": 90.69,
+        "functions": 99.72,
+        "lines": 98.12,
+        "statements": 98.11
       }
     },
     "coverageReporters": [
