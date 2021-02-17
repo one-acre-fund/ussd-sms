@@ -39,13 +39,14 @@ module.exports = function(accnum, serial_no){
         });
 
         var Act = null;
-        if(ListAct.hasNext()) {
+        while(ListAct.hasNext()) {
             var row = ListAct.next();
             if(row.vars.activated !== 'Yes') {
                 Act = row;
             }
         }
         if(Act === null){
+            console.log('act', JSON.stringify(Act));
             admin_alert('No codes remaining for Biolite product with serial number: ' + serial_no, 'No remaining serial numbers', 'marisa');
             slack.log('No codes remaining for Biolite product with serial number: ' + serial_no);
             console.log('No codes remaining for Biolite product with serial number: ' + serial_no, 'No remaining serial numbers');            
