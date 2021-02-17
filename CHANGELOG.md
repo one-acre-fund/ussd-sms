@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
+## v1.9.8
+
+### Fixed
+* [ESWFA-90](https://oneacrefund.atlassian.net/browse/ESWFA-90) Rw pshops clients can't get the shs activation codes
 
 ## v1.9.7
 ### Added
