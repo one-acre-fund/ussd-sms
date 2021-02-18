@@ -50,13 +50,13 @@ module.exports = function(accnum, serial_no){
         'dateactivated' : {exists : 1}
     }
     // If the the product type is not nul check if it s biolite
-    if(serial.vars.product_type != null){
-        activationCodeVars['product_type'] = {'ne': 'biolite'};
-        // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
-        if(serial.vars.product_type == 'biolite'){
-            activationCodeVars['product_type'] = 'biolite';
-        }
-    }
+    // if(serial.vars.product_type != null){
+    //     activationCodeVars['product_type'] = {'ne': 'biolite'};
+    //     // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
+    //     if(serial.vars.product_type == 'biolite'){
+    //         activationCodeVars['product_type'] = 'biolite';
+    //     }
+    // }
     // the section below checks how long ago the past activation code was given
     // initialize variables
     var act_pointer = act_table.queryRows({
@@ -120,17 +120,17 @@ module.exports = function(accnum, serial_no){
         // Taking into consideration the biolite product type
         var listActVars = {
             'serialnumber': serial_no,
-            'type': "Unlock",
+            'unlock': "Yes",
             'activated': "No"
         }
         // If the the product type is not nul check if it s biolite
-        if(serial.vars.product_type != null){
-            listActVars['product_type'] = {'ne': 'biolite'};
-            // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
-            if(serial.vars.product_type == 'biolite'){
-                listActVars['product_type'] = 'biolite';
-            }
-        }
+        // if(serial.vars.product_type != null){
+        //     listActVars['product_type'] = {'ne': 'biolite'};
+        //     // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
+        //     if(serial.vars.product_type == 'biolite'){
+        //         listActVars['product_type'] = 'biolite';
+        //     }
+        // }
         var ListAct = act_table.queryRows({
             vars: listActVars
         });
@@ -138,17 +138,17 @@ module.exports = function(accnum, serial_no){
             // Taking into consideration the biolite product type
             var listActVars ={
                 'serialnumber': serial_no,
-                'type': "Unlock",
+                'unlock': 'Yes',
                 'activated': {exists : 0},
             }
             // If the the product type is not nul check if it s biolite
-            if(serial.vars.product_type != null){
-                listActVars['product_type'] = {'ne': 'biolite'};
-                // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
-                if(serial.vars.product_type == 'biolite'){
-                    listActVars['product_type'] = 'biolite';
-                }
-            }
+            // if(serial.vars.product_type != null){
+            //     listActVars['product_type'] = {'ne': 'biolite'};
+            //     // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
+            //     if(serial.vars.product_type == 'biolite'){
+            //         listActVars['product_type'] = 'biolite';
+            //     }
+            // }
             var ListAct = act_table.queryRows({
                 vars: listActVars
             });
@@ -162,17 +162,17 @@ module.exports = function(accnum, serial_no){
         // Taking into consideration the biolite product type
         var listActVars = {
             'serialnumber': serial_no,
-            'type': "Activation",
+            'unlock': {ne: 'Yes'},
             'activated': "No",
         }
         // If the the product type is not nul check if it s biolite
-        if(serial.vars.product_type != null){
-            listActVars['product_type'] = {'ne': 'biolite'};
-            // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
-            if(serial.vars.product_type == 'biolite'){
-                listActVars['product_type'] = 'biolite';
-            }
-        }
+        // if(serial.vars.product_type != null){
+        //     listActVars['product_type'] = {'ne': 'biolite'};
+        //     // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
+        //     if(serial.vars.product_type == 'biolite'){
+        //         listActVars['product_type'] = 'biolite';
+        //     }
+        // }
         var ListAct = act_table.queryRows({
             vars: listActVars
         });  
@@ -181,17 +181,17 @@ module.exports = function(accnum, serial_no){
             // Taking into consideration the biolite product type
             var listActVars = {
                 'serialnumber': serial_no,
-                'type': "Activation",
+                'unlock': {ne: 'Yes'},
                 'activated': {exists : 0},
             }
             // If the the product type is not nul check if it s biolite
-            if(serial.vars.product_type != null){
-                listActVars['product_type'] = {'ne': 'biolite'};
-                // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
-                if(serial.vars.product_type == 'biolite'){
-                    listActVars['product_type'] = 'biolite';
-                }
-            }   
+            // if(serial.vars.product_type != null){
+            //     listActVars['product_type'] = {'ne': 'biolite'};
+            //     // If the product type is biolite in the serial table, look for not only a serial that match product type is biolite 
+            //     if(serial.vars.product_type == 'biolite'){
+            //         listActVars['product_type'] = 'biolite';
+            //     }
+            // }   
             var ListAct = act_table.queryRows({
                 vars: listActVars
             });
