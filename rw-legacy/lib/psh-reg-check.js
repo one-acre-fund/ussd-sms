@@ -70,7 +70,11 @@ module.exports = function(accnum){
             ActList = Activationtable.queryRows({
                 vars: activationVars,
             });
-            if(ActList.count() == 0){
+            if(ActList.count() == 0){ 
+                Serial.vars.accountnumber = null;
+                Serial.vars.dateregistered = null;
+                Serial.vars.historic_credit = null;
+                Serial.save();
                 admin_alert('No rows in ActTable for serial no: ' + state.vars.serial_no, 'Missing Serial Number in ActivationCodes', 'marisa');
                 slack.log('No rows in ActTable for serial no: ' + state.vars.serial_no, 'Missing Serial Number in ActivationCodes');
                 console.log('No rows in ActTable for serial no: ' + state.vars.serial_no, 'Missing Serial Number in ActivationCodes');
