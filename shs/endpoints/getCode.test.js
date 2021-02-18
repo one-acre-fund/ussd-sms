@@ -55,7 +55,7 @@ describe('getCode', () => {
         getCode(mockRequestData);
         expect(mockLogger.error).toHaveBeenCalledWith(
             'Failed to get shs unit', 
-            {data: mockResponse}
+            {data: {response: mockResponse, request: mockRequestData}}
         );
     });
     it('should return an null if the response code is 500', () => {

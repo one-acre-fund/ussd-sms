@@ -57,7 +57,7 @@ describe('register serial', () => {
         registerSerial(mockRequestData);
         expect(mockLogger.error).toHaveBeenCalledWith(
             'Failed to register shs unit', 
-            {data: mockResponse}
+            {data: {response: mockResponse, request: mockRequestData}}
         );
     });
     it('should return an null if the response code is 500', () => {
