@@ -20,7 +20,7 @@ module.exports = function (requestData){
             if(response.status >= 400)
                 global.sayText(translate('internal_error',{},state.vars.shsLang));
             logger = new Log();
-            logger.error('Failed to get shs unit', {data: response});
+            logger.error('Failed to get shs unit', {data: {response: response, request: requestData}});
             return null;
         }
     } catch (error) {

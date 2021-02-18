@@ -24,13 +24,15 @@ module.exports = function (requestData){
             return null;
         }
         else if(JSON.parse(response.content).message == 'No unit found with serial number '+ requestData.unitSerialNumber || JSON.parse(response.content).message =='Unit with serial number '+ requestData.unitSerialNumber +' is not an OAF unit'){
+            logger = new Log();
+            logger.error('Failed to register shs unit', {data: {response: response, request: requestData}});
             return 'wrong serial';
         }
         else {
             if(response.status >= 400)
                 global.sayText(translate('internal_error',{},state.vars.shsLang));
             logger = new Log();
-            logger.error('Failed to register shs unit', {data: response});
+            logger.error('Failed to register shs unit', {data: {response: response, request: requestData}});
             return null;
         }
     } catch (error) {

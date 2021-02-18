@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+
+## v1.9.8
+### Added
+* [MOB-135](https://oneacrefund.atlassian.net/browse/MOB-135) --Add logging on --As a Client, I want to register my new SHS serial number  via USSD so I am able to receive activation codes 
+
 ## v1.9.7
 ### Added
 * [MOB-135](https://oneacrefund.atlassian.net/browse/MOB-135) As a Client, I want to register my new SHS serial number  via USSD so I am able to receive activation codes
