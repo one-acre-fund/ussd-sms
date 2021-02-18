@@ -29,11 +29,13 @@ module.exports = function (requestData){
             return 'wrong serial';
         }
         else {
-            if(response.status >= 400)
-                global.sayText(translate('internal_error',{},state.vars.shsLang));
             logger = new Log();
             logger.error('Failed to register shs unit', {data: {response: response, request: requestData}});
-            return null;
+            if(response.status >= 500){
+                global.sayText(translate('internal_error',{},state.vars.shsLang));
+                return null;
+            }
+            return false;
         }
     } catch (error) {
         console.log('Error registering shs unit' +error);

@@ -17,11 +17,12 @@ module.exports = function (requestData){
             return data;
         }
         else {
-            if(response.status >= 400)
-                global.sayText(translate('internal_error',{},state.vars.shsLang));
             logger = new Log();
             logger.error('Failed to get shs unit', {data: {response: response, request: requestData}});
-            return null;
+            if(response.status >= 500){
+                global.sayText(translate('internal_error',{},state.vars.shsLang));
+                return null;
+            }
         }
     } catch (error) {
         logger = new Log();
