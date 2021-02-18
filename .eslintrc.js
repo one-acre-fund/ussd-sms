@@ -46,7 +46,9 @@ module.exports = {
         PhoneNumber: 'readonly',
         waitForResponse: 'readonly',
         content: 'readonly',
-        sendReply: 'readonly'
+        sendReply: 'readonly',
+        playAudio: 'readonly',
+        promptKey: 'readonly'
     },
     'overrides': [
         {

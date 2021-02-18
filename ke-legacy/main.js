@@ -20,6 +20,7 @@ service.vars.currency = 'KES';
 service.vars.topUpStart = env + '_start_top_up';
 service.vars.topUpEnd = env + '_end_top_up';
 service.vars.seed_germination_issues_table = env + '_seed_germination_issues';
+service.vars.sbccTable = env + '_SBCC';
 
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var transactionHistory = require('../transaction-history/transactionHistory');
@@ -40,6 +41,7 @@ var logger = new Log();
 
 var dukaLocator = require('../duka-locator/index');
 var groupRepaymentsModule = require('../group-repayments/groupRepayments');
+var sbccModule = require('../sbcc/ussd/sbcc');
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 service.vars.roster_read_key = project.vars.roster_read_key;
@@ -1596,6 +1598,7 @@ dukaClient.registerInputHandlers(GetLang() ? 'en-ke' : 'sw', service.vars.duka_c
 warrantyExpiration.registerHandlers();
 seedGerminationIssues.registerInputHandlers(langWithEnke, service.vars.seed_germination_issues_table);
 contactCallCenter.registerInputHandlers(GetLang() ? 'en-ke' : 'sw');
+sbccModule.registerInputHandlers({lang: GetLang() ? 'en' : 'sw', backMenu: NonClientMenuText});
 
 function reduceClientSize(client) {
     var cloned = _.clone(client);
@@ -1697,6 +1700,8 @@ addInputHandler('NonClientMenu', function(input) {
         seedGerminationIssues.start(langWithEnke);
     }else if(sessionMenu[input-1].option_name === 'contact_call_center'){
         contactCallCenter.start(GetLang() ? 'en-ke' : 'sw', false);
+    } else if (sessionMenu[input-1].option_name === 'sbcc') {
+        sbccModule.startSBCC({lang: GetLang() ? 'en' : 'sw', backMenu: NonClientMenuText});
     } else{
         NonClientMenuText();
         promptDigits('NonClientMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
