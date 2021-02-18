@@ -1281,7 +1281,6 @@ addInputHandler('reg_end_ordering_redirect',function(input){
             contact.vars.account_failures = contact.vars.account_failures + 1;
             promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
         }
-
     }
     else{
         sayText(msgs('invalid_input', {}, lang));

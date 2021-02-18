@@ -34,7 +34,7 @@ var warrantyExpiration = require('../warranty-expiration/warrantyExpiration');
 var seedGerminationIssues = require('../seed-germination-issues/seedGerminationIssues');
 var foDetails = require('../fo-details/foDetails');
 var contactCallCenter = require('../contact-call-center/contactCallCenter');
-
+var shs = require('../shs/shs');
 var slackLogger = require('../slack-logger/index');
 var Log = require('../logger/elk/elk-logger');
 var logger = new Log();
@@ -63,6 +63,8 @@ service.vars.districtVarietyTableId = project.vars[env + '_districtVarietyTableI
 service.vars.varietyStockTableId = project.vars[env + '_varietyStockTableId'];
 service.vars.warehouseStockTableId = project.vars[env + '_warehouseStockTableId'];
 service.vars.districtWarehouseTableId = project.vars[env+ '_districtWarehouseTableId'];
+service.vars.shs_reg_endpoint = project.vars[env+'_shs_reg_endpoint'];
+service.vars.shs_apikey = project.vars[env+'_shs_api_key'];
 
 if(env == 'prod'){
     service.vars.JiTEnrollmentTableId = 'DT52cebb451097ac25';
@@ -1598,6 +1600,7 @@ dukaClient.registerInputHandlers(GetLang() ? 'en-ke' : 'sw', service.vars.duka_c
 warrantyExpiration.registerHandlers();
 seedGerminationIssues.registerInputHandlers(langWithEnke, service.vars.seed_germination_issues_table);
 contactCallCenter.registerInputHandlers(GetLang() ? 'en-ke' : 'sw');
+shs.registerHandlers();
 sbccModule.registerInputHandlers({lang: GetLang() ? 'en' : 'sw', backMenu: NonClientMenuText});
 
 function reduceClientSize(client) {
@@ -1801,8 +1804,9 @@ addInputHandler('MainMenu', function(SplashMenu){
 
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'solar'){
-        SHSMenuText();
-        promptDigits('SolarMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
+        //SHSMenuText();
+        //promptDigits('SolarMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
+        shs.start(state.vars.client, 'KE',state.vars.lang,state.vars.isGroupLeader,state.vars.main_menu,'MainMenu');
 
     }   
     else if(sessionMenu[SplashMenu-1].option_name == 'insurance'){
