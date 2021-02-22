@@ -12,7 +12,7 @@ var languageSwapOptions = {
         '98': 'en-bu',
         '99': 'fr-bu',
     },
-    'en-fr': {
+    'fr-bu': {
         '98': 'en-bu',
         '99': 'bu',
     }
@@ -29,7 +29,7 @@ function getHAndler(language, onAccountNumberValidated) {
         var accountNumber = input.replace(/\D/g, '');
         var lang = language || contact.vars.lang;
         var getMessage = translator(translations, language);
-        if(languageOptions.includes(input)) {
+        if(languageOptions.indexOf(input) !== -1) {
             // change language and reprompt for account number
             lang = languageSwapOptions[lang][input];
             contact.vars.lang = lang;
@@ -37,16 +37,17 @@ function getHAndler(language, onAccountNumberValidated) {
             global.promptDigits(handlerName);
         } else {
             //validate the account number account number
-            if(rosterAPI.authClient(accountNumber, 'BU')) {
-                var client = rosterAPI.getClient(accountNumber, 'BU');
+            if(rosterAPI.authClient(accountNumber, project.vars.country)) {
+                var client = rosterAPI.getClient(accountNumber, project.vars.country);
                 if(client) {
                     // valid account number. continue to next step
-                    onAccountNumberValidated(client);
+                    onAccountNumberValidated(language, client);
                     return;
                 }
                 // invalid account number. reprompt for account number
                 global.sayText(getMessage('splash', {}, language));
                 global.promptDigits(handlerName);
+                return;
             }
             // invalid account number. reprompt for account number
             global.sayText(getMessage('splash', {}, language));
