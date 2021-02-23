@@ -115,5 +115,9 @@ module.exports = {
     'no_code_message_client': {
         'en': 'Client does not  have an activation code, please register Client SHS Unit',
         'sw': 'Mkulima hana kodi, tafadhali sajili sola ya mkulima'
+    },
+    'previous_loan_message': {
+        'en': 'Kindly complete your loan to get your unlock codes',
+        'sw': 'Samahani, maliza mkopo wako ili kupokea kodi ya kuwasha taa milele'
     }
 };

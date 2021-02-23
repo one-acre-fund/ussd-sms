@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 ## New Version
 
 
+## v1.10.0
+### Changed
+* [MOB-406](https://oneacrefund.atlassian.net/browse/MOB-406) Removed condition to check if client placed an order in the current season from SHS service
+
+### Added
+* [MOB-405](https://oneacrefund.atlassian.net/browse/MOB-405) As a User, I want to know when a client has successfully registered and received an activation/unlock for their SHS unit
+
 ## v1.9.9
 ### Added
 * [MOB-135](https://oneacrefund.atlassian.net/browse/MOB-135) --Add logging on --As a Client, I want to register my new SHS serial number  via USSD so I am able to receive activation codes 
