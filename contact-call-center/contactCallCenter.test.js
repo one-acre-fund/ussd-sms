@@ -16,7 +16,8 @@ describe('contact call center', () => {
         contactCallCenter.start('en-ke', false);
         expect(sayText).toHaveBeenCalledWith('1) Call back support for duka client\n' +
         '2) Call back support for Angaza client\n' +
-        '3) Call back support for potential client\n');
+        '3) Call back support for potential client\n' + 
+        '77) Continue');
         expect(promptDigits).toHaveBeenCalledWith(contactCallCenterInputHandler.handlerName);
     });
 
