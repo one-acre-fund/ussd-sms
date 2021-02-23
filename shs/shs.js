@@ -11,9 +11,18 @@ var registrationTypeHandler = require('./registration-type-handler/registrationT
 var replacementHandler = require('./replacement-handler/replacementHandler');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var requestCodeHandler = require('./request-code-handler/requestCodeHandler');
+var moment = require('moment');
 
 var onSerialValidated = function(serialInfo, isCodeRequest){
     var message;
+    call.vars.shsSuccess = 'true';
+    call.vars.shsKeyCodeType = serialInfo.keyCodeType;
+    call.vars.shsCode = serialInfo.keyCode;
+    call.vars.shsExpirationDate = moment(serialInfo.expiry).format('MMM Do YY');
+    call.vars.shsRequestDate = moment().format('MMM Do YY');
+    call.vars.serialNumber = serialInfo.serialNumber;
+    call.vars.shsGLForOthers = state.vars.unitForOther;
+    notifyELK();
     if(state.vars.unitForOther == 'true'){
         if(serialInfo.keyCodeType == 'ACTIVATION')
             message = translate('successful_farmer_activation_code',{'$code': serialInfo.keyCode},state.vars.shsLang);
@@ -26,9 +35,10 @@ var onSerialValidated = function(serialInfo, isCodeRequest){
         else if(serialInfo.keyCodeType == 'UNLOCK')
             message = translate('successful_unlock_code',{'$code': serialInfo.keyCode},state.vars.shsLang);
     }
-    if(isCodeRequest){
+    if(isCodeRequest){ 
         global.sayText(message);
     }else{
+        contact.vars.shsRegistration = 'true';
         project.sendMessage({
             content: message, 
             to_number: contact.phone_number
