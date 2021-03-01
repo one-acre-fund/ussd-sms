@@ -2,6 +2,7 @@ var populateMenu = require('../../shared/createMenu');
 var menuOptions = require('./menuOptions');
 var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
+var mainMenuHandler = require('../inputHandlers/mainMenuHandler');
 
 function reduceClientSize(client) {
     var cloned = _.clone(client);
@@ -26,5 +27,5 @@ module.exports = function onAccountNumberValidated(lang, client) {
     state.vars.current_main_screen = '1';
     state.vars.main_option_values = JSON.stringify(optionValues);
     global.sayText(screens[1]);
-    global.promptDigits('main_menu_handler');
+    global.promptDigits(mainMenuHandler.handlerName);
 };
