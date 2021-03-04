@@ -23,9 +23,8 @@ var splashInputHandler = require('./inputHandlers/splashInputHandler');
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 
+registerInputHandlers(lang, onAccountNumberValidated);
 global.main = function() {
     sayText(getMessage('splash', {}, lang));
     promptDigits(splashInputHandler.handlerName);
 };
-
-registerInputHandlers(lang, onAccountNumberValidated);

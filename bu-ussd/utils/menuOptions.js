@@ -1,6 +1,6 @@
 module.exports = [
     {
-        'register': {
+        'registration': {
             'en-bu': 'Register New Client',
             'bu': 'Kwandika umunywanyi mushaha',
             'fr-bu': 'Enregistrement d\'un nouveau client'

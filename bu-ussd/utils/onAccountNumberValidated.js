@@ -2,7 +2,6 @@ var populateMenu = require('../../shared/createMenu');
 var menuOptions = require('./menuOptions');
 var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
-var mainMenuHandler = require('../inputHandlers/mainMenuHandler');
 
 function reduceClientSize(client) {
     var cloned = _.clone(client);
@@ -12,7 +11,8 @@ function reduceClientSize(client) {
 }
 
 module.exports = function onAccountNumberValidated(lang, client) {
-    state.vars.client_json = reduceClientSize(client);
+    var mainMenuHandler = require('../inputHandlers/mainMenuHandler');
+    state.vars.client_json = JSON.stringify(reduceClientSize(client));
     var getMessage = translator(translations, lang);
     var optionNames = {};
     menuOptions.forEach(function(option) {
@@ -23,7 +23,7 @@ module.exports = function onAccountNumberValidated(lang, client) {
     var resultOptions = populateMenu(optionNames, '', title);
     var screens = resultOptions.screens;
     var optionValues = resultOptions.optionValues;
-    state.main_screens = JSON.stringify(screens);
+    state.vars.main_screens = JSON.stringify(screens);
     state.vars.current_main_screen = '1';
     state.vars.main_option_values = JSON.stringify(optionValues);
     global.sayText(screens[1]);
