@@ -1,5 +1,3 @@
-var translations = require('../translations/index');
-var translator = require('../../utils/translator/translator');
 var registration = require('../registration/registration');
 var handlerName = 'main_menu_handler';
 
