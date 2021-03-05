@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.10.2
+### Changed
+* [ESWFA-103](https://oneacrefund.atlassian.net/browse/ESWFA-103) Switching on of Training service on USSD & 2-Way SMS
+
 ## v1.10.1
 ### Changed
 * [ESWFA-53](https://oneacrefund.atlassian.net/browse/ESWFA-53) Updating the Monitoring tool for Telerivet to track USSD downtime from Africa's talking in Rwanda
