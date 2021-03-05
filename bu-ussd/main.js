@@ -6,11 +6,13 @@ if(service.active){
 }
 
 var env;
+// console.log('env>>>', service);
 if(service.vars.env === 'prod' || service.vars.env === 'dev'){
     env = service.vars.env;
 }else{
     env = defaultEnvironment;
 }
+
 
 var lang = contact.vars.lang || 'bu';
 var translations = require('./translations/index');
@@ -22,7 +24,6 @@ var splashInputHandler = require('./inputHandlers/splashInputHandler');
 
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
-
 registerInputHandlers(lang, onAccountNumberValidated);
 global.main = function() {
     sayText(getMessage('splash', {}, lang));
