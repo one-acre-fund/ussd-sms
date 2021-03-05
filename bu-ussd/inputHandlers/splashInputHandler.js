@@ -1,7 +1,7 @@
 var translations = require('../translations/index');
 var translator = require('../../utils/translator/translator');
 var rosterAPI = require('../../rw-legacy/lib/roster/api');
-var handlerName = 'splash';
+var handlerName = 'bu_splash';
 
 var languageSwapOptions = {
     'en-bu': { // current language
