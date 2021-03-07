@@ -7,11 +7,11 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(language) {
         return function(input) {
-            var getMessage = translator(translations, language);
+            // var getMessage = translator(translations, language);
             if(input === '1') {
                 // trigger ordering
                 // at the moment just add a sayText
-                global.sayText('registration is coming soon');
+                global.sayText('ordering is coming soon');
             } else if(input === '0') {
                 global.stopRules();
             }

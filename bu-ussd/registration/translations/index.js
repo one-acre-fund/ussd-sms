@@ -10,7 +10,7 @@ module.exports = {
         'fr-bu': 'Entrez le nom de famille'
     },
     'last_name': {
-        'en-bu': 'Enter last name ',
+        'en-bu': 'Enter last name',
         'bu': 'Shiramwo amatazirano',
         'fr-bu': 'Entrez le prénom'
     },
