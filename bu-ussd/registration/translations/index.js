@@ -1,6 +1,6 @@
 module.exports = {
     'national_id': {
-        'en-bu': 'Enter National ID number ',
+        'en-bu': 'Enter National ID number',
         'bu': 'Shiramwo nomero yanyu ya karangamuntu',
         'fr-bu': 'Entrer le numéro d\'identification national'
     },
