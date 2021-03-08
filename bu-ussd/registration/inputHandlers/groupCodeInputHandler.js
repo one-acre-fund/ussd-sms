@@ -16,7 +16,7 @@ module.exports = {
                 global.promptDigits(handlerName);
             }
 
-            if(!input || !input.replace(/\D/g, '')) {
+            if(!input) {
                 invalidGroupCode();
                 return;
             }
