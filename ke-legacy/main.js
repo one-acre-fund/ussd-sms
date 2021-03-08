@@ -1051,13 +1051,13 @@ var TrainingMenuText = function (){
     var trainingsScreens = trainingsMenu.screens;
     state.vars.trainings_options = JSON.stringify(trainingsOptions);
     state.vars.trainings_screens = JSON.stringify(trainingsScreens);
-    state.vars.current_trainings_screens = 1;
+    state.vars.current_trainings_screens = '1';
     sayText(trainingsScreens[state.vars.current_trainings_screens]);
 };
 
 var TrainingMenuNextText = function (){
     var trainingsScreens = JSON.parse(state.vars.trainings_screens);
-    var currentTrainingScreen = state.vars.current_trainings_screens + 1;
+    var currentTrainingScreen = parseInt(state.vars.current_trainings_screens) + 1;
     if(trainingsScreens[currentTrainingScreen]) {
         state.vars.current_trainings_screens = currentTrainingScreen;
         sayText(trainingsScreens[currentTrainingScreen]);
@@ -3240,7 +3240,7 @@ addInputHandler('TrainingSelect', function(input) {
         var nutritionTraining = require('../nutrition-training/triggerService');
         nutritionTraining(GetLang()? 'en-ke' : 'sw', project.vars.nutrition_training_service);
     }
-    else if (trainingsOptions[input] == 'soil_fertillity') {
+    else if (trainingsOptions[input] == 'soil_training') {
         // trigger the nutrition training
         var lang;
         if(GetLang()) {
