@@ -46,7 +46,7 @@ module.exports = {
                 if(state.vars.duplicated_user) {
                     // client already registered
                     var duplicatedUser = JSON.parse(state.vars.duplicated_user);
-                    global.sayText(getMessage('already_registered', {'account_number': duplicatedUser.AccountNumber}));
+                    global.sayText(getMessage('already_registered', {'$account_number': duplicatedUser.AccountNumber}));
                     global.stopRules();
                 } else if(registeredClient) {
                     /* successful registration 
