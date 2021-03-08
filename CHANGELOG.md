@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.10.3
+* [ESWFA-93](https://oneacrefund.atlassian.net/browse/ESWFA-93) Add an IPP option to the non farmer USSD menu
 ## v1.10.2
 ### Changed
 * [ESWFA-103](https://oneacrefund.atlassian.net/browse/ESWFA-103) Switching on of Training service on USSD & 2-Way SMS
