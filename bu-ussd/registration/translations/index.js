@@ -59,6 +59,11 @@ module.exports = {
         'bu': 'mwamaze kwiyandikisha. i nomero yanyu ya konte ni $account_number',
         'fr-bu': 'vous êtes déjà inscrit. votre numéro de compte est le $account_number'
     },
+    'ordering_coming_soon': {
+        'en-bu': 'ordering is coming soon',
+        'bu': 'ordering is coming soon',
+        'fr-bu': 'ordering is coming soon'
+    },
     'sample': {
         'en-bu': '',
         'bu': '',

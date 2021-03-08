@@ -70,7 +70,7 @@ module.exports = {
                         ]
                     });
                     global.sayText(getMessage('successfull_registration_popup', {'$account_number': registeredClient.AccountNumber}, language));
-                    // handler for registration choice.
+                    // handler for ordering choice.
                     global.promptDigits(continueToOrderingHandler.handlerName);
                 } else {
                     global.sayText(getMessage('error_registering', {}, language));
