@@ -6,6 +6,7 @@ var groupLeaderEndpoint = '/Api/GroupSummary/CheckGroupLeader?';
  * Performs the api call to roster api and returns whether a user is a group leader
  * @param {Number} DistrictId the id of the district
  * @param {Number} ClientId the id of the client that must be a gl
+ * @returns {Boolean} true if is groupleader/ false if not / nothing upon any error(falsy)
  */
 
 module.exports = function checkForGl(DistrictId, ClientId) {

@@ -1,5 +1,8 @@
 const onAccountNumberValidated = require('./onAccountNumberValidated');
 const {handlerName: mainMenuHandlerName} = require('../inputHandlers/mainMenuHandler');
+const checkGroupLeader = require('../../shared/rosterApi/checkForGroupLeader');
+
+jest.mock('../../shared/rosterApi/checkForGroupLeader');
 
 const client = {
     'GlobalClientId': '555312b8-b7c8-47b2-8861-1aa765b476a3',
@@ -62,7 +65,9 @@ const client = {
 
 const lang = 'en-bu';
 describe('on account number validated', () => {
+    
     it('should set the necessary state variables', () => {
+        checkGroupLeader.mockReturnValueOnce(true);
         onAccountNumberValidated(lang, client);
         expect(state.vars.client_json).toEqual('{"GlobalClientId":"555312b8-b7c8-47b2-8861-1aa765b476a3",' + 
         '"AccountNumber":"10367619","ClientName":"N-------a, C----e","FirstName":"C----e","LastName":"N-------a",' + 
@@ -77,12 +82,22 @@ describe('on account number validated', () => {
         expect(state.vars.main_screens).toEqual('{"1":"Select a Service\\n1) Register New Client\\n2) Place Order\\n"}');
         expect(state.vars.current_main_screen).toEqual('1');
         expect(state.vars.main_option_values).toEqual('{"1":"registration","2":"place_order"}');
+        expect(state.vars.isGroupLeader).toBeTruthy();
     });
-    it('should prompt for main menu choice', () => {
+    it('should prompt for main menu choice with registration if the user is group leader', () => {
+        checkGroupLeader.mockReturnValueOnce(true);
         onAccountNumberValidated(lang, client);
         expect(sayText).toHaveBeenCalledWith('Select a Service\n' +
         '1) Register New Client\n' +
         '2) Place Order\n');
+        expect(promptDigits).toHaveBeenCalledWith(mainMenuHandlerName);
+    });
+
+    it('should prompt for main menu choice without registration if the user is not group leader', () => {
+        checkGroupLeader.mockImplementationOnce(() => {});
+        onAccountNumberValidated(lang, client);
+        expect(sayText).toHaveBeenCalledWith('Select a Service\n' +
+        '1) Place Order\n');
         expect(promptDigits).toHaveBeenCalledWith(mainMenuHandlerName);
     });
 });
