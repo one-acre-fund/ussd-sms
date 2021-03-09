@@ -11,6 +11,13 @@ module.exports = [
             'en-bu': 'Place Order',
             'bu': 'Gusaba inyongeramwimbu',
             'fr-bu': 'Commander'
+        },
+    },
+    {
+        'get_balance': {
+            'en-bu': 'Get Balance',
+            'bu': 'Yose hamwe',
+            'fr-bu': 'Avoir la solde'
         }
     }
 ];

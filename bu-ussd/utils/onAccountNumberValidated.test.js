@@ -79,9 +79,9 @@ describe('on account number validated', () => {
         '"RegionId":1108,"RegionName":"Muramvya","CountryId":108,"CountryName":"Burundi"}],"BalanceHistory":[{"AccountGuid":"555312b8-b7c8-47b2-8861-1aa765b476a3",' + 
         '"GroupId":62,"GroupName":"Kerebuka","SiteId":8,"SiteName":"Nyarumanga","SeasonId":170,"SeasonName":"2016A","SeasonStart":"2015-09-01T00:00:00","TotalCredit":0,' + 
         '"TotalCreditPerCycle":{},"TotalRepayment_IncludingOverpayments":0,"Balance":0,"CurrencyCode":"BIF"}]}');
-        expect(state.vars.main_screens).toEqual('{"1":"Select a Service\\n1) Register New Client\\n2) Place Order\\n"}');
+        expect(state.vars.main_screens).toEqual('{"1":"Select a Service\\n1) Register New Client\\n2) Place Order\\n3) Get Balance\\n"}');
         expect(state.vars.current_main_screen).toEqual('1');
-        expect(state.vars.main_option_values).toEqual('{"1":"registration","2":"place_order"}');
+        expect(state.vars.main_option_values).toEqual('{"1":"registration","2":"place_order","3":"get_balance"}');
         expect(state.vars.isGroupLeader).toBeTruthy();
     });
     it('should prompt for main menu choice with registration if the user is group leader', () => {
@@ -89,7 +89,8 @@ describe('on account number validated', () => {
         onAccountNumberValidated(lang, client);
         expect(sayText).toHaveBeenCalledWith('Select a Service\n' +
         '1) Register New Client\n' +
-        '2) Place Order\n');
+        '2) Place Order\n' +
+        '3) Get Balance\n');
         expect(promptDigits).toHaveBeenCalledWith(mainMenuHandlerName);
     });
 
@@ -97,7 +98,8 @@ describe('on account number validated', () => {
         checkGroupLeader.mockImplementationOnce(() => {});
         onAccountNumberValidated(lang, client);
         expect(sayText).toHaveBeenCalledWith('Select a Service\n' +
-        '1) Place Order\n');
+        '1) Place Order\n' +
+        '2) Get Balance\n');
         expect(promptDigits).toHaveBeenCalledWith(mainMenuHandlerName);
     });
 });
