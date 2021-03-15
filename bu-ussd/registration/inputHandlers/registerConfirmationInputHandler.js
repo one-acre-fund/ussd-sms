@@ -53,6 +53,7 @@ module.exports = {
                     1. send an sms to the client and group leader/FO
                     2. prompt them of they want to order products
                     */
+                    state.vars.registered_client_account = registeredClient.AccountNumber;
                     var phoneNumbers = getPhoneNumber(registeredClient.AccountNumber, 'BI') || [];
                     var activePhones = filterPhones(phoneNumbers);
                     var FarmerphoneNumber = activePhones[0] && activePhones[0].PhoneNumber;

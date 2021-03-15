@@ -1,9 +1,11 @@
 const {handlerName: mainMenuHandlerName, getHandler: getMainMenuHandler} = require('./mainMenuHandler');
 const {start: startRegistration} = require('../registration/registration');
+const {start: startEnrolment} = require('../enrollment/enrollment');
 const checkBalance = require('../checkBalance/checkBalance');
 
 jest.mock('../registration/registration');
 jest.mock('../checkBalance/checkBalance');
+jest.mock('../enrollment/enrollment');
 
 describe('main menu input handler', () => {
     beforeEach(() => {
@@ -26,10 +28,10 @@ describe('main menu input handler', () => {
         handler('1');
         expect(startRegistration).toHaveBeenCalledWith('en-bu');
     });
-    it('should not start registration if user chooses option 2 before it is implemented', () => {
+    it('should start enrollment if user chooses option 2', () => {
         const handler = getMainMenuHandler('en-bu');
         handler('2');
-        expect(startRegistration).not.toHaveBeenCalledWith('en-bu');
+        expect(startEnrolment).toHaveBeenCalledWith('en-bu', {'FirstName': 'Tyrion', 'LastName': 'Lanyster'});
     });
     it('should start check balance if user chooses option 3 check balance', () => {
         const handler = getMainMenuHandler('en-bu');

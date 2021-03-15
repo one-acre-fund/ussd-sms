@@ -113,6 +113,7 @@ describe('register confirmation', () => {
         registerClient.mockReturnValueOnce({AccountNumber: '78363748'});
         getPhoneNumber.mockReturnValueOnce([{IsInactive: false, PhoneNumber: '0780378599'}]);
         registerConfirmationHandler('1');
+        expect( state.vars.registered_client_account).toEqual('78363748');
         expect(sayText).toHaveBeenCalledWith('Thank you for registering , your account number is 78363748, press 1 to continue or 0 to exit');
         expect(promptDigits).toHaveBeenCalledWith(continueToOrderingHandler.handlerName);
         expect(project.sendMulti).toHaveBeenCalledWith({'messages': [

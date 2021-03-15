@@ -3,6 +3,7 @@ const {registerInputHandlers: registerRegistrationInputHandlers} = require('../r
 const {registerInputHandlers: registerEnrollmentInputHandler} = require('../enrollment/enrollment');
 
 jest.mock('../registration/registration');
+jest.mock('../enrollment/enrollment');
 let onAccountNumberValidated;
 describe('register input handlers', () => {
     beforeAll(() => {
