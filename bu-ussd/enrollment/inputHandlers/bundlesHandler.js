@@ -5,7 +5,7 @@ module.exports = {
     getHandler: function(language, onBundleSelected) {
         return function(input) {
             var bundlesScreens = JSON.parse(state.vars.bundles_screens);
-            var bundles_option_values = JSON.parse(state.vars.bundles_screens);
+            var bundles_option_values = JSON.parse(state.vars.bundles_option_values);
             var currentBundlesMenu = parseInt(state.vars.current_bundles_menu);
             if(!input) {
                 global.sayText(bundlesScreens[currentBundlesMenu]);
@@ -16,7 +16,7 @@ module.exports = {
             input = input.trim();
             if(input == '77') {
                 state.vars.current_bundles_menu = currentBundlesMenu + 1;
-                global.sayText(bundlesScreens[state.vars.current_inputs_menu]);
+                global.sayText(bundlesScreens[state.vars.current_bundles_menu]);
                 global.promptDigits(handlerName);
                 return;
             }

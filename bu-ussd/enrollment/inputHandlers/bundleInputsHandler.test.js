@@ -34,7 +34,7 @@ describe('bundleinputs input handler', () => {
         expect(state.vars.current_inputs_menu).toEqual(2);
         expect(promptDigits).toHaveBeenCalledWith(bundleInputsHandler.handlerName);
     });  
-    it('should show the next screen once the user enters 77', () => {
+    it('should call onBundle selected once user chooses an existing bundle input', () => {
         const onBundleSelected = jest.fn();
         const handler = bundleInputsHandler.getHandler('en-bu', onBundleSelected);
         handler('1');
