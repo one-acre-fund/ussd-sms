@@ -22,7 +22,7 @@ module.exports = {
                 global.promptDigits(handlerName);
             } else if(input == 0) {
                 // confirm
-                confirmOrder();
+                confirmOrder(lang);
             } else if(input == 77) {
                 // next screen. reprompt
                 state.vars.current_ordered_bundles_screen = current_ordered_bundles_screen + 1;
