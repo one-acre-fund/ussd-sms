@@ -22,7 +22,7 @@ module.exports = {
             } else if(input == 3) {
                 // confirm
                 // place order and send a message
-                confirmOrder();
+                confirmOrder(lang);
             }
         };
     }
