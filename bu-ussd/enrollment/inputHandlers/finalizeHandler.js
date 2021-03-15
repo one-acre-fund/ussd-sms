@@ -1,5 +1,3 @@
-var translations = require('../translations/index');
-var translator = require('../../../utils/translator/translator');
 var onKeepOrdering = require('../utils/onKeepOrdering');
 var onChangeOrder = require('../utils/onChangeOrder');
 var confirmOrder = require('../utils/confirmOrder');

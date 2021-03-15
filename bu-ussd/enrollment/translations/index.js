@@ -44,6 +44,11 @@ module.exports = {
         'bu': 'Habaye ikosa, Musabwe kugerageza kandi hanyuma',
         'fr-bu': 'une erreur s\'est produite. Réessayez plus tard'
     },
+    'order': {
+        'en-bu': 'Order\n',
+        'bu': 'commander\n',
+        'fr-bu': 'Ivyasabwe\n'
+    },
     'sample': {
         'en-bu': '',
         'bu': '',
