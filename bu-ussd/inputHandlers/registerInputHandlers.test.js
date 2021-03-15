@@ -1,5 +1,6 @@
 const registerInputHandlers = require('./registerInputHandlers');
 const {registerInputHandlers: registerRegistrationInputHandlers} = require('../registration/registration');
+const {registerInputHandlers: registerEnrollmentInputHandler} = require('../enrollment/enrollment');
 
 jest.mock('../registration/registration');
 let onAccountNumberValidated;
@@ -26,5 +27,9 @@ describe('register input handlers', () => {
     it('should register the registration input handlers', () => {
         registerInputHandlers('en-bu', onAccountNumberValidated);
         expect(registerRegistrationInputHandlers).toHaveBeenCalledWith('en-bu');
+    });
+    it('should register the enrollment input handlers', () => {
+        registerInputHandlers('en-bu', onAccountNumberValidated);
+        expect(registerEnrollmentInputHandler).toHaveBeenCalledWith('en-bu');
     });
 });

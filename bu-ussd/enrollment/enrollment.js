@@ -1,6 +1,7 @@
 var bundlesHandler = require('./inputHandlers/bundlesHandler');
 var getBundles = require('./utils/getBundles');
 var displayBundles = require('./utils/displayBundles');
+var registerInputHandlers = require('./inputHandlers/registerInputHandlers');
 
 /**
  * starting enrollment
@@ -19,5 +20,6 @@ function start(language, client) {
 }
 
 module.exports = {
-    start: start
+    start: start,
+    registerInputHandlers: registerInputHandlers
 };

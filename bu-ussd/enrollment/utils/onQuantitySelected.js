@@ -1,5 +1,5 @@
-var translations = require('./translations/index');
-var translator = require('../../utils/translator/translator');
+var translations = require('../translations/index');
+var translator = require('../../../utils/translator/translator');
 var orderOrFinalizeHandler = require('../inputHandlers/orderOrFinalizeHandler');
 
 /**
