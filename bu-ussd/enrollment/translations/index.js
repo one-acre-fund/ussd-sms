@@ -10,9 +10,9 @@ module.exports = {
         'fr-bu': '77) continuer'
     },
     'enter_quantity': {
-        'en-bu': 'Select Quantity $bundleInput/$unit',
-        'bu': 'Hitamwo igitigiri $bundleInput/$unit',
-        'fr-bu': 'Sélectionner la quantité $bundleInput/$unit'
+        'en-bu': 'Select Quantity: $bundleInput /$unit',
+        'bu': 'Hitamwo igitigiri: $bundleInput /$unit',
+        'fr-bu': 'Sélectionner la quantité: $bundleInput /$unit'
     },
     'order_or_finalize': {
         'en-bu': '1) Continue ordering\n2) Confirm and finalize',

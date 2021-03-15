@@ -10,8 +10,8 @@ module.exports = {
             var getMessage = translator(translations, language);
             var selectedBundle = JSON.parse(state.vars.selected_bundles)[0];
             var unit = selectedBundle.bundleInputs[0].unit;
-            var min = selectedBundle.bundleInputs[0].min ||  unit == 'unit' ? 1 : 0.1;
-            var max = selectedBundle.bundleInputs[0].max;
+            var min = parseInt(selectedBundle.bundleInputs[0].min) ||  unit == 'unit' ? 1 : 0.1;
+            var max = parseInt(selectedBundle.bundleInputs[0].max);
             if(!input) {
                 global.sayText(getMessage('enter_quantity', {
                     '$unit': selectedBundle.bundleInputs[0].unit,
@@ -21,7 +21,7 @@ module.exports = {
                 return;
             }
             
-            var quantity = input.trim();
+            var quantity = parseInt(input.trim());
             if(quantity < min || quantity > max) {
                 global.sayText(getMessage('enter_quantity', {
                     '$unit': selectedBundle.bundleInputs[0].unit,
