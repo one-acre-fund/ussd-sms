@@ -1,5 +1,3 @@
-var createMenu = require('../../../shared/createMenu');
-var createOptionNamesForBundles = require('../utils/createOptionNamesForBundles');
 const displayBundles = require('./displayBundles');
 
 var bundles = [

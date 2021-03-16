@@ -7,7 +7,7 @@ var createOptionNamesForBundles = require('../utils/createOptionNamesForBundles'
  * @param {Array} bundles all the bundles to be displayed
  */
 module.exports = function displayBundles(bundles, lang, client) {
-    // remove the laready ordered bundles
+    // remove the already ordered bundles
     var selectedBundles = JSON.parse(state.vars.selected_bundles);
     var selectedBundlesIds = selectedBundles.map(function(selectedBundle){
         return selectedBundle.bundleId;
