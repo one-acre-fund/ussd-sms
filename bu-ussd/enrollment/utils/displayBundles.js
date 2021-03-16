@@ -19,7 +19,7 @@ module.exports = function displayBundles(bundles, lang, client) {
     var optionNames = createOptionNamesForBundles(remainingBundles);
     var bundlesTitle = getMessage('bundles_title', {
         '$firstName': client.FirstName,
-        'lastName': client.lastName
+        '$lastName': client.LastName
     }, lang);
     var createdMenu = createMenu(optionNames, getMessage('next_screen', {}, lang), bundlesTitle);
     state.vars.bundles_screens = JSON.stringify(createdMenu.screens);
