@@ -34,44 +34,44 @@ describe('register input handlers', () => {
     it('should register bundleInputs input handler', () => {
         const handlerMock = jest.fn();
         jest.spyOn(bundleInputHandler, 'getHandler').mockReturnValueOnce(handlerMock);
-        registerInputHandlers('en-bu');
+        registerInputHandlers('en_bu');
         expect(addInputHandler).toHaveBeenCalledWith(bundleInputHandler.handlerName, handlerMock);
-        expect(bundleInputHandler.getHandler).toHaveBeenCalledWith('en-bu', onBundleSelected);
+        expect(bundleInputHandler.getHandler).toHaveBeenCalledWith('en_bu', onBundleSelected);
     });
     it('should register bundles input handler', () => {
         const handlerMock = jest.fn();
         jest.spyOn(bundlesHandler, 'getHandler').mockReturnValueOnce(handlerMock);
-        registerInputHandlers('en-bu');
+        registerInputHandlers('en_bu');
         expect(addInputHandler).toHaveBeenCalledWith(bundlesHandler.handlerName, handlerMock);
-        expect(bundlesHandler.getHandler).toHaveBeenCalledWith('en-bu', onBundleSelected);
+        expect(bundlesHandler.getHandler).toHaveBeenCalledWith('en_bu', onBundleSelected);
     });
     it('should register finalize input handler', () => {
         const handlerMock = jest.fn();
         jest.spyOn(finalizeHandler, 'getHandler').mockReturnValueOnce(handlerMock);
-        registerInputHandlers('en-bu');
+        registerInputHandlers('en_bu');
         expect(addInputHandler).toHaveBeenCalledWith(finalizeHandler.handlerName, handlerMock);
-        expect(finalizeHandler.getHandler).toHaveBeenCalledWith('en-bu');
+        expect(finalizeHandler.getHandler).toHaveBeenCalledWith('en_bu');
     });
     it('should register on change order input handler', () => {
         const handlerMock = jest.fn();
         jest.spyOn(onChangeOrderHandler, 'getHandler').mockReturnValueOnce(handlerMock);
-        registerInputHandlers('en-bu');
+        registerInputHandlers('en_bu');
         expect(addInputHandler).toHaveBeenCalledWith(onChangeOrderHandler.handlerName, handlerMock);
-        expect(onChangeOrderHandler.getHandler).toHaveBeenCalledWith('en-bu', onRemoveProductSelected);
+        expect(onChangeOrderHandler.getHandler).toHaveBeenCalledWith('en_bu', onRemoveProductSelected);
     });
     it('should register on order or finalize input handler', () => {
         const handlerMock = jest.fn();
         jest.spyOn(orderOrFinalizeHandler, 'getHandler').mockReturnValueOnce(handlerMock);
-        registerInputHandlers('en-bu');
+        registerInputHandlers('en_bu');
         expect(addInputHandler).toHaveBeenCalledWith(orderOrFinalizeHandler.handlerName, handlerMock);
-        expect(orderOrFinalizeHandler.getHandler).toHaveBeenCalledWith('en-bu', onOrderOrFinaliseSelected);
+        expect(orderOrFinalizeHandler.getHandler).toHaveBeenCalledWith('en_bu', onOrderOrFinaliseSelected);
     });
     it('should register quantity input handler', () => {
         const handlerMock = jest.fn();
         jest.spyOn(quantityHandler, 'getHandler').mockReturnValueOnce(handlerMock);
-        registerInputHandlers('en-bu');
+        registerInputHandlers('en_bu');
         expect(addInputHandler).toHaveBeenCalledWith(quantityHandler.handlerName, handlerMock);
-        expect(quantityHandler.getHandler).toHaveBeenCalledWith('en-bu', onQuantitySelected);
+        expect(quantityHandler.getHandler).toHaveBeenCalledWith('en_bu', onQuantitySelected);
     });
 
 });

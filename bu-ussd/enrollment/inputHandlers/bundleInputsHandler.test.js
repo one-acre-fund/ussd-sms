@@ -14,21 +14,21 @@ describe('bundleinputs input handler', () => {
     });
     it('should reprompt for bundle if user provides empty input', () => {
         const onBundleSelected = jest.fn();
-        const handler = bundleInputsHandler.getHandler('en-bu', onBundleSelected);
+        const handler = bundleInputsHandler.getHandler('en_bu', onBundleSelected);
         handler();
         expect(sayText).toHaveBeenCalledWith('screen1');
         expect(promptDigits).toHaveBeenCalledWith(bundleInputsHandler.handlerName);
     });  
     it('should reprompt for bundle if user provides invalid input', () => {
         const onBundleSelected = jest.fn();
-        const handler = bundleInputsHandler.getHandler('en-bu', onBundleSelected);
+        const handler = bundleInputsHandler.getHandler('en_bu', onBundleSelected);
         handler('1bc03!00');
         expect(sayText).toHaveBeenCalledWith('screen1');
         expect(promptDigits).toHaveBeenCalledWith(bundleInputsHandler.handlerName);
     });
     it('should show the next screen once the user enters 77', () => {
         const onBundleSelected = jest.fn();
-        const handler = bundleInputsHandler.getHandler('en-bu', onBundleSelected);
+        const handler = bundleInputsHandler.getHandler('en_bu', onBundleSelected);
         handler('77');
         expect(sayText).toHaveBeenCalledWith('screen2');
         expect(state.vars.current_inputs_menu).toEqual(2);
@@ -36,9 +36,9 @@ describe('bundleinputs input handler', () => {
     });  
     it('should call onBundle selected once user chooses an existing bundle input', () => {
         const onBundleSelected = jest.fn();
-        const handler = bundleInputsHandler.getHandler('en-bu', onBundleSelected);
+        const handler = bundleInputsHandler.getHandler('en_bu', onBundleSelected);
         handler('1');
         expect(state.vars.selected_bundles).toEqual('[{"bundleId":2,"bundleInputs":[{"bundleInputId":567}]}]');
-        expect(onBundleSelected).toHaveBeenCalledWith('en-bu', {'bundleId': 1, 'bundleInputs': [{'bundleInputId': 123}]});
+        expect(onBundleSelected).toHaveBeenCalledWith('en_bu', {'bundleId': 1, 'bundleInputs': [{'bundleInputId': 123}]});
     });  
 });

@@ -55,14 +55,14 @@ describe('confirm order', () => {
     });
     it('should display an error and terminate the session of there is an error enrolling', () => {
         enrollOrder.mockReturnValueOnce(false);
-        confirmOrder('en-bu');
+        confirmOrder('en_bu');
         expect(sayText).toHaveBeenCalledWith('There was an error please try again/later');
         expect(stopRules).toHaveBeenCalled();
     });
 
     it('should enroll the order and send a message of products ordered', () => {
         enrollOrder.mockReturnValueOnce(true);
-        confirmOrder('en-bu');
+        confirmOrder('en_bu');
         expect(sayText).toHaveBeenCalledWith('Order\n' +
         '1) Biolite\n' +
         '2) Avocadoes\n');

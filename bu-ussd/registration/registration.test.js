@@ -8,7 +8,7 @@ describe('registration', () => {
     });
 
     it('should prompt for national in upon start', () => {
-        registration.start('en-bu');
+        registration.start('en_bu');
         expect(sayText).toHaveBeenCalledWith('Enter National ID number');
         expect(promptDigits).toHaveBeenCalledWith(nationalIdHandler.handlerName);
     });

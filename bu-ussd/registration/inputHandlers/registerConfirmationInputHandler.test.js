@@ -80,7 +80,7 @@ describe('register confirmation', () => {
         contact.phone_number = '078836475822';
     });
     it('should reprompt for confirmation upon empty input', () => {
-        const registerConfirmationHandler = registerConfirmationInputHandler.getHandler('en-bu');
+        const registerConfirmationHandler = registerConfirmationInputHandler.getHandler('en_bu');
         registerConfirmationHandler();
         expect(sayText).toHaveBeenCalledWith('I understood Group Constitution Rules\n' +
         '1) Continue\n' +
@@ -89,7 +89,7 @@ describe('register confirmation', () => {
     });
 
     it('should reprompt for confirmation upon non numerical input', () => {
-        const registerConfirmationHandler = registerConfirmationInputHandler.getHandler('en-bu');
+        const registerConfirmationHandler = registerConfirmationInputHandler.getHandler('en_bu');
         registerConfirmationHandler(' ashkjdhf ');
         expect(sayText).toHaveBeenCalledWith('I understood Group Constitution Rules\n' +
         '1) Continue\n' +
@@ -100,7 +100,7 @@ describe('register confirmation', () => {
     it('should end the session once the user is already registered', () => {
         state.vars.group_info = JSON.stringify(groupInfo);
         state.vars.duplicated_user = JSON.stringify({AccountNumber: '78363748'});
-        const registerConfirmationHandler = registerConfirmationInputHandler.getHandler('en-bu');
+        const registerConfirmationHandler = registerConfirmationInputHandler.getHandler('en_bu');
         registerConfirmationHandler('1');
         expect(sayText).toHaveBeenCalledWith('you are already registered. your account number is 78363748');
         expect(stopRules).toHaveBeenCalled();
@@ -109,7 +109,7 @@ describe('register confirmation', () => {
     it('should prompt for ordering once the registration is successfull', () => {
         state.vars.group_info = JSON.stringify(groupInfo);
         state.vars.duplicated_user = false;
-        const registerConfirmationHandler = registerConfirmationInputHandler.getHandler('en-bu');
+        const registerConfirmationHandler = registerConfirmationInputHandler.getHandler('en_bu');
         registerClient.mockReturnValueOnce({AccountNumber: '78363748'});
         getPhoneNumber.mockReturnValueOnce([{IsInactive: false, PhoneNumber: '0780378599'}]);
         registerConfirmationHandler('1');
@@ -126,7 +126,7 @@ describe('register confirmation', () => {
     it('should notify the user if there is an error during registration', () => {
         state.vars.group_info = JSON.stringify(groupInfo);
         state.vars.duplicated_user = false;
-        const registerConfirmationHandler = registerConfirmationInputHandler.getHandler('en-bu');
+        const registerConfirmationHandler = registerConfirmationInputHandler.getHandler('en_bu');
         registerClient.mockImplementationOnce(() => {});
         registerConfirmationHandler('1');
         expect(sayText).toHaveBeenCalledWith('There was an error please try again/later');
@@ -135,13 +135,13 @@ describe('register confirmation', () => {
 
     it('should take user to the main menu once they select 2', () => {
         state.vars.client_json = JSON.stringify(client);
-        const registerConfirmationHandler = registerConfirmationInputHandler.getHandler('en-bu');
+        const registerConfirmationHandler = registerConfirmationInputHandler.getHandler('en_bu');
         registerConfirmationHandler('2');
-        expect(onAccountNumberValidated).toHaveBeenCalledWith('en-bu', client);
+        expect(onAccountNumberValidated).toHaveBeenCalledWith('en_bu', client);
     });
 
     it('reprompt for register confirmation once they select invalid input', () => {
-        const registerConfirmationHandler = registerConfirmationInputHandler.getHandler('en-bu');
+        const registerConfirmationHandler = registerConfirmationInputHandler.getHandler('en_bu');
         registerConfirmationHandler('000');
         expect(sayText).toHaveBeenCalledWith('I understood Group Constitution Rules\n' +
         '1) Continue\n' +

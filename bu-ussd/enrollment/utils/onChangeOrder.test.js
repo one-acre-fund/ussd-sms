@@ -15,7 +15,7 @@ describe('on change order', () => {
         ]);
     });
     it('should save the necessary state variables and prompt for changing order', () => {
-        onChangeOrder('en-bu');
+        onChangeOrder('en_bu');
         expect(state.vars.ordered_bundles_screens).toEqual('{"1":"Remove Product from List\\n0) Confirm\\n1) Biolite\\n2) Maize\\n"}');
         expect(state.vars.ordered_bundles_option_values).toEqual('{"1":"123","2":"163"}');
         expect(state.vars.current_ordered_bundles_screen).toEqual('1');

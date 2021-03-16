@@ -15,7 +15,7 @@ describe('main menu input handler', () => {
         state.vars.client_json = JSON.stringify({FirstName: 'Tyrion', LastName: 'Lanyster'});
     });
     it('should reprompt if the input is not supported', () => {
-        const handler = getMainMenuHandler('en-bu');
+        const handler = getMainMenuHandler('en_bu');
         handler('0000');
         expect(sayText).toHaveBeenCalledWith('Select a Service\n' +
         '1) Register New Client\n' +
@@ -24,18 +24,18 @@ describe('main menu input handler', () => {
         expect(promptDigits).toHaveBeenCalledWith(mainMenuHandlerName);
     });
     it('should start registration if user chooses option 1 for register', () => {
-        const handler = getMainMenuHandler('en-bu');
+        const handler = getMainMenuHandler('en_bu');
         handler('1');
-        expect(startRegistration).toHaveBeenCalledWith('en-bu');
+        expect(startRegistration).toHaveBeenCalledWith('en_bu');
     });
     it('should start enrollment if user chooses option 2', () => {
-        const handler = getMainMenuHandler('en-bu');
+        const handler = getMainMenuHandler('en_bu');
         handler('2');
-        expect(startEnrolment).toHaveBeenCalledWith('en-bu', {'FirstName': 'Tyrion', 'LastName': 'Lanyster'});
+        expect(startEnrolment).toHaveBeenCalledWith('en_bu', {'FirstName': 'Tyrion', 'LastName': 'Lanyster'});
     });
     it('should start check balance if user chooses option 3 check balance', () => {
-        const handler = getMainMenuHandler('en-bu');
+        const handler = getMainMenuHandler('en_bu');
         handler('3');
-        expect(checkBalance).toHaveBeenCalledWith('en-bu', {FirstName: 'Tyrion', LastName: 'Lanyster'});
+        expect(checkBalance).toHaveBeenCalledWith('en_bu', {FirstName: 'Tyrion', LastName: 'Lanyster'});
     });
 });

@@ -9,8 +9,8 @@ describe('on remove product selected', () => {
         ]);
     });
     it('should  call on change order and remove the selected bundle from selected bundles', () => {
-        onRemoveProductSelected('en-bu', 4342);
+        onRemoveProductSelected('en_bu', 4342);
         expect(state.vars.selected_bundles).toEqual('[{"bundleId":1234},{"bundleId":643}]');
-        expect(onChangeOrder).toHaveBeenCalledWith('en-bu');
+        expect(onChangeOrder).toHaveBeenCalledWith('en_bu');
     });
 });

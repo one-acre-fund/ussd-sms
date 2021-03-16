@@ -10,26 +10,26 @@ module.exports = {
         'ki': 'Uko uhagaze mu nzira y\'ubwishyu: $HP_DIST $status y\'inzira y\'ubwishyu\n',
         'en-ke': 'Healthy Path Status: $HP_DIST $status healthy path\n',
         'sw': 'Njia salama ya malipo: Uko $status ya njia salama ya malipo na KES $HP_DIST\n',
-        'en-bu': 'Healthy Path Status: $HP_DIST $status healthy path\n',
+        'en_bu': 'Healthy Path Status: $HP_DIST $status healthy path\n',
         'bu': 'Uko ivyerekeye ubwishu vyifashe: $HP_DIST $status y\'ubwishu\n',
-        'fr-bu': 'État du parcours de remboursement: $HP_DIST $status de l\'état de remboursement\n'
+        'fr_bu': 'État du parcours de remboursement: $HP_DIST $status de l\'état de remboursement\n'
     },
     'status_above': {
         'en': 'above',
         'sw': 'juu',
         'en-ke': 'above',
         'ki': 'hejuru',
-        'en-bu': 'above',
+        'en_bu': 'above',
         'bu': 'hejuru',
-        'fr-bu': 'Au-dessus'
+        'fr_bu': 'Au-dessus'
     },
     'status_below': {
         'en': 'below',
         'sw': 'chini',
         'en-ke': 'below',
         'ki': 'munsi',
-        'en-bu': 'below',
+        'en_bu': 'below',
         'bu': 'munsi',
-        'fr-bu': 'en dessous'
+        'fr_bu': 'en dessous'
     }
 };

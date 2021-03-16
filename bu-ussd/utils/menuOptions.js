@@ -1,23 +1,23 @@
 module.exports = [
     {
         'registration': {
-            'en-bu': 'Register New Client',
+            'en_bu': 'Register New Client',
             'bu': 'Kwandika umunywanyi mushaha',
-            'fr-bu': 'Enregistrement d\'un nouveau client'
+            'fr_bu': 'Enregistrement d\'un nouveau client'
         },
     },
     {
         'place_order': {
-            'en-bu': 'Place Order',
+            'en_bu': 'Place Order',
             'bu': 'Gusaba inyongeramwimbu',
-            'fr-bu': 'Commander'
+            'fr_bu': 'Commander'
         },
     },
     {
         'get_balance': {
-            'en-bu': 'Get Balance',
+            'en_bu': 'Get Balance',
             'bu': 'Yose hamwe',
-            'fr-bu': 'Avoir la solde'
+            'fr_bu': 'Avoir la solde'
         }
     }
 ];

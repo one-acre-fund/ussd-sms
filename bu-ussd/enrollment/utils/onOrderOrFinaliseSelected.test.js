@@ -30,12 +30,12 @@ describe('on order or finalise selected', () => {
         state.vars.enrolling_client = JSON.stringify({FirstName: 'Jammie', LastName: 'Lanyster'});
     });
     it('should be call onKeepOrdering once user chooses 1', () => {
-        onOrderOrFinaliseSelected('en-bu', '1');
-        expect(onKeepOrdering).toHaveBeenCalledWith('en-bu');
+        onOrderOrFinaliseSelected('en_bu', '1');
+        expect(onKeepOrdering).toHaveBeenCalledWith('en_bu');
     });
 
     it('should save the finalize screen as a state variable and prompt for finalize handler', () => {
-        onOrderOrFinaliseSelected('en-bu', '2');
+        onOrderOrFinaliseSelected('en_bu', '2');
         expect(state.vars.finalize_screen).toEqual('Jammie Lanyster ordered for \n' +
         'Biolite : 4 unit\n' +
         'Maize : 320 kg\n\n' +

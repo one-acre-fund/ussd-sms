@@ -5,7 +5,7 @@ describe('registering all input handlers', () => {
         const nationalIdInputHandler = require('./nationalIdInputHandler');
         const handlerMock = jest.fn();
         jest.spyOn(nationalIdInputHandler, 'getHandler').mockReturnValueOnce(handlerMock);
-        registerInputHandlers('en-bu');
+        registerInputHandlers('en_bu');
         expect(addInputHandler).toHaveBeenCalledWith(nationalIdInputHandler.handlerName, handlerMock);
     });
 
@@ -13,7 +13,7 @@ describe('registering all input handlers', () => {
         const firstNameInputHandler = require('./firstNameInputHandler');
         const handlerMock = jest.fn();
         jest.spyOn(firstNameInputHandler, 'getHandler').mockReturnValueOnce(handlerMock);
-        registerInputHandlers('en-bu');
+        registerInputHandlers('en_bu');
         expect(addInputHandler).toHaveBeenCalledWith(firstNameInputHandler.handlerName, handlerMock);
     });
 
@@ -21,7 +21,7 @@ describe('registering all input handlers', () => {
         const lastNameInputHandler = require('./lastNameInputHandler');
         const handlerMock = jest.fn();
         jest.spyOn(lastNameInputHandler, 'getHandler').mockReturnValueOnce(handlerMock);
-        registerInputHandlers('en-bu');
+        registerInputHandlers('en_bu');
         expect(addInputHandler).toHaveBeenCalledWith(lastNameInputHandler.handlerName, handlerMock);
     });
 
@@ -29,7 +29,7 @@ describe('registering all input handlers', () => {
         const phoneNumberInputHandler = require('./phoneNumberInputHandler');
         const handlerMock = jest.fn();
         jest.spyOn(phoneNumberInputHandler, 'getHandler').mockReturnValueOnce(handlerMock);
-        registerInputHandlers('en-bu');
+        registerInputHandlers('en_bu');
         expect(addInputHandler).toHaveBeenCalledWith(phoneNumberInputHandler.handlerName, handlerMock);
     });
 
@@ -37,7 +37,7 @@ describe('registering all input handlers', () => {
         const groupCodeInputHandler = require('./groupCodeInputHandler');
         const handlerMock = jest.fn();
         jest.spyOn(groupCodeInputHandler, 'getHandler').mockReturnValueOnce(handlerMock);
-        registerInputHandlers('en-bu');
+        registerInputHandlers('en_bu');
         expect(addInputHandler).toHaveBeenCalledWith(groupCodeInputHandler.handlerName, handlerMock);
     });
 
@@ -45,7 +45,7 @@ describe('registering all input handlers', () => {
         const registerConfirmationInputHandler = require('./registerConfirmationInputHandler');
         const handlerMock = jest.fn();
         jest.spyOn(registerConfirmationInputHandler, 'getHandler').mockReturnValueOnce(handlerMock);
-        registerInputHandlers('en-bu');
+        registerInputHandlers('en_bu');
         expect(addInputHandler).toHaveBeenCalledWith(registerConfirmationInputHandler.handlerName, handlerMock);
     });
 
@@ -53,7 +53,7 @@ describe('registering all input handlers', () => {
         const continueToOrderingInputHandler = require('./continueToOrderingHandler');
         const handlerMock = jest.fn();
         jest.spyOn(continueToOrderingInputHandler, 'getHandler').mockReturnValueOnce(handlerMock);
-        registerInputHandlers('en-bu');
+        registerInputHandlers('en_bu');
         expect(addInputHandler).toHaveBeenCalledWith(continueToOrderingInputHandler.handlerName, handlerMock);
     });
 });

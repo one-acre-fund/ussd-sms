@@ -1,57 +1,57 @@
 module.exports = {
     'bundles_title': {
-        'en-bu': 'Select a Product for $firstName $lastName',
+        'en_bu': 'Select a Product for $firstName $lastName',
         'bu': 'Hitamo ivyasabwe vya $firstName $lastName',
-        'fr-bu': 'Sélectionnez un produit pour $firstName $lastName'
+        'fr_bu': 'Sélectionnez un produit pour $firstName $lastName'
     },
     'next_screen': {
-        'en-bu': '77) continue',
+        'en_bu': '77) continue',
         'bu': '77) bandanya',
-        'fr-bu': '77) continuer'
+        'fr_bu': '77) continuer'
     },
     'enter_quantity': {
-        'en-bu': 'Select Quantity: $bundleInput /$unit',
+        'en_bu': 'Select Quantity: $bundleInput /$unit',
         'bu': 'Hitamwo igitigiri: $bundleInput /$unit',
-        'fr-bu': 'Sélectionner la quantité: $bundleInput /$unit'
+        'fr_bu': 'Sélectionner la quantité: $bundleInput /$unit'
     },
     'order_or_finalize': {
-        'en-bu': '1) Continue ordering\n2) Confirm and finalize',
+        'en_bu': '1) Continue ordering\n2) Confirm and finalize',
         'bu': '1) Bandanya gusaba inyongeramwimbu\n2) Kwemeza no gusozera',
-        'fr-bu': '1) Continuer à commander\n2) Confirmer et finaliser'
+        'fr_bu': '1) Continuer à commander\n2) Confirmer et finaliser'
     },
     'finalize': {
-        'en-bu': '$firstName $lastName ordered for \n$order\n$menu',
+        'en_bu': '$firstName $lastName ordered for \n$order\n$menu',
         'bu': '$firstName $lastName ivyasabwe vy\' \n$order\n$menu',
-        'fr-bu': '$firstName $lastName commandés pour \n$order\n$menu'
+        'fr_bu': '$firstName $lastName commandés pour \n$order\n$menu'
     },
     'finalize_menu': {
-        'en-bu': '1) Add another product\n2) Change Order\n3) Confirm',
+        'en_bu': '1) Add another product\n2) Change Order\n3) Confirm',
         'bu': '1) Ongerako ikindi gikoresho\n2) Guhindura ivyasabwe\n3) Kwemeza',
-        'fr-bu': '1) Ajouter un autre produit\n2) Modifier la commande\n3) Confirmer'
+        'fr_bu': '1) Ajouter un autre produit\n2) Modifier la commande\n3) Confirmer'
     },
     'total_credit': {
-        'en-bu': 'Total Credit = $amount\n',
+        'en_bu': 'Total Credit = $amount\n',
         'bu': 'Ideni ryose = $amount\n',
-        'fr-bu': 'Total des crédits = $amount\n'
+        'fr_bu': 'Total des crédits = $amount\n'
     },
     'change_order_title': {
-        'en-bu': 'Remove Product from List\n0) Confirm\n',
+        'en_bu': 'Remove Product from List\n0) Confirm\n',
         'bu': 'Gukura ivyasabwe kurutonde\n0) Kwemeza\n',
-        'fr-bu': 'Retirer un produit de la liste\n0) Confirmer\n'
+        'fr_bu': 'Retirer un produit de la liste\n0) Confirmer\n'
     },
     'error_enrolling': {
-        'en-bu': 'There was an error please try again/later',
+        'en_bu': 'There was an error please try again/later',
         'bu': 'Habaye ikosa, Musabwe kugerageza kandi hanyuma',
-        'fr-bu': 'une erreur s\'est produite. Réessayez plus tard'
+        'fr_bu': 'une erreur s\'est produite. Réessayez plus tard'
     },
     'order': {
-        'en-bu': 'Order\n',
+        'en_bu': 'Order\n',
         'bu': 'commander\n',
-        'fr-bu': 'Ivyasabwe\n'
+        'fr_bu': 'Ivyasabwe\n'
     },
     'sample': {
-        'en-bu': '',
+        'en_bu': '',
         'bu': '',
-        'fr-bu': ''
+        'fr_bu': ''
     }
 };

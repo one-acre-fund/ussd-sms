@@ -63,7 +63,7 @@ const client = {
     ]
 };
 
-const lang = 'en-bu';
+const lang = 'en_bu';
 describe('on account number validated', () => {
     
     it('should set the necessary state variables', () => {

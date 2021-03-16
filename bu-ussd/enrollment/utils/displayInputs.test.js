@@ -19,7 +19,7 @@ var selectedBundle = {
     ]
 };
 
-var lang = 'en-bu';
+var lang = 'en_bu';
 
 describe('display bundles', () => {
     it('should display bundles and save necessary state variables', () => {

@@ -3,7 +3,7 @@ const phoneNumberInputHandler = require('./phoneNumberInputHandler');
 
 describe('last name input handler', ()=> {
     it('should prompt for the last name input handler', () => {
-        const handler = lastNameInputHandler.getHandler('en-bu');
+        const handler = lastNameInputHandler.getHandler('en_bu');
         handler('robben');
         expect(state.vars.last_name).toEqual('robben');
         expect(sayText).toHaveBeenCalledWith('Enter Client\'s phone number or 0 if they don\'t have one');

@@ -32,7 +32,7 @@ describe('check balance', () => {
     it('should show the popup and send the message of the balance', () => {
         contact.phone_number = '0787654565';
         getHealthyPathMessage.mockReturnValueOnce('Healthy Path Status: 250 below healthy path\n');
-        checkBalance('en-bu', clientMock);
+        checkBalance('en_bu', clientMock);
         var message = 'Hello Tyrion Lanyster\n' +
         'Credit: 11011\n' +
         'Paid: 1760\n' +

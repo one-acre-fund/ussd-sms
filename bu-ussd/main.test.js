@@ -31,7 +31,7 @@ describe('main burundi ussd', () => {
 
     it('should display the splash screen and prompt for account number', () => {
         require('./main');
-        contact.vars.lang = 'en-bu';
+        contact.vars.lang = 'en_bu';
         global.main();
         expect(sayText).toHaveBeenCalledWith('Murakaza muri OAF, Musabwe kwinjiza inomero yanyu ya Konte\n' +
         '98. English\n' +

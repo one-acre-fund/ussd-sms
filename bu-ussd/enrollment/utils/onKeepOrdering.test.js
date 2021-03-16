@@ -18,8 +18,8 @@ describe('on keep ordering', () => {
     });
     it('should call get bundles, display bundles and prompt for choosing bundle', () => {
         getBundles.mockReturnValueOnce([{bundleName: 'biolite'}]);
-        onKeepOrdering('en-bu');
-        expect(displayBundles).toHaveBeenCalledWith([{bundleName: 'biolite'}], 'en-bu', clientMock);
+        onKeepOrdering('en_bu');
+        expect(displayBundles).toHaveBeenCalledWith([{bundleName: 'biolite'}], 'en_bu', clientMock);
         expect(promptDigits).toHaveBeenCalledWith(bundlesHandler.handlerName);
     });
 });

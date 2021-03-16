@@ -15,7 +15,7 @@ var bundles = [
     }
 ];
 var client = {FirstName: 'Jamie', LastName: 'Lanyster'};
-var lang = 'en-bu';
+var lang = 'en_bu';
 
 describe('display bundles', () => {
     beforeAll(() => {

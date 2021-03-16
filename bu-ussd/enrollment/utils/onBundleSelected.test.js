@@ -31,7 +31,7 @@ describe('on bundle selected', () => {
                 {inputName: 'Irish-2', bundleInputId: 2873}
             ]
         };
-        onBundleSelected('en-bu', selectedBundle);
+        onBundleSelected('en_bu', selectedBundle);
         expect(sayText).toHaveBeenCalledWith('Irish\n' +
         '1) Irish-1\n' +
         '2) Irish-2\n');
@@ -48,7 +48,7 @@ describe('on bundle selected', () => {
                 {inputName: 'Irish-1', bundleInputId: 2532, unit: 'kg'},
             ]
         };
-        onBundleSelected('en-bu', selectedBundle);
+        onBundleSelected('en_bu', selectedBundle);
         expect(sayText).toHaveBeenCalledWith('Select Quantity: Irish-1 /kg');
         expect(promptDigits).toHaveBeenCalledWith(quantityHandler.handlerName);
     });

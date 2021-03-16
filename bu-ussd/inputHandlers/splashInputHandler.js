@@ -4,16 +4,16 @@ var rosterAPI = require('../../rw-legacy/lib/roster/api');
 var handlerName = 'bu_splash';
 
 var languageSwapOptions = {
-    'en-bu': { // current language
+    'en_bu': { // current language
         '98': 'bu', // next language if choice is 98
-        '99': 'fr-bu', // next language if choice is 99
+        '99': 'fr_bu', // next language if choice is 99
     },
     'bu': {
-        '98': 'en-bu',
-        '99': 'fr-bu',
+        '98': 'en_bu',
+        '99': 'fr_bu',
     },
-    'fr-bu': {
-        '98': 'en-bu',
+    'fr_bu': {
+        '98': 'en_bu',
         '99': 'bu',
     }
 };

@@ -15,8 +15,8 @@ describe('get bundles', () => {
             .mockReturnValueOnce(false);
 
         mockCursor.next.mockReturnValueOnce({vars: {
-            'bundle_name_en-bu': 'Biolite',
-            'input_name_en-bu': 'Bio-light',
+            'bundle_name_en_bu': 'Biolite',
+            'input_name_en_bu': 'Bio-light',
             bundle_id: 123,
             bundle_input_id: '432',
             max: 92,
@@ -24,8 +24,8 @@ describe('get bundles', () => {
             unit: 'unit'
         }})
             .mockReturnValueOnce({vars: {
-                'bundle_name_en-bu': 'Maize',
-                'input_name_en-bu': 'Maiz-trio',
+                'bundle_name_en_bu': 'Maize',
+                'input_name_en_bu': 'Maiz-trio',
                 bundle_id: 124,
                 bundle_input_id: '232',
                 max: 99,
@@ -33,15 +33,15 @@ describe('get bundles', () => {
                 unit: 'kg'
             }})
             .mockReturnValueOnce({vars: {
-                'bundle_name_en-bu': 'Biolite',
-                'input_name_en-bu': 'Bio-short',
+                'bundle_name_en_bu': 'Biolite',
+                'input_name_en_bu': 'Bio-short',
                 bundle_id: 123,
                 bundle_input_id: '373',
                 max: 92,
                 price: 1203.00,
                 unit: 'unit'
             }});
-        var bundles = getBundles('112435', 'en-bu');
+        var bundles = getBundles('112435', 'en_bu');
         expect(mockTable.queryRows).toHaveBeenCalledWith({'vars': {'d112435': '1', 'offered': '1'}});
         expect(bundles).toEqual([
             {'bundleId': 123,

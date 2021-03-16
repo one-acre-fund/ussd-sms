@@ -12,7 +12,7 @@ describe('on change order handler', () => {
 
     it('should reprompt when user provides no input', () => {
         const onRemoveProductSelected = jest.fn();
-        const handler = onChangeOrderHandler.getHandler('en-bu', onRemoveProductSelected);
+        const handler = onChangeOrderHandler.getHandler('en_bu', onRemoveProductSelected);
         handler();
         expect(sayText).toHaveBeenCalledWith('screen1');
         expect(promptDigits).toHaveBeenCalledWith(onChangeOrderHandler.handlerName);
@@ -20,14 +20,14 @@ describe('on change order handler', () => {
     
     it('should call confirm order if user enters 0', () => {
         const onRemoveProductSelected = jest.fn();
-        const handler = onChangeOrderHandler.getHandler('en-bu', onRemoveProductSelected);
+        const handler = onChangeOrderHandler.getHandler('en_bu', onRemoveProductSelected);
         handler('0');
-        expect(confirmOrder).toHaveBeenCalledWith('en-bu');
+        expect(confirmOrder).toHaveBeenCalledWith('en_bu');
     });
 
     it('should reprompt when user invalid input', () => {
         const onRemoveProductSelected = jest.fn();
-        const handler = onChangeOrderHandler.getHandler('en-bu', onRemoveProductSelected);
+        const handler = onChangeOrderHandler.getHandler('en_bu', onRemoveProductSelected);
         handler('003643sda6d!');
         expect(sayText).toHaveBeenCalledWith('screen1');
         expect(promptDigits).toHaveBeenCalledWith(onChangeOrderHandler.handlerName);
@@ -35,7 +35,7 @@ describe('on change order handler', () => {
 
     it('should show the next screen if the user enters 77', () => {
         const onRemoveProductSelected = jest.fn();
-        const handler = onChangeOrderHandler.getHandler('en-bu', onRemoveProductSelected);
+        const handler = onChangeOrderHandler.getHandler('en_bu', onRemoveProductSelected);
         handler('77');
         expect(sayText).toHaveBeenCalledWith('screen2');
         expect(state.vars.current_ordered_bundles_screen).toEqual(2);
@@ -44,9 +44,9 @@ describe('on change order handler', () => {
 
     it('should call onRemoveSelected and reprompt for a product once the user chooses a valid product', () => {
         const onRemoveProductSelected = jest.fn();
-        const handler = onChangeOrderHandler.getHandler('en-bu', onRemoveProductSelected);
+        const handler = onChangeOrderHandler.getHandler('en_bu', onRemoveProductSelected);
         handler('1');
-        expect(onRemoveProductSelected).toHaveBeenCalledWith('en-bu', '123');
+        expect(onRemoveProductSelected).toHaveBeenCalledWith('en_bu', '123');
         expect(promptDigits).toHaveBeenCalledWith(onChangeOrderHandler.handlerName);
     });
 });
