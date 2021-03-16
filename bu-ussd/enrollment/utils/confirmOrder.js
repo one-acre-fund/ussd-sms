@@ -33,7 +33,7 @@ module.exports = function(lang) {
         var productsMessage = getMessage('order', {}, lang);
         // loop over them creating a list
         selectedBundles.forEach(function(selectedBundle, index){
-            productsMessage += index + ') ' + selectedBundle.bundleName + '\n';
+            productsMessage += index + 1 + ') ' + selectedBundle.bundleName + '\n';
         });
         // show order on the screen
         global.sayText(productsMessage);
@@ -54,7 +54,7 @@ module.exports = function(lang) {
 };
 
 function filterActivePhones(phoneNumbers) {
-    phoneNumbers.filter(function(phoneNumber) {
+    return phoneNumbers.filter(function(phoneNumber) {
         return phoneNumber.IsInactive == false;
     });
 }
