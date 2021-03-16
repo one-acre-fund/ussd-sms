@@ -13,6 +13,7 @@ if(service.vars.env === 'prod' || service.vars.env === 'dev'){
     env = defaultEnvironment;
 }
 
+service.vars.bundles_table_id = project.vars[env + '_bundles_table'];
 
 var lang = contact.vars.lang || 'bu';
 var translations = require('./translations/index');
