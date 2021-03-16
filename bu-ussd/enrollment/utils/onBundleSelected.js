@@ -15,7 +15,7 @@ module.exports = function onBundleSelected(lang, selectedBundle) {
     state.vars.selected_bundles = JSON.stringify(selectedBundles);
     if(selectedBundle.bundleInputs.length > 1) {
         // means there are more than one inputs/ show them as varieties
-        displayInputs(selectedBundle);
+        displayInputs(lang, selectedBundle);
         global.promptDigits(bundleInputsHandler.handlerName);
     } else {
         var getMessage = translator(translations, lang);
@@ -49,7 +49,7 @@ function displayInputs(lang, selectedBundle) {
     var getMessage = translator(translations, lang);
     var bundleInputs = selectedBundle.bundleInputs;
     var optionNames = createOptionNamesForInputs(bundleInputs);
-    var createdMenu = createMenu(optionNames, getMessage('next_screen', {}, lang), bundleInputs.bundleName + '\n');
+    var createdMenu = createMenu(optionNames, getMessage('next_screen', {}, lang), selectedBundle.bundleName);
     state.vars.input_screens = JSON.stringify(createdMenu.screens);
     state.vars.input_option_values = JSON.stringify(createdMenu.optionValues);
     state.vars.current_inputs_menu = '1';
