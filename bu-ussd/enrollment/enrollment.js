@@ -15,7 +15,7 @@ function start(language, client) {
     var bundles = getBundles(client.DistrictId, language);
     state.vars.selected_bundles = JSON.stringify([]);
     state.vars.bundles = JSON.stringify(bundles);
-    displayBundles(bundles);
+    displayBundles(bundles, language, client);
     global.promptDigits(bundlesHandler.handlerName);
 }
 
