@@ -12,8 +12,9 @@ module.exports = {
                 global.sayText(state.vars.finalize_screen);
                 global.promptDigits(handlerName);
             }
-
-            if(input == 1) {
+            var all_bundles = JSON.parse(state.vars.bundles);
+            var selected_bundles = JSON.parse(state.vars.selected_bundles);
+            if(input == 1 && all_bundles.length > selected_bundles.length) {
                 // add another product
                 onKeepOrdering(lang);
             } else if(input == 2) {
@@ -23,6 +24,9 @@ module.exports = {
                 // confirm
                 // place order and send a message
                 confirmOrder(lang);
+            } else {
+                global.sayText(state.vars.finalize_screen);
+                global.promptDigits(handlerName);
             }
         };
     }

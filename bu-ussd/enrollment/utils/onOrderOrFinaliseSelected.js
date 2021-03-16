@@ -5,7 +5,9 @@ var onKeepOrdering = require('./onKeepOrdering');
 
 module.exports = function(lang, input) {
     var getMessage = translator(translations, lang);
-    if(input == 1) {
+    var all_bundles = JSON.parse(state.vars.bundles);
+    var selected_bundles = JSON.parse(state.vars.selected_bundles);
+    if(input == 1 && all_bundles.length > selected_bundles.length) {
         // continue ordering
         onKeepOrdering(lang);
     } else {

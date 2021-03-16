@@ -5,6 +5,7 @@ const onKeepOrdering = require('./onKeepOrdering');
 jest.mock('./onKeepOrdering');
 describe('on order or finalise selected', () => {
     beforeAll(() => {
+        state.vars.bundles = JSON.stringify([{},{},{}, {}]);
         state.vars.selected_bundles = JSON.stringify([
             {
                 bundleName: 'Biolite',

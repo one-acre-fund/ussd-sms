@@ -9,6 +9,8 @@ jest.mock('../utils/confirmOrder');
 
 describe('finalize handler', () => {
     beforeAll(() => {
+        state.vars.bundles = JSON.stringify([{}, {}, {}]);
+        state.vars.selected_bundles = JSON.stringify([{}, {}]);
         state.vars.finalize_screen = 'finalize screen';
     });
     it('should reprompt on empty input', () => {
@@ -31,5 +33,11 @@ describe('finalize handler', () => {
         var handler = finalizeHandler.getHandler('en_bu');
         handler('3');
         expect(confirmOrder).toHaveBeenCalledWith('en_bu');
+    });
+    it('should reprompt on invalid input', () => {
+        var handler = finalizeHandler.getHandler('en_bu');
+        handler('37463hgdadf');
+        expect(sayText).toHaveBeenCalledWith('finalize screen');
+        expect(promptDigits).toHaveBeenCalledWith(finalizeHandler.handlerName);
     });
 });
