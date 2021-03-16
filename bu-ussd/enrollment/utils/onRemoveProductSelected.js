@@ -10,6 +10,6 @@ module.exports = function onRemoveProductSelected(lang, bundleIdToRemove) {
     var remainingBundles = selectedBundles.filter(function(selectedBundle) {
         return selectedBundle.bundleId != bundleIdToRemove;
     });
-    state.vars.selected_bundle = JSON.stringify(remainingBundles);
+    state.vars.selected_bundles = JSON.stringify(remainingBundles);
     onChangeOrder(lang);
 };
