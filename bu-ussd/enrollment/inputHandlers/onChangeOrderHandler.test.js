@@ -5,6 +5,7 @@ jest.mock('../utils/confirmOrder');
 
 describe('on change order handler', () => {
     beforeAll(() => {
+        state.vars.selected_bundles = JSON.stringify([{}, {}]);
         state.vars.ordered_bundles_screens = JSON.stringify({'1': 'screen1', '2': 'screen2', '3': 'screen3'});
         state.vars.ordered_bundles_option_values =  JSON.stringify({'1': '123', '2': '345', '3': '567'});
         state.vars.current_ordered_bundles_screen = '1';

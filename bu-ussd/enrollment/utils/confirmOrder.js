@@ -8,13 +8,14 @@ module.exports = function(lang) {
     // place order and send a message of the order
     var getMessage = translator(translations, lang);
     var selectedBundles = JSON.parse(state.vars.selected_bundles);
+    console.log('>>>>>>>>>>>' + state.vars.selected_bundles);
     var client = JSON.parse(state.vars.enrolling_client);
     // create payload for the api request.
     var bundles = selectedBundles.map(function(bundle) {
         return {
             bundleId: bundle.bundleId,
-            bundleQuantity: bundle.inputBundles[0].quantity,
-            inputChoices: bundle.inputBundles.map(function(inputBundle) {return inputBundle.bundleInputId;})
+            bundleQuantity: bundle.bundleInputs[0].quantity,
+            inputChoices: bundle.bundleInputs.map(function(inputBundle) {return inputBundle.bundleInputId;})
         };
     });
     var isGroupLeader = CheckGroupLeader(client.DistrictId, client.ClientId);

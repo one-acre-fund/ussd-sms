@@ -14,9 +14,10 @@ module.exports = {
                 global.promptDigits(handlerName);
                 return;
             }
+            var selected_bundles = JSON.parse(state.vars.selected_bundles);
             input = input.trim();
             var selectedProductId = ordered_bundles_option_values[input];
-            if(selectedProductId) {
+            if(selectedProductId && selected_bundles.length > 1) {
                 // remove the product and reprompt
                 onRemoveProductSelected(lang, selectedProductId);
                 global.promptDigits(handlerName);

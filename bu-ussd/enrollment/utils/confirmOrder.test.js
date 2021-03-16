@@ -21,7 +21,7 @@ describe('confirm order', () => {
             {
                 bundleId: 123,
                 bundleName: 'Biolite',
-                inputBundles: [
+                bundleInputs: [
                     {
                         quantity: 10,
                         bundleInputId: 345
@@ -31,7 +31,7 @@ describe('confirm order', () => {
             {
                 bundleId: 980,
                 bundleName: 'Avocadoes',
-                inputBundles: [
+                bundleInputs: [
                     {
                         quantity: 87,
                         bundleInputId: 456
