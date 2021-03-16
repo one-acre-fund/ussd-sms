@@ -5,7 +5,7 @@
  */
 module.exports = function createOptionNamesForBundles(bundles) {
     var optionNames = {};
-    bundles.forEach(function(bundle) {
+    (bundles || []).forEach(function(bundle) {
         optionNames[bundle.bundleId] = bundle.bundleName;
     });
     return optionNames;
