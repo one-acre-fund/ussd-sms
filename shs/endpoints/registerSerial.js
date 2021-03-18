@@ -23,7 +23,7 @@ module.exports = function (requestData){
             global.sayText(translate('serial_assigned',{'$serialNumber': requestData.unitSerialNumber},state.vars.shsLang));
             return null;
         }
-        else if(JSON.parse(response.content).message == 'No unit found with serial number '+ requestData.unitSerialNumber || JSON.parse(response.content).message =='Unit with serial number '+ requestData.unitSerialNumber +' is not an OAF unit'){
+        else if(JSON.parse(response.content).message == 'No unit found with serial number '+ requestData.unitSerialNumber || JSON.parse(response.content).message =='Unit with serial number '+ requestData.unitSerialNumber +' is not an OAF unit' || JSON.parse(response.content).message == 'validation failed'){
             logger = new Log();
             logger.error('Failed to register shs unit', {data: {response: response, request: requestData}});
             return 'wrong serial';
