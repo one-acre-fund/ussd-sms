@@ -12,8 +12,9 @@ describe('kenya impact trainings', () => {
         const trainingMenuText = jest.fn();
         const handlerMock = jest.fn();
         jest.spyOn(phoneHandler, 'getHandler').mockReturnValueOnce(handlerMock);
-        impactTrainings.registerInputHandlers(trainingMenuText);
+        impactTrainings.registerInputHandlers(trainingMenuText, 'en');
         expect(addInputHandler).toHaveBeenCalledWith(phoneHandler.handlerName, handlerMock);
+        expect(phoneHandler.getHandler).toHaveBeenCalledWith(trainingMenuText, 'en');
     });
 
     it('should export start function and register input handlers', () => {

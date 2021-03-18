@@ -37,6 +37,7 @@ var contactCallCenter = require('../contact-call-center/contactCallCenter');
 var shs = require('../shs/shs');
 var slackLogger = require('../slack-logger/index');
 var Log = require('../logger/elk/elk-logger');
+var kenyaImpactTrainings = require('../kenya-impact-trainings/kenya-impact-trainings');
 var logger = new Log();
 
 var dukaLocator = require('../duka-locator/index');
@@ -52,6 +53,7 @@ service.vars.seedQualityIssuesStart = env + '_seedQualityIssuesStart';
 service.vars.seedQualityIssuesEnd = env + '_seedQualityIssuesEnd';
 
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
+const nonClientMainMenu = require('./utils/menus/populate-menu/nonClientMainMenu');
 service.vars.credit_officers_table = 'credit_officers_table';
 service.vars.duka_clients_table = env + '_duka_client_registration';
 service.vars.maizeEnrollmentTableId  = project.vars[env + '_maize_enr_table_id'];
@@ -1602,7 +1604,7 @@ seedGerminationIssues.registerInputHandlers(langWithEnke, service.vars.seed_germ
 contactCallCenter.registerInputHandlers(GetLang() ? 'en-ke' : 'sw');
 shs.registerHandlers();
 sbccModule.registerInputHandlers({lang: GetLang() ? 'en' : 'sw', backMenu: NonClientMenuText});
-
+kenyaImpactTrainings.registerInputHandlers(TrainingMenuText, GetLang() ? 'en' : 'sw');
 function reduceClientSize(client) {
     var cloned = _.clone(client);
     cloned.AccountHistory = client.AccountHistory.slice(0,3);
@@ -1693,8 +1695,7 @@ addInputHandler('NonClientMenu', function(input) {
         promptDigits('FOLocRegion', {submitOnHash: true, maxDigits: 8, timeout: 5});
     }
     else if(sessionMenu[input-1].option_name == 'trainings'){
-        TrainingMenuText();
-        promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});
+        kenyaImpactTrainings.start( GetLang() ? 'en' : 'sw', 'TrainingSelect');
     }
     else if(sessionMenu[input-1].option_name == 'locate_oaf_duka') {
         dukaLocator.startDukaLocator({lang: GetLang() ? 'en' : 'sw'});

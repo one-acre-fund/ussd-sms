@@ -1,16 +1,17 @@
+var translations = require('../translations/index');
+var translator = require('../../utils/translator/translator');
 var makePhones = require('../utils/makePhones');
 var handlerName = 'kenya_training_input_handler';
 module.exports = {
     handlerName: handlerName,
     /**
      * input handler for the kenya trainings menu
-     * @param {String} trainingMenuText screen for the trainings menu
+     * @param {Function} trainingMenuText function to display screen for the trainings menu
      */
-    getHandler: function(trainingMenuText) {
+    getHandler: function(trainingMenuText, lang) {
         return function(input) {
+            var getMessage = translator(translations, lang);
             var trainingsHandler = state.vars.trainingsHandler; 
-            var mainMenu = state.vars.trainingsHandler;
-            var mainMenuHandlerName = state.vars.trainingsHandler; 
             var clients_table = project.getOrCreateDataTable('impact trainings clients');
             var phoneNumber = input.trim();
 
@@ -23,15 +24,14 @@ module.exports = {
                 });
                 return !!row.hasNext();
             });
-            var usedPhone = foundPhones[0];
-            if(usedPhone) {
+            if(foundPhones){
                 // row found
                 trainingMenuText();
                 global.promptDigits(trainingsHandler);
             } else {
                 // no phone found
-                global.sayText(mainMenu);
-                global.promptDigits(mainMenuHandlerName);
+                global.sayText(getMessage('enter_phone', {}, lang));
+                global.promptDigits(handlerName);
             }
         };
     }
