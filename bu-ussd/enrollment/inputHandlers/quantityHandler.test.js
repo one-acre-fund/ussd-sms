@@ -36,6 +36,24 @@ describe('quantity input handler', () => {
         handler('5');
         expect(onQuantitySelected).toHaveBeenCalledWith('en_bu', 5);
     });
+    it('should call onQuantitySelected if the input is valid and the max allowed quantity is INFINITY', () => {
+        const onQuantitySelected = jest.fn();
+        state.vars.selected_bundles = JSON.stringify([
+            {
+                bundleInputs: [
+                    {
+                        unit: 'unit',
+                        max: 'INFINITY',
+                        inputName: 'Biolite'
+                    }
+                ]
+
+            }
+        ]);
+        const handler = quantityInputHandler.getHandler('en_bu', onQuantitySelected);
+        handler('6');
+        expect(onQuantitySelected).toHaveBeenCalledWith('en_bu', 6);
+    });
     it('should reprompt for quantity if it is greater than minimum', () => {
         state.vars.selected_bundles = JSON.stringify([
             {

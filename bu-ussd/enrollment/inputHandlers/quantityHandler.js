@@ -11,7 +11,7 @@ module.exports = {
             var selectedBundle = JSON.parse(state.vars.selected_bundles)[0];
             var unit = selectedBundle.bundleInputs[0].unit;
             var min = parseInt(selectedBundle.bundleInputs[0].min) ||  unit == 'unit' ? 1 : 0.1;
-            var max = parseInt(selectedBundle.bundleInputs[0].max);
+            var max = selectedBundle.bundleInputs[0].max;
             if(!input) {
                 global.sayText(getMessage('enter_quantity', {
                     '$unit': selectedBundle.bundleInputs[0].unit,
@@ -22,6 +22,11 @@ module.exports = {
             }
             
             var quantity = parseInt(input.trim());
+            if(max == 'INFINITY') {
+                max = quantity * 2;
+            } else {
+                max = parseInt(max);
+            }
             if(quantity < min || quantity > max) {
                 global.sayText(getMessage('enter_quantity', {
                     '$unit': selectedBundle.bundleInputs[0].unit,

@@ -33,4 +33,5 @@ module.exports = function start(language, client) {
         content: balanceMessage,
         to_number: contact.phone_number
     });
+    console.log('balance message: ' + balanceMessage);
 };
