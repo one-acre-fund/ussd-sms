@@ -18,7 +18,7 @@ var onSerialValidated = function(serialInfo, isCodeRequest){
     call.vars.shsSuccess = 'true';
     call.vars.shsKeyCodeType = serialInfo.keyCodeType;
     call.vars.shsCode = serialInfo.keyCode;
-    call.vars.shsExpirationDate = moment(serialInfo.expiry).format('MMM Do YY');
+    call.vars.shsExpirationDate = moment.unix(serialInfo.expiry).format('MMM Do YY');
     call.vars.shsRequestDate = moment().format('MMM Do YY');
     call.vars.serialNumber = serialInfo.serialNumber;
     call.vars.shsGLForOthers = state.vars.unitForOther;
@@ -67,6 +67,7 @@ module.exports = {
         state.vars.gL = isGroupLeader;
         state.vars.replacement = '';
         state.vars.unitForOther = 'false';
+        state.vars.exists == 'false';
         state.vars.main_menu = main_menu;
         state.vars.main_menu_handler = main_menu_handler;
         translate =  createTranslator(translations, state.vars.shsLang);

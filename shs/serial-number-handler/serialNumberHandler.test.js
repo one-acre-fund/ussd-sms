@@ -41,10 +41,18 @@ describe('serialNumberHandler test', () => {
         expect(promptDigits).toHaveBeenCalledWith(shsTypeHandler.handlerName);
     });
     it('should call onSerialValidated if the serial number is unique',()=>{
+        state.vars.exists == 'false';
         registerSerialNumber.mockReturnValueOnce([serialNumbers[0]]);
         registrationType(1);
         expect(sayText).toHaveBeenCalledWith('Thank you for registering your SHS Unit. You will be receiving an activation code shortly if you are eligible.');
         expect(onSerialValidated).toHaveBeenCalledWith(serialNumbers[0]);
+    });
+    it('should call display a message with the code if the serial number is unique and it exists',()=>{
+        state.vars.exists = 'true';
+        registerSerialNumber.mockReturnValueOnce([serialNumbers[0]]);
+        registrationType(1);
+        expect(sayText).toHaveBeenCalledWith(`Your solar has already been registered. Your activation code is `+
+        serialNumbers[0].keyCode);
     });
     it('should prompt with the same menu if the user enters an invalid serial number',()=>{
         registerSerialNumber.mockReturnValueOnce('wrong serial');

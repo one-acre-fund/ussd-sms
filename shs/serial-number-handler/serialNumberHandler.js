@@ -26,8 +26,14 @@ module.exports = {
                         global.sayText(translate('shs_type',{'$serialTypes': serialTypes},state.vars.shsLang));
                         global.promptDigits(shsTypeHandler.handlerName);
                     }else{
-                        global.sayText(translate('valid_shs_message',{},state.vars.shsLang));
-                        onSerialValidated(serialNumber[0]);
+                        if(state.vars.exists == 'true'){
+                            global.sayText(translate('valid_exists_shs_message',{'$code': serialNumber[0].keyCode},state.vars.shsLang));
+                            global.stopRules();
+                        }
+                        else{
+                            global.sayText(translate('valid_shs_message',{},state.vars.shsLang));
+                            onSerialValidated(serialNumber[0]);
+                        }
                     }
                  
                 }

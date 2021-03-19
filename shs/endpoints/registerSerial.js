@@ -3,6 +3,7 @@ var Log = require('../../logger/elk/elk-logger');
 var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 module.exports = function (requestData){
 
@@ -17,6 +18,16 @@ module.exports = function (requestData){
         console.log('^^^^^^^^^^^^^^^^^^'+JSON.stringify(response));
         if (response.status == 201 || response.status == 200) {
             var data = JSON.parse(response.content).results;
+            if(response.status == 201)
+                state.vars.exists = 'true';
+            var data = JSON.parse(response.content).results;
+            call.vars.shsSuccess = 'true';
+            call.vars.shsKeyCodeType = data[0].keyCodeType;
+            call.vars.shsCode = data[0].keyCode;
+            call.vars.shsExpirationDate = moment.unix(data[0].expiry).format('MMM Do YY');
+            call.vars.shsRequestDate = moment().format('MMM Do YY');
+            call.vars.serialNumber = data[0].serialNumber;
+            notifyELK();
             return data;
         }
         else if(JSON.parse(response.content).message == 'Unit with serial number '+requestData.unitSerialNumber+' assigned to another client'){
