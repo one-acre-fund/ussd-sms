@@ -4,7 +4,7 @@ const phoneHandler = require('./inputHandlers/phoneNumberHandler');
 describe('kenya impact trainings', () => {
     it('should prompt for phone number', () => {
         impactTrainings.start('en');
-        expect(sayText).toHaveBeenCalledWith('enter your pin number');
+        expect(sayText).toHaveBeenCalledWith('Enter your phone number');
         expect(promptDigits).toHaveBeenCalledWith(phoneHandler.handlerName);
     });
 

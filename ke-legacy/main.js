@@ -38,6 +38,7 @@ var shs = require('../shs/shs');
 var slackLogger = require('../slack-logger/index');
 var Log = require('../logger/elk/elk-logger');
 var kenyaImpactTrainings = require('../kenya-impact-trainings/kenya-impact-trainings');
+var TrainingTriggeredText = require('../kenya-impact-trainings/utils/TrainingTriggeredText');
 var logger = new Log();
 
 var dukaLocator = require('../duka-locator/index');
@@ -1071,10 +1072,6 @@ var TrainingPlatSelectText = function (){
     else {sayText('1. SMS\n2. KUPIGIWA');}
 };
 
-var TrainingTriggeredText = function (){
-    if (GetLang()){sayText('A training SMS has been sent to your phone. Messages are free! But please delete unwanted SMS in your phone to make space for incoming.');}
-    else {sayText('Ujumbe wa mafunzo umetumwa kwa simu yako. Ujumbe wote ni bure! Kumbuka kufuta SMS usizohitaji ili uwe na nafasi ya kupata ujumbe zaidi.');}
-};
 
 var TrainingTriggeredIVRText = function (){
     if (GetLang()){sayText(' You will be called by 0711 082 882.');}
@@ -3200,35 +3197,35 @@ addInputHandler('TrainingSelect', function(input) {
         }
         else {TriggerTraining('SV672cd762c6389124');}
 
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else if (trainingsOptions[input] == 'tree_transplanting'){
         TriggerTraining('SV87c0c32ff5e3ebaa');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else if (trainingsOptions[input] == 'tree_bag_planting'){
         TriggerTraining('SV647a6f30fad7625d');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else if (trainingsOptions[input] == 'tree_socketing'){
         TriggerTraining('SV8419e6228a23cec2');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else if (trainingsOptions[input] == 'sorghum_weeding'){
         TriggerTraining('SV7aa1486d6be8ae59');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else if (trainingsOptions[input] == 'maize_topdress'){
         TriggerTraining('SVffc2c4aa2be69ab5');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else if (trainingsOptions[input] == 'maize_harvest'){
         TriggerTraining('SV72a3bbd1d14b037b');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else if (trainingsOptions[input] == 'pest_mitigation'){
         TriggerTraining('SV6d234d3094715099');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else if (trainingsOptions[input] == 'vegetables'){
         TrainingPlatSelectText();
@@ -3236,7 +3233,7 @@ addInputHandler('TrainingSelect', function(input) {
     }
     else if (trainingsOptions[input] == 'tatu_hadi_tatu'){
         TriggerTraining('SV1a959518b783e17f');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     } else if(trainingsOptions[input] == 'nutrition_training') {
         var nutritionTraining = require('../nutrition-training/triggerService');
         nutritionTraining(GetLang()? 'en-ke' : 'sw', project.vars.nutrition_training_service);
@@ -3263,7 +3260,7 @@ addInputHandler('TrainingPlatformSelect', function(input) {
 
     if (input == 1 ){
         TriggerTraining('SVeafd5eeb2dadc2d2');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else {
         TrainingTriggeredIVRText();

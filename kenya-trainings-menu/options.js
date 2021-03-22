@@ -20,14 +20,14 @@ module.exports = function () {
             'sw': 'Kupalilia Wimbi\n',
             enabled: false
         },
-        'maize_topdress': {
-            'en-ke': 'Maize Topdress\n',
-            'sw': 'TopDress\n',
-            enabled: true
-        },
         'maize_intercorp': {
             'en-ke': 'Maize Intercrop\n',
             'sw': 'Kupanda Mahindi/Maharagwe\n',
+            enabled: true
+        },
+        'maize_topdress': {
+            'en-ke': 'Maize Topdress\n',
+            'sw': 'TopDress\n',
             enabled: true
         },
         'maize_harvest': {
