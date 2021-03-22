@@ -15,8 +15,8 @@ describe('phone number handler', () => {
 
         const trainingMenuText = jest.fn();
 
-        rowMock.hasNext.mockReturnValueOnce(true);
-        rowMock.next.mockReturnValueOnce({vars: {phone_number: '2540716263596'}});
+        rowMock.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(false);
+        rowMock.next.mockReturnValueOnce({vars: {phone_number: '2540716263596', name: 'Robben'}});
         var handler = phoneNumberHandler.getHandler(trainingMenuText, 'en');
         handler('716263596');
         expect(trainingMenuText).toHaveBeenCalled();
@@ -33,7 +33,7 @@ describe('phone number handler', () => {
         rowMock.hasNext.mockReturnValue(false);
         var handler = phoneNumberHandler.getHandler(trainingMenuText, 'en');
         handler('716263596');
-        expect(sayText).toHaveBeenCalledWith('enter your pin number');
+        expect(sayText).toHaveBeenCalledWith('Enter your phone number');
         expect(promptDigits).toHaveBeenCalledWith(phoneNumberHandler.handlerName);
     });
 });

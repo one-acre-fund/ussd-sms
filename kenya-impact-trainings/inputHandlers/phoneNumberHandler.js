@@ -17,12 +17,17 @@ module.exports = {
 
             var allPhones = makePhones(phoneNumber);
             var foundPhones = allPhones.some(function(phone) {
-                var row = clients_table.queryRows({
+                var cursor = clients_table.queryRows({
                     vars: {
                         phone_number: phone
                     }
                 });
-                return !!row.hasNext();
+                var phoneFound = cursor.hasNext();
+                if(phoneFound) {
+                    var row = cursor.next();
+                    contact.name = row.vars.name; // save the contact name for later use in triggering the trainings
+                }
+                return !!phoneFound;
             });
             if(foundPhones){
                 // row found

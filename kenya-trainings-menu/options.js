@@ -20,24 +20,24 @@ module.exports = function () {
             'sw': 'Kupalilia Wimbi\n',
             enabled: false
         },
-        'maize_topdress': {
-            'en-ke': 'Maize Topdress\n',
-            'sw': 'TopDress\n',
-            enabled: true
-        },
         'maize_intercorp': {
             'en-ke': 'Maize Intercrop\n',
             'sw': 'Kupanda Mahindi/Maharagwe\n',
             enabled: true
         },
-        'maize_harvest': {
-            'en-ke': 'Maize Harvest\n',
-            'sw': 'Kuvuna Mahindi\n',
+        'maize_topdress': {
+            'en-ke': 'Maize Topdress\n',
+            'sw': 'TopDress\n',
             enabled: true
         },
         'pest_mitigation': {
             'en-ke': 'Pest Mitigation\n',
             'sw': 'Wadudu/Magonjwa\n',
+            enabled: true
+        },
+        'maize_harvest': {
+            'en-ke': 'Maize Harvest\n',
+            'sw': 'Kuvuna Mahindi\n',
             enabled: true
         },
         'vegetables': {

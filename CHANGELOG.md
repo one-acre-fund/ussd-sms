@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
+## v1.10.6
+* [ESWFA-113] (https://oneacrefund.atlassian.net/browse/ESWFA-113) Fix the Kenya Impact Trainings
 ## v1.10.5
 * [MOB-407] (https://oneacrefund.atlassian.net/browse/THD-5670) Switching on of Training service on USSD & 2-Way SMS
 ## v1.10.4
