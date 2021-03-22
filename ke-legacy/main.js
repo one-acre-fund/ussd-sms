@@ -3191,11 +3191,12 @@ addInputHandler('TrainingSelect', function(input) {
         var Random = Math.random();
         console.log(Random);
 
-        if (Random > 0.25){
-            console.log('triggered default');
-            TriggerTraining('SVc03fa156b80cc6a4');
-        }
-        else {TriggerTraining('SV672cd762c6389124');}
+        // if (Random > 0.25){
+        //     console.log('triggered default');
+        //     TriggerTraining('SVc03fa156b80cc6a4');
+        // }
+        // else {TriggerTraining('SV672cd762c6389124');}
+        TriggerTraining('SVc03fa156b80cc6a4');
 
         TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }

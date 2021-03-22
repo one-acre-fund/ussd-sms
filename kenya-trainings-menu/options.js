@@ -30,14 +30,14 @@ module.exports = function () {
             'sw': 'TopDress\n',
             enabled: true
         },
-        'maize_harvest': {
-            'en-ke': 'Maize Harvest\n',
-            'sw': 'Kuvuna Mahindi\n',
-            enabled: true
-        },
         'pest_mitigation': {
             'en-ke': 'Pest Mitigation\n',
             'sw': 'Wadudu/Magonjwa\n',
+            enabled: true
+        },
+        'maize_harvest': {
+            'en-ke': 'Maize Harvest\n',
+            'sw': 'Kuvuna Mahindi\n',
             enabled: true
         },
         'vegetables': {
