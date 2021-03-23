@@ -67,7 +67,7 @@ module.exports = {
         state.vars.gL = isGroupLeader;
         state.vars.replacement = '';
         state.vars.unitForOther = 'false';
-        state.vars.exists == 'false';
+        state.vars.exists = 'false';
         state.vars.main_menu = main_menu;
         state.vars.main_menu_handler = main_menu_handler;
         translate =  createTranslator(translations, state.vars.shsLang);
