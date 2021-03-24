@@ -119,5 +119,9 @@ module.exports = {
     'previous_loan_message': {
         'en': 'Kindly complete your loan to get your unlock codes',
         'sw': 'Samahani, maliza mkopo wako ili kupokea kodi ya kuwasha taa milele'
+    },
+    'valid_exists_shs_message': {
+        'en': 'Your solar has already been registered. Your activation code is $code',
+        'sw': 'Sola yako imeshasajiliwa, na kodi yako ni $code'
     }
 };

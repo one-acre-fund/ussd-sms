@@ -17,13 +17,15 @@ module.exports = function (requestData){
         console.log('^^^^^^^^^^^^^^^^^^'+JSON.stringify(response));
         if (response.status == 201 || response.status == 200) {
             var data = JSON.parse(response.content).results;
+            if(response.status == 200)
+                state.vars.exists = 'true';
             return data;
         }
         else if(JSON.parse(response.content).message == 'Unit with serial number '+requestData.unitSerialNumber+' assigned to another client'){
             global.sayText(translate('serial_assigned',{'$serialNumber': requestData.unitSerialNumber},state.vars.shsLang));
             return null;
         }
-        else if(JSON.parse(response.content).message == 'No unit found with serial number '+ requestData.unitSerialNumber || JSON.parse(response.content).message =='Unit with serial number '+ requestData.unitSerialNumber +' is not an OAF unit' || JSON.parse(response.content).message == 'validation failed'){
+        else if(JSON.parse(response.content).message == 'No unit found with serial number '+ requestData.unitSerialNumber || JSON.parse(response.content).message =='Unit with serial number '+ requestData.unitSerialNumber +' is not an OAF unit' || JSON.parse(response.content).message == 'validation failed' || JSON.parse(response.content).message == 'Unit with serial number not found'){
             logger = new Log();
             logger.error('Failed to register shs unit', {data: {response: response, request: requestData}});
             return 'wrong serial';
