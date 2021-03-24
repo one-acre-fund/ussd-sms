@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
+
+## v1.10.7
+* [MOB-408](https://oneacrefund.atlassian.net/browse/MOB-408) Update the message to say the client is already registered if they are already registered
 ## v1.10.6
 * [ESWFA-113] (https://oneacrefund.atlassian.net/browse/ESWFA-113) Fix the Kenya Impact Trainings
 ## v1.10.5
