@@ -16,7 +16,7 @@ function start(lang, client) {
         balanceInfoScreens[index + 1] = balanceMessage;
     });
     state.vars.balance_screens = JSON.stringify(balanceInfoScreens);
-    state.vars.current_season_balance = '0';
+    state.vars.current_season_balance = '1';
     var balanceMenu = getMessage('balance_menu', {}, lang);
     var balanceScreen = balanceInfoScreens[1] + balanceMenu;
     global.sayText(balanceScreen);
