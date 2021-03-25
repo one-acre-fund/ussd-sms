@@ -16,7 +16,7 @@ module.exports = function(account_number){
         // call roster and return client if client is valid
         var client = getClient(account_number, 'malawi');
         if(client){
-            return {client: client};
+            return client;
         } else {
             message = getMessage('account_number_not_found', {}, lang);
             return {error_message: message};

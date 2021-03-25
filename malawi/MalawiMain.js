@@ -29,9 +29,9 @@ state.vars.lang = lang;
 var translations = require('./translations/index');
 var translator = require('../utils/translator/translator');
 var getMessage = translator(translations, lang);
+var registerInputHandler = require('./inputHandlers/registerInputHandlers');
 
-var inputHandlers = require('./inputHandlers/inputHandlers');
-var buybackTransactions =  require('../buyback-transactions/buyBackTransactions');
+registerInputHandler(lang);
 
 global.main = function(){
     notifyELK();
@@ -42,6 +42,3 @@ global.main = function(){
         'timeout': 10,
     });
 };
-
-buybackTransactions.registerInputHandlers();
-addInputHandler('account_number', inputHandlers.accountNumberInputHandler);
