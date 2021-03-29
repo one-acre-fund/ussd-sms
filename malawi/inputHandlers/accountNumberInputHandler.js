@@ -1,5 +1,5 @@
 var getClient = require('../utils/getClient');
-var onAccountNumberValidated = require('onAccountNumberValidated');
+var onAccountNumberValidated = require('../utils/onAccountNumberValidated');
 var accountNumberInputHandler = 'mw_account_number_handler';
 
 module.exports = {

@@ -30,15 +30,11 @@ var translations = require('./translations/index');
 var translator = require('../utils/translator/translator');
 var getMessage = translator(translations, lang);
 var registerInputHandler = require('./inputHandlers/registerInputHandlers');
-
+var accountNumberInputHandler = require('./inputHandlers/accountNumberInputHandler');
 registerInputHandler(lang);
 
 global.main = function(){
     notifyELK();
     sayText(getMessage('splash', {}, lang));
-    promptDigits('account_number', {
-        'submitOnHash': false,
-        'maxDigits': 8,
-        'timeout': 10,
-    });
+    promptDigits(accountNumberInputHandler.handlerName);
 };
