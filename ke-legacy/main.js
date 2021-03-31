@@ -34,9 +34,11 @@ var warrantyExpiration = require('../warranty-expiration/warrantyExpiration');
 var seedGerminationIssues = require('../seed-germination-issues/seedGerminationIssues');
 var foDetails = require('../fo-details/foDetails');
 var contactCallCenter = require('../contact-call-center/contactCallCenter');
-
+var shs = require('../shs/shs');
 var slackLogger = require('../slack-logger/index');
 var Log = require('../logger/elk/elk-logger');
+var kenyaImpactTrainings = require('../kenya-impact-trainings/kenya-impact-trainings');
+var TrainingTriggeredText = require('../kenya-impact-trainings/utils/TrainingTriggeredText');
 var logger = new Log();
 
 var dukaLocator = require('../duka-locator/index');
@@ -52,6 +54,7 @@ service.vars.seedQualityIssuesStart = env + '_seedQualityIssuesStart';
 service.vars.seedQualityIssuesEnd = env + '_seedQualityIssuesEnd';
 
 var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
+const nonClientMainMenu = require('./utils/menus/populate-menu/nonClientMainMenu');
 service.vars.credit_officers_table = 'credit_officers_table';
 service.vars.duka_clients_table = env + '_duka_client_registration';
 service.vars.maizeEnrollmentTableId  = project.vars[env + '_maize_enr_table_id'];
@@ -63,6 +66,8 @@ service.vars.districtVarietyTableId = project.vars[env + '_districtVarietyTableI
 service.vars.varietyStockTableId = project.vars[env + '_varietyStockTableId'];
 service.vars.warehouseStockTableId = project.vars[env + '_warehouseStockTableId'];
 service.vars.districtWarehouseTableId = project.vars[env+ '_districtWarehouseTableId'];
+service.vars.shs_reg_endpoint = project.vars[env+'_shs_reg_endpoint'];
+service.vars.shs_apikey = project.vars[env+'_shs_api_key'];
 
 if(env == 'prod'){
     service.vars.JiTEnrollmentTableId = 'DT52cebb451097ac25';
@@ -1049,13 +1054,14 @@ var TrainingMenuText = function (){
     var trainingsScreens = trainingsMenu.screens;
     state.vars.trainings_options = JSON.stringify(trainingsOptions);
     state.vars.trainings_screens = JSON.stringify(trainingsScreens);
-    state.vars.current_trainings_screens = 1;
+
+    state.vars.current_trainings_screens = '1';
     sayText(trainingsScreens[state.vars.current_trainings_screens]);
 };
 
 var TrainingMenuNextText = function (){
     var trainingsScreens = JSON.parse(state.vars.trainings_screens);
-    var currentTrainingScreen = state.vars.current_trainings_screens + 1;
+    var currentTrainingScreen = parseInt(state.vars.current_trainings_screens) + 1;
     if(trainingsScreens[currentTrainingScreen]) {
         state.vars.current_trainings_screens = currentTrainingScreen;
         sayText(trainingsScreens[currentTrainingScreen]);
@@ -1067,10 +1073,6 @@ var TrainingPlatSelectText = function (){
     else {sayText('1. SMS\n2. KUPIGIWA');}
 };
 
-var TrainingTriggeredText = function (){
-    if (GetLang()){sayText('A training SMS has been sent to your phone. Messages are free! But please delete unwanted SMS in your phone to make space for incoming.');}
-    else {sayText('Ujumbe wa mafunzo umetumwa kwa simu yako. Ujumbe wote ni bure! Kumbuka kufuta SMS usizohitaji ili uwe na nafasi ya kupata ujumbe zaidi.');}
-};
 
 var TrainingTriggeredIVRText = function (){
     if (GetLang()){sayText(' You will be called by 0711 082 882.');}
@@ -1598,8 +1600,9 @@ dukaClient.registerInputHandlers(GetLang() ? 'en-ke' : 'sw', service.vars.duka_c
 warrantyExpiration.registerHandlers();
 seedGerminationIssues.registerInputHandlers(langWithEnke, service.vars.seed_germination_issues_table);
 contactCallCenter.registerInputHandlers(GetLang() ? 'en-ke' : 'sw');
+shs.registerHandlers();
 sbccModule.registerInputHandlers({lang: GetLang() ? 'en' : 'sw', backMenu: NonClientMenuText});
-
+kenyaImpactTrainings.registerInputHandlers(TrainingMenuText, GetLang() ? 'en' : 'sw');
 function reduceClientSize(client) {
     var cloned = _.clone(client);
     cloned.AccountHistory = client.AccountHistory.slice(0,3);
@@ -1690,8 +1693,7 @@ addInputHandler('NonClientMenu', function(input) {
         promptDigits('FOLocRegion', {submitOnHash: true, maxDigits: 8, timeout: 5});
     }
     else if(sessionMenu[input-1].option_name == 'trainings'){
-        TrainingMenuText();
-        promptDigits('TrainingSelect', {submitOnHash: true, maxDigits: 2, timeout: 5});
+        kenyaImpactTrainings.start( GetLang() ? 'en' : 'sw', 'TrainingSelect');
     }
     else if(sessionMenu[input-1].option_name == 'locate_oaf_duka') {
         dukaLocator.startDukaLocator({lang: GetLang() ? 'en' : 'sw'});
@@ -1801,8 +1803,9 @@ addInputHandler('MainMenu', function(SplashMenu){
 
     }
     else if(sessionMenu[SplashMenu-1].option_name == 'solar'){
-        SHSMenuText();
-        promptDigits('SolarMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
+        //SHSMenuText();
+        //promptDigits('SolarMenu', {submitOnHash: true, maxDigits: 2, timeout: 5});
+        shs.start(state.vars.client, 'KE',state.vars.lang,state.vars.isGroupLeader,state.vars.main_menu,'MainMenu');
 
     }   
     else if(sessionMenu[SplashMenu-1].option_name == 'insurance'){
@@ -3189,41 +3192,42 @@ addInputHandler('TrainingSelect', function(input) {
         var Random = Math.random();
         console.log(Random);
 
-        if (Random > 0.25){
-            console.log('triggered default');
-            TriggerTraining('SVc03fa156b80cc6a4');
-        }
-        else {TriggerTraining('SV672cd762c6389124');}
+        // if (Random > 0.25){
+        //     console.log('triggered default');
+        //     TriggerTraining('SVc03fa156b80cc6a4');
+        // }
+        // else {TriggerTraining('SV672cd762c6389124');}
+        TriggerTraining('SVc03fa156b80cc6a4');
 
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else if (trainingsOptions[input] == 'tree_transplanting'){
         TriggerTraining('SV87c0c32ff5e3ebaa');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else if (trainingsOptions[input] == 'tree_bag_planting'){
         TriggerTraining('SV647a6f30fad7625d');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else if (trainingsOptions[input] == 'tree_socketing'){
         TriggerTraining('SV8419e6228a23cec2');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else if (trainingsOptions[input] == 'sorghum_weeding'){
         TriggerTraining('SV7aa1486d6be8ae59');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else if (trainingsOptions[input] == 'maize_topdress'){
         TriggerTraining('SVffc2c4aa2be69ab5');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else if (trainingsOptions[input] == 'maize_harvest'){
         TriggerTraining('SV72a3bbd1d14b037b');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else if (trainingsOptions[input] == 'pest_mitigation'){
         TriggerTraining('SV6d234d3094715099');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else if (trainingsOptions[input] == 'vegetables'){
         TrainingPlatSelectText();
@@ -3231,12 +3235,12 @@ addInputHandler('TrainingSelect', function(input) {
     }
     else if (trainingsOptions[input] == 'tatu_hadi_tatu'){
         TriggerTraining('SV1a959518b783e17f');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     } else if(trainingsOptions[input] == 'nutrition_training') {
         var nutritionTraining = require('../nutrition-training/triggerService');
         nutritionTraining(GetLang()? 'en-ke' : 'sw', project.vars.nutrition_training_service);
     }
-    else if (trainingsOptions[input] == 'soil_fertillity') {
+    else if (trainingsOptions[input] == 'soil_training') {
         // trigger the nutrition training
         var lang;
         if(GetLang()) {
@@ -3258,7 +3262,7 @@ addInputHandler('TrainingPlatformSelect', function(input) {
 
     if (input == 1 ){
         TriggerTraining('SVeafd5eeb2dadc2d2');
-        TrainingTriggeredText();
+        TrainingTriggeredText(contact.name, GetLang()? 'en-ke' : 'sw' );
     }
     else {
         TrainingTriggeredIVRText();

@@ -3,6 +3,83 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.10.7
+* [MOB-408](https://oneacrefund.atlassian.net/browse/MOB-408) Update the message to say the client is already registered if they are already registered
+## v1.10.6
+* [ESWFA-113] (https://oneacrefund.atlassian.net/browse/ESWFA-113) Fix the Kenya Impact Trainings
+## v1.10.5
+* [MOB-407] (https://oneacrefund.atlassian.net/browse/THD-5670) Switching on of Training service on USSD & 2-Way SMS
+## v1.10.4
+* [MOB-407] (https://oneacrefund.atlassian.net/browse/MOB-407) Handle additional Validation for wrong shs
+## v1.10.3
+* [ESWFA-93](https://oneacrefund.atlassian.net/browse/ESWFA-93) Add an IPP option to the non farmer USSD menu
+## v1.10.2
+### Changed
+* [ESWFA-103](https://oneacrefund.atlassian.net/browse/ESWFA-103) Switching on of Training service on USSD & 2-Way SMS
+
+## v1.10.1
+### Changed
+* [ESWFA-53](https://oneacrefund.atlassian.net/browse/ESWFA-53) Updating the Monitoring tool for Telerivet to track USSD downtime from Africa's talking in Rwanda
+
+## v1.10.0
+### Changed
+* [MOB-406](https://oneacrefund.atlassian.net/browse/MOB-406) Removed condition to check if client placed an order in the current season from SHS service
+
+### Added
+* [MOB-405](https://oneacrefund.atlassian.net/browse/MOB-405) As a User, I want to know when a client has successfully registered and received an activation/unlock for their SHS unit
+
+## v1.9.9
+### Added
+* [MOB-135](https://oneacrefund.atlassian.net/browse/MOB-135) --Add logging on --As a Client, I want to register my new SHS serial number  via USSD so I am able to receive activation codes 
+
+## v1.9.8
+### Fixed
+* [ESWFA-90](https://oneacrefund.atlassian.net/browse/ESWFA-90) Rw pshops clients can't get the shs activation codes
+
+## v1.9.7
+### Added
+* [MOB-135](https://oneacrefund.atlassian.net/browse/MOB-135) As a Client, I want to register my new SHS serial number  via USSD so I am able to receive activation codes
+
+* [MOB-136](https://oneacrefund.atlassian.net/browse/MOB-136) As a Client, I want to be able to receive an activation/unlock code  when I request for one if I am eligible 
+
+* [MOB-137](https://oneacrefund.atlassian.net/browse/MOB-137) As a Client, I want to register a new SHS unit if the previous one was returned to OAF  and have the new  serial number as my primary serial number
+
+* [MOB-138](https://oneacrefund.atlassian.net/browse/MOB-138) As a GL, I want to register a new SHS unit for a client in my group 
+
+* [MOB-139](https://oneacrefund.atlassian.net/browse/MOB-139) As a GL, I want to request for  and view activation codes for clients in my group
+
+## v1.9.6
+
+### Changed
+* [MOB-73](https://oneacrefund.atlassian.net/browse/MOB-73) As a client, I want to receive mobile money receipts to my phone number in Roster in addition to the phone number that makes the payment, so that I have a record of this transaction.
+
+## v1.9.5
+
+### Changed
+* [MOB-145](https://oneacrefund.atlassian.net/browse/MOB-145) Update Crop Survey questions for RW
+
+## v1.9.4
+
+### Changed
+* [MOB-397](https://oneacrefund.atlassian.net/browse/MOB-397) Add health training officers ID and PIN data into Data table and amend Episode release dates
+
+## v1.9.3
+
+### Added
+* [THD-5109](https://oneacrefund.atlassian.net/browse/THD-5109) Deactivation of Impact trainings
+## v1.9.2
+
+### Fixed
+* [MOB-371](https://oneacrefund.atlassian.net/browse/MOB-371) RW SHS Clients Unable to receive activation code for SHS Units
+## v1.9.2
+
+### Fixed
+* [MOB-145](https://oneacrefund.atlassian.net/browse/MOB-145) Update Crop Survey questions for RW
+## v1.9.1
+
+### Added
+* [MOB-378](https://oneacrefund.atlassian.net/browse/MOB-378) Add Non-Client Option to Market Access Service
+## v1.9.0
 
 ### Added
 * [MOB-53](https://oneacrefund.atlassian.net/browse/MOB-53) Develop an IVR to collect a nutrition survey from clients/Farmers and their household members

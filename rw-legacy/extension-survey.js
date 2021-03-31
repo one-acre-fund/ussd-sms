@@ -641,12 +641,12 @@ addInputHandler('crop_demo_question', function(input){
 addInputHandler('survey_response', function(input){
     console.log('4 q is ' + state.vars.question_number + ' id is ' + state.vars.question_id);
     input = parseInt(input.replace(/\s/g,''));
-    call.vars.status = String('Q' + state.vars.question_number);
-    call.vars[call.vars.status] = input; 
-    console.log('question number is: ' + state.vars.question_number);
     if(checkstop(input)){
         return null;
     }
+    call.vars.status = String('Q' + state.vars.question_number);
+    call.vars[call.vars.status] = input; 
+    console.log('question number is: ' + state.vars.question_number);
     // if entering for the first time, save the crop then ask the first question
     if(!state.vars.crop){
         state.vars.crop = get_menu_option(input, 'crop_menu');
@@ -664,8 +664,9 @@ addInputHandler('survey_response', function(input){
             call.vars[prev_question.vars.msg_name] = input;
         }
         // say closing message and end survey if all questions are complete
-        var feedback = require('./lib/ext-answer-verify')(input);
-        var survey_length = 10; // abstract
+        var surveyTable = project.getOrCreateDataTable('SurveyQuestions');
+        var cursor = surveyTable.queryRows({'vars': {'crop': state.vars.crop}});
+        var survey_length = cursor.count();
         console.log('question number: ' + state.vars.question_number + ' of type ' + typeof(state.vars.question_number));
         if(state.vars.question_number === survey_length){
             call.vars.completed = 'complete';
@@ -692,6 +693,7 @@ addInputHandler('survey_response', function(input){
             // set question id in correct format, then increment the question number
             state.vars.question_id = String(state.vars.crop + 'Q' + state.vars.question_number);
             state.vars.question_number = state.vars.question_number + 1;
+            var feedback = require('./lib/ext-answer-verify')(input);
             // ask the survey question
             ask(feedback);
         }
