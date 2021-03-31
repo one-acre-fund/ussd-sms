@@ -10,10 +10,19 @@ module.exports = function onAccountNumberValidated(lang, client) {
     state.vars.client_json = JSON.stringify(client);
     // display the menu
     var getMessage = translator(translations, lang);
-    var menuDetails = createMenu(menuOptions, getMessage('next_screen', {}, lang), getMessage('select_service', {}, lang), 140);
+    var filteredOptions = filterOptions(menuOptions, client);
+    var menuDetails = createMenu(filteredOptions, getMessage('next_screen', {}, lang), getMessage('select_service', {}, lang), 140);
     state.vars.mw_main_screens = JSON.stringify(menuDetails.screens);
     state.vars.mw_main_option_values = JSON.stringify(menuDetails.optionValues);
     state.vars.current_mw_main_screen = '1';
     global.sayText(menuDetails.screens[state.vars.current_mw_main_screen]);
     global.promptDigits(mainMenuHandler.handlerName);
 };
+
+function filterOptions(options, client) {
+    var newOptions = options;
+    if(client.BalanceHistory.length == 0) {
+        delete newOptions.check_balance;
+    }
+    return newOptions;
+}

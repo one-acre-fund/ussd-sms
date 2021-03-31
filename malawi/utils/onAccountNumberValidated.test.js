@@ -45,4 +45,12 @@ describe('on account number validated util', () => {
         '2) Check Balance\n');
         expect(promptDigits).toHaveBeenCalledWith(mainMenuHandler.handlerName);
     });
+    it('should not show check balance on the menu if the account has no balance', () => {
+        var newClientMock = {BalanceHistory: []};
+        onAccountNumberValidated('en-mw', newClientMock);
+        expect(sayText).toHaveBeenCalledWith('Select Service\n' +
+        '1) Buy back\n');
+        expect(state.vars.mw_main_screens).toEqual('{"1":"Select Service\\n1) Buy back\\n"}');
+        expect(state.vars.mw_main_option_values).toEqual('{"1":"buy_back"}');
+    });
 });
