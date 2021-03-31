@@ -3,7 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
-
+### Added
+* [ESWFA-92](https://oneacrefund.atlassian.net/browse/ESWFA-92) Malawi USSD Balance check
 ### Added
 * [MOB-53](https://oneacrefund.atlassian.net/browse/MOB-53) Develop an IVR to collect a nutrition survey from clients/Farmers and their household members
 ## v1.8.0
