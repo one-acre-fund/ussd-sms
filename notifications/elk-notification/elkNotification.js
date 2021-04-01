@@ -92,10 +92,24 @@
 
 
 var Log = require('../../logger/elk/elk-logger');
-module.exports = function(){
+module.exports = function(extraData){
     var url = 'https://elk.operations.oneacrefund.org:8080/telerivet';
     var opts = {};
     var dataJSON ={};
+    var curr ='';
+    var obj;
+    if(extraData && extraData != undefined){
+
+        curr =  extraData;
+        console.log('###############################################################'+extraData);
+    }
+    obj = JSON.parse(state.vars.extraData);
+    obj.push(curr);
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'+ curr + ' # '+ extraData+ ' ~'+ JSON.stringify(obj));
+    state.vars.extraData = JSON.stringify(obj);
+    dataJSON['extra'] = JSON.stringify(obj);
+    dataJSON['extraAgain'] = JSON.stringify(state.vars.extraData);
+    dataJSON['content'] = state.vars.extraData;
     dataJSON['content'] = message.content;
     dataJSON['from_number'] = message.from_number;
     dataJSON['starred'] = message.starred;
@@ -109,13 +123,17 @@ module.exports = function(){
     dataJSON['phone_id'] = message.phone_id;
     dataJSON['contact_id'] = message.contact_id;
     dataJSON['track_clicks'] = message.track_clicks;
-    dataJSON['vars'] = message.vars;
+    dataJSON['varsTwo'] = message.vars;
+    if(extraData)
+        dataJSON['vars'] = extraData;
     dataJSON['to_number'] = message.to_number;
     dataJSON['direction'] = message.direction;
     dataJSON['source'] = message.source;
     dataJSON['simulated'] = message.simulated;
     dataJSON['status'] = message.status;
     dataJSON['time_created'] = message.time_created;
+    dataJSON['testing'] = extraData;
+    //dataJSON[''] = 'test';
 
     // Contact variables
     //dataJSON['contact']['last_message_id'] = contact.last_message_id;
@@ -135,6 +153,8 @@ module.exports = function(){
     dataJSON['contact']['last_incoming_message_time'] = contact.last_incoming_message_time;
     dataJSON['contact']['message_count'] = contact.message_count;
     dataJSON['contact']['send_blocked'] = contact.send_blocked;
+    dataJSON['contact']['extra'] = extraData;
+    dataJSON['extraData'] = extraData;
 
 
 

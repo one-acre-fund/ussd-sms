@@ -3,7 +3,7 @@ var Log = require('../../logger/elk/elk-logger');
 var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
-
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 module.exports = function (requestData){
 
     var fullUrl = service.vars.shs_reg_endpoint + '/api/shs/v1/units/register';
@@ -19,6 +19,8 @@ module.exports = function (requestData){
             var data = JSON.parse(response.content).results;
             if(response.status == 200)
                 state.vars.exists = 'true';
+            var shsInformation = {shsSuccess: 'true', shsKeyCodeType: data.keyCodeType, shsCode: data.keyCode, shsExpirationDate: moment.unix(data.expiry).format('MMM Do YY'), shsRequestDate: moment().format('MMM Do YY'),serialNumber: data.serialNumber,unitForOther: state.vars.unitForOther}; 
+            notifyELK(shsInformation);
             return data;
         }
         else if(JSON.parse(response.content).message == 'Unit with serial number '+requestData.unitSerialNumber+' assigned to another client'){

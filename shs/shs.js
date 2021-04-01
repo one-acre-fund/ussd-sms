@@ -22,7 +22,9 @@ var onSerialValidated = function(serialInfo, isCodeRequest){
     call.vars.shsRequestDate = moment().format('MMM Do YY');
     call.vars.serialNumber = serialInfo.serialNumber;
     call.vars.shsGLForOthers = state.vars.unitForOther;
-    notifyELK();
+    var shsInformation = JSON.stringify({shsSuccess: 'true', shsKeyCodeType: serialInfo.keyCodeType, shsCode: serialInfo.keyCode, shsExpirationDate: moment.unix(serialInfo.expiry).format('MMM Do YY'), shsRequestDate: moment().format('MMM Do YY'),serialNumber: serialInfo.serialNumber,unitForOther: state.vars.unitForOther}); 
+    //shsInformation.shsSuccess = true;
+    notifyELK(shsInformation);
     if(state.vars.unitForOther == 'true'){
         if(serialInfo.keyCodeType == 'ACTIVATION')
             message = translate('successful_farmer_activation_code',{'$code': serialInfo.keyCode},state.vars.shsLang);
@@ -59,7 +61,8 @@ module.exports = {
         addInputHandler(requestCodeHandler.handlerName, requestCodeHandler.getHandler(onSerialValidated));
     },
     start: function(client, country, lang, isGroupLeader,main_menu, main_menu_handler){
-        notifyELK();
+        
+        notifyELK('testing');
         state.vars.client = client;
         state.vars.account = JSON.parse(state.vars.client).AccountNumber;
         state.vars.country = country;
