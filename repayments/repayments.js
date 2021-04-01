@@ -3,7 +3,9 @@ var translator = require('../utils/translator/translator');
 var getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
 var logger = require('../slack-logger/index');
 var validateProjectVatiables = require('./validateProjectVariables');
-var getHealthyPathDist = require('../healthy-path/repayments/HealthyPathOnRepaymentReceipts');
+var getHealthyPathPercentage = require('../healthy-path/utils/getHealthyPathPercentage');
+var calculateHealthyPath= require('../healthy-path/utils/healthyPathCalculator');
+var _ = require('underscore');
 
 var defaultEnvironment; 
 if(service.active){
@@ -25,7 +27,6 @@ validateProjectVatiables(env);
 
 // This script parses client info
 var client = JSON.parse(contact.vars.client);
-console.log('Received receipt transaction for: '+ contact.vars.client);
 state.vars.FirstName = client.FirstName;
     
 // check for language
@@ -64,15 +65,15 @@ var languagesLabels = {
     'en-ke': 'English'
 };
 var phone_numbers = getPhoneNumber(client.AccountNumber, client.CountryName);
+var active_phone_numbers = phone_numbers && phone_numbers.filter(function(phone_number) {
+    return !phone_number.IsInactive;
+});
 if(balance <= 0) {
     var shsNotificationLabel = project.getOrCreateLabel('shs notification');
     var shsLanguageLabel = project.getOrCreateLabel(languagesLabels[lang]);
     // if the user has paid all credit or over paid
     var shsNotification = getMessage('shs_notification', {}, lang);
     if(phone_numbers) {
-        var active_phone_numbers = phone_numbers.filter(function(phone_number) {
-            return !phone_number.IsInactive;
-        });
         project.sendMessage({
             content: shsNotification,
             to_number: active_phone_numbers[0].PhoneNumber,
@@ -88,7 +89,9 @@ var mmReceipt = '';
 
 var repaymentsLabels = [languagesLabels[lang], 'MM receipt', 'Business Operations'];
 var BalanceHistory = client.BalanceHistory[0];
-var hp_dist = getHealthyPathDist(BalanceHistory && BalanceHistory.SeasonId, client.CountryId, client.DistrictId, BalanceHistory && BalanceHistory.TotalCredit, BalanceHistory && BalanceHistory.TotalRepayment_IncludingOverpayments, lang);
+var healthyPathPercentage = getHealthyPathPercentage(BalanceHistory && BalanceHistory.SeasonId, client.CountryId, client.DistrictId);
+var healthyPath = calculateHealthyPath(healthyPathPercentage, BalanceHistory && BalanceHistory.TotalCredit, BalanceHistory && BalanceHistory.TotalRepayment_IncludingOverpayments);
+var hp_dist = healthyPath < 0 ? '' : getMessage('hp_dist', {'$hp_dist': healthyPath}, lang);
 if (client.BalanceHistory[0].TotalRepayment_IncludingOverpayments > client.BalanceHistory[0].TotalCredit){
     var OverpaidAmount = client.BalanceHistory[0].TotalRepayment_IncludingOverpayments - client.BalanceHistory[0].TotalCredit;
     mmReceipt = getMessage('mm_receipt_over_paid', {
@@ -122,3 +125,14 @@ project.sendMessage({
     route_id: project.vars.repayments_sms_route,
     message_type: 'sms'
 });
+var sortedPhoneNumbers = active_phone_numbers && _.sortBy(active_phone_numbers, 'PhoneNumberTypeId').reverse();
+var activePhoneNumber =  sortedPhoneNumbers && sortedPhoneNumbers[0] && sortedPhoneNumbers[0].PhoneNumber;
+if(activePhoneNumber && activePhoneNumber !== contact.phone_number){
+    project.sendMessage({
+        content: mmReceipt,
+        to_number: activePhoneNumber,
+        label_ids: repaymentLabelIds,
+        route_id: project.vars.repayments_sms_route,
+        message_type: 'sms'
+    });
+}
