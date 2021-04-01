@@ -10,18 +10,11 @@ module.exports = function(accnum, serial_no){
     var admin_alert = require('./admin-alert');
     var slack = require('../../slack-logger/index');
     var SerialTable =  project.getOrCreateDataTable(service.vars.serial_number_table);
-
+    var ListRows = {};
     // save as variable the row from the serial table where the entered serial number matches
-    if(state.vars.duplicate){
-        var ListRows = SerialTable.queryRows({
-            vars: {'serialnumber': serial_no, 'accountnumber' : accnum}
-        });
-    }
-    else{
-        var ListRows = SerialTable.queryRows({
-            vars: {'serialnumber': serial_no, 'accountnumber' : {exists : 0}}
-        });
-    }
+    ListRows = SerialTable.queryRows({
+        vars: {'serialnumber': serial_no, 'accountnumber': {exists: 0}}
+    });
 
     // if there's a row in serial table with the serial number and no account number, assign the account to that serial
     if(ListRows.count() === 1){
@@ -32,30 +25,35 @@ module.exports = function(accnum, serial_no){
         Serial.vars.historic_credit = state.vars.TotalCredit - state.vars.Balance;
         Serial.vars.dateregistered = new Date().toString();
         if(!state.vars.duplicate){Serial.vars.product_type = 'biolite';}
-        Serial.save(); 
-        
         // retrieve one unused activation code for this serial number
         var ActTable = project.getOrCreateDataTable(service.vars.activation_code_table);
         var listVars = {'serialnumber': serial_no,
-            'type': 'Activation',
-            'activated': 'No'   
+            'unlock': {ne: 'Yes'},
         };
-        if(!state.vars.duplicate){listVars.vars.product_type = 'biolite';} // because only biolite products are being sold now
-        ListAct = ActTable.queryRows({
+        // if(!state.vars.duplicate){listVars.vars.product_type = 'biolite';} // because only biolite products are being sold now
+
+        var ListAct = ActTable.queryRows({
             vars: listVars,
         });
-        if(ListAct.count() < 1){
+
+        var Act = null;
+        while(ListAct.hasNext()) {
+            var row = ListAct.next();
+            if(row.vars.activated !== 'Yes') {
+                Act = row;
+            }
+        }
+        if(Act === null){
             admin_alert('No codes remaining for Biolite product with serial number: ' + serial_no, 'No remaining serial numbers', 'marisa');
             slack.log('No codes remaining for Biolite product with serial number: ' + serial_no);
             console.log('No codes remaining for Biolite product with serial number: ' + serial_no, 'No remaining serial numbers');            
             state.vars.SerialStatus = 'failed_getting_serial_number';
         }
         else{
-            ListAct.limit(1);
-            var Act = ListAct.next();
             state.vars.ActCode = Act.vars.code;
-            Act.vars.activated = "Yes";
+            Act.vars.activated = 'Yes';
             Act.vars.dateactivated = new Date().toString();
+            Serial.save(); 
             Act.save();
         }
         // update the activation table to say that this code has been used
@@ -72,4 +70,4 @@ module.exports = function(accnum, serial_no){
         state.vars.SerialStatus = 'NotFound';
         return false;
     }
-}
+};

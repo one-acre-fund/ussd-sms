@@ -1,7 +1,7 @@
 module.exports = [
     {
         'name': 'top-tip-1',
-        'releaseDate': '02/15/2021'
+        'releaseDate': '02/17/2021'
     },
     {
         'name': 'top-tip-2',
