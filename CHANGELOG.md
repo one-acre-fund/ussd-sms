@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+### Added
+* [ESWFA-92](https://oneacrefund.atlassian.net/browse/ESWFA-92) Malawi USSD Balance check
 ## v1.10.7
 * [MOB-408](https://oneacrefund.atlassian.net/browse/MOB-408) Update the message to say the client is already registered if they are already registered
 ## v1.10.6

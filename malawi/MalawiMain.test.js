@@ -30,13 +30,7 @@ describe('Malawi legacy', () => {
     it('should start the main service and promt user for account number', () => {
         require('./MalawiMain');
         global.main();
-        expect(sayText).toHaveBeenCalledWith('Welcome to the OAF Malawi buyback portal. Please enter the account number of the client you are recording a transaction for.');
-        expect(promptDigits).toHaveBeenCalledWith(accountNumberInputHandler.handlerName, {'maxDigits': 8, 'submitOnHash': false, 'timeout': 10});
-    });
-
-    it('should register the account number input handler', () => {
-        require('./MalawiMain');
-        const inputHandlers = require('./inputHandlers/inputHandlers');
-        expect(addInputHandler).toHaveBeenCalledWith(accountNumberInputHandler.handlerName, inputHandlers.accountNumberInputHandler);
+        expect(sayText).toHaveBeenCalledWith('Welcome to the OAF Client portal. Please enter your 8 digit account number which you use for repayment of your loan through mobile money.');
+        expect(promptDigits).toHaveBeenCalledWith(accountNumberInputHandler.handlerName);
     });
 });
