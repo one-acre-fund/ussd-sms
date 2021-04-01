@@ -21,12 +21,14 @@ module.exports = {
         'en-ke': {
             'Call back support for duka client': 'Call back support for duka client',
             'Call back support for Angaza client': 'Call back support for Angaza client',
-            'Call back support for potential client': 'Call back support for potential client'
+            'Call back support for potential client': 'Call back support for potential client',
+            'IPP Client Call Back Request': 'IPP Client Call Back Request'
         },
         'sw': {
             'Call back support for duka client': 'Ombi la kupigiwa simu kuhusu duka la one acre fund',
             'Call back support for Angaza client': 'Ombi la kupigiwa simu kuhusu huduma ya \'Angaza\'',
-            'Call back support for potential client': 'Ombi la kupigiwa simu kuhusu maswali ya kujiunga na OAF'
+            'Call back support for potential client': 'Ombi la kupigiwa simu kuhusu maswali ya kujiunga na OAF',
+            'Ombi la kupigiwa simu kwa maswali ya IPP': 'Ombi la kupigiwa simu kwa maswali ya IPP'
         }
     }
 

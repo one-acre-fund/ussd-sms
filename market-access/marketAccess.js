@@ -14,6 +14,10 @@ var bankBranchHandler = require('./bank-input-handlers/bank-branch-handler/bankB
 var bankAccountHandler = require('./bank-input-handlers/bank-account-handler/bankAccountHandler');
 var accountNameHandler = require('./bank-input-handlers/account-name-handler/accountNameHandler');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
+var nationalIdHandler = require('./non-client-handlers/national-id-handler/nationalIDHandler');
+var farmerNamesHandler = require('./non-client-handlers/farmer-names-handler/farmerNamesHandler');
+var farmerDistrictHandler = require('./non-client-handlers/farmer-district-handler/farmerDistrictHandler');
+var farmerSiteHandler = require('./non-client-handlers/farmer-site-handler/farmerSiteHandler');
 var marketInfo ={};
 
 
@@ -159,6 +163,49 @@ var onAccountNameSubmitted = function(bankAccountName){
     global.sayText(finalMessage);
     saveMarketInfo();
 };
+function onNationalIdSubmitted(nationalId){
+    state.vars.nationalId = nationalId;
+    if(hasFinalized(nationalId, true)){
+        global.sayText(translate('finalized',{'$number': JSON.parse(state.vars.marketInfo).QuantityofMaize, '$date': JSON.parse(state.vars.marketInfo).AvailabilityDate}));
+        global.stopRules();
+    }else if(resume(nationalId, true)) {
+        console.log(state.vars.marketInfo);
+        var currentCallback = ''+JSON.parse(state.vars.marketInfo).currentCallback +'(\''+JSON.parse(state.vars.marketInfo).currentCallBackInput + '\')';
+        console.log(currentCallback);
+        eval(currentCallback); 
+    }
+    else{
+        marketInfo = JSON.parse(state.vars.marketInfo);
+        marketInfo.nationalId  = nationalId;
+        state.vars.marketInfo = JSON.stringify(marketInfo);
+        global.sayText(translate('farmers_name',{}));
+        global.promptDigits(farmerNamesHandler.handlerName);
+    }
+}
+function onFNameSubmitted(names){
+    marketInfo = JSON.parse(state.vars.marketInfo);
+    marketInfo.clientName  =  names;
+    state.vars.marketInfo = JSON.stringify(marketInfo);
+    saveMarketInfo('onFNameSubmitted',names);
+    global.sayText(translate('farmers_district',{}));
+    global.promptDigits(farmerDistrictHandler.handlerName);
+}
+function onDistrictSubmitted(district){
+    marketInfo = JSON.parse(state.vars.marketInfo);
+    marketInfo.districtName  =  district;
+    state.vars.marketInfo = JSON.stringify(marketInfo);
+    saveMarketInfo('onDistrictSubmitted',district);
+    global.sayText(translate('farmers_site',{}));
+    global.promptDigits(farmerSiteHandler.handlerName);
+}
+function onSiteSubmitted(site){
+    marketInfo = JSON.parse(state.vars.marketInfo);
+    marketInfo.siteName  =  site;
+    state.vars.marketInfo = JSON.stringify(marketInfo);
+    saveMarketInfo('onSiteSubmitted',site);
+    global.sayText(translate('quantity_unshield_maize',{}));
+    global.promptDigits(quantityHandler.handlerName);
+}
 function saveMarketInfo(callback,callBackInput){
     marketInfo = JSON.parse(state.vars.marketInfo);
     if(callback){
@@ -170,7 +217,13 @@ function saveMarketInfo(callback,callBackInput){
         marketInfo.finalized = 1;
     }
     var table  = project.initDataTableById(service.vars.market_access_table);
-    var cursor = table.queryRows({'vars': {'account': state.vars.account}});
+    var query;
+    if(state.vars.nonClient == 'false'){
+        query = {'vars': {'account': state.vars.account}};
+    }else{
+        query = {'vars': {'nationalId': state.vars.nationalId}};
+    }
+    var cursor = table.queryRows(query);
     if(cursor.hasNext()){
         var row = cursor.next();
         row.vars = marketInfo;
@@ -180,9 +233,12 @@ function saveMarketInfo(callback,callBackInput){
     }
     row.save();
 }
-function hasFinalized(accountNumber){
+function hasFinalized(number, nonClient){
     var table  = project.initDataTableById(service.vars.market_access_table);
-    var cursor = table.queryRows({'vars': {'account': accountNumber,'finalized': 1}});
+    var query = {'vars': {'account': number,'finalized': 1}};
+    if(nonClient)
+        query = {'vars': {'nationalId': number,'finalized': 1}};
+    var cursor = table.queryRows(query);
     if(cursor.hasNext()){
         var row = cursor.next();
         state.vars.marketInfo = JSON.stringify(row.vars);
@@ -190,9 +246,12 @@ function hasFinalized(accountNumber){
     }
     return false;
 }
-function resume(accountNumber){
+function resume(number, nonClient){
     var table  = project.initDataTableById(service.vars.market_access_table);
-    var cursor = table.queryRows({'vars': {'account': accountNumber,'finalized': 0}});
+    var query = {'vars': {'account': number,'finalized': 0}};
+    if(nonClient)
+        query = {'vars': {'nationalId': number,'finalized': 0}};
+    var cursor = table.queryRows(query);
     if(cursor.hasNext()){
         var row = cursor.next();
         state.vars.marketInfo = JSON.stringify(row.vars);
@@ -214,12 +273,18 @@ module.exports = {
         addInputHandler(bankBranchHandler.handlerName, bankBranchHandler.getHandler(onBankBranchSubmitted));
         addInputHandler(bankAccountHandler.handlerName, bankAccountHandler.getHandler(onBankAccountSubmitted));
         addInputHandler(accountNameHandler.handlerName, accountNameHandler.getHandler(onAccountNameSubmitted));
+        addInputHandler(nationalIdHandler.handlerName, nationalIdHandler.getHandler(onNationalIdSubmitted));
+        addInputHandler(farmerNamesHandler.handlerName, farmerNamesHandler.getHandler(onFNameSubmitted));
+        addInputHandler(farmerDistrictHandler.handlerName, farmerDistrictHandler.getHandler(onDistrictSubmitted));
+        addInputHandler(farmerSiteHandler.handlerName, farmerSiteHandler.getHandler(onSiteSubmitted));
+
     },
     start: function (clientJSON, country, lang) {
         notifyELK();
         state.vars.account = clientJSON.AccountNumber;
         state.vars.country = country;
         state.vars.marketLang = lang;
+        state.vars.nonClient = 'false';
         state.vars.marketInfo = JSON.stringify({account: clientJSON.AccountNumber, districtName: clientJSON.DistrictName, siteName: clientJSON.SiteName, clientName: clientJSON.FirstName +' '+ clientJSON.LastName});
         var translate =  createTranslator(translations, state.vars.marketLang);
         if(hasFinalized(clientJSON.AccountNumber)){
@@ -236,5 +301,14 @@ module.exports = {
             global.promptDigits(quantityHandler.handlerName);
         }
     
-    }  
+    }, 
+    nonClientStart: function(country,lang){
+        notifyELK();
+        state.vars.country = country;
+        state.vars.marketLang = lang;
+        state.vars.nonClient = 'true';
+        state.vars.marketInfo = JSON.stringify({nonClient: 'true'});
+        global.sayText(translate('national_id_menu',{}));
+        global.promptDigits(nationalIdHandler.handlerName);
+    }
 };
