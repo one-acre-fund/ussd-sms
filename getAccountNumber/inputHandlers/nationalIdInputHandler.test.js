@@ -1,6 +1,7 @@
 const nationalInputHandler = require('./nationalIdInputHandler');
 const getAccountNumber = require('../../shared/rosterApi/checkAccountNumberByNID');
 
+
 jest.mock('../../shared/rosterApi/checkAccountNumberByNID');
 describe('national id input handler', () => {
     it('should reprompt if the api returns no client', () => {
@@ -11,7 +12,7 @@ describe('national id input handler', () => {
         expect(promptDigits).toHaveBeenCalledWith(nationalInputHandler.handlerName);
     });
     it('should display account number', () => {
-        const client = {FirstName: 'Tyrion', LastName: 'Lanyster', AccountNumber: '12423234'}
+        const client = {FirstName: 'Tyrion', LastName: 'Lanyster', AccountNumber: '12423234'};
         getAccountNumber.mockReturnValueOnce(client);
         const handler = nationalInputHandler.getHandler('en');
         handler();

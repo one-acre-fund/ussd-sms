@@ -5,6 +5,7 @@ jest.mock('../../logger/elk/elk-logger');
 
 const nid = '1198234323432343';
 const cid = 654;
+
 describe('check account number by national id', () => {
     beforeAll(() => {
         global.state = { vars: {lang: 'en'} };
