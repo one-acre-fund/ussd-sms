@@ -241,9 +241,15 @@ addInputHandler('enr_glus',function(input){
         var group_information = groupCheck(input,'group_codes',lang);
 
         // if the info about the id is not null, ask for confirmation with the group info
-        if(group_information != null){
+        if(group_information){
+            group_information = JSON.parse(group_information);
             var confirmation_menu = msgs('enr_confirmation_menu',{},lang);
-            var current_menu = msgs('enr_group_id_confirmation', {'$ENR_GROUP_ID' : input,'$LOCATION_INFO': group_information, '$ENR_CONFIRMATION_MENU' : confirmation_menu}, lang);
+            var current_menu = msgs('enr_group_id_confirmation',
+             {
+                '$ENR_GROUP_ID' : input,
+                '$ENR_CONFIRMATION_MENU' : confirmation_menu,
+                '$NAME': group_information.name
+            }, lang);
             state.vars.current_menu_str = current_menu;
             sayText(current_menu);
             promptDigits('enr_group_id_confirmation', {'submitOnHash' : false, 'maxDigits' : max_digits_for_input,'timeout' : timeout_length});

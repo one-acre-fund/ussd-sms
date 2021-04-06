@@ -1092,7 +1092,7 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
         state.vars.glus = input;
         // checking and retreiving info about the entered id
         var groupCheck = require('./lib/enr-check-gid');
-        var group_information = groupCheck(input,service.vars.groupCodeTableId);
+        var group_information = groupCheck(input, service.vars.groupCodeTableId);
         if(group_information == false){
             sayText(msgs('invalid_group_id',{},lang));
             sayText(msgs('enr_glus', {}, lang));
@@ -1100,22 +1100,18 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
 
         }
         // if the info about the id is not null, ask for confirmation with the group info
-        else if (group_information != null) {
-
-            // Check if the group size is less than 16
-            if (!group_size_satisfied(input,client_table)){
-                sayText(msgs('group_size_not_satisfied',{},lang));
-                regSessionManager.clear(contact.phone_number);
-                stopRules();
-                return null;
-            }     
-            else{   
-            regSessionManager.save(contact.phone_number, state.vars, 'groupCodeInputHandler', input);
-            var current_menu = msgs('enr-group-constitution-approvement',{},lang);
+        else if (group_information) {
+            group_information = JSON.parse(group_information);
+            var confirmation_menu = msgs('enr_confirmation_menu',{},lang);
+            var current_menu = msgs('enr_group_id_confirmation',
+             {
+                '$ENR_GROUP_ID' : input,
+                '$ENR_CONFIRMATION_MENU' : confirmation_menu,
+                '$NAME': group_information.name
+            }, lang);
             state.vars.current_menu_str = current_menu;
             sayText(current_menu);
-            promptDigits('reg_group_constitution_confirm',{ 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
-            }
+            promptDigits('reg_group_code_confirmation', {'submitOnHash' : false, 'maxDigits' : max_digits_for_input,'timeout' : timeout_length});
         }
         // if the group id is not valid, prompt them again
         else {
@@ -1125,6 +1121,29 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
         }
     }
 };
+addInputHandler('reg_group_code_confirmation', function(input) {
+    if(input == '1') {
+        // continue
+        // Check if the group size is less than 16 or not found in the table
+        if (!group_size_satisfied(state.vars.glus, client_table)){
+            sayText(msgs('group_size_not_satisfied',{},lang));
+            regSessionManager.clear(contact.phone_number);
+            stopRules();
+            return null;
+        } else {   
+            regSessionManager.save(contact.phone_number, state.vars, 'groupCodeInputHandler', input);
+            var current_menu = msgs('enr-group-constitution-approvement',{},lang);
+            state.vars.current_menu_str = current_menu;
+            sayText(current_menu);
+            promptDigits('reg_group_constitution_confirm',{ 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+        }
+    } else {
+        // reprompt for group code
+        sayText(msgs('invalid_group_id',{},lang));
+        sayText(msgs('enr_glus', {}, lang));
+        promptDigits('enr_glus', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
+    }
+})
 addInputHandler('enr_glus', inputHandlers['groupCodeInputHandler']);
 
 //not currenty active
