@@ -172,6 +172,9 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             'maxDigits': 2,
             'timeout': timeout_length
         });
+    } else if(response == 3) {
+        // start chec account number
+        checkAccountNumber.start(lang, 646);
     }
     else {
         try {
