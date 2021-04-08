@@ -89,6 +89,7 @@ var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 var avocadoTreesOrdering = require('../avocado-trees-ordering/avocadoTreesOrdering');
 var clientRegistration = require('../client-registration/clientRegistration');
 var marketAccess = require('../market-access/marketAccess');
+var checkAccountNumber = require('../getAccountNumber/checkAccountNumber');
 //options
 const max_digits_for_input = project.vars.max_digits; //only for testing
 //const max_digits_for_nid = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits_nid'}}).next().vars.value); 
@@ -105,7 +106,7 @@ const max_digits_for_name = project.vars.max_digits_name;
 const inputHandlers = {}
 clientRegistration.registerHandlers();
 marketAccess.registerHandlers();
-
+checkAccountNumber.registerInputHandlers(lang);
 global.main = function () {
     sayText(msgs('cor_enr_main_splash',{},lang));
     promptDigits('account_number_splash', {
@@ -172,6 +173,9 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             'maxDigits': 2,
             'timeout': timeout_length
         });
+    } else if(response == 3) {
+        // start chec account number
+        checkAccountNumber.start(lang, 646);
     }
     else {
         try {
