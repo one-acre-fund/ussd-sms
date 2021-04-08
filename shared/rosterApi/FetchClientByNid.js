@@ -1,4 +1,5 @@
 var Log = require('../../logger/elk/elk-logger');
+
 var accountNumberEndpoint = '/api/sms/client?';
 
 /**
