@@ -1,4 +1,4 @@
-const checkClient = require('./checkAccountNumberByNID');
+const checkClient = require('./FetchClientByNid');
 const logger = require('../../logger/elk/elk-logger');
 
 jest.mock('../../logger/elk/elk-logger');

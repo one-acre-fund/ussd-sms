@@ -1,8 +1,7 @@
 const nationalInputHandler = require('./nationalIdInputHandler');
-const getAccountNumber = require('../../shared/rosterApi/checkAccountNumberByNID');
+const getAccountNumber = require('../../shared/rosterApi/FetchClientByNid');
 
-
-jest.mock('../../shared/rosterApi/checkAccountNumberByNID');
+jest.mock('../../shared/rosterApi/FetchClientByNid');
 describe('national id input handler', () => {
     it('should reprompt if the api returns no client', () => {
         getAccountNumber.mockReturnValueOnce(null);

@@ -1,9 +1,8 @@
-var getAccountNumber = require('../../shared/rosterApi/checkAccountNumberByNID');
+var getAccountNumber = require('../../shared/rosterApi/FetchClientByNid');
 var translations = require('../translations/index');
 var translator = require('../../utils/translator/translator');
 
 var handlerName = 'forgot_nid_handler_name';
-
 module.exports = {
     handlerName: handlerName,
     getHandler: function(lang) {
