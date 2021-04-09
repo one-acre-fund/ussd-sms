@@ -2,26 +2,26 @@
 module for logging client data collected through the USSD enr system
 */
 
-module.exports = function (nid, name1, name2, pn, glus, geo, an_table_name,lang) {
+module.exports = function (nid, name1, name2, pn, glus, geo, an_table_name, claimsGl, lang) {
     var an_table = project.getOrCreateDataTable(an_table_name);
     var cursor = an_table.queryRows({ 'vars': { 'registered': { exists: 1 }, 'nid': nid } });
     if(! cursor.hasNext()){
         var client_row = null;
         var clientData = null;//Client Json data to send to roaster
         var clientJSON = {
-            "districtId": state.vars.districtId,
-            "siteId": state.vars.siteId,
-            "groupId": state.vars.groupId,
-            "firstName": name1,
-            "lastName": name2,
-            "nationalIdNumber": nid,
-            "phoneNumber": pn
+            'districtId': state.vars.districtId,
+            'siteId': state.vars.siteId,
+            'groupId': state.vars.groupId,
+            'firstName': name1,
+            'lastName': name2,
+            'nationalIdNumber': nid,
+            'phoneNumber': pn
         };
         //Getting client data from roster to retrieve account number
         var rosterRegister = require('./roster/register-client');
         try {
-            clientData = JSON.parse(rosterRegister(clientJSON),lang);
-            console.log('client Data ****************' + clientData.AccountNumber);
+            clientData = JSON.parse(rosterRegister(clientJSON, lang));
+            console.log('client Data ****************' + JSON.stringify(clientData));
 
             console.log('type of data:' + typeof (clientData));
             // storing client account nuumber in a datatable
@@ -43,14 +43,15 @@ module.exports = function (nid, name1, name2, pn, glus, geo, an_table_name,lang)
             client_row.vars.user_pn = contact.phone_number;
             client_row.vars.new_client = 1;
             client_row.vars.geo = geo;
-            console.log(JSON.stringify(client_row.vars))
+            client_row.vars.claims_to_be_groupleader = claimsGl;
+            console.log(JSON.stringify(client_row.vars));
             state.vars.account_number = client_row.vars.account_number;
             if (state.vars.account_number === null) {
-                throw 'ERROR: error in client logger'
+                throw 'ERROR: error in client logger';
             }
             client_row.save();
             return client_row;
-            }
+        }
 
         else {
             //Notify admin :TODO
@@ -69,4 +70,4 @@ module.exports = function (nid, name1, name2, pn, glus, geo, an_table_name,lang)
     }
 
  
-}
+};

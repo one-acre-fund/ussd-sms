@@ -1132,10 +1132,10 @@ addInputHandler('reg_group_code_confirmation', function(input) {
             return null;
         } else {   
             regSessionManager.save(contact.phone_number, state.vars, 'groupCodeInputHandler', input);
-            var current_menu = msgs('enr-group-constitution-approvement',{},lang);
+            var current_menu = msgs('are_you_a_gl',{},lang);
             state.vars.current_menu_str = current_menu;
             sayText(current_menu);
-            promptDigits('reg_group_constitution_confirm',{ 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            promptDigits('enrl_ask_glus',{ 'submitOnHash': false, 'maxDigits': 1, 'timeout': timeout_length });
         }
     } else {
         // reprompt for group code
@@ -1143,8 +1143,29 @@ addInputHandler('reg_group_code_confirmation', function(input) {
         sayText(msgs('enr_glus', {}, lang));
         promptDigits('enr_glus', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
     }
-})
+});
 addInputHandler('enr_glus', inputHandlers['groupCodeInputHandler']);
+
+inputHandlers['areYouGroupLeader'] = function(input) {
+    if(input == 1 || input == 2) {
+        // has responded is a group leader
+        regSessionManager.save(contact.phone_number, state.vars, 'areYouGroupLeader', input);
+        var current_menu = msgs('enr-group-constitution-approvement',{},lang);
+        state.vars.current_menu_str = current_menu;
+        state.vars.areYouGL = input == 1 ? 'YES' : 'NO';
+        sayText(current_menu);
+        promptDigits('reg_group_constitution_confirm',{ 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+    } else {
+        // reprompt for group leader
+        var current_menu = msgs('are_you_a_gl',{},lang);
+        state.vars.current_menu_str = current_menu;
+        sayText(state.vars.current_menu_str);
+        promptDigits('enrl_ask_glus',{ 'submitOnHash': false, 'maxDigits': 1, 'timeout': timeout_length });
+    }
+}
+
+addInputHandler('enrl_ask_glus', inputHandlers['areYouGroupLeader'])
+
 
 //not currenty active
 addInputHandler('enr_group_id_confirmation', function (input) { //enr group leader / umudugudu support id step. last registration step
@@ -1201,7 +1222,7 @@ addInputHandler('reg_group_constitution_confirm',function(input){
         var client_log_result ={};
         if (state.vars.account_number == null) {
             var client_log = require('./lib/enr-client-logger');
-            client_log_result = client_log(state.vars.reg_nid, state.vars.reg_name_1, state.vars.reg_name_2, state.vars.reg_pn, state.vars.glus, geo, an_pool,lang);
+            client_log_result = client_log(state.vars.reg_nid, state.vars.reg_name_1, state.vars.reg_name_2, state.vars.reg_pn, state.vars.glus, geo, an_pool, state.vars.areYouGL, lang);
             if(client_log_result === null){
                 stopRules();
                 return null;
