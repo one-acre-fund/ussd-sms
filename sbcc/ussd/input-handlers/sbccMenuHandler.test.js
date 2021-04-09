@@ -1,9 +1,7 @@
 const sbccMenuHandler = require('./sbccMenuHandler');
 const notifyELK = require('../../../notifications/elk-notification/elkNotification');
-const scheduleCall = require('../../utils/scheduleCall');
 
 jest.mock('../../../notifications/elk-notification/elkNotification');
-jest.mock('../../utils/scheduleCall');
 
 describe('SBCC menu handler', () => {
     beforeAll(() => {
@@ -26,20 +24,12 @@ describe('SBCC menu handler', () => {
         });
     });
 
-    it('schedules a call when user has forgotten national ID', () => {
-        global.contact = { phone_number: '07812345678' };
+    it('displays nutrition hotline number for user to call when national ID is forgotten', () => {
         handler('2');
 
-        expect(scheduleCall).toHaveBeenCalledWith({
-            lang: 'en',
-            desc:
-                'Call back requested for forgotten national ID. User phone number is 07812345678',
-            accountNumber: 'NonClient07812345678',
-            phoneNumber: '07812345678',
-            repeatMenu: 'sbcc_menu',
-            repeatHandler: 'sbcc_menu',
-            successMsg: 'OAF_call',
-        });
+        expect(sayText).toHaveBeenCalledWith(
+            'We\'re sorry there\'s a problem with your National ID. Please call our nutrition hotline number 0800720958 free of charge, to get assistance from our Customer Engagement Agents.'
+        );
     });
 
     it('goes back to the non client menu when user chooses back', () => {
