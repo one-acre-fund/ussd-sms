@@ -24,7 +24,7 @@ module.exports = {
                 });
                 break;
             case '2':
-                sayText(getMessage('forgotten-national-id', {}, lang));
+                global.sayText(getMessage('forgotten-national-id', {}, lang));
                 break;
             case '3':
                 backMenu();
