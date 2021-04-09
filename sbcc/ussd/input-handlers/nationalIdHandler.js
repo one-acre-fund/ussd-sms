@@ -1,7 +1,6 @@
 var translations = require('../../translations/message-translations');
 var translator = require('../../../utils/translator/translator');
 var notifyELK = require('../../../notifications/elk-notification/elkNotification');
-var scheduleCall = require('../../utils/scheduleCall');
 
 module.exports = function nationalIdHandler(input) {
     notifyELK();
@@ -36,17 +35,7 @@ module.exports = function nationalIdHandler(input) {
                 timeout: 5,
             });
         } else {
-            scheduleCall({
-                lang: lang,
-                desc:
-                    'Call back requested for incorrect national ID entered twice. User phone number is ' +
-                    contact.phone_number,
-                accountNumber: 'NonClient' + contact.phone_number,
-                phoneNumber: contact.phone_number,
-                repeatMenu: 'try_again',
-                repeatHandler: 'national_id',
-                successMsg: 'incorrect_id',
-            });
+            sayText(getMessage('forgotten-national-id', {}, lang));
         }
     }
 };

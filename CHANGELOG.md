@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.10.8
+### Changed
+* [ESWFA-128](https://oneacrefund.atlassian.net/browse/ESWFA-128) Remove call back option from SBCC IVR USSD Menu option
 ## v1.10.7
 * [MOB-408](https://oneacrefund.atlassian.net/browse/MOB-408) Update the message to say the client is already registered if they are already registered
 ## v1.10.6
