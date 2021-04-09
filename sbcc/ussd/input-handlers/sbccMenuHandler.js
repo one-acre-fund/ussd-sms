@@ -1,7 +1,6 @@
 var translations = require('../../translations/message-translations');
 var translator = require('../../../utils/translator/translator');
 var notifyELK = require('../../../notifications/elk-notification/elkNotification');
-var scheduleCall = require('../../utils/scheduleCall');
 
 module.exports = {
     /**
@@ -25,15 +24,7 @@ module.exports = {
                 });
                 break;
             case '2':
-                scheduleCall({
-                    lang: lang,
-                    desc: 'Call back requested for forgotten national ID. User phone number is '+ contact.phone_number,
-                    accountNumber: 'NonClient' + contact.phone_number,
-                    phoneNumber: contact.phone_number, 
-                    repeatMenu: 'sbcc_menu',
-                    repeatHandler: 'sbcc_menu',
-                    successMsg: 'OAF_call'
-                });
+                sayText(getMessage('forgotten-national-id', {}, lang));
                 break;
             case '3':
                 backMenu();

@@ -2,7 +2,6 @@ const nationalIdHandler = require('./nationalIdHandler');
 const notifyELK = require('../../../notifications/elk-notification/elkNotification');
 
 jest.mock('../../../notifications/elk-notification/elkNotification');
-jest.mock('../../utils/scheduleCall');
 
 describe('National ID handler', () => {
     beforeAll(() => {

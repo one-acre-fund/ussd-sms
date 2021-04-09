@@ -2,7 +2,6 @@ const pinHandler = require('./pinHandler');
 const notifyELK = require('../../../notifications/elk-notification/elkNotification');
 
 jest.mock('../../../notifications/elk-notification/elkNotification');
-jest.mock('../../utils/scheduleCall');
 
 describe('Pin Handler', () => {
     beforeAll(() => {

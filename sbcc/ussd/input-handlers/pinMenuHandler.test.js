@@ -1,9 +1,7 @@
 const pinMenuHandler = require('./pinMenuHandler');
 const notifyELK = require('../../../notifications/elk-notification/elkNotification');
-const scheduleCall = require('../../utils/scheduleCall');
 
 jest.mock('../../../notifications/elk-notification/elkNotification');
-jest.mock('../../utils/scheduleCall');
 
 describe('Pin Menu Handler', () => {
     beforeAll(() => {
@@ -24,20 +22,12 @@ describe('Pin Menu Handler', () => {
         });
     });
 
-    it('schedules a call when user has forgotten pin', () => {
-        global.contact = { phone_number: '07812345678' };
+    it('displays nutrition hotline number for user to call when pin is forgotten', () => {
         pinMenuHandler('2');
 
-        expect(scheduleCall).toHaveBeenCalledWith({
-            lang: 'en',
-            desc:
-                'Call back requested for forgotten pin. User phone number is 07812345678',
-            accountNumber: 'NonClient07812345678',
-            phoneNumber: '07812345678',
-            repeatMenu: 'pin_menu',
-            repeatHandler: 'pin_menu',
-            successMsg: 'OAF_call',
-        });
+        expect(sayText).toHaveBeenCalledWith(
+            'We\'re sorry there\'s a problem with your PIN. Please call our nutrition hotline number 0800720958 free of charge, to get assistance from our Customer Engagement Agents.'
+        );
     });
 
     it('goes back to the national ID menu when user chooses back', () => {
