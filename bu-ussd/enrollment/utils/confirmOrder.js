@@ -41,10 +41,11 @@ module.exports = function(lang) {
         // get phone
         var phoneNumbers = getPhoneNumber(client.AccountNumber, 'BI');
         var activePhones = filterActivePhones(phoneNumbers);
+        console.log('>>>>>>phones: ', JSON.stringify(activePhones));
         // send message.
         project.sendMessage({
             content: productsMessage,
-            to_number: activePhones[0].PhoneNumber || contact.phone_number,
+            to_number: activePhones[0] && activePhones[0].PhoneNumber || contact.phone_number,
         });
         global.stopRules();
     } else {

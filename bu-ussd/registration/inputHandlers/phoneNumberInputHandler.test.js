@@ -24,9 +24,16 @@ describe('Phone number input handler', () => {
         handler('0');
         expect(state.vars.phone_number).toEqual('788664573');
     });
-    it('should reprompt the phone number up on phone number with not 9 digits', () => {
+    it('should reprompt the phone number up on phone number not within 8-12 digits (more)', () => {
         const handler = phoneNumberInputHandler.getHandler('en_bu');
-        handler('0788664573');
+        handler('0788664573843743');
+        expect(sayText).toHaveBeenCalledWith('This phone number is invalid, please try again');
+        expect(promptDigits).toHaveBeenCalledWith(phoneNumberInputHandler.handlerName);
+    });
+
+    it('should reprompt the phone number up on phone number not within 8-12 digits (less', () => {
+        const handler = phoneNumberInputHandler.getHandler('en_bu');
+        handler('078866');
         expect(sayText).toHaveBeenCalledWith('This phone number is invalid, please try again');
         expect(promptDigits).toHaveBeenCalledWith(phoneNumberInputHandler.handlerName);
     });

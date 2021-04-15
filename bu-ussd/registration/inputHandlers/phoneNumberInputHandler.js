@@ -24,7 +24,7 @@ module.exports = {
             if(phoneNumber == '0') {
                 // farmer has no phone. user the current session's at the moment
                 phoneNumber = contact.phone_number;
-            } else if((phoneNumber && phoneNumber.length !== 9)){
+            } else if((phoneNumber && (phoneNumber.length < 8 || phoneNumber.length > 12))){
                 // invalid phone reprompt
                 invalidPhone();
                 return;
