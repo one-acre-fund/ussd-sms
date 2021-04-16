@@ -7,11 +7,12 @@ var getCode = require('../helper-functions/getCode');
 var getCodeSerialHandler = require('../get-code-serial-handler/getCodeSerialHandler');
 var requestCodeHandler = require('../request-code-handler/requestCodeHandler');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
+var shsNotification = require('../../notifications/elk-notification/shsNotification');
 module.exports = {
     handlerName: handlerName,
     getHandler: function(){
         return function (input) {
-            notifyELK();
+            notifyELK('hello', true);
             if(input == 1){
                 global.sayText(translate('register_serial_menu',{},state.vars.shsLang));
                 global.promptDigits(registrationTypeHandler.handlerName);
@@ -46,6 +47,7 @@ module.exports = {
                         message = translate('no_code_message_client',{},state.vars.shsLang);
                     global.sayText(message);
                 }
+                //shsNotification(serialNumberDetails);
                 global.stopRules();
             }
             else if(input == 4){

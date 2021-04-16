@@ -4,6 +4,7 @@ var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
+var shsNotification = require('../../notifications/elk-notification/shsNotification');
 module.exports = function (requestData){
 
     var fullUrl = service.vars.shs_reg_endpoint + '/api/shs/v1/units/register';
@@ -14,13 +15,14 @@ module.exports = function (requestData){
     try {
         var logger;
         var response = httpClient.request(fullUrl, opts);
-        console.log('^^^^^^^^^^^^^^^^^^'+JSON.stringify(response));
+        //console.log('^^^^^^^^^^^^^^^^^^'+JSON.stringify(response));
         if (response.status == 201 || response.status == 200) {
             var data = JSON.parse(response.content).results;
             if(response.status == 200)
                 state.vars.exists = 'true';
             var shsInformation = {shsSuccess: 'true', shsKeyCodeType: data.keyCodeType, shsCode: data.keyCode, shsExpirationDate: moment.unix(data.expiry).format('MMM Do YY'), shsRequestDate: moment().format('MMM Do YY'),serialNumber: data.serialNumber,unitForOther: state.vars.unitForOther}; 
-            notifyELK(shsInformation);
+            //shsNotification(shsInformation);
+            notifyELK(JSON.stringify(shsInformation),true);
             return data;
         }
         else if(JSON.parse(response.content).message == 'Unit with serial number '+requestData.unitSerialNumber+' assigned to another client'){

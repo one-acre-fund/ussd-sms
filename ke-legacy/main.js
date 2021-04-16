@@ -80,7 +80,7 @@ else{
     service.vars.JITSucessfullRegId = 'DT12cc1d618437e58b';
     service.vars.SiteLockingTableId = 'DTa75d9c02bd403ebc';
 }
-state.vars.extraData = JSON.stringify([]);
+call.vars.extraData = JSON.stringify(["x"]);
 var MenuCount = 0;
 var LocArray='';
 var ClientAccNum = '';

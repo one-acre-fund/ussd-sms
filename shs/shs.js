@@ -11,6 +11,7 @@ var registrationTypeHandler = require('./registration-type-handler/registrationT
 var replacementHandler = require('./replacement-handler/replacementHandler');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var requestCodeHandler = require('./request-code-handler/requestCodeHandler');
+var shsNotification =  require('../notifications/elk-notification/shsNotification');
 var moment = require('moment');
 
 var onSerialValidated = function(serialInfo, isCodeRequest){
@@ -24,7 +25,8 @@ var onSerialValidated = function(serialInfo, isCodeRequest){
     call.vars.shsGLForOthers = state.vars.unitForOther;
     var shsInformation = JSON.stringify({shsSuccess: 'true', shsKeyCodeType: serialInfo.keyCodeType, shsCode: serialInfo.keyCode, shsExpirationDate: moment.unix(serialInfo.expiry).format('MMM Do YY'), shsRequestDate: moment().format('MMM Do YY'),serialNumber: serialInfo.serialNumber,unitForOther: state.vars.unitForOther}); 
     //shsInformation.shsSuccess = true;
-    notifyELK(shsInformation);
+    //shsNotification(shsInformation,true);
+    notifyELK(shsInformation,true);
     if(state.vars.unitForOther == 'true'){
         if(serialInfo.keyCodeType == 'ACTIVATION')
             message = translate('successful_farmer_activation_code',{'$code': serialInfo.keyCode},state.vars.shsLang);

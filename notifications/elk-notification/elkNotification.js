@@ -92,24 +92,31 @@
 
 
 var Log = require('../../logger/elk/elk-logger');
-module.exports = function(extraData){
+module.exports = function(extraData,log){
+
+    //var elkTable = project.initDataTableById('DT91bc8f35ae1bda3f');
     var url = 'https://elk.operations.oneacrefund.org:8080/telerivet';
     var opts = {};
     var dataJSON ={};
-    var curr ='';
+    var curr;
     var obj;
     if(extraData && extraData != undefined){
-
         curr =  extraData;
-        console.log('###############################################################'+extraData);
+        //console.log('###############################################################'+ extraData);
     }
-    obj = JSON.parse(state.vars.extraData);
+    //console.log('++++++++++++++++++++++++:'+call.vars.extraData);
+    obj = JSON.parse(call.vars.extraData);
+    if(!curr)
+        curr = 'x';
     obj.push(curr);
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'+ curr + ' # '+ extraData+ ' ~'+ JSON.stringify(obj));
-    state.vars.extraData = JSON.stringify(obj);
-    dataJSON['extra'] = JSON.stringify(obj);
-    dataJSON['extraAgain'] = JSON.stringify(state.vars.extraData);
-    dataJSON['content'] = state.vars.extraData;
+    //console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'+ curr + ' # '+ extraData+ ' ~'+ JSON.stringify(obj));
+    call.vars.extraData = JSON.stringify(obj);
+
+    dataJSON['extras'] = obj;
+    //dataJSON['extraAgain'] = state.vars.extraData;
+    //console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'+dataJSON['extra']);
+    //console.log('**************************************'+ call.vars.extraData);
+    dataJSON['content'] = call.vars.extraData;
     dataJSON['content'] = message.content;
     dataJSON['from_number'] = message.from_number;
     dataJSON['starred'] = message.starred;
@@ -124,8 +131,6 @@ module.exports = function(extraData){
     dataJSON['contact_id'] = message.contact_id;
     dataJSON['track_clicks'] = message.track_clicks;
     dataJSON['varsTwo'] = message.vars;
-    if(extraData)
-        dataJSON['vars'] = extraData;
     dataJSON['to_number'] = message.to_number;
     dataJSON['direction'] = message.direction;
     dataJSON['source'] = message.source;
@@ -154,7 +159,7 @@ module.exports = function(extraData){
     dataJSON['contact']['message_count'] = contact.message_count;
     dataJSON['contact']['send_blocked'] = contact.send_blocked;
     dataJSON['contact']['extra'] = extraData;
-    dataJSON['extraData'] = extraData;
+    dataJSON['extraData'] = 'hello';
 
 
 
@@ -167,6 +172,21 @@ module.exports = function(extraData){
             var logger = new Log();
             console.log('bad response sending data to ELK');
             logger.warn('Failed to send ELK notification :',{data: response});
+        }
+        else{
+            console.log('Okay');
+            if(log){
+                console.log('Writing to table');
+                var elkTable = project.initDataTableById('DT91bc8f35ae1bda3f');
+                var new_elk_row = elkTable.createRow({
+                    vars: {
+                        'jsonData': JSON.stringify(opts.data),
+                        'response': JSON.stringify(response)
+                    }
+                });
+                new_elk_row.save();
+                console.log('End Writing to table');
+            }
         }
     }
     catch(e){
@@ -188,4 +208,5 @@ module.exports = function(extraData){
             console.log('Error sending a request for notify ELK' + e);
         }
     }
+    //console.log(JSON.stringify(opts));
 };

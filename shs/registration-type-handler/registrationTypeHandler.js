@@ -6,12 +6,13 @@ var translate =  createTranslator(translations, project.vars.lang);
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 var replacementHandler = require('../replacement-handler/replacementHandler');
 var getCode = require('../helper-functions/getCode');
-
+var shsNotification = require('../../notifications/elk-notification/shsNotification');
 module.exports = {
     handlerName: handlerName,
     getHandler: function(){
         return function(input){
             notifyELK();
+            shsNotification('help');
             if(input == 1){
                 global.sayText(translate('serial_number_request',{},state.vars.shsLang));
                 global.promptDigits(serialNumberHandler.handlerName);

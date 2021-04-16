@@ -2,6 +2,7 @@ var Log = require('../../logger/elk/elk-logger');
 var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 module.exports = function (requestData){
     var fullUrl = service.vars.shs_reg_endpoint + '/api/shs/v1/units?accountNumber=' + requestData.accountNumber + '&countryCode='+ requestData.countryCode;
@@ -11,9 +12,11 @@ module.exports = function (requestData){
     try {
         var logger;
         var response = httpClient.request(fullUrl, opts);
-        console.log('response:'+ JSON.stringify(response));
+        //console.log('response:'+ JSON.stringify(response));
         if (response.status == 200) {
             var data = JSON.parse(response.content).results;
+            var shsInformation = {shsSuccess: 'true', getActivation: 'Ok'};
+            //notifyELK(JSON.stringify(shsInformation),true);
             return data;
         }
         else {

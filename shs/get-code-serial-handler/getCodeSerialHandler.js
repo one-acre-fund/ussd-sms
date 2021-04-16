@@ -9,8 +9,8 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(onSerialValidated){
         return function(input){
-            notifyELK();
             var serialNumberDetails = JSON.parse(state.vars.serialNumberDetails);
+            //notifyELK();
             if(input == 99){
                 global.sayText(translate('register_serial_menu',{},state.vars.shsLang));
                 global.promptDigits(registrationTypeHandler.handlerName);
@@ -18,6 +18,7 @@ module.exports = {
             else if(input <= serialNumberDetails.length){
                 var serial = serialNumberDetails[input-1];
                 onSerialValidated(serial,true);
+                notifyELK(JSON.stringify(serial), true);
             }
             else{
                 var serialNumbersMessage = serialNumberDetails.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.serialNumber + '('+current.unitType+')\n';},'');

@@ -16,6 +16,7 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(){
         return function(input){
+            call.vars.justTesting = 'ok';
             notifyELK();
             state.vars.account = input;
             state.vars.unitForOther = 'true';

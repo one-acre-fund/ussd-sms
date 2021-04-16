@@ -24,7 +24,7 @@ module.exports = function registerSerialNumber(serialNumber,unitType,replacement
             unitType: unitType,
             isReplacement: replacement
         };
-        console.log('requ'+JSON.stringify(requestData));
+        //console.log('requ'+JSON.stringify(requestData));
         return registerSerial(requestData);
     }
     else{
