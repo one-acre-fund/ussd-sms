@@ -10,6 +10,7 @@ jest.mock('../../../shared/rosterApi/getPhoneNumber');
 
 describe('confirm order', () => {
     beforeAll(() => {
+        contact.phone_number = '0780475674';
         state.vars.enrolling_client = JSON.stringify({
             AccountNumber: '23123456',
             DistrictId: 33453,
@@ -40,6 +41,8 @@ describe('confirm order', () => {
             }
         ]);
     });
+    const tableMock = {createRow: jest.fn()};
+    jest.spyOn(project, 'initDataTableById').mockReturnValue(tableMock);
     beforeEach(() => {
         CheckGroupLeader.mockReturnValueOnce(true);
         getPhoneNumber.mockReturnValueOnce([
@@ -61,6 +64,8 @@ describe('confirm order', () => {
     });
 
     it('should enroll the order and send a message of products ordered', () => {
+        const rowMock = {save: jest.fn()};
+        jest.spyOn(tableMock, 'createRow').mockReturnValueOnce(rowMock);
         enrollOrder.mockReturnValueOnce(true);
         confirmOrder('en_bu');
         expect(sayText).toHaveBeenCalledWith('Order\n' +
@@ -69,6 +74,13 @@ describe('confirm order', () => {
         expect(project.sendMessage).toHaveBeenCalledWith({'content': 'Order\n' +
         '1) Biolite\n' +
         '2) Avocadoes\n', 'to_number': '0780412345'});
+        expect(rowMock.save).toHaveBeenCalled();
+        expect(tableMock.createRow).toHaveBeenCalledWith({
+            'vars': {
+                'account_number': '23123456',
+                'order': '[{"bundleId":123,"bundleName":"Biolite","bundleInputs":[{"quantity":10,"bundleInputId":345}]}' + 
+                ',{"bundleId":980,"bundleName":"Avocadoes","bundleInputs":[{"quantity":87,"bundleInputId":456}]}]',
+                'phone_number': '0780475674'}});
         expect(stopRules).toHaveBeenCalled();
     });
 });

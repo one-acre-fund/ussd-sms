@@ -8,7 +8,6 @@ module.exports = function(lang) {
     // place order and send a message of the order
     var getMessage = translator(translations, lang);
     var selectedBundles = JSON.parse(state.vars.selected_bundles);
-    console.log('>>>>>>>>>>>' + state.vars.selected_bundles);
     var client = JSON.parse(state.vars.enrolling_client);
     // create payload for the api request.
     var bundles = selectedBundles.map(function(bundle) {
@@ -41,12 +40,21 @@ module.exports = function(lang) {
         // get phone
         var phoneNumbers = getPhoneNumber(client.AccountNumber, 'BI');
         var activePhones = filterActivePhones(phoneNumbers);
-        console.log('>>>>>>phones: ', JSON.stringify(activePhones));
         // send message.
         project.sendMessage({
             content: productsMessage,
             to_number: activePhones[0] && activePhones[0].PhoneNumber || contact.phone_number,
         });
+        // store the state.vars.selected_bundles into the orders table.
+        var ordersTable = project.initDataTableById(service.vars.orders_table_id);
+        var row = ordersTable.createRow({
+            vars: {
+                'account_number': client.AccountNumber,
+                'order': state.vars.selected_bundles,
+                'phone_number': contact.phone_number
+            }
+        });
+        row.save();
         global.stopRules();
     } else {
         // display an error

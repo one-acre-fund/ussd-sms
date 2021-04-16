@@ -13,10 +13,25 @@ function start(language, client) {
     state.vars.enrolling_client = JSON.stringify(client);
     // get all bundles in a certain district
     var bundles = getBundles(client.DistrictId, language);
-    state.vars.selected_bundles = JSON.stringify([]);
+    state.vars.selected_bundles = getOrderedBundles(client.AccountNumber);
     state.vars.bundles = JSON.stringify(bundles);
     displayBundles(bundles, language, client);
     global.promptDigits(bundlesHandler.handlerName);
+}
+
+function getOrderedBundles(AccountNumber) {
+    var ordersTable = project.initDataTableById(service.vars.orders_table_id);
+    var cursor = ordersTable.queryRows({
+        vars: {
+            'account_number': AccountNumber
+        }
+    });
+    var order = JSON.stringify([]);
+    if(cursor.hasNext()) {
+        var row = cursor.next();
+        order = row.vars.order;
+    }
+    return order;
 }
 
 module.exports = {

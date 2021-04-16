@@ -6,6 +6,8 @@ describe('main burundi ussd', () => {
         project.vars.dev_roster_api_key = 'insecureApi';
         project.vars.prod_server_name = 'prod.server.com';
         project.vars.prod_roster_api_key = 'xxxXXXxxx';
+        project.vars.dev_orders_table = 'orders_table_43hjhs7ks9sa';
+        project.vars.dev_bundles_table = 'bundles_tableID_sdhfsadf';
     });
     afterEach(() => {
         jest.resetModules();
@@ -14,6 +16,8 @@ describe('main burundi ussd', () => {
         require('./main');
         expect(service.vars.server_name).toEqual('dev.server.com');
         expect(service.vars.roster_api_key).toEqual('insecureApi');
+        expect(service.vars.orders_table_id).toEqual('orders_table_43hjhs7ks9sa');
+        expect(service.vars.bundles_table_id).toEqual('bundles_tableID_sdhfsadf');
     });
     it('should set the environment to production if the service is live', () => {
         service.active = true;
