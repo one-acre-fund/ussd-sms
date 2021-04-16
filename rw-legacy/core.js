@@ -89,6 +89,7 @@ var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 var avocadoTreesOrdering = require('../avocado-trees-ordering/avocadoTreesOrdering');
 var clientRegistration = require('../client-registration/clientRegistration');
 var marketAccess = require('../market-access/marketAccess');
+var ChangeGroupName = require('../changeGroupName/changeGroupName');
 //options
 const max_digits_for_input = project.vars.max_digits; //only for testing
 //const max_digits_for_nid = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits_nid'}}).next().vars.value); 
@@ -105,6 +106,7 @@ const max_digits_for_name = project.vars.max_digits_name;
 const inputHandlers = {}
 clientRegistration.registerHandlers();
 marketAccess.registerHandlers();
+ChangeGroupName.registerInputHandlers(lang)
 
 global.main = function () {
     sayText(msgs('cor_enr_main_splash',{},lang));
