@@ -32,7 +32,7 @@ module.exports = function(table_name, lang, max_chars){
     for(var x = 1; x <= Object.keys(option_numbers).length; x++){
         try{
             var opt_row = menu_table.queryRows({'vars': {'option_number': x}}).next();
-            if(opt_row.vars.option_name == 'view_group_repayment' && !state.vars.isGroupLeader) {
+            if((opt_row.vars.option_name == 'view_group_repayment' || opt_row.vars.option_name == 'change_group_name') && !state.vars.isGroupLeader) {
                 x++;
                 opt_row = menu_table.queryRows({'vars': {'option_number': x}}).next();
             }

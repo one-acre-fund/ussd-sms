@@ -482,6 +482,9 @@ addInputHandler('cor_menu_select', function (input) {
         }
     } else if(selection == 'view_group_repayment' && state.vars.isGroupLeader) {
         groupRepaymentsModule.startGroupRepayments({lang: lang});
+    }else if(selection == 'change_group_name' && state.vars.isGroupLeader) {
+        // change group name
+        ChangeGroupName.start(lang, state.vars.client_json);
     }
     else if(selection == 'avocado_trees_ordering') {
         avocadoTreesOrdering.start(state.vars.account_number,'rw',lang);
