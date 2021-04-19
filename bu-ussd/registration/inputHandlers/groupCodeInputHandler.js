@@ -1,6 +1,7 @@
 var translations = require('../translations/index');
 var translator = require('../../../utils/translator/translator');
 var registerConfirmationInputHandler = require('./registerConfirmationInputHandler');
+var verifyGroup = require('../../../shared/rosterApi/verifyGroup');
 
 var handlerName = 'bu_reg_group_code';
 
@@ -29,6 +30,9 @@ module.exports = {
                 invalidGroupCode();
                 return;
                 
+            } else if(!verifyGroup(groupInfo.districtId, groupInfo.siteId, groupInfo.groupId)) {
+                invalidGroupCode();
+                return;
             }
             else{
                 // store the group information into the state variable for later use in api request for registration
