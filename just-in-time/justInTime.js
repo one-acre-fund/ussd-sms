@@ -298,6 +298,7 @@ function onOrderConfirmed(){
 var getAllSupportedBundles = function (district) {
     console.log('district ID:' + district);
     var bundleInputs = getBundlesInputs(district);
+    console.log('>>>> all bundles' + JSON.stringify(bundleInputs));
     state.vars.currentDistrict = district;
     var unique = [];
     var bundles = [];
@@ -385,6 +386,7 @@ var getAllSupportedBundles = function (district) {
                 }
                 unique[bundleInputs[i].bundleId] = 1;
             }
+            console.log('bundles: ' + JSON.stringify(bundles) + '\nunique: ' + JSON.stringify(unique))
         }
     }
     return bundles;
@@ -395,7 +397,7 @@ function displayBundles(district){
     var allSupportedBundles = getAllSupportedBundles(district);
     // remove the already ordered bundles for returning clients
     var bundles = removeOrderedBundles(allSupportedBundles);
-
+    console.log('>>>> available bundles' + JSON.stringify(bundles));
     // saved it for easy access in bundleChoiceHandler 
     state.vars.bundles = JSON.stringify(bundles);
     // Build the menu for bundles
