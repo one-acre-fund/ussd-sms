@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## New Version
 
 ### Added
+* [ESWFA-62](https://oneacrefund.atlassian.net/browse/ESWFA-62) RW - Confirming who is GLs (this is a new interaction)
 * [ESWFA-81](https://oneacrefund.atlassian.net/browse/ESWFA-81) As a client in Rwanda, I want to be able to validate (check if it exist) the group ID code when registering so that I am assigned the right group and code
 * [ESWFA-92](https://oneacrefund.atlassian.net/browse/ESWFA-92) Malawi USSD Balance check
 ## v1.10.7

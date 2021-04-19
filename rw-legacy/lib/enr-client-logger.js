@@ -27,7 +27,7 @@ module.exports = function (nid, name1, name2, pn, glus, geo, an_table_name, clai
             // storing client account nuumber in a datatable
         }
         catch (e) {
-            console.log('error getting account number from roster' + e);
+            console.log('error getting account number from roster or parsing it: ' + e);
         }
         if (clientData != null) {
             state.vars.client_id = clientData.ClientId;
