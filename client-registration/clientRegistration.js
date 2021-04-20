@@ -93,6 +93,7 @@ module.exports = {
             };
             try {
                 var clientData = JSON.parse(rosterRegisterClient(clientJSON,state.vars.reg_lang));
+                console.log('>>>>client data', JSON.stringify(clientData));
                 if(clientData){
                     var message = translate('enr_reg_complete',{'$ACCOUNT_NUMBER': clientData.AccountNumber},state.vars.reg_lang);
                     var msg_route = project.vars.sms_push_route;
