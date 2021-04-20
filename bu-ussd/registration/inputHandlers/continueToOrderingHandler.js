@@ -10,13 +10,8 @@ module.exports = {
             if(input === '1') {
                 // trigger ordering
                 var registeredClientAccount = state.vars.registered_client_account;
-                var groupLeader = JSON.parse(state.vars.client_json);
                 var registeredClient = getClient(registeredClientAccount, 'BI');
-                if(registeredClientAccount && registeredClient.GroupId == groupLeader.GroupId) {
-                    enrollment.start(language, registeredClient);
-                    return;
-                }
-                global.stopRules();
+                enrollment.start(language, registeredClient);
             } else if(input === '0') {
                 global.stopRules();
             }

@@ -21,11 +21,8 @@ module.exports = {
                 invalidGroupCode();
                 return;
             }
-
-            if((input.replace(/\W/g, '')).length != 13){
-                input = '0'+ input;
-            }
-            var groupInfo = parse_gid(input);
+            
+            var groupInfo = parse_gid(input.trim());
             if(isNaN(groupInfo.districtId) || isNaN(groupInfo.siteId) || isNaN(groupInfo.groupId)){
                 invalidGroupCode();
                 return;

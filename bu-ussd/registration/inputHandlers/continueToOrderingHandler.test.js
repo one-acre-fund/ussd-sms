@@ -24,11 +24,4 @@ describe('continue to ordering handler', () => {
         expect(getClient).toHaveBeenCalledWith('2345234', 'BI');
         expect(enrollment.start).toHaveBeenCalledWith('en_bu', {GroupId: 123});
     });
-    it('should stop the session once user is not in the same gorup as the group leader', () => {
-        getClient.mockReturnValueOnce({GroupId: 456});
-
-        const handler = continueToOrderingHandler.getHandler('en_bu');
-        handler('1');
-        expect(stopRules).toHaveBeenCalled();
-    });
 });

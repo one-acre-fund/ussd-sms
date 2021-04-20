@@ -18,6 +18,7 @@ module.exports = function start(language, client) {
         balance: mostRecentSeason.Balance,
         overpaid: mostRecentSeason.TotalRepayment_IncludingOverpayments,
     };
+    var overPaid = mostRecentSeason.TotalRepayment_IncludingOverpayments - mostRecentSeason.TotalCredit;
     var healthyPathMessage = getHealthyPathMessage(mostRecentSeason.SeasonId, client.CountryId, client.DistrictId, balanceInfo.credit, balanceInfo.paid, language);
     var balanceMessage = getMessage('balance', {
         '$firstName': balanceInfo.firstName,
@@ -25,7 +26,7 @@ module.exports = function start(language, client) {
         '$credit': balanceInfo.credit,
         '$paid': balanceInfo.paid,
         '$balance': balanceInfo.balance,
-        '$overpaid': balanceInfo.overpaid,
+        '$overpaid': overPaid <= 0 ? 0 : overPaid,
         '$healthyPath': healthyPathMessage
     }, language);
     global.sayText(balanceMessage);

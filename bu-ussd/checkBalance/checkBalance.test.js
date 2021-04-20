@@ -37,7 +37,26 @@ describe('check balance', () => {
         'Credit: 11011\n' +
         'Paid: 1760\n' +
         'Balance: 9251\n' +
-        'Overpaid amount: 1760\n' +
+        'Overpaid amount: 0\n' +
+        'Healthy Path Status: 250 below healthy path\n';
+        expect(sayText).toHaveBeenCalledWith(message);
+        expect(project.sendMessage).toHaveBeenCalledWith({
+            content: message,
+            to_number: '0787654565'
+        });
+    });
+
+    it('should show the popup and send the message of the balance with a non zero overpaid if payment is over the credit', () => {
+        var clientMock2 = clientMock;
+        clientMock2.BalanceHistory[0].TotalRepayment_IncludingOverpayments = 12000;
+        contact.phone_number = '0787654565';
+        getHealthyPathMessage.mockReturnValueOnce('Healthy Path Status: 250 below healthy path\n');
+        checkBalance('en_bu', clientMock2);
+        var message = 'Hello Tyrion Lanyster\n' +
+        'Credit: 11011\n' +
+        'Paid: 12000\n' +
+        'Balance: 9251\n' +
+        'Overpaid amount: 989\n' +
         'Healthy Path Status: 250 below healthy path\n';
         expect(sayText).toHaveBeenCalledWith(message);
         expect(project.sendMessage).toHaveBeenCalledWith({
