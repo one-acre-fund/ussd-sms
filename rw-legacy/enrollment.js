@@ -501,7 +501,7 @@ addInputHandler('enr_input_order', function(input){ //input ordering function
     }
     if(input < product_deets.min || input > product_deets.max){
         sayText(msgs('enr_input_out_of_bounds', {}, lang)); //this shoud include 1 to continue 99 to quite
-        promptDigits('invalid_input', {'submitOnHash' : false, 'maxDigits' : max_digits_for_input,'timeout' : timeout_length})
+        promptDigits('enr_input_order', {'submitOnHash' : false, 'maxDigits' : max_digits_for_input,'timeout' : timeout_length})
     }
     else if(input % product_deets.increment === 0){
         var format_order_message = require('./lib/enr-format-input-message');
@@ -518,7 +518,7 @@ addInputHandler('enr_input_order', function(input){ //input ordering function
     }
     else{
         sayText(msgs('invalid_input', {}, lang));
-        promptDigits('invalid_input', {'submitOnHash' : false, 'maxDigits' : max_digits_for_input,'timeout' : timeout_length})
+        promptDigits('enr_input_order', {'submitOnHash' : false, 'maxDigits' : max_digits_for_input,'timeout' : timeout_length})
     }
     get_time();
 });

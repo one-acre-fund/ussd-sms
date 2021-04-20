@@ -60,7 +60,7 @@ module.exports = function( lang, max_chars){
             break;
         }
     }
-    
+    console.log('output: ' + JSON.stringify({data: out_obj}) + 'lang: ' + lang)
     if(Object.keys(out_obj).length > 0){
         out_obj[loc] = out_obj[loc] = output;
         return out_obj;

@@ -1516,7 +1516,7 @@ addInputHandler('enr_input_order', function (input) { //input ordering function
     }
     if (input < product_deets.min || input > product_deets.max) {
         sayText(msgs('enr_input_out_of_bounds', {'$max': product_deets.max}, lang)); //this shoud include 1 to continue 99 to quite
-        promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
+        promptDigits('enr_input_order', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
     }
     else if(product_deets.acceptableQuantityList && product_deets.acceptableQuantityList.split(',').indexOf(String(input)) == -1){
         sayText(msgs('enr_quantity_not_in_the_list', {'$QUANTITY_LIST': product_deets.acceptableQuantityList}, lang)); 
@@ -1537,7 +1537,7 @@ addInputHandler('enr_input_order', function (input) { //input ordering function
     }
     else {
         sayText(msgs('invalid_input', {}, lang));
-        promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
+        promptDigits('enr_input_order', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
     }
 });
 
