@@ -25,6 +25,14 @@ describe('register input handlers', () => {
         expect(addInputHandler).toHaveBeenCalledWith(mainMenuInputHandler.handlerName, handlerMock);
         expect(mainMenuInputHandler.getHandler).toHaveBeenCalledWith('en_bu');
     });
+    it('should register pre-enrollment input handler', () => {
+        const preEnrollmentHandler = require('./preEnrollmentHandler');
+        const handlerMock = jest.fn();
+        jest.spyOn(preEnrollmentHandler, 'getHandler').mockReturnValue(handlerMock);
+        registerInputHandlers('en_bu', onAccountNumberValidated);
+        expect(addInputHandler).toHaveBeenCalledWith(preEnrollmentHandler.handlerName, handlerMock);
+        expect(preEnrollmentHandler.getHandler).toHaveBeenCalledWith('en_bu');
+    });
     it('should register the registration input handlers', () => {
         registerInputHandlers('en_bu', onAccountNumberValidated);
         expect(registerRegistrationInputHandlers).toHaveBeenCalledWith('en_bu');
