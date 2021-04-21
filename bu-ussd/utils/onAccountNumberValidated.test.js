@@ -94,12 +94,11 @@ describe('on account number validated', () => {
         expect(promptDigits).toHaveBeenCalledWith(mainMenuHandlerName);
     });
 
-    it('should prompt for main menu choice without registration if the user is not group leader', () => {
+    it('should prompt for main menu choice without registration and enrollment if the user is not group leader', () => {
         checkGroupLeader.mockImplementationOnce(() => {});
         onAccountNumberValidated(lang, client);
         expect(sayText).toHaveBeenCalledWith('Select a Service\n' +
-        '1) Place Order\n' +
-        '2) Get Balance\n');
+        '1) Get Balance\n');
         expect(promptDigits).toHaveBeenCalledWith(mainMenuHandlerName);
     });
 });

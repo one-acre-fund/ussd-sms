@@ -39,8 +39,8 @@ module.exports = function onAccountNumberValidated(lang, client) {
 function getOptions(options) {
     var filteredOptions = options.filter(function(option) {
         var includeOption = true;
-        if(Object.keys(option)[0] === 'registration' && !state.vars.isGroupLeader) {
-            // skip registration since the user is not a group leader
+        if((Object.keys(option)[0] === 'registration' || Object.keys(option)[0] === 'place_order')  && !state.vars.isGroupLeader) {
+            // skip registration and enrollment/ordering since the user is not a group leader
             includeOption = false;
         }
         return includeOption;
