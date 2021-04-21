@@ -58,17 +58,21 @@ module.exports = {
                     var activePhones = filterPhones(phoneNumbers);
                     var FarmerphoneNumber = activePhones[0] && activePhones[0].PhoneNumber;
                     var smsMessage = getMessage('successfull_registration_sms', {'$account_number': registeredClient.AccountNumber}, language);
+                    var slicedFarmerPhone = FarmerphoneNumber && FarmerphoneNumber.slice(-9);
+                    var slicedSessionNumber = contact.phone_number && contact.phone_number.slice(-9);
+                    var messages =  [{
+                        'content': smsMessage,
+                        'to_number': contact.phone_number 
+                    }];
+
+                    if(slicedFarmerPhone != slicedSessionNumber) {
+                        messages.push({
+                            'content': smsMessage,
+                            'to_number': FarmerphoneNumber 
+                        });
+                    }
                     project.sendMulti({
-                        messages: [
-                            {
-                                'content': smsMessage,
-                                'to_number': contact.phone_number, 
-                            },
-                            {
-                                'content': smsMessage,
-                                'to_number': FarmerphoneNumber 
-                            }
-                        ]
+                        messages: messages
                     });
                     global.sayText(getMessage('successfull_registration_popup', {'$account_number': registeredClient.AccountNumber}, language));
                     // handler for ordering choice.

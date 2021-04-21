@@ -123,6 +123,21 @@ describe('register confirmation', () => {
                 'to_number': '0780378599'}]});
     });
 
+    it('should send the successful message to only the contact_phone if it is the same as the roster phone', () => {
+        state.vars.group_info = JSON.stringify(groupInfo);
+        state.vars.duplicated_user = false;
+        const registerConfirmationHandler = registerConfirmationInputHandler.getHandler('en_bu');
+        registerClient.mockReturnValueOnce({AccountNumber: '78363748'});
+        getPhoneNumber.mockReturnValueOnce([{IsInactive: false, PhoneNumber: '078836475822'}]);
+        registerConfirmationHandler('1');
+        expect( state.vars.registered_client_account).toEqual('78363748');
+        expect(sayText).toHaveBeenCalledWith('Thank you for registering , your account number is 78363748, press 1 to continue or 0 to exit');
+        expect(promptDigits).toHaveBeenCalledWith(continueToOrderingHandler.handlerName);
+        expect(project.sendMulti).toHaveBeenCalledWith({'messages': [
+            {'content': 'Thank you for registering , your account number is 78363748',
+                'to_number': '078836475822'}]});
+    });
+
     it('should notify the user if there is an error during registration', () => {
         state.vars.group_info = JSON.stringify(groupInfo);
         state.vars.duplicated_user = false;

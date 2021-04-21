@@ -10,7 +10,11 @@ var registerInputHandlers = require('./inputHandlers/registerInputHandlers');
  */
 function start(language, client) {
     // starting enrollment
-    state.vars.enrolling_client = JSON.stringify(client);
+    try {
+        state.vars.enrolling_client = JSON.stringify(client);
+    } catch(error) {
+        console.log('error' + JSON.stringify({error: error}));
+    }
     // get all bundles in a certain district
     var bundles = getBundles(client.DistrictId, language);
     state.vars.selected_bundles = getOrderedBundles(client.AccountNumber);

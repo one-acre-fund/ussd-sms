@@ -1,6 +1,6 @@
 var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
-var rosterAPI = require('../../rw-legacy/lib/roster/api');
+var getClient = require('../../shared/rosterApi/getClient');
 var Enrollment = require('../enrollment/enrollment');
 
 var handlerName = 'bu_pre_enrollment_handler';
@@ -10,7 +10,7 @@ module.exports = {
         return function(input) {
             var getMessage = translator(translations, lang);
             var accountNumber = input && input.replace(/\D/g, '');
-            var clientTobeEnrolled = rosterAPI.getClient(accountNumber, project.vars.country);
+            var clientTobeEnrolled = getClient(accountNumber, project.vars.country);
             if(clientTobeEnrolled) {
                 // valid account number. continue to next step (enrollment)
                 var groupLeader = JSON.parse(state.vars.client_json); // client_json state variable stores the group leader's accont on initial login

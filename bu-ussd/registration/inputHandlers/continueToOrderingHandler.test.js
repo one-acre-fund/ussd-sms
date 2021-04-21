@@ -16,12 +16,12 @@ describe('continue to ordering handler', () => {
         expect(stopRules).toHaveBeenCalled();
     });
 
-    it('should start ordering once user chooses 1 and client retrieval was successfull with both users in the same group', () => {
-        getClient.mockReturnValueOnce({GroupId: 123});
+    it('should start ordering once user chooses 1 and client retrieval was successfull and assign a groupId to the client', () => {
+        getClient.mockReturnValueOnce({GroupId: null, AccountNumber: '123121'});
 
         const handler = continueToOrderingHandler.getHandler('en_bu');
         handler('1');
         expect(getClient).toHaveBeenCalledWith('2345234', 'BI');
-        expect(enrollment.start).toHaveBeenCalledWith('en_bu', {GroupId: 123});
+        expect(enrollment.start).toHaveBeenCalledWith('en_bu', {GroupId: 123, AccountNumber: '123121'});
     });
 });
