@@ -39,7 +39,7 @@ if(env === 'prod'){
     service.vars.avocado_table_id = 'DT864c12fe76c43eaf';
     service.vars.rw_reg_client_table_id = 'DT29e542bf090b050f';
     service.vars.groupCodeTableId = project.vars.groupCodeTableId;
-
+    service.vars.bundles_table = 'DT61e723e06de35a67'
 }else{
     service.vars.season_clients_table = 'dev_' + project.vars.season_clients_table;
     service.vars.client_enrollment_table = 'dev_' + project.vars.client_enrollment_data;
@@ -57,6 +57,7 @@ if(env === 'prod'){
     service.vars.chicken_table_id = 'DT8c3e091b499f1726';
     service.vars.rw_reg_client_table_id = 'DT41914a4d2dc6a29f';
     service.vars.groupCodeTableId = project.vars.dev_groupCodeTableId;
+    service.vars.bundles_table = 'DT92be9913918ab014'
 }
 
 var client_table = project.initDataTableById(service.vars['21a_client_data_id']);
