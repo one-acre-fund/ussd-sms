@@ -92,7 +92,7 @@
 
 
 var Log = require('../../logger/elk/elk-logger');
-module.exports = function(newData,log){
+module.exports = function(newData,logTable){
     var url = 'https://elk.operations.oneacrefund.org:8080/telerivet';
     var opts = {};
     var dataJSON ={};
@@ -164,7 +164,7 @@ module.exports = function(newData,log){
             }
             else{
                 console.log('Okay');
-                if(log){
+                if(logTable){
                     console.log('Writing to table');
                     var elkTable = project.initDataTableById('DT91bc8f35ae1bda3f');
                     var new_elk_row = elkTable.createRow({
