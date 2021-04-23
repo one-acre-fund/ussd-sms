@@ -17,6 +17,7 @@ module.exports = {
             }
             else if(input <= serialNumberDetails.length){
                 var serial = serialNumberDetails[input-1];
+                notifyELK(JSON.stringify(serial),true);
                 onSerialValidated(serial,true);
             }
             else{
