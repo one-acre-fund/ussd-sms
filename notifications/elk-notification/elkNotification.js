@@ -92,10 +92,12 @@
 
 
 var Log = require('../../logger/elk/elk-logger');
-module.exports = function(){
+module.exports = function(newData,log){
     var url = 'https://elk.operations.oneacrefund.org:8080/telerivet';
     var opts = {};
     var dataJSON ={};
+    if(newData)
+        dataJSON['newData'] = newData;
     dataJSON['content'] = message.content;
     dataJSON['from_number'] = message.from_number;
     dataJSON['starred'] = message.starred;
@@ -159,6 +161,21 @@ module.exports = function(){
                 var loger = new Log();
                 console.log('bad response sending data to ELK');
                 loger.warn('Failed to send ELK notification :',{data: response});
+            }
+            else{
+                console.log('Okay');
+                if(log){
+                    console.log('Writing to table');
+                    var elkTable = project.initDataTableById('DT91bc8f35ae1bda3f');
+                    var new_elk_row = elkTable.createRow({
+                        vars: {
+                            'jsonData': JSON.stringify(opts.data),
+                            'response': JSON.stringify(response)
+                        }
+                    });
+                    new_elk_row.save();
+                    console.log('End Writing to table');
+                }
             }
 
         }catch(e){
