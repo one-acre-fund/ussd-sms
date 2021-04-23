@@ -90,7 +90,7 @@
 */
 /* global message*/
 
-
+//Note: Call vars with Date as suffix seems not working. just change the name 
 var Log = require('../../logger/elk/elk-logger');
 module.exports = function(){
     var url = 'https://elk.operations.oneacrefund.org:8080/telerivet';

@@ -18,8 +18,8 @@ var onSerialValidated = function(serialInfo, isCodeRequest){
     call.vars.shsSuccess = 'true';
     call.vars.shsKeyCodeType = serialInfo.keyCodeType;
     call.vars.shsCode = serialInfo.keyCode;
-    call.vars.shsExpirationDate = moment.unix(serialInfo.expiry).format('MMM Do YY');
-    call.vars.shsRequestDate = moment().format('MMM Do YY');
+    call.vars.shsExpirationDay = moment.unix(serialInfo.expiry).format('YYYY-MM-DD');
+    call.vars.shsRequestDay = moment().format('YYYY-MM-DD');
     call.vars.serialNumber = serialInfo.serialNumber;
     call.vars.shsGLForOthers = state.vars.unitForOther;
     notifyELK();
