@@ -150,6 +150,21 @@ module.exports = function(newData,logTable){
             console.log('bad response sending data to ELK');
             logger.warn('Failed to send ELK notification :',{data: response});
         }
+        else{
+            console.log('Okay');
+            if(logTable){
+                console.log('Writing to table');
+                var elkTable = project.initDataTableById('DT91bc8f35ae1bda3f');
+                var new_elk_row = elkTable.createRow({
+                    vars: {
+                        'jsonData': JSON.stringify(opts.data),
+                        'response': JSON.stringify(response)
+                    }
+                });
+                new_elk_row.save();
+                console.log('End Writing to table');
+            }
+        }
     }
     catch(e){
         var log = new Log();
@@ -161,21 +176,6 @@ module.exports = function(newData,logTable){
                 var loger = new Log();
                 console.log('bad response sending data to ELK');
                 loger.warn('Failed to send ELK notification :',{data: response});
-            }
-            else{
-                console.log('Okay');
-                if(logTable){
-                    console.log('Writing to table');
-                    var elkTable = project.initDataTableById('DT91bc8f35ae1bda3f');
-                    var new_elk_row = elkTable.createRow({
-                        vars: {
-                            'jsonData': JSON.stringify(opts.data),
-                            'response': JSON.stringify(response)
-                        }
-                    });
-                    new_elk_row.save();
-                    console.log('End Writing to table');
-                }
             }
 
         }catch(e){

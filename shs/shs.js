@@ -18,12 +18,12 @@ var onSerialValidated = function(serialInfo, isCodeRequest){
     call.vars.shsSuccess = 'true';
     call.vars.shsKeyCodeType = serialInfo.keyCodeType;
     call.vars.shsCode = serialInfo.keyCode;
-    call.vars.shsExpirationDate = moment.unix(serialInfo.expiry).format('MMM Do YY');
-    call.vars.shsRequestDate = moment().format('MMM Do YY');
+    call.vars.shsExpirationDay = moment.unix(serialInfo.expiry).format('YYYY-MM-DD');
+    call.vars.shsRequestDay = moment().format('YYYY-MM-DD');
     call.vars.serialNumber = serialInfo.serialNumber;
     call.vars.shsGLForOthers = state.vars.unitForOther;
-    var shsInformation = JSON.stringify({shsSuccess: 'true', shsKeyCodeType: serialInfo.keyCodeType, shsCode: serialInfo.keyCode, shsExpirationDate: moment.unix(serialInfo.expiry).format('MMM Do YY'), shsRequestDate: moment().format('MMM Do YY'),serialNumber: serialInfo.serialNumber,unitForOther: state.vars.unitForOther});
-    notifyELK(shsInformation,true);
+    //var shsInformation = JSON.stringify({shsSuccess: 'true', shsKeyCodeType: serialInfo.keyCodeType, shsCode: serialInfo.keyCode, shsExpirationDay: moment.unix(serialInfo.expiry).format('MMM Do YY'), shsRequestDay: moment().format('MMM Do YY'),serialNumber: serialInfo.serialNumber,unitForOther: state.vars.unitForOther});
+    notifyELK();
     if(state.vars.unitForOther == 'true'){
         if(serialInfo.keyCodeType == 'ACTIVATION')
             message = translate('successful_farmer_activation_code',{'$code': serialInfo.keyCode},state.vars.shsLang);
