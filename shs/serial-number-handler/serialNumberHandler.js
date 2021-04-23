@@ -31,6 +31,7 @@ module.exports = {
                             global.stopRules();
                         }
                         else{
+                            call.vars.newSHSRegistration = 'true';
                             global.sayText(translate('valid_shs_message',{},state.vars.shsLang));
                             onSerialValidated(serialNumber[0]);
                         }
