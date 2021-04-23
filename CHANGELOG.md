@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v1.10.9
+### Changed
+* [BI2-593](https://oneacrefund.atlassian.net/browse/BI2-593) Stream missing data points from Telerivet data tables to ELK
 ## v1.10.8
 ### Changed
 * [ESWFA-128](https://oneacrefund.atlassian.net/browse/ESWFA-128) Remove call back option from SBCC IVR USSD Menu option
