@@ -843,5 +843,9 @@ module.exports = {
     'nonClientMenu':{
         'en': 'Welcome\n1) Sell harvest',
         'ki': 'Murakaza neza\n1) Kugurisha Umusaruro'
+    },
+    'are_you_a_gl': {
+        'en': 'Are you the Group leader?\nPress 1 if you are\nPress 2 if you are not',
+        'ki': 'Uri umukuru w’itsinda?\nKanda 1 niba uri we\nKanda 2 niba utariwe'
     }
 }

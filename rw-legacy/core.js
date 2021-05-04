@@ -39,7 +39,7 @@ if(env === 'prod'){
     service.vars.avocado_table_id = 'DT864c12fe76c43eaf';
     service.vars.rw_reg_client_table_id = 'DT29e542bf090b050f';
     service.vars.groupCodeTableId = project.vars.groupCodeTableId;
-
+    service.vars.bundles_table = 'DT61e723e06de35a67'
 }else{
     service.vars.season_clients_table = 'dev_' + project.vars.season_clients_table;
     service.vars.client_enrollment_table = 'dev_' + project.vars.client_enrollment_data;
@@ -57,6 +57,7 @@ if(env === 'prod'){
     service.vars.chicken_table_id = 'DT8c3e091b499f1726';
     service.vars.rw_reg_client_table_id = 'DT41914a4d2dc6a29f';
     service.vars.groupCodeTableId = project.vars.dev_groupCodeTableId;
+    service.vars.bundles_table = 'DT92be9913918ab014'
 }
 
 var client_table = project.initDataTableById(service.vars['21a_client_data_id']);
@@ -1132,10 +1133,10 @@ addInputHandler('reg_group_code_confirmation', function(input) {
             return null;
         } else {   
             regSessionManager.save(contact.phone_number, state.vars, 'groupCodeInputHandler', input);
-            var current_menu = msgs('enr-group-constitution-approvement',{},lang);
+            var current_menu = msgs('are_you_a_gl',{},lang);
             state.vars.current_menu_str = current_menu;
             sayText(current_menu);
-            promptDigits('reg_group_constitution_confirm',{ 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            promptDigits('enrl_ask_glus',{ 'submitOnHash': false, 'maxDigits': 1, 'timeout': timeout_length });
         }
     } else {
         // reprompt for group code
@@ -1143,8 +1144,29 @@ addInputHandler('reg_group_code_confirmation', function(input) {
         sayText(msgs('enr_glus', {}, lang));
         promptDigits('enr_glus', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
     }
-})
+});
 addInputHandler('enr_glus', inputHandlers['groupCodeInputHandler']);
+
+inputHandlers['areYouGroupLeader'] = function(input) {
+    if(input == 1 || input == 2) {
+        // has responded is a group leader
+        regSessionManager.save(contact.phone_number, state.vars, 'areYouGroupLeader', input);
+        var current_menu = msgs('enr-group-constitution-approvement',{},lang);
+        state.vars.current_menu_str = current_menu;
+        state.vars.areYouGL = input == 1 ? 'YES' : 'NO';
+        sayText(current_menu);
+        promptDigits('reg_group_constitution_confirm',{ 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+    } else {
+        // reprompt for group leader
+        var current_menu = msgs('are_you_a_gl',{},lang);
+        state.vars.current_menu_str = current_menu;
+        sayText(state.vars.current_menu_str);
+        promptDigits('enrl_ask_glus',{ 'submitOnHash': false, 'maxDigits': 1, 'timeout': timeout_length });
+    }
+}
+
+addInputHandler('enrl_ask_glus', inputHandlers['areYouGroupLeader'])
+
 
 //not currenty active
 addInputHandler('enr_group_id_confirmation', function (input) { //enr group leader / umudugudu support id step. last registration step
@@ -1201,7 +1223,7 @@ addInputHandler('reg_group_constitution_confirm',function(input){
         var client_log_result ={};
         if (state.vars.account_number == null) {
             var client_log = require('./lib/enr-client-logger');
-            client_log_result = client_log(state.vars.reg_nid, state.vars.reg_name_1, state.vars.reg_name_2, state.vars.reg_pn, state.vars.glus, geo, an_pool,lang);
+            client_log_result = client_log(state.vars.reg_nid, state.vars.reg_name_1, state.vars.reg_name_2, state.vars.reg_pn, state.vars.glus, geo, an_pool, state.vars.areYouGL, lang);
             if(client_log_result === null){
                 stopRules();
                 return null;
@@ -1495,7 +1517,7 @@ addInputHandler('enr_input_order', function (input) { //input ordering function
     }
     if (input < product_deets.min || input > product_deets.max) {
         sayText(msgs('enr_input_out_of_bounds', {'$max': product_deets.max}, lang)); //this shoud include 1 to continue 99 to quite
-        promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
+        promptDigits('enr_input_order', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
     }
     else if(product_deets.acceptableQuantityList && product_deets.acceptableQuantityList.split(',').indexOf(String(input)) == -1){
         sayText(msgs('enr_quantity_not_in_the_list', {'$QUANTITY_LIST': product_deets.acceptableQuantityList}, lang)); 
@@ -1516,7 +1538,7 @@ addInputHandler('enr_input_order', function (input) { //input ordering function
     }
     else {
         sayText(msgs('invalid_input', {}, lang));
-        promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
+        promptDigits('enr_input_order', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
     }
 });
 
