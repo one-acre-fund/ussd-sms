@@ -43,12 +43,13 @@ var serial_no_check = require('./lib/psh-serial-verify');
 var slack = require('../slack-logger/index');
 var notiFYELK = require('../notifications/elk-notification/elkNotification');
 var agrodealerLocator = require('../agrodealer-locator/agrodealerLocator');
+var CreditEligibility = require('../credit-eligibility/creditEligibility');
 // set various constants
 var settings_table = project.getOrCreateDataTable('ussd_settings');
 const max_digits_for_account_number = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits_an'}}).next().vars.value);
 const max_digits = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits'}}).next().vars.value);
 const timeout_length = 180; // this doesn't appear to work. data type error?
-const lang = project.vars.cor_lang;
+const lang = service.vars.lang || project.vars.cor_lang;
 var menuTable = service.vars.pShop_main_menu;
 var activation_code_table = service.vars.activation_code_table;
 var serial_number_table = service.vars.serial_number_table ;
@@ -62,6 +63,7 @@ global.main = function() {
                                             'timeout'      : timeout_length });
 }
 agrodealerLocator.registerInputHandlers(lang, service.vars.agrodealers_address_table);
+CreditEligibility.registerInputHandlers(lang)
 // input handler for account number
 addInputHandler('account_number_splash', function(accnum){
     notiFYELK();
@@ -152,6 +154,10 @@ addInputHandler('pshop_menu_select', function(input){
                                             'maxDigits'    : max_digits_for_account_number,
                                             'timeout'      : timeout_length });
         }
+    } else if(selection === 'credit_eligibility') {
+        // start credit eligibility
+        var client = JSON.parse(state.vars.client_json);
+        CreditEligibility.start(lang, client);
     }
     // if user enters invalid menu option, prompt user to select from main menu options
     else{

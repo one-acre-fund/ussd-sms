@@ -37,10 +37,12 @@ module.exports = function(account_number){
             return true;
         }
         else{
+            console.log('client not verified siccessfully');
             return false;
         }
     }
     catch(error){
+        console.log('error: ' + JSON.stringify({error: error}));
         var Log  = require('../../logger/elk/elk-logger');
         var logger = new Log();
         var errorMessage = 'API failure on account number ' + account_number;

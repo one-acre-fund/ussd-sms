@@ -767,8 +767,8 @@ module.exports = {
         "ki": "Winjije umubare utariwo. Ongera winjze umubare wa konti yawe ukoresha wishyura iduka",
     },
     "pshop_main_menu":{
-        "en": "Welcome $NAME ~B1 - To check balance ~B2 - Solar Codes",
-        "ki": "Murakaza neza $NAME ~B1. Kureba uko ubwishyu buhagaze ~B2. Kodi y'itara",
+        "en": "Welcome $NAME ~B1 - To check balance ~B2 - Solar Codes ~B3 - Check credit eligibility",
+        "ki": "Murakaza neza $NAME ~B1. Kureba uko ubwishyu buhagaze ~B2. Kodi y'itara ~B3. Kureba ideni wemerewe",
     },
     "main_message":{
         "en": "Paid: $REPAY ~BTotal credit: $CREDIT ~BRemaining: $BALANCE ~B1 - Back to main menu",
