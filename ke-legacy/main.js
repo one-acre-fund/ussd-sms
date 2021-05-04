@@ -1054,7 +1054,6 @@ var TrainingMenuText = function (){
     var trainingsScreens = trainingsMenu.screens;
     state.vars.trainings_options = JSON.stringify(trainingsOptions);
     state.vars.trainings_screens = JSON.stringify(trainingsScreens);
-
     state.vars.current_trainings_screens = '1';
     sayText(trainingsScreens[state.vars.current_trainings_screens]);
 };

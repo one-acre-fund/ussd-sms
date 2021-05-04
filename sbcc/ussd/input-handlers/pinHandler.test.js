@@ -1,9 +1,7 @@
 const pinHandler = require('./pinHandler');
 const notifyELK = require('../../../notifications/elk-notification/elkNotification');
-const scheduleCall = require('../../utils/scheduleCall');
 
 jest.mock('../../../notifications/elk-notification/elkNotification');
-jest.mock('../../utils/scheduleCall');
 
 describe('Pin Handler', () => {
     beforeAll(() => {
@@ -25,23 +23,15 @@ describe('Pin Handler', () => {
         });
     });
 
-    it('schedules a call back if incorrect pin is entered twice', () => {
+    it('displays nutrition hotline number for user to call if incorrect pin attempt has exceeded max', () => {
         state.vars.incorrectPinAttempts = 2;
-        contact.phone_number = '07812345678';
 
         pinHandler('2123');
 
         expect(state.vars.incorrectPinAttempts).toEqual(3);
-        expect(scheduleCall).toHaveBeenCalledWith({
-            lang: 'en',
-            desc:
-                'Call back requested for incorrect pin entered twice. User phone number is 07812345678',
-            accountNumber: 'NonClient07812345678',
-            phoneNumber: '07812345678',
-            repeatMenu: 'try_again',
-            repeatHandler: 'pin',
-            successMsg: 'incorrect_pin',
-        });
+        expect(sayText).toHaveBeenCalledWith(
+            'We\'re sorry there\'s a problem with your PIN. Please call our nutrition hotline number 0800720958 free of charge, to get assistance from our Customer Engagement Agents.'
+        );
     });
 
     it('sets the user preferred language and calls the IVR service if correct pin is entered', () => {

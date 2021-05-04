@@ -35,4 +35,12 @@ module.exports = {
         'en': 'You have already placed a similar request. We assure you that you will be contacted. Please be available. Thank you for the patience.',
         'sw': 'Tulipokea ombi hili hapo awali. Tunakuhakikishia kwamba utapokea mawasiliano. Tafadhali usizime simu. Asante kwa kusubiri.'
     },
+    'forgotten-national-id': {
+        'en': 'We\'re sorry there\'s a problem with your National ID. Please call our nutrition hotline number 0800720958 free of charge, to get assistance from our Customer Engagement Agents.',
+        'sw': 'Samahani kuna shida na nambari ya kitambulisho chako cha kitaifa. Tafadhali piga simu kwa nambari 0800720958 kupata usaidizi kutoka Msaidizi wa Wateja. Hautalipishwa chochote kupiga simu hii..'
+    },
+    'forgotten-pin': {
+        'en': 'We\'re sorry there\'s a problem with your PIN. Please call our nutrition hotline number 0800720958 free of charge, to get assistance from our Customer Engagement Agents.',
+        'sw': 'Samahani kuna shida na PIN yako. Tafadhali piga simu kwa nambari 0800720958 kupata usaidizi kutoka Msaidizi wa Wateja. Hautalipishwa chochote kupiga simu hii.'
+    }
 };

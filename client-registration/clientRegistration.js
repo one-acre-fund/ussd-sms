@@ -93,7 +93,6 @@ module.exports = {
             };
             try {
                 var clientData = JSON.parse(rosterRegisterClient(clientJSON,state.vars.reg_lang));
-                console.log('>>>>client data', JSON.stringify(clientData));
                 if(clientData){
                     var message = translate('enr_reg_complete',{'$ACCOUNT_NUMBER': clientData.AccountNumber},state.vars.reg_lang);
                     var msg_route = project.vars.sms_push_route;
@@ -176,7 +175,6 @@ function saveClientInRoster(){
         
         if(clientData){
             state.vars.newClient = JSON.stringify(clientData);
-            console.log('data: ' + JSON.stringify(clientData));
             //commenting this because just in time enrollment message don't have a fo phone
             //var getFOInfo = require('../Roster-endpoints/Fo-info/getFoInfo');
             //var foInfo = getFOInfo(clientData.DistrictId,clientData.SiteId,state.vars.reg_lang);
