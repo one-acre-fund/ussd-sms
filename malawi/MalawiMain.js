@@ -29,19 +29,12 @@ state.vars.lang = lang;
 var translations = require('./translations/index');
 var translator = require('../utils/translator/translator');
 var getMessage = translator(translations, lang);
-
-var inputHandlers = require('./inputHandlers/inputHandlers');
-var buybackTransactions =  require('../buyback-transactions/buyBackTransactions');
+var registerInputHandler = require('./inputHandlers/registerInputHandlers');
+var accountNumberInputHandler = require('./inputHandlers/accountNumberInputHandler');
+registerInputHandler(lang);
 
 global.main = function(){
     notifyELK();
     sayText(getMessage('splash', {}, lang));
-    promptDigits('account_number', {
-        'submitOnHash': false,
-        'maxDigits': 8,
-        'timeout': 10,
-    });
+    promptDigits(accountNumberInputHandler.handlerName);
 };
-
-buybackTransactions.registerInputHandlers();
-addInputHandler('account_number', inputHandlers.accountNumberInputHandler);

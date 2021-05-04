@@ -150,6 +150,23 @@ describe('mobile money repayments using', () => {
                 'Swahili',
                 'MM receipt',
                 'Business Operations',
+                'Overpaid'
+            ], 'message_type': 'sms',
+            'route_id': '12345'});
+    });
+    it('should send a message to the account phone Number in swahili once there is no data in the EnglishDistricts', () => {
+        getHealthyPathPercentage.mockReturnValueOnce(0.3);
+        const accountPhoneNumber = '05423827342';
+        getPhoneNumber.mockReturnValueOnce([ {PhoneNumber: accountPhoneNumber, IsInactive: false}]);
+        mockedRow.hasNext = jest.fn(() => false);        
+        contact.vars = overpaidContact;
+        require('./repayments');
+        expect(project.sendMessage).toHaveBeenCalledTimes(2);
+        expect(project.sendMessage).toHaveBeenCalledWith({'content': 'Je-3033-cf74-f94a Ulikamilisha malipo ya mkopo wa sasa. Malipo ya mwisho: KSh 3000. Nambari ya risiti 5beb94c0-3033-cf74-f94a. Malipo kwa ujumla kulipia mkopo unaofuata KSh 2000.',
+            'to_number': accountPhoneNumber, 'label_ids': [
+                'Swahili',
+                'MM receipt',
+                'Business Operations',
                 'Overpaid',
             ], 'message_type': 'sms',
             'route_id': '12345'});
