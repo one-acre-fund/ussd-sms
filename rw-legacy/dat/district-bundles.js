@@ -3,6 +3,7 @@
  * @returns an array of bundles
  */
 module.exports = function getBundles() {
+    console.log('>>>>>>table' + service.vars.bundles_table);
     var table = project.initDataTableById(service.vars.bundles_table);
     var query = {
     };
