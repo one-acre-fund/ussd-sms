@@ -4,11 +4,16 @@ All notable changes to this project will be documented in this file.
 ## New Version
 
 ## v1.10.9
+### Added
+* [ESWFA-62](https://oneacrefund.atlassian.net/browse/ESWFA-62) RW - Confirming who is GLs (this is a new interaction)
+* [ESWFA-81](https://oneacrefund.atlassian.net/browse/ESWFA-81) As a client in Rwanda, I want to be able to validate (check if it exist) the group ID code when registering so that I am assigned the right group and code
 ### Changed
 * [BI2-593](https://oneacrefund.atlassian.net/browse/BI2-593) Stream missing data points from Telerivet data tables to ELK
 ## v1.10.8
 ### Changed
 * [ESWFA-128](https://oneacrefund.atlassian.net/browse/ESWFA-128) Remove call back option from SBCC IVR USSD Menu option
+### Added
+* [ESWFA-92](https://oneacrefund.atlassian.net/browse/ESWFA-92) Malawi USSD Balance check
 ## v1.10.7
 * [MOB-408](https://oneacrefund.atlassian.net/browse/MOB-408) Update the message to say the client is already registered if they are already registered
 ## v1.10.6

@@ -692,8 +692,8 @@ module.exports = {
         "ki": "Ntamakuru turamenya yaba ajenti mu gace uherereyemo. Ikipe yacu yamenyeshejwe icyifuzo cyawe.",
     },
     "enr_group_id_confirmation": {
-        "en": "You have entered $ENR_GROUP_ID, which resides in $LOCATION_INFO is this your group ? ~B $ENR_CONFIRMATION_MENU",
-        "ki": "Mwinjije $ENR_GROUP_ID ibarizwa muri $LOCATION_INFO. Ese niryo tsinda ryanyu ? ~B $ENR_CONFIRMATION_MENU",
+        "en": "You have entered $ENR_GROUP_ID, named $NAME. Is this your group ? ~B $ENR_CONFIRMATION_MENU",
+        "ki": "Mwinjije $ENR_GROUP_ID yitwa: $NAME. Ese niryo tsinda ryanyu ? ~B $ENR_CONFIRMATION_MENU",
     },
     "enr_group_id_info": {
         "en": "district : $DISTRICT at site : $SITE and group: $GROUP",
@@ -843,5 +843,9 @@ module.exports = {
     'nonClientMenu':{
         'en': 'Welcome\n1) Sell harvest',
         'ki': 'Murakaza neza\n1) Kugurisha Umusaruro'
+    },
+    'are_you_a_gl': {
+        'en': 'Are you the Group leader?\nPress 1 if you are\nPress 2 if you are not',
+        'ki': 'Uri umukuru w’itsinda?\nKanda 1 niba uri we\nKanda 2 niba utariwe'
     }
 }

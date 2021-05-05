@@ -118,7 +118,7 @@ module.exports = {
                     row.save();
                 }
             }catch (e){
-                console.log('error getting account number from roster' + e);
+                console.log('error getting account number from roster or parsing regData' + e);
             }
 
         }
@@ -220,7 +220,7 @@ function saveClientInRoster(){
         }
     }
     catch (e) {
-        console.log('error getting account number from roster' + e);
+        console.log('error parsing the client data during registration: ' + e);
     }
 }
 function onBundleSelected(bundleId, varietychosen, bundleInputId){
