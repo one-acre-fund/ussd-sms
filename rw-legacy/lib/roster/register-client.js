@@ -38,6 +38,7 @@ module.exports = function (clientJSON, lang) {
         response = httpClient.request(fullUrl, opts);
         console.log('url:'+fullUrl+ ' options: '+ JSON.stringify(opts));
         var msgs = require('../msg-retrieve');
+        console.log(JSON.stringify(response));
         if (response.status == 200) {
             return response.content;
         }

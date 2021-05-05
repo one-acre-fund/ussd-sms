@@ -2,11 +2,12 @@
 module for retrieving product option rows
 */
 
-var districtBundles = require('../dat/district-bundles');
+var getDistrictBundles = require('../dat/district-bundles');
 var admin_alert = require('./admin-alert');
 
 module.exports = function(product_name, product_table){
     console.log(product_name + ' : ' + product_table);
+    var districtBundles = getDistrictBundles();
     var selections = districtBundles.filter(function (row) {
         return row.bundle_name == product_name;
     });

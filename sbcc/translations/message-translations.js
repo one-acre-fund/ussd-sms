@@ -42,5 +42,5 @@ module.exports = {
     'forgotten-pin': {
         'en': 'We\'re sorry there\'s a problem with your PIN. Please call our nutrition hotline number 0800720958 free of charge, to get assistance from our Customer Engagement Agents.',
         'sw': 'Samahani kuna shida na PIN yako. Tafadhali piga simu kwa nambari 0800720958 kupata usaidizi kutoka Msaidizi wa Wateja. Hautalipishwa chochote kupiga simu hii.'
-    },
+    }
 };
