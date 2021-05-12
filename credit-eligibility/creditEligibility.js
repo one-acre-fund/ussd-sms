@@ -18,7 +18,7 @@ function start(lang, client) {
             '$min_credit': eligibilityDetails.min_credit,
             '$max_credit': eligibilityDetails.max_credit,
             '$prepayment': eligibilityDetails.pre_payment,
-            'solar': eligibilityDetails.solar
+            '$solar': eligibilityDetails.solar
         }, lang);
         global.sayText(eligibilityMessage);
         global.promptDigits(eligibilityReasonHandler.handlerName);
