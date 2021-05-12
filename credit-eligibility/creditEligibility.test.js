@@ -1,6 +1,5 @@
 const creditEligibility = require('./creditEligibility');
 const eligibilityReasonHandler = require('./inputHandlers/eligibilityReasonHandler');
-const registerInputHandlers = require('./inputHandlers/registerInputHandler');
 const getEligibilityDetails = require('./utils/getEligibilityDetails');
 
 jest.mock('./utils/getEligibilityDetails');
@@ -30,4 +29,9 @@ describe('credit eligibility', () => {
         expect(state.vars.isEligibleForCredit).toBe(true);
         expect(state.vars.eligibility_details).toEqual('{"eligibility_decision":true,"outstanding_amount":1235,"min_credit":150,"max_credit":500,"pre_payment":200,"solar":"YES"}');
     });
+
+    it('should export the start and registerInputHandlers functions', () => {
+        expect(creditEligibility.start).toBeInstanceOf(Function);
+        expect(creditEligibility.registerInputHandlers).toBeInstanceOf(Function);
+    }); 
 });
