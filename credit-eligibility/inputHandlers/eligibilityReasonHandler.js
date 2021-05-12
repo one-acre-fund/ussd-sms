@@ -9,7 +9,7 @@ module.exports = {
         return function() {
             var getMessage = translator(translations, lang);
             var isEligibleForCredit = state.vars.isEligibleForCredit;
-            var eligibilityDetails = JSON.stringify(state.vars.eligibility_details);
+            var eligibilityDetails = JSON.parse(state.vars.eligibility_details);
             var eligibilityMessage = '';
             var reason = eligibilityDetails.reason;
             if(isEligibleForCredit) {
