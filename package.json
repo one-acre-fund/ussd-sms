@@ -59,6 +59,6 @@
   },
   "dependencies": {
     "moment": "^2.29.1",
-    "underscore": "^1.12.1"
+    "underscore": "^1.13.1"
   }
 }
