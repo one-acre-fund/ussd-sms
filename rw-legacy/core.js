@@ -68,25 +68,17 @@ var client_table = project.initDataTableById(service.vars['21a_client_data_id'])
 var lang = service.vars.lang || project.vars.cor_lang;
 service.vars.lang = lang;
 
-var slack = require('../slack-logger/index');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 //global functionss
 var msgs = require('./lib/msg-retrieve'); //global message handler
-var admin_alert = require('./lib/admin-alert'); //global admin alerter
-var get_menu_option = require('./lib/get-menu-option');
 var populate_menu = require('./lib/populate-menu');
 
 // load in geo modules and data for locator services
-var geo_select = require('./lib/cta-geo-select');
-var geo_process = require('./lib/cta-geo-string-processer');
-var geo_mm_data = require('./dat/mm-agent-geography');
 var get_client = require('./lib/enr-retrieve-client-row');
 var regSessionManager = require('./lib/enr-resume-registration');
-var group_size_satisfied = require('./lib/core-group-size-check');
-const chickenServices = require('../chicken-services/chickenServices');
+var chickenServices = require('../chicken-services/chickenServices');
 var transactionHistory = require('../transaction-history/transactionHistory');
 var groupRepaymentsModule = require('../group-repayments/groupRepayments');
-var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
 var avocadoTreesOrdering = require('../avocado-trees-ordering/avocadoTreesOrdering');
 var clientRegistration = require('../client-registration/clientRegistration');
 var marketAccess = require('../market-access/marketAccess');
@@ -180,6 +172,7 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
             var client_verified = verify(response);
             state.vars.account_number = response;
             if (client_verified) {
+                var checkGroupLeader = require('../shared/rosterApi/checkForGroupLeader');
                 var isGroupLeader = checkGroupLeader(state.vars.client_districtId, state.vars.client_id);
                 state.vars.isGroupLeader = isGroupLeader;  
                 var splash = account_splash_menu_name;
@@ -211,6 +204,7 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
         }
         catch (error) {
             console.log(error);
+            var admin_alert = require('./lib/admin-alert'); //global admin alerter
             admin_alert('Error on USSD test integration : ' + error + '\nAccount number: ' + response, "ERROR, ERROR, ERROR", 'marisa')
             stopRules();
         }
@@ -236,6 +230,7 @@ addInputHandler('nonClientMenu_splash', function(input){
 });
 
 addInputHandler('cor_menu_select', function (input) {
+    var get_menu_option = require('./lib/get-menu-option');
     notifyELK();
     input = String(input.replace(/\D/g, ''));
 
@@ -284,6 +279,7 @@ addInputHandler('cor_menu_select', function (input) {
         try{
             marketAccess.start(JSON.parse(state.vars.client_json),'rw',lang);
         }catch(e){
+            var slack = require('../slack-logger/index');
             slack.log(e);
         }
     }
@@ -326,6 +322,7 @@ addInputHandler('cor_menu_select', function (input) {
         try {
             chickenServices.start(state.vars.account_number,'rw');            
         } catch (error) {
+            var slack = require('../slack-logger/index');
             slack.log(error)
         }
     }
@@ -353,6 +350,8 @@ addInputHandler('cor_menu_select', function (input) {
         }
     }
     else if (selection === 'cor_mm_locator') {// based on client's site and district, display a list of phone numbers near them
+        var geo_select = require('./lib/cta-geo-select');
+        var geo_mm_data = require('./dat/mm-agent-geography');
         // translate variables into indices
         var district = Object.keys(geo_mm_data).indexOf(state.vars.client_district);
         var site = Object.keys(geo_select(district, geo_mm_data)).indexOf(state.vars.client_site);
@@ -674,6 +673,7 @@ addInputHandler('chx_place_order', function (input) {
 
 addInputHandler('chx_confirm_order', function (input) {
     notifyELK();
+    var admin_alert = require('./lib/admin-alert'); //global admin alerter
     input = parseInt(input.replace(/\D/g, ''));
     if (input === 1) {
         // save the confirmed order in the data table
@@ -1125,6 +1125,7 @@ inputHandlers['groupCodeInputHandler'] = function (input) {
 addInputHandler('reg_group_code_confirmation', function(input) {
     if(input == '1') {
         // continue
+        var group_size_satisfied = require('./lib/core-group-size-check');
         // Check if the group size is less than 16 or not found in the table
         if (!group_size_satisfied(state.vars.glus, client_table)){
             sayText(msgs('group_size_not_satisfied',{},lang));
@@ -1350,7 +1351,7 @@ addInputHandler('enr_glvv_id', function (input) {
         promptDigits('enr_glvv_id', { 'submitOnHash': false, 'maxDigits': max_digits_for_glus, 'timeout': timeout_length });
     }
     else if (state.vars.group_information != null) {
-
+        var group_size_satisfied = require('./lib/core-group-size-check');
         // Check if the group size is less than 16
         if (!group_size_satisfied(input,client_table)){
             sayText(msgs('group_size_not_satisfied',{},lang));
@@ -1431,6 +1432,7 @@ addInputHandler('group_constitution_handler',function(input){
 //Main menu from placing an order
 
 addInputHandler('enr_input_splash', function (input) { //main input menu
+    var get_menu_option = require('./lib/get-menu-option');
     notifyELK();
     state.vars.current_step = 'enr_input_splash';
     input = parseInt(input.replace(/\D/g, ''));
