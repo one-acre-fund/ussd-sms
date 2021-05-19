@@ -1,14 +1,13 @@
 var translations = require('./translations');
 var createTranslator = require('../utils/translator/translator');
-var chickenEligibility = require('./chicken-eligibility/chickenEligibility');
 var possibleOrderHandler = require('./possible-order-handler/possibleOrderHandler');
-var placeOrderHandler = require('./place-order-handler/placeOrderHandler');
 var changeOrderHandler = require('./change-order-handler/changeOrderHandler');
-var changeOrderConfirmation = require('./change-order-confirmation/changeOrderConfirmation');
-var translate =  createTranslator(translations, service.vars.lang);
+var translate =  createTranslator(translations, service.vars.lang); 
 var notifyELK = require('../notifications/elk-notification/elkNotification'); 
 module.exports = {
     registerHandlers: function (){
+        var changeOrderConfirmation = require('./change-order-confirmation/changeOrderConfirmation');
+        var placeOrderHandler = require('./place-order-handler/placeOrderHandler');
         function onPaymentValidated(){
             global.sayText(translate('chicken_possible_nber',{'$name': JSON.parse(state.vars.client_json).FirstName, '$max': state.vars.max_chicken}));
             global.promptDigits(possibleOrderHandler.handlerName);
@@ -51,7 +50,7 @@ module.exports = {
         notifyELK();
         state.vars.account = account;
         state.vars.country = country;
-        
+        var chickenEligibility = require('./chicken-eligibility/chickenEligibility');
         var chicken_table = project.initDataTableById(service.vars.chicken_table_id);
         chickenEligibility(chicken_table, state.vars.account,JSON.parse(state.vars.client_json)); 
         if((state.vars.chcken_nber == 0) || state.vars.client_notfound ){

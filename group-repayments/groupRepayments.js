@@ -1,6 +1,3 @@
-var translations = require('./translations/message-translations');
-var translator = require('../utils/translator/translator');
-var adminLogger = require('../rw-legacy/lib/admin-alert');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 /**
  * Holds the core implementation of group repayments  
@@ -27,6 +24,9 @@ function registerInputHandlers(session_details){
  * @param {String} session_details.lang the language used during the session
  */
 function startGroupRepayments(session_details) {
+    var translations = require('./translations/message-translations');
+    var translator = require('../utils/translator/translator');
+
     notifyELK();
     var lang = session_details.lang;
     var getMessage = translator(translations, lang);
@@ -36,6 +36,7 @@ function startGroupRepayments(session_details) {
         var client = getClient(state.vars.account_number, country);
     } catch(error) {
         console.log(error);
+        var adminLogger = require('../rw-legacy/lib/admin-alert');
         adminLogger(error, 'Roster API call error: Get client by account number');
         return;
     }

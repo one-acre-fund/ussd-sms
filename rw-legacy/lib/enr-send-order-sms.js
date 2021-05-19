@@ -107,7 +107,8 @@ module.exports = function(account_number, input_menu_name, an_table, lang, max_c
         var msgs = require('./msg-retrieve');
         var msg = msgs('ENR-SMS-ORDER-FINALIZE',{'$TotalPrice' : totalPrice, '$OrderDetails': outstr}, lang);
         var msg_route = project.vars.sms_push_route;
-        project.sendMessage({ 'to_number': client.vars.pn, 'route_id': msg_route, 'content': msg });
+        var phone = client.vars.pn ? client.vars.pn : contact.phone_number;
+        project.sendMessage({ 'to_number': phone, 'route_id': msg_route, 'content': msg });
 
     
 

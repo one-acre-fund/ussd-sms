@@ -5,10 +5,10 @@ tables accessed by this function should have a field for each lang, plus an 'opt
 option number is the numbered option that will apear in the menu
 option name is the name of the response handler that will handle the selected option
 */
-var msgs = require('./msg-retrieve'); 
-var admin_alert = require('./admin-alert');
 
 module.exports = function(table_name, lang, max_chars){
+    var msgs = require('./msg-retrieve'); 
+    var admin_alert = require('./admin-alert');
     var lang = lang || project.vars.lang;
     var console_lang = project.vars.console_lang;
     var prev_page = msgs('prev_page',{},lang);

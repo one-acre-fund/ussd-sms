@@ -2,7 +2,9 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
-
+## v2.0.0
+### Fixed
+* [ESWFA-166](https://oneacrefund.atlassian.net/browse/ESWFA-166) Refactoring USSD code to optimize performance
 ## v1.10.9
 ### Added
 * [ESWFA-62](https://oneacrefund.atlassian.net/browse/ESWFA-62) RW - Confirming who is GLs (this is a new interaction)
