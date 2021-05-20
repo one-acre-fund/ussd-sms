@@ -18,6 +18,8 @@ describe('National ID handler', () => {
             vars: {
                 national_id: '12345678',
                 pin: '0000',
+                age: '45',
+                gender: 'f'
             },
         };
         const cursor = {
@@ -29,6 +31,9 @@ describe('National ID handler', () => {
 
         nationalIdHandler('12345678');
 
+        expect(contact.vars.sbccAge).toEqual('45');
+        expect(contact.vars.sbccGender).toEqual('f');
+        expect(state.vars.pin).toEqual('0000');
         expect(sayText).toHaveBeenCalledWith(
             'Enter your PIN\n1) Enter PIN\n2) I forgot my PIN\n3) Back'
         );
