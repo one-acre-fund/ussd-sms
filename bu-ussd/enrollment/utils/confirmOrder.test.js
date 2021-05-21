@@ -25,7 +25,9 @@ describe('confirm order', () => {
                 bundleInputs: [
                     {
                         quantity: 10,
-                        bundleInputId: 345
+                        bundleInputId: 345,
+                        price: 500,
+                        unit: 'unit'
                     }
                 ]
             },
@@ -35,7 +37,9 @@ describe('confirm order', () => {
                 bundleInputs: [
                     {
                         quantity: 87,
-                        bundleInputId: 456
+                        bundleInputId: 456,
+                        price: 150,
+                        unit: 'kg'
                     }
                 ]
             }
@@ -69,17 +73,18 @@ describe('confirm order', () => {
         enrollOrder.mockReturnValueOnce(true);
         confirmOrder('en_bu');
         expect(sayText).toHaveBeenCalledWith('Order\n' +
-        '1) Biolite\n' +
-        '2) Avocadoes\n');
+        'Biolite: 10 unit/500\n' +
+        'Avocadoes: 87 kg/150\n' +
+        'Total Credit = 18050\n');
         expect(project.sendMessage).toHaveBeenCalledWith({'content': 'Order\n' +
-        '1) Biolite\n' +
-        '2) Avocadoes\n', 'to_number': '0780412345'});
+        'Biolite: 10 unit/500\n' +
+        'Avocadoes: 87 kg/150\n' +
+        'Total Credit = 18050\n', 'to_number': '0780412345'});
         expect(rowMock.save).toHaveBeenCalled();
         expect(tableMock.createRow).toHaveBeenCalledWith({
             'vars': {
                 'account_number': '23123456',
-                'order': '[{"bundleId":123,"bundleName":"Biolite","bundleInputs":[{"quantity":10,"bundleInputId":345}]}' + 
-                ',{"bundleId":980,"bundleName":"Avocadoes","bundleInputs":[{"quantity":87,"bundleInputId":456}]}]',
+                'order': '[{"bundleId":123,"bundleName":"Biolite","bundleInputs":[{"quantity":10,"bundleInputId":345,"price":500,"unit":"unit"}]},{"bundleId":980,"bundleName":"Avocadoes","bundleInputs":[{"quantity":87,"bundleInputId":456,"price":150,"unit":"kg"}]}]',
                 'phone_number': '0780475674'}});
         expect(stopRules).toHaveBeenCalled();
     });

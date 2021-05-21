@@ -31,10 +31,14 @@ module.exports = function(lang) {
     if(enrolled) {
         // create a list of products
         var productsMessage = getMessage('order', {}, lang);
+        var TotalCredit = 0;
         // loop over them creating a list
-        selectedBundles.forEach(function(selectedBundle, index){
-            productsMessage += index + 1 + ') ' + selectedBundle.bundleName + '\n';
+        selectedBundles.forEach(function(selectedBundle) {
+            productsMessage += selectedBundle.bundleName + ': ' + selectedBundle.bundleInputs[0].quantity + ' ' + selectedBundle.bundleInputs[0].unit + '/' + selectedBundle.bundleInputs[0].price + '\n';
+            TotalCredit += selectedBundle.bundleInputs[0].price * selectedBundle.bundleInputs[0].quantity;
         });
+        var totalCreditMessage = getMessage('total_credit', {'$amount': TotalCredit}, lang);
+        productsMessage += totalCreditMessage;
         // show order on the screen
         global.sayText(productsMessage);
         // get phone
