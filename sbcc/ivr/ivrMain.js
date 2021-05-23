@@ -66,7 +66,7 @@ function setTimeElapsedBetweenUssdAndIvr() {
     call.vars.time_answered = new Date(timeAnswered).toString();
     if (contact.vars.sbcc_ussd_end_time) {
         try {
-            call.vars.time_elapsed_between_ussd_and_ivr = Math.floor(
+            call.vars.time_from_ussd_to_ivr = Math.floor(
                 (timeAnswered - new Date(contact.vars.sbcc_ussd_end_time).getTime()) / 1000);
         } catch (error) {
             var logger = new Log();
