@@ -12,6 +12,11 @@ describe('SBCC IVR main', () => {
         expect(addInputHandler).toHaveBeenCalledTimes(8);
     });
 
+    it('should register call complete event handler', () => {
+        require('./ivrMain');
+        expect(addEventListener).toHaveBeenCalledWith('call_complete', expect.any(Function));
+    });
+
     it('plays the menu with only latest episode option if only one episode has been released', () => {
         require('./ivrMain');
         state.vars.currentDate = '02/08/2021';

@@ -10,6 +10,7 @@ var olderEpisodesMenuHandler1 = require('./input-handlers/olderEpisodesMenuHandl
 var olderEpisodesMenuHandler2 = require('./input-handlers/olderEpisodesMenuHandler2');
 var topTipsMenuHandler1 = require('./input-handlers/topTipsMenuHandler1');
 var topTipsMenuHandler2 = require('./input-handlers/topTipsMenuHandler2');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 var lang = contact.vars.sbccLang ? contact.vars.sbccLang : 'sw';
 var ivrFirstFlowStartDate = new Date('01/01/2021');
@@ -50,6 +51,10 @@ addInputHandler('olderEpisodesMenu1', olderEpisodesMenuHandler1);
 addInputHandler('olderEpisodesMenu2', olderEpisodesMenuHandler2);
 addInputHandler('topTipsMenu1', topTipsMenuHandler1);
 addInputHandler('topTipsMenu2', topTipsMenuHandler2);
+
+addEventListener('call_complete', function() {
+    notifyELK();
+});
 
 /**
  * Gets the particular menu to play for the caller based on the dates and episode/tip currently available
