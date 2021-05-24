@@ -1,7 +1,6 @@
 const onAccountNumberValidated = require('./onAccountNumberValidated');
 const {handlerName: mainMenuHandlerName} = require('../inputHandlers/mainMenuHandler');
 const checkGroupLeader = require('../../shared/rosterApi/checkForGroupLeader');
-const notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 jest.mock('../../shared/rosterApi/checkForGroupLeader');
 jest.mock('../../notifications/elk-notification/elkNotification');
