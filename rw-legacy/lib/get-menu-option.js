@@ -1,12 +1,10 @@
 /*
 function for returning menu options from a given option menu
 */
-
-var getDistrictBundles = require('../dat/district-bundles');
+const getDistrictBundles = require('../dat/district-bundles');
 
 module.exports = function(menu_option, menu_table,districtId){
     var districtBundles = getDistrictBundles();
-    console.log('district bundles:  ' + JSON.stringify({bundles: districtBundles}))
     // If the user is a group leader
     if(!menu_option){
         return null;
