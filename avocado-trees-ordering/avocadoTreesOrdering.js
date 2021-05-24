@@ -2,10 +2,9 @@ var translations = require('./translations');
 var createTranslator = require('../utils/translator/translator');
 var translate =  createTranslator(translations, service.vars.lang);
 var notifyELK = require('../notifications/elk-notification/elkNotification');
-var avocadoEligibility = require('./avocado-eligibility/avocadoEligibility');
 var placeOrderHandler = require('./place-order-handler/placeOrderHandler');
 var confirmOrderHandler = require('./confirm-order-handler/confirmOrderHandler');
-var enrollOrder = require('../Roster-endpoints/enrollOrder');
+
 module.exports = {
     registerHandlers: function (){
         addInputHandler(placeOrderHandler.handlerName, placeOrderHandler.getHandler(onOrderPlaced));
@@ -17,7 +16,7 @@ module.exports = {
         state.vars.account = account;
         state.vars.country = country;
         state.vars.lang = lang;
-
+        var avocadoEligibility = require('./avocado-eligibility/avocadoEligibility');
         var avocado_table = project.initDataTableById(service.vars.avocado_table_id);
         var possibleTrees = avocadoEligibility(avocado_table, state.vars.account,JSON.parse(state.vars.client_json));
         state.vars.possibleTrees = JSON.stringify(possibleTrees);
@@ -74,6 +73,7 @@ function onOrderConfirmed(){
         'isGroupLeader': 'false',
         'clientBundles': requestBundles
     };
+    var enrollOrder = require('../Roster-endpoints/enrollOrder');
     if(enrollOrder(requestData)){
         var avocado_table = project.initDataTableById(service.vars.avocado_table_id);
         var avocadoCursor = avocado_table.queryRows({'vars': {'account_number': state.vars.account}});

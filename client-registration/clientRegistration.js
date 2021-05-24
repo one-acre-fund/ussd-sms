@@ -18,8 +18,7 @@ var addOrderHandler = require('./add-order-handler/addOrderHandler');
 var varietyConfirmationHandler = require('./variety-confirmation-handler/varietyConfirmationHandler');
 var groupCodeHandler = require('./group-code-handler/groupCodeHandler');
 var continueHandler = require('./continue/continue');
-var enrollOrder = require('../Roster-endpoints/enrollOrder');
-var getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
+
 module.exports = {
     registerHandlers: function (){
         
@@ -337,6 +336,7 @@ function onOrderConfirmed(){
             orderPlacedMessage = orderPlacedMessage + orderPlaced[m].bundleName + ' ' + orderPlaced[m].price + ' ';
         }
     } 
+    var enrollOrder = require('../Roster-endpoints/enrollOrder');
     if(enrollOrder(requestData)){
         var table = project.initDataTableById(service.vars.JITSucessfullRegId);
         var cursor = table.queryRows({vars: {'account_number': client.AccountNumber}});
@@ -381,6 +381,7 @@ function onOrderConfirmed(){
             to_number: contact.phone_number
         });
         if(typeof(state.vars.phoneNumber) === 'undefined'){
+            var getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
             var phone_numbers = getPhoneNumber(client.AccountNumber, client.CountryName);
             if(phone_numbers) {
                 var active_phone_numbers = phone_numbers.filter(function(phone_number) {
