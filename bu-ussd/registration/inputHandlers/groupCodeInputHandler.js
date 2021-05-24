@@ -2,6 +2,7 @@ var translations = require('../translations/index');
 var translator = require('../../../utils/translator/translator');
 var registerConfirmationInputHandler = require('./registerConfirmationInputHandler');
 var verifyGroup = require('../../../shared/rosterApi/verifyGroup');
+var notifyELK = require('../../../notifications/elk-notification/elkNotification');
 
 var handlerName = 'bu_reg_group_code';
 
@@ -9,6 +10,7 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(language) {
         return function(input) {
+            notifyELK();
             var getMessage = translator(translations, language);
 
             function invalidGroupCode() {

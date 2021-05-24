@@ -1,6 +1,8 @@
 const nationalIdInputHandler = require('./nationalIdInputHandler');
 const firstNameInputHandler = require('./firstNameInputHandler');
 
+jest.mock('../../../notifications/elk-notification/elkNotification');
+
 describe('national Id number input handler', () => {
     it('should prompt for the forst name', () => {
         const handler = nationalIdInputHandler.getHandler('en_bu');

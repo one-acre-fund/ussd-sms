@@ -3,6 +3,7 @@ const groupCodeInputHandler = require('./groupCodeInputHandler');
 const verifyGroup = require('../../../shared/rosterApi/verifyGroup');
 
 jest.mock('../../../shared/rosterApi/verifyGroup');
+jest.mock('../../../notifications/elk-notification/elkNotification');
 
 describe('group code input handler', () => {
     it('should reprompt for group code upon the empty input', () => {

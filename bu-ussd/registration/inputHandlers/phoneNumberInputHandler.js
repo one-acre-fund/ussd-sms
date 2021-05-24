@@ -1,6 +1,7 @@
 var translations = require('../translations/index');
 var translator = require('../../../utils/translator/translator');
 var groupCodeInputHandler = require('./groupCodeInputHandler');
+var notifyELK = require('../../../notifications/elk-notification/elkNotification');
 
 var handlerName = 'bu_reg_phone_number';
 
@@ -8,6 +9,7 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(language) {
         return function(input) {
+            notifyELK();
             var getMessage = translator(translations, language);
 
             function invalidPhone() {

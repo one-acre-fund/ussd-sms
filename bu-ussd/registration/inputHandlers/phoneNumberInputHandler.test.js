@@ -1,6 +1,8 @@
 const phoneNumberInputHandler = require('./phoneNumberInputHandler');
 const groupCodeInputHandler = require('./groupCodeInputHandler');
 
+jest.mock('../../../notifications/elk-notification/elkNotification');
+
 describe('Phone number input handler', () => {
     beforeEach(() => {
         contact.phone_number = '788664573';

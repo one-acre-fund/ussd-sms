@@ -3,6 +3,7 @@ var menuOptions = require('./menuOptions');
 var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
 var checkGroupLeader = require('../../shared/rosterApi/checkForGroupLeader');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 function reduceClientSize(client) {
     var cloned = _.clone(client);
@@ -14,6 +15,7 @@ function reduceClientSize(client) {
 
 
 module.exports = function onAccountNumberValidated(lang, client) {
+    notifyELK();
     var mainMenuHandler = require('../inputHandlers/mainMenuHandler');
     state.vars.client_json = JSON.stringify(reduceClientSize(client));
     var isGroupLeader = checkGroupLeader(client && client.DistrictId, client && client.ClientId);

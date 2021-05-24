@@ -4,6 +4,7 @@ var onAccountNumberValidated = require('../../utils/onAccountNumberValidated');
 var registerClient = require('../../../shared/rosterApi/registerClient');
 var getPhoneNumber = require('../../../shared/rosterApi/getPhoneNumber');
 var continueToOrderingHandler = require('./continueToOrderingHandler');
+var notifyELK = require('../../../notifications/elk-notification/elkNotification');
 
 var handlerName = 'bu_reg_confirmation';
 function filterPhones(phoneNumbers) {
@@ -17,6 +18,7 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(language) {
         return function(input) {
+            notifyELK();
             var getMessage = translator(translations, language);
             function invalidChoice() {
                 // invalid input/ reprompt

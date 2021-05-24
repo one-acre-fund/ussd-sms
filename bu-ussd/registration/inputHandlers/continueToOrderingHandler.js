@@ -1,5 +1,6 @@
 var enrollment = require('../../enrollment/enrollment');
 var getClient = require('../../../shared/rosterApi/getClient');
+var notifyELK = require('../../../notifications/elk-notification/elkNotification');
 
 var handlerName = 'bu_reg_continue_to_ordering';
 
@@ -7,6 +8,7 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(language) {
         return function(input) {
+            notifyELK();
             if(input === '1') {
                 // trigger ordering
                 var registeredClientAccount = state.vars.registered_client_account;

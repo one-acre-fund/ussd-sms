@@ -1,6 +1,8 @@
 const lastNameInputHandler = require('./lastNameInputHandler');
 const phoneNumberInputHandler = require('./phoneNumberInputHandler');
 
+jest.mock('../../../notifications/elk-notification/elkNotification');
+
 describe('last name input handler', ()=> {
     it('should prompt for the last name input handler', () => {
         const handler = lastNameInputHandler.getHandler('en_bu');

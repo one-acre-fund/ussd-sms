@@ -4,6 +4,8 @@ const getPhoneNumber = require('../../../shared/rosterApi/getPhoneNumber');
 const continueToOrderingHandler = require('./continueToOrderingHandler');
 const registerConfirmationInputHandler = require('./registerConfirmationInputHandler');
 
+jest.mock('../../../notifications/elk-notification/elkNotification');
+
 jest.mock('../../utils/onAccountNumberValidated');
 jest.mock('../../../shared/rosterApi/registerClient');
 jest.mock('../../../shared/rosterApi/getPhoneNumber');

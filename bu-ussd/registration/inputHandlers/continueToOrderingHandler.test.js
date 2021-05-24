@@ -4,6 +4,7 @@ const getClient = require('../../../shared/rosterApi/getClient');
 
 jest.mock('../../../shared/rosterApi/getClient');
 jest.mock('../../enrollment/enrollment');
+jest.mock('../../../notifications/elk-notification/elkNotification');
 
 describe('continue to ordering handler', () => {
     beforeEach(() => {

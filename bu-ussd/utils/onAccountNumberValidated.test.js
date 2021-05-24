@@ -1,8 +1,10 @@
 const onAccountNumberValidated = require('./onAccountNumberValidated');
 const {handlerName: mainMenuHandlerName} = require('../inputHandlers/mainMenuHandler');
 const checkGroupLeader = require('../../shared/rosterApi/checkForGroupLeader');
+const notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 jest.mock('../../shared/rosterApi/checkForGroupLeader');
+jest.mock('../../notifications/elk-notification/elkNotification');
 
 const client = {
     'GlobalClientId': '555312b8-b7c8-47b2-8861-1aa765b476a3',
