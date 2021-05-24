@@ -148,6 +148,9 @@ module.exports = function(){
             console.log('bad response sending data to ELK');
             logger.warn('Failed to send ELK notification :',{data: response});
         }
+        console.log('****************SUCCESS******************');
+        console.log('^^^^^^^^^^^^^^^^^'+ opts.data.from_number);
+        console.log('^^^^^^^^^^^^^^^^^'+ JSON.stringify(opts.data.vars));
     }
     catch(e){
         var log = new Log();
