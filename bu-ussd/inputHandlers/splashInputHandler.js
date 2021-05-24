@@ -1,6 +1,8 @@
 var translations = require('../translations/index');
 var translator = require('../../utils/translator/translator');
 var rosterAPI = require('../../rw-legacy/lib/roster/api');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
+
 var handlerName = 'bu_splash';
 
 var languageSwapOptions = {
@@ -26,6 +28,7 @@ var languageOptions = ['99', '98'];
  */
 function getHAndler(language, onAccountNumberValidated) {
     return function(input) {
+        notifyELK();
         var accountNumber = input.replace(/\D/g, '');
         var lang = language || contact.vars.lang;
         var getMessage = translator(translations, language);

@@ -3,6 +3,7 @@ var checkBalance = require('../checkBalance/checkBalance');
 var preEnrollmentHandler = require('./preEnrollmentHandler');
 var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 var handlerName = 'main_menu_handler';
 
@@ -10,6 +11,7 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(language) {
         return function(input) {
+            notifyELK();
             var main_screens = JSON.parse(state.vars.main_screens);
             var main_option_values = JSON.parse(state.vars.main_option_values);
             var current_main_screen = state.vars.current_main_screen;

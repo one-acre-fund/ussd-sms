@@ -4,6 +4,8 @@ const {registerInputHandlers: registerEnrollmentInputHandler} = require('../enro
 
 jest.mock('../registration/registration');
 jest.mock('../enrollment/enrollment');
+jest.mock('../../notifications/elk-notification/elkNotification');
+
 let onAccountNumberValidated;
 describe('register input handlers', () => {
     beforeAll(() => {

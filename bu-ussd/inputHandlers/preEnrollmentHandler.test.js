@@ -4,6 +4,7 @@ const preEnrollmentHandler = require('./preEnrollmentHandler');
 
 jest.mock('../../shared/rosterApi/getClient');
 jest.mock('../enrollment/enrollment');
+jest.mock('../../notifications/elk-notification/elkNotification');
 
 describe('pre enrollment', () => {
     beforeAll(() => {

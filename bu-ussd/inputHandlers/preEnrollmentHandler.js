@@ -2,12 +2,14 @@ var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
 var getClient = require('../../shared/rosterApi/getClient');
 var Enrollment = require('../enrollment/enrollment');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 var handlerName = 'bu_pre_enrollment_handler';
 module.exports = {
     handlerName: handlerName,
     getHandler: function(lang) {
         return function(input) {
+            notifyELK();
             var getMessage = translator(translations, lang);
             var accountNumber = input && input.replace(/\D/g, '');
             var clientTobeEnrolled = getClient(accountNumber, project.vars.country);

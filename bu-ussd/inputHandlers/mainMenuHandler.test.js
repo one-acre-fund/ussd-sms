@@ -6,6 +6,7 @@ const checkBalance = require('../checkBalance/checkBalance');
 jest.mock('../registration/registration');
 jest.mock('../checkBalance/checkBalance');
 jest.mock('../enrollment/enrollment');
+jest.mock('../../notifications/elk-notification/elkNotification');
 
 describe('main menu input handler', () => {
     beforeEach(() => {
