@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 ## v2.0.0
+### Added
+* [ESWFA-45](https://oneacrefund.atlassian.net/browse/ESWFA-45) As a Client I want to be able to check and see what I owe OAF  and my performance against healthy path using USSD 
+* [ESWFA-44](https://oneacrefund.atlassian.net/browse/ESWFA-44) As a Client, I want to receive an account number after registration so that I can use it 
+* [ESWFA-43](https://oneacrefund.atlassian.net/browse/ESWFA-43) As a FO/GL , I want to place orders for clients that are in my site/group
+* [ESWFA-42](https://oneacrefund.atlassian.net/browse/ESWFA-42) As an FO/GL, I want to register  clients via USSD so that we can enroll in current season
 ### Fixed
 * [ESWFA-166](https://oneacrefund.atlassian.net/browse/ESWFA-166) Refactoring USSD code to optimize performance
 ## v1.10.9

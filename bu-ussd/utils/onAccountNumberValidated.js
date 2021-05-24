@@ -4,15 +4,7 @@ var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
 var checkGroupLeader = require('../../shared/rosterApi/checkForGroupLeader');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
-
-function reduceClientSize(client) {
-    var cloned = _.clone(client);
-    cloned.AccountHistory = client.AccountHistory.slice(0,3);
-    cloned.BalanceHistory = client.BalanceHistory.slice(0,3);
-    return cloned;
-}
-
-
+var reduceClientSize = require('../../shared/reduceClientSize');
 
 module.exports = function onAccountNumberValidated(lang, client) {
     notifyELK();

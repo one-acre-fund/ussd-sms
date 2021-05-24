@@ -3,6 +3,7 @@ var translations = require('../translations/index');
 var getClient = require('../../shared/rosterApi/getClient');
 var Enrollment = require('../enrollment/enrollment');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
+var reduceClientSize = require('../../shared/reduceClientSize');
 
 var handlerName = 'bu_pre_enrollment_handler';
 module.exports = {
@@ -29,7 +30,8 @@ module.exports = {
                         // if the farmer is new, assign them their group leaders groupId
                         clientTobeEnrolled.GroupId = groupLeader.GroupId;
                     }
-                    Enrollment.start(lang, clientTobeEnrolled);
+                    var reducedClient = reduceClientSize(clientTobeEnrolled);
+                    Enrollment.start(lang, reducedClient);
                 }
             } else {
                 // error client not found. reprompt
