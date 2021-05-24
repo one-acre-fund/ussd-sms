@@ -1,6 +1,7 @@
 var translations = require('./translations/index');
 var translator = require('../../utils/translator/translator');
 var getHealthyPathMessage = require('../../healthy-path/balance/healthyPathOnBalance');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 /**
  * starts the check balance for Burundi
@@ -8,6 +9,7 @@ var getHealthyPathMessage = require('../../healthy-path/balance/healthyPathOnBal
  * @param {Object} client a parsed javascript object for client
  */
 module.exports = function start(language, client) {
+    notifyELK();
     var getMessage = translator(translations, language);
     var mostRecentSeason = client.BalanceHistory[0];
     var balanceInfo = {

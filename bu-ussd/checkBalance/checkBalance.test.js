@@ -2,6 +2,7 @@ const checkBalance = require('./checkBalance');
 const getHealthyPathMessage = require('../../healthy-path/balance/healthyPathOnBalance');
 
 jest.mock('../../healthy-path/balance/healthyPathOnBalance');
+jest.mock('../../notifications/elk-notification/elkNotification');
 
 const clientMock = {
     'AccountNumber': '25799722',
