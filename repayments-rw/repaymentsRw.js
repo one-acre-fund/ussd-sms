@@ -53,7 +53,6 @@ if(paid == 0) {
         '$lastTransactionId': contact.vars.lastTransactionId,
         '$accountnumber': contact.vars.accountnumber,
     }, 'ki');
-
     transactionLog = getMessage('mm_receipt_rw_0_paid', {
         '$LastName': LastName,
         '$lastTransactionAmount': contact.vars.lastTransactionAmount,
@@ -81,8 +80,19 @@ var mmReceiptLabel = project.getOrCreateLabel('MM receipt');
 receipt = receipt + hp_dist;
 console.log(transactionLog);
 console.log('healthy path ' + receipt);
-project.sendMessage({
-    content: receipt, 
-    to_number: contact.phone_number,
-    label_ids: [mmReceiptLabel.id]
-});
+try{
+    var messageSent = project.sendMessage({
+        content: receipt, 
+        to_number: contact.phone_number,
+        label_ids: [mmReceiptLabel.id]
+    });
+    if(messageSent === undefined || messageSent.error_message !== undefined || messageSent.status == 'failed' || messageSent.status == 'cancelled'){
+        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~error sending message#########################');
+    }
+
+}
+catch(Exception){
+    console.log('qwert~~~~~~~~~~~~~~~~~~~~~~~~~~~~~error sending message#########################');
+}
+
+
