@@ -5,6 +5,7 @@ describe('SBCC IVR main', () => {
 
     beforeEach(() => {
         jest.resetModules();
+        call.vars = {};
     });
 
     it('should register input handlers', () => {
@@ -77,5 +78,14 @@ describe('SBCC IVR main', () => {
         state.vars.currentDate = '01/03/2021';
         var today = new Date(state.vars.currentDate);
         expect(() => global.main()).toThrowError('No episode or top tip has been released for the current date - ' + today.toDateString());
+    });
+
+    it('sets time elapsed between when ussd and ivr flows', () => {
+        require('./ivrMain');
+        state.vars.currentDate = '06/16/2021';
+        contact.vars.sbcc_ussd_end_time = new Date(1621754230000).toString();
+        global.main();
+        expect(call.vars.time_answered).not.toBeNull();
+        expect(call.vars.time_from_ussd_to_ivr).not.toBeNull();
     });
 });

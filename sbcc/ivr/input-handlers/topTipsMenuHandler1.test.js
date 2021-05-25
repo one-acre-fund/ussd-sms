@@ -10,6 +10,7 @@ describe('Top tips menu handler for top tips 1 to 4', () => {
 
     beforeEach(() => {
         state.vars.invalidInputAttempts = null;
+        call.vars = {};
     });
 
     it('plays the first top tip when 1 is pressed', () => {
@@ -19,6 +20,7 @@ describe('Top tips menu handler for top tips 1 to 4', () => {
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611044220/767f32f67a6f/tip_1.mp3'
         );
         expect(state.vars.played).toEqual('top-tip-1');
+        expect(call.vars.topTipsMenuOnePlayed_1).toEqual('top-tip-1');
         expect(playAudio).toHaveBeenLastCalledWith(
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610997646/decba8881698/selected_tip_menu.mp3'
         );
@@ -32,6 +34,7 @@ describe('Top tips menu handler for top tips 1 to 4', () => {
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611044259/65517afa454f/tip_2.mp3'
         );
         expect(state.vars.played).toEqual('top-tip-2');
+        expect(call.vars.topTipsMenuOnePlayed_1).toEqual('top-tip-2');
         expect(playAudio).toHaveBeenLastCalledWith(
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610997646/decba8881698/selected_tip_menu.mp3'
         );
@@ -45,6 +48,7 @@ describe('Top tips menu handler for top tips 1 to 4', () => {
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611044287/321b6e66e42a/tip_3.mp3'
         );
         expect(state.vars.played).toEqual('top-tip-3');
+        expect(call.vars.topTipsMenuOnePlayed_1).toEqual('top-tip-3');
         expect(playAudio).toHaveBeenLastCalledWith(
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610997646/decba8881698/selected_tip_menu.mp3'
         );
@@ -58,6 +62,7 @@ describe('Top tips menu handler for top tips 1 to 4', () => {
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611044316/f8aa29b07cfc/tip_4.mp3'
         );
         expect(state.vars.played).toEqual('top-tip-4');
+        expect(call.vars.topTipsMenuOnePlayed_1).toEqual('top-tip-4');
         expect(playAudio).toHaveBeenLastCalledWith(
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610997646/decba8881698/selected_tip_menu.mp3'
         );
@@ -102,6 +107,7 @@ describe('Top tips menu handler for top tips 1 to 4', () => {
         topTipsMenuHandler1('8');
         topTipsMenuHandler1('7');
         expect(hangUp).toHaveBeenCalled();
+        expect(call.vars.topTipsMenuOneCount).toEqual(3);
     });
 
     it('does not hang up if a valid key is pressed after an invalid option was selected', () => {

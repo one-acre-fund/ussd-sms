@@ -11,7 +11,6 @@ var olderEpisodesMenuHandler2 = require('./input-handlers/olderEpisodesMenuHandl
 var topTipsMenuHandler1 = require('./input-handlers/topTipsMenuHandler1');
 var topTipsMenuHandler2 = require('./input-handlers/topTipsMenuHandler2');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
-var Log = require('../../logger/elk/elk-logger');
 
 var lang = contact.vars.sbccLang ? contact.vars.sbccLang : 'sw';
 var ivrFirstFlowStartDate = new Date('01/01/2021');
@@ -64,16 +63,8 @@ addEventListener('call_complete', function() {
 function setTimeElapsedBetweenUssdAndIvr() {
     var timeAnswered = Date.now();
     call.vars.time_answered = new Date(timeAnswered).toString();
-    if (contact.vars.sbcc_ussd_end_time) {
-        try {
-            call.vars.time_from_ussd_to_ivr = Math.floor(
-                (timeAnswered - new Date(contact.vars.sbcc_ussd_end_time).getTime()) / 1000);
-        } catch (error) {
-            var logger = new Log();
-            console.log('Invalid date string provided as sbcc_ussd_end_time' + {data: JSON.stringify(error)});
-            logger.error('Invalid date string provided as sbcc_ussd_end_time', {data: JSON.stringify(error)});
-        } 
-    }
+    call.vars.time_from_ussd_to_ivr = Math.floor(
+        (timeAnswered - new Date(contact.vars.sbcc_ussd_end_time).getTime()) / 1000);
 }
 
 /**
