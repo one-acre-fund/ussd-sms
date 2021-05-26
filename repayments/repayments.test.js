@@ -94,8 +94,7 @@ describe('Mobile Money errors Log receipts',()=>{
         Log.mockReturnValue(mockLogger);
     });
     it('should log a message if there is an exception caught sending the message', () => {
-        contact.vars = undefined;
-        //contact.vars.client = undefined;
+        contact.vars = null;
         require('./repayments');
         expect(mockLogger.error).toHaveBeenCalled();
     });

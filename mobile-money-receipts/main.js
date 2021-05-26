@@ -23,5 +23,5 @@ try{
 catch(ex){
     console.log('#########################error sending message#########################');
     var log = new Log();
-    log.error('Failed to send Repayment SMS:', { Message: 'RepaymentSMSError', data: JSON.stringify(contact), exception: ex, country: 'UG'});
+    log.error('Failed to send Repayment SMS:', { Message: 'RepaymentSMSError', data: {TAG: 'RepaymentReceiptTRSMSError',exception: ex, country: 'UG',vars: (contact!=null)? contact.vars: null,phoneNumber: (contact != null)? contact.phone_number :null}});
 }

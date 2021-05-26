@@ -141,14 +141,13 @@ try{
     }
     if(sentSMS === undefined || sentSMS.error_message !== undefined || sentSMS.status == 'failed' || sentSMS.status == 'cancelled'){
         console.log('#########################error sending message#########################');
-        log = new Log();
-        log.error('Failed to send Repayment SMS:', { Message: 'RepaymentSMSError', data: JSON.stringify(contact), country: 'KE'});
+        var log = new Log();
+        log.error('Failed to send Repayment SMS:', { Message: 'RepaymentSMSError', data: {TAG: 'RepaymentReceiptTRSMSError', country: 'KE',vars: (contact!=null)? contact.vars: null,phoneNumber: (contact != null)? contact.phone_number :null}});
     }
 
 }
 catch(ex){
     console.log('#########################error sending message#########################');
-    var log = new Log();
-    console.log(ex);
-    log.error('Failed to send Repayment SMS:', { Message: 'RepaymentSMSError', data: JSON.stringify(contact), exception: ex, country: 'KE'});
+    var logg = new Log();
+    logg.error('Failed to send Repayment SMS:', { Message: 'RepaymentSMSError', data: {TAG: 'RepaymentReceiptTRSMSError',exception: ex, country: 'KE',vars: (contact!=null)? contact.vars: null,phoneNumber: (contact != null)? contact.phone_number :null}});
 }
