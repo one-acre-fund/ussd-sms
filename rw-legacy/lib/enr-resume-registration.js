@@ -2,18 +2,18 @@ function fetchRegistrationState(phoneNumber) {
     var reg_sessions = project.getOrCreateDataTable(service.vars.RegistrationSessions);
     var cursor = reg_sessions.queryRows({ 'vars': { 'phone_number': phoneNumber } });
     if (!cursor.hasNext()) {
-        return null
+        return null;
     }
     var row = cursor.next();
-    const nowUnixTimeStamp = new Date().getTime() / 1000;
-    const sessionTimeout = 60 * 60;
+    var nowUnixTimeStamp = new Date().getTime() / 1000;
+    var sessionTimeout = 60 * 60;
     return {
         sessionInfo: JSON.parse(row.vars.sessionInfo),
         isExpired: row.time_updated + sessionTimeout < nowUnixTimeStamp,
         remove: function () {
             row.delete();
         }
-    }
+    };
 }
 /**
  * 
@@ -26,10 +26,10 @@ function resumeRegistration(phoneNumber, handlers) {
         return false;
     }
     if (registrationState.isExpired) {
-        registrationState.remove()
+        registrationState.remove();
         return false;
     }
-    const savedState = registrationState.sessionInfo.state;
+    var savedState = registrationState.sessionInfo.state;
     console.log('### fetched state: '+JSON.stringify(savedState));
     
     for (key in savedState) {
@@ -38,8 +38,8 @@ function resumeRegistration(phoneNumber, handlers) {
         }
     }
     // TODO: call handler with input
-    const handler = registrationState.sessionInfo.handler;
-    const input = registrationState.sessionInfo.input;
+    var handler = registrationState.sessionInfo.handler;
+    var input = registrationState.sessionInfo.input;
     if (handlers[handler]) {
         console.log('#### Found hander');
         handlers[handler](input);
@@ -48,13 +48,13 @@ function resumeRegistration(phoneNumber, handlers) {
     console.log('#### Found no hander');
     
     return false;
-};
+}
 
 function clearRegistrationSession(phoneNumber) {
     var reg_sessions = project.getOrCreateDataTable(service.vars.RegistrationSessions);
     var cursor = reg_sessions.queryRows({ 'vars': { 'phone_number': phoneNumber } });
     if (!cursor.hasNext()) {
-        return
+        return;
     }
     var row = cursor.next();
     row.delete();
@@ -68,11 +68,11 @@ function clearRegistrationSession(phoneNumber) {
  * @param {string} input 
  */
 function saveRegistrationSession(phoneNumber, stateVars, handlerName, input) {
-    const sessionInfo = {
+    var sessionInfo = {
         state: stateVars,
         handler: handlerName,
         input: input
-    }
+    };
     var reg_sessions = project.getOrCreateDataTable(service.vars.RegistrationSessions);
     var cursor = reg_sessions.queryRows({ 'vars': { 'phone_number': phoneNumber } });
     var row;
@@ -88,13 +88,13 @@ function saveRegistrationSession(phoneNumber, stateVars, handlerName, input) {
     console.log(sessionInfo);
 
     row.vars.sessionInfo = JSON.stringify(sessionInfo);
-    row.vars.phone_number = phoneNumber
+    row.vars.phone_number = phoneNumber;
     row.vars.handler = handlerName;
     row.vars.input = input;
-    row.save()
+    row.save();
 }
 module.exports = {
     resume: resumeRegistration,
     clear: clearRegistrationSession,
     save: saveRegistrationSession
-}
+};

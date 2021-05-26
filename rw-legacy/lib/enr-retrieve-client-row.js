@@ -6,13 +6,13 @@ takes account number, table name as arguements and returns an object representin
 module.exports = function(account_number, an_table, enrollment){
     enrollment = enrollment || false;
     var table = project.getOrCreateDataTable(an_table);
-    var cursor = table.queryRows({'vars' : {'account_number' : account_number}});
+    var cursor = table.queryRows({'vars': {'account_number': account_number}});
     if(!cursor.hasNext()){
         //console.log('got a false hasNext')
         if(enrollment){
             var account_verify = require('./account-verify');
             if(account_verify(account_number)){
-                client = table.createRow({'vars' : {'account_number' : account_number, 'via_api' : true}})
+                client = table.createRow({'vars': {'account_number': account_number, 'via_api': true}});
                 client.vars.geo = state.vars.client_district;
                 client.vars.registered = 1;
                 if(state.vars.client_json){
@@ -36,7 +36,7 @@ module.exports = function(account_number, an_table, enrollment){
     client.vars.registered = 1;
     if(cursor.hasNext() && account_number){
         var admin_alert = require('./admin-alert');
-        admin_alert('Duplicate account number : ' + account_number)
+        admin_alert('Duplicate account number : ' + account_number);
     }
     return client;
 };
