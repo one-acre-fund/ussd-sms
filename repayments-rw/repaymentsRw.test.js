@@ -15,6 +15,23 @@ var clientMock2 = {
     LastName: 'Jeofrey',
     BalanceHistory: []
 };
+var Log = require('../logger/elk/elk-logger');
+jest.mock('../logger/elk/elk-logger');
+describe('Mobile Money errors Log receipts',()=>{
+    let mockLogger;
+    beforeEach(() => {
+        mockLogger = {
+            error: jest.fn(),
+            warn: jest.fn()
+        };
+        Log.mockReturnValue(mockLogger);
+    });
+    it('should log a message if there is an exception caught sending the message', () => {
+        contact.vars = undefined;
+        require('./repaymentsRw');
+        expect(mockLogger.error).toHaveBeenCalled();
+    });
+});
 describe('Rwandan repayments', () => {
     beforeAll(() => {
         contact.phone_number = '0788445637';

@@ -2,6 +2,8 @@ let getPhoneNumber = require('../shared/rosterApi/getPhoneNumber');
 let getHealthyPathPercentage;
 jest.mock('../healthy-path/utils/getHealthyPathPercentage');
 jest.mock('../shared/rosterApi/getPhoneNumber');
+const Log = require('../logger/elk/elk-logger');
+jest.mock('../logger/elk/elk-logger');
 
 const overpaidContact = {
     accountnumber: '3033-cf74-f94a',
@@ -82,11 +84,27 @@ const fullyPaidClient = {
     ]
 };
 project.getOrCreateLabel.mockImplementation((label)=>({id: label}));
-
+describe('Mobile Money errors Log receipts',()=>{
+    let mockLogger;
+    beforeEach(() => {
+        mockLogger = {
+            error: jest.fn(),
+            warn: jest.fn()
+        };
+        Log.mockReturnValue(mockLogger);
+    });
+    it('should log a message if there is an exception caught sending the message', () => {
+        contact.vars = undefined;
+        //contact.vars.client = undefined;
+        require('./repayments');
+        expect(mockLogger.error).toHaveBeenCalled();
+    });
+});
 describe('mobile money repayments using', () => {
     var mockedRow = {save: jest.fn(),hasNext: jest.fn(() => true), next: jest.fn(),vars: {}, limit: jest.fn()}; 
     var mockedTable = { queryRows: () => mockedRow};
     beforeAll(() => {
+        jest.resetModules();
         global.state = { vars: {} };
         contact.phone_number = '0755432334';
         project.vars.repayments_sms_route = '12345';
@@ -138,7 +156,7 @@ describe('mobile money repayments using', () => {
                 'MM receipt',
                 'Business Operations',
             ], 'message_type': 'sms',
-            'route_id': '12345'});
+            'route_id': '12345'});     
     });
     it('should send a message in swahili once there is no data in the EnglishDistricts', () => {
         getHealthyPathPercentage.mockReturnValueOnce(0.3);
