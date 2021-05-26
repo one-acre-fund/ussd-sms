@@ -152,7 +152,7 @@ describe('ChickenServices', () => {
             CheckChickenCapByDistrict.mockReturnValue(false);
             state.vars.max_chicken = number;
             chickenServices.start(account, country);
-            expect(sayText).toHaveBeenCalledWith('We are very sorry, we have reached the limit of chickens for this month. Please try to confirm your chickens again next month!');
+            expect(sayText).toHaveBeenCalledWith('We are very sorry, we have reached the limit of chickens for your sector. Please try to confirm your chickens again next season');
         });
     });
 

@@ -1,4 +1,8 @@
 var checkChickenCapByDistrict = require('./CheckChickenCapByDistrict');
+var getCapsBySector = require('./getCapsBySector');
+
+jest.mock('./getCapsBySector');
+
 const {client}  = require('../test-client-data');
 const mockCursor = { 
     next: jest.fn(), 
@@ -18,6 +22,14 @@ describe('change_order_handler', () => {
     it('should be  function',()=>{
         expect(checkChickenCapByDistrict).toBeInstanceOf(Function);
     });
+    it('should return the number of possible chicken if the  number of caps in a district is less to the number of chicken ordered', ()=>{
+        getCapsBySector.mockReturnValueOnce({chicken_cap: 615});
+        mockRow.vars.ordered_chickens = 6;
+        mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true);
+        mockCursor.next.mockReturnValueOnce(mockClientRow).mockReturnValueOnce(mockRow);
+        var result = checkChickenCapByDistrict(client);
+        expect(result).toEqual(609); //Given that Muganze sector has 615 and ordered number of chickens(mockRow.vars.ordered_chickens)is 6
+    });
     it('should return false if the number of caps in a district is equal to the number of chicken ordered', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true);
         mockRow.vars.ordered_chickens = 10000;
@@ -31,13 +43,6 @@ describe('change_order_handler', () => {
         mockCursor.next.mockReturnValueOnce(mockClientRow).mockReturnValueOnce(mockRow);
         var result = checkChickenCapByDistrict(client);
         expect(result).toBeFalsy();
-    });
-    it('should return the number of possible chicken if the  number of caps in a district is less to the number of chicken ordered', ()=>{
-        mockRow.vars.ordered_chickens = 6;
-        mockCursor.hasNext.mockReturnValueOnce(true).mockReturnValueOnce(true);
-        mockCursor.next.mockReturnValueOnce(mockClientRow).mockReturnValueOnce(mockRow);
-        var result = checkChickenCapByDistrict(client);
-        expect(result).toEqual(609); //Given that Muganze sector has 615 and ordered number of chickens(mockRow.vars.ordered_chickens)is 6
     });
     it('should return false if no caps were found', ()=>{
         mockCursor.hasNext.mockReturnValueOnce(false);

@@ -20,8 +20,8 @@ module.exports = {
         'ki': 'Ihangane, ntabwo watumije inkoko,ntiwemerewe kwemeza inkoko. uzazitumize mu gihembwe gitaha!'
     },
     'chicken_cap_reached': {
-        'en': 'We are very sorry, we have reached the limit of chickens for this month. Please try to confirm your chickens again next month!',
-        'ki': 'Mutwihanganire, twageze ku mubare ntarengwa w\'inkoko muri uku kwezi. Nyaboneka uzongere ugerageze mu kwezi gutaha! '
+        'en': 'We are very sorry, we have reached the limit of chickens for your sector. Please try to confirm your chickens again next season',
+        'ki': 'Mutwihanganire, twageze ku mubare ntarengwa w\'inkoko muri uyu murenge. Nyaboneka uzongere ugerageze mu sizoni itaha!'
     },
     'chicken_oder_out_of_bound': {
         'en': 'You must confirm a number between 2- $number. How many chickens would you like to confirm? 0: Back to main menu',

@@ -55,7 +55,7 @@ describe('change_order_confirm', () => {
         CheckChickenCapByDistrict.mockReturnValue(4);
         state.vars.confirmed_number = 6;
         changeOrderHandler('1');
-        expect(sayText).toBeCalledWith('We are very sorry, we have reached the limit of chickens for this month. Please try to confirm your chickens again next month!');
+        expect(sayText).toBeCalledWith('We are very sorry, we have reached the limit of chickens for your sector. Please try to confirm your chickens again next season');
     });
 
 });
