@@ -48,7 +48,8 @@ module.exports = {
         content: 'readonly',
         sendReply: 'readonly',
         playAudio: 'readonly',
-        promptKey: 'readonly'
+        promptKey: 'readonly',
+        addEventListener: 'readonly'
     },
     'overrides': [
         {

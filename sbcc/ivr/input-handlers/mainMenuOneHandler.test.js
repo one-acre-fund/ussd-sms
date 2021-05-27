@@ -10,6 +10,7 @@ describe('Main menu one handler', () => {
 
     beforeEach(() => {
         state.vars.invalidInputAttempts = null;
+        call.vars = {};
     });
 
     it('plays the latest episode when 1 is pressed', () => {
@@ -20,6 +21,7 @@ describe('Main menu one handler', () => {
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611040271/8f39b3b04369/ep1_intro_recap.mp3'
         );
         expect(state.vars.played).toEqual('episode-1');
+        expect(call.vars.mainMenuOnePlayed_1).toEqual('episode-1');
         expect(playAudio).toHaveBeenLastCalledWith(
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610463660/eaab86509562/episode_menu.mp3'
         );
@@ -35,6 +37,7 @@ describe('Main menu one handler', () => {
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611044220/767f32f67a6f/tip_1.mp3'
         );
         expect(state.vars.played).toEqual('top-tip-1');
+        expect(call.vars.mainMenuOnePlayed_1).toEqual('top-tip-1');
         expect(playAudio).toHaveBeenLastCalledWith(
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610987559/75337eebdd49/tip_menu.mp3'
         );
@@ -50,6 +53,7 @@ describe('Main menu one handler', () => {
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611040495/034646004c18/ep2_intro_recap.mp3'
         );
         expect(state.vars.played).toEqual('episode-2');
+        expect(call.vars.mainMenuOnePlayed_1).toEqual('episode-2');
         expect(playAudio).toHaveBeenLastCalledWith(
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610463660/eaab86509562/episode_menu.mp3'
         );
@@ -65,6 +69,7 @@ describe('Main menu one handler', () => {
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611044220/767f32f67a6f/tip_1.mp3'
         );
         expect(state.vars.played).toEqual('top-tip-1');
+        expect(call.vars.mainMenuOnePlayed_1).toEqual('top-tip-1');
         expect(playAudio).toHaveBeenLastCalledWith(
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610987559/75337eebdd49/tip_menu.mp3'
         );
@@ -74,6 +79,7 @@ describe('Main menu one handler', () => {
     it('repeats the main menu when 0 is pressed', () => {
         state.vars.mainMenu = '1st-flow-full-menu';
         mainMenuOneHandler('0');
+        expect(call.vars.mainMenuOneHandlerCount).toEqual(1);
         expect(playAudio).toHaveBeenCalledWith(
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610983346/3e4d5fd3f204/1st_flow_main_menu_full.wav'
         );
@@ -93,6 +99,7 @@ describe('Main menu one handler', () => {
         mainMenuOneHandler('8');
         mainMenuOneHandler('7');
         mainMenuOneHandler('6');
+        expect(call.vars.mainMenuOneHandlerCount).toEqual(3);
         expect(hangUp).toHaveBeenCalled();
     });
 
@@ -100,6 +107,7 @@ describe('Main menu one handler', () => {
         mainMenuOneHandler('8');
         mainMenuOneHandler('7');
         mainMenuOneHandler('0');
+        expect(call.vars.mainMenuOneHandlerCount).toEqual(3);
         expect(state.vars.invalidInputAttempts).toEqual(0);
         expect(hangUp).not.toHaveBeenCalled();
     });

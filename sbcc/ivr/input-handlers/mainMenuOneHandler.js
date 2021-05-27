@@ -4,6 +4,8 @@ var invalidAttempts = require('../../utils/invalidAttempts');
 
 module.exports = function(input) {
     notifyELK();
+    call.vars.mainMenuOneHandlerCount = call.vars.mainMenuOneHandlerCount ? call.vars.mainMenuOneHandlerCount + 1 : 1;
+    var count = call.vars.mainMenuOneHandlerCount;
     var lang = state.vars.lang;
     var mainMenu = state.vars.mainMenu;
     var latestEpisode = state.vars.latestEpisode;
@@ -14,24 +16,28 @@ module.exports = function(input) {
         invalidAttempts.clear();
         playAudio(getAudioLink(lang, latestEpisode));
         state.vars.played = latestEpisode;
+        call.vars['mainMenuOnePlayed_'+ count] = latestEpisode;
         playAudio(getAudioLink(lang, 'episode-menu'));
         promptKey('selectedTipOrEpisode1');
     } else if (input === '2' && (mainMenu === 'menu-with-prev-latest-ep-and-tip' || mainMenu === '1st-flow-full-menu')) {
         invalidAttempts.clear();
         playAudio(getAudioLink(lang, latestTip));
         state.vars.played = latestTip;
+        call.vars['mainMenuOnePlayed_'+ count] = latestTip;
         playAudio(getAudioLink(lang, 'tip-menu'));
         promptKey('selectedTipOrEpisode1');
     } else if (input === '3' && (mainMenu === 'menu-with-only-latest-and-prev-ep' || mainMenu === 'menu-with-prev-latest-ep-and-tip' || mainMenu === '1st-flow-full-menu')) {
         invalidAttempts.clear();
         playAudio(getAudioLink(lang, previousEpisode));
         state.vars.played = previousEpisode;
+        call.vars['mainMenuOnePlayed_'+ count] = previousEpisode;
         playAudio(getAudioLink(lang, 'episode-menu'));
         promptKey('selectedTipOrEpisode1');
     } else if (input === '4' && mainMenu === '1st-flow-full-menu') {
         invalidAttempts.clear();
         playAudio(getAudioLink(lang, previousTip));
         state.vars.played = previousTip;
+        call.vars['mainMenuOnePlayed_'+ count] = previousTip;
         playAudio(getAudioLink(lang, 'tip-menu'));
         promptKey('selectedTipOrEpisode1');
     } else if (input === '0') {
