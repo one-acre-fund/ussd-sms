@@ -147,10 +147,13 @@ module.exports = function(){
     opts.data = dataJSON;
     try{
         var response = httpClient.request(url,opts);
+        console.log('elk response status code is ' + response.status);
         if(response.status != 200){
             var logger = new Log();
             console.log('bad response sending data to ELK');
             logger.warn('Failed to send ELK notification :',{data: response});
+        } else {
+            console.log('elk notification service successfully invoked');
         }
     }
     catch(e){
