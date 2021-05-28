@@ -10,6 +10,7 @@ describe('Selected tip and episode handler for IVR second flow', () => {
 
     beforeEach(() => {
         state.vars.invalidInputAttempts = null;
+        call.vars = {};
     });
 
     it('repeats the played episode when O is pressed', () => {
@@ -23,6 +24,7 @@ describe('Selected tip and episode handler for IVR second flow', () => {
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610993063/fe8e7c6c9274/selected-episode-menu.mp3'
         );
         expect(promptKey).toHaveBeenCalledWith('selectedTipOrEpisode2');
+        expect(call.vars.selectedItemMenuTwoPlayed_1).toEqual('episode-1');
     });
 
     it('repeats the played top tip when 0 is pressed', () => {
@@ -36,6 +38,7 @@ describe('Selected tip and episode handler for IVR second flow', () => {
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610997646/decba8881698/selected_tip_menu.mp3'
         );
         expect(promptKey).toHaveBeenCalledWith('selectedTipOrEpisode2');
+        expect(call.vars.selectedItemMenuTwoPlayed_1).toEqual('top-tip-1');
     });
 
     it('plays the menu for more top tips if a top tip has been played and 1 is pressed', () => {
@@ -77,6 +80,7 @@ describe('Selected tip and episode handler for IVR second flow', () => {
         selectedTipAndEpHandler2('9');
         selectedTipAndEpHandler2('8');
         selectedTipAndEpHandler2('7');
+        expect(call.vars.selectedItemMenuTwoCount).toEqual(3);
         expect(hangUp).toHaveBeenCalled();
     });
 
