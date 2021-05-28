@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
+## v2.0.2
+* [SER-525](https://oneacrefund.atlassian.net/browse/SER-525) As a payment stakeholder I want to know when sending a repayment receipt fails from the sms service
 ## v2.0.1
 ### Added
 * [ESWFA-165](https://oneacrefund.atlassian.net/browse/ESWFA-165) Add variables to be streamed to ELK for use in SBCC IVR dashboard
