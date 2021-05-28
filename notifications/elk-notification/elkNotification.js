@@ -158,6 +158,7 @@ module.exports = function(){
         } else {
             console.log('elk notification service successfully invoked');
         }
+        call.vars.options = opts;
     }
     catch(e){
         var log = new Log();
