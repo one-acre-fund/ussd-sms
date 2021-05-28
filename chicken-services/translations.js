@@ -32,9 +32,13 @@ module.exports = {
         'ki': 'Ugiye kwemeza inkoko $number . Ideni ryawe ryose ry\'nkoko ni Frw $price. Inkoko zawe zizaboneka mu kwezi gutaha!\n1: Emeza\n0: Subira inyuma'
         
     },
+    'delivery_window': {
+        'en': 'The chickens that you confirmed will be delivered during $delivery_window. Do you still want to confirm?\n1.Yes\n0. Return home',
+        'ki': 'Umubare $chicken_number w\'inkoko wemeje uzakugeraho hagati mukwezi $delivery_window.\n1: Emeza\n0: Subira inyuma'
+    },
     'chicken_ordering_final_msg': {
-        'en': 'Congratulations, you have confirmed $number chickens. Thank you for trusting TUBURA.',
-        'ki': 'Nibyiza, wemeje inkoko $number. Urakoze kwizera TUBURA.'
+        'en': 'Congratulations, you have confirmed $number chickens. Your FO will inform you on delivery date and location. Thank you for trusting TUBURA.',
+        'ki': 'Byizaaa, wemeje inkoko $number. Umukangurambaga wawe azakumenyesha itariki naho ifata rizabera. Urakoze kwizera TUBURA.'
     },
     'client_not_found_in_table': {
         'en': 'Sorry, your account number is not found',

@@ -1,9 +1,10 @@
 service.vars.lang = 'en';
 const {handlerName,getHandler} = require ('./changeOrderConfirmation');
-var notifyELK = require('../../notifications/elk-notification/elkNotification'); 
-var CheckChickenCapByDistrict = require('../check-chicken-cap-by-district/CheckChickenCapByDistrict');
-var backToMain = require('../../rw-legacy/lib/backToMainMenu');
+const notifyELK = require('../../notifications/elk-notification/elkNotification'); 
+const CheckChickenCapByDistrict = require('../check-chicken-cap-by-district/CheckChickenCapByDistrict');
+const backToMain = require('../../rw-legacy/lib/backToMainMenu');
 const {client}  = require('../test-client-data'); 
+const confirmDeliveryWindowHandler = require('../confirm-delivery-window-handler/confirmDeliveryWindowHandler');
 
 jest.mock('../check-chicken-cap-by-district/CheckChickenCapByDistrict');
 jest.mock('../../notifications/elk-notification/elkNotification');
@@ -13,8 +14,10 @@ describe('change_order_confirm', () => {
     var changeOrderHandler;
     var onOrderFinalized;
     const confirmed_number = '2';
+    const capsDetails = {delivery_window_en: '10 to 30 march'};
     beforeAll(()=>{
         state.vars.client_json = JSON.stringify(client);
+        state.vars.capsDetails = JSON.stringify(capsDetails);
     });
     beforeEach(() => {
         sayText.mockReset();
@@ -45,11 +48,14 @@ describe('change_order_confirm', () => {
         changeOrderHandler('7');
         expect(promptDigits).toHaveBeenCalledWith(handlerName);
     });
-    it('should call the onFinalized handler if successful', () => {
+    it('should prompt for confirming the delivery window information if successful', () => {
         CheckChickenCapByDistrict.mockReturnValue(4);
         state.vars.confirmed_number = 2;
         changeOrderHandler('1');
-        expect(onOrderFinalized).toBeCalled();
+        expect(sayText).toHaveBeenCalledWith('The chickens that you confirmed will be delivered during 10 to 30 march. Do you still want to confirm?\n' +
+        '1.Yes\n' +
+        '0. Return home');
+        expect(promptDigits).toHaveBeenCalledWith(confirmDeliveryWindowHandler.handlerName);
     });
     it('should display a message asking the client to try again later if the maximum number of chicken would be greater than the district cap when an order is confirmed', () => {
         CheckChickenCapByDistrict.mockReturnValue(4);
