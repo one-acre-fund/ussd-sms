@@ -64,7 +64,7 @@ function setTimeElapsedBetweenUssdAndIvr() {
     var timeAnswered = Date.now();
     call.vars.time_answered = new Date(timeAnswered).toString();
     call.vars.time_from_ussd_to_ivr = Math.floor(
-        (timeAnswered - new Date(contact.vars.sbcc_ussd_end_time).getTime()) / 1000);
+        (timeAnswered - new Date(contact.vars.sbcc_ussd_ended_at).getTime()) / 1000);
 }
 
 /**
