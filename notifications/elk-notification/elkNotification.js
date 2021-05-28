@@ -146,6 +146,9 @@ module.exports = function(){
     opts.method = 'POST';
     opts.data = dataJSON;
     try{
+        console.log(opts.data);
+        var infoLogger = new Log();
+        infoLogger.warn('telerivet request data :',{data: opts.data});
         var response = httpClient.request(url,opts);
         console.log('elk response status code is ' + response.status);
         if(response.status != 200){
