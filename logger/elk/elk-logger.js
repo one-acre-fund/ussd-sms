@@ -1,5 +1,4 @@
 var requestLogger = require('../data-table/request-logger');
-var _ = require('underscore');
 
 function sendRequest(baseURL, path, msg, options) {
     var data = {
