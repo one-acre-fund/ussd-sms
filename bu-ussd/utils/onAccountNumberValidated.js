@@ -12,6 +12,7 @@ module.exports = function onAccountNumberValidated(lang, client) {
     state.vars.client_json = JSON.stringify(reduceClientSize(client));
     var isGroupLeader = checkGroupLeader(client && client.DistrictId, client && client.ClientId);
     state.vars.isGroupLeader = isGroupLeader;
+    console.log('###############################'+isGroupLeader);
     var getMessage = translator(translations, lang);
     var filteredOptions = getOptions(menuOptions);
     var optionNames = {};
