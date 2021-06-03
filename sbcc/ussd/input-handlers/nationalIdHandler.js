@@ -16,6 +16,8 @@ module.exports = function nationalIdHandler(input) {
     if (nationalIdCursor.hasNext()) {
         var record = nationalIdCursor.next().vars;
         state.vars.pin = record.pin;
+        contact.vars.sbccAge = record.age;
+        contact.vars.sbccGender = record.gender;
 
         // Reset incorrect attempts in case user got it right on second attempt
         state.vars.incorrectIdAttempts = 0;

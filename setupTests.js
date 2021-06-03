@@ -70,3 +70,4 @@ project.scheduleMessage = jest.fn();
 global.playAudio = jest.fn();
 global.promptKey = jest.fn();
 global.hangUp = jest.fn();
+global.addEventListener = jest.fn();

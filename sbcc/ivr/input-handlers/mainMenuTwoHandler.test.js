@@ -10,6 +10,7 @@ describe('Main menu two handler', () => {
 
     beforeEach(() => {
         state.vars.invalidInputAttempts = null;
+        call.vars = {};
     });
 
     it('plays the latest episode when 1 is pressed', () => {
@@ -20,6 +21,7 @@ describe('Main menu two handler', () => {
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611040984/8d68177a060f/ep4_intro_recap.mp3'
         );
         expect(state.vars.played).toEqual('episode-4');
+        expect(call.vars.mainMenuTwoPlayed_1).toEqual('episode-4');
         expect(playAudio).toHaveBeenLastCalledWith(
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610463660/eaab86509562/episode_menu.mp3'
         );
@@ -63,6 +65,7 @@ describe('Main menu two handler', () => {
         mainMenuTwoHandler('5');
         mainMenuTwoHandler('7');
         mainMenuTwoHandler('6');
+        expect(call.vars.mainMenuTwoHandlerCount).toEqual(3);
         expect(hangUp).toHaveBeenCalled();
     });
 

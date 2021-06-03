@@ -4,12 +4,15 @@ var invalidAttempts = require('../../utils/invalidAttempts');
 
 module.exports = function (input) {
     notifyELK();
+    call.vars.mainMenuTwoHandlerCount = call.vars.mainMenuTwoHandlerCount ? call.vars.mainMenuTwoHandlerCount + 1 : 1;
+    var count = call.vars.mainMenuTwoHandlerCount;
     var lang = state.vars.lang;
     var latestEpisode = state.vars.latestEpisode;
     if (input === '1') {
         invalidAttempts.clear();
         playAudio(getAudioLink(lang, latestEpisode));
         state.vars.played = latestEpisode;
+        call.vars['mainMenuTwoPlayed_'+ count] = latestEpisode;
         playAudio(getAudioLink(lang, 'episode-menu'));
         promptKey('selectedTipOrEpisode1');
     } else if (input === '2') {
