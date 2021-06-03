@@ -43,10 +43,10 @@ if(env === 'prod'){
 }else{
     service.vars.season_clients_table = 'dev_' + project.vars.season_clients_table;
     service.vars.client_enrollment_table = 'dev_' + project.vars.client_enrollment_data;
-    service.vars.input21ATable = 'dev_' + project.vars.input21ATable;
+    service.vars.input21ATable = project.vars.dev_inputTable21A;
     service.vars.input21ATable_id = project.vars.dev_input21ATable_id;
     service.vars.RegistrationSessions = 'dev_'+ project.vars.RegistrationSessions;
-    service.vars['21a_client_data_id'] = project.vars['dev_21a_client_data_id'];
+    service.vars['21a_client_data_id'] = 'DT780a3051f1ba4d89';//project.vars['dev_21a_client_data_id'];
     service.vars.client_enrollment_table_id = project.vars.dev_client_enrollment_data_id;
     service.vars.market_access_table_id = 'DT627b1e89d0150102';
     service.vars.Valid_Serial_Number_table = 'dev_Valid_Serial_Number';
@@ -1466,7 +1466,9 @@ addInputHandler('enr_input_splash', function (input) { //main input menu
         }
         else {
             var selection = get_menu_option(input, product_menu_table_name,state.vars.client_districtId);
+            console.log("##########################input"+input + "table name###"+product_menu_table_name+ "District######"+ state.vars.client_districtId)
             if (selection == null) {
+                console.log("##############+ null");
                 sayText(msgs('enr_invalid_product_selection', {}, lang))
                 promptDigits('invalid_input', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
             }

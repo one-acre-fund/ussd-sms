@@ -40,6 +40,7 @@ module.exports = function (account_number,  client_id, clientTable) {
     console.log("####inputs:");
     var districtId, siteId, groupId, group_code;
     var cursor = clientTable.queryRows({vars:{'account_number':state.vars.account_number}});
+    console.log("£££££££:"+clientTable+" "+state.vars.account_number);
     var isGroupLeader = false;
     if(cursor.hasNext()){
         var row = cursor.next();
