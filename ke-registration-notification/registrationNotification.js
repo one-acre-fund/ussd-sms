@@ -13,14 +13,12 @@ try {
         '$AccountNumber': contact.vars.accountnumber
     }, lang);
 
-    var sentSMS = project.sendMessage({
+    project.sendMessage({
         content: messageContent,
         to_number: contact.phone_number,
         route_id: project.vars.repayments_sms_route,
         message_type: 'sms'
     });
-
-    console.log(JSON.stringify(sentSMS));
 
 } catch (ex) {
     console.log('#########################error sending message#########################');
