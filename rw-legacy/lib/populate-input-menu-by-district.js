@@ -5,10 +5,10 @@ tables accessed by this function should have a field for each lang, plus an 'opt
 option number is the numbered option that will apear in the menu
 option name is the name of the response handler that will handle the selected option
 */
-var getBundles = require('../dat/district-bundles');
+var bundles = require('../dat/district-bundles');
 var msgs = require('./msg-retrieve'); 
 
-var bundles = getBundles();
+//var bundles = getBundles();
 
 function countOptions(){
     var count ={};

@@ -405,8 +405,10 @@ addInputHandler('cor_menu_select', function (input) {
             //var product_menu_table_name = prod_menu_select(state.vars.client_geo, geo_menu_map);
             var product_menu_table_name = service.vars.input21ATable;
             state.vars.product_menu_table_name = product_menu_table_name;
+            //var populate_district_inputs_menu = require('./lib/populate-input-menu-by-district');
             var populate_district_inputs_menu = require('./lib/populate-input-menu-by-district');
             var menu = populate_district_inputs_menu(lang);
+            //var menu = populate_district_inputs_menu(lang);
             if (typeof (menu) == 'string') {
                 state.vars.current_menu_str = menu;
                 sayText(menu);
