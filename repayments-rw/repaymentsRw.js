@@ -82,7 +82,6 @@ try{
     console.log(transactionLog);
     console.log('healthy path ' + receipt);
     var msg_route = project.vars.sms_push_route;
-    //project.sendMessage({'to_number' : phone_number,'route_id' : msg_route, 'content' : message});
     var messageSent = project.sendMessage({
         content: receipt, 
         to_number: contact.phone_number,
