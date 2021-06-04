@@ -2,6 +2,7 @@ var notifyELK = require('../../../notifications/elk-notification/elkNotification
 var getAudioLink = require('../../utils/getAudioLink');
 var episodes = require('../../data/episodes');
 var invalidAttempts = require('../../utils/invalidAttempts');
+var addPlayedItem = require('../../utils/addPlayedItem');
 
 module.exports = function(input) {
     notifyELK();
@@ -17,6 +18,7 @@ module.exports = function(input) {
         selectedEpisode = episodes[episodes.length - 7].name;
         playAudio(getAudioLink(lang, selectedEpisode));
         state.vars.played = selectedEpisode;
+        addPlayedItem(selectedEpisode);
         call.vars['olderEpisodesMenuTwoPlayed_' + count] = selectedEpisode;
         playAudio(getAudioLink(lang, selectedEpisodeMenu));
         promptKey('selectedTipOrEpisode2');
@@ -26,6 +28,7 @@ module.exports = function(input) {
         selectedEpisode = episodes[episodes.length - 8].name;
         playAudio(getAudioLink(lang, selectedEpisode));
         state.vars.played = selectedEpisode;
+        addPlayedItem(selectedEpisode);
         call.vars['olderEpisodesMenuTwoPlayed_' + count] = selectedEpisode;
         playAudio(getAudioLink(lang, selectedEpisodeMenu));
         promptKey('selectedTipOrEpisode2');
@@ -35,6 +38,7 @@ module.exports = function(input) {
         selectedEpisode = episodes[episodes.length - 9].name;
         playAudio(getAudioLink(lang, selectedEpisode));
         state.vars.played = selectedEpisode;
+        addPlayedItem(selectedEpisode);
         call.vars['olderEpisodesMenuTwoPlayed_' + count] = selectedEpisode;
         playAudio(getAudioLink(lang, selectedEpisodeMenu));
         promptKey('selectedTipOrEpisode2');
@@ -44,6 +48,7 @@ module.exports = function(input) {
         selectedEpisode = episodes[episodes.length - 10].name;
         playAudio(getAudioLink(lang, selectedEpisode));
         state.vars.played = selectedEpisode;
+        addPlayedItem(selectedEpisode);
         call.vars['olderEpisodesMenuTwoPlayed_' + count] = selectedEpisode;
         playAudio(getAudioLink(lang, selectedEpisodeMenu));
         promptKey('selectedTipOrEpisode2');
@@ -53,6 +58,7 @@ module.exports = function(input) {
         selectedEpisode = episodes[episodes.length - 11].name;
         playAudio(getAudioLink(lang, selectedEpisode));
         state.vars.played = selectedEpisode;
+        addPlayedItem(selectedEpisode);
         call.vars['olderEpisodesMenuTwoPlayed_' + count] = selectedEpisode;
         playAudio(getAudioLink(lang, selectedEpisodeMenu));
         promptKey('selectedTipOrEpisode2');
@@ -62,6 +68,7 @@ module.exports = function(input) {
         selectedEpisode = episodes[episodes.length - 12].name;
         playAudio(getAudioLink(lang, selectedEpisode));
         state.vars.played = selectedEpisode;
+        addPlayedItem(selectedEpisode);
         call.vars['olderEpisodesMenuTwoPlayed_' + count] = selectedEpisode;
         playAudio(getAudioLink(lang, selectedEpisodeMenu));
         promptKey('selectedTipOrEpisode2');

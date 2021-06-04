@@ -46,7 +46,7 @@ if(env === 'prod'){
     service.vars.input21ATable = project.vars.dev_inputTable21A;
     service.vars.input21ATable_id = project.vars.dev_input21ATable_id;
     service.vars.RegistrationSessions = 'dev_'+ project.vars.RegistrationSessions;
-    service.vars['21a_client_data_id'] = dev_22AClientTableID;
+    service.vars['21a_client_data_id'] = project.vars.dev_22AClientTableID;
     service.vars.client_enrollment_table_id = project.vars.dev_client_enrollment_data_id;
     service.vars.market_access_table_id = 'DT627b1e89d0150102';
     service.vars.Valid_Serial_Number_table = 'dev_Valid_Serial_Number';
