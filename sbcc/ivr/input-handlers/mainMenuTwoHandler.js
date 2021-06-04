@@ -1,6 +1,7 @@
 var notifyELK = require('../../../notifications/elk-notification/elkNotification');
 var getAudioLink = require('../../utils/getAudioLink');
 var invalidAttempts = require('../../utils/invalidAttempts');
+var addPlayedItem = require('../../utils/addPlayedItem');
 
 module.exports = function (input) {
     notifyELK();
@@ -12,6 +13,7 @@ module.exports = function (input) {
         invalidAttempts.clear();
         playAudio(getAudioLink(lang, latestEpisode));
         state.vars.played = latestEpisode;
+        addPlayedItem(latestEpisode);
         call.vars['mainMenuTwoPlayed_'+ count] = latestEpisode;
         playAudio(getAudioLink(lang, 'episode-menu'));
         promptKey('selectedTipOrEpisode1');

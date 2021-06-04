@@ -2,6 +2,7 @@ var notifyELK = require('../../../notifications/elk-notification/elkNotification
 var getAudioLink = require('../../utils/getAudioLink');
 var topTips = require('../../data/tips');
 var invalidAttempts = require('../../utils/invalidAttempts');
+var addPlayedItem = require('../../utils/addPlayedItem');
 
 module.exports = function(input) {
     notifyELK();
@@ -17,6 +18,7 @@ module.exports = function(input) {
         selectedTip = topTips[4].name;
         playAudio(getAudioLink(lang, selectedTip));
         state.vars.played = selectedTip;
+        addPlayedItem(selectedTip);
         call.vars['topTipsMenuTwoPlayed_' + count] = selectedTip;
         playAudio(getAudioLink(lang, selectedTipMenu));
         promptKey('selectedTipOrEpisode2');
@@ -26,6 +28,7 @@ module.exports = function(input) {
         selectedTip = topTips[5].name;
         playAudio(getAudioLink(lang, selectedTip));
         state.vars.played = selectedTip;
+        addPlayedItem(selectedTip);
         call.vars['topTipsMenuTwoPlayed_' + count] = selectedTip;
         playAudio(getAudioLink(lang, selectedTipMenu));
         promptKey('selectedTipOrEpisode2');
@@ -35,6 +38,7 @@ module.exports = function(input) {
         selectedTip = topTips[6].name;
         playAudio(getAudioLink(lang, selectedTip));
         state.vars.played = selectedTip;
+        addPlayedItem(selectedTip);
         call.vars['topTipsMenuTwoPlayed_' + count] = selectedTip;
         playAudio(getAudioLink(lang, selectedTipMenu));
         promptKey('selectedTipOrEpisode2');
@@ -44,6 +48,7 @@ module.exports = function(input) {
         selectedTip = topTips[7].name;
         playAudio(getAudioLink(lang, selectedTip));
         state.vars.played = selectedTip;
+        addPlayedItem(selectedTip);
         call.vars['topTipsMenuTwoPlayed_' + count] = selectedTip;
         playAudio(getAudioLink(lang, selectedTipMenu));
         promptKey('selectedTipOrEpisode2');
