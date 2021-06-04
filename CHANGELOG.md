@@ -5,7 +5,9 @@ All notable changes to this project will be documented in this file.
 ## v2.0.4
 ### Added
 * [ESWFA-173](https://oneacrefund.atlassian.net/browse/ESWFA-173) SMS notifications for registrations on Field Tech App
-* [ESWFA-175](https://oneacrefund.atlassian.net/browse/ESWFA-175) Show all played SBCC episodes and top tips in a call variable in ELK
+* [ESWFA-175](https://oneacrefund.atlassian.net/browse/ESWFA-175) Show all played SBCC 
+episodes and top tips in a call variable in ELK
+*[ESWFA-174](https://oneacrefund.atlassian.net/browse/ESWFA-174)Optimize the query for checking if the client is a GL in the table
 
 ## v2.0.3
 ### Added
