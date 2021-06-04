@@ -2,9 +2,12 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
-## v2.0.3
+## v2.0.4
 ### Added
 * [ESWFA-173](https://oneacrefund.atlassian.net/browse/ESWFA-173) SMS notifications for registrations on Field Tech App
+
+## v2.0.3
+* [THD-442](https://oneacrefund.atlassian.net/browse/THD-4442) Auto SMS is not working
 ## v2.0.2
 ### Added
 * [ESWFA-172](https://oneacrefund.atlassian.net/browse/ESWFA-172) Ensure that SBCC IVR Logs show up on Kibana
