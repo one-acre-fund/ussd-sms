@@ -81,10 +81,11 @@ try{
     receipt = receipt + hp_dist;
     console.log(transactionLog);
     console.log('healthy path ' + receipt);
-
+    var msg_route = project.vars.sms_push_route;
     var messageSent = project.sendMessage({
         content: receipt, 
         to_number: contact.phone_number,
+        route_id: msg_route,
         label_ids: [mmReceiptLabel.id]
     });
     if(messageSent === undefined || messageSent.error_message !== undefined || messageSent.status == 'failed' || messageSent.status == 'cancelled'){
