@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
-## v2.0.3
+## v2.0.4
 *[ESWFA-174](https://oneacrefund.atlassian.net/browse/ESWFA-174)Optimize the query for checking if the client is a GL in the table
 ## v2.0.2
 ### Added
