@@ -33,7 +33,7 @@ describe('Registration Notification SMS', () => {
     it('sends an sms to the registered client', () => {
         contact.vars.lang = 'en';
         require('./registrationNotification');
-        expect(project.sendMessage).toHaveBeenCalledWith({'content': 'John, thank you for joining One Acre Fund! Begin paying toward your loan now by making a payment via MPESA with your Account Number (0132345432). Your FO will follow up with you.',
+        expect(project.sendMessage).toHaveBeenCalledWith({'content': 'Hello John, thank you for joining One Acre Fund! Begin paying toward your loan now by making a payment via MPESA with your Account Number (0132345432). Your FO will follow up with you.',
             'to_number': '0755432334',
             'route_id': '12345',
             'message_type': 'sms'
@@ -43,7 +43,7 @@ describe('Registration Notification SMS', () => {
     it('sends an sms to the registered client in english if lang is en-ke', () => {
         contact.vars.lang = 'en-ke';
         require('./registrationNotification');
-        expect(project.sendMessage).toHaveBeenCalledWith({'content': 'John, thank you for joining One Acre Fund! Begin paying toward your loan now by making a payment via MPESA with your Account Number (0132345432). Your FO will follow up with you.',
+        expect(project.sendMessage).toHaveBeenCalledWith({'content': 'Hello John, thank you for joining One Acre Fund! Begin paying toward your loan now by making a payment via MPESA with your Account Number (0132345432). Your FO will follow up with you.',
             'to_number': '0755432334',
             'route_id': '12345',
             'message_type': 'sms'
