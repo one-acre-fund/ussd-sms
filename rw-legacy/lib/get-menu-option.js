@@ -21,7 +21,7 @@ module.exports = function(menu_option, menu_table,districtId){
         }
         var option = selections[0];
         if (districtId) {
-            if (option['d' + districtId] != 1) {
+            if (option['d' + districtId] !== 1) {
                 return null;
             }
         }
