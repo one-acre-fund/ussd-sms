@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
+
+## v2.0.5
+### Changed
+* [THD-4442](https://oneacrefund.atlassian.net/browse/THD-4442) Auto SMS is not working - Update the season name to 21A+B
 ## v2.0.4
 ### Added
 * [ESWFA-173](https://oneacrefund.atlassian.net/browse/ESWFA-173) SMS notifications for registrations on Field Tech App

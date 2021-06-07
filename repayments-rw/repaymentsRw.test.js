@@ -59,7 +59,7 @@ describe('Rwandan repayments', () => {
         'Mwishyuye 250 RWF\n' +
         'No y\'igikorwa: 123\n' +
         'No ya konti: 12345678\n' +
-        'ayishyuwe yose 19A+B: 150 RWF\n' +
+        'ayishyuwe yose 21A+B: 150 RWF\n' +
         'Kanda *801*0# kuyandi makuru\n' + 
         'Ishyura 300 ugume murongo mwiza w\'ubwishyu\n' , 'label_ids': ['123'], 'to_number': '0788445637'});
     });
