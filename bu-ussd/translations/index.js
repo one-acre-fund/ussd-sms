@@ -11,7 +11,7 @@ module.exports = {
     },
     'account_to_be_enrolled': {
         'en_bu': 'Enter the account number of the farmer you want to order for',
-        'bu': 'Shyiramo i nomero ya konti y\'umuhinzi ushaka gusabira inyongeramwimbu',
+        'bu': 'Shiramwo i nomero ya konti y\'umurimyi ushaka gusabira ',
         'fr_bu': 'Entrez le numero de compte de l\'agriculteur pour lequel vous souhaitez commander'
     },
     'not_in_the_same_group': {

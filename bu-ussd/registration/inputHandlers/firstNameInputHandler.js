@@ -9,6 +9,7 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(language) {
         return function(input) {
+            input = input.replace(/[^a-zA-Z]/gi, '');
             notifyELK();
             var getMessage = translator(translations, language);
             state.vars.first_name = input;

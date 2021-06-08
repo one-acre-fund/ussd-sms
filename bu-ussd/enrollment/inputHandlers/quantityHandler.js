@@ -3,6 +3,9 @@ var translator = require('../../../utils/translator/translator');
 
 var handlerName = 'bu_enr_quantity_handler';
 
+function roundHalf(num) {
+    return Math.round(num*2)/2;
+}
 module.exports = {
     handlerName: handlerName,
     getHandler: function(language, onQuantitySelected) {
@@ -21,7 +24,7 @@ module.exports = {
                 return;
             }
             
-            var quantity = parseInt(input.trim());
+            var quantity = roundHalf(parseFloat(input.trim()));
             if(max == 'INFINITY') {
                 max = quantity * 2;
             } else {

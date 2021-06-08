@@ -1,7 +1,7 @@
 module.exports = {
     'bundles_title': {
         'en_bu': 'Select a Product for $firstName $lastName',
-        'bu': 'Hitamo ivyasabwe vya $firstName $lastName',
+        'bu': 'Hitamwo ivyasabwe vya $firstName $lastName',
         'fr_bu': 'Selectionnez un produit pour $firstName $lastName'
     },
     'next_screen': {
