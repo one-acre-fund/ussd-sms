@@ -20,6 +20,11 @@ module.exports = {
         'fr_bu': '1) Continuer a commander\n2) Confirmer et finaliser'
     },
     'finalize': {
+        'en_bu': '$firstName $lastName ordered for \n$order',
+        'bu': '$firstName $lastName ivyasabwe vy\' \n$order',
+        'fr_bu': '$firstName $lastName commandes pour \n$order'
+    },
+    'finalize_order': {
         'en_bu': '$firstName $lastName ordered for \n$order\n$menu',
         'bu': '$firstName $lastName ivyasabwe vy\' \n$order\n$menu',
         'fr_bu': '$firstName $lastName commandes pour \n$order\n$menu'

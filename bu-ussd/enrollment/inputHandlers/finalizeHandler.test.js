@@ -12,6 +12,8 @@ describe('finalize handler', () => {
         state.vars.bundles = JSON.stringify([{}, {}, {}]);
         state.vars.selected_bundles = JSON.stringify([{}, {}]);
         state.vars.finalize_screen = 'finalize screen';
+        state.vars.OnOrderFinalizeMenus = JSON.stringify({1: 'finalize screen'});
+        state.vars.current_input_menu = 1;
     });
     it('should reprompt on empty input', () => {
         var handler = finalizeHandler.getHandler('en_bu');
