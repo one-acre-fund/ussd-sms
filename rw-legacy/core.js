@@ -1238,7 +1238,7 @@ addInputHandler('reg_group_constitution_confirm',function(input){
             console.log('is gl? : ' + is_gl);
             var enr_msg = msgs('enr_reg_complete', { '$ACCOUNT_NUMBER': state.vars.account_number, '$NAME': state.vars.reg_name_2 }, lang);
             sayText(enr_msg);
-            //promptDigits('reg_end_ordering_redirect', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            promptDigits('reg_end_ordering_redirect', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
             //retreive ads per district entered by the user
             var retrieveAd = require('./lib/enr-retrieve-ad-by-district');
             var districtId = state.vars.districtId;
