@@ -2,7 +2,7 @@ var translations = require('../translations/index');
 var translator = require('../../../utils/translator/translator');
 var finalizeHandler = require('../inputHandlers/finalizeHandler');
 var onKeepOrdering = require('./onKeepOrdering');
-var SplitMenu = require('../../../shared/splitLongMenu');
+var splitMenu = require('../../../shared/splitLongMenu');
 
 module.exports = function(lang, input) {
     var getMessage = translator(translations, lang);
@@ -33,7 +33,7 @@ module.exports = function(lang, input) {
             '$lastName': client.LastName
         }, lang);
 
-        var menus = SplitMenu(finalizeScreen,getMessage('next_screen', {}),finalizeMenu);
+        var menus = splitMenu(finalizeScreen,getMessage('next_screen', {}),finalizeMenu);
         //state.vars.bundles_screens = JSON.stringify(createdMenu.screens);
         //state.vars.bundles_option_values = JSON.stringify(createdMenu.optionValues);
         //state.vars.current_bundles_menu = '1';

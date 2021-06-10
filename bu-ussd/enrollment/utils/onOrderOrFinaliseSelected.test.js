@@ -45,20 +45,6 @@ describe('on order or finalise selected', () => {
         '2) Change Order\n' +
         '3) Confirm'});
         onOrderOrFinaliseSelected('en_bu', '2');
-        /*expect(state.vars.finalize_screen).toEqual('Jammie Lanyster ordered for \n' +
-        'Biolite : 4 unit\n' +
-        'Maize : 320 kg\n\n' +
-        'Total Credit = 19680\n\n' +
-        '1) Add another product\n' +
-        '2) Change Order\n' +
-        '3) Confirm');
-        expect(sayText).toHaveBeenCalledWith('Jammie Lanyster ordered for \n' +
-        'Biolite : 4 unit\n' +
-        'Maize : 320 kg\n\n' +
-        'Total Credit = 19680\n\n' +
-        '1) Add another product\n' +
-        '2) Change Order\n' +
-        '3) Confirm');*/
         expect(sayText).toHaveBeenCalledWith('Jammie Lanyster ordered for \n' +
         'Biolite : 4 unit\n' +
         'Maize : 320 kg\n\n' +
