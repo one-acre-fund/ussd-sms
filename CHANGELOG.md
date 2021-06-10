@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v2.0.6
+* [ESWFA-182](https://oneacrefund.atlassian.net/browse/ESWFA-182) As a Client, I want to immediately continue ordering after registration instead of starting over
 ## v2.0.5
 ### Changed
 * [THD-4442](https://oneacrefund.atlassian.net/browse/THD-4442) Auto SMS is not working - Update the season name to 21A+B
