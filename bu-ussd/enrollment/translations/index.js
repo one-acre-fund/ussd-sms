@@ -54,6 +54,11 @@ module.exports = {
         'bu': 'commander\n',
         'fr_bu': 'Ivyasabwe\n'
     },
+    'already_enrolled': {
+        'en_bu': 'This farmer has already placed an order. If you wish to change please call the call center',
+        'bu': 'Muradutunge, igihe co gusaba inyongeramwimbu cararenze. Mwipfuza guhindura, mwohamagara ku nimero itariha. Murakoze',
+        'fr_bu': 'This farmer has already placed an order. If you wish to change please call the call center'
+    },
     'sample': {
         'en_bu': '',
         'bu': '',

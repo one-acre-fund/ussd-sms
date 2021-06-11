@@ -19,6 +19,27 @@ module.exports = {
         'bu': 'Umuhinzi ntago ari mu itsinda ryawe\n',
         'fr_bu': 'L\'agriculteur ne fait pas partie de votre groupe\n'
     },
+    'enrollment_category': {
+        'en_bu': '1) Enroll Farmers in my group\n2) Enroll Farmer in a different group',
+        'bu': '1) Enroll Farmers in my group\n2) Enroll Farmer in a different group',
+        'fr_bu': '1) Enroll Farmers in my group\n2) Enroll Farmer in a different group'
+    },
+    'group_code_msg': {
+        'en_bu': 'Enter group code of the client you want to order for',
+        'bu': 'Enter group code of the client you want to order for',
+        'fr_bu': 'Enter group code of the client you want to order for'
+
+    },
+    'different_geo': {
+        'en_bu': 'The farmer  you are trying to enroll is registered in a different site or district',
+        'bu': 'Umurimyi muriko murandikisha asanzwe yanditse ku wundi mutumba',
+        'fr_bu': 'The farmer  you are trying to enroll is registered in a different site or district'
+    },
+    'different_geo_code': {
+        'en_bu': 'The farmer  you are trying to enroll is registered in a different site or district than the code provided',
+        'bu': 'Umurimyi muriko murandikisha asanzwe yanditse ku wundi mutumba',
+        'fr_bu': 'The farmer  you are trying to enroll is registered in a different site or district'
+    },
     'sample': {
         'en_bu': '',
         'bu': '',

@@ -13,6 +13,19 @@ function filterPhones(phoneNumbers) {
         return record.IsInactive === false;
     });
 }
+function saveClientInTable(client, groupInfo) {
+    var table = project.initDataTableById(service.vars.client_table_id);
+    var row = table.createRow({
+        vars: {
+            'account_number': client.AccountNumber,
+            'district_id': client.DistrictID,
+            'site_id': client.SiteID,
+            'group_id': groupInfo.groupId,
+            'registered': '1'
+        }
+    });
+    row.save();
+}
 
 module.exports = {
     handlerName: handlerName,
@@ -62,6 +75,7 @@ module.exports = {
                     var smsMessage = getMessage('successfull_registration_sms', {'$account_number': registeredClient.AccountNumber}, language);
                     var slicedFarmerPhone = FarmerphoneNumber && FarmerphoneNumber.slice(-9);
                     var slicedSessionNumber = contact.phone_number && contact.phone_number.slice(-9);
+                    saveClientInTable(registeredClient,groupInfo.groupId);
                     var messages =  [{
                         'content': smsMessage,
                         'to_number': contact.phone_number 
