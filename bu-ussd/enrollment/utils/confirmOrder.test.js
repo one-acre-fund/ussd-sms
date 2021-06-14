@@ -45,7 +45,8 @@ describe('confirm order', () => {
             }
         ]);
     });
-    const tableMock = {createRow: jest.fn()};
+    const tableMock = {createRow: jest.fn(), queryRows: jest.fn()};
+    const cursorMock = {hasNext: jest.fn(), next: jest.fn()};
     jest.spyOn(project, 'initDataTableById').mockReturnValue(tableMock);
     beforeEach(() => {
         CheckGroupLeader.mockReturnValueOnce(true);
@@ -60,7 +61,7 @@ describe('confirm order', () => {
             }
         ]);
     });
-    it('should display an error and terminate the session of there is an error enrolling', () => {
+    it('should display an error and terminate the session if there is an error enrolling', () => {
         enrollOrder.mockReturnValueOnce(false);
         confirmOrder('en_bu');
         expect(sayText).toHaveBeenCalledWith('There was an error please try again/later');
@@ -68,8 +69,11 @@ describe('confirm order', () => {
     });
 
     it('should enroll the order and send a message of products ordered', () => {
-        const rowMock = {save: jest.fn()};
+        const rowMock = {save: jest.fn(), vars: {finalized: 1}};
         jest.spyOn(tableMock, 'createRow').mockReturnValueOnce(rowMock);
+        jest.spyOn(tableMock, 'queryRows').mockReturnValueOnce(cursorMock);
+        jest.spyOn(cursorMock, 'hasNext').mockReturnValueOnce(true);
+        jest.spyOn(cursorMock, 'next').mockReturnValueOnce(rowMock);
         enrollOrder.mockReturnValueOnce(true);
         confirmOrder('en_bu');
         expect(sayText).toHaveBeenCalledWith('Order\n' +

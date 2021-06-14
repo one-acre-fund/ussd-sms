@@ -6,21 +6,6 @@ var notifyELK = require('../../notifications/elk-notification/elkNotification');
 var reduceClientSize = require('../../shared/reduceClientSize');
 
 var handlerName = 'bu_pre_enrollment_handler';
-
-/*function getNewClientInfoFromTable(accountNumber){
-    var table = project.initDataTableById(service.vars.client_table_id);
-    var cursor = table.queryRows({vars: {accountNumber: accountNumber}});
-    if(cursor.hasNext()){
-        var row = cursor.next();
-        var clientInfo = {
-            districtId: row.vars.district_id,
-            siteId: row.vars.site_id,
-            groupId: row.vars.group_id
-        };
-        return clientInfo;
-    }
-    return false;
-}*/
 module.exports = {
     handlerName: handlerName,
     getHandler: function(lang) {
@@ -31,30 +16,38 @@ module.exports = {
             var clientTobeEnrolled = getClient(accountNumber, project.vars.country);
             if(clientTobeEnrolled) {
                 var groupLeader = JSON.parse(state.vars.client_json); // client_json state variable stores the group leader's accont on initial login
-                console.log(state.vars.sameGroup);
-                console.log('finally here');
                 if(state.vars.sameGroup == 'true') {
-                    if((clientTobeEnrolled.DistrictID == groupLeader.DistrictID) && (clientTobeEnrolled.SiteID == groupLeader.SiteID)){
-                        console.log('Client IDS:'+JSON.stringify(clientTobeEnrolled) );
-                        console.log('GL:'+ JSON.stringify(groupLeader));
-                        clientTobeEnrolled.groupId = groupLeader.groupId;
-                        var reducedClient = reduceClientSize(clientTobeEnrolled);
-                        Enrollment.start(lang, reducedClient);
+                    if((clientTobeEnrolled.DistrictId == groupLeader.DistrictId) && (clientTobeEnrolled.SiteId == groupLeader.SiteId)){
+                        if(clientTobeEnrolled.GroupId == null || clientTobeEnrolled.GroupId == groupLeader.GroupId){
+                            clientTobeEnrolled.GroupId = groupLeader.GroupId;
+                            var reducedClient = reduceClientSize(clientTobeEnrolled);
+                            Enrollment.start(lang, reducedClient);
+                        }
+                        else {
+                            // The farmer  you are trying to enroll is registered in a different group 
+                            global.sayText(getMessage('different_geo'));
+                            return;
+                        }
                     }
                     else {
                         // The farmer  you are trying to enroll is registered in a different site 
                         global.sayText(getMessage('different_geo'));
                         return;
                     }
-
                 }
                 else {
 
                     var groupInfo = JSON.parse(state.vars.group_info);
-                    if((clientTobeEnrolled.DistrictID == groupInfo.districtID) && (clientTobeEnrolled.SiteID == groupInfo.siteID)) {
-                        clientTobeEnrolled.groupId = groupInfo.groupId;
-                        reducedClient = reduceClientSize(clientTobeEnrolled);
-                        Enrollment.start(lang, reducedClient);
+                    if((clientTobeEnrolled.DistrictId == groupInfo.districtId) && (clientTobeEnrolled.SiteId == groupInfo.siteId)) {
+                        if(clientTobeEnrolled.GroupId == null || clientTobeEnrolled.GroupId == groupInfo.groupId){
+                            clientTobeEnrolled.GroupId = groupInfo.groupId;
+                            reducedClient = reduceClientSize(clientTobeEnrolled);
+                            Enrollment.start(lang, reducedClient);
+                        }
+                        else {
+                            global.sayText(getMessage('different_geo_code'));
+                            return;
+                        }
                     }
                     else {
                         global.sayText(getMessage('different_geo_code'));

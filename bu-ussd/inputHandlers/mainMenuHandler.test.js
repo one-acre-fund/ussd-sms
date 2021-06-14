@@ -1,7 +1,7 @@
 const {handlerName: mainMenuHandlerName, getHandler: getMainMenuHandler} = require('./mainMenuHandler');
 const {start: startRegistration} = require('../registration/registration');
-const preEnrollmentHandler = require('./preEnrollmentHandler');
 const checkBalance = require('../checkBalance/checkBalance');
+var enrollmentCategoryHandler = require('./enrollmentCategoryHandler');
 
 jest.mock('../registration/registration');
 jest.mock('../checkBalance/checkBalance');
@@ -32,8 +32,8 @@ describe('main menu input handler', () => {
     it('should start pre-enrollment if user chooses option 2', () => {
         const handler = getMainMenuHandler('en_bu');
         handler('2');
-        expect(sayText).toHaveBeenCalledWith('Enter the account number of the farmer you want to order for');
-        expect(promptDigits).toHaveBeenCalledWith(preEnrollmentHandler.handlerName);
+        expect(sayText).toHaveBeenCalledWith('1) Enroll Farmers in my group\n2) Enroll Farmer in a different group');
+        expect(promptDigits).toHaveBeenCalledWith(enrollmentCategoryHandler.handlerName);
     });
     it('should start check balance if user chooses option 3 check balance', () => {
         const handler = getMainMenuHandler('en_bu');

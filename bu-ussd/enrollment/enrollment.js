@@ -9,13 +9,11 @@ var translator = require('../../utils/translator/translator');
 
 function canEnroll(accountNumber) {
 
-    if(Date.parse(new Date()) < Date.parse(new Date(String(service.vars.enroll_edit_end_date))))
+    if(Date.parse(new Date()) > Date.parse(new Date(String(service.vars.enroll_edit_end_date))))
     {
-        console.log('past date');
         var table = project.initDataTableById(service.vars.client_table_id);
         var cursor = table.queryRows({vars: {'account_number': accountNumber, 'finalized': 1}});
         if(cursor.hasNext()) {
-            console.log('reject');
             return false;
         }
     }

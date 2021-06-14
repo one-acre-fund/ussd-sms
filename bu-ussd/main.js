@@ -14,7 +14,7 @@ if(service.vars.env === 'prod' || service.vars.env === 'dev'){
 }
 
 service.vars.bundles_table_id = project.vars[env + '_bundles_table'];
-service.vars.enroll_edit_end_date = project.vars[env + 'enroll_edit_end_date'];
+service.vars.enroll_edit_end_date = project.vars[env + '_enroll_edit_end_date'];
 
 var lang = contact.vars.lang || 'bu';
 var translations = require('./translations/index');

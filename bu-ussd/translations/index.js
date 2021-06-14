@@ -21,24 +21,29 @@ module.exports = {
     },
     'enrollment_category': {
         'en_bu': '1) Enroll Farmers in my group\n2) Enroll Farmer in a different group',
-        'bu': '1) Enroll Farmers in my group\n2) Enroll Farmer in a different group',
-        'fr_bu': '1) Enroll Farmers in my group\n2) Enroll Farmer in a different group'
+        'bu': '1)Kwandika umurimyi mu murwi wanje\n2)Kwandika umurimyi mu murwi utari rwanje',
+        'fr_bu': '1)Enregistrer le cultivateur dans mon groupe\n2)Enregistrer le cultivateur dans un groupe différent du mien'
     },
     'group_code_msg': {
         'en_bu': 'Enter group code of the client you want to order for',
-        'bu': 'Enter group code of the client you want to order for',
-        'fr_bu': 'Enter group code of the client you want to order for'
+        'bu': 'Shiramwo igiharuro kabanga c\'umurwi',
+        'fr_bu': 'Entrez le code du groupe'
 
     },
     'different_geo': {
         'en_bu': 'The farmer  you are trying to enroll is registered in a different site or district',
-        'bu': 'Umurimyi muriko murandikisha asanzwe yanditse ku wundi mutumba',
-        'fr_bu': 'The farmer  you are trying to enroll is registered in a different site or district'
+        'bu': 'Umurimyi muriko murandika asanzwe yanditse ku wundi mutumba',
+        'fr_bu': 'Le client que vous etes entrain d enregistrer est déja inscrit au sein d un autre site ou district'
     },
     'different_geo_code': {
         'en_bu': 'The farmer  you are trying to enroll is registered in a different site or district than the code provided',
-        'bu': 'Umurimyi muriko murandikisha asanzwe yanditse ku wundi mutumba',
-        'fr_bu': 'The farmer  you are trying to enroll is registered in a different site or district'
+        'bu': 'Umurimyi muriko murandika asanzwe yanditse ku wundi mutumba udahuye ninomero mwashizemwo',
+        'fr_bu': 'Le client que vous etes entrain d enregistrer est inscrit au sein d un autre site ou district dont le code differe de celui que vous avez mis'
+    },
+    'invalid_group_code': {
+        'en_bu': 'This group code is invalid, please try again',
+        'bu': ' Iki giharuro kabanga c\'umurwi nticemewe, musabwe kugerageza kandi',
+        'fr_bu': 'Ce code de groupe n\'est pas valide, veuillez reessayer'
     },
     'sample': {
         'en_bu': '',

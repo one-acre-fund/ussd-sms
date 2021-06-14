@@ -24,7 +24,7 @@ module.exports = {
                 state.vars.sameGroup = 'false';
                 //Ask for group code
                 global.sayText(getMessage('group_code_msg'));
-                global.promptDigits(groupCodeHandler.groupCodeHandler); 
+                global.promptDigits(groupCodeHandler.handlerName); 
             }
             else {
                 global.sayText(getMessage('enrollment_category'));
