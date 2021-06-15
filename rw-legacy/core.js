@@ -41,7 +41,6 @@ if(env === 'prod'){
     service.vars.groupCodeTableId = project.vars.groupCodeTableId;
     service.vars.endEnrollmentTableId = project.vars.EnrollmentEndTableId;
     service.vars.bundles_table = 'DT61e723e06de35a67'
-    service.vars.endEnrollmentTableId
 }else{
     service.vars.season_clients_table = 'dev_' + project.vars.season_clients_table;
     service.vars.client_enrollment_table = 'dev_' + project.vars.client_enrollment_data;
@@ -385,9 +384,6 @@ addInputHandler('cor_menu_select', function (input) {
         if (client.vars.finalized == 1) { //fix next tine for generallity
             sayText(msgs('enr_order_already_finalized', {}, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
-        }
-        else if(isDistrictClosed(client.DistrictID)) {
-
         }
         else if (client.vars.registered == 1) {
             // if client does not have a glvv id entered, prompt them to enter it before continuing

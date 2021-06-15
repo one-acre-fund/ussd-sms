@@ -29,7 +29,8 @@ module.exports = function(table_name, lang, max_chars){
     var option_numbers = menu_table.countRowsByValue('option_number');
     var out_obj = {};
     var loc = 0;
-    var clientDistrict =JSON.parse(state.vars.client_json).DistrictID;
+    var clientDistrict = JSON.parse(state.vars.client_json)? JSON.parse(state.vars.client_json).DistrictID : null;
+    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'+clientDistrict);
     for(var x = 1; x <= Object.keys(option_numbers).length; x++){
         try{
             var opt_row = menu_table.queryRows({'vars': {'option_number': x}}).next();
@@ -71,9 +72,12 @@ module.exports = function(table_name, lang, max_chars){
 function isDistrictClosed(districtId) {
     var table = project.initDataTableById(service.vars.endEnrollmentTableId);
     var cursor = table.queryRows({vars: {'district_id': districtId}});
+    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
     if(cursor.hasNext()) {
+        console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& hasNext');
         row = cursor.next();
-        if(new Date(row.vars.date_time) > Date.now()) {
+        if(Date.parse(new Date((row.vars.date_time))) < Date.parse(Date.now())) {
+            console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& satisfy');
             return true;
         }
     }
