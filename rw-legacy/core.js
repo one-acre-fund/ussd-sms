@@ -913,7 +913,7 @@ addInputHandler('enr_nid_client_confirmation', function (input) {
             regSessionManager.clear(contact.phone_number);
             var get_client_by_nid = require('./lib/dpm-get-client-by-nid');
             var client = get_client_by_nid(state.vars.reg_nid, an_pool);
-            var enr_msg = msgs('enr_reg_complete', { '$ACCOUNT_NUMBER': client.account_number, '$NAME': client.name1 + ' ' + client.name2 }, lang)
+            var enr_msg = msgs('enr_reg_complete_msg', { '$ACCOUNT_NUMBER': client.account_number, '$NAME': client.name1 + ' ' + client.name2 }, lang)
             sayText(enr_msg);
             var enr_msg_sms = msgs('enr_reg_complete_sms', { '$ACCOUNT_NUMBER': client.account_number, '$NAME': client.name1 + ' ' + client.name2 }, lang);
             var messager = require('./lib/enr-messager');
@@ -926,6 +926,11 @@ addInputHandler('enr_nid_client_confirmation', function (input) {
                 var verify = require('./lib/account-verify')
                 var client_verified = verify(client.account_number);
                 if (client_verified) {
+                    var isDistrictClosed = require('./lib/isDistrictClosed');
+                    if(isDistrictClosed(state.vars.client_districtId)){
+                        sayText(msgs('enrollment_ended', {}, lang));
+                        return;
+                    }
                     sayText(msgs('account_number_verified'));
                     state.vars.account_number = client.account_number;
                     var splash = account_splash_menu_name;
@@ -1267,17 +1272,23 @@ addInputHandler('reg_end_ordering_redirect',function(input){
         return null;
     }
     else if(input == 1){
+        
         state.vars.multiple_input_menus = 1;
         var client = get_client(state.vars.account_number, an_pool, true);
+        var isDistrictClosed = require('./lib/isDistrictClosed');
         if (client === null || client.vars.registered == 0) {
             sayText(msgs('account_number_not_found', {}, lang));
             contact.vars.account_failures = contact.vars.account_failures + 1;
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
         }
         state.vars.client_districtId = state.vars.districtId;
-        if (client.vars.finalized == 1 && client.vars.geo !== 'Ruhango') { //fix next tine for generallity
+        if (client.vars.finalized == 1) { //fix next tine for generallity
             sayText(msgs('enr_order_already_finalized', {}, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+        }
+        else if(isDistrictClosed(state.vars.client_districtId)){
+            sayText(msgs('enrollment_ended', {}, lang));
+            stopRules();
         }
         else if (client.vars.registered == 1) {
             // if client does not have a glvv id entered, prompt them to enter it before continuing
@@ -1829,15 +1840,3 @@ addInputHandler('enr_terms_and_conditions',function(input){
     }
     
 });
-
-function isDistrictClosed(districtId) {
-    var table = project.initDataTableById(service.vars.endEnrollmentTableId);
-    var cursor = table.queryRows({vars: {'district_id': districtId}});
-    if(cursor.hasNext()) {
-        row = cursor.next();
-        if(moment(row.vars.date_time,'DD-MM-YYYY') > moment(Date.now())) {
-            return true;
-        }
-    }
-    return false;
-}

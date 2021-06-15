@@ -9,6 +9,7 @@ option name is the name of the response handler that will handle the selected op
 module.exports = function(table_name, lang, max_chars){
     var msgs = require('./msg-retrieve'); 
     var admin_alert = require('./admin-alert');
+    var isDistrictClosed = require('./isDistrictClosed');
     var lang = lang || project.vars.lang;
     var console_lang = project.vars.console_lang;
     var prev_page = msgs('prev_page',{},lang);
@@ -29,8 +30,7 @@ module.exports = function(table_name, lang, max_chars){
     var option_numbers = menu_table.countRowsByValue('option_number');
     var out_obj = {};
     var loc = 0;
-    var clientDistrict = JSON.parse(state.vars.client_json)? JSON.parse(state.vars.client_json).DistrictID : null;
-    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'+clientDistrict);
+    var clientDistrict = JSON.parse(state.vars.client_json)? JSON.parse(state.vars.client_json).DistrictId : null;
     for(var x = 1; x <= Object.keys(option_numbers).length; x++){
         try{
             var opt_row = menu_table.queryRows({'vars': {'option_number': x}}).next();
@@ -67,19 +67,3 @@ module.exports = function(table_name, lang, max_chars){
         return output;
     }
 };
-
-
-function isDistrictClosed(districtId) {
-    var table = project.initDataTableById(service.vars.endEnrollmentTableId);
-    var cursor = table.queryRows({vars: {'district_id': districtId}});
-    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-    if(cursor.hasNext()) {
-        console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& hasNext');
-        row = cursor.next();
-        if(Date.parse(new Date((row.vars.date_time))) < Date.parse(Date.now())) {
-            console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& satisfy');
-            return true;
-        }
-    }
-    return false;
-}

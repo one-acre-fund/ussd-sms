@@ -847,5 +847,13 @@ module.exports = {
     'are_you_a_gl': {
         'en': 'Are you the Group leader?\nPress 1 if you are\nPress 2 if you are not',
         'ki': 'Uri umukuru w’itsinda?\nKanda 1 niba uri we\nKanda 2 niba utariwe'
+    },
+    'enrollment_ended': {
+        'en': 'Enrollment period endend for your district',
+        'ki': 'Igihe cyo gutumiza cyararangiye mu karere kanyu'
+    },
+    'enr_reg_complete_msg': {
+        'en': 'Thank you for enrolling with TUBURA! Your account number is $ACCOUNT_NUMBER. Please save this!',
+        'ki': 'Murakoze kwiyandikisha muri TUBURA, $NAME! Konte yawe ni $ACCOUNT_NUMBER. Yandike uyizirikane!',
     }
 }
