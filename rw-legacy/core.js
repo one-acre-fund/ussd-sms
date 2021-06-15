@@ -82,6 +82,8 @@ var groupRepaymentsModule = require('../group-repayments/groupRepayments');
 var avocadoTreesOrdering = require('../avocado-trees-ordering/avocadoTreesOrdering');
 var clientRegistration = require('../client-registration/clientRegistration');
 var marketAccess = require('../market-access/marketAccess');
+var shs = require('../shs/shs');
+
 //options
 const max_digits_for_input = project.vars.max_digits; //only for testing
 //const max_digits_for_nid = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits_nid'}}).next().vars.value); 
@@ -98,6 +100,7 @@ const max_digits_for_name = project.vars.max_digits_name;
 const inputHandlers = {}
 clientRegistration.registerHandlers();
 marketAccess.registerHandlers();
+shs.registerHandlers()
 
 global.main = function () {
     sayText(msgs('cor_enr_main_splash',{},lang));
@@ -485,6 +488,9 @@ addInputHandler('cor_menu_select', function (input) {
     }
     else if(selection == 'avocado_trees_ordering') {
         avocadoTreesOrdering.start(state.vars.account_number,'rw',lang);
+    } else if(selection === 'rw_shs') {
+        // start solar home system (SHS)
+        shs.start(state.vars.client_json, 'RW', lang || 'ki', state.vars.isGroupLeader, state.vars.current_menu_str, 'cor_menu_select')
     }
     else {
         var current_menu = msgs(selection, {}, lang);
