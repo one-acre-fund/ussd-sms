@@ -39,7 +39,9 @@ if(env === 'prod'){
     service.vars.avocado_table_id = 'DT864c12fe76c43eaf';
     service.vars.rw_reg_client_table_id = 'DT29e542bf090b050f';
     service.vars.groupCodeTableId = project.vars.groupCodeTableId;
+    service.vars.endEnrollmentTableId = project.vars.EnrollmentEndTableId;
     service.vars.bundles_table = 'DT61e723e06de35a67'
+    service.vars.endEnrollmentTableId
 }else{
     service.vars.season_clients_table = 'dev_' + project.vars.season_clients_table;
     service.vars.client_enrollment_table = 'dev_' + project.vars.client_enrollment_data;
@@ -57,6 +59,7 @@ if(env === 'prod'){
     service.vars.chicken_table_id = 'DT8c3e091b499f1726';
     service.vars.rw_reg_client_table_id = 'DT41914a4d2dc6a29f';
     service.vars.groupCodeTableId = project.vars.dev_groupCodeTableId;
+    service.vars.endEnrollmentTableId = project.vars.dev_EnrollmentEndTableId;
     service.vars.bundles_table = 'DT92be9913918ab014'
 }
 
@@ -379,9 +382,12 @@ addInputHandler('cor_menu_select', function (input) {
             contact.vars.account_failures = contact.vars.account_failures + 1;
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
         }
-        if (client.vars.finalized == 1 && client.vars.geo !== 'Ruhango') { //fix next tine for generallity
+        if (client.vars.finalized == 1) { //fix next tine for generallity
             sayText(msgs('enr_order_already_finalized', {}, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+        }
+        else if(isDistrictClosed(client.DistrictID)) {
+
         }
         else if (client.vars.registered == 1) {
             // if client does not have a glvv id entered, prompt them to enter it before continuing
@@ -1827,3 +1833,15 @@ addInputHandler('enr_terms_and_conditions',function(input){
     }
     
 });
+
+function isDistrictClosed(districtId) {
+    var table = project.initDataTableById(service.vars.endEnrollmentTableId);
+    var cursor = table.queryRows({vars: {'district_id': districtId}});
+    if(cursor.hasNext()) {
+        row = cursor.next();
+        if(moment(row.vars.date_time,'DD-MM-YYYY') > moment(Date.now())) {
+            return true;
+        }
+    }
+    return false;
+}

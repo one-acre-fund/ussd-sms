@@ -29,12 +29,16 @@ module.exports = function(table_name, lang, max_chars){
     var option_numbers = menu_table.countRowsByValue('option_number');
     var out_obj = {};
     var loc = 0;
+    var clientDistrict =JSON.parse(state.vars.client_json).DistrictID;
     for(var x = 1; x <= Object.keys(option_numbers).length; x++){
         try{
             var opt_row = menu_table.queryRows({'vars': {'option_number': x}}).next();
             if(opt_row.vars.option_name == 'view_group_repayment' && !state.vars.isGroupLeader) {
                 x++;
                 opt_row = menu_table.queryRows({'vars': {'option_number': x}}).next();
+            }
+            if(clientDistrict && (opt_row.vars.option_name == 'enr_order_start' || opt_row.vars.option_name == 'enr_order_review_start') && isDistrictClosed(clientDistrict)) {
+                continue;
             }
             var temp_out = output + String(x) + ')' + opt_row.vars[lang] + '\n';
             if(temp_out.length < max_chars){
@@ -62,3 +66,16 @@ module.exports = function(table_name, lang, max_chars){
         return output;
     }
 };
+
+
+function isDistrictClosed(districtId) {
+    var table = project.initDataTableById(service.vars.endEnrollmentTableId);
+    var cursor = table.queryRows({vars: {'district_id': districtId}});
+    if(cursor.hasNext()) {
+        row = cursor.next();
+        if(new Date(row.vars.date_time) > Date.now()) {
+            return true;
+        }
+    }
+    return false;
+}
