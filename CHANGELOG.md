@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+Version
+
+## v2.0.7
+* [SER-582](https://oneacrefund.atlassian.net/browse/SER-582) As a payment stakeholder, I want to know when message sent by Telerivet fails for any reason
 ## v2.0.6
 * [ESWFA-182](https://oneacrefund.atlassian.net/browse/ESWFA-182) As a Client, I want to immediately continue ordering after registration instead of starting over
 ## v2.0.5
