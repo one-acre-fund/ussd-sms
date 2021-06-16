@@ -7,9 +7,12 @@ module.exports = function registerSerialNumber(serialNumber,unitType,replacement
     var keyCodeType;
     var countryCode;
     var client = JSON.parse(state.vars.client);
-    if(state.vars.country == 'KE')
-        countryCode = '404';
-    if(client.BalanceHistory[0].SeasonName == '2021, Long Rain'){
+    var countries = {
+        'KE': '404',
+        'RW': '646'
+    };
+    countryCode = countries[state.vars.country];
+    if(client.BalanceHistory[0].SeasonName == project.vars.current_enrollment_season_name){
         if(JSON.parse(state.vars.client).BalanceHistory[0].Balance <= 0){
             keyCodeType = 'UNLOCK';
         }

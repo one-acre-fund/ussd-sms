@@ -7,10 +7,13 @@ var translate =  createTranslator(translations, project.vars.lang);
 
 module.exports = function getcode(account){
     var countryCode;
-    if(state.vars.country == 'KE')
-        countryCode = '404';
+    var countries = {
+        'KE': '404',
+        'RW': '646'
+    };
+    countryCode = countries[state.vars.country];
     var client = JSON.parse(state.vars.client);
-    if((client.BalanceHistory[0].SeasonName == '2021, Long Rain') || ((client.BalanceHistory[0].TotalCredit) <= (client.BalanceHistory[0].TotalRepayment_IncludingOverpayments))){
+    if((client.BalanceHistory[0].SeasonName == project.vars.current_enrollment_season_name) || ((client.BalanceHistory[0].TotalCredit) <= (client.BalanceHistory[0].TotalRepayment_IncludingOverpayments))){
         var requestData = {
             accountNumber: account,
             countryCode: countryCode
