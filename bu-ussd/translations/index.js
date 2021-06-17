@@ -22,7 +22,7 @@ module.exports = {
     'enrollment_category': {
         'en_bu': '1) Enroll Farmers in my group\n2) Enroll Farmer in a different group',
         'bu': '1)Kwandika umurimyi mu murwi wanje\n2)Kwandika umurimyi mu murwi utari rwanje',
-        'fr_bu': '1)Enregistrer le cultivateur dans mon groupe\n2)Enregistrer le cultivateur dans un groupe différent du mien'
+        'fr_bu': '1)Enregistrer le cultivateur dans mon groupe\n2)Enregistrer le cultivateur dans un groupe different du mien'
     },
     'group_code_msg': {
         'en_bu': 'Enter group code of the client you want to order for',
@@ -33,7 +33,7 @@ module.exports = {
     'different_geo': {
         'en_bu': 'The farmer  you are trying to enroll is registered in a different site or district',
         'bu': 'Umurimyi muriko murandika asanzwe yanditse ku wundi mutumba',
-        'fr_bu': 'Le client que vous etes entrain d enregistrer est déja inscrit au sein d un autre site ou district'
+        'fr_bu': 'Le client que vous etes entrain d enregistrer est deja inscrit au sein d un autre site ou district'
     },
     'different_geo_code': {
         'en_bu': 'The farmer  you are trying to enroll is registered in a different site or district than the code provided',

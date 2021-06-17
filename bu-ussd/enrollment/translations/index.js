@@ -57,7 +57,7 @@ module.exports = {
     'already_enrolled': {
         'en_bu': 'This farmer has already placed an order. If you wish to change please call the call center',
         'bu': 'Muradutunge, igihe co gusaba inyongeramwimbu cararenze. Mwipfuza guhindura, mwohamagara ku nimero itariha. Murakoze',
-        'fr_bu': 'Désolé, le délai pour passer les commandes est expiré. Pour modifier votre commande, merci de contacter le centre d\'appel'
+        'fr_bu': 'Desole, le delai pour passer les commandes est expire. Pour modifier votre commande, merci de contacter le centre d\'appel'
     },
     'sample': {
         'en_bu': '',
