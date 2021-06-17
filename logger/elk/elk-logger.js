@@ -23,7 +23,6 @@ function sendRequest(baseURL, path, msg, options) {
         data: JSON.stringify(data),
         headers: {'Content-Type': 'application/json'}
     });
-    console.log('response: '+response.status);
     if(response && response.status !== 200){
         requestLogger(url, response);
     }

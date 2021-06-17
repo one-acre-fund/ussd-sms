@@ -1,6 +1,9 @@
 var Logger = require('../../logger/elk/elk-logger');
 var log = new Logger();
-
-
-
-log.error('Failed to send SMS:', { Message: 'SMSFailedError', data: {TAG: message.project_id,route: message.route_id,service: message.service_id,labels: message.label_ids,toNumber: message.to_number, error: message.error_message}});
+try{
+    log.error('Failed to send SMS:', { tags: ['SMSFailedError'], data: {projectID: global.message.project_id,routeID: global.message.route_id,serviceID: global.message.service_id,labelsTagged: global.message.label_ids,toPhoneNumber: global.message.to_number, errorMessage: global.message.error_message}});
+    //global.message.resend({});
+}
+catch(e){
+    log.error('Failed to send SMS:', { tags: ['SMSFailureException'], data: {errorFound: e}});
+}
