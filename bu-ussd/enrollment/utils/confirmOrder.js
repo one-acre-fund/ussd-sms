@@ -51,14 +51,26 @@ module.exports = function(lang) {
         });
         // store the state.vars.selected_bundles into the orders table.
         var ordersTable = project.initDataTableById(service.vars.orders_table_id);
-        var row = ordersTable.createRow({
+        var orderEntry = ordersTable.queryRows({
             vars: {
                 'account_number': client.AccountNumber,
-                'order': state.vars.selected_bundles,
-                'phone_number': contact.phone_number
             }
         });
-        row.save();
+        var orderRow;
+        if(orderEntry.hasNext()) {
+            orderRow = orderEntry.next();
+            orderRow.vars.order = state.vars.selected_bundles;
+            orderRow.vars.phone_number = contact.phone_number;
+        } else {
+            orderRow = ordersTable.createRow({
+                vars: {
+                    'account_number': client.AccountNumber,
+                    'order': state.vars.selected_bundles,
+                    'phone_number': contact.phone_number
+                }
+            });
+        }
+        orderRow.save();
         var clientsTable = project.initDataTableById(service.vars.client_table_id);
         var cursor = clientsTable.queryRows({vars: {'account_number': client.AccountNumber}});
         var clientRow;
