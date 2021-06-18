@@ -1,9 +1,9 @@
 var registration = require('../registration/registration');
 var checkBalance = require('../checkBalance/checkBalance');
-var preEnrollmentHandler = require('./preEnrollmentHandler');
 var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
+var enrollmentCategoryHandler = require('./enrollmentCategoryHandler');
 
 var handlerName = 'main_menu_handler';
 
@@ -26,9 +26,10 @@ module.exports = {
                     // check balance
                     checkBalance(language, client);
                 } else if(main_option_values[input] === 'place_order') {
-                    // ask for an account number of a farmer being enrolled
-                    global.sayText(getMessage('account_to_be_enrolled'));
-                    global.promptDigits(preEnrollmentHandler.handlerName);
+                    // ask GL if they are enrolling the client in their group or a different one 
+                    console.log('first here');
+                    global.sayText(getMessage('enrollment_category'));
+                    global.promptDigits(enrollmentCategoryHandler.handlerName);
                 }
             } else {
                 global.sayText(main_screens[current_main_screen]);

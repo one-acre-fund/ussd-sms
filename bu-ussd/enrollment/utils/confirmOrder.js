@@ -59,6 +59,18 @@ module.exports = function(lang) {
             }
         });
         row.save();
+        var clientsTable = project.initDataTableById(service.vars.client_table_id);
+        var cursor = clientsTable.queryRows({vars: {'account_number': client.AccountNumber}});
+        var clientRow;
+        if(cursor.hasNext())
+        {
+            clientRow = cursor.next();
+            clientRow.vars.finalized = 1;
+        }
+        else{
+            clientRow = clientsTable.createRow({vars: {'account_number': client.AccountNumber, 'finalized': 1}});
+        }
+        clientRow.save();
         global.stopRules();
     } else {
         // display an error

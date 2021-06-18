@@ -2,6 +2,7 @@ var translations = require('../translations/index');
 var translator = require('../../../utils/translator/translator');
 var finalizeHandler = require('../inputHandlers/finalizeHandler');
 var onKeepOrdering = require('./onKeepOrdering');
+var splitMenu = require('../../../shared/splitLongMenu');
 
 module.exports = function(lang, input) {
     var getMessage = translator(translations, lang);
@@ -25,12 +26,13 @@ module.exports = function(lang, input) {
         var client = JSON.parse(state.vars.enrolling_client);
         var finalizeScreen = getMessage('finalize', {
             '$order': orderMessage,
-            '$menu': finalizeMenu,
             '$firstName': client.FirstName,
             '$lastName': client.LastName
         }, lang);
-        state.vars.finalize_screen = finalizeScreen; 
-        global.sayText(finalizeScreen);
+        var menus = splitMenu(finalizeScreen,getMessage('next_screen', {}),finalizeMenu);
+        global.sayText(menus[1]);
+        state.vars.current_input_menu = 1;
+        state.vars.OnOrderFinalizeMenus = JSON.stringify(menus); 
         global.promptDigits(finalizeHandler.handlerName);
     }
 };

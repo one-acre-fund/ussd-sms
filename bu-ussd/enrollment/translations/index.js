@@ -20,6 +20,11 @@ module.exports = {
         'fr_bu': '1) Continuer a commander\n2) Confirmer et finaliser'
     },
     'finalize': {
+        'en_bu': '$firstName $lastName ordered for \n$order',
+        'bu': '$firstName $lastName ivyasabwe vy\' \n$order',
+        'fr_bu': '$firstName $lastName commandes pour \n$order'
+    },
+    'finalize_order': {
         'en_bu': '$firstName $lastName ordered for \n$order\n$menu',
         'bu': '$firstName $lastName ivyasabwe vy\' \n$order\n$menu',
         'fr_bu': '$firstName $lastName commandes pour \n$order\n$menu'
@@ -48,6 +53,11 @@ module.exports = {
         'en_bu': 'Order\n',
         'bu': 'commander\n',
         'fr_bu': 'Ivyasabwe\n'
+    },
+    'already_enrolled': {
+        'en_bu': 'This farmer has already placed an order. If you wish to change please call the call center',
+        'bu': 'Muradutunge, igihe co gusaba inyongeramwimbu cararenze. Mwipfuza guhindura, mwohamagara ku nimero itariha. Murakoze',
+        'fr_bu': 'Desole, le delai pour passer les commandes est expire. Pour modifier votre commande, merci de contacter le centre d\'appel'
     },
     'sample': {
         'en_bu': '',

@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file. 
 
 ## New Version
+
+### Changed
+* [ESWFA-186](https://oneacrefund.atlassian.net/browse/ESWFA-186) BU Enrollment UAT Requested changes
 ## v2.0.0
 ### Added
 * [ESWFA-45](https://oneacrefund.atlassian.net/browse/ESWFA-45) As a Client I want to be able to check and see what I owe OAF  and my performance against healthy path using USSD 

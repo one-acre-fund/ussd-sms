@@ -14,6 +14,7 @@ if(service.vars.env === 'prod' || service.vars.env === 'dev'){
 }
 
 service.vars.bundles_table_id = project.vars[env + '_bundles_table'];
+service.vars.enroll_edit_end_date = project.vars[env + '_enroll_edit_end_date'];
 
 var lang = contact.vars.lang || 'bu';
 var translations = require('./translations/index');
@@ -26,6 +27,7 @@ var splashInputHandler = require('./inputHandlers/splashInputHandler');
 service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 service.vars.orders_table_id = project.vars[env+'_orders_table'];
+service.vars.client_table_id = project.vars[env+'_clients_table'];
 
 registerInputHandlers(lang, onAccountNumberValidated);
 global.main = function() {
