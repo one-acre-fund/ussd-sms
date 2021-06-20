@@ -48,6 +48,7 @@ module.exports = function(table_name, lang, max_chars){
             console_output = console_output + String(x) + ')' + opt_row.vars[console_lang] + '\n';
         }
         catch(error){
+            console.log('error' + JSON.stringify({error: error}));
             admin_alert('Options table length does not match option labeling\nError: ' + error+'\ntable : ' + table_name);
             break;
         }
