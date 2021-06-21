@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## v2.0.7
+* [ESWFA-190](https://oneacrefund.atlassian.net/browse/ESWFA-190) RW: Wrong Repayment Info on USSD 
 ## v2.0.6
 * [ESWFA-182](https://oneacrefund.atlassian.net/browse/ESWFA-182) As a Client, I want to immediately continue ordering after registration instead of starting over
 ## v2.0.5
