@@ -30,7 +30,7 @@ module.exports = function(table_name, lang, max_chars){
     var option_numbers = menu_table.countRowsByValue('option_number');
     var out_obj = {};
     var loc = 0;
-    var clientDistrict = JSON.parse(state.vars.client_json)? JSON.parse(state.vars.client_json).DistrictId : null;
+    var clientDistrict = state.vars.client_json? JSON.parse(state.vars.client_json).DistrictId : null;
     for(var x = 1; x <= Object.keys(option_numbers).length; x++){
         try{
             var opt_row = menu_table.queryRows({'vars': {'option_number': x}}).next();

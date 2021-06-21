@@ -36,7 +36,7 @@ module.exports = function(menu_option, menu_table,districtId){
     }else {
 
         var isDistrictClosed = require('./isDistrictClosed');
-        var clientDistrict = JSON.parse(state.vars.client_json)? JSON.parse(state.vars.client_json).DistrictId : null;
+        var clientDistrict = state.vars.client_json? JSON.parse(state.vars.client_json).DistrictId : null;
         var table = project.getOrCreateDataTable(menu_table);
         var cursor = table.queryRows({'vars': {'option_number': menu_option}});
         if((!cursor.hasNext())){
