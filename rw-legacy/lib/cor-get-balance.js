@@ -19,7 +19,7 @@ module.exports = function(client, lang){
     });
     currentRepaymentSeasonDetails = currentRepaymentSeasonDetails.length > 0 ? currentRepaymentSeasonDetails : client.BalanceHistory[0];
     for (var i = 0; i < currentRepaymentSeasonDetails.length; i++) {
-        if (currentRepaymentSeasonDetails[i].Balance > 0){    
+        if (currentRepaymentSeasonDetails[i].Balance >= 0){    
             paid = currentRepaymentSeasonDetails[i].TotalCredit-currentRepaymentSeasonDetails[i].Balance;
             balance = currentRepaymentSeasonDetails[i].Balance;
             credit = currentRepaymentSeasonDetails[i].TotalCredit;
