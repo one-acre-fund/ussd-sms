@@ -8,7 +8,8 @@ describe('Log SMS error', () => {
         mockCursor = {
             hasNext: jest.fn(),
             next: jest.fn(),
-            count: jest.fn()
+            count: jest.fn(),
+            limit: jest.fn()
         };
         mockMessage = {
             save: jest.fn(),
