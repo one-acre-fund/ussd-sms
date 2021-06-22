@@ -71,7 +71,6 @@ Log.prototype.warn= function(msg,options){
 Log.prototype.error= function(msg,options){
     if (!msg)
         throw 'Error: "logger.error" called without message';
-    console.log('sending error'+ msg);
     var logPath = '/telerivet-errors';
     sendRequest(this.baseURL, logPath,msg,options);
 };

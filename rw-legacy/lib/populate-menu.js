@@ -9,6 +9,7 @@ option name is the name of the response handler that will handle the selected op
 module.exports = function(table_name, lang, max_chars){
     var msgs = require('./msg-retrieve'); 
     var admin_alert = require('./admin-alert');
+    var isDistrictClosed = require('./isDistrictClosed');
     var lang = lang || project.vars.lang;
     var console_lang = project.vars.console_lang;
     var prev_page = msgs('prev_page',{},lang);
@@ -29,12 +30,16 @@ module.exports = function(table_name, lang, max_chars){
     var option_numbers = menu_table.countRowsByValue('option_number');
     var out_obj = {};
     var loc = 0;
+    var clientDistrict = JSON.parse(state.vars.client_json)? JSON.parse(state.vars.client_json).DistrictId : null;
     for(var x = 1; x <= Object.keys(option_numbers).length; x++){
         try{
             var opt_row = menu_table.queryRows({'vars': {'option_number': x}}).next();
             if(opt_row.vars.option_name == 'view_group_repayment' && !state.vars.isGroupLeader) {
                 x++;
                 opt_row = menu_table.queryRows({'vars': {'option_number': x}}).next();
+            }
+            if(clientDistrict && (opt_row.vars.option_name == 'enr_order_start' || opt_row.vars.option_name == 'enr_order_review_start') && isDistrictClosed(clientDistrict)) {
+                continue;
             }
             var temp_out = output + String(x) + ')' + opt_row.vars[lang] + '\n';
             if(temp_out.length < max_chars){
