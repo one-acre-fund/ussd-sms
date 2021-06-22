@@ -21,6 +21,7 @@ global.main = function(){
             var log = new Logger();
             log.error('No USSD Traffic', {tags: ['USSDFailureFor10Min'],data: {FailureFOR: dif_min}});
         }
+        require('../message/message-failures/queryMessageFailure');
     }
     catch(e){
         var Logger = require('../logger/elk/elk-logger');

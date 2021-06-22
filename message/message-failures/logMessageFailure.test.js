@@ -11,7 +11,7 @@ describe('Log SMS error', () => {
         Log.mockReturnValue(mockLogger);
     });
     it('should  log the error message', () => {
-        require('./logSmsFailure');
+        require('./logMessageFailure');
         expect(mockLogger.error).toHaveBeenCalled();
     });
 });
