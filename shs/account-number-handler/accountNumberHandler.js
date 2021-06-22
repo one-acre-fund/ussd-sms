@@ -26,7 +26,7 @@ module.exports = {
                     if(client.BalanceHistory.length > 0){
                         var gl = JSON.parse(state.vars.gLClient);
                         if(client.GroupId == gl.GroupId && client.DistrictID == gl.DistrictID && client.SiteID == gl.SiteID ){
-                            if(client.BalanceHistory[0].SeasonName != project.vars.current_enrollment_season_name){ // client must have been enrolled in the current season
+                            if(client.BalanceHistory[0].SeasonName != service.vars.current_enrollment_season_name){ // client must have been enrolled in the current season
                                 global.sayText(translate('not_enrolled',{},state.vars.shsLang));
                                 global.stopRules();
                             }

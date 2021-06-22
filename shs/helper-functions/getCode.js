@@ -7,13 +7,21 @@ var translate =  createTranslator(translations, project.vars.lang);
 
 module.exports = function getcode(account){
     var countryCode;
-    var countries = {
-        'KE': '404',
-        'RW': '646'
-    };
-    countryCode = countries[state.vars.country];
     var client = JSON.parse(state.vars.client);
-    if((client.BalanceHistory[0].SeasonName == project.vars.current_enrollment_season_name) || ((client.BalanceHistory[0].TotalCredit) <= (client.BalanceHistory[0].TotalRepayment_IncludingOverpayments))){
+    var countries = {
+        'KE': {
+            id: '404',
+            condition: (client.BalanceHistory[0].SeasonName == service.vars.current_enrollment_season_name) || ((client.BalanceHistory[0].TotalCredit) <= (client.BalanceHistory[0].TotalRepayment_IncludingOverpayments))
+        },
+        'RW': {
+            id: '646',
+            condition: ((client.BalanceHistory[0].TotalRepayment_IncludingOverpayments * 100) / client.BalanceHistory[0].TotalCredit) >= 60 // repayment for Rwanda must be 60% +
+        }
+    };
+    countryCode = countries[state.vars.country].id;
+    console.log(JSON.stringify({countries: countries, countryCode: countryCode}));
+    // check if the same condition applies for all countries 
+    if(countries[state.vars.country].condition){
         var requestData = {
             accountNumber: account,
             countryCode: countryCode

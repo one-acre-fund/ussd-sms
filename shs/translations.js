@@ -3,7 +3,7 @@ module.exports = {
     'select_service': {
         'en': 'What do you want to do?\n1)Register New SHS Unit \n2)Get Activation/ Unlock Code\n3)View Recent Activation/Unlock Code \n4)Back',
         'sw': 'Huduma gani unahitaji?\n1)Sajili Sola yako\n2)Pata Kodi ya sola yako\n3)Angalia kodi ya Sola yako \n4)rudi nyuma',
-        'ki': 'Urifuza gukora iki?:\n1) Kwandikisha itara rishya\n2)Gusaba kode\n3) Kureba kode zose wahawe\n4)Gusubira inyuma'
+        'ki': 'Urifuza gukora iki?  kanda\n1) Kwandikisha itara \n2)Gusaba kode yo gucana\n3) Kureba kode zose\n4) Gusubira inyuma'
     },
     'serial_number_request': {
         'en': 'Enter SHS Serial Number',
@@ -133,7 +133,7 @@ module.exports = {
     'internal_error': {
         'en': 'There is a system error. please try again later',
         'sw': 'kuna hitilafu ya mfumo. tafadhali jaribu tena baadae',
-        'ki': 'Hbayemo ikibazo. Ongera ugerageze mukanya'
+        'ki': 'Habayemo ikibazo. Ongera ugerageze mukanya'
     },
     'no_code_message': {
         'en': 'You do not  have an activation code, please register your SHS Unit',

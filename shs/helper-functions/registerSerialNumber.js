@@ -12,7 +12,7 @@ module.exports = function registerSerialNumber(serialNumber,unitType,replacement
         'RW': '646'
     };
     countryCode = countries[state.vars.country];
-    if(client.BalanceHistory[0].SeasonName == project.vars.current_enrollment_season_name){
+    if(client.BalanceHistory[0].SeasonName == service.vars.current_enrollment_season_name){
         if(JSON.parse(state.vars.client).BalanceHistory[0].Balance <= 0){
             keyCodeType = 'UNLOCK';
         }

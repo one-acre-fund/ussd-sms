@@ -19,6 +19,7 @@ describe('register serial number', () => {
     beforeAll(()=>{
         state.vars.country = 'KE';
         state.vars.client = JSON.stringify(client);
+        service.vars.current_enrollment_season_name = '2021, Long Rain';
     });
     it('should display a message asking the client to pay for the previous loan if the client is not enrolled in  the current season, and return null',()=>{
         client.BalanceHistory[0].SeasonName = '2020, Long Rain';
