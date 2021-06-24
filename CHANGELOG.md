@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 
 Version
 
+## v2.0.9
+### Fixed
+* [ESWFA-156](https://oneacrefund.atlassian.net/browse/ESWFA-156) GSU USSD survey update request
 ## v2.0.8
 * [SER-582](https://oneacrefund.atlassian.net/browse/SER-582) As a payment stakeholder, I want to know when message sent by Telerivet fails for any reason
 ## v2.0.7
