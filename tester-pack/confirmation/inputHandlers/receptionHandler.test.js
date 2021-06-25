@@ -53,13 +53,14 @@ describe('reception Handler', () => {
         });
     });
     it('should change the value of client_received_tester_pack to no if the user chooses 2', () => {
-    
+        state.vars.selected_farmer = JSON.stringify({national_id: '13753675', id: 1, first_name: 'Mosh', last_name: 'Hamedani'});
         project.initDataTableById = jest.fn().mockReturnValue(mockedTable);
         mockedRow.next.mockReturnValue(mockedRow);
         mockedTable.queryRows.mockReturnValue(mockedRow);
         mockedRow.hasNext.mockReturnValue(true);
         project.initDataTableById = jest.fn().mockReturnValue(mockedTable);
         receptionHandler(2);
+        expect(sayText).toHaveBeenCalledWith('Thank you,the farmer is registered in Tester pack');
         expect(mockedRow.save).toHaveBeenCalledTimes(2);
         expect(mockedRow.vars.client_received_tester_pack).toEqual('no');
     });
