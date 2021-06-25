@@ -40,8 +40,8 @@ module.exports = {
         "ki": "Murakoze, uyu muhinzi ntiyujuje ibisabwa"
     },
     "ext_farmer_confirmation": {
-        "en": "Thank you, this is registered in tester pack",
-        "ki": "Murakoze, Uyumuhinzi agiye k'urutonde rwabazahabwa inyongera musaruro zigerageza"
+        "en": "Thank you for registering and confirming that the farmer has received the pack",
+        "ki": "Murakoze, Uyumuhinzi yanditswe kdi wemeje ko yakiriye inyongera musaruro zigerageza"
     },
     "ext_farmerId_used_NE":{
         "en": "The farmer's Id was used and they are not eligible",
