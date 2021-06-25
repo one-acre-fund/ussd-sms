@@ -3,8 +3,6 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
-Version
-
 ## v2.0.9
 ### Fixed
 * [ESWFA-156](https://oneacrefund.atlassian.net/browse/ESWFA-156) GSU USSD survey update request
