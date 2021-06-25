@@ -10,6 +10,7 @@ describe('Selected tip and episode handler for IVR first flow', () => {
 
     beforeEach(() => {
         state.vars.invalidInputAttempts = null;
+        call.vars = {};
     });
 
     it('repeats the played episode when O is pressed', () => {
@@ -23,6 +24,7 @@ describe('Selected tip and episode handler for IVR first flow', () => {
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610463660/eaab86509562/episode_menu.mp3'
         );
         expect(promptKey).toHaveBeenCalledWith('selectedTipOrEpisode1');
+        expect(call.vars.selectedItemMenuOnePlayed_1).toEqual('episode-1');
     });
 
     it('repeats the played top tip when 0 is pressed', () => {
@@ -36,6 +38,7 @@ describe('Selected tip and episode handler for IVR first flow', () => {
             'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610987559/75337eebdd49/tip_menu.mp3'
         );
         expect(promptKey).toHaveBeenCalledWith('selectedTipOrEpisode1');
+        expect(call.vars.selectedItemMenuOnePlayed_1).toEqual('top-tip-1');
     });
 
     it('returns to the correct main menu when * is pressed', () => {
@@ -62,6 +65,7 @@ describe('Selected tip and episode handler for IVR first flow', () => {
         selectedTipAndEpHandler1('8');
         selectedTipAndEpHandler1('7');
         expect(hangUp).toHaveBeenCalled();
+        expect(call.vars.selectedItemMenuOneCount).toEqual(3);
     });
 
     it('does not hang up if a valid key is pressed after an invalid option was selected', () => {

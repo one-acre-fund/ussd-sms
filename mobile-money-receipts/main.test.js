@@ -1,6 +1,8 @@
 // jest.mock('./translations');
 const getTranslation = require('./translations');
 const { client } = require('./test-client-data');
+const Log = require('../logger/elk/elk-logger');
+jest.mock('../logger/elk/elk-logger');
 
 const exampleContact = {
     phone_number: '0794320345',
@@ -13,7 +15,25 @@ const exampleContact = {
 // const shortRainsBalance = client.BalanceHistory[0].Balance;
 const longRainsbalance = client.BalanceHistory[1].Balance;
 
+
+describe('Mobile Money errors Log receipts',()=>{
+    let mockLogger;
+    beforeEach(() => {
+        mockLogger = {
+            error: jest.fn(),
+            warn: jest.fn()
+        };
+        Log.mockReturnValue(mockLogger);
+    });
+    it('should log a message if there is an exception caught sending the message', () => {
+        global.contact = null;
+        require('./main');
+        expect(mockLogger.error).toHaveBeenCalled();
+    });
+});
+
 describe('Mobile Money receipts', () => {
+    
     beforeAll(() => {
         global.contact = exampleContact;
         global.state = { vars: {} };

@@ -116,6 +116,10 @@ module.exports = function(){
     dataJSON['simulated'] = message.simulated;
     dataJSON['status'] = message.status;
     dataJSON['time_created'] = message.time_created;
+    dataJSON['duration'] = message.duration;
+    dataJSON['time_sent'] = message.time_sent;
+    dataJSON['url'] = message.url;
+    dataJSON['ring_time'] = message.ring_time;
 
     // Contact variables
     //dataJSON['contact']['last_message_id'] = contact.last_message_id;

@@ -15,6 +15,23 @@ var clientMock2 = {
     LastName: 'Jeofrey',
     BalanceHistory: []
 };
+var Log = require('../logger/elk/elk-logger');
+jest.mock('../logger/elk/elk-logger');
+describe('Mobile Money errors Log receipts',()=>{
+    let mockLogger;
+    beforeEach(() => {
+        mockLogger = {
+            error: jest.fn(),
+            warn: jest.fn()
+        };
+        Log.mockReturnValue(mockLogger);
+    });
+    it('should log a message if there is an exception caught sending the message', () => {
+        contact.vars = undefined;
+        require('./repaymentsRw');
+        expect(mockLogger.error).toHaveBeenCalled();
+    });
+});
 describe('Rwandan repayments', () => {
     beforeAll(() => {
         contact.phone_number = '0788445637';
@@ -42,7 +59,7 @@ describe('Rwandan repayments', () => {
         'Mwishyuye 250 RWF\n' +
         'No y\'igikorwa: 123\n' +
         'No ya konti: 12345678\n' +
-        'ayishyuwe yose 19A+B: 150 RWF\n' +
+        'ayishyuwe yose 21A+B: 150 RWF\n' +
         'Kanda *801*0# kuyandi makuru\n' + 
         'Ishyura 300 ugume murongo mwiza w\'ubwishyu\n' , 'label_ids': ['123'], 'to_number': '0788445637'});
     });

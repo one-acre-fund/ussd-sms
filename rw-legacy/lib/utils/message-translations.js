@@ -40,8 +40,8 @@ module.exports = {
         "ki": "Murakoze, uyu muhinzi ntiyujuje ibisabwa"
     },
     "ext_farmer_confirmation": {
-        "en": "Thank you, this is registered in tester pack",
-        "ki": "Murakoze, Uyumuhinzi agiye k'urutonde rwabazahabwa inyongera musaruro zigerageza"
+        "en": "Thank you for registering and confirming that the farmer has received the pack",
+        "ki": "Murakoze, Uyumuhinzi yanditswe kdi wemeje ko yakiriye inyongera musaruro zigerageza"
     },
     "ext_farmerId_used_NE":{
         "en": "The farmer's Id was used and they are not eligible",
@@ -340,8 +340,8 @@ module.exports = {
         "ki": "Nomero iranga umuyobozi w'itsinda wanditse siyo. Ongera ugerageze",
     },
     "enr_reg_complete": {
-        "en": "Thank you for enrolling with TUBURA! Your account number is $ACCOUNT_NUMBER. Please save this!",
-        "ki": "Murakoze kwiyandikisha, $NAME. Bwira umuhinzi nimero ya konti ya TUBURA: $ACCOUNT_NUMBER.",
+        "en": "Thank you for enrolling with TUBURA! Your account number is $ACCOUNT_NUMBER. Please save this! 1) Continue Ordering",
+        "ki": "Murakoze kwiyandikisha, $NAME. Bwira umuhinzi nimero ya konti ya TUBURA: $ACCOUNT_NUMBER. Subiza 1) Gutumiza",
     },
     "enr_bad_input_increment": {
         "en": "invalid increment~B1)Continue~B99)Exit",
@@ -847,5 +847,13 @@ module.exports = {
     'are_you_a_gl': {
         'en': 'Are you the Group leader?\nPress 1 if you are\nPress 2 if you are not',
         'ki': 'Uri umukuru w’itsinda?\nKanda 1 niba uri we\nKanda 2 niba utariwe'
+    },
+    'enrollment_ended': {
+        'en': 'Enrollment period endend for your district',
+        'ki': 'Igihe cyo gutumiza cyararangiye mu karere kanyu'
+    },
+    'enr_reg_complete_msg': {
+        'en': 'Thank you for enrolling with TUBURA! Your account number is $ACCOUNT_NUMBER. Please save this!',
+        'ki': 'Murakoze kwiyandikisha muri TUBURA, $NAME! Konte yawe ni $ACCOUNT_NUMBER. Yandike uyizirikane!',
     }
 }

@@ -53,11 +53,15 @@ var translations = {
     },
     'confirm_reception': {
         'en': 'Has the farmer received the pack?\n1. Yes\n2. No',
-        'ki': 'Umuhinzi yakiriye inyongeramusaruro?\n1. Yego\n2. Hoya'
+        'ki': 'Umuhinzi yakiriye inyongeramusaruro yagenewe?\n1. Yego\n2. Hoya'
     },
     'incorrect_id_try_again': {
         'en': 'You\'ve incorrectly entered the last four digits of your national ID. Please try again.',
         'ki': 'Winjijemo imibare ine ya nyuma ya nomera ndangamuntu itari yo. Ongera ugerageze',
+    },
+    'farmer_received': {
+        'en': 'Thank you,the farmer is registered in Tester pack',
+        'ki': 'Murakoze, umuhinzi yanditswe mubahawe Inyongeramusaruro zigerageza'
     },
     'next_page': {
         'en': '77) Next',
