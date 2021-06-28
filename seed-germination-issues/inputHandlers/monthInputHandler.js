@@ -7,7 +7,7 @@ module.exports = {
     getHandler: function(lang) {
         return function(input) {
             var dukaInputHandler = require('./dukaInputHandler');
-            var weekInputHandler = require('./weekInputHandler');
+            var dateInputHandler = require('./plantingDateInputHandler');
             input = input.replace(/\D/g, '');
             var getMessage = translator(translations, lang);
             var months_option_values = JSON.parse(state.vars.months);
@@ -18,9 +18,9 @@ module.exports = {
 
             if(chosenMonth) {
                 state.vars.chosen_month = chosenOption;
-                var weeks_screen = getMessage('planting_week', {'$month': chosenMonth});
-                global.sayText(weeks_screen);
-                global.promptDigits(weekInputHandler.handlerName);
+                var date = getMessage('planting_date', {}, lang);
+                global.sayText(date);
+                global.promptDigits(dateInputHandler.handlerName);
             } else if(input == 77 && months_screens[state.vars.current_months_menu + 1]) {
                 // next page
                 state.vars.current_months_menu +=1;

@@ -21,11 +21,11 @@ module.exports = [
         'start_date': project.vars.start_locate_duka
     },
     {
-        'en-ke': 'Report Seed Quality Issue',
-        'sw': 'Ripoti suala la ubora wa mbegu',
+        'en-ke': 'Report Seed Germination Issue',
+        'sw': 'Ripoti shida ya kumea kwa mbegu',
         'option_name': 'report_seed_quality',
-        'end_date': project.vars.end_report_seed_quality,
-        'start_date': project.vars.start_report_seed_quality
+        'end_date': project.vars.end_report_seed_quality || service.vars.end_report_seed_quality,
+        'start_date': project.vars.start_report_seed_quality || service.vars.start_report_seed_quality
     },
     {
         'en-ke': 'Contact Call center',

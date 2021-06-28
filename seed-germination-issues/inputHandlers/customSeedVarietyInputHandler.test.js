@@ -2,7 +2,18 @@ const customSeedVarietyInputHandler = require('./customSeedVarietyInputHandler')
 const lotCodeInputHandler = require('./lotCodeInputHandler');
 
 describe.each(['en-ke', 'sw'])('custom seed variety input handler using (%s)', (lang) => {
-    it('it should prompt for seed variety', () => {
+    it('it should reprompt for seed variety if the input is invalid', () => {
+        const handler = customSeedVarietyInputHandler.getHandler(lang);
+        const messages = {
+            'en-ke': 'Please write the name of the seed variety you purchased in the Duka.',
+            'sw': 'Tafadhali andika jina la aina ya mbegu uliyonunua katika Duka.'
+        };
+        handler();
+        expect(promptDigits).toHaveBeenCalledWith(customSeedVarietyInputHandler.handlerName);
+        expect(sayText).toHaveBeenCalledWith(messages[lang]);
+    });
+
+    it('it prompt for lotcode if the input is valid', () => {
         const handler = customSeedVarietyInputHandler.getHandler(lang);
         const seedVariety = 'variety1';
         const messages = {

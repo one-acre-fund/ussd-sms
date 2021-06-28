@@ -5,9 +5,8 @@ describe('phone number input handler', () => {
         state.vars.chosen_duka = 'Kakamega';
         state.vars.lot_code = 'LOTCODE';
         state.vars.chosen_month = '11';
-        state.vars.rsgi_seed_brand = 'Western Seed';
         state.vars.rsgi_seed_variety = 'Watermelon, 50g';
-        state.vars.week_number = '1';
+        state.vars.planting_date = '22/06/2021';
     });
     it('should reprompt for the phone number if the user submits an empty entry', () => {
         const handler = phoneNumberInputHandler.getHandler('en-ke');
@@ -28,11 +27,10 @@ describe('phone number input handler', () => {
         {
             'duka': 'Kakamega',
             'lot_code': 'LOTCODE',
-            'month': '11',
-            'phone': '075663820',
-            'seed_brand': 'Western Seed', 
+            'purchase_month': '11',
+            'phone': '075663820', 
             'seed_variety': 'Watermelon, 50g',
-            'week': '1'}});
+            'planting_date': '22/06/2021'}});
         expect(mockRow.save).toHaveBeenCalled();
     });
 });
