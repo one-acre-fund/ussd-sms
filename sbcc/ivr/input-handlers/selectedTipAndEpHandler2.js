@@ -1,10 +1,13 @@
 var notifyELK = require('../../../notifications/elk-notification/elkNotification');
 var getAudioLink = require('../../utils/getAudioLink');
 var invalidAttempts = require('../../utils/invalidAttempts');
+var addPlayedItem = require('../../utils/addPlayedItem');
 
 module.exports = function(input) {
     notifyELK();
     var lang = state.vars.lang;
+    call.vars.selectedItemMenuTwoCount = call.vars.selectedItemMenuTwoCount ? call.vars.selectedItemMenuTwoCount + 1 : 1;
+    var count = call.vars.selectedItemMenuTwoCount;
     var played = state.vars.played;
     var currentMenu = /tip/.test(played) ? 'selected-tip-menu' : 'selected-episode-menu';
     var otherItemsMenu = currentMenu === 'selected-tip-menu' ? 'top-tips-part-1-menu' : 'older-episodes-part-1-menu';
@@ -13,6 +16,8 @@ module.exports = function(input) {
     if (input === '0') {
         invalidAttempts.clear();
         playAudio(getAudioLink(lang, played));
+        call.vars['selectedItemMenuTwoPlayed_' + count] = played;
+        addPlayedItem(played);
         playAudio(getAudioLink(lang, currentMenu));
         promptKey('selectedTipOrEpisode2');
     } else if (input === '1') {

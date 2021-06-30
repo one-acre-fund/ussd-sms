@@ -10,6 +10,7 @@ var olderEpisodesMenuHandler1 = require('./input-handlers/olderEpisodesMenuHandl
 var olderEpisodesMenuHandler2 = require('./input-handlers/olderEpisodesMenuHandler2');
 var topTipsMenuHandler1 = require('./input-handlers/topTipsMenuHandler1');
 var topTipsMenuHandler2 = require('./input-handlers/topTipsMenuHandler2');
+var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
 var lang = contact.vars.sbccLang ? contact.vars.sbccLang : 'sw';
 var ivrFirstFlowStartDate = new Date('01/01/2021');
@@ -18,6 +19,7 @@ var ivrFirstFlowEndDate = new Date('06/13/2021');
 
 // Start logic flow
 global.main = function () {
+    setTimeElapsedBetweenUssdAndIvr();
     state.vars.lang = lang;
     // state.vars.currentDate will enable us set different dates on telerivet platform to carry out various tests
     var currentDate = state.vars.currentDate ? new Date(state.vars.currentDate) : new Date();
@@ -50,6 +52,20 @@ addInputHandler('olderEpisodesMenu1', olderEpisodesMenuHandler1);
 addInputHandler('olderEpisodesMenu2', olderEpisodesMenuHandler2);
 addInputHandler('topTipsMenu1', topTipsMenuHandler1);
 addInputHandler('topTipsMenu2', topTipsMenuHandler2);
+
+addEventListener('call_complete', function() {
+    notifyELK();
+});
+
+/**
+ * Sets the elapsed time between when the USSD flow ended and when the IVR flow started
+ */
+function setTimeElapsedBetweenUssdAndIvr() {
+    var timeAnswered = Date.now();
+    call.vars.time_answered = new Date(timeAnswered).toString();
+    call.vars.time_from_ussd_to_ivr = Math.floor(
+        (timeAnswered - new Date(contact.vars.sbcc_ussd_ended_at).getTime()) / 1000);
+}
 
 /**
  * Gets the particular menu to play for the caller based on the dates and episode/tip currently available

@@ -28,7 +28,7 @@ module.exports = function receptionHandler(input) {
             }
             allFarmersTablerow.vars.last_updated_confirmation = new Date().toString();
             allFarmersTablerow.save();
-        }
+        } 
     } else if(input == 2) {
         if(farmer_row.hasNext()) {
             nextedRow = farmer_row.next();
@@ -44,6 +44,7 @@ module.exports = function receptionHandler(input) {
             allFarmersTablerow.vars.last_updated_confirmation = new Date().toString();
             allFarmersTablerow.save();
         }
+        sayText(getMessage('farmer_received', {}, lang));
     } else {
         sayText(getMessage('invalid_input', {'$Menu': getMessage('confirm_reception', {}, lang)}, lang));
         promptDigits('confirm_reception', {

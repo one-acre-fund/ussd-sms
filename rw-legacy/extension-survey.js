@@ -21,7 +21,7 @@ if(service.vars.env === 'prod' || service.vars.env === 'dev'){
 
 //initialize dataTables
 var extension_main_menu_table = env === 'dev' ? env + '_extension_main_menu' : 'extension_main_menu';
-
+service.vars.bundles_table = 'DT3370aeda95ad0233'
 // load in general functions
 var msgs = require('./lib/msg-retrieve');
 var admin_alert = require('./lib/admin-alert');
