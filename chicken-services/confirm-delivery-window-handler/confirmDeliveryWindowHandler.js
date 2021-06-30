@@ -3,7 +3,7 @@ var translations = require('../translations');
 var translate =  createTranslator(translations, service.vars.lang);
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 
-var handlerName = 'confirm_dlivery_window_handler_rwchx';
+var handlerName = 'conf_del_win_handler_rwchx';
 
 module.exports = {
     handlerName: handlerName,
