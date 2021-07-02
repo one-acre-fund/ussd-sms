@@ -10,9 +10,9 @@ module.exports =
                 "correct" : 1
             },
             "ext_farmer_question2": {
-                "en": "Has the selected farmer or spouse used hybrid maize at least once in the last 4 seasons (i.e last 2 years)?\n1) Yes\n2) No",
-                "ki": "Uyu muhinzi wahisemo cyangwa uwo bashakanye baba barigeze guhinga ibigori bya Iburide mu myaka 2 ishize\n1) Yego\n2) Oya?",
-                "correct" : 2
+                "en": "Selected farmer or his spouse has never grown HM or stopped or grow it very bad.\n1) Yes\n2) No",
+                "ki": "Uyu muhinzi cyangwa uwo bashakanye  ntabwo yigeze guhinga ibigori bya Iburide cg yahagaritse kuyihinga cg abihinga nabi cyane?\n1) Yego\n2) Oya?",
+                "correct" : 1
             },
             "ext_farmer_question3": {
                 "en": "Is selected farmer willing to plant it on somewhere visible to other farmers?\n 1) Yes\n2) No",

@@ -1,10 +1,13 @@
 var notifyELK = require('../../../notifications/elk-notification/elkNotification');
 var getAudioLink = require('../../utils/getAudioLink');
 var invalidAttempts = require('../../utils/invalidAttempts');
+var addPlayedItem = require('../../utils/addPlayedItem');
 
 module.exports = function (input) {
     notifyELK();
     var lang = state.vars.lang;
+    call.vars.selectedItemMenuOneCount = call.vars.selectedItemMenuOneCount ? call.vars.selectedItemMenuOneCount + 1 : 1;
+    var count = call.vars.selectedItemMenuOneCount;
     var mainMenu = state.vars.mainMenu;
     var mainMenuHandler = state.vars.mainMenuHandler;
     var played = state.vars.played;
@@ -12,6 +15,8 @@ module.exports = function (input) {
     if (input === '0') {
         invalidAttempts.clear();
         playAudio(getAudioLink(lang, played));
+        call.vars['selectedItemMenuOnePlayed_' + count] = played;
+        addPlayedItem(played);
         playAudio(getAudioLink(lang, currentMenu));
         promptKey('selectedTipOrEpisode1');
     } else if (input === '*') {

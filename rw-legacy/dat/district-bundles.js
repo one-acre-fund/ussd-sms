@@ -3,11 +3,13 @@
  * @returns an array of bundles
  */
 module.exports = function getBundles() {
+    console.log('>>>>>>table' + service.vars.bundles_table);
     var table = project.initDataTableById(service.vars.bundles_table);
     var query = {
     };
     query['d' + state.vars.client_districtId] = 1;
     var cursor = {};
+    console.log('>>>> query: ' + JSON.stringify(query));
     if(state.vars.client_districtId) {
         cursor = table.queryRows({
             vars: query

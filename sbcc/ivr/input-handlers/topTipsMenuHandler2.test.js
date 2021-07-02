@@ -10,12 +10,14 @@ describe('Top tips menu handler for top tips 5 to 8', () => {
 
     beforeEach(() => {
         state.vars.invalidInputAttempts = null;
+        call.vars = {};
     });
 
     it('plays the fifth top tip when 1 is pressed', () => {
         topTipsMenuHandler2('1');
         expect(playAudio).toHaveBeenNthCalledWith(1, 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611044349/99f03ca99ead/tip_5.mp3');
         expect(state.vars.played).toEqual('top-tip-5');
+        expect(call.vars.topTipsMenuTwoPlayed_1).toEqual('top-tip-5');
         expect(playAudio).toHaveBeenLastCalledWith('https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610997646/decba8881698/selected_tip_menu.mp3');
         expect(promptKey).toHaveBeenCalledWith('selectedTipOrEpisode2');
     });
@@ -24,6 +26,7 @@ describe('Top tips menu handler for top tips 5 to 8', () => {
         topTipsMenuHandler2('2');
         expect(playAudio).toHaveBeenNthCalledWith(1, 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611044378/51d196ecce0d/tip_6.mp3');
         expect(state.vars.played).toEqual('top-tip-6');
+        expect(call.vars.topTipsMenuTwoPlayed_1).toEqual('top-tip-6');
         expect(playAudio).toHaveBeenLastCalledWith('https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610997646/decba8881698/selected_tip_menu.mp3');
         expect(promptKey).toHaveBeenCalledWith('selectedTipOrEpisode2');
     });
@@ -32,6 +35,7 @@ describe('Top tips menu handler for top tips 5 to 8', () => {
         topTipsMenuHandler2('3');
         expect(playAudio).toHaveBeenNthCalledWith(1, 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611044410/cdd0ce1b1338/tip_7.mp3');
         expect(state.vars.played).toEqual('top-tip-7');
+        expect(call.vars.topTipsMenuTwoPlayed_1).toEqual('top-tip-7');
         expect(playAudio).toHaveBeenLastCalledWith('https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610997646/decba8881698/selected_tip_menu.mp3');
         expect(promptKey).toHaveBeenCalledWith('selectedTipOrEpisode2');
     });
@@ -40,6 +44,7 @@ describe('Top tips menu handler for top tips 5 to 8', () => {
         topTipsMenuHandler2('4');
         expect(playAudio).toHaveBeenNthCalledWith(1, 'https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1611044445/bc09c974c27b/tip_8.mp3');
         expect(state.vars.played).toEqual('top-tip-8');
+        expect(call.vars.topTipsMenuTwoPlayed_1).toEqual('top-tip-8');
         expect(playAudio).toHaveBeenLastCalledWith('https://telerivet.s3.amazonaws.com/files/PJ0c6396c97da49774/1610997646/decba8881698/selected_tip_menu.mp3');
         expect(promptKey).toHaveBeenCalledWith('selectedTipOrEpisode2');
     });
@@ -76,6 +81,7 @@ describe('Top tips menu handler for top tips 5 to 8', () => {
         topTipsMenuHandler2('0');
         expect(state.vars.invalidInputAttempts).toEqual(0);
         expect(hangUp).not.toHaveBeenCalled();
+        expect(call.vars.topTipsMenuTwoCount).toEqual(3);
     });
 
     it('should call notifyELK',() => {
