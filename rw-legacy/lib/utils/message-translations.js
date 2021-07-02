@@ -855,5 +855,9 @@ module.exports = {
     'enr_reg_complete_msg': {
         'en': 'Thank you for enrolling with TUBURA! Your account number is $ACCOUNT_NUMBER. Please save this!',
         'ki': 'Murakoze kwiyandikisha muri TUBURA, $NAME! Konte yawe ni $ACCOUNT_NUMBER. Yandike uyizirikane!',
+    },
+    'registration_ended': {
+        'en': 'Registration ended. Please wait for the next season',
+        'ki': 'Kwiyandikisha byararangiye. Mutegereze igihembwe gitaha'
     }
 }
