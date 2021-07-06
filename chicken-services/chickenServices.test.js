@@ -6,6 +6,8 @@ var possibleOrderHandler = require('./possible-order-handler/possibleOrderHandle
 var chickenEligibility = require('./chicken-eligibility/chickenEligibility');
 var notifyELK = require('../notifications/elk-notification/elkNotification'); 
 var CheckChickenCapByDistrict = require('./check-chicken-cap-by-district/CheckChickenCapByDistrict');
+var confirmDeliveryWindowHandler = require('./confirm-delivery-window-handler/confirmDeliveryWindowHandler');
+
 const {client}  = require('./test-client-data'); 
 
 jest.mock('./change-order-confirmation/changeOrderConfirmation');
@@ -15,11 +17,13 @@ jest.mock('./possible-order-handler/possibleOrderHandler');
 jest.mock('./chicken-eligibility/chickenEligibility');
 jest.mock('../notifications/elk-notification/elkNotification');
 jest.mock('./check-chicken-cap-by-district/CheckChickenCapByDistrict');
+jest.mock('./confirm-delivery-window-handler/confirmDeliveryWindowHandler');
 
 const mockChangeOrderCofrm = jest.fn();
 const mockChangeOrderHandler = jest.fn();
 const mockPlaceOrderHandler = jest.fn();
 const mockPossibleOrderHandler = jest.fn();
+const mockMonfirmDeliveryWindowHandler = jest.fn();
 
 
 chickenEligibility.mockReturnValue(0);
@@ -44,6 +48,7 @@ describe('ChickenServices', () => {
         changeOrderHandler.getHandler.mockReturnValue(mockChangeOrderHandler);
         placeOrderHandler.getHandler.mockReturnValue(mockPlaceOrderHandler);
         possibleOrderHandler.getHandler.mockReturnValue(mockPossibleOrderHandler);
+        confirmDeliveryWindowHandler.getHandler.mockReturnValue(mockMonfirmDeliveryWindowHandler);
         
     });
     it('should add change Order Cofirmation handler to input handlers', () => {
@@ -152,7 +157,7 @@ describe('ChickenServices', () => {
             CheckChickenCapByDistrict.mockReturnValue(false);
             state.vars.max_chicken = number;
             chickenServices.start(account, country);
-            expect(sayText).toHaveBeenCalledWith('We are very sorry, we have reached the limit of chickens for this month. Please try to confirm your chickens again next month!');
+            expect(sayText).toHaveBeenCalledWith('We are very sorry, we have reached the limit of chickens for your sector. Please try to confirm your chickens again next season');
         });
     });
 
@@ -196,7 +201,7 @@ describe('ChickenServices', () => {
         });
         beforeEach(() => {
             chickenServices.registerHandlers();
-            callback = changeOrderCofrm.getHandler.mock.calls[0][0];                
+            callback = confirmDeliveryWindowHandler.getHandler.mock.calls[0][0];                
         });
 
         it('shoud set the rows and save the client infos',()=>{

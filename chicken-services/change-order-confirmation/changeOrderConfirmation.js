@@ -5,7 +5,7 @@ var handlerName = 'change_order_confirm';
 var notifyELK = require('../../notifications/elk-notification/elkNotification'); 
 module.exports = {
     handlerName: handlerName,
-    getHandler: function(onOrderFinalized){
+    getHandler: function(){
         return function(input){
             notifyELK();
             if(input == 0){
@@ -20,7 +20,17 @@ module.exports = {
                     global.stopRules();
                 }
                 else{
-                    onOrderFinalized();
+                    // provide the delivery window 
+                    var confirmDeliveryWindowHandler = require('../confirm-delivery-window-handler/confirmDeliveryWindowHandler');
+                    var capsDetails = JSON.parse(state.vars.capsDetails);
+                    var chicken_number = state.vars.confirmed_number;
+
+                    var lang = service.vars.lang;
+                    global.sayText(translate('delivery_window', {
+                        '$delivery_window': capsDetails['delivery_window_' + lang],
+                        '$chicken_number': chicken_number
+                    }, lang));
+                    global.promptDigits(confirmDeliveryWindowHandler.handlerName);
                 }  
             }
             else{

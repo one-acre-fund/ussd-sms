@@ -142,13 +142,17 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
     notifyELK();
     var response = input.replace(/\D/g, '');
     if (response == 1) {
-        const resumedSession = regSessionManager.resume(contact.phone_number, inputHandlers);
-        if(!resumedSession){
-            var current_menu = msgs('enr_reg_start', {}, lang);
-            state.vars.current_menu_str = current_menu;
-            sayText(current_menu);
-            promptDigits('enr_reg_start', { 'submitOnHash': false, 'maxDigits': max_digits_for_nid, 'timeout': timeout_length });
-        }
+        //
+        sayText(msgs('registration_ended', {}, lang));
+        stopRules();
+        // this code is to be uncommented when enrollment starts again
+        // const resumedSession = regSessionManager.resume(contact.phone_number, inputHandlers);
+        // if(!resumedSession){
+        //     var current_menu = msgs('enr_reg_start', {}, lang);
+        //     state.vars.current_menu_str = current_menu;
+        //     sayText(current_menu);
+        //     promptDigits('enr_reg_start', { 'submitOnHash': false, 'maxDigits': max_digits_for_nid, 'timeout': timeout_length });
+        // }
     } else if(response == 99) { // use 99 to change the language
         lang = service.vars.lang == 'ki' ? 'en' : 'ki'
         service.vars.lang = lang;

@@ -3,11 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
-Version
-
+## V2.1.0
+* [ESWFA-196](https://oneacrefund.atlassian.net/browse/ESWFA-196) Fix Rwanda ussd
 ## v2.0.9
-### Changed
-* [ESWFA-192](https://oneacrefund.atlassian.net/browse/ESWFA-192) 22A USSD change request_Tester pack
 ### Fixed
 * [ESWFA-156](https://oneacrefund.atlassian.net/browse/ESWFA-156) GSU USSD survey update request
 ## v2.0.8
@@ -36,6 +34,7 @@ episodes and top tips in a call variable in ELK
 ## v2.0.1
 ### Added
 * [ESWFA-165](https://oneacrefund.atlassian.net/browse/ESWFA-165) Add variables to be streamed to ELK for use in SBCC IVR dashboard
+* [ESWFA-170](https://oneacrefund.atlassian.net/browse/ESWFA-170) Chicken Confirmation for 22A improvements 
 ## v2.0.0
 ### Fixed
 * [ESWFA-166](https://oneacrefund.atlassian.net/browse/ESWFA-166) Refactoring USSD code to optimize performance
