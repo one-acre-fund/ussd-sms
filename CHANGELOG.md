@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 Version
 
 ## v2.0.9
+### Changed
+* [ESWFA-192](https://oneacrefund.atlassian.net/browse/ESWFA-192) 22A USSD change request_Tester pack
 ### Fixed
 * [ESWFA-156](https://oneacrefund.atlassian.net/browse/ESWFA-156) GSU USSD survey update request
 ## v2.0.8
