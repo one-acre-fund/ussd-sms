@@ -3,7 +3,6 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
-Version
 ## V2.1.0
 * [ESWFA-196](https://oneacrefund.atlassian.net/browse/ESWFA-196) Fix Rwanda ussd
 ## v2.0.9
