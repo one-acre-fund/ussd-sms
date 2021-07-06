@@ -75,4 +75,24 @@ describe('pre enrollment', () => {
         handler('123434');
         expect(sayText).toHaveBeenCalledWith('The farmer  you are trying to enroll is registered in a different site or district than the code provided');
     });
+
+    it('should display an error message if the returning client is in the same group, but not in the same group as the GL', () => {
+        state.vars.sameGroup = 'true';
+        state.vars.group_info = JSON.stringify({districtId: 1234, siteId: 2345, groupId: 97346});
+        reduceClientSize.mockReturnValueOnce({DistrictId: 1234, SiteId: 2345,GroupId: 4584});
+        getClient.mockReturnValueOnce({DistrictId: 1234, SiteId: 2345, GroupId: 3743});
+        const handler = preEnrollmentHandler.getHandler('en_bu');
+        handler('123434');
+        expect(sayText).toHaveBeenCalledWith('The farmer  you are trying to enroll is registered in a different site or district');
+    });
+
+    it('should display an error message if the returning client is not in the same group', () => {
+        state.vars.sameGroup = 'false';
+        state.vars.group_info = JSON.stringify({districtId: 1234, siteId: 2345, groupId: 97346});
+        reduceClientSize.mockReturnValueOnce({DistrictId: 1234, SiteId: 2345,GroupId: 4584});
+        getClient.mockReturnValueOnce({DistrictId: 1234, SiteId: 2345, GroupId: 3743});
+        const handler = preEnrollmentHandler.getHandler('en_bu');
+        handler('123434');
+        expect(sayText).toHaveBeenCalledWith('The farmer  you are trying to enroll is registered in a different site or district than the code provided');
+    });
 });
