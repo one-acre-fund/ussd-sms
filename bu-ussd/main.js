@@ -28,6 +28,7 @@ service.vars.server_name = project.vars[env+'_server_name'];
 service.vars.roster_api_key = project.vars[env+'_roster_api_key'];
 service.vars.orders_table_id = project.vars[env+'_orders_table'];
 service.vars.client_table_id = project.vars[env+'_clients_table'];
+service.vars.group_leaders_table = project.vars[env + '_group_leaders_table'];
 
 registerInputHandlers(lang, onAccountNumberValidated);
 global.main = function() {

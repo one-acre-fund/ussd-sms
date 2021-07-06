@@ -2,7 +2,8 @@ var populateMenu = require('../../shared/createMenu');
 var menuOptions = require('./menuOptions');
 var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
-var checkGroupLeader = require('../../shared/rosterApi/checkForGroupLeader');
+// var checkGroupLeader = require('../../shared/rosterApi/checkForGroupLeader');
+var checkGroupLeader = require('../utils/checkForGroupLeader');
 var notifyELK = require('../../notifications/elk-notification/elkNotification');
 var reduceClientSize = require('../../shared/reduceClientSize');
 
@@ -10,7 +11,9 @@ module.exports = function onAccountNumberValidated(lang, client) {
     notifyELK();
     var mainMenuHandler = require('../inputHandlers/mainMenuHandler');
     state.vars.client_json = JSON.stringify(reduceClientSize(client));
-    var isGroupLeader = checkGroupLeader(client && client.DistrictId, client && client.ClientId);
+    // use the data table at the moment but once the endpoint for checking GL for the last season is fixed, change back
+    // var isGroupLeader = checkGroupLeader(client && client.DistrictId, client && client.ClientId);
+    var isGroupLeader = checkGroupLeader(client.AccountNumber);
     state.vars.isGroupLeader = isGroupLeader;
     var getMessage = translator(translations, lang);
     var filteredOptions = getOptions(menuOptions);

@@ -1,10 +1,12 @@
 const confirmOrder = require('./confirmOrder');
 
-const CheckGroupLeader = require('../../../shared/rosterApi/checkForGroupLeader');
+const CheckGroupLeader = require('../../utils/checkForGroupLeader');
+// const CheckGroupLeader = require('../../../shared/rosterApi/checkForGroupLeader');
 const enrollOrder = require('../../../Roster-endpoints/enrollOrder');
 const getPhoneNumber = require('../../../shared/rosterApi/getPhoneNumber');
 
-jest.mock('../../../shared/rosterApi/checkForGroupLeader');
+// jest.mock('../../../shared/rosterApi/checkForGroupLeader');
+jest.mock('../../utils/checkForGroupLeader');
 jest.mock('../../../Roster-endpoints/enrollOrder');
 jest.mock('../../../shared/rosterApi/getPhoneNumber');
 

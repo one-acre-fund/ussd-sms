@@ -1,4 +1,5 @@
-var CheckGroupLeader = require('../../../shared/rosterApi/checkForGroupLeader');
+// var CheckGroupLeader = require('../../../shared/rosterApi/checkForGroupLeader');
+var CheckGroupLeader = require('../../utils/checkForGroupLeader');
 var enrollOrder = require('../../../Roster-endpoints/enrollOrder');
 var translations = require('../translations/index');
 var translator = require('../../../utils/translator/translator');
@@ -17,7 +18,9 @@ module.exports = function(lang) {
             inputChoices: bundle.bundleInputs.map(function(inputBundle) {return inputBundle.bundleInputId;})
         };
     });
-    var isGroupLeader = CheckGroupLeader(client.DistrictId, client.ClientId);
+    // wait until there is an implementation for checking GLs
+    // var isGroupLeader = CheckGroupLeader(client.DistrictId, client.ClientId);
+    var isGroupLeader = CheckGroupLeader(client.AccountNumber);
     var requestData = {
         districtId: client.DistrictId,
         siteId: client.SiteId,
