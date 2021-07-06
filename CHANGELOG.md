@@ -3,6 +3,18 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
+## V2.1.0
+* [ESWFA-196](https://oneacrefund.atlassian.net/browse/ESWFA-196) Fix Rwanda ussd
+## v2.0.9
+### Fixed
+* [ESWFA-156](https://oneacrefund.atlassian.net/browse/ESWFA-156) GSU USSD survey update request
+## v2.0.8
+* [SER-582](https://oneacrefund.atlassian.net/browse/SER-582) As a payment stakeholder, I want to know when message sent by Telerivet fails for any reason
+## v2.0.7
+* [ESWFA-190](https://oneacrefund.atlassian.net/browse/ESWFA-190) RW: Wrong Repayment Info on USSD 
+## v2.0.6
+* [ESWFA-182](https://oneacrefund.atlassian.net/browse/ESWFA-182) As a Client, I want to immediately continue ordering after registration instead of starting over
+## v2.0.5
 ### Changed
 * [ESWFA-170](https://oneacrefund.atlassian.net/browse/ESWFA-170) Chicken Confirmation for 22A improvements 
 ## v2.0.0
