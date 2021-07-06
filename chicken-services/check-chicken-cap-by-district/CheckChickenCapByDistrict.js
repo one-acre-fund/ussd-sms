@@ -1,7 +1,5 @@
 
-var capsByDistrict = require('./capsByDistrict');
 module.exports = function (client){
-
     var districtName, sectorName;
     console.log('d'+ client.DistrictName);
     var clientTable = project.initDataTableById(service.vars.chicken_table_id);
@@ -15,10 +13,16 @@ module.exports = function (client){
         districtName = clientRow.vars.district; 
         sectorName = clientRow.vars.sector;
     }
-    var caps = capsByDistrict[districtName];
-    if(caps){ caps = capsByDistrict[districtName][sectorName];}
+    var getCapsBySector = require('./getCapsBySector');
+    var capsDetails = getCapsBySector(districtName, sectorName);
+    var caps;
+    if(capsDetails){ caps = capsDetails.chicken_cap;}
     var month = new Date().getMonth()+1;
     if(caps){
+        /* will be accessed to check the delivery window since it is a property of this object
+        currently being used in ~chicken-services/change-order-confirmation/changeOrderConfirmation */
+        state.vars.capsDetails = JSON.stringify(capsDetails); 
+        
         var numberOfChickensInTheMonth = 0;
         var table = project.initDataTableById(service.vars.chicken_table_id);
         var cursor = table.queryRows({'vars': {'confirmed': 1, 'confirmed_month': month, 'district': districtName, 'sector': sectorName}});

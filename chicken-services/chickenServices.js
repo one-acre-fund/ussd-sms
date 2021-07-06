@@ -8,6 +8,7 @@ module.exports = {
     registerHandlers: function (){
         var changeOrderConfirmation = require('./change-order-confirmation/changeOrderConfirmation');
         var placeOrderHandler = require('./place-order-handler/placeOrderHandler');
+        var confirmDeliveryWindowHandler = require('./confirm-delivery-window-handler/confirmDeliveryWindowHandler');
         function onPaymentValidated(){
             global.sayText(translate('chicken_possible_nber',{'$name': JSON.parse(state.vars.client_json).FirstName, '$max': state.vars.max_chicken}));
             global.promptDigits(possibleOrderHandler.handlerName);
@@ -43,7 +44,8 @@ module.exports = {
         addInputHandler(possibleOrderHandler.handlerName, possibleOrderHandler.getHandler(onOrderingConfirmed));
         addInputHandler(placeOrderHandler.handlerName, placeOrderHandler.getHandler(onPaymentValidated));
         addInputHandler(changeOrderHandler.handlerName, changeOrderHandler.getHandler(onPaymentValidated));
-        addInputHandler(changeOrderConfirmation.handlerName, changeOrderConfirmation.getHandler(onOrderFinalized));
+        addInputHandler(changeOrderConfirmation.handlerName, changeOrderConfirmation.getHandler());
+        addInputHandler(confirmDeliveryWindowHandler.handlerName, confirmDeliveryWindowHandler.getHandler(onOrderFinalized));
     },
 
     start: function (account, country) {

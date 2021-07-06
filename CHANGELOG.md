@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file.
 * [ESWFA-44](https://oneacrefund.atlassian.net/browse/ESWFA-44) As a Client, I want to receive an account number after registration so that I can use it 
 * [ESWFA-43](https://oneacrefund.atlassian.net/browse/ESWFA-43) As a FO/GL , I want to place orders for clients that are in my site/group
 * [ESWFA-42](https://oneacrefund.atlassian.net/browse/ESWFA-42) As an FO/GL, I want to register  clients via USSD so that we can enroll in current season
+## V2.1.0
+* [ESWFA-196](https://oneacrefund.atlassian.net/browse/ESWFA-196) Fix Rwanda ussd
 ## v2.0.9
 ### Fixed
 * [ESWFA-156](https://oneacrefund.atlassian.net/browse/ESWFA-156) GSU USSD survey update request
@@ -20,24 +22,7 @@ All notable changes to this project will be documented in this file.
 * [ESWFA-182](https://oneacrefund.atlassian.net/browse/ESWFA-182) As a Client, I want to immediately continue ordering after registration instead of starting over
 ## v2.0.5
 ### Changed
-* [THD-4442](https://oneacrefund.atlassian.net/browse/THD-4442) Auto SMS is not working - Update the season name to 21A+B
-## v2.0.4
-### Added
-* [ESWFA-173](https://oneacrefund.atlassian.net/browse/ESWFA-173) SMS notifications for registrations on Field Tech App
-* [ESWFA-175](https://oneacrefund.atlassian.net/browse/ESWFA-175) Show all played SBCC 
-episodes and top tips in a call variable in ELK
-*[ESWFA-174](https://oneacrefund.atlassian.net/browse/ESWFA-174)Optimize the query for checking if the client is a GL in the table
-
-## v2.0.3
-### Added
-* [THD-442](https://oneacrefund.atlassian.net/browse/THD-4442) Auto SMS is not working
-## v2.0.2
-### Added
-* [ESWFA-172](https://oneacrefund.atlassian.net/browse/ESWFA-172) Ensure that SBCC IVR Logs show up on Kibana
-* [SER-525](https://oneacrefund.atlassian.net/browse/SER-525) As a payment stakeholder I want to know when sending a repayment receipt fails from the sms service
-## v2.0.1
-### Added
-* [ESWFA-165](https://oneacrefund.atlassian.net/browse/ESWFA-165) Add variables to be streamed to ELK for use in SBCC IVR dashboard
+* [ESWFA-170](https://oneacrefund.atlassian.net/browse/ESWFA-170) Chicken Confirmation for 22A improvements 
 ## v2.0.0
 ### Fixed
 * [ESWFA-166](https://oneacrefund.atlassian.net/browse/ESWFA-166) Refactoring USSD code to optimize performance
