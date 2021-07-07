@@ -311,7 +311,7 @@ module.exports = {
         'en': 'Please enter your account number to finalize your order',
         'ki': 'Andika nomero ya Konti yawe wemeze neza ibyo watumije',
     },
-    'invalid_input_ext': {
+    'invalid_input': {
         'en': 'Invalid selection - please try again~B1)Continue~B99)Exit',
         'ki': 'Ibyo wahisemo ntibibashije kuboneka~B1) Gukomeza~B99) Kuvamo',
     },
