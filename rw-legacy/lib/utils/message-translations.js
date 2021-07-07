@@ -119,7 +119,7 @@ module.exports = {
         'en': '$FEEDBACK~B$TEXT~B$OPT1~B$OPT2~B$OPT3~B$OPT4~B5) Ntabyo nzi',
         'ki': '$FEEDBACK~B$TEXT~B$OPT1~B$OPT2~B$OPT3~B$OPT4~B5) Ntabyo nzi'
     },
-    'invalid_input': {
+    'invalid_input_ext': {
         'en': 'Please try again',
         'ki': 'Ongera usubiremo'
     },

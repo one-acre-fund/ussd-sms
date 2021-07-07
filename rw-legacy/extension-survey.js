@@ -433,7 +433,7 @@ inputHandlers['extension_questions'] = function(input){
         return null;
     }
 
-    else if(state.vars.qstnNber <= questions['extension-survey']['info']['number_of_questions']){
+    else if(state.vars.qstnNber < questions['extension-survey']['info']['number_of_questions']){
         srvySessionManager.save(contact.phone_number,state.vars,'extension_questions',input); 
         state.vars.qstnNber = state.vars.qstnNber + 1;
         state.vars.qtsn = 'ext_farmer_question'+ state.vars.qstnNber;
