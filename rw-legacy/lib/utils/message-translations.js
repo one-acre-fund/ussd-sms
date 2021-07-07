@@ -119,7 +119,7 @@ module.exports = {
         'en': '$FEEDBACK~B$TEXT~B$OPT1~B$OPT2~B$OPT3~B$OPT4~B5) Ntabyo nzi',
         'ki': '$FEEDBACK~B$TEXT~B$OPT1~B$OPT2~B$OPT3~B$OPT4~B5) Ntabyo nzi'
     },
-    'invalid_input_ext': {
+    'invalid_input': {
         'en': 'Please try again',
         'ki': 'Ongera usubiremo'
     },
@@ -311,7 +311,7 @@ module.exports = {
         'en': 'Please enter your account number to finalize your order',
         'ki': 'Andika nomero ya Konti yawe wemeze neza ibyo watumije',
     },
-    'invalid_input_ext': {
+    'invalid_input': {
         'en': 'Invalid selection - please try again~B1)Continue~B99)Exit',
         'ki': 'Ibyo wahisemo ntibibashije kuboneka~B1) Gukomeza~B99) Kuvamo',
     },
