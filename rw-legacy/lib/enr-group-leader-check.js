@@ -4,6 +4,12 @@
 */
 
 module.exports = function(client, glus_id, an_table_name, glus_table_name){
+    client = an_table.queryRows({vars: {'account_number': client}}).next(); //assumes that this client has been saved already
+    if(!glus_id) {
+        client.vars.group_leader = 1;
+        client.save();
+        return true;
+    }
     var an_table = project.getOrCreateDataTable(an_table_name);
     client = an_table.queryRows({vars : {'account_number' : client}}).next();//assumes that this client has been saved already
     if(!glus_id) {
@@ -21,11 +27,6 @@ module.exports = function(client, glus_id, an_table_name, glus_table_name){
         client.vars.group_leader = 1;
         client.save();
         console.log('gl? (line18): ' + client.vars.group_leader);
-        // if the group name is empty, needs_name is true
-        group = glus_table.queryRows({vars : {'glus_id' : glus_id, 'group_name' : {exists : 1}}});
-        if(group.count() < 1){
-            state.vars.needs_name = true;
-        }
         return true;
     }
     else{
