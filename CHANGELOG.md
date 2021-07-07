@@ -42,7 +42,10 @@ episodes and top tips in a call variable in ELK
 ## v2.0.1
 ### Added
 * [ESWFA-165](https://oneacrefund.atlassian.net/browse/ESWFA-165) Add variables to be streamed to ELK for use in SBCC IVR dashboard
+<<<<<<< HEAD
 * [ESWFA-170](https://oneacrefund.atlassian.net/browse/ESWFA-170) Chicken Confirmation for 22A improvements 
+=======
+>>>>>>> master
 ## v2.0.0
 ### Fixed
 * [ESWFA-166](https://oneacrefund.atlassian.net/browse/ESWFA-166) Refactoring USSD code to optimize performance
