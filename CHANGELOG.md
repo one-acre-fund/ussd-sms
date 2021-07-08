@@ -3,7 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## New Version
 
-Version
+### Changed
+* [ESWFA-192](https://oneacrefund.atlassian.net/browse/ESWFA-192) B22A USSD change request_Tester pack
+### Added
+* [ESWFA-186](https://oneacrefund.atlassian.net/browse/ESWFA-186) BU Enrollment UAT Requested changes
+* [ESWFA-45](https://oneacrefund.atlassian.net/browse/ESWFA-45) As a Client I want to be able to check and see what I owe OAF  and my performance against healthy path using USSD 
+* [ESWFA-44](https://oneacrefund.atlassian.net/browse/ESWFA-44) As a Client, I want to receive an account number after registration so that I can use it 
+* [ESWFA-43](https://oneacrefund.atlassian.net/browse/ESWFA-43) As a FO/GL , I want to place orders for clients that are in my site/group
+* [ESWFA-42](https://oneacrefund.atlassian.net/browse/ESWFA-42) As an FO/GL, I want to register  clients via USSD so that we can enroll in current season
 ## V2.1.0
 * [ESWFA-196](https://oneacrefund.atlassian.net/browse/ESWFA-196) Fix Rwanda ussd
 ## v2.0.9
@@ -35,6 +42,7 @@ episodes and top tips in a call variable in ELK
 ## v2.0.1
 ### Added
 * [ESWFA-165](https://oneacrefund.atlassian.net/browse/ESWFA-165) Add variables to be streamed to ELK for use in SBCC IVR dashboard
+* [ESWFA-170](https://oneacrefund.atlassian.net/browse/ESWFA-170) Chicken Confirmation for 22A improvements 
 ## v2.0.0
 ### Fixed
 * [ESWFA-166](https://oneacrefund.atlassian.net/browse/ESWFA-166) Refactoring USSD code to optimize performance
