@@ -4,6 +4,7 @@ var lotCodeInputHandler = require('./lotCodeInputHandler');
 var monthInputHandler = require('./monthInputHandler');
 var phoneNumberInputHandler = require('./phoneNumberInputHandler');
 var plantingDateInputHandler = require('./plantingDateInputHandler');
+var severityInputHandler = require('./severityInputHandler');
 
 module.exports = function(lang, seed_germination_issues_table) {
     global.addInputHandler(customSeedVarietyInputHandler.handlerName, customSeedVarietyInputHandler.getHandler(lang));
@@ -12,4 +13,5 @@ module.exports = function(lang, seed_germination_issues_table) {
     global.addInputHandler(monthInputHandler.handlerName, monthInputHandler.getHandler(lang));
     global.addInputHandler(phoneNumberInputHandler.handlerName, phoneNumberInputHandler.getHandler(lang, seed_germination_issues_table));
     global.addInputHandler(plantingDateInputHandler.handlerName, plantingDateInputHandler.getHandler(lang));
+    global.addInputHandler(severityInputHandler.handlerName, severityInputHandler.getHandler(lang));
 };
