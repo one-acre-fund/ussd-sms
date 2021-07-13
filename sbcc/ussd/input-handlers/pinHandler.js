@@ -22,6 +22,8 @@ module.exports = function pinHandler(input) {
             to_number: contact.phone_number,
             route_id: routeId,
         });
+        var timeSent = Date.now();
+        contact.vars.sbcc_ussd_ended_at = new Date(timeSent).toString();
     } else {
         state.vars.incorrectPinAttempts += 1;
         if (state.vars.incorrectPinAttempts < 3) {

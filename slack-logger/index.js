@@ -8,8 +8,7 @@ var slack = {
         //         data: JSON.stringify({ text: message })
         //     }
         // );
-        console.log('Error: ' + message);
-
+        console.log(message);
     }
 };
 module.exports = slack;

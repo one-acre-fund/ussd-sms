@@ -42,14 +42,15 @@ if(env === 'prod'){
     service.vars.avocado_table_id = 'DT864c12fe76c43eaf';
     service.vars.rw_reg_client_table_id = 'DT29e542bf090b050f';
     service.vars.groupCodeTableId = project.vars.groupCodeTableId;
+    service.vars.endEnrollmentTableId = project.vars.EnrollmentEndTableId;
     service.vars.bundles_table = 'DT61e723e06de35a67'
 }else{
     service.vars.season_clients_table = 'dev_' + project.vars.season_clients_table;
     service.vars.client_enrollment_table = 'dev_' + project.vars.client_enrollment_data;
-    service.vars.input21ATable = 'dev_' + project.vars.input21ATable;
+    service.vars.input21ATable = project.vars.dev_inputTable21A;
     service.vars.input21ATable_id = project.vars.dev_input21ATable_id;
     service.vars.RegistrationSessions = 'dev_'+ project.vars.RegistrationSessions;
-    service.vars['21a_client_data_id'] = project.vars['dev_21a_client_data_id'];
+    service.vars['21a_client_data_id'] = project.vars.dev_22AClientTableID;
     service.vars.client_enrollment_table_id = project.vars.dev_client_enrollment_data_id;
     service.vars.market_access_table_id = 'DT627b1e89d0150102';
     service.vars.Valid_Serial_Number_table = 'dev_Valid_Serial_Number';
@@ -60,6 +61,7 @@ if(env === 'prod'){
     service.vars.chicken_table_id = 'DT8c3e091b499f1726';
     service.vars.rw_reg_client_table_id = 'DT41914a4d2dc6a29f';
     service.vars.groupCodeTableId = project.vars.dev_groupCodeTableId;
+    service.vars.endEnrollmentTableId = project.vars.dev_EnrollmentEndTableId;
     service.vars.bundles_table = 'DT92be9913918ab014'
 }
 
@@ -146,13 +148,17 @@ addInputHandler('account_number_splash', function (input) { //acount_number_spla
     notifyELK();
     var response = input.replace(/\D/g, '');
     if (response == 1) {
-        const resumedSession = regSessionManager.resume(contact.phone_number, inputHandlers);
-        if(!resumedSession){
-            var current_menu = msgs('enr_reg_start', {}, lang);
-            state.vars.current_menu_str = current_menu;
-            sayText(current_menu);
-            promptDigits('enr_reg_start', { 'submitOnHash': false, 'maxDigits': max_digits_for_nid, 'timeout': timeout_length });
-        }
+        //
+        sayText(msgs('registration_ended', {}, lang));
+        stopRules();
+        // this code is to be uncommented when enrollment starts again
+        // const resumedSession = regSessionManager.resume(contact.phone_number, inputHandlers);
+        // if(!resumedSession){
+        //     var current_menu = msgs('enr_reg_start', {}, lang);
+        //     state.vars.current_menu_str = current_menu;
+        //     sayText(current_menu);
+        //     promptDigits('enr_reg_start', { 'submitOnHash': false, 'maxDigits': max_digits_for_nid, 'timeout': timeout_length });
+        // }
     } else if(response == 99) { // use 99 to change the language
         lang = service.vars.lang == 'ki' ? 'en' : 'ki'
         service.vars.lang = lang;
@@ -385,7 +391,7 @@ addInputHandler('cor_menu_select', function (input) {
             contact.vars.account_failures = contact.vars.account_failures + 1;
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
         }
-        if (client.vars.finalized == 1 && client.vars.geo !== 'Ruhango') { //fix next tine for generallity
+        if (client.vars.finalized == 1) { //fix next tine for generallity
             sayText(msgs('enr_order_already_finalized', {}, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
         }
@@ -920,7 +926,7 @@ addInputHandler('enr_nid_client_confirmation', function (input) {
             regSessionManager.clear(contact.phone_number);
             var get_client_by_nid = require('./lib/dpm-get-client-by-nid');
             var client = get_client_by_nid(state.vars.reg_nid, an_pool);
-            var enr_msg = msgs('enr_reg_complete', { '$ACCOUNT_NUMBER': client.account_number, '$NAME': client.name1 + ' ' + client.name2 }, lang)
+            var enr_msg = msgs('enr_reg_complete_msg', { '$ACCOUNT_NUMBER': client.account_number, '$NAME': client.name1 + ' ' + client.name2 }, lang)
             sayText(enr_msg);
             var enr_msg_sms = msgs('enr_reg_complete_sms', { '$ACCOUNT_NUMBER': client.account_number, '$NAME': client.name1 + ' ' + client.name2 }, lang);
             var messager = require('./lib/enr-messager');
@@ -933,6 +939,11 @@ addInputHandler('enr_nid_client_confirmation', function (input) {
                 var verify = require('./lib/account-verify')
                 var client_verified = verify(client.account_number);
                 if (client_verified) {
+                    var isDistrictClosed = require('./lib/isDistrictClosed');
+                    if(isDistrictClosed(state.vars.client_districtId)){
+                        sayText(msgs('enrollment_ended', {}, lang));
+                        return;
+                    }
                     sayText(msgs('account_number_verified'));
                     state.vars.account_number = client.account_number;
                     var splash = account_splash_menu_name;
@@ -1247,7 +1258,7 @@ addInputHandler('reg_group_constitution_confirm',function(input){
             console.log('is gl? : ' + is_gl);
             var enr_msg = msgs('enr_reg_complete', { '$ACCOUNT_NUMBER': state.vars.account_number, '$NAME': state.vars.reg_name_2 }, lang);
             sayText(enr_msg);
-            //promptDigits('reg_end_ordering_redirect', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+            promptDigits('reg_end_ordering_redirect', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
             //retreive ads per district entered by the user
             var retrieveAd = require('./lib/enr-retrieve-ad-by-district');
             var districtId = state.vars.districtId;
@@ -1274,17 +1285,23 @@ addInputHandler('reg_end_ordering_redirect',function(input){
         return null;
     }
     else if(input == 1){
+        
         state.vars.multiple_input_menus = 1;
         var client = get_client(state.vars.account_number, an_pool, true);
+        var isDistrictClosed = require('./lib/isDistrictClosed');
         if (client === null || client.vars.registered == 0) {
             sayText(msgs('account_number_not_found', {}, lang));
             contact.vars.account_failures = contact.vars.account_failures + 1;
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length })
         }
         state.vars.client_districtId = state.vars.districtId;
-        if (client.vars.finalized == 1 && client.vars.geo !== 'Ruhango') { //fix next tine for generallity
+        if (client.vars.finalized == 1) { //fix next tine for generallity
             sayText(msgs('enr_order_already_finalized', {}, lang));
             promptDigits('cor_continue', { 'submitOnHash': false, 'maxDigits': max_digits_for_input, 'timeout': timeout_length });
+        }
+        else if(isDistrictClosed(state.vars.client_districtId)){
+            sayText(msgs('enrollment_ended', {}, lang));
+            stopRules();
         }
         else if (client.vars.registered == 1) {
             // if client does not have a glvv id entered, prompt them to enter it before continuing

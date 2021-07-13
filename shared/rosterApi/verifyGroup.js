@@ -22,6 +22,8 @@ module.exports = function verifyGroup(districtId, siteId, groupId) {
     opts.headers['Authorization'] = 'Token ' + service.vars.roster_api_key;
     opts.headers['Content-Type'] = 'application/json';
     opts.method = 'GET';
+    console.log('full url: ' + fullUrl);
+    console.log('options: ' + JSON.stringify(opts));
     try {
         var response = httpClient.request(fullUrl, opts);
         if (response.status === 200) {
