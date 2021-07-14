@@ -41,7 +41,7 @@ describe('getCodeSerialHandler test', () => {
     });
     it('should re-prompt for serial number if the user choose an invalid option(greater than the available options)',()=>{
         getCodeSerial(4);
-        expect(sayText).toHaveBeenCalledWith(`Request activation/Unlock  code for serial number\n 1) ${serialNumberDetails[0].serialNumber}(${serialNumberDetails[0].unitType})`+
+        expect(sayText).toHaveBeenCalledWith(`View Recent activation/unlock  code for serial number\n 1) ${serialNumberDetails[0].serialNumber}(${serialNumberDetails[0].unitType})`+
         `\n2) ${serialNumberDetails[1].serialNumber}(${serialNumberDetails[1].unitType})\n \n99) None of the above`);
         expect(promptDigits).toHaveBeenCalledWith(getCodeSerialHandler.handlerName);
     });

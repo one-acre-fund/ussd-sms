@@ -20,8 +20,9 @@ module.exports = {
                 onSerialValidated(serial,true);
             }
             else{
+                // see how we can replace 'serial_numbers' with 'view_recent_code'
                 var serialNumbersMessage = serialNumberDetails.reduce(function(result,current,index){ return result+ (index+1)+ ') '+current.serialNumber + '('+current.unitType+')\n';},'');
-                global.sayText(translate('serial_numbers',{'$serialNumbers': serialNumbersMessage},state.vars.shsLang));
+                global.sayText(translate('view_recent_code',{'$serialNumbers': serialNumbersMessage},state.vars.shsLang));
                 global.promptDigits(handlerName);
             }
         };

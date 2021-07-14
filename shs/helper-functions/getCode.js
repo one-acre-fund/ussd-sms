@@ -15,7 +15,7 @@ module.exports = function getcode(account){
         },
         'RW': {
             id: '646',
-            condition: ((client.BalanceHistory[0].TotalRepayment_IncludingOverpayments * 100) / client.BalanceHistory[0].TotalCredit) >= 60 // repayment for Rwanda must be 60% +
+            condition: true,
         }
     };
     countryCode = countries[state.vars.country].id;

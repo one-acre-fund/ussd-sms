@@ -25,6 +25,7 @@ service.vars.roster_read_key = project.vars.roster_read_key;
 service.vars.shs_reg_endpoint = project.vars[env+'_shs_reg_endpoint'];
 service.vars.shs_apikey = project.vars[env+'_shs_api_key'];
 service.vars.current_enrollment_season_name = project.vars[env + '_current_enrollment_season']
+service.vars.shsPricesTableId = service.vars.shsPricesTableId || project.vars[env + '_shsPricesTableId']
 
 var account_splash_menu_name = '';
 if(env === 'prod'){

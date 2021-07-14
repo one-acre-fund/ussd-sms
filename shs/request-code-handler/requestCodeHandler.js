@@ -18,6 +18,7 @@ module.exports = {
                 global.promptDigits(registrationTypeHandler.handlerName);
             }
             else if(input <= serialNumberDetails.length){
+                // this is where requesting for new activation/unlock codes happens
                 var serialNumber = registerSerialNumber(serialNumberDetails[input-1].serialNumber);
                 if(serialNumber) {
                     if(typeof(serialNumber) === 'object' || _.isArray(serialNumber)){

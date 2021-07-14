@@ -2,23 +2,20 @@ var translations = require('../translations');
 var createTranslator = require('../../utils/translator/translator');
 var translate =  createTranslator(translations, project.vars.lang);
 var registerSerial = require('../endpoints/registerSerial');
+var getkeyCodeType = require('./getkeyCodeType');
+
+var countries = {
+    'KE': '404',
+    'RW': '646'
+};
 
 module.exports = function registerSerialNumber(serialNumber,unitType,replacement){
-    var keyCodeType;
     var countryCode;
     var client = JSON.parse(state.vars.client);
-    var countries = {
-        'KE': '404',
-        'RW': '646'
-    };
     countryCode = countries[state.vars.country];
+    var keyCodeType = getkeyCodeType(state.vars.country, client.BalanceHistory[0]);
+
     if(client.BalanceHistory[0].SeasonName == service.vars.current_enrollment_season_name){
-        if(JSON.parse(state.vars.client).BalanceHistory[0].Balance <= 0){
-            keyCodeType = 'UNLOCK';
-        }
-        else{
-            keyCodeType = 'ACTIVATION';
-        }
         var requestData = {
             accountNumber: state.vars.account,
             countryCode: countryCode,
@@ -31,7 +28,8 @@ module.exports = function registerSerialNumber(serialNumber,unitType,replacement
         return registerSerial(requestData);
     }
     else{
-        if(client.BalanceHistory[0].TotalCredit <= client.BalanceHistory[0].TotalRepayment_IncludingOverpayments){
+        // if client wants an unlock code after they have paid all
+        if(client.BalanceHistory[0].TotalCredit <= client.BalanceHistory[0].TotalRepayment_IncludingOverpayments && state.vars.country === 'KE'){
             requestData = {
                 accountNumber: state.vars.account,
                 countryCode: countryCode,
@@ -47,22 +45,3 @@ module.exports = function registerSerialNumber(serialNumber,unitType,replacement
     }
     
 };
-
-
-
-/*
-retuns: {
-    "results":[
-        {
-            "unitType":"biolite",
-            "keyCode":"123 456 789",
-            "keyCodeType":"unlock | activation"
-        },
-        {
-            "unitType":"sunking",
-            "keyCode":"123 466 799",
-            "keyCodeType":"unlock | activation"
-        }
-    ]
-}
-*/
