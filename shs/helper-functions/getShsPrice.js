@@ -12,7 +12,7 @@ module.exports = function getShsPrice(currentCreditCycle) {
     });
     if(shsCursor.hasNext()) {
         var shsRow = shsCursor.next();
-        return shsRow.vars.shs_price;
+        return parseInt(shsRow.vars.shs_price);
     }
     return 20000;
 };

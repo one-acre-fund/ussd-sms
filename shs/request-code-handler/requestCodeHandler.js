@@ -28,6 +28,7 @@ module.exports = {
                             global.sayText(translate('shs_type',{'$serialTypes': serialTypes},state.vars.shsLang));
                             global.promptDigits(shsTypeHandler.handlerName);
                         }else{
+                            state.vars.unit_to_update = JSON.stringify(serialNumber[0]);
                             onSerialValidated(serialNumber[0],true);
                         }
                     }
