@@ -223,7 +223,7 @@ avocadoTreesOrdering.registerHandlers();
 
 addInputHandler('nonClientMenu_splash', function(input){
     if(input == 1){
-        marketAccess.nonClientStart('rw',lang);
+        marketAccess.start('rw',lang);
     }else{
         sayText(msgs('nonClientMenu',{},lang));
         promptDigits('nonClientMenu_splash', {
@@ -283,7 +283,7 @@ addInputHandler('cor_menu_select', function (input) {
     }
     else if(selection === 'cor_market_access'){
         try{
-            marketAccess.start(JSON.parse(state.vars.client_json),'rw',lang);
+            marketAccess.start('rw', lang, JSON.parse(state.vars.client_json));
         }catch(e){
             var slack = require('../slack-logger/index');
             slack.log(e);

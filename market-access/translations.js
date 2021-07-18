@@ -79,5 +79,29 @@ module.exports= {
     'farmers_site': {
         'en': 'Enter the farmer\'s site',
         'ki': 'Andika site yumuhinzi'
-    }
+    },
+    'market_access_menu': {
+        'en': 'Welcome to One Acre Fund Market Access program, select your option:\n' +
+        '1. See the latest One Acre Fund buying prices\n' +
+        '2. Find your nearest Market Access agent\n' +
+        '3. Register a commitment (Agent only)\n' +
+        '0. Back',
+        'ki': 'Murakaza neza muri gahunda yo kugurisha umusaruro ya One Acre Fund, Hitamo icyo ushaka:\n' +
+        '1. Reba ibiciro bya One Acre Fund biheruka\n' +
+        '2. Reba umukozi ushinzwe kugura umusaruro ukwegereye\n' +
+        '3.  Andika icyo yiyemeje ( Umukozi ubishinzwe gusa)\n' +
+        '0. Subira inyuma'
+    },
+    'oaf_buying_prices': {
+        'en': 'Please select the crop you would like to sell:\n' +
+        '1. Maize\n' +
+        '0. back\n',
+        'ki': 'Hitamo igihingwa ushaka kugurisha:\n' + 
+        '1. Ibigori\n' +
+        '0. Subira inyuma'
+    },
+    'market_access_locator': {
+        'en': 'Please select the district where you live.',
+        'ki': 'Hitamo Akarere utuyemo '
+    },
 };

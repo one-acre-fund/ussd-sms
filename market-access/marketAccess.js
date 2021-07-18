@@ -18,6 +18,7 @@ var nationalIdHandler = require('./non-client-handlers/national-id-handler/natio
 var farmerNamesHandler = require('./non-client-handlers/farmer-names-handler/farmerNamesHandler');
 var farmerDistrictHandler = require('./non-client-handlers/farmer-district-handler/farmerDistrictHandler');
 var farmerSiteHandler = require('./non-client-handlers/farmer-site-handler/farmerSiteHandler');
+var marketAccessHandler = require('./inputHandlers/marketAccessHandler');
 var marketInfo ={};
 
 
@@ -259,6 +260,49 @@ function resume(number, nonClient){
     }
     return false;
 }
+function onMarketAccessOptionChosen(choosenOption) {
+    notifyELK();
+    var lang = state.vars.marketLang;
+    var translate =  createTranslator(translations, {}, state.vars.marketLang);
+    if(choosenOption == '1') {
+        // OAF buying prices
+        global.sayText(translate('oaf_buying_prices', {}, lang));
+    } else if(choosenOption == '2') {
+        // nearest market agent locator
+        global.sayText(translate('market_access_locator', {}, lang));
+    } else if(choosenOption == '3') {
+        // commitment (already existing)
+        if(state.vars.nonClient == 'false') {
+            // client
+            var clientJSON = JSON.parse(state.vars.marketInfo);
+            if(hasFinalized(clientJSON.account)){
+                global.sayText(translate('finalized',
+                    {
+                        '$number': JSON.parse(state.vars.marketInfo).QuantityofMaize,
+                        '$date': JSON.parse(state.vars.marketInfo).AvailabilityDate
+                    }, lang));
+                global.stopRules();
+            }else if(resume(clientJSON.account)) {
+                console.log(state.vars.marketInfo);
+                var currentCallback = ''+JSON.parse(state.vars.marketInfo).currentCallback +'(\''+JSON.parse(state.vars.marketInfo).currentCallBackInput + '\')';
+                console.log(currentCallback);
+                eval(currentCallback); 
+            }
+            else{
+                global.sayText(translate('quantity_unshield_maize',{}, lang));
+                global.promptDigits(quantityHandler.handlerName);
+            }
+        } else {
+            // non client
+            global.sayText(translate('national_id_menu',{}));
+            global.promptDigits(nationalIdHandler.handlerName);
+        }
+    } else {
+        // wrong option choosen
+        global.sayText(translate('market_access_menu',{}, lang));
+        global.promptDigits(marketAccessHandler.handlerName);
+    }
+}
 module.exports = {
     registerHandlers: function(){
         addInputHandler(quantityHandler.handlerName, quantityHandler.getHandler(onQuantitySubmitted));
@@ -277,38 +321,29 @@ module.exports = {
         addInputHandler(farmerNamesHandler.handlerName, farmerNamesHandler.getHandler(onFNameSubmitted));
         addInputHandler(farmerDistrictHandler.handlerName, farmerDistrictHandler.getHandler(onDistrictSubmitted));
         addInputHandler(farmerSiteHandler.handlerName, farmerSiteHandler.getHandler(onSiteSubmitted));
-
+        addInputHandler(marketAccessHandler.handlerName, marketAccessHandler.getHandler(onMarketAccessOptionChosen));
     },
-    start: function (clientJSON, country, lang) {
+    start: function (country, lang, clientJSON) {
         notifyELK();
-        state.vars.account = clientJSON.AccountNumber;
         state.vars.country = country;
         state.vars.marketLang = lang;
-        state.vars.nonClient = 'false';
-        state.vars.marketInfo = JSON.stringify({account: clientJSON.AccountNumber, districtName: clientJSON.DistrictName, siteName: clientJSON.SiteName, clientName: clientJSON.FirstName +' '+ clientJSON.LastName});
         var translate =  createTranslator(translations, state.vars.marketLang);
-        if(hasFinalized(clientJSON.AccountNumber)){
-            global.sayText(translate('finalized',{'$number': JSON.parse(state.vars.marketInfo).QuantityofMaize, '$date': JSON.parse(state.vars.marketInfo).AvailabilityDate}));
-            global.stopRules();
-        }else if(resume(clientJSON.AccountNumber)) {
-            console.log(state.vars.marketInfo);
-            var currentCallback = ''+JSON.parse(state.vars.marketInfo).currentCallback +'(\''+JSON.parse(state.vars.marketInfo).currentCallBackInput + '\')';
-            console.log(currentCallback);
-            eval(currentCallback); 
+        if(clientJSON) {
+            // user is a OAF client
+            state.vars.account = clientJSON.AccountNumber;
+            state.vars.nonClient = 'false';
+            state.vars.marketInfo = JSON.stringify({
+                account: clientJSON.AccountNumber, 
+                districtName: clientJSON.DistrictName, 
+                siteName: clientJSON.SiteName, 
+                clientName: clientJSON.FirstName +' '+ clientJSON.LastName
+            });
+        } else {
+            // client accessed the menu via non-client menu
+            state.vars.nonClient = 'true';
+            state.vars.marketInfo = JSON.stringify({nonClient: 'true'});
         }
-        else{
-            global.sayText(translate('quantity_unshield_maize',{}));
-            global.promptDigits(quantityHandler.handlerName);
-        }
-    
-    }, 
-    nonClientStart: function(country,lang){
-        notifyELK();
-        state.vars.country = country;
-        state.vars.marketLang = lang;
-        state.vars.nonClient = 'true';
-        state.vars.marketInfo = JSON.stringify({nonClient: 'true'});
-        global.sayText(translate('national_id_menu',{}));
-        global.promptDigits(nationalIdHandler.handlerName);
+        global.sayText(translate('market_access_menu',{}, lang));
+        global.promptDigits(marketAccessHandler.handlerName);
     }
 };
