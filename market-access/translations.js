@@ -104,4 +104,12 @@ module.exports= {
         'en': 'Please select the district where you live.',
         'ki': 'Hitamo Akarere utuyemo '
     },
+    'agent_code': {
+        'en': 'Enter Agent Code',
+        'ki': 'Andika Kode y\'uduhagarariye'
+    },
+    'account_number_prompt': {
+        'en': 'Welcome to TUBURA. Please enter your account number or \n1) To regiter\n2) Non Client Menu',
+        'ki': 'Murakaza neza muri TUBURA. Andika nimero ya konti y\'umuhinzi cyangwa \n1) Kwiyandikisha\n2) Niba utari umukiriya',
+    }
 };

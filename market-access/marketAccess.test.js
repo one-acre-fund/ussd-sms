@@ -18,6 +18,7 @@ const {client}  = require('../chicken-services/test-client-data');
 var marketAccess = require('./marketAccess');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var marketAccessHandler = require('./inputHandlers/marketAccessHandler');
+const agentCodeHandler = require('./inputHandlers/agentCodeHandler');
 
 jest.mock('./quantity-handler/quantityHandler');
 jest.mock('./date-available-handler/dateAvailableHandler');
@@ -28,6 +29,7 @@ jest.mock('./MOMO-handler/MOMOHandler');
 jest.mock('../notifications/elk-notification/elkNotification');
 
 jest.mock('./inputHandlers/marketAccessHandler');
+jest.mock('./inputHandlers/agentCodeHandler');
 
 jest.mock('./phone-number-handler/phoneNumberHandler');
 jest.mock('./name-handler/nameHandler');
@@ -61,6 +63,7 @@ const mockfarmerDistrictHandler = jest.fn();
 const mockfarmerSiteHandler = jest.fn();
 
 const mockMarketAccessHandler = jest.fn();
+const mockAgentCodeHandler = jest.fn();
 
 var account = client.AccountNumber;
 var country = 'RW';
@@ -98,6 +101,7 @@ describe('marketAccess', () => {
         farmerDistrictHandler.getHandler.mockReturnValue(mockfarmerDistrictHandler);
         farmerSiteHandler.getHandler.mockReturnValue(mockfarmerSiteHandler);
         marketAccessHandler.getHandler.mockReturnValue(mockMarketAccessHandler);
+        agentCodeHandler.getHandler.mockReturnValue(mockAgentCodeHandler);
     });
     it('should have a start function', () => {
         expect(marketAccess.start).toBeInstanceOf(Function);
@@ -166,6 +170,10 @@ describe('marketAccess', () => {
     it('should add the market access handler to input handlers', () => {
         marketAccess.registerHandlers();
         expect(addInputHandler).toHaveBeenCalledWith(marketAccessHandler.handlerName, marketAccessHandler.getHandler());            
+    }); 
+    it('should add the agent code handler to input handlers', () => {
+        marketAccess.registerHandlers();
+        expect(addInputHandler).toHaveBeenCalledWith(agentCodeHandler.handlerName, agentCodeHandler.getHandler());            
     }); 
     describe('start', ()=>{
         it('should set the state variables',()=>{

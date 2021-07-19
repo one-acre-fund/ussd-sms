@@ -19,6 +19,7 @@ var farmerNamesHandler = require('./non-client-handlers/farmer-names-handler/far
 var farmerDistrictHandler = require('./non-client-handlers/farmer-district-handler/farmerDistrictHandler');
 var farmerSiteHandler = require('./non-client-handlers/farmer-site-handler/farmerSiteHandler');
 var marketAccessHandler = require('./inputHandlers/marketAccessHandler');
+var agentCodeHandler = require('./inputHandlers/agentCodeHandler');
 var marketInfo ={};
 
 
@@ -209,6 +210,7 @@ function onSiteSubmitted(site){
 }
 function saveMarketInfo(callback,callBackInput){
     marketInfo = JSON.parse(state.vars.marketInfo);
+    marketInfo.phone_number = contact.phone_number;
     if(callback){
         marketInfo.currentCallback = callback;
         marketInfo.currentCallBackInput = callBackInput;
@@ -322,6 +324,7 @@ module.exports = {
         addInputHandler(farmerDistrictHandler.handlerName, farmerDistrictHandler.getHandler(onDistrictSubmitted));
         addInputHandler(farmerSiteHandler.handlerName, farmerSiteHandler.getHandler(onSiteSubmitted));
         addInputHandler(marketAccessHandler.handlerName, marketAccessHandler.getHandler(onMarketAccessOptionChosen));
+        addInputHandler(agentCodeHandler.handlerName, agentCodeHandler.getHandler(onMarketAccessOptionChosen));
     },
     start: function (country, lang, clientJSON) {
         notifyELK();
