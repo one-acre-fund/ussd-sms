@@ -1,5 +1,5 @@
 const monthInputHandler = require('./monthInputHandler');
-const weekInputHandler = require('./weekInputHandler');
+const dateInputHandler = require('./plantingDateInputHandler');
 
 describe('month input handler', () => {
     it('should reprompt for the month once the user enters invalid option', () => {
@@ -23,18 +23,14 @@ describe('month input handler', () => {
         expect(promptDigits).toHaveBeenCalledWith(monthInputHandler.handlerName);
     });
 
-    it('should prompt for a planting week once the user enters a valid month', () => {
+    it('should prompt for a planting date once the user enters a valid month', () => {
         state.vars.months_screens = JSON.stringify({1: 'screen1', 2: 'screen2'});
         state.vars.months = JSON.stringify({1: '1', 2: '2'});
         state.vars.current_months_menu = 1;
         const handler = monthInputHandler.getHandler('en-ke');
         handler('1');
-        expect(sayText).toHaveBeenCalledWith('In which week of January did you plant?\n' +
-        '1) First week of January\n' +
-        '2) Second week of January\n' +
-        '3) Third week of January\n' +
-        '4) Fourth week of January');
-        expect(promptDigits).toHaveBeenCalledWith(weekInputHandler.handlerName);
+        expect(sayText).toHaveBeenCalledWith('When did you plant the seeds? Include date, Month and year. (dd/mm/yyyy)');
+        expect(promptDigits).toHaveBeenCalledWith(dateInputHandler.handlerName);
         expect(state.vars.chosen_month).toEqual('1');
     });
 });

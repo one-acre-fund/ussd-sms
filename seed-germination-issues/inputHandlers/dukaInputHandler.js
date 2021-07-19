@@ -35,17 +35,11 @@ module.exports = {
     handlerName: handlerName,
     getHandler: function(lang) {
         return function(input) {
-            var lotCodeInputHandler = require('./lotCodeInputHandler');
             var monthInputHandler = require('./monthInputHandler');
-            input = input.replace(/\D/g, '');
+            var duka = input && input.replace(/\d/g, '');
             var getMessage = translator(translations, lang);
-            var supportedDukas = lotCodeInputHandler.supported_dukas;
-            var duka_option_values = JSON.parse(state.vars.duka_option_values);
-            var duka_screens = JSON.parse(state.vars.duka_screens);
-            var chosenOption = duka_option_values[input];
-            var chosen_duka = supportedDukas[chosenOption];
-            if(chosen_duka) {
-                state.vars.chosen_duka = chosen_duka;
+            if(duka) {
+                state.vars.chosen_duka = duka;
                 var nextOption = getMessage('next_option', {}, lang);
                 var monthsTitle = getMessage('months_title', {}, lang);
                 var monthsMenu = createMenu(months[lang], nextOption, monthsTitle);
@@ -54,14 +48,10 @@ module.exports = {
                 state.vars.current_months_menu = 1;
                 global.sayText(monthsMenu.screens[state.vars.current_months_menu]);
                 global.promptDigits(monthInputHandler.handlerName);
-            } else if(input == 77 && duka_screens[state.vars.current_dukas_menu + 1]) {
-                // next page
-                state.vars.current_dukas_menu +=1;
-                global.sayText(duka_screens[state.vars.current_dukas_menu]);
-                global.promptDigits(handlerName);
+
             } else {
                 // wrong option
-                global.sayText(duka_screens[state.vars.current_dukas_menu]);
+                global.sayText(getMessage('duka_title', {}, lang));
                 global.promptDigits(handlerName);
             }
         };

@@ -1,24 +1,28 @@
 var translator = require('../../utils/translator/translator');
 var translations = require('../translations/index');
 
-var handlerName = 'rsgi_week';
-var week_options = {1: 'first week', 2: 'second week', 3: 'third week', 4: 'fourth'};
+var handlerName = 'rsgi_issues_severity';
+var issueLevels = {
+    1: '0-0.25%',
+    2: '26-50%',
+    3: '51-75%',
+    4: '76-100%'
+};
 module.exports = {
     handlerName: handlerName,
     getHandler: function(lang) {
         return function(input) {
             var phoneNumberInputHandler = require('./phoneNumberInputHandler');
-            input = input.replace(/\D/g, '');
+            var issueLevel = input && parseInt(input.replace(/\D/g, ''));
             var getMessage = translator(translations, lang);
-            if(week_options[input]) {
-                state.vars.week_number = input;
-                var phoneNumberPrompt = getMessage('phone_prompt', {}, lang);
-                global.sayText(phoneNumberPrompt);
+            if((typeof issueLevel) === 'number' && issueLevels[issueLevel]) {
+                state.vars.issues_severity = issueLevels[issueLevel];
+                call.vars.issues_severity = issueLevels[issueLevel];
+                global.sayText(getMessage('phone_prompt', {}, lang));
                 global.promptDigits(phoneNumberInputHandler.handlerName);
             } else {
                 // invalid option
-                var weeks_screen = getMessage('planting_week', {'$month': state.vars.chosen_month});
-                global.sayText(weeks_screen);
+                global.sayText(getMessage('severity', {}, lang));
                 global.promptDigits(handlerName);
             }
         };

@@ -1,15 +1,6 @@
 const registerInputHandlers = require('./registerInputHandlers');
 
 describe.each(['en-ke', 'sw'])('register input handlers using lang (%s)', (lang) => {
-    it('should register the custom seed input handler', () => {
-        const customSeedBrandInputHandler = require('./customSeedBrandInputHandler'); 
-        const handler = jest.fn();
-        jest.spyOn(customSeedBrandInputHandler, 'getHandler').mockReturnValueOnce(handler);
-        registerInputHandlers(lang);
-        expect(customSeedBrandInputHandler.getHandler).toHaveBeenCalledWith(lang);
-        expect(addInputHandler).toHaveBeenCalledWith(customSeedBrandInputHandler.handlerName, handler);
-    });
-
     it('should register the customSeedVarietyInputHandler', () => {
         const customSeedVarietyInputHandler = require('./customSeedVarietyInputHandler'); 
         const handler = jest.fn();
@@ -55,26 +46,8 @@ describe.each(['en-ke', 'sw'])('register input handlers using lang (%s)', (lang)
         expect(addInputHandler).toHaveBeenCalledWith(phoneNumberInputHandler.handlerName, handler);
     });
 
-    it('should register the seedBrandInputHandler', () => {
-        const seedBrandInputHandler = require('./seedBrandInputHandler'); 
-        const handler = jest.fn();
-        jest.spyOn(seedBrandInputHandler, 'getHandler').mockReturnValueOnce(handler);
-        registerInputHandlers(lang);
-        expect(seedBrandInputHandler.getHandler).toHaveBeenCalledWith(lang);
-        expect(addInputHandler).toHaveBeenCalledWith(seedBrandInputHandler.handlerName, handler);
-    });
-
-    it('should register the seedVarietyInputHandler', () => {
-        const seedVarietyInputHandler = require('./seedVarietyInputHandler'); 
-        const handler = jest.fn();
-        jest.spyOn(seedVarietyInputHandler, 'getHandler').mockReturnValueOnce(handler);
-        registerInputHandlers(lang);
-        expect(seedVarietyInputHandler.getHandler).toHaveBeenCalledWith(lang);
-        expect(addInputHandler).toHaveBeenCalledWith(seedVarietyInputHandler.handlerName, handler);
-    });
-
     it('should register the weekInputHandler', () => {
-        const weekInputHandler = require('./weekInputHandler'); 
+        const weekInputHandler = require('./plantingDateInputHandler'); 
         const handler = jest.fn();
         jest.spyOn(weekInputHandler, 'getHandler').mockReturnValueOnce(handler);
         registerInputHandlers(lang);
