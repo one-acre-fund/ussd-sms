@@ -22,6 +22,7 @@ service.vars.ussd_settings_table_id = 'DT1f9908b578f65458';
 service.vars.groupCodes_id = 'DTf1ac46f52abd0c5e';
 service.vars.currency = 'RwF';
 service.vars.roster_read_key = project.vars.roster_read_key;
+service.vars.micro_entrepreneur = project.vars[env + '_mkt_access_entrepreneurs'];
 
 var account_splash_menu_name = '';
 if(env === 'prod'){
@@ -223,7 +224,7 @@ avocadoTreesOrdering.registerHandlers();
 
 addInputHandler('nonClientMenu_splash', function(input){
     if(input == 1){
-        marketAccess.nonClientStart('rw',lang);
+        marketAccess.start('rw',lang);
     }else{
         sayText(msgs('nonClientMenu',{},lang));
         promptDigits('nonClientMenu_splash', {
@@ -283,7 +284,7 @@ addInputHandler('cor_menu_select', function (input) {
     }
     else if(selection === 'cor_market_access'){
         try{
-            marketAccess.start(JSON.parse(state.vars.client_json),'rw',lang);
+            marketAccess.start('rw', lang, JSON.parse(state.vars.client_json));
         }catch(e){
             var slack = require('../slack-logger/index');
             slack.log(e);

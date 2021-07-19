@@ -79,5 +79,49 @@ module.exports= {
     'farmers_site': {
         'en': 'Enter the farmer\'s site',
         'ki': 'Andika site yumuhinzi'
+    },
+    'market_access_menu': {
+        'en': 'Welcome to One Acre Fund Market Access program, select your option:\n' +
+        '1. See the latest One Acre Fund buying prices\n' +
+        '2. Find your nearest Market Access agent\n' +
+        '3. Register a commitment (Agent only)\n' +
+        '0. Back',
+        'ki': 'Murakaza neza muri gahunda yo kugurisha umusaruro ya One Acre Fund, Hitamo icyo ushaka:\n' +
+        '1. Reba ibiciro bya One Acre Fund biheruka\n' +
+        '2. Reba umukozi ushinzwe kugura umusaruro ukwegereye\n' +
+        '3.  Andika icyo yiyemeje ( Umukozi ubishinzwe gusa)\n' +
+        '0. Subira inyuma'
+    },
+    'oaf_buying_prices': {
+        'en': 'Please select the crop you would like to sell:\n' +
+        '1. Maize\n' +
+        '0. back\n',
+        'ki': 'Hitamo igihingwa ushaka kugurisha:\n' + 
+        '1. Ibigori\n' +
+        '0. Subira inyuma'
+    },
+    'market_access_locator': {
+        'en': 'Please enter the district where you live.',
+        'ki': 'Hitamo Akarere utuyemo '
+    },
+    'agent_code': {
+        'en': 'Enter Agent Code',
+        'ki': 'Andika Kode y\'uduhagarariye'
+    },
+    'account_number_prompt': {
+        'en': 'Welcome to TUBURA. Please enter your account number or \n1) To regiter\n2) Non Client Menu',
+        'ki': 'Murakaza neza muri TUBURA. Andika nimero ya konti y\'umuhinzi cyangwa \n1) Kwiyandikisha\n2) Niba utari umukiriya',
+    },
+    'oaf_maize_price': {
+        'en': 'One Acre Fund farm-gate price for Maize is $maize_price  RwF / Kg for grade 1 maize on the cob.',
+        'ki': 'Igiciro One Acre Fund iha abahinzi ku bigori biri ku mahundo ni $maize_price  RwF ku Kilo  cya garade ya 1',
+    },
+    'enter_sector': {
+        'en': 'Please enter the sector where you live.',
+        'ki': 'Andika  izina ry\'Umurenge utuyemo',
+    },
+    'closest_agent_location': {
+        'en': 'Your closest Market Access agent is $name $surname, contact him at $phone_number',
+        'ki': ' Umukozi ushinzwe Kugura umusaruro ukwegereye ni $name $surname, Muhamagare kuri  $phone_number',
     }
 };

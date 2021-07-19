@@ -17,6 +17,8 @@ var farmerSiteHandler = require('./non-client-handlers/farmer-site-handler/farme
 const {client}  = require('../chicken-services/test-client-data');
 var marketAccess = require('./marketAccess');
 var notifyELK = require('../notifications/elk-notification/elkNotification');
+var marketAccessHandler = require('./inputHandlers/marketAccessHandler');
+const agentCodeHandler = require('./inputHandlers/agentCodeHandler');
 
 jest.mock('./quantity-handler/quantityHandler');
 jest.mock('./date-available-handler/dateAvailableHandler');
@@ -26,6 +28,8 @@ jest.mock('./payment-choice-handler/paymentChoiceHandler');
 jest.mock('./MOMO-handler/MOMOHandler');
 jest.mock('../notifications/elk-notification/elkNotification');
 
+jest.mock('./inputHandlers/marketAccessHandler');
+jest.mock('./inputHandlers/agentCodeHandler');
 
 jest.mock('./phone-number-handler/phoneNumberHandler');
 jest.mock('./name-handler/nameHandler');
@@ -57,6 +61,9 @@ const mocknationalIdHandler = jest.fn();
 const mockfarmerNamesHandler = jest.fn();
 const mockfarmerDistrictHandler = jest.fn();
 const mockfarmerSiteHandler = jest.fn();
+
+const mockMarketAccessHandler = jest.fn();
+const mockAgentCodeHandler = jest.fn();
 
 var account = client.AccountNumber;
 var country = 'RW';
@@ -93,6 +100,8 @@ describe('marketAccess', () => {
         farmerNamesHandler.getHandler.mockReturnValue(mockfarmerNamesHandler);
         farmerDistrictHandler.getHandler.mockReturnValue(mockfarmerDistrictHandler);
         farmerSiteHandler.getHandler.mockReturnValue(mockfarmerSiteHandler);
+        marketAccessHandler.getHandler.mockReturnValue(mockMarketAccessHandler);
+        agentCodeHandler.getHandler.mockReturnValue(mockAgentCodeHandler);
     });
     it('should have a start function', () => {
         expect(marketAccess.start).toBeInstanceOf(Function);
@@ -158,51 +167,50 @@ describe('marketAccess', () => {
         marketAccess.registerHandlers();
         expect(addInputHandler).toHaveBeenCalledWith(farmerSiteHandler.handlerName, farmerSiteHandler.getHandler());            
     }); 
+    it('should add the market access handler to input handlers', () => {
+        marketAccess.registerHandlers();
+        expect(addInputHandler).toHaveBeenCalledWith(marketAccessHandler.handlerName, marketAccessHandler.getHandler());            
+    }); 
+    it('should add the agent code handler to input handlers', () => {
+        marketAccess.registerHandlers();
+        expect(addInputHandler).toHaveBeenCalledWith(agentCodeHandler.handlerName, agentCodeHandler.getHandler());            
+    }); 
     describe('start', ()=>{
-        var mockRow = {save: jest.fn(), vars: { }};
-        var mockCursor = { hasNext: jest.fn(), next: jest.fn()};
-        beforeEach(()=>{
-            const mockTable = { queryRows: jest.fn(), createRow: jest.fn()};
-            project.initDataTableById.mockReturnValue(mockTable);
-            mockTable.queryRows.mockReturnValue(mockCursor);
-            mockCursor.hasNext.mockReturnValue(true);
-            mockCursor.next.mockReturnValue(mockRow);
-        }); 
-        var date = '21/04/2021';
-        var quantity = 100;
         it('should set the state variables',()=>{
-            state.vars.account = '';
-            state.vars.country = '';
-            state.vars.marketLang = '';
-            marketAccess.start(client, country, marketLang);
+            state.vars.account = '123231';
+            state.vars.country = 'rw';
+            state.vars.marketLang = 'en';
+            marketAccess.start(country, marketLang, client);
             expect(state.vars).toMatchObject({account,country,marketLang});
         });
         it('should call notify ELK',()=>{
-            marketAccess.start(client, country, marketLang);
+            marketAccess.start(country, marketLang, client);
             expect(notifyELK).toHaveBeenCalled();
         });
-        it('should display the menu with when the client ordered if they have finalized',()=>{
-            mockRow.vars = {'account': client.AccountNumber, 'finalized': 1, AvailabilityDate: date, QuantityofMaize: quantity };
-            mockCursor.next.mockReturnValue(mockRow);
-            marketAccess.start(client, country, marketLang);
-            expect(global.sayText).toHaveBeenCalledWith(`This farmer already commited to sell  ${quantity}`+
-            ` kgs of unshelled maize on ${date}.`);
+
+        it('should save client details if a user is a OAF client', () => {
+            marketAccess.start('rw', 'ki', client);
+            expect(state.vars.nonClient).toBe('false');
+            expect(state.vars.account).toBe('123456789');
+            expect(state.vars.marketInfo).toEqual('{"account":"123456789","districtName":"Bugarama","siteName":"Mafubira Buwekula","clientName":"PRINCE TCHALLA"}');
         });
-        it('should display the menu the prevoius session ended with and prompt for input if they have not yet finalized but started the process',()=>{
-            mockRow.vars = {'account': client.AccountNumber, 'finalized': 0, AvailabilityDate: date, QuantityofMaize: quantity, currentCallback: 'onPhoneSubmitted', currentCallBackInput: 1234};
-            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValue(true);
-            mockCursor.next.mockReturnValue(mockRow);
-            marketAccess.start(client, country, marketLang);
-            expect(global.sayText).toHaveBeenCalledWith('Enter the name of person the number is registered to');
-            expect(promptDigits).toHaveBeenCalledWith(nameHandler.handlerName);
+
+        it('should save non-client details if a user is not a OAF client', () => {
+            marketAccess.start('rw', 'ki', null);
+            expect(state.vars.nonClient).toBe('true');
+            expect(state.vars.marketInfo).toEqual('{"nonClient":"true"}');
         });
-        it('should display the quantity menu if it\'s the first time the client access the service',()=>{
-            mockRow.vars = {'account': client.AccountNumber};
-            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValue(true);
-            mockCursor.next.mockReturnValue(mockRow);
-            marketAccess.start(client, country, marketLang);
-            expect(global.sayText).toHaveBeenCalledWith('Quantity of Unshelled Maize (Kgs)');
-            expect(promptDigits).toHaveBeenCalledWith(quantityHandler.handlerName);
+
+        it('should prompt for a market access option with the menu', () => {
+            marketAccess.start('rw', 'en', null);
+            expect(state.vars.country).toBe('rw');
+            expect(state.vars.marketLang).toEqual('en');
+            expect(sayText).toHaveBeenCalledWith('Welcome to One Acre Fund Market Access program, select your option:\n' +
+            '1. See the latest One Acre Fund buying prices\n' +
+            '2. Find your nearest Market Access agent\n' +
+            '3. Register a commitment (Agent only)\n' +
+            '0. Back');
+            expect(promptDigits).toHaveBeenCalledWith(marketAccessHandler.handlerName);
         });
     });
     describe('quantity handler successful callback', ()=>{ 
@@ -411,6 +419,69 @@ describe('marketAccess', () => {
         });
     });
 
+    describe('onMarketAccessOptionChosen successful callback', ()=>{
+        var mockRow = {save: jest.fn(), vars: { }};
+        var mockCursor = { hasNext: jest.fn(), next: jest.fn()};
+        beforeEach(()=>{
+            state.vars.nonClient = 'false';
+            state.vars.marketLang = 'en';
+            const mockTable = { queryRows: jest.fn(), createRow: jest.fn()};
+            project.initDataTableById.mockReturnValue(mockTable);
+            mockTable.queryRows.mockReturnValue(mockCursor);
+            mockCursor.hasNext.mockReturnValue(true);
+            mockCursor.next.mockReturnValue(mockRow);
+            marketAccess.registerHandlers();
+            callback = marketAccessHandler.getHandler.mock.calls[0][0];
+        }); 
+        var date = '21/04/2021';
+        var quantity = 100;
+        it('should show the buying prices once client enters 1',()=>{
+            callback('1');
+            expect(global.sayText).toHaveBeenCalledWith('Please select the crop you would like to sell:\n' +
+            '1. Maize\n' +
+            '0. back\n');
+            // expect(promptDigits).toHaveBeenCalledWith(marketAccessHandler.handlerName);
+        });
+        it('should show the market access agent locator once client enters 2',()=>{
+            callback('2');
+            expect(global.sayText).toHaveBeenCalledWith('Please enter the district where you live.');
+            // expect(promptDigits).toHaveBeenCalledWith(quantityHandler.handlerName);
+        });
+        it('should reprompt for market access option if client enters a wrong option',()=>{
+            callback('5a');
+            expect(global.sayText).toHaveBeenCalledWith('Welcome to One Acre Fund Market Access program, select your option:\n' +
+            '1. See the latest One Acre Fund buying prices\n' +
+            '2. Find your nearest Market Access agent\n' +
+            '3. Register a commitment (Agent only)\n' +
+            '0. Back');
+            expect(promptDigits).toHaveBeenCalledWith(marketAccessHandler.handlerName);
+        });
+        
+        it('should display the menu with when the client ordered if they have finalized',()=>{
+            mockRow.vars = {'account': client.AccountNumber, 'finalized': 1, AvailabilityDate: date, QuantityofMaize: quantity };
+            mockCursor.next.mockReturnValue(mockRow);
+            callback('3');
+            //marketAccess.start(client, country, marketLang);
+            expect(global.sayText).toHaveBeenCalledWith(`This farmer already commited to sell  ${quantity}`+
+            ` kgs of unshelled maize on ${date}.`);
+        });
+        it('should display the menu the prevoius session ended with and prompt for input if they have not yet finalized but started the process',()=>{
+            mockRow.vars = {'account': client.AccountNumber, 'finalized': 0, AvailabilityDate: date, QuantityofMaize: quantity, currentCallback: 'onPhoneSubmitted', currentCallBackInput: 1234};
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValue(true);
+            mockCursor.next.mockReturnValue(mockRow);
+            callback('3');
+            expect(global.sayText).toHaveBeenCalledWith('Enter the name of person the number is registered to');
+            expect(promptDigits).toHaveBeenCalledWith(nameHandler.handlerName);
+        });
+        it('should display the quantity menu if it\'s the first time the client access the service',()=>{
+            mockRow.vars = {'account': client.AccountNumber};
+            mockCursor.hasNext.mockReturnValueOnce(false).mockReturnValueOnce(false).mockReturnValue(true);
+            mockCursor.next.mockReturnValue(mockRow);
+            callback('3');
+            expect(global.sayText).toHaveBeenCalledWith('Quantity of Unshelled Maize (Kgs)');
+            expect(promptDigits).toHaveBeenCalledWith(quantityHandler.handlerName);
+        });
+    });
 });
 
 
@@ -451,27 +522,5 @@ describe('national ID callback', ()=>{
         callback(345);
         expect(global.sayText).toHaveBeenCalledWith('Enter the farmer\'s names');
         expect(promptDigits).toHaveBeenCalledWith(farmerNamesHandler.handlerName);
-    });
-});
-
-
-describe('nonClientStart', ()=>{
-    var nonClient = 'true';
-    it('should set the state variables',()=>{
-        state.vars.nonClient = '';
-        state.vars.country = '';
-        state.vars.marketLang = '';
-        marketAccess.nonClientStart(country, marketLang);
-        expect(state.vars).toMatchObject({nonClient,country,marketLang});
-    });
-    it('should call notify ELK',()=>{
-        marketAccess.nonClientStart(country, marketLang);
-        expect(notifyELK).toHaveBeenCalled();
-    });
-    it('should prompt for the national ID',()=>{
-        marketAccess.nonClientStart(country, marketLang);
-        expect(global.sayText).toHaveBeenCalledWith('Enter Farmer\'s national ID');
-        expect(promptDigits).toHaveBeenCalledWith(nationalIdHandler.handlerName);
-
     });
 });
