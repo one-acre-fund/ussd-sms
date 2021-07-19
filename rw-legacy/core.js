@@ -22,6 +22,10 @@ service.vars.ussd_settings_table_id = 'DT1f9908b578f65458';
 service.vars.groupCodes_id = 'DTf1ac46f52abd0c5e';
 service.vars.currency = 'RwF';
 service.vars.roster_read_key = project.vars.roster_read_key;
+service.vars.shs_reg_endpoint = project.vars[env+'_shs_reg_endpoint'];
+service.vars.shs_apikey = project.vars[env+'_shs_api_key'];
+service.vars.current_enrollment_season_name = project.vars[env + '_current_enrollment_season']
+service.vars.shsPricesTableId = service.vars.shsPricesTableId || project.vars[env + '_shsPricesTableId']
 
 var account_splash_menu_name = '';
 if(env === 'prod'){
@@ -84,6 +88,8 @@ var groupRepaymentsModule = require('../group-repayments/groupRepayments');
 var avocadoTreesOrdering = require('../avocado-trees-ordering/avocadoTreesOrdering');
 var clientRegistration = require('../client-registration/clientRegistration');
 var marketAccess = require('../market-access/marketAccess');
+var shs = require('../shs/shs');
+
 //options
 const max_digits_for_input = project.vars.max_digits; //only for testing
 //const max_digits_for_nid = parseInt(settings_table.queryRows({'vars' : {'settings' : 'max_digits_nid'}}).next().vars.value); 
@@ -100,6 +106,7 @@ const max_digits_for_name = project.vars.max_digits_name;
 const inputHandlers = {}
 clientRegistration.registerHandlers();
 marketAccess.registerHandlers();
+shs.registerHandlers()
 
 global.main = function () {
     sayText(msgs('cor_enr_main_splash',{},lang));
@@ -491,6 +498,9 @@ addInputHandler('cor_menu_select', function (input) {
     }
     else if(selection == 'avocado_trees_ordering') {
         avocadoTreesOrdering.start(state.vars.account_number,'rw',lang);
+    } else if(selection === 'rw_shs') {
+        // start solar home system (SHS)
+        shs.start(state.vars.client_json, 'RW', lang || 'ki', state.vars.isGroupLeader, state.vars.current_menu_str, 'cor_menu_select')
     }
     else {
         var current_menu = msgs(selection, {}, lang);

@@ -18,6 +18,7 @@ module.exports = {
                 global.promptDigits(registrationTypeHandler.handlerName);
             }
             else if(input <= serialNumberDetails.length){
+                // this is where requesting for new activation/unlock codes happens
                 var serialNumber = registerSerialNumber(serialNumberDetails[input-1].serialNumber);
                 if(serialNumber) {
                     if(typeof(serialNumber) === 'object' || _.isArray(serialNumber)){
@@ -27,6 +28,7 @@ module.exports = {
                             global.sayText(translate('shs_type',{'$serialTypes': serialTypes},state.vars.shsLang));
                             global.promptDigits(shsTypeHandler.handlerName);
                         }else{
+                            state.vars.unit_to_update = JSON.stringify(serialNumber[0]);
                             onSerialValidated(serialNumber[0],true);
                         }
                     }

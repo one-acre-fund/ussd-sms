@@ -14,6 +14,7 @@ describe('getCode test', () => {
     beforeAll(()=>{
         state.vars.country = 'KE';
         state.vars.client = JSON.stringify(client);
+        service.vars.current_enrollment_season_name = '2021, Long Rain';
     });
     it('should display a message asking the client to pay previous loan and return null if the client is not enrolled in the current season and has balance',()=>{
         client.BalanceHistory[0].SeasonName = '2019, Long Rain';

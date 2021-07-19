@@ -13,6 +13,7 @@ describe('account_number_handler test', () => {
         rosterAPI.authClient = jest.fn();
         rosterAPI.getClient = jest.fn();
         rosterAPI.authClient.mockReturnValue(true);
+        service.vars.current_enrollment_season_name = '2021, Long Rain';
     });
     it('should call notifyELK ', () => {
         accountNumber(24450523);

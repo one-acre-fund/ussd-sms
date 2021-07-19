@@ -16,6 +16,7 @@ module.exports = {
             if(input <= serials.length){ 
                 var serial = serials[input-1];
                 if(serial){  
+                    state.vars.unit_to_update = JSON.stringify(serial);
                     if(state.vars.replacement == '')
                         registeredSerial= registerSerialNumber(serial.serialNumber, serial.unitType);
                     else

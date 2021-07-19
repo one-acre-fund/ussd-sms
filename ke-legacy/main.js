@@ -21,6 +21,7 @@ service.vars.topUpStart = env + '_start_top_up';
 service.vars.topUpEnd = env + '_end_top_up';
 service.vars.seed_germination_issues_table = env + '_seed_germination_issues';
 service.vars.sbccTable = env + '_SBCC';
+service.vars.current_enrollment_season_name = project.vars[env + '_current_enrollment_season']
 
 var notifyELK = require('../notifications/elk-notification/elkNotification');
 var transactionHistory = require('../transaction-history/transactionHistory');

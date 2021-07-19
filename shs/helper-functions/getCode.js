@@ -7,10 +7,21 @@ var translate =  createTranslator(translations, project.vars.lang);
 
 module.exports = function getcode(account){
     var countryCode;
-    if(state.vars.country == 'KE')
-        countryCode = '404';
     var client = JSON.parse(state.vars.client);
-    if((client.BalanceHistory[0].SeasonName == '2021, Long Rain') || ((client.BalanceHistory[0].TotalCredit) <= (client.BalanceHistory[0].TotalRepayment_IncludingOverpayments))){
+    var countries = {
+        'KE': {
+            id: '404',
+            condition: (client.BalanceHistory[0].SeasonName == service.vars.current_enrollment_season_name) || ((client.BalanceHistory[0].TotalCredit) <= (client.BalanceHistory[0].TotalRepayment_IncludingOverpayments))
+        },
+        'RW': {
+            id: '646',
+            condition: true,
+        }
+    };
+    countryCode = countries[state.vars.country].id;
+    console.log(JSON.stringify({countries: countries, countryCode: countryCode}));
+    // check if the same condition applies for all countries 
+    if(countries[state.vars.country].condition){
         var requestData = {
             accountNumber: account,
             countryCode: countryCode
