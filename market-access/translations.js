@@ -101,7 +101,7 @@ module.exports= {
         '0. Subira inyuma'
     },
     'market_access_locator': {
-        'en': 'Please select the district where you live.',
+        'en': 'Please enter the district where you live.',
         'ki': 'Hitamo Akarere utuyemo '
     },
     'agent_code': {
@@ -111,5 +111,17 @@ module.exports= {
     'account_number_prompt': {
         'en': 'Welcome to TUBURA. Please enter your account number or \n1) To regiter\n2) Non Client Menu',
         'ki': 'Murakaza neza muri TUBURA. Andika nimero ya konti y\'umuhinzi cyangwa \n1) Kwiyandikisha\n2) Niba utari umukiriya',
+    },
+    'oaf_maize_price': {
+        'en': 'One Acre Fund farm-gate price for Maize is $maize_price  RwF / Kg for grade 1 maize on the cob.',
+        'ki': 'Igiciro One Acre Fund iha abahinzi ku bigori biri ku mahundo ni $maize_price  RwF ku Kilo  cya garade ya 1',
+    },
+    'enter_sector': {
+        'en': 'Please enter the sector where you live.',
+        'ki': 'Andika  izina ry\'Umurenge utuyemo',
+    },
+    'closest_agent_location': {
+        'en': 'Your closest Market Access agent is $name $surname, contact him at $phone_number',
+        'ki': ' Umukozi ushinzwe Kugura umusaruro ukwegereye ni $name $surname, Muhamagare kuri  $phone_number',
     }
 };

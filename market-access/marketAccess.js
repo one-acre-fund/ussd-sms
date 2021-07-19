@@ -20,6 +20,10 @@ var farmerDistrictHandler = require('./non-client-handlers/farmer-district-handl
 var farmerSiteHandler = require('./non-client-handlers/farmer-site-handler/farmerSiteHandler');
 var marketAccessHandler = require('./inputHandlers/marketAccessHandler');
 var agentCodeHandler = require('./inputHandlers/agentCodeHandler');
+var buyingPricesHandler = require('./inputHandlers/buyingPricesHandler');
+var marketAccessLocatorHandler = require('./inputHandlers/marketAccessLocatorHandler');
+var sectorHandler = require('./inputHandlers/sectorHandler');
+
 var marketInfo ={};
 
 
@@ -269,9 +273,12 @@ function onMarketAccessOptionChosen(choosenOption) {
     if(choosenOption == '1') {
         // OAF buying prices
         global.sayText(translate('oaf_buying_prices', {}, lang));
+        global.promptDigits(buyingPricesHandler.handlerName);
     } else if(choosenOption == '2') {
         // nearest market agent locator
         global.sayText(translate('market_access_locator', {}, lang));
+        global.promptDigits(marketAccessLocatorHandler.handlerName);
+
     } else if(choosenOption == '3') {
         // commitment (already existing)
         if(state.vars.nonClient == 'false') {
@@ -325,6 +332,10 @@ module.exports = {
         addInputHandler(farmerSiteHandler.handlerName, farmerSiteHandler.getHandler(onSiteSubmitted));
         addInputHandler(marketAccessHandler.handlerName, marketAccessHandler.getHandler(onMarketAccessOptionChosen));
         addInputHandler(agentCodeHandler.handlerName, agentCodeHandler.getHandler(onMarketAccessOptionChosen));
+        addInputHandler(buyingPricesHandler.handlerName, buyingPricesHandler.getHandler());
+        addInputHandler(marketAccessLocatorHandler.handlerName, marketAccessLocatorHandler.getHandler());
+        addInputHandler(sectorHandler.handlerName, sectorHandler.getHandler());
+        
     },
     start: function (country, lang, clientJSON) {
         notifyELK();

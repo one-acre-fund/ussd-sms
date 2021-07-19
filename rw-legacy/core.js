@@ -22,6 +22,7 @@ service.vars.ussd_settings_table_id = 'DT1f9908b578f65458';
 service.vars.groupCodes_id = 'DTf1ac46f52abd0c5e';
 service.vars.currency = 'RwF';
 service.vars.roster_read_key = project.vars.roster_read_key;
+service.vars.micro_entrepreneur = project.vars[env + '_mkt_access_entrepreneurs'];
 
 var account_splash_menu_name = '';
 if(env === 'prod'){

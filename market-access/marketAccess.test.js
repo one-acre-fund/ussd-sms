@@ -444,7 +444,7 @@ describe('marketAccess', () => {
         });
         it('should show the market access agent locator once client enters 2',()=>{
             callback('2');
-            expect(global.sayText).toHaveBeenCalledWith('Please select the district where you live.');
+            expect(global.sayText).toHaveBeenCalledWith('Please enter the district where you live.');
             // expect(promptDigits).toHaveBeenCalledWith(quantityHandler.handlerName);
         });
         it('should reprompt for market access option if client enters a wrong option',()=>{
